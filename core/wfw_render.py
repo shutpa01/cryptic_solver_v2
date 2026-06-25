@@ -153,6 +153,8 @@ def _verdict_badge(parse):
         return '<span class="wfw-verdict pass">&#10003; PASS</span>'
     if status == "pending":
         return '<span class="wfw-verdict pending">&#8226; PENDING</span>'
+    if status == "invalid":
+        return '<span class="wfw-verdict invalid">&#9888; INVALID</span>'
     return '<span class="wfw-verdict fail">&#10007; FAIL</span>'
 
 
@@ -306,6 +308,7 @@ PAGE_CSS = """
   .wfw-verdict.pass { background:#16a34a; }
   .wfw-verdict.pending { background:#d97706; }
   .wfw-verdict.fail { background:#dc2626; }
+  .wfw-verdict.invalid { background:#475569; }
   .wfw-clue { font-size:1.4rem; line-height:1.6; margin-bottom:1.1rem;
               color:var(--ink); font-weight:500; }
   .wfw-enum { color:#94a3b8; font-weight:600; }

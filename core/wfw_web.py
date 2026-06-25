@@ -360,7 +360,7 @@ def setstatus():
     only = (request.form.get("only") or "").strip()
     status = (request.form.get("status") or "").strip()
     msg = "No clue/status."
-    if only and status in ("pass", "pending", "fail"):
+    if only and status in ("pass", "pending", "fail", "invalid"):
         conn = store.connect()
         try:
             store.set_status(conn, int(only), status)
@@ -701,6 +701,7 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
         except Exception:
             unaccounted = []
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
+            + _note_block(clue_id)
             + _filler_block(clue_id, raw_list, unaccounted, filler)
             + _enrichment_block(clue_text, answer, clue_id, raw_list)
             + _clue_controls(clue_id, raw_list, status)
@@ -716,7 +717,7 @@ def _clue_controls(clue_id, raw_list, status):
     h = _hidden(raw_list, clue_id)
     opts = "".join('<option value="%s"%s>%s</option>'
                    % (s, " selected" if s == status else "", s)
-                   for s in ("pass", "pending", "fail"))
+                   for s in ("pass", "pending", "fail", "invalid"))
     forced = _forced_def_for(clue_id)
     clear_btn = ""
     if forced:
@@ -1659,6 +1660,861 @@ def _resolve_one(clue_id):
         pass
 
 
+# ============================================================================
+# SPAN-ASSIGNMENT HAND-SOLVER (redesign 2026-06-24) — additive, alongside the old grid.
+# VERTICAL grid: one ROW per clue word, preloaded with its CURRENT role. Columns:
+# check / word / role / BRINGS. You tick a group, pick a role (synonym values come from a
+# DB lookup, never a solve), Assign (held in MEMORY only — no DB write, no solve), repeat,
+# then Resolve ONCE (the single commit: DB writes + one solve). Non-contiguous ticks are
+# allowed (anagram fodder). Memory: handsolver-redesign-direction.
+# Routes: /hs (grid) + /hslookup (AJAX candidates) + /hsresolve (commit all + solve).
+# ============================================================================
+
+_HS_ROLE_COLOUR = {"definition": "#0f766e", "piece": "#1d4ed8", "indicator": "#7c3aed",
+                   "link": "#64748b", "filler": "#9333ea", "none": "#ffffff"}
+
+_SPAN_CSS = """<style>
+.g-root{font-family:system-ui;margin:1rem 0}
+.g-ans{font-size:1.05rem;margin:.3rem 0 .6rem}
+.g-ans b{font-family:'SF Mono',monospace;letter-spacing:.15em}
+.g-tbl{border-collapse:collapse;width:100%;max-width:46rem}
+.g-tbl th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:#64748b;text-align:left;padding:.2rem .5rem}
+.g-tbl td{padding:.3rem .5rem;border-top:1px solid #eef2f7;vertical-align:middle}
+.g-tbl td.g-word{font-weight:700;font-size:1.02rem}
+.g-chk{width:1.1rem;height:1.1rem;cursor:pointer}
+.r-brings{font-family:'SF Mono',monospace;color:#0f172a}
+.g-bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.55rem .8rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin:.6rem 0}
+.g-bar select,.g-bar input{font-size:.95rem;padding:.25rem .45rem;border:1px solid #cbd5e1;border-radius:6px}
+.g-assign{background:#0d9488;color:#fff;border:none;border-radius:8px;padding:.3rem .8rem;font-weight:700;cursor:pointer}
+.g-list{margin:.5rem 0;display:flex;flex-wrap:wrap;gap:.4rem}
+.g-tag{border:1px solid #cbd5e1;border-radius:8px;padding:.2rem .55rem;font-size:.9rem;background:#fff}
+.g-tag .g-rm{margin-left:.35rem;color:#dc2626;text-decoration:none;font-weight:800}
+.g-resolve{background:#1d4ed8;color:#fff;border:none;border-radius:10px;padding:.45rem 1rem;font-weight:800;cursor:pointer;font-size:1rem;margin-top:.4rem}
+.g-card{margin-top:1rem}
+</style>"""
+
+_SPAN_JS = r"""
+function initGrid(rootId, DATA){
+ var root=document.getElementById(rootId);
+ var assignments=(DATA.assignments||[]);
+ var tbody=root.querySelector('#g-tbody');
+ var bar=root.querySelector('#g-bar'), selLbl=root.querySelector('#g-sel');
+ var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
+ var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
+ var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd});}catch(e){}}
+ function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
+ function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
+ function assignOf(i){for(var k=0;k<assignments.length;k++){if(assignments[k].idx.indexOf(i)>=0)return assignments[k];}return null;}
+ function drawRows(){
+  Array.prototype.slice.call(tbody.querySelectorAll('tr')).forEach(function(tr){
+   var i=+tr.dataset.i, a=assignOf(i);
+   var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
+   if(a){var col=ROLECOL[a.role]||'#334155';
+    rc.innerHTML='<b style="color:'+col+'">'+a.role+(a.isub?('/'+a.isub):'')+'</b>';
+    bc.textContent=(a.role==='synonym')?(a.value||''):'';
+    tr.style.background='#f8fafc';
+   }else{var c=DATA.current[i]||{};
+    rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
+    bc.textContent=c.value||'';
+    tr.style.background='';
+   }
+  });
+ }
+ function drawList(){
+  listDiv.innerHTML=assignments.map(function(a,k){
+   var col=ROLECOL[a.role]||'#334155';
+   var v=(a.role==='synonym')?(' = '+a.value):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
+   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+a.role+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
+  }).join('');
+  Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();saveAssignments();};});
+ }
+ function updateBar(){var idx=checkedIdx();if(idx.length){bar.style.display='';selLbl.textContent=phraseOf(idx);}else{bar.style.display='none';}}
+ function clearChecks(){Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=false;});updateBar();}
+ function inferSub(){
+  if(roleSel.value!=='indicator'||itype.value!=='deletion')return;
+  var syn='';assignments.forEach(function(a){if(a.role==='synonym'&&a.value)syn=a.value;});
+  if(!syn)return;
+  fetch('/hsinfer?base='+encodeURIComponent(syn)+'&answer='+encodeURIComponent(DATA.answer)).then(function(r){return r.json();}).then(function(o){if(o&&o.subtype)isub.value=o.subtype;});
+ }
+ function roleFields(){var r=roleSel.value;
+  itype.style.display=(r==='indicator')?'':'none';
+  isub.style.display=(r==='indicator'&&itype.value==='deletion')?'':'none';
+  candWrap.style.display=(r==='synonym')?'':'none';
+  if(r==='synonym')fetchCands();
+  if(r==='indicator'&&itype.value==='deletion')inferSub();
+ }
+ function delRow(word,value){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
+  function h(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i);}
+  h('only',DATA.cid);h('from',DATA.cid);h('kind','synonym');h('word',word);h('value',value);
+  document.body.appendChild(f);f.submit();}
+ function fetchCands(){var idx=checkedIdx();if(!idx.length){candSel.innerHTML='';if(delEl)delEl.innerHTML='';return;}
+  candSel.innerHTML='<option>…</option>';var phr=phraseOf(idx);
+  fetch('/hslookup?id='+DATA.cid+'&phrase='+encodeURIComponent(phr)).then(function(r){return r.json();}).then(function(list){
+   if(!list.length){candSel.innerHTML='<option value="">(none in DB — add below)</option>';}
+   else{candSel.innerHTML='<option value="">— pick —</option>'+list.map(function(o){return '<option value="'+o.v+'">'+o.v+' ('+o.m+')</option>';}).join('');}
+   if(delEl){var del=list.filter(function(o){return o.del;});
+    delEl.innerHTML=del.length?('rogue? prune: '+del.map(function(o){return '<a href="#" class="g-delx" data-v="'+o.v+'">'+o.v+' ×</a>';}).join(' &nbsp; ')):'';
+    Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v);};});}
+  }).catch(function(){candSel.innerHTML='<option value="">(lookup failed — add below)</option>';});
+ }
+ tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(roleSel.value==='synonym')fetchCands();}});
+ roleSel.addEventListener('change',roleFields);
+ itype.addEventListener('change',roleFields);
+ var msgEl=root.querySelector('#g-msg');
+ function note(t){if(msgEl)msgEl.textContent=t||'';}
+ root.querySelector('#g-assign').addEventListener('click',function(){
+  var idx=checkedIdx();if(!idx.length){note('tick a word first');return;}
+  var r=roleSel.value, a={idx:idx,role:r};
+  if(r==='synonym'){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('pick or type a value');return;}a.value=v;}
+  if(r==='indicator'){a.itype=itype.value;a.isub=(itype.value==='deletion')?isub.value:'';}
+  assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
+  assignments.push(a);addInp.value='';note('');drawRows();drawList();clearChecks();saveAssignments();
+ });
+ root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);root.querySelector('#g-form').submit();});
+ drawRows();drawList();updateBar();roleFields();
+}
+"""
+
+
+def _infer_synonym_value(candidates, ans_letters, lookup_all):
+    """Best DB synonym/abbreviation value for the span (slice-1 inference): prefer a value
+    that is a substring of the answer (a charade piece); else, if the span has exactly one
+    DB value, use it; else '' (the caller asks the user to type — the easy-add path)."""
+    sub, allv = "", []
+    for phrase in candidates:
+        try:
+            for v, m in lookup_all(phrase):
+                v = (v or "").upper()
+                if m in ("synonym", "abbreviation") and v:
+                    if v in ans_letters and len(v) > len(sub):
+                        sub = v
+                    if v not in allv:
+                        allv.append(v)
+        except Exception:
+            pass
+    if sub:
+        return sub
+    return allv[0] if len(allv) == 1 else ""
+
+
+def _span_surface(clue_id, back_raw=None):
+    """Render the VERTICAL assignment grid for one clue: a row per clue word (preloaded with
+    its current role) with a checkbox + role + 'brings' column, plus the role picker, the
+    in-memory assignment list, a single Resolve, and the solved breakdown card."""
+    import json
+    row = _load_clue(clue_id)
+    if row is None:
+        return '<p class="warn">No clue with id %d.</p>' % clue_id
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+        filler = store.get_clue_filler(conn, clue_id)
+        saved = store.get_hs_assignments(conn, clue_id)   # restore prior assignments
+        note = store.get_note(conn, clue_id)              # restore the user note
+    finally:
+        conn.close()
+    rows = _word_roles(ctx, parse, filler)        # [{idx,text,role,label,value}], clue order
+    back = back_raw or str(clue_id)
+    try:
+        saved_list = json.loads(saved) if saved else []
+    except Exception:
+        saved_list = []
+
+    trs = "".join(
+        '<tr data-i="%d"><td><input type="checkbox" class="g-chk" value="%d"></td>'
+        '<td class="g-word">%s</td><td class="r-role"></td><td class="r-brings"></td></tr>'
+        % (r["idx"], r["idx"], escape(r["text"])) for r in rows)
+    itype_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
+                         for v, lab in _FORCE_IND_OPTIONS)
+    isub_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
+                        for v, lab in _IND_SUBTYPES["deletion"])
+    data = {"cid": clue_id,
+            "words": [r["text"] for r in rows],
+            "answer": "".join(c for c in answer.upper() if c.isalpha()),
+            "current": [{"label": r["label"], "value": r["value"]} for r in rows],
+            "assignments": saved_list}
+
+    if parse is not None:
+        screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
+        card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
+    else:
+        card = '<p>Not solved yet — assign roles and Resolve.</p>'
+
+    rootid = "g-%d" % clue_id
+    from urllib.parse import quote
+    # PREV/NEXT within the hand-solver: step through the CLUTCH (the `from` context) WITHOUT
+    # leaving /hs. Shown only when this clue sits in a clutch of >1 (mirrors the role grid).
+    nav_html = ""
+    clutch_ids = _parse_hs_ids(back)
+    if clue_id in clutch_ids and len(clutch_ids) > 1:
+        bq = quote(back, safe="")
+        pos = clutch_ids.index(clue_id)
+
+        def _hsarrow(nid, label):
+            if nid is None:
+                return '<span style="color:#cbd5e1">%s</span>' % label
+            return ('<a href="/hs?id=%d&amp;from=%s" style="text-decoration:none;'
+                    'font-weight:700;color:#0d9488">%s</a>' % (nid, bq, label))
+        prev_id = clutch_ids[pos - 1] if pos > 0 else None
+        next_id = clutch_ids[pos + 1] if pos < len(clutch_ids) - 1 else None
+        nav_html = ('<div style="display:flex;gap:1.2rem;align-items:center;margin:.3rem 0;'
+                    'font-size:.95rem">%s<span style="color:#64748b">%d of %d</span>%s</div>'
+                    % (_hsarrow(prev_id, "&larr; prev clue"), pos + 1, len(clutch_ids),
+                       _hsarrow(next_id, "next clue &rarr;")))
+    cur_status = parse.status if parse is not None else ""
+    status_opts = "".join(
+        '<option value="%s"%s>%s</option>'
+        % (v, " selected" if v == cur_status else "", lab)
+        for v, lab in (("pass", "PASS"), ("pending", "PENDING"), ("fail", "FAIL"),
+                       ("invalid", "INVALID (missing indicator/operation)")))
+    p = [_SPAN_CSS, "<script>%s</script>" % _SPAN_JS,
+         '<div id="%s" class="g-root">' % rootid,
+         _cid_label(clue_id, src, pnum, cnum, direction),
+         '<a href="/?id=%s#clue-%d" style="display:inline-block;margin:.25rem 0;'
+         'text-decoration:none;font-weight:700;color:#0d9488">&larr; back to clue page</a>'
+         % (quote(back, safe=""), clue_id),
+         nav_html,
+         '<div style="margin:.3rem 0;font-size:1.1rem;font-weight:600">%s</div>'
+         % escape(clue_text),
+         '<div class="g-ans">Answer: <b>%s</b></div>' % escape(data["answer"]),
+         '<p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Tick the word(s) of a group, '
+         'pick a role, choose/add a value, Assign. Repeat for every word, then Resolve once.</p>',
+         '<table class="g-tbl"><thead><tr><th></th><th>word</th><th>role</th><th>brings</th>'
+         '</tr></thead><tbody id="g-tbody">%s</tbody></table>' % trs,
+         '<div id="g-bar" class="g-bar" style="display:none">',
+         '<span>Selected: <b id="g-sel"></b></span>',
+         '<select id="g-role">'
+         '<option value="definition">definition</option>'
+         '<option value="synonym">synonym</option>'
+         '<option value="indicator">indicator</option>'
+         '<option value="link">link word</option>'
+         '<option value="filler">filler</option>'
+         '<option value="none">none (clear)</option></select>',
+         '<select id="g-itype" style="display:none">%s</select>' % itype_opts,
+         '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
+         '<span id="g-cand" style="display:none">value: <select id="g-candsel"></select> '
+         'or add <input id="g-add" placeholder="new value" size="12"> '
+         '<span id="g-del" style="margin-left:.4rem;font-size:.85rem;color:#b45309"></span></span>',
+         '<button type="button" id="g-assign" class="g-assign">Assign</button>',
+         '<span id="g-msg" style="color:#dc2626;font-size:.85rem"></span>',
+         '</div>',
+         '<div id="g-list" class="g-list"></div>',
+         '<form method="post" action="/hsresolve" id="g-form">',
+         '<input type="hidden" name="only" value="%d">' % clue_id,
+         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         '<input type="hidden" name="payload" id="g-payload">',
+         '<button type="button" id="g-resolve" class="g-resolve">Resolve &amp; solve</button>',
+         '</form>',
+         '<form method="post" action="/hsstatus" style="margin:.5rem 0;display:flex;'
+         'gap:.4rem;align-items:center;flex-wrap:wrap">',
+         '<input type="hidden" name="only" value="%d">' % clue_id,
+         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         '<span style="font-size:.85rem;color:#64748b">Mark verdict:</span>',
+         '<select name="status">%s</select>' % status_opts,
+         '<button type="submit" style="background:#475569;color:#fff;border:none;'
+         'border-radius:8px;padding:.3rem .75rem;font-weight:700;cursor:pointer">'
+         'Set status</button>',
+         '<span style="font-size:.78rem;color:#94a3b8">INVALID = unsolvable as written; '
+         'the mark is frozen so it sticks.</span>',
+         '</form>',
+         '<form method="post" action="/hsnote" style="margin:.5rem 0">',
+         '<input type="hidden" name="only" value="%d">' % clue_id,
+         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         '<div style="font-size:.85rem;color:#64748b;margin-bottom:.2rem">'
+         'Note (shows on the clue page for the user):</div>',
+         '<textarea name="note" rows="3" style="width:100%%;max-width:46rem;box-sizing:'
+         'border-box;border:1px solid #cbd5e1;border-radius:8px;padding:.4rem;'
+         'font-family:inherit;font-size:.95rem">%s</textarea>' % escape(note),
+         '<div><button type="submit" style="background:#0d9488;color:#fff;border:none;'
+         'border-radius:8px;padding:.3rem .75rem;font-weight:700;cursor:pointer;'
+         'margin-top:.3rem">Save note</button></div>',
+         '</form>',
+         '<div class="g-card">%s</div>' % card,
+         '</div>',
+         '<script>initGrid("%s", %s);</script>' % (rootid, json.dumps(data))]
+    return "".join(p)
+
+
+def _hs_redirect(only, msg="", back_raw=None):
+    """Post/Redirect/Get back to the span surface (clean URL, no resubmit on refresh)."""
+    from urllib.parse import quote
+    extra = ("&from=%s" % quote(back_raw, safe="")) if back_raw else ""
+    return redirect("/hs?id=%s&notice=%s%s" % (only, quote(msg), extra))
+
+
+@app.route("/hs")
+def hs_route():
+    """The span-assignment hand-solver for ONE clue."""
+    cid = (request.args.get("id") or "").strip()
+    if not cid.isdigit():
+        return _page('<p class="warn">Enter a clue id, e.g. '
+                     '<a href="/hs?id=10075533">/hs?id=10075533</a></p>')
+    back = (request.args.get("from") or cid).strip()
+    notice = (request.args.get("notice") or "").strip()
+    body = ('<div class="wfw-notice">%s</div>' % escape(notice)) if notice else ""
+    body += _span_surface(int(cid), back)
+    return _page(body)
+
+
+@app.route("/hslookup")
+def hslookup_route():
+    """AJAX: the DB synonym/abbreviation candidate values for a ticked word-group, so the grid
+    can offer them at Assign time. A LOOKUP, never a solve. Returns JSON [{v,m,del}] where
+    `del` marks a value that is a DIRECT synonyms_pairs row (so it can be pruned if rogue);
+    values that appear only via the bidirectional lookup are not directly deletable."""
+    import json, sqlite3
+    phrase = (request.args.get("phrase") or "").strip()
+    out = []
+    if phrase:
+        direct = set()
+        try:
+            con = sqlite3.connect(admin_db.CRYPTIC_DB)
+            for (v,) in con.execute("SELECT synonym FROM synonyms_pairs "
+                                    "WHERE lower(word)=lower(?)", (phrase,)):
+                direct.add((v or "").upper())
+            con.close()
+        except Exception:
+            pass
+        try:
+            la = batch_wiring()["lookup_all"]
+            seen = set()
+            for v, m in la(phrase):
+                v = (v or "").upper()
+                if m in ("synonym", "abbreviation") and v and v not in seen:
+                    seen.add(v)
+                    out.append({"v": v, "m": m, "del": v in direct})
+                if len(out) >= 30:
+                    break
+        except Exception:
+            out = []
+    return app.response_class(json.dumps(out), mimetype="application/json")
+
+
+@app.route("/hsdelete", methods=["POST"])
+def hsdelete_route():
+    """Delete a POLLUTING reference-DB row for a ticked span (recoverable in deleted_entries),
+    reconcile the wiring, and re-solve — so pruning a rogue entry can unlock the solve on its
+    own. Synonyms are the common case; definition/link supported too."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    kind = (request.form.get("kind") or "synonym").strip()
+    word = (request.form.get("word") or "").strip()
+    value = (request.form.get("value") or "").strip()
+    if not only.isdigit() or not word:
+        return _hs_redirect(only, "Nothing to delete.", back)
+    cid = int(only)
+    if kind == "synonym":
+        msg = admin_db.delete_synonym(word, value)
+        apply_add_to_wiring({"kind": "synonym", "word": word, "synonym": value})
+    elif kind == "definition":
+        msg = admin_db.delete_definition(word, value)
+        apply_add_to_wiring({"kind": "definition", "definition": word, "answer": value})
+    elif kind == "link":
+        msg = admin_db.delete_link(word)
+        apply_add_to_wiring({"kind": "link", "word": word})
+    else:
+        msg = "Unknown delete kind."
+    # The invalidate above clears the cached lookup for the row, so the next live query no
+    # longer sees the just-deleted row — no ~9s full reload needed.
+    _resolve_one(cid)
+    return _hs_redirect(only, msg + " Re-solved.", back)
+
+
+@app.route("/hsinfer")
+def hsinfer_route():
+    """AJAX: infer a DELETION sub-type from the answer and an assigned synonym value — the op
+    whose result equals the answer (FLORIST + outer-delete -> LORIS gives sub-type 'ends').
+    A pure computation, never a solve. Returns {"subtype": "..."} or {}."""
+    import json
+    from core import deletion
+    base = (request.args.get("base") or "").strip().upper()
+    answer = (request.args.get("answer") or "").strip().upper()
+    out = {}
+    if base and answer and len(base) > len(answer):
+        for sub, _lab in _IND_SUBTYPES["deletion"]:
+            op = deletion.SUBTYPE_OP.get(sub)
+            try:
+                if op and deletion.apply_op(op, base) == answer:
+                    out = {"subtype": sub}
+                    break
+            except Exception:
+                pass
+    return app.response_class(json.dumps(out), mimetype="application/json")
+
+
+# hand role -> the signature fodder slot it implies (for signature creation)
+_HSROLE_FODDER = {"synonym": "SYN_F"}
+# indicator type -> (operation, indicator slot role)
+_HSIND_OP = {"deletion": ("deletion", "DEL_I"), "anagram": ("anagram", "ANA_I"),
+             "reversal": ("reversal", "REV_I"), "container": ("container", "CON_I"),
+             "insertion": ("container", "CON_I")}
+
+
+def _cand_from_assignments(assigns, n_total, answer=""):
+    """Map the hand-solver's assignments to a catalog signature candidate
+    {operation, def_pos, roles, n_words}, or None when the shape isn't one we can file.
+    Handles POSITIONAL deletion (one synonym base + indicator) and NAMED deletion: with a
+    deletion indicator and a second synonym whose value is removed from the base to make the
+    answer (DERAILMENT - DER = AILMENT), that synonym becomes REM_F (the named-removal
+    source). The definition must sit at a clue edge; link/filler are residue."""
+    def_idx = None
+    syns = []          # [(idx_list, value)]
+    indicator = None   # (idx_list, slot_role)
+    op = None
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []))
+        except Exception:
+            return None
+        role = (a.get("role") or "").strip()
+        if not idx:
+            continue
+        if role == "definition":
+            if def_idx is not None:
+                return None                       # one definition only
+            def_idx = idx
+        elif role in _HSROLE_FODDER:              # synonym -> a fodder value
+            syns.append((idx, (a.get("value") or "").strip().upper()))
+        elif role == "indicator":
+            spec = _HSIND_OP.get((a.get("itype") or "").split(":")[0])
+            if spec is None:
+                return None                       # an operation we don't file yet
+            op = spec[0]
+            indicator = (idx, spec[1])
+        elif role in ("link", "filler"):
+            continue                              # residue, not a slot
+        else:
+            return None
+    if def_idx is None or (not syns and indicator is None):
+        return None
+
+    # NAMED deletion: the synonym whose value is removed from another (the base) to spell the
+    # answer is the REM_F source; the other is the SYN_F base.
+    rem_key = None
+    if op == "deletion" and len(syns) >= 2 and answer:
+        from core import deletion
+        ans = "".join(c for c in answer.upper() if c.isalpha())
+        for bidx, bval in syns:
+            for ridx, rval in syns:
+                if ridx is bidx or not bval or not rval:
+                    continue
+                try:
+                    if rval in deletion.removed_runs(bval, ans):
+                        rem_key = tuple(ridx)
+                        break
+                except Exception:
+                    pass
+            if rem_key:
+                break
+
+    wp = []
+    for idx, _val in syns:
+        tok = "REM_F" if (rem_key is not None and tuple(idx) == rem_key) else "SYN_F"
+        wp.append((idx[0], tok, len(idx)))
+    if indicator is not None:
+        wp.append((indicator[0][0], indicator[1], len(indicator[0])))
+    if not wp:
+        return None
+    if def_idx[0] == 0:
+        def_pos = "start"
+    elif def_idx[-1] == n_total - 1:
+        def_pos = "end"
+    else:
+        return None                               # definition must be at a clue edge
+    wp.sort()                                     # slots in clue order
+    return {"operation": op or "charade", "def_pos": def_pos,
+            "roles": [r for _, r, _ in wp], "n_words": [n for _, _, n in wp]}
+
+
+def _build_from_assignments(ctx, answer, assigns):
+    """Build a Parse DIRECTLY from the hand-solver's assignments — NO cascade. The user
+    supplies the definition + the indicator (=> the operation) + the synonym pieces they
+    know; the LEFTOVER content words are the fodder the engine derives. The assembled
+    letters are verified against the answer and a Parse is returned (status 'pass', or
+    'fail' with plain-English evidence). Returns None when the shape isn't one this builder
+    handles — anagram (needs an anagram indicator) and charade (needs >=1 piece) only — so
+    the caller keeps the existing deletion-signature / cascade path for everything else.
+    'none'-cleared words are simply free, joining the leftover/fodder pool."""
+    from collections import Counter
+    from core.wordplay import raw
+    from core.wfw_model import Source, Link, Annotation, Parse
+    wtoks = [t for t in ctx.clue_tokens if t.kind == "word"]
+    n = len(wtoks)
+    ans = "".join(c for c in answer.upper() if c.isalpha())
+
+    def_idx, pieces, ind = None, [], None        # ind = (idx_list, op)
+    link_idx, filler_idx, consumed = set(), set(), set()
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < n)
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        role = (a.get("role") or "").strip()
+        if role == "definition":
+            def_idx = idx
+        elif role == "synonym":
+            pieces.append((idx, (a.get("value") or "").strip().upper()))
+        elif role == "indicator":
+            spec = _HSIND_OP.get((a.get("itype") or "").split(":")[0])
+            if spec is not None:
+                ind = (idx, spec[0])
+        elif role == "link":
+            link_idx.update(idx)
+        elif role == "filler":
+            filler_idx.update(idx)
+        elif role == "none":
+            continue                              # cleared -> stays free (leftover/fodder)
+        if role in ("definition", "synonym", "indicator", "link", "filler"):
+            consumed.update(idx)
+
+    op = ind[1] if ind is not None else "charade"
+    if op not in ("anagram", "charade"):
+        return None                               # deletion/reversal/container -> caller
+    if op == "charade" and not pieces:
+        return None                               # no wordplay signal (e.g. whole-clue CD)
+    if def_idx is None:
+        return None                               # the user must supply the definition
+
+    leftover = [i for i in range(n) if i not in consumed]   # the DERIVED fodder
+    units = []                                    # (first_idx, Source, letters)
+    for i in leftover:
+        lv = raw(wtoks[i].text)
+        units.append((i, Source(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
+                                 value=lv,
+                                 mechanism="anagram_fodder" if op == "anagram" else "raw"),
+                      lv))
+    for idx, val in pieces:
+        phrase = " ".join(wtoks[i].text for i in idx)
+        atomids = tuple(aid for i in idx for aid in wtoks[i].atom_ids)
+        units.append((idx[0], Source(clue_atom_ids=atomids, text=phrase, value=val,
+                                     mechanism="synonym"), val))
+
+    if op == "anagram":
+        letters = "".join(u[2] for u in units)
+        ok = sorted(letters) == sorted(ans)
+        remaining = [[k, Counter(u[2])] for k, u in enumerate(units)]
+        links = []
+        for pos_i, ch in enumerate(ans, start=1):
+            si = 0
+            for entry in remaining:
+                if entry[1].get(ch, 0) > 0:
+                    entry[1][ch] -= 1
+                    si = entry[0]
+                    break
+            links.append(Link(answer_pos=pos_i, source_index=si, operation="anagram",
+                              clue_atom_id=None, transform="anagram_of"))
+    else:                                         # charade: ordered concatenation
+        units.sort(key=lambda u: u[0])
+        letters = "".join(u[2] for u in units)
+        ok = letters == ans
+        links, pos_i = [], 1
+        for si, u in enumerate(units):
+            for _c in u[2]:
+                links.append(Link(answer_pos=pos_i, source_index=si, operation="charade",
+                                  clue_atom_id=None, transform=None))
+                pos_i += 1
+
+    annotations = []
+    if ind is not None:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for i in ind[0] for aid in wtoks[i].atom_ids),
+            text=" ".join(wtoks[i].text for i in ind[0]),
+            role="indicator", note="%s indicator" % op))
+    for i in sorted(link_idx):
+        annotations.append(Annotation(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
+                                      role="link", note="link word"))
+    for i in sorted(filler_idx):
+        annotations.append(Annotation(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
+                                      role="link", note="surface filler"))
+
+    definition = Source(
+        clue_atom_ids=tuple(aid for i in def_idx for aid in wtoks[i].atom_ids),
+        text=" ".join(wtoks[i].text for i in def_idx),
+        value=answer, mechanism="definition", source="db")
+
+    parse = Parse(clue_text=ctx.clue_text, answer_text=answer,
+                  sources=[u[1] for u in units], links=links, annotations=annotations,
+                  definition=definition, operation=op, confidence=100 if ok else 0,
+                  solved_by="handsolver", status="pass" if ok else "fail")
+    parse.template_id = None
+    if not ok:
+        if op == "anagram":
+            parse.warnings = ["the fodder letters %r do not anagram to %s"
+                              % ("".join(sorted(letters)), ans)]
+        else:
+            parse.warnings = ["the pieces in clue order spell %r, not the answer %s"
+                              % (letters, ans)]
+    return parse
+
+
+def _try_create_signature(cid, cand):
+    """A Resolve that leaves the clue unsolved may imply a signature the catalog lacks.
+    Create it (the catalog auto-backs-up), re-solve, and KEEP it ONLY if the clue now PASSES
+    — otherwise roll it back, so an unverified shape never pollutes the catalog. Returns a
+    one-line note for the user, or '' when nothing was attempted."""
+    from core import catalog_creator as CC
+    import sqlite3
+    try:
+        sig = CC._signature_str(cand)
+    except Exception:
+        return ""
+    con = sqlite3.connect(CC._CLUES_DB)
+    try:
+        if con.execute("SELECT 1 FROM catalog_templates WHERE signature=?",
+                       (sig,)).fetchone():
+            return ""                             # already present; the miss is elsewhere
+    finally:
+        con.close()
+    try:
+        tid = CC.add_signature(cand, note="hand-solver: %s (clue %s)" % (sig, cid))
+    except Exception:
+        return ""
+    if tid is None:
+        return ""
+    # Load the new catalog signature with ONE full reload (the catalog isn't a live query),
+    # then verify on the cached wiring (not a second make_db_wiring). Keep the signature ONLY
+    # if it is the one that now solves the clue (matched==sig), so we never keep a shape that
+    # merely coincides with another passing signature. A raw solve works because the
+    # hand-solve committed every piece to the reference DB.
+    reload_wiring()
+    row = _load_clue(cid)
+    keep = False
+    if row is not None:
+        ct, ans, _s, _pn, _d, enum, _cn = row
+        st, _name, msig, _p = CC.verify(ct, enum_space(ans, enum), batch_wiring())
+        keep = (st == "pass" and msig == sig)
+    if keep:
+        _resolve_one(cid)
+        return "created the missing signature %s — the clue now solves." % sig
+    con = sqlite3.connect(CC._CLUES_DB)                # rollback: not solved by the new sig
+    try:
+        con.execute("DELETE FROM catalog_templates WHERE id=?", (tid,))
+        con.execute("DELETE FROM catalog_template_slots WHERE template_id=?", (tid,))
+        con.commit()
+    finally:
+        con.close()
+    reload_wiring()
+    _resolve_one(cid)
+    return ("signature %s did not solve the clue, so it was rolled back "
+            "(check the assignments or a missing DB value)." % sig)
+
+
+@app.route("/hssave", methods=["POST"])
+def hssave_route():
+    """Save the hand-solver's current assignment list (JSON) for a clue, with NO solve — so
+    each Assign persists immediately and a failed Resolve (or leaving the page) never loses
+    the work. Restored into the grid on the next /hs load. Returns a tiny ack."""
+    only = (request.form.get("only") or "").strip()
+    payload = request.form.get("payload") or ""
+    if only.isdigit():
+        conn = store.connect()
+        try:
+            store.set_hs_assignments(conn, int(only), payload)
+        finally:
+            conn.close()
+    return app.response_class("ok", mimetype="text/plain")
+
+
+@app.route("/hsnote", methods=["POST"])
+def hsnote_route():
+    """Save a free-text note for a clue from the hand-solver — shown on the clue page for the
+    user. No solve, no reference-DB write. Redirects back to /hs."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    note = (request.form.get("note") or "").strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    conn = store.connect()
+    try:
+        store.set_note(conn, int(only), note)
+    finally:
+        conn.close()
+    return _hs_redirect(only, "Note saved." if note else "Note cleared.", back)
+
+
+def _note_block(clue_id):
+    """The user-facing note for a clue (authored in the hand-solver), or '' if none."""
+    conn = store.connect()
+    try:
+        note = store.get_note(conn, clue_id)
+    finally:
+        conn.close()
+    if not note:
+        return ""
+    return ('<div style="margin:.5rem 0;padding:.6rem .85rem;background:#fffbeb;'
+            'border:1px solid #fcd34d;border-radius:10px;color:#92600a;font-size:.95rem">'
+            '<strong>Note:</strong> %s</div>' % escape(note).replace("\n", "<br>"))
+
+
+@app.route("/hsstatus", methods=["POST"])
+def hsstatus_route():
+    """Manually set a clue's verdict from the hand-solver (pass/pending/fail/INVALID) and
+    FREEZE it so the mark sticks through later batch re-runs. INVALID = the clue cannot be
+    solved as written (a missing indicator or operation) — a common, legitimate outcome,
+    not a solver failure. Redirects back to /hs."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    status = (request.form.get("status") or "").strip()
+    if not only.isdigit() or status not in ("pass", "pending", "fail", "invalid"):
+        return _hs_redirect(only, "No clue/status.", back)
+    cid = int(only)
+    conn = store.connect()
+    try:
+        if store.load_parse(conn, cid) is None:
+            # No stored parse yet — persist a minimal one so the manual verdict has a row.
+            row = _load_clue(cid)
+            if row is not None:
+                from core.wfw_model import Parse
+                stub = Parse(clue_text=row[0], answer_text=enum_space(row[1], row[5]),
+                             status=status, operation="", solved_by="manual")
+                store.save_parse(conn, cid, stub)
+        store.set_status(conn, cid, status)
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    return _hs_redirect(only, "Status set to %s (frozen so it sticks)." % status.upper(),
+                        back)
+
+
+@app.route("/hsresolve", methods=["POST"])
+def hsresolve_route():
+    """The SINGLE commit: apply ALL in-memory assignments (payload JSON) to the reference DB
+    DIRECTLY (your Resolve click is the approval) + per-clue overrides, then solve ONCE.
+    No per-assignment re-solve. Whole-clue definition -> CD and signature creation are next."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _hs_redirect(only, "No clue.", back)
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    allwords = [t.text for t in ctx.clue_tokens if t.kind == "word"]
+    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+    if not assigns:
+        return _hs_redirect(only, "No assignments to resolve.", back)
+
+    applied = []
+    conn = store.connect()
+    try:
+        for a in assigns:
+            try:
+                idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(allwords))
+            except Exception:
+                idx = []
+            if not idx:
+                continue
+            phrase = " ".join(allwords[i] for i in idx)
+            role = (a.get("role") or "").strip()
+            if role == "definition":
+                store.set_forced_definition(conn, cid, phrase)
+                admin_db.add_definition(phrase, ans_letters)
+                apply_add_to_wiring({"kind": "definition", "definition": phrase,
+                                     "answer": ans_letters})
+                applied.append("def=%r" % phrase)
+            elif role == "synonym":
+                val = (a.get("value") or "").strip().upper()
+                if val:
+                    admin_db.add_synonym(phrase, val)
+                    apply_add_to_wiring({"kind": "synonym", "word": phrase, "synonym": val})
+                    applied.append("%r=%s" % (phrase, val))
+            elif role == "indicator":
+                itype = (a.get("itype") or "").strip()
+                isub = (a.get("isub") or "").strip() or None
+                base = itype.split(":")[0]
+                if base:
+                    admin_db.add_indicator(phrase, base, isub)
+                    apply_add_to_wiring({"kind": "indicator", "word": phrase, "type": base})
+                    store.add_forced_indicator(conn, cid, phrase, itype)
+                    applied.append("%r=%s%s" % (phrase, base, ("/" + isub) if isub else ""))
+            elif role == "link":
+                admin_db.add_link_word(phrase)
+                apply_add_to_wiring({"kind": "link", "word": phrase})
+                applied.append("%r=link" % phrase)
+            elif role == "filler":
+                for i in idx:
+                    store.add_clue_filler(conn, cid, allwords[i])
+                applied.append("%r=filler" % phrase)
+            elif role == "none":
+                # Clear any persisted override for these words so the wrong role does NOT
+                # return on reload; the word becomes free (a leftover/fodder candidate).
+                fd = store.get_forced_definition(conn, cid)
+                if fd and fd.strip().lower() == phrase.strip().lower():
+                    store.clear_forced_definition(conn, cid)
+                store.clear_forced_indicator(conn, cid, phrase)
+                for i in idx:
+                    store.clear_clue_filler(conn, cid, allwords[i])
+                applied.append("%r=cleared" % phrase)
+        store.set_hs_assignments(conn, cid, payload)   # persist the assignment set
+    finally:
+        conn.close()
+    # Each add was folded into the cached wiring INCREMENTALLY (apply_add_to_wiring) — fast.
+    # No full reload_wiring() here (that ~9s rebuild was the cause of the slow Resolve).
+    #
+    # ASSIGNMENT-DRIVEN BUILD (no cascade): when the operation is one we build directly from
+    # the assignments (anagram / charade), assemble + verify + show THAT parse — the user's
+    # interpretation, not the cascade's. Deletion and other ops fall through to the existing
+    # cascade/signature path below, so nothing that works today is disturbed.
+    built = _build_from_assignments(ctx, answer, assigns)
+    if built is not None:
+        conn2 = store.connect()
+        try:
+            store.save_parse(conn2, cid, built, ctx)
+        finally:
+            conn2.close()
+        tail = ("solved." if built.status == "pass"
+                else "did NOT verify — " + (built.warnings[0] if built.warnings
+                                            else "the assignments do not spell the answer"))
+        msg = ("Applied %d: %s; %s" % (len(applied), "; ".join(applied), tail)
+               if applied else tail)
+        return _hs_redirect(only, msg, back)
+    # An anagram was clearly intended but no definition was assigned — guide the user rather
+    # than silently re-running the cascade (which would discard their interpretation).
+    if any(a.get("role") == "indicator"
+           and (a.get("itype") or "").split(":")[0] == "anagram" for a in assigns) \
+            and not any(a.get("role") == "definition" for a in assigns):
+        return _hs_redirect(only, "Assign the definition word(s) too, then Resolve.", back)
+    _resolve_one(cid)
+    # If the clue still doesn't pass, the assignments may imply a signature the catalog
+    # lacks — create it (verified, rolled back if it doesn't produce a pass).
+    sig_msg = ""
+    conn3 = store.connect()
+    try:
+        p = store.load_parse(conn3, cid)
+    finally:
+        conn3.close()
+    if p is not None and p.operation == "cd":
+        # The whole clue was tagged as the definition -> the cryptic-definition engine fired.
+        sig_msg = ("the whole clue is taken as a cryptic definition — pending your "
+                   "confirmation (a CD is never auto-verified).")
+    elif p is None or p.status != "pass":
+        cand = _cand_from_assignments(assigns, len(allwords), answer)
+        if cand is not None:
+            sig_msg = _try_create_signature(cid, cand)
+    msg = ("Applied %d: %s; solved." % (len(applied), "; ".join(applied))
+           if applied else "Nothing applied.")
+    if sig_msg:
+        msg += " " + sig_msg
+    return _hs_redirect(only, msg, back)
+
+
 @app.route("/handsolve")
 def handsolve_route():
     """Atom-level hand-solver for one clue or several (id box / A-B range)."""
@@ -1690,17 +2546,22 @@ def _reload_clue_button(clue_id, raw_list):
         'title="Run the AI piece fallback too (slower). Off = fast DB-only re-run.">'
         '<input type="checkbox" name="ai" value="on"> with AI fallback</label>'
         '</form>'
-        '<a href="/rolegrid?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
+        '<a href="/hs?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
         'style="display:inline-block;text-decoration:none;background:#0d9488;'
         'border-color:#0d9488;margin:.4rem 0" '
-        'title="Open the role-grid hand-solver for this clue">'
+        'title="Open the span hand-solver (redesign) for this clue, carrying the clutch">'
         '&#9776; Hand-solver</a>'
+        '<a href="/rolegrid?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
+        'style="display:inline-block;text-decoration:none;background:#94a3b8;'
+        'border-color:#94a3b8;margin:.4rem 0 .4rem .4rem" '
+        'title="Open the OLD role-grid hand-solver for this clue">'
+        '&#9776; Old grid</a>'
         '<a href="/handsolve?id=%d" class="wfw-reload wfw-reload-clue" '
         'style="display:inline-block;text-decoration:none;background:#7c3aed;'
         'border-color:#7c3aed;margin:.4rem 0 .4rem .4rem" '
         'title="Open the (legacy) atom-level hand-solver for this clue">'
         '&#9998; Atoms</a>'
-        % (escape(raw_list, quote=True), clue_id, clue_id, _frm, clue_id))
+        % (escape(raw_list, quote=True), clue_id, clue_id, _frm, clue_id, _frm, clue_id))
 
 
 def _cid_label(clue_id, source=None, puzzle_number=None, clue_number=None, direction=None):

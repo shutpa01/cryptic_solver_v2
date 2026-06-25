@@ -157,3 +157,124 @@ def add_indicator(word, wordplay_type, subtype=None):
         return "Added indicator: %r (%s)" % (word, label)
     finally:
         conn.close()
+
+
+# --- deletes (hand-solver: prune a POLLUTING reference row; RECOVERABLE) --------------
+# Each delete copies the row(s) into deleted_entries before removing them, so a misclick is
+# recoverable and you can see what has been pruned. Matching is case-insensitive on the
+# word/definition. A delete that hits nothing is reported, not silently ignored (the value
+# may be a bidirectional-lookup artifact, not a real row).
+
+def _ensure_deleted_table(conn):
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS deleted_entries ("
+        "kind TEXT, word TEXT, value TEXT, wordplay_type TEXT, subtype TEXT, "
+        "answer TEXT, source TEXT, deleted_at TEXT)")
+
+
+def _record_deleted(conn, kind, word="", value="", wptype="", subtype="", answer="",
+                    source=""):
+    _ensure_deleted_table(conn)
+    conn.execute("INSERT INTO deleted_entries (kind,word,value,wordplay_type,subtype,"
+                 "answer,source,deleted_at) VALUES (?,?,?,?,?,?,?,datetime('now'))",
+                 (kind, word, value, wptype, subtype, answer, source))
+
+
+def delete_synonym(word, synonym):
+    """Delete the (word -> synonym) pair(s) from synonyms_pairs (recoverable). Returns a
+    status string; reports 0 when there is no direct row (e.g. a reverse-lookup artifact)."""
+    word = (word or "").strip(); synonym = (synonym or "").strip()
+    if not word or not synonym:
+        return "Word and synonym are both required."
+    conn = _conn()
+    try:
+        rows = conn.execute("SELECT word,synonym,source FROM synonyms_pairs "
+                            "WHERE lower(word)=lower(?) AND upper(synonym)=upper(?)",
+                            (word, synonym)).fetchall()
+        for w, s, src in rows:
+            _record_deleted(conn, "synonym", word=w, value=s, source=src or "")
+        conn.execute("DELETE FROM synonyms_pairs WHERE lower(word)=lower(?) "
+                     "AND upper(synonym)=upper(?)", (word, synonym))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted synonym %r = %r (%d row%s; recoverable)." %
+                (word, synonym, n, "" if n == 1 else "s")) if n else \
+               ("No synonyms_pairs row for %r = %r — nothing deleted (likely a "
+                "bidirectional-lookup match, not a stored row)." % (word, synonym))
+    finally:
+        conn.close()
+
+
+def delete_definition(definition, answer):
+    """Delete the (definition -> answer) row(s) from definition_answers_augmented."""
+    definition = (definition or "").strip(); answer = (answer or "").strip()
+    if not definition or not answer:
+        return "Definition and answer are both required."
+    conn = _conn()
+    try:
+        rows = conn.execute("SELECT definition,answer,source FROM definition_answers_augmented "
+                            "WHERE lower(definition)=lower(?) AND upper(answer)=upper(?)",
+                            (definition, answer)).fetchall()
+        for d, a, src in rows:
+            _record_deleted(conn, "definition", word=d, answer=a, source=src or "")
+        conn.execute("DELETE FROM definition_answers_augmented WHERE lower(definition)=lower(?) "
+                     "AND upper(answer)=upper(?)", (definition, answer))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted definition %r -> %s (%d row%s; recoverable)." %
+                (definition, answer, n, "" if n == 1 else "s")) if n else \
+               ("No definition row for %r -> %s." % (definition, answer))
+    finally:
+        conn.close()
+
+
+def delete_indicator(word, wordplay_type, subtype=None):
+    """Delete an indicator typing from indicators (optionally pinned to a subtype)."""
+    word = (word or "").strip(); wp = (wordplay_type or "").strip().lower()
+    sub = (subtype or "").strip().lower() or None
+    if not word or not wp:
+        return "Indicator word and type are both required."
+    conn = _conn()
+    try:
+        if sub is None:
+            rows = conn.execute("SELECT word,wordplay_type,subtype,source FROM indicators "
+                                "WHERE lower(word)=lower(?) AND wordplay_type=?",
+                                (word, wp)).fetchall()
+            conn.execute("DELETE FROM indicators WHERE lower(word)=lower(?) AND "
+                         "wordplay_type=?", (word, wp))
+        else:
+            rows = conn.execute("SELECT word,wordplay_type,subtype,source FROM indicators "
+                                "WHERE lower(word)=lower(?) AND wordplay_type=? AND subtype=?",
+                                (word, wp, sub)).fetchall()
+            conn.execute("DELETE FROM indicators WHERE lower(word)=lower(?) AND "
+                         "wordplay_type=? AND subtype=?", (word, wp, sub))
+        for w, t, s, src in rows:
+            _record_deleted(conn, "indicator", word=w, wptype=t, subtype=s or "",
+                            source=src or "")
+        conn.commit()
+        n = len(rows)
+        return ("Deleted indicator %r (%s%s) (%d row%s; recoverable)." %
+                (word, wp, ("/" + sub) if sub else "", n, "" if n == 1 else "s")) if n else \
+               ("No indicator row for %r (%s)." % (word, wp))
+    finally:
+        conn.close()
+
+
+def delete_link(word):
+    """Delete a link word from link_words."""
+    word = (word or "").strip()
+    if not word:
+        return "Link word is required."
+    conn = _conn()
+    try:
+        rows = conn.execute("SELECT word,source FROM link_words WHERE lower(word)=lower(?)",
+                            (word,)).fetchall()
+        for w, src in rows:
+            _record_deleted(conn, "link", word=w, source=src or "")
+        conn.execute("DELETE FROM link_words WHERE lower(word)=lower(?)", (word,))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted link word %r (%d row%s; recoverable)." %
+                (word, n, "" if n == 1 else "s")) if n else ("No link row for %r." % word)
+    finally:
+        conn.close()

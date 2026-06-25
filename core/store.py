@@ -88,6 +88,14 @@ CREATE TABLE IF NOT EXISTS wfw_frozen (
                                    --   DOWNGRADE it (never reverts to fail on a later run);
                                    --   only admin unforce clears it. Separate table so it
                                    --   survives save_parse's delete+reinsert of wfw_solve.
+CREATE TABLE IF NOT EXISTS wfw_hs_assignments (
+    clue_id INTEGER PRIMARY KEY,   -- the hand-solver's FULL assignment list (JSON), saved on
+    payload TEXT                   --   each Assign AND on Resolve so a failed solve never
+);                                 --   loses the work; restored into the grid on load.
+CREATE TABLE IF NOT EXISTS wfw_notes (
+    clue_id INTEGER PRIMARY KEY,   -- free-text note authored in the hand-solver and shown on
+    note TEXT                      --   the clue page (extra info for the user). Per-clue,
+);                                 --   never written to any reference DB.
 """
 
 
@@ -204,6 +212,7 @@ def unforce(conn, clue_id):
     conn.execute("DELETE FROM wfw_forced_def WHERE clue_id = ?", (clue_id,))
     conn.execute("DELETE FROM wfw_forced_indicator WHERE clue_id = ?", (clue_id,))
     conn.execute("DELETE FROM wfw_frozen WHERE clue_id = ?", (clue_id,))
+    conn.execute("DELETE FROM wfw_hs_assignments WHERE clue_id = ?", (clue_id,))
     conn.commit()
 
 
@@ -312,6 +321,51 @@ def clear_forced_definition(conn, clue_id):
     ensure_schema(conn)
     conn.execute("DELETE FROM wfw_forced_def WHERE clue_id = ?", (clue_id,))
     conn.commit()
+
+
+def set_hs_assignments(conn, clue_id, payload):
+    """Persist the hand-solver's FULL assignment list (a JSON string) for this clue, so a
+    failed Resolve — or leaving and coming back — never loses the work; the grid restores it
+    on load. Saved on each Assign and on Resolve. An empty/`[]` payload clears the record."""
+    ensure_schema(conn)
+    payload = (payload or "").strip()
+    if not payload or payload in ("[]", "null"):
+        conn.execute("DELETE FROM wfw_hs_assignments WHERE clue_id = ?", (clue_id,))
+    else:
+        conn.execute(
+            "INSERT INTO wfw_hs_assignments (clue_id, payload) VALUES (?, ?) "
+            "ON CONFLICT(clue_id) DO UPDATE SET payload = excluded.payload",
+            (clue_id, payload))
+    conn.commit()
+
+
+def get_hs_assignments(conn, clue_id):
+    """The saved hand-solver assignment JSON for this clue, or '' if none."""
+    ensure_schema(conn)
+    row = conn.execute("SELECT payload FROM wfw_hs_assignments WHERE clue_id = ?",
+                       (clue_id,)).fetchone()
+    return row[0] if row and row[0] else ""
+
+
+def set_note(conn, clue_id, note):
+    """Save (or clear) a free-text note for this clue — authored in the hand-solver, shown on
+    the clue page for the user. An empty note removes the record. Never touches a reference DB."""
+    ensure_schema(conn)
+    note = (note or "").strip()
+    if not note:
+        conn.execute("DELETE FROM wfw_notes WHERE clue_id = ?", (clue_id,))
+    else:
+        conn.execute("INSERT INTO wfw_notes (clue_id, note) VALUES (?, ?) "
+                     "ON CONFLICT(clue_id) DO UPDATE SET note = excluded.note",
+                     (clue_id, note))
+    conn.commit()
+
+
+def get_note(conn, clue_id):
+    """The free-text note for this clue, or '' if none."""
+    ensure_schema(conn)
+    row = conn.execute("SELECT note FROM wfw_notes WHERE clue_id = ?", (clue_id,)).fetchone()
+    return row[0] if row and row[0] else ""
 
 
 def add_clue_filler(conn, clue_id, word):
