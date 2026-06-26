@@ -739,6 +739,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcac2 is not None and pcac2.status in ("pass", "pending"):
         return _finish(pcac2, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + ALTERNATION — a charade where ONE piece is the alternate (every-other)
+    # letters of a word ("oddly ignored near" = ER), the others ordinary pieces (SANDPIPER =
+    # SAND + PIP + ER). Gated on an alternation indicator AND >= 1 ordinary piece, so it
+    # cannot intercept a plain charade (no alternation piece) or a whole-answer alternation
+    # (no ordinary piece). Answer-driven; a fresh stage that never edits the charade or
+    # alternation engines.
+    from core.charade_alternation_engine import solve_charade_alternation
+    pcalt = solve_charade_alternation(
+        ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+        wiring["indicator_types"], wiring["selection_rules"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcalt is not None and pcalt.status in ("pass", "pending"):
+        return _finish(pcalt, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
     # pure engines (it is more specific). A pass or pending stops here. Catalog-DRIVEN
     # (signature engine); catalog gaps (multi-word slots not yet mined) become preserved
@@ -991,6 +1005,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if prevcon is not None and prevcon.status in ("pass", "pending"):
         return _finish(prevcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # REVERSAL + DELETION — the whole answer is ONE synonym with letters removed and reversed
+    # (SLAB = reverse(curtail(BALSA)): "wood"=BALSA, "cut"=deletion, "after turning"=reversal).
+    # The plain reversal reverses a whole DB value and the plain deletion deletes from one;
+    # neither composes the two on a single piece. Gated on BOTH a reversal and a deletion
+    # indicator, answer-driven (delete+reverse, either order, == answer exactly), so it cannot
+    # intercept a plain reversal or deletion. A fresh stage; never edits those engines.
+    from core.reversal_deletion_engine import solve_reversal_deletion
+    prevdel = solve_reversal_deletion(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["deletion_subtypes"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if prevdel is not None and prevdel.status in ("pass", "pending"):
+        return _finish(prevdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # DELETION — a plain deletion (the whole answer is one DB value with letters removed).
     # EVIDENCE-DRIVEN, two honestly-attributed forms: POSITIONAL (a fused/position-noun
     # indicator fixes which letters go: TAU = curtail(TAUT)) and NAMED (the removed letters
@@ -1076,6 +1104,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pad is not None and pad.status in ("pass", "pending"):
         return _finish(pad, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # ANAGRAM + SELECTION-DELETION — like anagram+deletion, but the removed letter is a
+    # SELECTION of an adjacent word, not an abbreviation (IN THE RAW = anag(NIGHTWEAR - G),
+    # G = "last of alluring"). Triple-gated (anagram + deletion + selection indicator),
+    # answer-driven (fodder minus the selected letters == answer exactly), so it cannot
+    # intercept a plain anagram. A fresh stage — never edits anagram_deletion.
+    from core.anagram_selection_deletion_engine import solve_anagram_selection_deletion
+    pasd = solve_anagram_selection_deletion(
+        ctx, wiring["defines"], wiring["indicator_types"], wiring["is_link"],
+        wiring["selection_rules"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pasd is not None and pasd.status in ("pass", "pending"):
+        return _finish(pasd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM CONTAINING A SELECTED LETTER — an anagram of a fodder run with a single first/
     # last letter inserted (OYSTER = anag(STORY) containing E["beginning to emerge"], "in").

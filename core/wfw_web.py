@@ -1702,7 +1702,7 @@ function initGrid(rootId, DATA){
  var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',letters:'#0891b2',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
  function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd});}catch(e){}}
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
@@ -1713,7 +1713,7 @@ function initGrid(rootId, DATA){
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
    if(a){var col=ROLECOL[a.role]||'#334155';
     rc.innerHTML='<b style="color:'+col+'">'+a.role+(a.isub?('/'+a.isub):'')+'</b>';
-    bc.textContent=(a.role==='synonym')?(a.value||''):'';
+    bc.textContent=(a.role==='synonym'||a.role==='letters')?(a.value||''):'';
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -1725,7 +1725,7 @@ function initGrid(rootId, DATA){
  function drawList(){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=ROLECOL[a.role]||'#334155';
-   var v=(a.role==='synonym')?(' = '+a.value):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
+   var v=(a.role==='synonym'||a.role==='letters')?(' = '+a.value):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
    return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+a.role+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();saveAssignments();};});
@@ -1741,13 +1741,16 @@ function initGrid(rootId, DATA){
  function roleFields(){var r=roleSel.value;
   itype.style.display=(r==='indicator')?'':'none';
   isub.style.display=(r==='indicator'&&itype.value==='deletion')?'':'none';
-  candWrap.style.display=(r==='synonym')?'':'none';
+  candWrap.style.display=(r==='synonym'||r==='letters')?'':'none';
+  if(candSel)candSel.style.display=(r==='synonym')?'':'none';   // 'letters' = type only, no
+  if(delEl)delEl.style.display=(r==='synonym')?'':'none';        // DB candidates / no prune
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':'new value';
   if(r==='synonym')fetchCands();
   if(r==='indicator'&&itype.value==='deletion')inferSub();
  }
  function delRow(word,value){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
   function h(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i);}
-  h('only',DATA.cid);h('from',DATA.cid);h('kind','synonym');h('word',word);h('value',value);
+  h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('kind','synonym');h('word',word);h('value',value);
   document.body.appendChild(f);f.submit();}
  function fetchCands(){var idx=checkedIdx();if(!idx.length){candSel.innerHTML='';if(delEl)delEl.innerHTML='';return;}
   candSel.innerHTML='<option>…</option>';var phr=phraseOf(idx);
@@ -1764,14 +1767,18 @@ function initGrid(rootId, DATA){
  itype.addEventListener('change',roleFields);
  var msgEl=root.querySelector('#g-msg');
  function note(t){if(msgEl)msgEl.textContent=t||'';}
- root.querySelector('#g-assign').addEventListener('click',function(){
+ function assignNow(){
   var idx=checkedIdx();if(!idx.length){note('tick a word first');return;}
   var r=roleSel.value, a={idx:idx,role:r};
   if(r==='synonym'){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('pick or type a value');return;}a.value=v;}
+  if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(!lv){note('type the exact letters');return;}a.value=lv;}
   if(r==='indicator'){a.itype=itype.value;a.isub=(itype.value==='deletion')?isub.value:'';}
   assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
   assignments.push(a);addInp.value='';note('');drawRows();drawList();clearChecks();saveAssignments();
- });
+ }
+ root.querySelector('#g-assign').addEventListener('click',assignNow);
+ // picking an existing synonym from the dropdown ADDS it immediately (no separate Assign click)
+ candSel.addEventListener('change',function(){if(roleSel.value==='synonym'&&candSel.value)assignNow();});
  root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);root.querySelector('#g-form').submit();});
  drawRows();drawList();updateBar();roleFields();
 }
@@ -1830,10 +1837,14 @@ def _span_surface(clue_id, back_raw=None):
         '<td class="g-word">%s</td><td class="r-role"></td><td class="r-brings"></td></tr>'
         % (r["idx"], r["idx"], escape(r["text"])) for r in rows)
     itype_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
-                         for v, lab in _FORCE_IND_OPTIONS)
+                         for v, lab in sorted(_FORCE_IND_OPTIONS,
+                                              key=lambda o: o[1].lower()))
     isub_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
                         for v, lab in _IND_SUBTYPES["deletion"])
     data = {"cid": clue_id,
+            "back": back,                         # the CLUTCH id-string, so JS-built forms
+                                                  # (e.g. synonym prune) keep it, not collapse
+                                                  # to this single clue
             "words": [r["text"] for r in rows],
             "answer": "".join(c for c in answer.upper() if c.isalpha()),
             "current": [{"label": r["label"], "value": r["value"]} for r in rows],
@@ -1891,6 +1902,7 @@ def _span_surface(clue_id, back_raw=None):
          '<select id="g-role">'
          '<option value="definition">definition</option>'
          '<option value="synonym">synonym</option>'
+         '<option value="letters">letters (exact)</option>'
          '<option value="indicator">indicator</option>'
          '<option value="link">link word</option>'
          '<option value="filler">filler</option>'
@@ -2131,129 +2143,6 @@ def _cand_from_assignments(assigns, n_total, answer=""):
             "roles": [r for _, r, _ in wp], "n_words": [n for _, _, n in wp]}
 
 
-def _build_from_assignments(ctx, answer, assigns):
-    """Build a Parse DIRECTLY from the hand-solver's assignments — NO cascade. The user
-    supplies the definition + the indicator (=> the operation) + the synonym pieces they
-    know; the LEFTOVER content words are the fodder the engine derives. The assembled
-    letters are verified against the answer and a Parse is returned (status 'pass', or
-    'fail' with plain-English evidence). Returns None when the shape isn't one this builder
-    handles — anagram (needs an anagram indicator) and charade (needs >=1 piece) only — so
-    the caller keeps the existing deletion-signature / cascade path for everything else.
-    'none'-cleared words are simply free, joining the leftover/fodder pool."""
-    from collections import Counter
-    from core.wordplay import raw
-    from core.wfw_model import Source, Link, Annotation, Parse
-    wtoks = [t for t in ctx.clue_tokens if t.kind == "word"]
-    n = len(wtoks)
-    ans = "".join(c for c in answer.upper() if c.isalpha())
-
-    def_idx, pieces, ind = None, [], None        # ind = (idx_list, op)
-    link_idx, filler_idx, consumed = set(), set(), set()
-    for a in assigns:
-        try:
-            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < n)
-        except Exception:
-            idx = []
-        if not idx:
-            continue
-        role = (a.get("role") or "").strip()
-        if role == "definition":
-            def_idx = idx
-        elif role == "synonym":
-            pieces.append((idx, (a.get("value") or "").strip().upper()))
-        elif role == "indicator":
-            spec = _HSIND_OP.get((a.get("itype") or "").split(":")[0])
-            if spec is not None:
-                ind = (idx, spec[0])
-        elif role == "link":
-            link_idx.update(idx)
-        elif role == "filler":
-            filler_idx.update(idx)
-        elif role == "none":
-            continue                              # cleared -> stays free (leftover/fodder)
-        if role in ("definition", "synonym", "indicator", "link", "filler"):
-            consumed.update(idx)
-
-    op = ind[1] if ind is not None else "charade"
-    if op not in ("anagram", "charade"):
-        return None                               # deletion/reversal/container -> caller
-    if op == "charade" and not pieces:
-        return None                               # no wordplay signal (e.g. whole-clue CD)
-    if def_idx is None:
-        return None                               # the user must supply the definition
-
-    leftover = [i for i in range(n) if i not in consumed]   # the DERIVED fodder
-    units = []                                    # (first_idx, Source, letters)
-    for i in leftover:
-        lv = raw(wtoks[i].text)
-        units.append((i, Source(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
-                                 value=lv,
-                                 mechanism="anagram_fodder" if op == "anagram" else "raw"),
-                      lv))
-    for idx, val in pieces:
-        phrase = " ".join(wtoks[i].text for i in idx)
-        atomids = tuple(aid for i in idx for aid in wtoks[i].atom_ids)
-        units.append((idx[0], Source(clue_atom_ids=atomids, text=phrase, value=val,
-                                     mechanism="synonym"), val))
-
-    if op == "anagram":
-        letters = "".join(u[2] for u in units)
-        ok = sorted(letters) == sorted(ans)
-        remaining = [[k, Counter(u[2])] for k, u in enumerate(units)]
-        links = []
-        for pos_i, ch in enumerate(ans, start=1):
-            si = 0
-            for entry in remaining:
-                if entry[1].get(ch, 0) > 0:
-                    entry[1][ch] -= 1
-                    si = entry[0]
-                    break
-            links.append(Link(answer_pos=pos_i, source_index=si, operation="anagram",
-                              clue_atom_id=None, transform="anagram_of"))
-    else:                                         # charade: ordered concatenation
-        units.sort(key=lambda u: u[0])
-        letters = "".join(u[2] for u in units)
-        ok = letters == ans
-        links, pos_i = [], 1
-        for si, u in enumerate(units):
-            for _c in u[2]:
-                links.append(Link(answer_pos=pos_i, source_index=si, operation="charade",
-                                  clue_atom_id=None, transform=None))
-                pos_i += 1
-
-    annotations = []
-    if ind is not None:
-        annotations.append(Annotation(
-            clue_atom_ids=tuple(aid for i in ind[0] for aid in wtoks[i].atom_ids),
-            text=" ".join(wtoks[i].text for i in ind[0]),
-            role="indicator", note="%s indicator" % op))
-    for i in sorted(link_idx):
-        annotations.append(Annotation(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
-                                      role="link", note="link word"))
-    for i in sorted(filler_idx):
-        annotations.append(Annotation(clue_atom_ids=wtoks[i].atom_ids, text=wtoks[i].text,
-                                      role="link", note="surface filler"))
-
-    definition = Source(
-        clue_atom_ids=tuple(aid for i in def_idx for aid in wtoks[i].atom_ids),
-        text=" ".join(wtoks[i].text for i in def_idx),
-        value=answer, mechanism="definition", source="db")
-
-    parse = Parse(clue_text=ctx.clue_text, answer_text=answer,
-                  sources=[u[1] for u in units], links=links, annotations=annotations,
-                  definition=definition, operation=op, confidence=100 if ok else 0,
-                  solved_by="handsolver", status="pass" if ok else "fail")
-    parse.template_id = None
-    if not ok:
-        if op == "anagram":
-            parse.warnings = ["the fodder letters %r do not anagram to %s"
-                              % ("".join(sorted(letters)), ans)]
-        else:
-            parse.warnings = ["the pieces in clue order spell %r, not the answer %s"
-                              % (letters, ans)]
-    return parse
-
-
 def _try_create_signature(cid, cand):
     """A Resolve that leaves the clue unsolved may imply a signature the catalog lacks.
     Create it (the catalog auto-backs-up), re-solve, and KEEP it ONLY if the clue now PASSES
@@ -2435,6 +2324,10 @@ def hsresolve_route():
                     admin_db.add_synonym(phrase, val)
                     apply_add_to_wiring({"kind": "synonym", "word": phrase, "synonym": val})
                     applied.append("%r=%s" % (phrase, val))
+            elif role == "letters":               # LITERAL piece — per-clue only, NO DB write
+                val = (a.get("value") or "").strip().upper()
+                if val:
+                    applied.append("%r=%s (letters)" % (phrase, val))
             elif role == "indicator":
                 itype = (a.get("itype") or "").strip()
                 isub = (a.get("isub") or "").strip() or None
@@ -2468,51 +2361,38 @@ def hsresolve_route():
     # Each add was folded into the cached wiring INCREMENTALLY (apply_add_to_wiring) — fast.
     # No full reload_wiring() here (that ~9s rebuild was the cause of the slow Resolve).
     #
-    # ASSIGNMENT-DRIVEN BUILD (no cascade): when the operation is one we build directly from
-    # the assignments (anagram / charade), assemble + verify + show THAT parse — the user's
-    # interpretation, not the cascade's. Deletion and other ops fall through to the existing
-    # cascade/signature path below, so nothing that works today is disturbed.
-    built = _build_from_assignments(ctx, answer, assigns)
-    if built is not None:
-        conn2 = store.connect()
-        try:
-            store.save_parse(conn2, cid, built, ctx)
-        finally:
-            conn2.close()
-        tail = ("solved." if built.status == "pass"
-                else "did NOT verify — " + (built.warnings[0] if built.warnings
-                                            else "the assignments do not spell the answer"))
-        msg = ("Applied %d: %s; %s" % (len(applied), "; ".join(applied), tail)
-               if applied else tail)
-        return _hs_redirect(only, msg, back)
-    # An anagram was clearly intended but no definition was assigned — guide the user rather
-    # than silently re-running the cascade (which would discard their interpretation).
-    if any(a.get("role") == "indicator"
-           and (a.get("itype") or "").split(":")[0] == "anagram" for a in assigns) \
-            and not any(a.get("role") == "definition" for a in assigns):
-        return _hs_redirect(only, "Assign the definition word(s) too, then Resolve.", back)
-    _resolve_one(cid)
-    # If the clue still doesn't pass, the assignments may imply a signature the catalog
-    # lacks — create it (verified, rolled back if it doesn't produce a pass).
-    sig_msg = ""
+    # ROLE-DRIVEN SOLVE — ONE solver. The assignments are now applied as forced per-clue
+    # overrides (definition/indicator/filler) plus DB enrichment (synonym/abbreviation/link).
+    # The NORMAL cascade then solves the clue RESPECTING them. The hand-solver only POINTS the
+    # engines at the right roles; it never assembles the answer itself (no parallel builder).
+    def _applied_msg(tail):
+        return ("Applied %d: %s; %s" % (len(applied), "; ".join(applied), tail)
+                if applied else (tail[0].upper() + tail[1:] if tail else "Done."))
+
+    _resolve_one(cid)                                  # apply_forced_overrides + the cascade
     conn3 = store.connect()
     try:
-        p = store.load_parse(conn3, cid)
+        cp = store.load_parse(conn3, cid)
     finally:
         conn3.close()
-    if p is not None and p.operation == "cd":
-        # The whole clue was tagged as the definition -> the cryptic-definition engine fired.
-        sig_msg = ("the whole clue is taken as a cryptic definition — pending your "
-                   "confirmation (a CD is never auto-verified).")
-    elif p is None or p.status != "pass":
-        cand = _cand_from_assignments(assigns, len(allwords), answer)
-        if cand is not None:
-            sig_msg = _try_create_signature(cid, cand)
-    msg = ("Applied %d: %s; solved." % (len(applied), "; ".join(applied))
-           if applied else "Nothing applied.")
+    if cp is not None and cp.status == "pass":
+        return _hs_redirect(only, _applied_msg("solved."), back)
+    if cp is not None and cp.operation == "cd":
+        return _hs_redirect(only, _applied_msg("the whole clue is taken as a cryptic "
+                            "definition — pending your confirmation."), back)
+
+    # The cascade did not solve it. The assignments may imply a catalog signature the catalog
+    # lacks — create it, but KEEP it ONLY if the cascade then PASSES (cascade-verified, never a
+    # hand-built parse). Otherwise report the cascade's own fail evidence.
+    sig_msg = ""
+    cand = _cand_from_assignments(assigns, len(allwords), answer)
+    if cand is not None:
+        sig_msg = _try_create_signature(cid, cand)
     if sig_msg:
-        msg += " " + sig_msg
-    return _hs_redirect(only, msg, back)
+        return _hs_redirect(only, _applied_msg(sig_msg), back)
+    tail = ("did NOT solve — " + (cp.warnings[0] if (cp is not None and cp.warnings)
+            else "the cascade could not assemble the answer from these roles"))
+    return _hs_redirect(only, _applied_msg(tail), back)
 
 
 @app.route("/handsolve")

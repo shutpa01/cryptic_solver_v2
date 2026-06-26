@@ -44,7 +44,9 @@ _TYPE_LABEL = {
     "anagram_charade": "Anagram + charade",
     "anagram_container": "Anagram + container",
     "reversal": "Reversal",
+    "reversal_deletion": "Reversal + deletion",
     "deletion": "Deletion",
+    "charade_alternation": "Charade + alternation",
     "acrostic": "Acrostic",
     "homophone": "Homophone",
 }
@@ -61,6 +63,7 @@ _MECH_LABEL = {
     "outer": "Outer letters",
     "homophone": "Sounds like",
     "anagram_fodder": "Anagram of",
+    "alternate": "Alternate letters",
 }
 
 
@@ -102,23 +105,32 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
     if enum:
         clue_html += ' <span class="wfw-enum">%s</span>' % escape(enum)
 
-    # --- answer tiles ---
+    # --- answer tiles --- walk the ENUMERATED answer so multi-word answers keep their word
+    # gaps and hyphens (IN THE RAW, not INTHERAW). Letters are tiles coloured by their source;
+    # spaces become a word gap and hyphens a separator. `pos` counts letters only (the link key).
     letters = parse.answer_letters()
     by_pos = {l.answer_pos: l for l in parse.links}
-    tiles = []
-    for pos in range(1, len(letters) + 1):
-        link = by_pos.get(pos)
-        si = link.source_index if link else None
-        if si is not None and si in tile_fill:
-            style = ("background:%s;border-color:%s;color:%s"
-                     % (tile_fill[si], tile_border[si], tile_fg[si]))
-        else:
-            style = "background:#f1f5f9;border-color:#cbd5e1;color:#94a3b8"
-        tiles.append('<span class="wfw-tile" style="%s">%s</span>'
-                     % (style, escape(letters[pos - 1])))
+    tiles, pos = [], 0
+    for ch in (parse.answer_text or letters):
+        if ch.isalpha():
+            pos += 1
+            link = by_pos.get(pos)
+            si = link.source_index if link else None
+            if si is not None and si in tile_fill:
+                style = ("background:%s;border-color:%s;color:%s"
+                         % (tile_fill[si], tile_border[si], tile_fg[si]))
+            else:
+                style = "background:#f1f5f9;border-color:#cbd5e1;color:#94a3b8"
+            tiles.append('<span class="wfw-tile" style="%s">%s</span>'
+                         % (style, escape(ch.upper())))
+        elif ch in "-–—":
+            tiles.append('<span class="wfw-tile-sep">&ndash;</span>')
+        elif ch.isspace():
+            tiles.append('<span class="wfw-tile-gap"></span>')
     tiles_html = "".join(tiles)
 
-    breakdown = _render_breakdown(parse, src_fg, src_fill)
+    renderer = _TYPE_RENDERERS.get(parse.operation or "", _render_generic_breakdown)
+    breakdown = renderer(parse, ctx, src_fg, src_fill)
 
     prov_def = (parse.definition is not None
                 and getattr(parse.definition, "source", "db") == "pending")
@@ -142,7 +154,7 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
     return ('<div class="wfw-card">%s'
             '<div class="wfw-clue">%s</div>'
             '<div class="wfw-tiles">%s</div>'
-            '<div class="wfw-rows">%s</div>'
+            '%s'                                   # breakdown brings its own structure
             '%s%s</div>'
             % (header, clue_html, tiles_html, breakdown, prov, warns))
 
@@ -161,7 +173,7 @@ def _verdict_badge(parse):
 # The indicator's precise type, read off the note each engine records, with a colour.
 _IND_TYPES = ("anagram", "container", "insertion", "reversal", "deletion",
               "hidden", "homophone", "acrostic", "palindrome", "spoonerism",
-              "selection", "substitution")
+              "selection", "substitution", "alternation")
 _IND_COLOUR = {"anagram": "#7c3aed", "container": "#0e7490", "reversal": "#b45309",
                "deletion": "#be185d", "hidden": "#92600a", "homophone": "#4d7c0f",
                "acrostic": "#5b21b6", "indicator": "#7c3aed"}
@@ -178,6 +190,10 @@ def _indicator_label(note):
         return "Spoonerism indicator", note.split(":", 1)[1].strip()
     if n.startswith("substitution:"):              # "substitution: love (O) replaces one (I)..."
         return "Substitution indicator", note.split(":", 1)[1].strip()
+    if n.startswith("reversal:"):                  # "reversal: BALS -> SLAB"
+        return "Reversal indicator", note.split(":", 1)[1].strip()
+    if n.startswith("alternation:"):               # "alternation: alternate letters of near -> ER"
+        return "Alternation indicator", note.split(":", 1)[1].strip()
     if n.startswith("selection ("):               # "selection (first)"
         return "Selection indicator", note[note.find("(") + 1:note.find(")")].strip()
     for t in _IND_TYPES:
@@ -207,82 +223,174 @@ def _row(sort_i, role_label, role_style, content):
             % (role_style, escape(role_label.upper()), content))
 
 
-def _render_breakdown(parse, src_fg, src_fill):
-    """One aligned row per clue word/span, in clue order, each with its role."""
-    rows = []
+# ---- reusable row builders (shared by every renderer) ----------------------------
 
-    for si, s in enumerate(parse.sources):
-        label = _MECH_LABEL.get(s.mechanism, s.mechanism)
-        style = "background:%s;color:%s" % (src_fill[si], src_fg[si])
-        content = ('%s <span class="wfw-arrow">&rarr;</span> '
-                   '<strong class="wfw-val">%s</strong>'
-                   % (escape(s.text), escape(s.value)))
-        # Homophone via a SYNONYM: the clue word does not itself sound like the
-        # answer — its synonym does. Surface that intermediate word so the
-        # explanation is complete ("appearance = air; air sounds like HEIR"),
-        # never implying the clue word is the sound-alike. The synonym is carried
-        # on the link transform ('sounds like "air"').
-        if s.mechanism == "homophone":
-            tr = next((l.transform for l in parse.links
-                       if l.source_index == si and l.transform), None)
-            snd = tr.split('"')[1] if tr and '"' in tr else None
-            if snd and snd.lower() != s.text.lower():
-                content += (' <span class="wfw-emuted">&mdash; via &ldquo;%s&rdquo;'
-                            ' (synonym)</span>' % escape(snd))
-        if getattr(s, "source", "db") == "pending":
-            content += ' <span class="wfw-prov">provisional</span>'
-        rows.append(_row(_first_index(s.clue_atom_ids), label, style, content))
+def _source_row(parse, si, src_fg, src_fill):
+    """One source piece row: 'wood -> BALSA' coloured by source, with the homophone-via-
+    synonym aside and the provisional badge."""
+    s = parse.sources[si]
+    label = _MECH_LABEL.get(s.mechanism, s.mechanism)
+    style = "background:%s;color:%s" % (src_fill[si], src_fg[si])
+    content = ('%s <span class="wfw-arrow">&rarr;</span> '
+               '<strong class="wfw-val">%s</strong>'
+               % (escape(s.text), escape(s.value)))
+    if s.mechanism == "homophone":
+        tr = next((l.transform for l in parse.links
+                   if l.source_index == si and l.transform), None)
+        snd = tr.split('"')[1] if tr and '"' in tr else None
+        if snd and snd.lower() != s.text.lower():
+            content += (' <span class="wfw-emuted">&mdash; via &ldquo;%s&rdquo;'
+                        ' (synonym)</span>' % escape(snd))
+    if getattr(s, "source", "db") == "pending":
+        content += ' <span class="wfw-prov">provisional</span>'
+    return _row(_first_index(s.clue_atom_ids), label, style, content)
 
-    if parse.definition:
-        _dsrc = getattr(parse.definition, "source", "db")
-        def_label, def_style, prov = "Definition", "background:#2563eb;color:#fff", ""
-        if _dsrc == "pending":
-            # The no-definition floor (or Haiku) GUESSED this edge — the DB has not confirmed
-            # it. Never present a guess as the real definition: label it "unidentified" and
-            # badge it "not confirmed", with a muted (slate) pill instead of the confident
-            # blue (memory: definition-floor-redesign).
-            def_label = "Unidentified definition"
-            def_style = "background:#64748b;color:#fff"
-            prov = ' <span class="wfw-prov">not confirmed</span>'
-        elif _dsrc == "manual":
-            prov = ' <span class="wfw-prov">manual (not in DB)</span>'
-        rows.append(_row(_first_index(parse.definition.clue_atom_ids),
-                         def_label, def_style,
-                         escape(parse.definition.text) + prov))
 
+def _definition_row(parse):
+    """The definition row, or None. A guessed (pending) edge is labelled 'unidentified'."""
+    if not parse.definition:
+        return None
+    _dsrc = getattr(parse.definition, "source", "db")
+    def_label, def_style, prov = "Definition", "background:#2563eb;color:#fff", ""
+    if _dsrc == "pending":
+        def_label = "Unidentified definition"
+        def_style = "background:#64748b;color:#fff"
+        prov = ' <span class="wfw-prov">not confirmed</span>'
+    elif _dsrc == "manual":
+        prov = ' <span class="wfw-prov">manual (not in DB)</span>'
+    return _row(_first_index(parse.definition.clue_atom_ids), def_label, def_style,
+                escape(parse.definition.text) + prov)
+
+
+def _annotation_row(parse, a):
+    """An indicator / deletion / link annotation row, with its precise label + detail."""
+    note = getattr(a, "note", "") or ""
+    content = escape(a.text)
+    if a.role == "indicator" and note == "definition by example":
+        style, label = "background:#2563eb;color:#fff", "By example"
+    elif a.role == "indicator" and note.lower().startswith("deleted letters:"):
+        # a word that SUPPLIES the removed letter(s) (Pound -> L): show the letter with the
+        # word, like a named deletion. Render-only — the engine keeps its own note convention.
+        style, label = "background:#b91c1c;color:#fff", "Deleted"
+        content += (' <span class="wfw-arrow">&rarr;</span> '
+                    '<strong class="wfw-val">%s</strong>'
+                    % escape(note.split(":", 1)[1].strip()))
+    elif a.role == "indicator":
+        label, detail = _indicator_label(note)
+        style = "background:%s;color:#fff" % _IND_COLOUR.get(label.split()[0].lower(),
+                                                            "#7c3aed")
+        if detail:
+            content += ' <span class="wfw-emuted">&mdash; %s</span>' % escape(detail)
+    elif a.role == "deletion":
+        style, label = "background:#b91c1c;color:#fff", "Deleted"
+        removed = note.split("→")[-1].strip() if "→" in note else ""
+        if removed:
+            content += (' <span class="wfw-arrow">&rarr;</span> '
+                        '<strong class="wfw-val">%s</strong>' % escape(removed))
+    else:
+        style, label = "background:#64748b;color:#fff", "Link"
+    if getattr(a, "source", "db") == "pending":
+        content += ' <span class="wfw-prov">provisional</span>'
+    return _row(_first_index(a.clue_atom_ids), label, style, content)
+
+
+def _all_rows(parse, src_fg, src_fill):
+    """Every row (sources + definition + annotations), unsorted: [(sort_i, html), ...]."""
+    rows = [_source_row(parse, si, src_fg, src_fill) for si in range(len(parse.sources))]
+    d = _definition_row(parse)
+    if d:
+        rows.append(d)
+    rows += [_annotation_row(parse, a) for a in parse.annotations]
+    return rows
+
+
+def _grid(rows):
+    """Sort rows by clue position and join into the aligned 2-column grid block. The grid
+    div must contain ONLY .wfw-row children (each display:contents) or the columns break."""
+    body = "".join(html for _, html in sorted(rows, key=lambda r: r[0]))
+    return '<div class="wfw-rows">%s</div>' % body
+
+
+def _build_line(inner):
+    """A type's one-line 'build' summary, shown above the rows."""
+    return '<div class="wfw-build">%s</div>' % inner
+
+
+def _pval(parse, si, src_fg):
+    """The coloured value strong-tag for source `si` (used in summary chains)."""
+    return ('<strong class="wfw-val" style="color:%s">%s</strong>'
+            % (src_fg.get(si, "#0f172a"), escape(parse.sources[si].value)))
+
+
+# ---- per-type explanation renderers ----------------------------------------------
+# A clue type registers ONE renderer here; it renders the wordplay in its NATURAL shape.
+# Types with no renderer fall back to the generic clue-order rows, so nothing regresses.
+
+_TYPE_RENDERERS = {}
+
+
+def renders(*ops):
+    def deco(fn):
+        for op in ops:
+            _TYPE_RENDERERS[op] = fn
+        return fn
+    return deco
+
+
+def _render_generic_breakdown(parse, ctx, src_fg, src_fill):
+    """Fallback: every clue word/span in clue order with its role (the original format)."""
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("charade", "charade_alternation")
+def _render_charade(parse, ctx, src_fg, src_fill):
+    """A + B + C -> ANSWER, pieces in clue order, then the detailed rows."""
+    order = sorted(range(len(parse.sources)),
+                   key=lambda si: _first_index(parse.sources[si].clue_atom_ids))
+    chain = ' <span class="wfw-plus">+</span> '.join(_pval(parse, si, src_fg) for si in order)
+    summ = ('%s <span class="wfw-arrow">&rarr;</span> '
+            '<strong class="wfw-val">%s</strong>' % (chain, escape((parse.answer_text or "").upper())))
+    return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("anagram")
+def _render_anagram(parse, ctx, src_fg, src_fill):
+    """anagram of FODDER [- removed letters] -> ANSWER, then the detailed rows."""
+    from collections import Counter
+    fodder = [(s.value or "").upper() for s in parse.sources if s.mechanism == "anagram_fodder"]
+    pool = "".join(fodder)                              # letters only — for the - removed math
+    removed = Counter(pool) - Counter(parse.answer_letters())
+    # display the fodder words spaced (IN ON WAGER), not run together (INONWAGER)
+    summ = 'anagram of <strong class="wfw-val">%s</strong>' % escape(" ".join(fodder))
+    if pool and sum(removed.values()):
+        removed_str = "".join(sorted(removed.elements()))
+        reduced = list(pool)
+        for ch in removed.elements():
+            if ch in reduced:
+                reduced.remove(ch)
+        summ += (' &minus; <strong class="wfw-val">%s</strong> '
+                 '(&rarr; <strong class="wfw-val">%s</strong>)'
+                 % (escape(removed_str), escape("".join(reduced))))
+    summ += (' <span class="wfw-arrow">&rarr;</span> '
+             '<strong class="wfw-val">%s</strong>' % escape((parse.answer_text or "").upper()))
+    return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("reversal_deletion")
+def _render_reversal_deletion(parse, ctx, src_fg, src_fill):
+    """SYNONYM -> (after the cut) -> ANSWER, read off the structured notes, then the rows."""
+    val = parse.sources[0].value if parse.sources else ""
+    mid = ""
     for a in parse.annotations:
         note = getattr(a, "note", "") or ""
-        content = escape(a.text)
-        if a.role == "indicator" and note == "definition by example":
-            style = "background:#2563eb;color:#fff"
-            label = "By example"
-        elif a.role == "indicator":
-            # PRECISE indicator type, not a bare "Indicator" — read off the note the
-            # engine recorded ("container indicator", "reversal indicator", "deletion:
-            # behead ...", "anagram indicator", "hidden indicator").
-            label, detail = _indicator_label(note)
-            style = "background:%s;color:#fff" % _IND_COLOUR.get(label.split()[0].lower(),
-                                                                "#7c3aed")
-            if detail:                       # e.g. the deletion sub-type
-                content += ' <span class="wfw-emuted">&mdash; %s</span>' % escape(detail)
-        elif a.role == "deletion":
-            # a NAMED deleted piece (the removed letters come from this clue word):
-            # show "bishop -> B (Deleted)". The removed letters follow the arrow in note.
-            style = "background:#b91c1c;color:#fff"
-            label = "Deleted"
-            removed = note.split("→")[-1].strip() if "→" in note else ""
-            if removed:
-                content += (' <span class="wfw-arrow">&rarr;</span> '
-                            '<strong class="wfw-val">%s</strong>' % escape(removed))
-        else:
-            style = "background:#64748b;color:#fff"
-            label = "Link"
-        if getattr(a, "source", "db") == "pending":
-            content += ' <span class="wfw-prov">provisional</span>'
-        rows.append(_row(_first_index(a.clue_atom_ids), label, style, content))
-
-    rows.sort(key=lambda r: r[0])
-    return "".join(html for _, html in rows)
+        if note.lower().startswith("deletion:") and "→" in note:
+            mid = note.rsplit("→", 1)[-1].strip()
+    steps = ['<strong class="wfw-val">%s</strong>' % escape(val)]
+    if mid:
+        steps.append('<strong class="wfw-val">%s</strong>' % escape(mid))
+    steps.append('<strong class="wfw-val">%s</strong>' % escape((parse.answer_text or "").upper()))
+    summ = ' <span class="wfw-arrow">&rarr;</span> '.join(steps)
+    return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
 
 
 PAGE_CSS = """
@@ -319,6 +427,9 @@ PAGE_CSS = """
               width:2.7rem; height:2.7rem; border:2px solid; border-radius:10px;
               font-size:1.3rem; font-weight:800;
               font-family:'SF Mono','Courier New',monospace; }
+  .wfw-tile-gap { width:1rem; }                       /* word break in a multi-word answer */
+  .wfw-tile-sep { display:inline-flex; align-items:center; color:#94a3b8;
+                  font-weight:800; font-size:1.3rem; }   /* hyphen in a hyphenated answer */
   .wfw-rows { display:grid; grid-template-columns:max-content 1fr;
               gap:.55rem .9rem; align-items:center; }
   .wfw-row { display:contents; }
@@ -329,6 +440,10 @@ PAGE_CSS = """
   .wfw-arrow { color:#94a3b8; margin:0 .15rem; font-weight:700; }
   .wfw-val { font-family:'SF Mono','Courier New',monospace; letter-spacing:.04em;
              color:#0f172a; }
+  .wfw-build { font-family:'SF Mono','Courier New',monospace; font-size:1.02rem;
+               background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;
+               padding:.6rem .85rem; margin:0 0 1rem; line-height:1.7; color:#0f172a; }
+  .wfw-plus { color:#94a3b8; font-weight:800; margin:0 .15rem; }
   .wfw-prov { display:inline-block; margin-left:.4rem; padding:.05rem .45rem;
               border-radius:6px; background:#fef3c7; color:#92600a;
               border:1px solid #fcd34d; font-size:.72rem; font-weight:700;
