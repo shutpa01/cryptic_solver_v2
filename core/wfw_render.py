@@ -64,6 +64,7 @@ _MECH_LABEL = {
     "homophone": "Sounds like",
     "anagram_fodder": "Anagram of",
     "alternate": "Alternate letters",
+    "definition": "Definition",
 }
 
 
@@ -393,6 +394,179 @@ def _render_reversal_deletion(parse, ctx, src_fg, src_fill):
     return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
 
 
+def _ans(parse):
+    """The answer, uppercased but keeping its enumeration spacing/hyphens."""
+    return escape((parse.answer_text or "").upper())
+
+
+def _arrow_ans(parse):
+    return ('<span class="wfw-arrow">&rarr;</span> <strong class="wfw-val">%s</strong>'
+            % _ans(parse))
+
+
+@renders("double_definition")
+def _render_dd(parse, ctx, src_fg, src_fill):
+    """"def 1" = "def 2" -> ANSWER (two definitions of the same word)."""
+    defs = [s for s in parse.sources if s.mechanism == "definition"]
+    if len(defs) >= 2:
+        chain = ' <span class="wfw-eq">=</span> '.join(
+            '&ldquo;%s&rdquo;' % escape(s.text) for s in defs)
+        return _build_line('%s %s' % (chain, _arrow_ans(parse))) \
+            + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("container")
+def _render_container(parse, ctx, src_fg, src_fill):
+    """OUTER around INNER -> ANSWER. The OUTER source is the one whose answer letters are
+    split (non-contiguous) around the INNER; derived from the links, so it is not guessed."""
+    pos = {}
+    for l in parse.links:
+        pos.setdefault(l.source_index, []).append(l.answer_pos)
+
+    def contig(ps):
+        ps = sorted(ps)
+        return bool(ps) and ps[-1] - ps[0] + 1 == len(ps)
+    outer = [si for si, ps in pos.items() if not contig(ps)]
+    inner = [si for si, ps in pos.items() if contig(ps)]
+    if len(outer) == 1 and inner:
+        inners = ' <span class="wfw-plus">+</span> '.join(
+            _pval(parse, si, src_fg) for si in sorted(inner))
+        summ = ('%s <span class="wfw-around">around</span> %s %s'
+                % (_pval(parse, outer[0], src_fg), inners, _arrow_ans(parse)))
+        return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("hidden")
+def _render_hidden(parse, ctx, src_fg, src_fill):
+    """hidden in "host phrase" -> ANSWER."""
+    host = parse.sources[0].text if parse.sources else ""
+    return _build_line('hidden in &ldquo;%s&rdquo; %s' % (escape(host), _arrow_ans(parse))) \
+        + _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("hidden_reversed")
+def _render_hidden_rev(parse, ctx, src_fg, src_fill):
+    """hidden (reversed) in "host phrase" -> ANSWER."""
+    host = parse.sources[0].text if parse.sources else ""
+    return _build_line('hidden (reversed) in &ldquo;%s&rdquo; %s'
+                       % (escape(host), _arrow_ans(parse))) \
+        + _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("reversal")
+def _render_reversal(parse, ctx, src_fg, src_fill):
+    """VALUE reversed -> ANSWER."""
+    if parse.sources:
+        v = escape((parse.sources[0].value or "").upper())
+        summ = ('<strong class="wfw-val">%s</strong> <span class="wfw-emuted">reversed</span> %s'
+                % (v, _arrow_ans(parse)))
+        return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("deletion")
+def _render_deletion(parse, ctx, src_fg, src_fill):
+    """VALUE - removed -> ANSWER, when there is a single value source (positional deletion)."""
+    from collections import Counter
+    vals = [s for s in parse.sources if s.mechanism in ("synonym", "abbreviation", "raw")]
+    if len(vals) == 1:
+        v = (vals[0].value or "").upper()
+        removed = "".join(sorted((Counter(v) - Counter(parse.answer_letters())).elements()))
+        if removed:
+            summ = ('<strong class="wfw-val">%s</strong> &minus; '
+                    '<strong class="wfw-val">%s</strong> %s'
+                    % (escape(v), escape(removed), _arrow_ans(parse)))
+            return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("homophone")
+def _render_homophone(parse, ctx, src_fg, src_fill):
+    """"host phrase" sounds like -> ANSWER."""
+    if parse.sources:
+        return _build_line('&ldquo;%s&rdquo; sounds like %s'
+                           % (escape(parse.sources[0].text), _arrow_ans(parse))) \
+            + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+# ---- compound assembly (batch 3) --------------------------------------------------
+# Reconstruct the assembly from the LINKS: each source's answer positions tell whether it
+# is a plain piece (contiguous), a CONTAINER (its letters split around an inner block), and
+# whether its letters are NORMAL / REVERSED / an ANAGRAM / a DELETION of its DB value. Built
+# generically so one renderer serves every compound (anagram+container, container+charade,
+# charade+deletion, reversal+charade, ...). Falls back to plain rows if the map is incomplete.
+
+def _piece_label(parse, si, positions, answer_letters):
+    """The coloured value for source `si`, marked with how its letters reached the answer:
+    reversed / anagram / minus-deleted-run, derived from positions vs the DB value."""
+    s = parse.sources[si]
+    v = (s.value or "").upper()
+    got = "".join(answer_letters[p - 1] for p in positions if 1 <= p <= len(answer_letters))
+    col = '<strong class="wfw-val" style="color:%s">%s</strong>' % (_src_colour(si), escape(v))
+    if s.mechanism == "anagram_fodder":
+        return col + ' <span class="wfw-emuted">anagram</span>'
+    if got == v:
+        return col
+    if got == v[::-1]:
+        return col + ' <span class="wfw-emuted">reversed</span>'
+    for i in range(len(v)):                              # a single contiguous deletion of v
+        for j in range(i + 1, len(v) + 1):
+            if v[:i] + v[j:] == got:
+                return col + ' <span class="wfw-emuted">&minus;%s</span>' % escape(v[i:j])
+    return col
+
+
+def _src_colour(si):
+    return PALETTE[si % len(PALETTE)][0]
+
+
+def _assembly_expr(parse, answer_letters):
+    """An HTML expression for the assembly (pieces joined by + / nested with 'around'), or
+    None when the links do not cover every answer letter (then the caller falls back)."""
+    seq = {}
+    for l in parse.links:
+        seq[l.answer_pos] = l.source_index
+    n = len(answer_letters)
+    if any(p not in seq for p in range(1, n + 1)):
+        return None
+
+    def render(lo, hi, depth=0):
+        if depth > 8:
+            return None
+        parts, i = [], lo
+        while i <= hi:
+            si = seq[i]
+            sip = [p for p in range(lo, hi + 1) if seq[p] == si]
+            start, end = sip[0], sip[-1]
+            if end - start + 1 == len(sip):              # contiguous -> a plain piece
+                parts.append(_piece_label(parse, si, sip, answer_letters))
+                i = end + 1
+            else:                                        # split -> a container around the gap
+                inner = [p for p in range(start, end + 1) if seq[p] != si]
+                sub = render(inner[0], inner[-1], depth + 1)
+                if sub is None:
+                    return None
+                parts.append('%s <span class="wfw-around">around</span> (%s)'
+                             % (_piece_label(parse, si, sip, answer_letters), sub))
+                i = end + 1
+        return ' <span class="wfw-plus">+</span> '.join(parts)
+
+    return render(1, n)
+
+
+@renders("anagram_container", "container_charade", "charade_deletion", "anagram_charade",
+         "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade")
+def _render_assembly(parse, ctx, src_fg, src_fill):
+    expr = _assembly_expr(parse, parse.answer_letters())
+    if expr:
+        return _build_line('%s %s' % (expr, _arrow_ans(parse))) \
+            + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
 PAGE_CSS = """
   :root { --ink:#0f172a; --muted:#475569; }
   * { box-sizing: border-box; }
@@ -444,6 +618,9 @@ PAGE_CSS = """
                background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;
                padding:.6rem .85rem; margin:0 0 1rem; line-height:1.7; color:#0f172a; }
   .wfw-plus { color:#94a3b8; font-weight:800; margin:0 .15rem; }
+  .wfw-eq { color:#94a3b8; font-weight:800; margin:0 .25rem; }
+  .wfw-around { color:#0e7490; font-weight:700; font-style:italic; margin:0 .2rem;
+                font-family:-apple-system,'Segoe UI',sans-serif; }
   .wfw-prov { display:inline-block; margin-left:.4rem; padding:.05rem .45rem;
               border-radius:6px; background:#fef3c7; color:#92600a;
               border:1px solid #fcd34d; font-size:.72rem; font-weight:700;
