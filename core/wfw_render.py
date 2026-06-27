@@ -558,7 +558,8 @@ def _assembly_expr(parse, answer_letters):
 
 
 @renders("anagram_container", "container_charade", "charade_deletion", "anagram_charade",
-         "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade")
+         "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade",
+         "container_inner_deletion", "container_inner_alternation")
 def _render_assembly(parse, ctx, src_fg, src_fill):
     expr = _assembly_expr(parse, parse.answer_letters())
     if expr:

@@ -921,6 +921,35 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pca is not None and pca.status in ("pass", "pending"):
         return _finish(pca, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CONTAINER-WITH-DELETED-INNER — an OUTER DB value wrapped around an INNER that is a DB
+    # value with a POSITIONAL deletion applied before insertion (ASPIC = AC around SPI[SPIN
+    # "briefly"->curtail]; LIMBURGER = LIMBER around URG[URGE "for the most part"->curtail]).
+    # container_deletion deletes from the WHOLE assembled string, not from the inner piece, so
+    # it cannot reach these. Answer-driven (outer exact + inner == op(V) exact), gated on BOTH
+    # a container and a deletion indicator. Returns PASS-only so it never displaces a simpler
+    # engine's pending/fail. Tried with the container family.
+    from core.container_inner_deletion_engine import solve_container_inner_deletion
+    pcid = solve_container_inner_deletion(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["deletion_subtypes"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcid is not None and pcid.status in ("pass", "pending"):
+        return _finish(pcid, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CONTAINER-WITH-ALTERNATION-INNER — an OUTER DB value wrapped around an INNER that is the
+    # alternate (every-other) letters of a single clue word (PRISONER = PRIER around SON, where
+    # SON = "scor[n] at intervals"). The alternation sibling of container_inner_deletion; none
+    # of the other container engines inserts an alternation selection. Answer-driven (outer
+    # exact + inner == a word's alternate letters exactly), gated on BOTH a container and an
+    # alternation indicator. PASS-only. Tried with the container family.
+    from core.container_inner_alternation_engine import solve_container_inner_alternation
+    pcia = solve_container_inner_alternation(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pcia is not None and pcia.status in ("pass", "pending"):
+        return _finish(pcia, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # NESTED CONTAINER — a container inside a container (VACUUM = VAM["5am"] around
     # [CU["Copper"] around U["university"]]; FALLENANGEL = FL["Florida"] around
     # [ALLEGE["claim"] around NAN["relative"]]). The plain container engines insert ONE
