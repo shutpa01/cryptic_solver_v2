@@ -950,6 +950,24 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcia is not None and pcia.status in ("pass", "pending"):
         return _finish(pcia, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CONTAINER (DELETION OUTER + SELECTION INNER) — the hardest container: BOTH pieces built.
+    # OUTER is a positional deletion of a synonym, INNER is a letter-selection of a word
+    # (RIVEN = RIEN[FRIEND "discovered"=remove ends] around V["valuables primarily"]). No other
+    # container engine builds both pieces. Tightly gated: requires container + deletion +
+    # selection indicators (all distinct), both pieces answer-driven exact, every word
+    # accounted; PASS-only. Tried last in the container family (most specific/expensive).
+    from core.container_deletion_selection_engine import solve_container_deletion_selection
+    pcds = solve_container_deletion_selection(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["deletion_subtypes"], wiring["selection_rules"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcds is not None and pcds.status in ("pass", "pending"):
+        # REVIEW-GATED: this two-built-piece engine is the riskiest in the family, so a clean
+        # pass is downgraded to a review-pending (human confirms before it is trusted).
+        from core import review_gate
+        review_gate.gate(pcds, "container_deletion_selection")
+        return _finish(pcds, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # NESTED CONTAINER — a container inside a container (VACUUM = VAM["5am"] around
     # [CU["Copper"] around U["university"]]; FALLENANGEL = FL["Florida"] around
     # [ALLEGE["claim"] around NAN["relative"]]). The plain container engines insert ONE

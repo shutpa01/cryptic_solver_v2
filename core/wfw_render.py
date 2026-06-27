@@ -161,7 +161,12 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
 
 
 def _verdict_badge(parse):
+    from core import review_gate
     status = getattr(parse, "status", "pass")
+    if status == "pending" and review_gate.is_review(parse):
+        # a high-risk engine's full solve, held for human confirmation (distinct from an
+        # ordinary provisional-definition pending).
+        return '<span class="wfw-verdict review">&#9873; REVIEW</span>'
     if status == "pass":
         return '<span class="wfw-verdict pass">&#10003; PASS</span>'
     if status == "pending":
@@ -438,6 +443,37 @@ def _render_container(parse, ctx, src_fg, src_fill):
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
+@renders("container_deletion_selection")
+def _render_container_built(parse, ctx, src_fg, src_fill):
+    """OUTER (a deleted synonym) around INNER (a selection) -> ANSWER. The OUTER's letters are
+    split (non-contiguous) around the inner; its DB value and its post-deletion letters (read
+    from the links) are both shown (FRIEND -> RIEN around V -> RIVEN)."""
+    pos = {}
+    for l in parse.links:
+        pos.setdefault(l.source_index, []).append(l.answer_pos)
+    al = parse.answer_letters()
+
+    def contig(ps):
+        ps = sorted(ps)
+        return bool(ps) and ps[-1] - ps[0] + 1 == len(ps)
+    outer = [si for si, ps in pos.items() if not contig(ps)]
+    inner = [si for si, ps in pos.items() if contig(ps)]
+    if len(outer) == 1 and inner:
+        osi = outer[0]
+        oval = (parse.sources[osi].value or "").upper()
+        oget = "".join(al[p - 1] for p in sorted(pos[osi]) if 1 <= p <= len(al))
+        col = '<strong class="wfw-val" style="color:%s">%s</strong>' % (_src_colour(osi), escape(oval))
+        outer_disp = col if oget == oval else (
+            '%s <span class="wfw-arrow">&rarr;</span> <strong class="wfw-val">%s</strong>'
+            % (col, escape(oget)))
+        inners = ' <span class="wfw-plus">+</span> '.join(
+            _pval(parse, si, src_fg) for si in sorted(inner))
+        summ = ('%s <span class="wfw-around">around</span> %s %s'
+                % (outer_disp, inners, _arrow_ans(parse)))
+        return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
 @renders("hidden")
 def _render_hidden(parse, ctx, src_fg, src_fill):
     """hidden in "host phrase" -> ANSWER."""
@@ -590,6 +626,7 @@ PAGE_CSS = """
                  padding:.35rem .7rem; border-radius:999px; color:#fff; }
   .wfw-verdict.pass { background:#16a34a; }
   .wfw-verdict.pending { background:#d97706; }
+  .wfw-verdict.review { background:#7c3aed; }
   .wfw-verdict.fail { background:#dc2626; }
   .wfw-verdict.invalid { background:#475569; }
   .wfw-clue { font-size:1.4rem; line-height:1.6; margin-bottom:1.1rem;
