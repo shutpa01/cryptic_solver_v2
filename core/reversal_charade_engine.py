@@ -18,7 +18,7 @@ Definition decided upstream. Pure and DB-decoupled. Built on the plain reversal 
 (core.reversal_engine) extended with a charade tail, mirroring container_charade_engine.
 """
 
-from core import grammar
+from core import grammar, literals
 from core.wordplay import GLUE_POS
 from core.wfw_model import Source, Link, Annotation, Parse
 
@@ -27,12 +27,34 @@ MAX_RUN = 4
 
 
 def _run_values(words, a, b, lookup_all):
+    """(value, mechanism) options for the word-run. Mechanism is preserved so each piece
+    renders faithfully (the engine used to hardcode 'synonym'). A LITERAL_WORD read as its
+    own letters ("a" -> A) is relabelled 'raw' (Literal), since it is a literal, not a
+    same-letter abbreviation/synonym — relabel ONLY, no new values added, so what the engine
+    can solve is unchanged."""
     phrase = " ".join(words[k].text for k in range(a, b))
-    out = []
+    lit = (literals.literal_value(phrase) or "").upper()
+    order, mechs = [], {}
     for val, mech in lookup_all(phrase):
         v = (val or "").upper()
-        if mech in _VALUE_MECH and v and v not in out:
-            out.append(v)
+        if mech in _VALUE_MECH and v:
+            if v not in mechs:
+                order.append(v)
+                mechs[v] = set()
+            mechs[v].add(mech)
+    # Faithful label per value, by priority: a LITERAL_WORD read as its own letters ("a" ->
+    # A) is 'raw' (Literal); a letter-abbreviation ("new" -> N) is 'abbreviation' even when
+    # the DB ALSO lists it as a synonym; otherwise 'synonym'. Label-only — the value list and
+    # its order are unchanged, so what the engine tiles is unchanged.
+    out = []
+    for v in order:
+        if lit and v == lit:
+            best = "raw"
+        elif "abbreviation" in mechs[v]:
+            best = "abbreviation"
+        else:
+            best = "synonym"
+        out.append((v, best))
     return out
 
 
@@ -96,16 +118,16 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
             return finalize(pieces, used, nrev)
         for r in avail(used):
             run_set = set(range(r[0], r[1]))
-            for v in values(r):
+            for v, mech in values(r):
                 if answer.startswith(v, pos):                     # forward piece
                     res = dfs(pos + len(v), used | run_set,
-                              pieces + [("fwd", r, v)], nrev)
+                              pieces + [("fwd", r, v, mech)], nrev)
                     if res:
                         return res
                 rv = v[::-1]
                 if rv != v and answer.startswith(rv, pos):        # reversed piece
                     res = dfs(pos + len(rv), used | run_set,
-                              pieces + [("rev", r, v)], nrev + 1)
+                              pieces + [("rev", r, v, mech)], nrev + 1)
                     if res:
                         return res
         return None
@@ -120,12 +142,12 @@ def _build(ctx, split, words, answer, pl):
                         source=split.source)
     sources, links = [], []
     pos = 0
-    for kind, (a, b), v in pl["pieces"]:
+    for kind, (a, b), v, mech in pl["pieces"]:
         toks = words[a:b]
         si = len(sources)
         sources.append(Source(
             clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-            text=" ".join(t.text for t in toks), value=v, mechanism="synonym"))
+            text=" ".join(t.text for t in toks), value=v, mechanism=mech))
         transform = "reversed" if kind == "rev" else None
         for _ in range(len(v)):
             pos += 1

@@ -61,7 +61,7 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "reversal", "deletion",
-              "acrostic", "homophone", "charade"]
+              "acrostic", "homophone", "charade", "alternation"]
 # Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
 # has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
 # is what the code reads, the label is the clear descriptor shown to the user (the DB
@@ -848,11 +848,23 @@ def _enrich_row(pid, typ, word, letters, ans, clue_id, raw_list):
 def _clue_admin_panel(clue_id, raw_list):
     """A collapsible add-to-reference-DB panel on EVERY clue (pass or fail). Each form
     carries the batch id list + this clue id, so the add re-solves just this clue."""
+    import json
     h = _hidden(raw_list, clue_id)
     opts = "".join('<option value="%s">%s</option>' % (t, t) for t in _IND_TYPES)
-    sub_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
-                       for v, lab in _IND_SUBTYPES["deletion"])
+    # Data-driven sub-types: a per-type map fills the subtype dropdown on type change, so
+    # ANY type with sub-types (deletion now, selection later) shows them — no hardcoding.
+    sub_js = (
+        "<script>window.WFW_SUBTYPES=%s;"
+        "window.wfwSub=window.wfwSub||function(sel){"
+        "var s=sel.form.querySelector('select[name=subtype]');"
+        "var subs=(window.WFW_SUBTYPES||{})[sel.value]||[];s.innerHTML='';"
+        "if(!subs.length){s.style.display='none';return;}"
+        "for(var i=0;i<subs.length;i++){var o=document.createElement('option');"
+        "o.value=subs[i][0];o.textContent=subs[i][1];s.appendChild(o);}"
+        "s.style.display='';};</script>"
+        % json.dumps({t: s for t, s in _IND_SUBTYPES.items()}))
     return f"""
+{sub_js}
 <details class="wfw-admin">
   <summary>Add to reference DB</summary>
   <form method="post" action="/admin" class="wfw-af">
@@ -866,8 +878,8 @@ def _clue_admin_panel(clue_id, raw_list):
     <input type="hidden" name="kind" value="indicator">{h}
     <span class="wfw-af-l">Indicator</span>
     <input name="word" placeholder="a little">
-    <select name="type" onchange="var s=this.form.querySelector('select[name=subtype]'); var d=this.value=='deletion'; s.style.display=d?'':'none'; if(!d)s.selectedIndex=0;">{opts}</select>
-    <select name="subtype" style="display:none" title="deletion sub-type — what gets removed">{sub_opts}</select>
+    <select name="type" onchange="wfwSub(this)">{opts}</select>
+    <select name="subtype" style="display:none" title="indicator sub-type"></select>
     <button>Add</button>
   </form>
   <form method="post" action="/admin" class="wfw-af">

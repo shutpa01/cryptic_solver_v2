@@ -725,6 +725,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if ppos is not None and ppos.status in ("pass", "pending"):
         return _finish(ppos, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE (POSITIONAL, LOCAL) — sibling of the above. The positional indicator swaps ONLY
+    # its ADJACENT PAIR ("Cover county show after parking" = county + (show after parking ->
+    # P+READ) = BEDS+P+READ = BEDSPREAD), leaving other pieces in clue order. The global pivot
+    # above cannot reach this, and this cannot reach a global pivot (BOSCH); two distinct
+    # shapes, so a bespoke sibling (not a branch). Gated on a SWAP indicator; answer-driven.
+    from core.charade_positional_local_engine import solve_charade_positional_local
+    pposl = solve_charade_positional_local(
+        ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+        wiring["charade_positional_subtypes"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pposl is not None and pposl.status in ("pass", "pending"):
+        return _finish(pposl, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
     # CHARADE + ACROSTIC — a charade where ONE piece is a multi-word acrostic (DOCTORS =
     # DOC[first of Ducks Observed Crossing, "firstly"] + TORS[rocky hills]). The acrostic
     # engine only spells the WHOLE answer; the charade's SEL_F takes letters from a single
@@ -1022,6 +1035,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    is_dbe=wiring.get("is_dbe"))
     if prevc is not None and prevc.status in ("pass", "pending"):
         return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+
+    # REVERSAL+CHARADE (evidence-driven) — the WHOLE charade reversed, where the piece order
+    # flips and the signature form above cannot encode it (NARRATIVE = rev(EVITA+RR+A+N) =
+    # rev(musical) tail + repeatedly-runs + a + new). The order-free tiler handles it; it was
+    # unwired when the reversal family went signature-driven (e5c726f6), but the signature
+    # never encodes this sub-form. Tried AFTER the signature engine (which still claims what it
+    # can); gated on a reversal indicator, answer-driven, >=1 piece reversed. The signature
+    # engine is untouched.
+    from core.reversal_charade_engine import solve_reversal_charade as solve_reversal_charade_ev
+    prevce = solve_reversal_charade_ev(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if prevce is not None and prevce.status in ("pass", "pending"):
+        return _finish(prevce, "catalog", ctx, wiring, source, puzzle_number, clue_id)
 
     # SELECTION + REVERSAL CHARADE — a charade mixing a letter-SELECTION piece and a
     # REVERSED piece (TRAIL = T[end of "account"] + RAIL[reverse of LIAR "storyteller"]).
