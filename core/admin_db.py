@@ -130,6 +130,57 @@ def add_link_word(word):
         conn.close()
 
 
+def add_literal(word):
+    """Add a curated literal word to the literal_words table (cryptic_new.db). A literal
+    is a short function word a setter may use as its OWN uppercased letters (it->IT,
+    pe->PE) — a raw reading the reference DB does not otherwise provide. Single token only
+    (a literal is never a phrase, matching core.literals.literal_value). Stored lowercased,
+    deduped case-insensitively; source 'admin'."""
+    word = (word or "").strip().lower()
+    if not word:
+        return "Literal word is required."
+    if " " in word:
+        return "A literal must be a single word, not a phrase."
+    conn = _conn()
+    try:
+        if conn.execute("SELECT 1 FROM literal_words WHERE lower(word)=?",
+                        (word,)).fetchone():
+            return "Already a literal: %r" % word
+        conn.execute("INSERT INTO literal_words (word, source) VALUES (?, 'admin')",
+                     (word,))
+        conn.commit()
+        return "Added literal: %r -> %s" % (word, word.upper())
+    finally:
+        conn.close()
+
+
+def add_homophone(word, homophone):
+    """Add a homophone PAIR to the homophones table (cryptic_new.db). Stored BIDIRECTIONALLY
+    (word->homophone AND homophone->word) sharing a new group_id, with norm_word set on each
+    so the live forward lookup (get_homophones, keyed on norm_word) sees it at once — matching
+    the existing table's two-row-per-pair shape. Lowercased; deduped case-insensitively."""
+    word = (word or "").strip().lower()
+    homophone = (homophone or "").strip().lower()
+    if not word or not homophone:
+        return "Both the word and the homophone (sounds-like) are required."
+    if word == homophone:
+        return "A homophone pair needs two different spellings."
+    conn = _conn()
+    try:
+        if conn.execute("SELECT 1 FROM homophones WHERE lower(word)=? AND lower(homophone)=?",
+                        (word, homophone)).fetchone():
+            return "Already present: %r sounds like %r" % (word, homophone)
+        gid = conn.execute("SELECT COALESCE(MAX(group_id), 0) + 1 FROM homophones").fetchone()[0]
+        conn.execute("INSERT INTO homophones (word, homophone, group_id, norm_word) "
+                     "VALUES (?, ?, ?, ?)", (word, homophone, gid, _normalize_key(word)))
+        conn.execute("INSERT INTO homophones (word, homophone, group_id, norm_word) "
+                     "VALUES (?, ?, ?, ?)", (homophone, word, gid, _normalize_key(homophone)))
+        conn.commit()
+        return "Added homophone: %r sounds like %r" % (word, homophone)
+    finally:
+        conn.close()
+
+
 def add_indicator(word, wordplay_type, subtype=None):
     word = (word or "").strip()
     wp = (wordplay_type or "").strip().lower()

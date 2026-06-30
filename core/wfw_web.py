@@ -161,6 +161,10 @@ def apply_add_to_wiring(form):
         inv("indicator", word=form.get("word"), wordplay_type=form.get("type"))
     elif kind == "link":
         inv("link", word=form.get("word"))
+    elif kind == "literal":
+        inv("literal", word=form.get("word"))
+    elif kind == "homophone":
+        inv("homophone", word=form.get("word"))
     else:
         reload_wiring()
 
@@ -275,6 +279,7 @@ def approvesig():
     the wiring so it is live, then re-render."""
     from core import signature_queue
     raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
     sid = (request.form.get("sig_id") or "").strip()
     msg = "No signature id."
     if sid:
@@ -285,7 +290,10 @@ def approvesig():
         else:
             msg = "Could not approve: %s" % info
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    return _page(notice + _body(raw, resolve_only=set()))
+    # Keep the clutch on screen and re-solve just this clue so the new signature's solve
+    # appears in place (was: blank screen — the form carried no batch id).
+    return _page(notice + _body(raw, resolve_only={only} if only else set()),
+                 scroll_to=only or None)
 
 
 @app.route("/rejectsig", methods=["POST"])
@@ -293,11 +301,12 @@ def rejectsig():
     """Reject a queued auto-discovered signature (remembered so it is not re-queued)."""
     from core import signature_queue
     raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
     sid = (request.form.get("sig_id") or "").strip()
     if sid:
         signature_queue.reject(int(sid))
     notice = '<div class="wfw-notice">Signature rejected.</div>'
-    return _page(notice + _body(raw, resolve_only=set()))
+    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only or None)
 
 
 @app.route("/admin", methods=["POST"])
@@ -519,18 +528,24 @@ def _do_add(form):
                                       form.get("subtype"))
     if kind == "link":
         return admin_db.add_link_word(form.get("word"))
+    if kind == "literal":
+        return admin_db.add_literal(form.get("word"))
+    if kind == "homophone":
+        return admin_db.add_homophone(form.get("word"), form.get("homophone"))
     return "Unknown add."
 
 
-def _signature_queue_html():
-    """Global banner: auto-DISCOVERED catalog signatures awaiting approval (queue for
-    approval). Each row shows the proposed signature, the clue that triggered it, and the
-    verified would-be parse, with Approve (-> file into the catalog) / Reject."""
+def _signature_queue_html(displayed_ids=()):
+    """Top banner for ORPHAN auto-discovered signatures only — those whose clue is NOT in the
+    current clutch (so they would otherwise be invisible). In-view clues render their own
+    suggestion inline via _clue_signature_suggestions, so they are excluded here."""
     from core import signature_queue
     try:
         rows = signature_queue.list_pending()
     except Exception:
         return ""
+    shown = {str(i) for i in (displayed_ids or ())}
+    rows = [r for r in rows if str(r.get("clue_id")) not in shown]
     if not rows:
         return ""
     items = []
@@ -560,6 +575,43 @@ def _signature_queue_html():
             '<div class="wfw-enrich-h" style="color:#5b21b6">'
             'Signatures discovered &mdash; awaiting approval (%d)</div>%s</div>'
             % (len(rows), "".join(items)))
+
+
+def _clue_signature_suggestions(clue_id, raw_list):
+    """Per-clue: auto-discovered signature(s) awaiting approval FOR THIS CLUE, rendered INSIDE
+    the clue card (not a global top banner). Approve/Reject carry the current clutch (`id`) and
+    this clue (`only`) so approving keeps the clutch on screen and re-solves the clue in place."""
+    from core import signature_queue
+    try:
+        rows = [r for r in signature_queue.list_pending()
+                if str(r.get("clue_id")) == str(clue_id)]
+    except Exception:
+        return ""
+    if not rows:
+        return ""
+    h = ('<input type="hidden" name="id" value="%s">'
+         '<input type="hidden" name="only" value="%d">'
+         % (escape(raw_list, quote=True), clue_id))
+    items = []
+    for r in rows:
+        parse = escape(r["parse_text"] or "").replace("\n", "<br>")
+        items.append(
+            '<div class="wfw-erow" style="align-items:flex-start">'
+            '<span class="wfw-etype" style="background:#6d28d9">SUGGESTED SIGNATURE</span>'
+            '<div style="flex:1"><code>%s</code>'
+            '<div style="margin:.25rem 0;font-size:.85rem;color:#444">%s</div></div>'
+            '<form method="post" action="/approvesig" style="display:inline">%s'
+            '<input type="hidden" name="sig_id" value="%d">'
+            '<button class="wfw-ok">Approve &amp; re-solve</button></form>'
+            '<form method="post" action="/rejectsig" style="display:inline">%s'
+            '<input type="hidden" name="sig_id" value="%d">'
+            '<button class="wfw-no">Reject</button></form>'
+            '</div>'
+            % (escape(r["signature"]), parse, h, r["id"], h, r["id"]))
+    return ('<div class="wfw-enrich" style="background:#f5f3ff;border-color:#ddd6fe">'
+            '<div class="wfw-enrich-h" style="color:#5b21b6">'
+            'Suggested signature &mdash; approve to add &amp; re-solve this clue</div>%s</div>'
+            % "".join(items))
 
 
 def _stored_parse_ids(tokens):
@@ -600,7 +652,7 @@ def _body(raw, resolve_only=None, ai=False, discover=False, fill_missing=False):
             resolve = resolve_only is None or token in resolve_only
         cards += _render_one(token, raw, resolve, ai=ai, discover=discover)
     return (FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
-            + _signature_queue_html() + cards)
+            + _signature_queue_html([t for t in tokens if t.isdigit()]) + cards)
 
 
 def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
@@ -704,6 +756,7 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
             + _note_block(clue_id)
             + _filler_block(clue_id, raw_list, unaccounted, filler)
             + _enrichment_block(clue_text, answer, clue_id, raw_list)
+            + _clue_signature_suggestions(clue_id, raw_list)
             + _clue_controls(clue_id, raw_list, status)
             + _clue_admin_panel(clue_id, raw_list)
             + _reload_clue_button(clue_id, raw_list))
@@ -893,6 +946,19 @@ def _clue_admin_panel(clue_id, raw_list):
     <span class="wfw-af-l">Synonym</span>
     <input name="word" placeholder="word in clue">
     <input name="synonym" placeholder="value/answer fragment">
+    <button>Add</button>
+  </form>
+  <form method="post" action="/admin" class="wfw-af">
+    <input type="hidden" name="kind" value="literal">{h}
+    <span class="wfw-af-l">Literal</span>
+    <input name="word" placeholder="function word, e.g. pe (used as its own letters)">
+    <button>Add</button>
+  </form>
+  <form method="post" action="/admin" class="wfw-af">
+    <input type="hidden" name="kind" value="homophone">{h}
+    <span class="wfw-af-l">Homophone</span>
+    <input name="word" placeholder="word in clue">
+    <input name="homophone" placeholder="sounds like, e.g. air = heir">
     <button>Add</button>
   </form>
 </details>

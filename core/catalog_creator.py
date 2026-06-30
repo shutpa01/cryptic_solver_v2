@@ -37,7 +37,9 @@ from core import contractions, grammar
 _CLUES_DB = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data",
                          "clues_master.db")
 _MECH_ROLE = {"synonym": "SYN_F", "abbreviation": "ABR_F"}
-MAX_PIECE_WORDS = 4
+# (the former MAX_PIECE_WORDS=4 cap on a discovered piece's span was removed — it hid
+#  long-phrase pieces like "a female in the family"->AUNT; pieces are now bound only by the
+#  wordplay span, and lookup + the exact answer-tiling are the real filters)
 MAX_RUN = 5
 
 
@@ -105,7 +107,7 @@ def _discover_charade(answer, words, postags, split, lookup, is_link):
             return
         if wi >= n:
             return
-        for k in range(1, min(MAX_PIECE_WORDS, n - wi) + 1):
+        for k in range(1, (n - wi) + 1):     # no artificial cap: bound by the wordplay span
             for role, val in role_values(wi, wi + k):
                 if answer.startswith(val, pos):
                     dfs(wi + k, pos + len(val),
@@ -225,7 +227,7 @@ def _discover_reversal_charade(answer, words, split, lookup_all, is_link,
             return
         if wi >= n:
             return
-        for k in range(1, min(MAX_PIECE_WORDS, n - wi) + 1):
+        for k in range(1, (n - wi) + 1):     # no artificial cap: bound by the wordplay span
             for role, val in run_roles(wi, wi + k):
                 if answer.startswith(val, pos):
                     dfs(wi + k, pos + len(val),
@@ -298,7 +300,7 @@ def _discover_anagram_charade(answer, words, split, lookup_all, is_link, indicat
             return
         if wi >= n:
             return
-        for k in range(1, min(MAX_PIECE_WORDS, n - wi) + 1):
+        for k in range(1, (n - wi) + 1):     # no artificial cap: bound by the wordplay span
             for role, val in run_roles(wi, wi + k):
                 if answer.startswith(val, pos):
                     dfs(wi + k, pos + len(val),
@@ -356,7 +358,7 @@ def _discover_container(answer, words, split, lookup_all, is_link, indicator_typ
     # Candidate value runs: (a, b, role, [value strings]).
     vruns = []
     for a in range(n):
-        for b in range(a + 1, min(a + MAX_PIECE_WORDS, n) + 1):
+        for b in range(a + 1, n + 1):        # no artificial cap: bound by the wordplay span
             phrase = " ".join(words[k].text for k in range(a, b))
             by_role = {}
             for val, mech in lookup_all(phrase):

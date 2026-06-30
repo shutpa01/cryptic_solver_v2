@@ -25,7 +25,12 @@ clue rebuilds exactly. Grow this list from evidence, never by guessing.
 
 from core.wordplay import raw
 
-# Function words only, each observed as a literal in real clues (count in the mine).
+# SEED ONLY — the live lexicon now lives in the `literal_words` table (cryptic_new.db),
+# editable via the clue-page admin panel (mirrors selection_indicators' list->DB shed,
+# the same anti-pattern deletion/substitution shed before it). This frozenset is kept as
+# (a) the one-time DB seed and (b) the fallback when no provider is wired (bare imports /
+# tests). At runtime the wiring installs a provider via set_words_provider that reads the
+# table, so curate literals IN THE DB, never here.
 LITERAL_WORDS = frozenset({
     # articles / determiners
     "a", "an", "the", "no", "our", "her",
@@ -40,12 +45,34 @@ LITERAL_WORDS = frozenset({
 })
 
 
+# Provider set by the wiring: words() -> the live set of curated literal words (lowercased),
+# read from the literal_words table. None until wired, then the seed frozenset is used as a
+# fallback so a bare import / unit test still behaves.
+_WORDS_PROVIDER = None
+
+
+def set_words_provider(fn):
+    global _WORDS_PROVIDER
+    _WORDS_PROVIDER = fn
+
+
+def _literal_words():
+    if _WORDS_PROVIDER is not None:
+        try:
+            return _WORDS_PROVIDER() or frozenset()
+        except Exception:
+            return LITERAL_WORDS
+    return LITERAL_WORDS
+
+
 def literal_value(text):
     """The literal letters of `text` if it is a single curated function word,
-    else None. Single-token only — a multi-word phrase is never a literal here."""
+    else None. Single-token only — a multi-word phrase is never a literal here.
+    The lexicon is the live `literal_words` table via the wired provider (seed
+    frozenset as fallback)."""
     if not text:
         return None
     t = text.strip().lower()
-    if " " in t or t not in LITERAL_WORDS:
+    if " " in t or t not in _literal_words():
         return None
     return raw(text)

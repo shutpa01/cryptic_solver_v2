@@ -115,6 +115,22 @@ def make_db_wiring():
     except Exception:
         _live_def_index, _live_ind_index, _subst_index = {}, {}, {}
 
+    # The curated literal lexicon (short function words a setter may use as their own
+    # letters: it->IT). Was a hardcoded frozenset in core.literals; now the live
+    # literal_words table (cryptic_new.db), editable via the clue-page admin panel. Its
+    # OWN try so a missing table on an old DB falls back to the seed, never wiping the
+    # indexes above. The set is installed as core.literals' words provider below.
+    _live_literal_index = set(literals.LITERAL_WORDS)
+    try:
+        _c = sqlite3.connect(cryptic_db, timeout=30)
+        try:
+            rows = _c.execute("SELECT word FROM literal_words").fetchall()
+            _live_literal_index = {w.lower().strip() for (w,) in rows if w and w.strip()}
+        finally:
+            _c.close()
+    except Exception:
+        _live_literal_index = set(literals.LITERAL_WORDS)
+
     def _live_defines(phrase, answer):
         """O(1) check against the prebuilt definition index (same data and
         normalisation as the old per-call scan of definition_answers_augmented)."""
@@ -234,6 +250,11 @@ def make_db_wiring():
     # selection_indicators.find_indicators reads this provider instead of a hardcoded list
     from core import selection_indicators as _sel_ind
     _sel_ind.set_rules_provider(selection_rules)
+
+    # core.literals.literal_value reads this provider (the live literal_words table)
+    # instead of its seed frozenset. A clue-level add patches _live_literal_index via
+    # invalidate("literal"), so the provider closes over the live set.
+    literals.set_words_provider(lambda: _live_literal_index)
 
     def is_dbe(word):
         """A definition-by-example indicator ('perhaps', 'possibly', 'maybe', ...).
@@ -497,6 +518,11 @@ def make_db_wiring():
                 db.note_link_word(word)
             except Exception:
                 pass
+        elif kind == "literal" and word:
+            _live_literal_index.add(word.lower().strip())
+        elif kind == "homophone":
+            pass        # homophones are read live (db.get_homophones); the cache clear
+                        # above is all that's needed for the new pair to be seen
 
     return {"db": db, "defines": defines, "lookup": lookup, "invalidate": invalidate,
             "indicator_types": indicator_types, "deletion_subtypes": deletion_subtypes,
@@ -679,8 +705,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                        wiring["indicator_types"], wiring.get("anagram_templates") or [],
                        define_fallback=wiring.get("define_fallback"),
                        is_dbe=wiring.get("is_dbe"))
-    if pa is not None and pa.status in ("pass", "pending"):
-        return _finish(pa, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if pa is not None and pa.status in ("pass", "pending") and not _anagram_degenerate(pa):
+        return _finish(pa, "anagram", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM (SUBSTITUTION) — an anagram whose fodder has one SUBSTITUTED word (Oscar->O,
     # then anagram). The plain anagram above uses raw clue letters only, so it cannot see
@@ -692,8 +718,9 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
         wiring["is_link"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
-    if pasub is not None and pasub.status in ("pass", "pending"):
-        return _finish(pasub, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if (pasub is not None and pasub.status in ("pass", "pending")
+            and not _anagram_degenerate(pasub)):
+        return _finish(pasub, "anagram_substitution", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE — the catalog spine. Catalog-DRIVEN: it walks the mined charade
     # signatures (injected as wiring["charade_templates"]) in priority order, places
@@ -708,7 +735,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                        define_fallback=wiring.get("define_fallback"),
                        is_dbe=wiring.get("is_dbe"))   # DB-only; AI recovery runs later
     if pc is not None and pc.status in ("pass", "pending"):
-        return _finish(pc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pc, "charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE (POSITIONAL) — a charade whose pieces are RE-ORDERED by a positional
     # indicator ("School following second-class old" = B+O+SCH = BOSCH). The plain charade
@@ -723,7 +750,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["charade_positional_subtypes"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if ppos is not None and ppos.status in ("pass", "pending"):
-        return _finish(ppos, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(ppos, "charade_positional", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE (POSITIONAL, LOCAL) — sibling of the above. The positional indicator swaps ONLY
     # its ADJACENT PAIR ("Cover county show after parking" = county + (show after parking ->
@@ -736,7 +763,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["charade_positional_subtypes"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pposl is not None and pposl.status in ("pass", "pending"):
-        return _finish(pposl, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pposl, "charade_positional_local", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE + ACROSTIC — a charade where ONE piece is a multi-word acrostic (DOCTORS =
     # DOC[first of Ducks Observed Crossing, "firstly"] + TORS[rocky hills]). The acrostic
@@ -750,7 +777,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pcac2 is not None and pcac2.status in ("pass", "pending"):
-        return _finish(pcac2, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcac2, "charade_acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE + ALTERNATION — a charade where ONE piece is the alternate (every-other)
     # letters of a word ("oddly ignored near" = ER), the others ordinary pieces (SANDPIPER =
@@ -764,7 +791,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], wiring["selection_rules"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pcalt is not None and pcalt.status in ("pass", "pending"):
-        return _finish(pcalt, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcalt, "charade_alternation", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM+CHARADE — compound: a charade with one anagram piece. Tried after the
     # pure engines (it is more specific). A pass or pending stops here. Catalog-DRIVEN
@@ -777,7 +804,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                 define_fallback=wiring.get("define_fallback"),
                                 is_dbe=wiring.get("is_dbe"))   # DB-only; AI later
     if pac is not None and pac.status in ("pass", "pending"):
-        return _finish(pac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pac, "anagram_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM+CONTAINER — compound: a container where one component is an anagram
     # (SANDWICHES, EXHORT). Catalog-DRIVEN (signature engine, seeded from working
@@ -791,7 +818,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if paco is not None and paco.status in ("pass", "pending"):
-        return _finish(paco, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(paco, "anagram_container", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE + ANAGRAM-CONTAINER — a charade with one anagram-container piece (DOGFIGHT =
     # D["Day"] + [anag("fog hit") "awful" containing G "hiding"], G = first of "Germany's"
@@ -806,7 +833,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], wiring["selection_rules"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pcac is not None and pcac.status in ("pass", "pending"):
-        return _finish(pcac, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcac, "charade_anagram_container", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER+DELETION — a compound: build a container (one DB value inserted into
     # another, the inner optionally a small charade), then a deletion trims the result to
@@ -822,7 +849,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    is_dbe=wiring.get("is_dbe"),
                                    loc_rules=wiring.get("selection_rules"))
     if pcd is not None and pcd.status in ("pass", "pending"):
-        return _finish(pcd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcd, "container_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE+DELETION — a charade where ONE piece is a deletion (EX + HORTS, where HORTS
     # = SHORTS 'no top'). Answer-driven; the deletion piece's pre-deletion value is
@@ -836,7 +863,21 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                   is_dbe=wiring.get("is_dbe"),
                                   loc_rules=wiring.get("selection_rules"))
     if pchd is not None and pchd.status in ("pass", "pending"):
-        return _finish(pchd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pchd, "charade_deletion", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CHARADE + MULTI-DELETION — the sibling shape: a charade where TWO OR MORE pieces are
+    # each a deletion, governed by one shared deletion indicator (OBERON = robes[-ends] +
+    # wrong[-ends] = OBE + RON, "stripped off"). charade_deletion above does exactly one
+    # deletion piece, so it cannot reach this; this requires >= 2 deletion pieces, so it
+    # never intercepts that engine or the plain charade. Answer-driven; deletion-gated.
+    from core.charade_multi_deletion_engine import solve_charade_multi_deletion
+    pcmd = solve_charade_multi_deletion(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["deletion_subtypes"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"),
+        loc_rules=wiring.get("selection_rules"))
+    if pcmd is not None and pcmd.status in ("pass", "pending"):
+        return _finish(pcmd, "charade_multi_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE + NAMED-LETTER DELETION — a charade where ONE piece is a value with a SPECIFIC
     # named letter removed, the removed letter a VERIFIED wordplay-table value of another
@@ -850,7 +891,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["is_link"], wiring["indicator_types"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pcnd is not None and pcnd.status in ("pass", "pending"):
-        return _finish(pcnd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcnd, "charade_named_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # CHARADE+HOLLOW — a charade where ONE piece is a hollowed word: its outer shell only
     # (first+last, the inside emptied), AMEER = AM + E[xercis]E + R. The charade+deletion
@@ -864,7 +905,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                 define_fallback=wiring.get("define_fallback"),
                                 is_dbe=wiring.get("is_dbe"))
     if pchh is not None and pchh.status in ("pass", "pending"):
-        return _finish(pchh, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pchh, "charade_hollow", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER — plain insertion: one DB value inserted into another (BREAM=BEAM around
     # R, TACTICS=TICS around ACT). Catalog-DRIVEN (signature engine, seeded from working
@@ -878,7 +919,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                            define_fallback=wiring.get("define_fallback"),
                            is_dbe=wiring.get("is_dbe"))
     if pcon is not None and pcon.status in ("pass", "pending"):
-        return _finish(pcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcon, "container", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER+CHARADE — a charade where one piece is a container (LURCHER = LURE around
     # CH + R). Catalog-DRIVEN (signature engine; the container pair is marked CNT_F in the
@@ -892,7 +933,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if pccc is not None and pccc.status in ("pass", "pending"):
-        return _finish(pccc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pccc, "container_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-OF-CHARADE — an OUTER DB value wrapped around an INNER that is itself a
     # charade of 2+ DB values (LIMESTONE = LONE around IM+EST). The mirror of the
@@ -905,7 +946,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pcic is not None and pcic.status in ("pass", "pending"):
-        return _finish(pcic, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcic, "container_inner_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-WITH-CHARADE-OUTER — the MIRROR of container-of-charade: an OUTER that is
     # itself a charade of 2+ DB values, wrapped around a single INNER value (DUB = (D+B)
@@ -919,7 +960,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pcoc is not None and pcoc.status in ("pass", "pending"):
-        return _finish(pcoc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcoc, "container_outer_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-OF-ACROSTIC — an OUTER DB value wrapped around an INNER formed by acrostic
     # letter-selection (MESCAL = MEAL around S,C = initials of "Served Cold"). The container
@@ -932,7 +973,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pca is not None and pca.status in ("pass", "pending"):
-        return _finish(pca, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pca, "container_acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-WITH-DELETED-INNER — an OUTER DB value wrapped around an INNER that is a DB
     # value with a POSITIONAL deletion applied before insertion (ASPIC = AC around SPI[SPIN
@@ -947,7 +988,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], wiring["deletion_subtypes"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if pcid is not None and pcid.status in ("pass", "pending"):
-        return _finish(pcid, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcid, "container_inner_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER-WITH-ALTERNATION-INNER — an OUTER DB value wrapped around an INNER that is the
     # alternate (every-other) letters of a single clue word (PRISONER = PRIER around SON, where
@@ -961,7 +1002,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pcia is not None and pcia.status in ("pass", "pending"):
-        return _finish(pcia, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcia, "container_inner_alternation", ctx, wiring, source, puzzle_number, clue_id)
 
     # CONTAINER (DELETION OUTER + SELECTION INNER) — the hardest container: BOTH pieces built.
     # OUTER is a positional deletion of a synonym, INNER is a letter-selection of a word
@@ -979,7 +1020,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         # pass is downgraded to a review-pending (human confirms before it is trusted).
         from core import review_gate
         review_gate.gate(pcds, "container_deletion_selection")
-        return _finish(pcds, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pcds, "container_deletion_selection", ctx, wiring, source, puzzle_number, clue_id)
 
     # NESTED CONTAINER — a container inside a container (VACUUM = VAM["5am"] around
     # [CU["Copper"] around U["university"]]; FALLENANGEL = FL["Florida"] around
@@ -994,7 +1035,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if pnc is not None and pnc.status in ("pass", "pending"):
-        return _finish(pnc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pnc, "nested_container", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSED-OUTER CONTAINER — a container whose OUTER is a reversed synonym, wrapped
     # around a charade inner (EMPEROR = EOR[caviar->ROE, "flipping"] around MPER[MP+ER],
@@ -1007,7 +1048,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if proc is not None and proc.status in ("pass", "pending"):
-        return _finish(proc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(proc, "reversed_outer_container", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL — a plain reversal (the whole answer is one DB value, reversed: SMART =
     # rev(TRAMS)). Catalog-DRIVEN (signature engine); single-piece, answer-driven (the fodder
@@ -1020,7 +1061,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                           define_fallback=wiring.get("define_fallback"),
                           is_dbe=wiring.get("is_dbe"))
     if prev is not None and prev.status in ("pass", "pending"):
-        return _finish(prev, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(prev, "reversal", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL+CHARADE — a charade where the reversal applies (one piece reversed, e.g.
     # AFAR = A + rev(RAF); or the whole charade reversed, e.g. ERATO = rev(ARE)+rev(OT)).
@@ -1034,7 +1075,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                                    define_fallback=wiring.get("define_fallback"),
                                    is_dbe=wiring.get("is_dbe"))
     if prevc is not None and prevc.status in ("pass", "pending"):
-        return _finish(prevc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(prevc, "reversal_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL+CHARADE (evidence-driven) — the WHOLE charade reversed, where the piece order
     # flips and the signature form above cannot encode it (NARRATIVE = rev(EVITA+RR+A+N) =
@@ -1049,7 +1090,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if prevce is not None and prevce.status in ("pass", "pending"):
-        return _finish(prevce, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(prevce, "reversal_charade_evidence", ctx, wiring, source, puzzle_number, clue_id)
 
     # SELECTION + REVERSAL CHARADE — a charade mixing a letter-SELECTION piece and a
     # REVERSED piece (TRAIL = T[end of "account"] + RAIL[reverse of LIAR "storyteller"]).
@@ -1064,7 +1105,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if psrc is not None and psrc.status in ("pass", "pending"):
-        return _finish(psrc, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(psrc, "selection_reversal_charade", ctx, wiring, source, puzzle_number, clue_id)
+
+    # REVERSE-OF-CHARADE — the WHOLE assembled charade is reversed (TRAIN = reverse(new->N +
+    # international->I + art->ART) = reverse(NIART)). reversal_charade reverses ONE piece in
+    # place and tiles in clue order; it cannot reach a whole-charade reversal, which flips the
+    # piece order. Requires >=2 pieces + a reversal indicator; answer-driven (forward fodder
+    # must spell reverse(answer)). Tried after the reversal_charade family (more general).
+    from core.reverse_charade_engine import solve_reverse_charade
+    prevwc = solve_reverse_charade(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if prevwc is not None and prevwc.status in ("pass", "pending"):
+        return _finish(prevwc, "reverse_charade", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL + CONTAINER — an outer DB value wrapping an inner DB value that is REVERSED
     # before insertion (ARABS = AS around reverse(BAR)). The plain container inserts values
@@ -1078,7 +1132,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
     if prevcon is not None and prevcon.status in ("pass", "pending"):
-        return _finish(prevcon, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(prevcon, "reversal_container", ctx, wiring, source, puzzle_number, clue_id)
 
     # REVERSAL + DELETION — the whole answer is ONE synonym with letters removed and reversed
     # (SLAB = reverse(curtail(BALSA)): "wood"=BALSA, "cut"=deletion, "after turning"=reversal).
@@ -1092,7 +1146,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         wiring["indicator_types"], wiring["deletion_subtypes"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
     if prevdel is not None and prevdel.status in ("pass", "pending"):
-        return _finish(prevdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(prevdel, "reversal_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # DELETION — a plain deletion (the whole answer is one DB value with letters removed).
     # EVIDENCE-DRIVEN, two honestly-attributed forms: POSITIONAL (a fused/position-noun
@@ -1116,7 +1170,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                           is_dbe=wiring.get("is_dbe"),
                           loc_rules=wiring.get("selection_rules"))
     if pdel is not None and pdel.status in ("pass", "pending"):
-        return _finish(pdel, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+        return _finish(pdel, "deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # SUBSTITUTION — a base value with one clued letter replaced by another (INSOLENCE =
     # IN SILENCE with one[I] -> love[O]). Both letters come from the wordplay table; gated
@@ -1163,8 +1217,9 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
         wiring["is_link"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
-    if pamus is not None and pamus.status in ("pass", "pending"):
-        return _finish(pamus, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if (pamus is not None and pamus.status in ("pass", "pending")
+            and not _anagram_degenerate(pamus)):
+        return _finish(pamus, "anagram_multi_substitution", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM + DELETION — an anagram whose fodder has letters REMOVED before the anagram:
     # a NAMED letter (EDELWEISS = anag of SEEDS+WHILE - H["hard","missing"]) or a CURTAILED
@@ -1177,8 +1232,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         ctx, wiring["defines"], wiring["all_values"], wiring["indicator_types"],
         wiring["is_link"], deletion_subtypes=wiring.get("deletion_subtypes"),
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
-    if pad is not None and pad.status in ("pass", "pending"):
-        return _finish(pad, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if pad is not None and pad.status in ("pass", "pending") and not _anagram_degenerate(pad):
+        return _finish(pad, "anagram_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM + SELECTION-DELETION — like anagram+deletion, but the removed letter is a
     # SELECTION of an adjacent word, not an abbreviation (IN THE RAW = anag(NIGHTWEAR - G),
@@ -1190,8 +1245,9 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         ctx, wiring["defines"], wiring["indicator_types"], wiring["is_link"],
         wiring["selection_rules"], define_fallback=wiring.get("define_fallback"),
         is_dbe=wiring.get("is_dbe"))
-    if pasd is not None and pasd.status in ("pass", "pending"):
-        return _finish(pasd, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if (pasd is not None and pasd.status in ("pass", "pending")
+            and not _anagram_degenerate(pasd)):
+        return _finish(pasd, "anagram_selection_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
     # ANAGRAM CONTAINING A SELECTED LETTER — an anagram of a fodder run with a single first/
     # last letter inserted (OYSTER = anag(STORY) containing E["beginning to emerge"], "in").
@@ -1201,8 +1257,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     pail = solve_anagram_insert_letter(
         ctx, wiring["defines"], wiring["indicator_types"], wiring["is_link"],
         define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
-    if pail is not None and pail.status in ("pass", "pending"):
-        return _finish(pail, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+    if pail is not None and pail.status in ("pass", "pending") and not _anagram_degenerate(pail):
+        return _finish(pail, "anagram_insert_letter", ctx, wiring, source, puzzle_number, clue_id)
 
     # DOUBLE DEFINITION — run LAST, not first. Its second-definition check (esp. the
     # Haiku half) is softer than the catalog engines, which reconstruct the answer
@@ -1229,14 +1285,14 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                            define_fallback=wiring.get("define_fallback"),
                            is_dbe=wiring.get("is_dbe"), suggest_piece=sp)
         if pcr is not None and pcr.status in ("pass", "pending"):
-            return _finish(pcr, "catalog", ctx, wiring, source, puzzle_number, clue_id)
+            return _finish(pcr, "charade", ctx, wiring, source, puzzle_number, clue_id)
         pacr = solve_anagram_charade(ctx, wiring["defines"], wiring["lookup"],
                                      wiring["is_link"], wiring["indicator_types"],
                                      wiring.get("anagram_charade_templates") or [],
                                      define_fallback=wiring.get("define_fallback"),
                                      is_dbe=wiring.get("is_dbe"), suggest_piece=sp)
         if pacr is not None and pacr.status in ("pass", "pending"):
-            return _finish(pacr, "catalog", ctx, wiring, source, puzzle_number,
+            return _finish(pacr, "anagram_charade", ctx, wiring, source, puzzle_number,
                            clue_id)
         vc = wiring.get("value_check")
         if vc is not None:
@@ -1250,7 +1306,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                 wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
                 is_dbe=wiring.get("is_dbe"), could_produce=vc)
             if pacor is not None and pacor.status in ("pass", "pending"):
-                return _finish(pacor, "catalog", ctx, wiring, source, puzzle_number,
+                return _finish(pacor, "anagram_container", ctx, wiring, source, puzzle_number,
                                clue_id)
 
     # CRYPTIC DEFINITION — the LAST resort: no wordplay engine and not DD. If the WHOLE
@@ -1284,10 +1340,10 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # Otherwise return the genuinely MOST COMPLETE fail so the richest evidence is shown
     # — measured (status, answer letters explained, clue words accounted, fewest
     # warnings), NOT by engine order.
-    candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "catalog"), (pc, "catalog"),
-                                      (ppos, "catalog"),
-                                      (pac, "catalog"), (paco, "catalog"),
-                                      (pcon, "catalog"), (pccc, "catalog"),
+    candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "anagram"), (pc, "charade"),
+                                      (ppos, "charade_positional"),
+                                      (pac, "anagram_charade"), (paco, "anagram_container"),
+                                      (pcon, "container"), (pccc, "container_charade"),
                                       (phom, "homophone"),
                                       (phomc, "charade_homophone"))
                   if p is not None]
@@ -1362,8 +1418,32 @@ def _most_complete(candidates, ctx):
     return max(candidates, key=key)
 
 
+def _anagram_degenerate(parse):
+    """True if an 'anagram' parse is not really an anagram: the wordplay letters (in CLUE
+    order) equal the answer FORWARD (identity — a charade of literal letters, no rearrange)
+    or REVERSED (a reversal — belongs to the reversal engine). A genuine anagram rearranges
+    the fodder into something that is NEITHER. E.g. TRAIN from "new international art" =
+    N·I·ART, whose reverse IS TRAIN -> a reversal, not an anagram. Gated to
+    operation=='anagram' so compound ops are untouched; returning True lets the cascade fall
+    through to the reversal family instead of minting a false anagram PASS."""
+    if parse is None or (parse.operation or "") != "anagram":
+        return False
+    a = (parse.answer_letters() or "").upper().replace(" ", "").replace("-", "")
+    srcs = sorted(parse.sources,
+                  key=lambda s: min(s.clue_atom_ids) if s.clue_atom_ids else 0)
+    src = "".join((s.value or "") for s in srcs).upper().replace(" ", "").replace("-", "")
+    return bool(src) and (src == a or src == a[::-1])
+
+
 def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
-    """Queue any provisional pieces, persist the final Parse, return it."""
+    """Queue any provisional pieces, persist the final Parse, return it.
+
+    Records the SPECIFIC solving engine: every cascade site passes its engine name here
+    (no longer the generic "catalog"), and we stamp it onto parse.solved_by so the store's
+    wfw_solve.solved_by column says exactly which engine solved each clue — no stack-trace
+    hunting. Render keys off parse.operation first, so this stamp is identification only."""
+    if parse is not None and name:
+        parse.solved_by = name
     # FLOOR GUARD: a GUESSED definition (source='pending' — the no-definition floor edge
     # guess or the Haiku fallback) must NEVER be shown on a FAIL. On a fail the wordplay did
     # not reconstruct the answer, so a guessed edge is a "forced definition with no wordplay"

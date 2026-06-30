@@ -64,15 +64,23 @@ class LiveDB:
             base = self._cs[word]
         else:
             out, seen = [], set()
+            # SLASH-ARTIFACT GUARD: a scraped definition like 'Good/penalty' (two senses of
+            # FINE) normalizes to norm_def 'good penalty' (slash -> space), which would then
+            # match the CONTIGUOUS clue phrase "good penalty" and mint a fake definition. For
+            # a MULTI-WORD query we therefore reject any def row whose original definition
+            # contains '/', so a collapsed slash never becomes a matchable phrase.
+            multiword = " " in (word or "").strip()
             for v in self._word_variants(word):        # v is already a normalized key
                 for (s,) in self._conn.execute(
                         "SELECT synonym FROM synonyms_pairs WHERE norm_word=?", (v,)):
                     su = (s or "").strip().upper()
                     if su and su not in seen:
                         seen.add(su); out.append(su)
-                for (a,) in self._conn.execute(
-                        "SELECT answer FROM definition_answers_augmented "
+                for (a, dfn) in self._conn.execute(
+                        "SELECT answer, definition FROM definition_answers_augmented "
                         "WHERE norm_def=?", (v,)):       # normalized-key index (faithful to RefDB)
+                    if multiword and dfn and "/" in dfn:
+                        continue                         # slash-collapsed norm_def; not a real phrase
                     au = (a or "").strip().upper()
                     if au and au not in seen:
                         seen.add(au); out.append(au)

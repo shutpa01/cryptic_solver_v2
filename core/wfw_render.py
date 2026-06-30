@@ -93,12 +93,18 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
         tile_border = {i: HIDDEN_BORDER for i in range(len(parse.sources))}
         tile_fill = {i: HIDDEN_FILL for i in range(len(parse.sources))}
 
-    # --- header: clue-type badge + verdict ---
+    # --- header: clue-type badge + solving-engine tag + verdict ---
     type_label = _TYPE_LABEL.get(parse.operation or "", (parse.operation or "—"))
+    engine = (getattr(parse, "solved_by", "") or "").strip()
+    # Always show the SPECIFIC solving engine (parse.solved_by) so it is clear at a glance
+    # which engine produced the parse — no DB query, no stack-trace hunting.
+    eng_tag = ""
+    if engine:
+        eng_tag = '<span class="wfw-engine" title="solving engine">%s</span>' % escape(engine)
     header = (
         '<div class="wfw-head">'
-        '<span class="wfw-type"><span class="wfw-dot"></span>%s</span>%s</div>'
-        % (escape(type_label.upper()), _verdict_badge(parse)))
+        '<span class="wfw-type"><span class="wfw-dot"></span>%s</span>%s%s</div>'
+        % (escape(type_label.upper()), eng_tag, _verdict_badge(parse)))
 
     # --- clue line ---
     enum = parse.enumeration()
@@ -595,7 +601,7 @@ def _assembly_expr(parse, answer_letters):
 
 @renders("anagram_container", "container_charade", "charade_deletion", "anagram_charade",
          "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade",
-         "container_inner_deletion", "container_inner_alternation")
+         "container_inner_deletion", "container_inner_alternation", "charade_multi_deletion")
 def _render_assembly(parse, ctx, src_fg, src_fill):
     expr = _assembly_expr(parse, parse.answer_letters())
     if expr:
@@ -617,6 +623,10 @@ PAGE_CSS = """
               box-shadow:0 4px 16px rgba(15,23,42,.06); }
   .wfw-head { display:flex; align-items:center; justify-content:space-between;
               margin-bottom:1rem; gap:.75rem; }
+  .wfw-engine { display:inline-flex; align-items:center; font-size:.62rem;
+                font-weight:700; letter-spacing:.04em; color:#64748b;
+                background:#f1f5f9; border:1px solid #e2e8f0; border-radius:999px;
+                padding:.2rem .55rem; margin-left:.4rem; font-family:monospace; }
   .wfw-type { display:inline-flex; align-items:center; gap:.45rem;
               background:#0f172a; color:#fff; font-size:.72rem; font-weight:700;
               letter-spacing:.08em; padding:.35rem .7rem; border-radius:999px; }
