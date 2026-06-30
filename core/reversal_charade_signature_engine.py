@@ -23,7 +23,7 @@ def _value_candidates(words, a, b, lookup_all):
         v = (val or "").upper()
         if mech in _VALUE_MECH and v and v not in seen:
             seen.add(v)
-            out.append(v)
+            out.append((v, mech))      # carry the mechanism (faithful labels in _build)
     return out
 
 
@@ -40,13 +40,14 @@ def _answer(ctx):
 
 def _reconstruct(answer, pieces_spec, words, lookup_all):
     """pieces_spec: list of ((a, b), is_reversed). Tile the answer in answer order, each
-    piece placed forward or reversed per its spec. Returns answer-order [(kind, run, v)]."""
+    piece placed forward or reversed per its spec. Returns answer-order
+    [(kind, run, value, mech)] — the 4-tuple shape the shared _build unpacks."""
     N = len(answer)
     npieces = len(pieces_spec)
     cand = []
     for (a, b), is_rev in pieces_spec:
         placed = []
-        for v in _value_candidates(words, a, b, lookup_all):
+        for v, mech in _value_candidates(words, a, b, lookup_all):
             if is_rev:
                 if v[::-1] == v:
                     continue            # a 1-letter/palindrome "reversal" is a no-op — not real
@@ -54,7 +55,7 @@ def _reconstruct(answer, pieces_spec, words, lookup_all):
             else:
                 s = v
             if s:
-                placed.append((s, v))
+                placed.append((s, v, mech))
         cand.append(placed)
 
     def dfs(pos, used, arrangement):
@@ -63,9 +64,9 @@ def _reconstruct(answer, pieces_spec, words, lookup_all):
         for i in range(npieces):
             if i in used:
                 continue
-            for s, v in cand[i]:
+            for s, v, mech in cand[i]:
                 if answer.startswith(s, pos):
-                    r = dfs(pos + len(s), used | {i}, arrangement + [(i, v)])
+                    r = dfs(pos + len(s), used | {i}, arrangement + [(i, v, mech)])
                     if r:
                         return r
         return None
@@ -74,9 +75,9 @@ def _reconstruct(answer, pieces_spec, words, lookup_all):
     if res is None:
         return None
     out = []
-    for i, v in res:
+    for i, v, mech in res:
         run, is_rev = pieces_spec[i]
-        out.append(("rev" if is_rev else "fwd", run, v))
+        out.append(("rev" if is_rev else "fwd", run, v, mech))
     return out
 
 
