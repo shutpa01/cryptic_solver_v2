@@ -892,6 +892,12 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcmd is not None and pcmd.status in ("pass", "pending"):
         return _finish(pcmd, "charade_multi_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
+    # (charade_synonym_multi_deletion was trialled here for MENDELEEV but SHELVED 2026-07-02:
+    #  its safety A/B fabricated 10/600 false passes — indirect synonym-deletion over 2+ pieces
+    #  tiles almost any answer into plausible-but-wrong deletions, the exact failure the
+    #  literal-only rule avoids. Engine file kept, inactive, pending a tighter adjacency-gated
+    #  redesign. Do NOT re-wire without a clean A/B.)
+
     # CHARADE + NAMED-LETTER DELETION — a charade where ONE piece is a value with a SPECIFIC
     # named letter removed, the removed letter a VERIFIED wordplay-table value of another
     # word (CAREEN = CAR + EVEN["even"] losing V["volume"]). Unlike charade_deletion (a
