@@ -135,6 +135,18 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
     return dfs(0, set(), [], 0)
 
 
+def _contiguous_runs(idxs):
+    """Group a set/list of word indices into contiguous runs (each a list of indices), so a
+    multi-word indicator spanning adjacent words becomes one phrase, not per-word fragments."""
+    runs = []
+    for k in sorted(idxs):
+        if runs and k == runs[-1][-1] + 1:
+            runs[-1].append(k)
+        else:
+            runs.append([k])
+    return runs
+
+
 def _build(ctx, split, words, answer, pl):
     from core.definition_engine import dbe_annotation
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
@@ -156,10 +168,15 @@ def _build(ctx, split, words, answer, pl):
                               transform=transform))
 
     annotations = []
-    for k in pl["rev"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="reversal indicator"))
+    # A multi-word reversal indicator (e.g. "put up", "sent back") is ONE indicator. Emit a
+    # single annotation per CONTIGUOUS run of indicator words carrying the whole phrase, so
+    # role_validity validates the PHRASE ("put up" is a DB reversal indicator) — not each word
+    # alone ("put" is no DB indicator, which used to fail an otherwise-correct parse).
+    for run in _contiguous_runs(pl["rev"]):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="reversal indicator"))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",
