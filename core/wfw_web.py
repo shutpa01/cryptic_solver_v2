@@ -61,7 +61,7 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "insertion", "reversal", "deletion",
-              "acrostic", "homophone", "charade", "alternation"]
+              "selection", "acrostic", "homophone", "charade", "alternation"]
 # Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
 # has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
 # is what the code reads, the label is the clear descriptor shown to the user (the DB
@@ -74,6 +74,15 @@ _IND_SUBTYPES = {
                  ("middle", "remove middle letter"),
                  ("empty", "hollow — remove inner letters"),
                  ("general", "letters named by another word")],
+    # SELECTION indicators name WHICH letters to KEEP as a piece. Unlike deletion there is
+    # NO "no sub-type" option — a rule-less selection is meaningless (the solver would not
+    # know which letter), and add_indicator rejects it. Values == the canonical selection
+    # rules (core.selection_indicators.CLUE_PAGE_SUBTYPES / SUBTYPE_RULE keys).
+    "selection": [("first", "first letter(s) (initially, primarily)"),
+                  ("last", "last letter(s) (finally, ultimately)"),
+                  ("outer", "outer letters (extremes, ends)"),
+                  ("middle", "middle letter(s) (centrally, heart of)"),
+                  ("alternate", "alternate letters (oddly, evenly)")],
 }
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -1724,6 +1733,17 @@ def _resolve_one(clue_id):
     persist — so a freshly-forced role takes effect immediately. Mirrors the page's solve
     path (batch wiring + clue_overrides). Best-effort; never raises to the route."""
     try:
+        # MANUAL-SOLVE GUARD: a committed manual solution (human-authored, frozen) must never
+        # be overwritten by the cascade. Skip re-solving it entirely; /hsuncommit lifts the
+        # freeze first, so an uncommit re-solve is not blocked here.
+        conn = store.connect()
+        try:
+            sp = store.load_parse(conn, clue_id)
+            if (sp is not None and getattr(sp, "solved_by", "") == "manual"
+                    and store.is_frozen(conn, clue_id)):
+                return
+        finally:
+            conn.close()
         row = _load_clue(clue_id)
         if row is None:
             return
@@ -1857,7 +1877,9 @@ function initGrid(rootId, DATA){
  root.querySelector('#g-assign').addEventListener('click',assignNow);
  // picking an existing synonym from the dropdown ADDS it immediately (no separate Assign click)
  candSel.addEventListener('change',function(){if(roleSel.value==='synonym'&&candSel.value)assignNow();});
- root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);root.querySelector('#g-form').submit();});
+ root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
+ var gcm=root.querySelector('#g-commit');
+ if(gcm){gcm.addEventListener('click',function(){if(!confirm('Commit these assignments as a MANUAL solution?\\n\\nRecords exactly what you typed, frozen — no reference-DB write, no solver check. For clues the solver cannot fairly do.'))return;payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hscommit';f.submit();});}
  drawRows();drawList();updateBar();roleFields();
 }
 """
@@ -1999,6 +2021,17 @@ def _span_surface(clue_id, back_raw=None):
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
          '<input type="hidden" name="payload" id="g-payload">',
          '<button type="button" id="g-resolve" class="g-resolve">Resolve &amp; solve</button>',
+         '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
+         'margin-left:.5rem" title="Record exactly what you typed as a MANUAL solution '
+         '(frozen, no DB write, no solver check) — for clues the solver cannot fairly do">'
+         'Commit (manual)</button>',
+         '</form>',
+         '<form method="post" action="/hsuncommit" style="margin:.35rem 0">',
+         '<input type="hidden" name="only" value="%d">' % clue_id,
+         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         '<button type="submit" style="background:#fff;color:#7c3aed;border:1px solid #7c3aed;'
+         'border-radius:8px;padding:.28rem .7rem;font-weight:700;cursor:pointer;font-size:.85rem">'
+         'Uncommit (hand back to cascade)</button>',
          '</form>',
          '<form method="post" action="/hsstatus" style="margin:.5rem 0;display:flex;'
          'gap:.4rem;align-items:center;flex-wrap:wrap">',
@@ -2471,6 +2504,131 @@ def hsresolve_route():
     tail = ("did NOT solve — " + (cp.warnings[0] if (cp is not None and cp.warnings)
             else "the cascade could not assemble the answer from these roles"))
     return _hs_redirect(only, _applied_msg(tail), back)
+
+
+@app.route("/hscommit", methods=["POST"])
+def hscommit_route():
+    """MANUAL SOLVE (recorder) — build a Parse DIRECTLY from the hand-solver assignments and
+    persist it FROZEN. For clues the cascade cannot and should not solve (unfair setter tricks,
+    anchorless indirect derivations). This is the OPPOSITE of the banned auto-builder: it
+    DERIVES nothing (the human types every piece's letters via the `letters` role), VERIFIES
+    nothing (the human owns the verdict), NEVER runs the cascade, and writes NOTHING to the
+    reference DB. Every piece is flagged provenance 'manual'."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _hs_redirect(only, "No clue.", back)
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    word_tokens = [t for t in ctx.clue_tokens if t.kind == "word"]
+    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+    if not assigns:
+        return _hs_redirect(only, "No assignments to commit.", back)
+
+    from core.wfw_model import Source, Link, Annotation, Parse
+
+    def atoms_for(idx):
+        out = []
+        for i in idx:
+            if 0 <= i < len(word_tokens):
+                out.extend(word_tokens[i].atom_ids)
+        return tuple(out)
+
+    def phrase_for(idx):
+        return " ".join(word_tokens[i].text for i in idx if 0 <= i < len(word_tokens))
+
+    pieces, definition, annotations = [], None, []
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(word_tokens))
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        role = (a.get("role") or "").strip()
+        phrase, atoms = phrase_for(idx), atoms_for(idx)
+        if role in ("letters", "synonym"):
+            val = (a.get("value") or "").strip().upper()
+            if val:
+                pieces.append((phrase, val, atoms))
+        elif role == "definition":
+            definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
+                                mechanism="definition", source="manual")
+        elif role == "indicator":
+            itype = (a.get("itype") or "").strip() or "wordplay"
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
+                                           note="%s indicator" % itype.split(":")[0],
+                                           source="manual"))
+        elif role == "link":
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
+                                           note="link word", source="manual"))
+        elif role == "filler":
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
+                                           note="surface filler", source="manual"))
+
+    if not pieces:
+        return _hs_redirect(only, "A manual commit needs at least one piece with typed "
+                            "letters (the 'letters' role).", back)
+    assembled = "".join(v for _, v, _ in pieces)
+    if assembled != ans_letters:
+        return _hs_redirect(only, "The pieces spell %r but the answer is %r — fix the letters "
+                            "or their order before committing." % (assembled, ans_letters), back)
+
+    sources, links, pos = [], [], 0
+    for (phrase, val, atoms) in pieces:
+        si = len(sources)
+        sources.append(Source(clue_atom_ids=atoms, text=phrase, value=val,
+                              mechanism="manual", source="manual"))
+        for _ in val:
+            pos += 1
+            links.append(Link(answer_pos=pos, source_index=si, operation="manual"))
+
+    parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
+                  annotations=annotations, definition=definition, operation="manual",
+                  solved_by="manual", status="pass")
+    conn = store.connect()
+    try:
+        store.set_hs_assignments(conn, cid, payload)
+        store.save_parse(conn, cid, parse, ctx)   # status='pass', not frozen yet -> persists
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)               # frozen: the cascade can never overwrite it
+        conn.commit()
+    finally:
+        conn.close()
+    return _hs_redirect(only, "Committed a MANUAL solution (%d piece%s) — frozen, and NOT "
+                        "written to the reference DB." % (len(pieces),
+                        "" if len(pieces) == 1 else "s"), back)
+
+
+@app.route("/hsuncommit", methods=["POST"])
+def hsuncommit_route():
+    """Clear a committed manual solution and hand the clue back to the cascade (lifts the
+    freeze, then re-solves normally so the manual parse is replaced by the cascade's verdict)."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    cid = int(only)
+    conn = store.connect()
+    try:
+        store.clear_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    _resolve_one(cid)          # freeze lifted -> the guard no longer skips -> cascade re-solves
+    return _hs_redirect(only, "Uncommitted the manual solution — handed back to the cascade.",
+                        back)
 
 
 @app.route("/handsolve")

@@ -29,7 +29,20 @@ SUBTYPE_RULE = {
     ("parts", "odd"):               "alternate",
     ("selection", "last_letter"):   "last",
     ("selection", "outside_letters"): "outer",
+    # Clean canonical subtype set for the `selection` type — one subtype per rule, so a
+    # selection indicator added via the clue page (admin_db.add_indicator) maps directly to
+    # its rule. A selection with NO subtype (or an unknown one) has no rule and is a
+    # fabrication, so the write layer rejects it; only these five are offered/accepted.
+    ("selection", "first"):         "first",
+    ("selection", "last"):          "last",
+    ("selection", "outer"):         "outer",
+    ("selection", "middle"):        "middle",
+    ("selection", "alternate"):     "alternate",
 }
+
+# The canonical selection subtypes (the keys of SUBTYPE_RULE under the `selection` type)
+# that the clue-page Add panel offers and the write layer accepts. Order = display order.
+CLUE_PAGE_SUBTYPES = ("first", "last", "outer", "middle", "alternate")
 
 # Provider set by the wiring: rules_for(text) -> set of selection rules the DB licenses
 # for that word/phrase (inflection-aware). None until wired (find_indicators then empty).

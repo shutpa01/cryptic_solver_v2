@@ -187,6 +187,18 @@ def add_indicator(word, wordplay_type, subtype=None):
     sub = (subtype or "").strip().lower() or None
     if not word or not wp:
         return "Indicator word and type are both required."
+    # A SELECTION indicator names WHICH letters to take (first/last/outer/middle/alternate).
+    # Without that rule it is meaningless — the solver could not know which letter to use —
+    # so a selection MUST carry a subtype that maps to a real rule. Reject rule-less or
+    # unknown-rule selections here (the write layer), so a dead selection can never exist.
+    if wp == "selection":
+        from core.selection_indicators import SUBTYPE_RULE, CLUE_PAGE_SUBTYPES
+        if not sub:
+            return ("A selection indicator needs a sub-type (which letters it takes): "
+                    "one of %s." % ", ".join(CLUE_PAGE_SUBTYPES))
+        if ("selection", sub) not in SUBTYPE_RULE:
+            return ("Unknown selection sub-type %r. Use one of: %s."
+                    % (sub, ", ".join(CLUE_PAGE_SUBTYPES)))
     label = "%s%s" % (wp, ("/" + sub) if sub else "")
     conn = _conn()
     try:
