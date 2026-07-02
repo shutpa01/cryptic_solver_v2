@@ -449,6 +449,93 @@ def _render_container(parse, ctx, src_fg, src_fill):
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
+@renders("charade_container_acrostic")
+def _render_charade_container_acrostic(parse, ctx, src_fg, src_fill):
+    """A charade whose pieces include ONE container (OUTER around INNER) and >=1 acrostic run.
+    Renders the pieces in answer order, e.g. INDIA around C + TES -> INDICATES, then the rows.
+    Piece membership is read from the per-link operation + answer positions, not guessed."""
+    pos, op = {}, {}
+    for l in parse.links:
+        pos.setdefault(l.source_index, []).append(l.answer_pos)
+        op[l.source_index] = l.operation
+
+    def contig(ps):
+        ps = sorted(ps)
+        return bool(ps) and ps[-1] - ps[0] + 1 == len(ps)
+
+    pieces, consumed = [], set()                         # pieces: (min_answer_pos, html)
+    # container piece: the OUTER source's letters are split (non-contiguous) around the INNER
+    con = [si for si in pos if op.get(si) == "container"]
+    outer = [si for si in con if not contig(pos[si])]
+    inner = [si for si in con if contig(pos[si])]
+    if len(outer) == 1 and inner:
+        inners = ' <span class="wfw-plus">+</span> '.join(
+            _pval(parse, si, src_fg) for si in sorted(inner, key=lambda s: min(pos[s])))
+        html = ('%s <span class="wfw-around">around</span> %s'
+                % (_pval(parse, outer[0], src_fg), inners))
+        minp = min(pos[outer[0]] + [p for si in inner for p in pos[si]])
+        pieces.append((minp, html))
+        consumed = {outer[0]} | set(inner)
+    # acrostic runs: contiguous single-letter first/last-letter sources -> one initials piece
+    acro = sorted((si for si in pos
+                   if parse.sources[si].mechanism in ("first_letter", "last_letter")),
+                  key=lambda s: min(pos[s]))
+    run, prev = [], None
+    def flush(run):
+        if not run:
+            return
+        letters = "".join((parse.sources[si].value or "") for si in run)
+        col = src_fg.get(run[0], "#0f172a")
+        pieces.append((min(min(pos[si]) for si in run),
+                       '<strong class="wfw-val" style="color:%s">%s</strong>'
+                       % (col, escape(letters))))
+    for si in acro:
+        p0 = min(pos[si])
+        if prev is not None and p0 != prev + 1:
+            flush(run); run = []
+        run.append(si); prev = max(pos[si]); consumed.add(si)
+    flush(run)
+    # remaining value pieces (ordinary charade tiles)
+    for si in pos:
+        if si not in consumed:
+            pieces.append((min(pos[si]), _pval(parse, si, src_fg)))
+    pieces.sort(key=lambda x: x[0])
+    if pieces:
+        chain = ' <span class="wfw-plus">+</span> '.join(h for _, h in pieces)
+        summ = '%s %s' % (chain, _arrow_ans(parse))
+        return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+@renders("charade_container_selection")
+def _render_charade_container_selection(parse, ctx, src_fg, src_fill):
+    """A charade with one container piece whose inner is a letter-selection, e.g.
+    TENDER + HEATED around R -> TENDERHEARTED. Outer = the source whose answer letters are
+    split around the selection inner; read from per-link op + positions, not guessed."""
+    pos, op = {}, {}
+    for l in parse.links:
+        pos.setdefault(l.source_index, []).append(l.answer_pos)
+        op[l.source_index] = l.operation
+    outer = [si for si in pos if op.get(si) == "container"]
+    inner = [si for si in pos if op.get(si) == "selection"]
+    pieces, consumed = [], set()
+    if len(outer) == 1 and len(inner) == 1:
+        html = ('%s <span class="wfw-around">around</span> %s'
+                % (_pval(parse, outer[0], src_fg), _pval(parse, inner[0], src_fg)))
+        minp = min(pos[outer[0]] + pos[inner[0]])
+        pieces.append((minp, html))
+        consumed = {outer[0], inner[0]}
+    for si in pos:
+        if si not in consumed:
+            pieces.append((min(pos[si]), _pval(parse, si, src_fg)))
+    pieces.sort(key=lambda x: x[0])
+    if pieces:
+        chain = ' <span class="wfw-plus">+</span> '.join(h for _, h in pieces)
+        return _build_line('%s %s' % (chain, _arrow_ans(parse))) \
+            + _grid(_all_rows(parse, src_fg, src_fill))
+    return _grid(_all_rows(parse, src_fg, src_fill))
+
+
 @renders("container_deletion_selection")
 def _render_container_built(parse, ctx, src_fg, src_fill):
     """OUTER (a deleted synonym) around INNER (a selection) -> ANSWER. The OUTER's letters are

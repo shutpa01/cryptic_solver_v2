@@ -30,7 +30,7 @@ pending/fail. Pure and DB-decoupled.
 from core import deletion
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 4
 
 # Plain-English description of which letters each deletion op removes (for the explanation).

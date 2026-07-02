@@ -28,7 +28,7 @@ from core import deletion
 from core.selection import select_span
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 4
 _OP_PHRASE = {"behead": "first letter", "curtail": "last letter",
               "outer": "both outer letters", "heartless": "central letter"}

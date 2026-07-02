@@ -18,7 +18,7 @@ indicator. Per-letter provenance on the inner (§5.5). Pure and DB-decoupled.
 from core import selection, engine_common
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 _MODE_MECHANISM = {"first": "first_letter", "last": "last_letter"}
 MAX_RUN = 5
 

@@ -60,7 +60,7 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "spoonerism": "spoonerism",
                   "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
-_IND_TYPES = ["hidden", "anagram", "container", "reversal", "deletion",
+_IND_TYPES = ["hidden", "anagram", "container", "insertion", "reversal", "deletion",
               "acrostic", "homophone", "charade", "alternation"]
 # Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
 # has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value

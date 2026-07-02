@@ -18,7 +18,7 @@ a simpler engine's pending/fail). _verify calls role_validity. Definition decide
 
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 5
 
 

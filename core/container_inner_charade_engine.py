@@ -18,7 +18,7 @@ injected predicates as the other engines.
 from core import grammar
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 5
 MIN_INNER_PIECES = 2          # 1 piece is already the plain container's job
 

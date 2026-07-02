@@ -16,7 +16,7 @@ fabricate. Definition decided upstream (def_pos). Pure and DB-decoupled.
 from core import grammar
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_PIECE_WORDS = 4
 
 

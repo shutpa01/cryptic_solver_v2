@@ -18,7 +18,7 @@ LAST. A NEW isolated stage (never edit a working engine); pure and DB-decoupled.
 
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 5
 MIN_OUTER_PIECES = 2          # 1 outer piece is already the plain container's job
 

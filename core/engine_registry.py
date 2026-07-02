@@ -779,6 +779,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcac2 is not None and pcac2.status in ("pass", "pending"):
         return _finish(pcac2, "charade_acrostic", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + CONTAINER + ACROSTIC — a charade combining ONE container piece and >=1
+    # acrostic piece (INDICATES = [INDIA around C] + TES[initially try erotic strip]). Falls
+    # between charade_acrostic (no container piece) and container_charade (no acrostic piece);
+    # neither can reach it. Requires >=1 container piece AND >=1 acrostic piece, double-gated
+    # on a container/insertion AND an acrostic indicator, answer-driven, PASS-only.
+    from core.charade_container_acrostic_engine import solve_charade_container_acrostic
+    pcca = solve_charade_container_acrostic(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
+        is_dbe=wiring.get("is_dbe"))
+    if pcca is not None and pcca.status in ("pass", "pending"):
+        return _finish(pcca, "charade_container_acrostic", ctx, wiring, source, puzzle_number, clue_id)
+
     # CHARADE + ALTERNATION — a charade where ONE piece is the alternate (every-other)
     # letters of a word ("oddly ignored near" = ER), the others ordinary pieces (SANDPIPER =
     # SAND + PIP + ER). Gated on an alternation indicator AND >= 1 ordinary piece, so it
@@ -1021,6 +1034,20 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
         from core import review_gate
         review_gate.gate(pcds, "container_deletion_selection")
         return _finish(pcds, "container_deletion_selection", ctx, wiring, source, puzzle_number, clue_id)
+
+    # CHARADE with a CONTAINER piece whose INNER is a letter-SELECTION — the insertion mirror of
+    # the selection-DELETION engines (TENDERHEARTED = TENDER + [HEATED around R["our","last"]];
+    # COPSHOP = [COSH around P] + OP). Plain outer (vs container_deletion_selection's deleted
+    # outer) but composed inside a charade. Tightly gated: container/insertion indicator + a
+    # selection indicator ADJACENT to its word (links may intervene), inner = exact rule letters,
+    # outer = exact DB value, every word accounted; answer-driven; PASS-only.
+    from core.charade_container_selection_engine import solve_charade_container_selection
+    pccs = solve_charade_container_selection(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
+        wiring["indicator_types"], wiring["selection_rules"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pccs is not None and pccs.status in ("pass", "pending"):
+        return _finish(pccs, "charade_container_selection", ctx, wiring, source, puzzle_number, clue_id)
 
     # NESTED CONTAINER — a container inside a container (VACUUM = VAM["5am"] around
     # [CU["Copper"] around U["university"]]; FALLENANGEL = FL["Florida"] around

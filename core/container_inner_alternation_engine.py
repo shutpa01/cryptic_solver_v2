@@ -22,7 +22,7 @@ from). Own _verify calls role_validity. Returns ONLY a clean PASS. Pure and DB-d
 from core.selection import select_span
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 4
 # DB indicator types meaning "take alternate letters" (role_validity accepts these for an
 # annotation noted as an alternation indicator).

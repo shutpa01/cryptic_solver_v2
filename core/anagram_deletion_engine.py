@@ -258,7 +258,7 @@ def _build(ctx, answer, split, words, bulk_idx, chosen, anag_run, del_idx,
     if named_idx is not None:
         annotations.append(Annotation(
             clue_atom_ids=words[named_idx].atom_ids, text=words[named_idx].text,
-            role="indicator", note="deleted letters: %s" % removed))
+            role="deletion", note="deleted letters: %s" % removed))
     used = {del_idx, named_idx, curtail_idx} | set(anag_run) | set(bulk_idx) \
         | {k for k, _, _ in chosen}
     for k in range(len(words)):

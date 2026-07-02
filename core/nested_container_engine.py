@@ -24,7 +24,7 @@ Definition decided upstream. Pure, DB-decoupled.
 
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 5
 
 

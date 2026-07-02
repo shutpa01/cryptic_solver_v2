@@ -20,7 +20,7 @@ from core import grammar
 from core.wordplay import GLUE_POS
 from core.wfw_model import Source, Link, Annotation, Parse
 
-_VALUE_MECH = ("synonym", "abbreviation")
+_VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 5
 
 
