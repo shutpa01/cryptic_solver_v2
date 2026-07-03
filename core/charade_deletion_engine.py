@@ -207,6 +207,39 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
     del_gaps = [g for g in gaps if is_del(g)]
     if not del_gaps:
         return None
+
+    # ADJACENCY: a deletion indicator must ATTACH to the piece it deletes from. From the piece's
+    # word-run, walk outward through deletion-expression words only — links (of, with), other
+    # deletion-indicator words, and deletion-LOCATION words (start, initially, opening) — and it
+    # is bound iff that reaches a deletion indicator or location word. A content word or a
+    # foreign-structure indicator that is NOT a link (SUBSCRIBER: "collecting" the container)
+    # blocks the path, so a far-off "snubbed" can no longer license a deletion on "taxi". Genuine
+    # charade+deletions keep their indicator adjacent (INERT "no start of better", UTTERABLE), so
+    # they are unaffected.
+    n_words = len(words)
+    covered = {w for p in pieces for w in range(p[0], p[1])}
+
+    def _expr(w):
+        return (w not in covered) and (
+            is_del(w) or bool(is_loc and is_loc(w)) or bool(is_link and is_link(words[w].text)))
+
+    def _del_bound(da, db):
+        j = db
+        while j < n_words and _expr(j):
+            if is_del(j) or (is_loc and is_loc(j)):
+                return True
+            j += 1
+        j = da - 1
+        while j >= 0 and _expr(j):
+            if is_del(j) or (is_loc and is_loc(j)):
+                return True
+            j -= 1
+        return False
+
+    for p in pieces:
+        if p[3] == "deletion" and not _del_bound(p[0], p[1]):
+            return None
+
     # Leftover words are charade glue: a link or an indicator. Check each contiguous
     # leftover RUN at the PHRASE level too, so a multi-word connective ("put on") is
     # recognised even when a single word of it is not typed on its own.

@@ -912,6 +912,19 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     if pcnd is not None and pcnd.status in ("pass", "pending"):
         return _finish(pcnd, "charade_named_deletion", ctx, wiring, source, puzzle_number, clue_id)
 
+    # CHARADE + MULTI-WORD NAMED DELETION (sibling of the above) — the deleted string is a
+    # CHARADE of named letters from a CONTIGUOUS RUN of >=2 clue words, removed from a REAL DB
+    # value (DANTE = ANDANTE["slowish"] minus "a name" = A+N). The single-namer engine above
+    # cannot do this. Named + exact + adjacent + fully-accounted, so nothing is invented.
+    from core.charade_multi_named_deletion_engine import solve_charade_multi_named_deletion
+    pcmnd = solve_charade_multi_named_deletion(
+        ctx, wiring["defines"], wiring["lookup_all"], wiring["all_values"],
+        wiring["is_link"], wiring["indicator_types"],
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+    if pcmnd is not None and pcmnd.status in ("pass", "pending"):
+        return _finish(pcmnd, "charade_multi_named_deletion", ctx, wiring, source,
+                       puzzle_number, clue_id)
+
     # CHARADE+HOLLOW — a charade where ONE piece is a hollowed word: its outer shell only
     # (first+last, the inside emptied), AMEER = AM + E[xercis]E + R. The charade+deletion
     # engine cannot do this (its backward reconstruction restores only a bounded affix, not

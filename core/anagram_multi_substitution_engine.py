@@ -133,14 +133,15 @@ def solve_anagram_multi_substitution(ctx, defines, value_lookup, indicator_types
                         glue = [k for k in optional if k not in set(extra)]
                         if len(fodder) < 2:
                             continue
-                        # PRECISION GUARD: a multi-sub anagram may absorb at most ONE inert
-                        # surface indicator (the single container/"surrounding" word the full
-                        # anagram makes mechanically dead). Discarding TWO+ operator words to
-                        # force a letter-fit is too loose (it manufactured BACCHUS by dropping
-                        # both "head" and "absorbed") — abstain. Link words are unrestricted.
+                        # PRECISION GUARD: a multi-sub anagram may NOT absorb any inert "surface
+                        # indicator" — a typed indicator word (deletion/selection/container/...)
+                        # that does NO work. Discarding an operator word to force a letter-fit is
+                        # a false pass (SANATORIA passed by hand-waving "Top" as a dead indicator;
+                        # BACCHUS by dropping "head"+"absorbed"). Only genuine LINK words may be
+                        # leftover glue; a stray operator word means this is not a clean anagram.
                         inert_ind = sum(1 for k in glue
                                         if not (is_link and is_link(words[k].text)))
-                        if inert_ind > 1:
+                        if inert_ind > 0:
                             continue
                         # within fodder, pick the substituted words (>= 2); rest are bulk
                         for ns in range(2, min(_MAX_SUBS, len(fodder)) + 1):

@@ -224,6 +224,14 @@ def add_indicator(word, wordplay_type, subtype=None):
         if ("selection", sub) not in SUBTYPE_RULE:
             return ("Unknown selection sub-type %r. Use one of: %s."
                     % (sub, ", ".join(CLUE_PAGE_SUBTYPES)))
+    # A LETTER-SHIFT (cyclic rotation by one) is meaningless without a direction — the solver
+    # could not know which end moves — so, like selection, it MUST carry a valid sub-type.
+    if wp == "letter_shift":
+        if not sub:
+            return ("A letter-shift indicator needs a sub-type (which way it moves): "
+                    "last_front or first_end.")
+        if sub not in ("last_front", "first_end"):
+            return ("Unknown letter-shift sub-type %r. Use last_front or first_end." % sub)
     label = "%s%s" % (wp, ("/" + sub) if sub else "")
     conn = _conn()
     try:

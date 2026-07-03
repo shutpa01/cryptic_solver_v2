@@ -61,7 +61,7 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "insertion", "reversal", "deletion",
-              "selection", "acrostic", "homophone", "charade", "alternation"]
+              "selection", "acrostic", "homophone", "charade", "alternation", "letter_shift"]
 # Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
 # has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
 # is what the code reads, the label is the clear descriptor shown to the user (the DB
@@ -83,6 +83,11 @@ _IND_SUBTYPES = {
                   ("outer", "outer letters (extremes, ends)"),
                   ("middle", "middle letter(s) (centrally, heart of)"),
                   ("alternate", "alternate letters (oddly, evenly)")],
+    # LETTER-SHIFT (cyclic rotation by one): move an end letter round to the other end, e.g.
+    # TERNS with the tail moved to the front -> STERN ("moving tail to the front"). Like
+    # selection, a shift with NO direction is meaningless, so there is no "no sub-type" option.
+    "letter_shift": [("last_front", "move last letter to front"),
+                     ("first_end", "move first letter to end")],
 }
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -389,6 +394,26 @@ def setstatus():
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
 
+@app.route("/cluecomment", methods=["POST"])
+def cluecomment():
+    """Save (or clear) the user's free-text comment for one clue, from the inline box below
+    the summary. Shares the wfw_notes store with the hand-solver note. Re-renders from store
+    (no re-solve, no reference-DB write), so the comment sticks until changed."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    note = "" if request.form.get("clear") else (request.form.get("note") or "").strip()
+    msg = "No clue."
+    if only.isdigit():
+        conn = store.connect()
+        try:
+            store.set_note(conn, int(only), note)
+        finally:
+            conn.close()
+        msg = "Comment saved." if note else "Comment cleared."
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
+
+
 @app.route("/setdef", methods=["POST"])
 def setdef():
     """Set a DISPLAY-ONLY definition for one clue (no reference-DB write, no checks) —
@@ -532,6 +557,8 @@ def _do_add(form):
         return admin_db.add_definition(form.get("definition"), form.get("answer"))
     if kind == "synonym":
         return admin_db.add_synonym(form.get("word"), form.get("synonym"))
+    if kind == "substitution":
+        return admin_db.add_substitution(form.get("word"), form.get("value"))
     if kind == "indicator":
         return admin_db.add_indicator(form.get("word"), form.get("type"),
                                       form.get("subtype"))
@@ -762,7 +789,7 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
         except Exception:
             unaccounted = []
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
-            + _note_block(clue_id)
+            + _note_block(clue_id, raw_list)
             + _filler_block(clue_id, raw_list, unaccounted, filler)
             + _enrichment_block(clue_text, answer, clue_id, raw_list)
             + _clue_signature_suggestions(clue_id, raw_list)
@@ -772,10 +799,11 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
 
 
 def _clue_controls(clue_id, raw_list, status):
-    """Per-clue manual controls: override the verdict, set a display-only definition
-    (no DB write) for &lit clues, and PIN the definition + re-solve (the real override
-    when the definition stage grabbed too many words). All re-render from store, so they
-    are not overwritten unless the clue is explicitly re-run."""
+    """Per-clue manual controls: override the STATUS (pass/fail/pending/invalid) and PIN the
+    definition + re-solve (the real override when the definition stage grabbed too many words,
+    and the way to solve a CD — pin the definition edge words). Re-renders from store, not
+    overwritten unless the clue is explicitly re-run. (The display-only Definition and Unforce
+    controls stay removed — the hand-solver /hs owns those now.)"""
     h = _hidden(raw_list, clue_id)
     opts = "".join('<option value="%s"%s>%s</option>'
                    % (s, " selected" if s == status else "", s)
@@ -786,26 +814,10 @@ def _clue_controls(clue_id, raw_list, status):
         clear_btn = (f'<form method="post" action="/clearforcedef" class="wfw-cform">{h}'
                      f'<span class="wfw-ctl-l">Pinned: <em>{escape(forced)}</em></span>'
                      '<button>Clear pin &amp; re-solve</button></form>')
-    conn = store.connect()
-    try:
-        frozen = store.is_frozen(conn, clue_id)
-    finally:
-        conn.close()
-    unforce_btn = ""
-    if frozen:
-        unforce_btn = (
-            f'<form method="post" action="/unforce" class="wfw-cform">{h}'
-            '<span class="wfw-ctl-l">&#128274; FROZEN (forced pass &mdash; will not revert)'
-            '</span><button>Unforce &amp; re-solve</button></form>')
     return (
         '<div class="wfw-ctl">'
-        f'{unforce_btn}'
         f'<form method="post" action="/setstatus" class="wfw-cform">{h}'
         f'<span class="wfw-ctl-l">Status</span><select name="status">{opts}</select>'
-        '<button>Set</button></form>'
-        f'<form method="post" action="/setdef" class="wfw-cform">{h}'
-        '<span class="wfw-ctl-l">Definition (display only)</span>'
-        '<input name="definition" placeholder="type to display, not added to DB">'
         '<button>Set</button></form>'
         f'<form method="post" action="/forcedef" class="wfw-cform">{h}'
         '<span class="wfw-ctl-l">Pin definition &amp; re-solve</span>'
@@ -955,6 +967,13 @@ def _clue_admin_panel(clue_id, raw_list):
     <span class="wfw-af-l">Synonym</span>
     <input name="word" placeholder="word in clue">
     <input name="synonym" placeholder="value/answer fragment">
+    <button>Add</button>
+  </form>
+  <form method="post" action="/admin" class="wfw-af">
+    <input type="hidden" name="kind" value="substitution">{h}
+    <span class="wfw-af-l">Abbreviation</span>
+    <input name="word" placeholder="word in clue, e.g. point">
+    <input name="value" placeholder="letters, e.g. E (&rarr; wordplay table)">
     <button>Add</button>
   </form>
   <form method="post" action="/admin" class="wfw-af">
@@ -1191,6 +1210,7 @@ _FORCE_IND_OPTIONS = (
     ("reversal", "reversal"), ("deletion", "deletion"), ("hidden", "hidden"),
     ("homophone", "homophone"), ("acrostic", "acrostic"),
     ("alternation", "alternation"), ("selection", "selection"),
+    ("letter_shift", "letter shift"),
     ("charade_positional:after", "positional — after"),
     ("charade_positional:before", "positional — before"),
 )
@@ -1204,11 +1224,38 @@ _MECH_LABEL = {"synonym": "synonym", "abbreviation": "abbreviation",
                "raw": "literal", "homophone": "homophone"}
 
 
-def _word_roles(ctx, parse, filler_set):
+import collections as _collections
+_HSUnit = _collections.namedtuple("_HSUnit", ["text", "atom_ids"])
+
+
+def _hs_word_units(ctx):
+    """Clue WORDS for the hand solver, with HYPHENATED words SPLIT into their parts:
+    'line-up' -> 'line' + 'up', so each part can take its own role (line=synonym, up=indicator).
+    A word token's atom_ids align 1:1 with its text characters, so each part keeps its own atoms
+    (the hyphen atom itself is dropped — it carries no letter)."""
+    units = []
+    for t in ctx.clue_tokens:
+        if t.kind != "word":
+            continue
+        text, aids = t.text, list(t.atom_ids)
+        if "-" in text and len(aids) == len(text):
+            start = 0
+            for i in range(len(text) + 1):
+                if i == len(text) or text[i] == "-":
+                    if i > start:
+                        units.append(_HSUnit(text[start:i], tuple(aids[start:i])))
+                    start = i + 1
+        else:
+            units.append(_HSUnit(text, tuple(aids)))
+    return units
+
+
+def _word_roles(ctx, parse, filler_set, split_hyphens=False):
     """Map each clue WORD to the role the stored parse gives it. Returns a list of dicts
     {idx, text, role, label, value} in clue order, where `role` is the colour category
     (definition/piece/indicator/link/filler/none), `label` is what to show, and `value`
-    is the letters the piece produced (e.g. D, TORS) — so the synonym IS shown."""
+    is the letters the piece produced (e.g. D, TORS) — so the synonym IS shown.
+    split_hyphens: hand-solver mode — 'line-up' becomes two rows so each part gets its own role."""
     # atom_id -> (role, label, value)
     amap = {}
     if parse is not None:
@@ -1233,17 +1280,17 @@ def _word_roles(ctx, parse, filler_set):
                 amap[aid] = (a.role, note, "")
     out, wi = [], 0
     fil = {(x or "").strip().lower() for x in (filler_set or ())}
-    for t in ctx.clue_tokens:
-        if t.kind != "word":
-            continue
+    units = (_hs_word_units(ctx) if split_hyphens else
+             [_HSUnit(t.text, tuple(t.atom_ids)) for t in ctx.clue_tokens if t.kind == "word"])
+    for u in units:
         role, label, value = "none", "—", ""
-        for aid in t.atom_ids:
+        for aid in u.atom_ids:
             if aid in amap:
                 role, label, value = amap[aid]
                 break
-        if role == "none" and (t.text or "").strip().lower() in fil:
+        if role == "none" and (u.text or "").strip().lower() in fil:
             role, label = "filler", "filler"
-        out.append({"idx": wi, "text": t.text, "role": role,
+        out.append({"idx": wi, "text": u.text, "role": role,
                     "label": label, "value": value})
         wi += 1
     return out
@@ -1831,10 +1878,14 @@ function initGrid(rootId, DATA){
  var bar=root.querySelector('#g-bar'), selLbl=root.querySelector('#g-sel');
  var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
+ var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',anagram:'#0369a1',deletion:'#b45309',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
- function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters';} // lands on tiles
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='anagram';} // lands on tiles
+ function fodderLetters(idx){return idx.map(function(i){return (DATA.words[i]||'').toUpperCase().replace(/[^A-Z]/g,'');}).join('');}
+ function msort(s){return (s||'').split('').sort().join('');}
+ function msub(a,b){var arr=(a||'').split(''),ok=true;(b||'').split('').forEach(function(c){var i=arr.indexOf(c);if(i>=0)arr.splice(i,1);else ok=false;});return {ok:ok,rem:arr.sort().join('')};}
  var PAL=['#fca5a5','#fcd34d','#86efac','#93c5fd','#c4b5fd','#f9a8d4','#a5f3fc','#fdba74','#d9f99d','#f5d0fe','#fda4af','#bef264'];
  var atiles=Array.prototype.slice.call(root.querySelectorAll('.g-atile'));
  var cmsg=root.querySelector('#g-cmsg');
@@ -1842,6 +1893,25 @@ function initGrid(rootId, DATA){
  function pcCol(k){return PAL[k%PAL.length];}
  function posOwner(p){for(var k=0;k<assignments.length;k++){var a=assignments[k];if(a.pos&&a.pos.indexOf(p)>=0)return k;}return -1;}
  function locateValue(v){v=(v||'').toUpperCase();if(!v)return null;var ans=DATA.answer,hits=[];for(var s=0;s+v.length<=ans.length;s++){if(ans.substr(s,v.length)===v){var ps=[],ok=true;for(var j=0;j<v.length;j++){var p=s+j+1;if(posOwner(p)>=0){ok=false;break;}ps.push(p);}if(ok)hits.push(ps);}}return hits.length===1?hits[0]:null;}
+ // Remove the FIRST contiguous run `cut` from a derivative `v` -> the SURVIVING letters that land on
+ // the answer (e.g. ORATION - O = RATION). Returns null when `cut` is not a contiguous run of `v`.
+ function applyCut(v,cut){v=(v||'').toUpperCase();cut=(cut||'').toUpperCase();if(!cut)return v;var i=v.indexOf(cut);return i<0?null:(v.slice(0,i)+v.slice(i+cut.length));}
+ function drawCutPrev(){if(!cutPrev)return;var r=roleSel.value;
+  if(r==='anagram'){                                            // ANAGRAM fodder: show the fodder
+   var fl=fodderLetters(checkedIdx());                          //   letters + the deletion preview
+   if(!fl){cutPrev.innerHTML='';return;}
+   var acut=(cutEl&&cutEl.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+   if(!acut){cutPrev.innerHTML='<span style="color:#64748b">fodder: <b>'+fl+'</b> ('+fl.length+') &mdash; click the tiles it rearranges into</span>';return;}
+   var res=msub(fl,acut);
+   cutPrev.innerHTML=res.ok?('<span style="color:#b45309">'+fl+' &minus;'+acut+' &rarr; <b>'+(res.rem||'(empty)')+'</b> ('+res.rem.length+' letters to place)</span>')
+    :('<span style="color:#dc2626">'+acut+' has a letter not in '+fl+'</span>');
+   return;}
+  if(!isValued(r)){cutPrev.innerHTML='';return;}
+  var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();var cut=(cutEl&&cutEl.value||'').trim().toUpperCase();
+  if(!v||!cut){cutPrev.innerHTML='';return;}
+  var surv=applyCut(v,cut);
+  cutPrev.innerHTML=(surv===null)?('<span style="color:#dc2626">'+cut+' not a run of '+v+'</span>')
+   :('<span style="color:#b45309">'+v+' &minus;'+cut+' &rarr; <b>'+(surv||'(empty)')+'</b></span>');}
  function drawTiles(){atiles.forEach(function(t){var p=+t.dataset.pos;var o=posOwner(p);
   if(o>=0){t.style.background=pcCol(o);t.style.borderColor=pcCol(o);t.style.color='#0f172a';}
   else if(selPos.indexOf(p)>=0){t.style.background='#1d4ed8';t.style.borderColor='#1d4ed8';t.style.color='#fff';}
@@ -1857,7 +1927,7 @@ function initGrid(rootId, DATA){
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
    if(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
     rc.innerHTML='<b style="color:'+col+'">'+a.role+(a.isub?('/'+a.isub):'')+'</b>';
-    bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):'';
+    bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.cut?(' <span style="color:#b45309">&minus;'+a.cut+'</span>'):'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):(a.role==='deletion'?('<span style="color:#b45309">&minus;'+(a.value||'')+'</span>'):'');
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -1869,7 +1939,7 @@ function initGrid(rootId, DATA){
  function drawList(){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-   var v=isPiece(a.role)?(' = '+a.value+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
+   var v=isPiece(a.role)?(' = '+a.value+(a.cut?(' &minus;'+a.cut):'')+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
    return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+a.role+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
@@ -1882,13 +1952,25 @@ function initGrid(rootId, DATA){
   if(!syn)return;
   fetch('/hsinfer?base='+encodeURIComponent(syn)+'&answer='+encodeURIComponent(DATA.answer)).then(function(r){return r.json();}).then(function(o){if(o&&o.subtype)isub.value=o.subtype;});
  }
+ // Repopulate the sub-type dropdown from the selected indicator type (data-driven, from
+ // DATA.subtypes) so deletion / selection / letter_shift each show THEIR sub-types. Types with
+ // no sub-types (reversal, anagram, ...) hide it. Keeps a matching value selected if possible.
+ function fillSub(){var subs=(DATA.subtypes||{})[itype.value]||null;
+  if(!subs){isub.style.display='none';isub.innerHTML='';return;}
+  var cur=isub.value;
+  isub.innerHTML=subs.map(function(s){return '<option value="'+s[0]+'">'+s[1]+'</option>';}).join('');
+  if(cur){for(var i=0;i<isub.options.length;i++){if(isub.options[i].value===cur){isub.value=cur;break;}}}
+  isub.style.display=(roleSel.value==='indicator')?'':'none';}
  function roleFields(){var r=roleSel.value;
   itype.style.display=(r==='indicator')?'':'none';
-  isub.style.display=(r==='indicator'&&itype.value==='deletion')?'':'none';
-  candWrap.style.display=isPiece(r)?'':'none';
-  if(candSel)candSel.style.display=isValued(r)?'':'none';       // 'letters' = type only, no
+  fillSub();                                                    // data-driven sub-type dropdown
+  candWrap.style.display=((isPiece(r)&&r!=='anagram')||r==='deletion')?'':'none'; // deletion = type
+  if(candSel)candSel.style.display=isValued(r)?'':'none';       // the removed letters (no tiles)
   if(delEl)delEl.style.display=(r==='synonym')?'':'none';        // DB candidates / prune (syn only)
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':'new value';
+  if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
+  if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':'new value');
+  drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='indicator'&&itype.value==='deletion')inferSub();
  }
@@ -1906,31 +1988,63 @@ function initGrid(rootId, DATA){
     Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v);};});}
   }).catch(function(){candSel.innerHTML='<option value="">(lookup failed — add below)</option>';});
  }
- tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();}});
+ tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();drawCutPrev();}});
  roleSel.addEventListener('change',roleFields);
  itype.addEventListener('change',roleFields);
  var msgEl=root.querySelector('#g-msg');
  function note(t){if(msgEl)msgEl.textContent=t||'';}
  function assignNow(){
   var idx=checkedIdx();if(!idx.length){note('tick a word first');return;}
-  var r=roleSel.value, a={idx:idx,role:r};
-  if(isValued(r)){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('type the value first');return;}a.value=v;}
+  var r=roleSel.value, a={idx:idx,role:r}, survivor=null;
+  if(isValued(r)){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('type the value first');return;}a.value=v;
+   var cut=(cutEl&&cutEl.value||'').trim().toUpperCase();       // delete a run from the derivative
+   if(cut){survivor=applyCut(v,cut);
+    if(survivor===null){note('“'+cut+'” is not a run of '+v);return;}
+    if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
+    a.cut=cut;}}
   if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
-  if(r==='indicator'){a.itype=itype.value;a.isub=(itype.value==='deletion')?isub.value:'';}
+  if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
+  if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
+   if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
+  if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
   if(isPiece(r)){
+   var placeVal=(survivor!==null)?survivor:a.value;             // what actually lands on the tiles
    var pos=selPos.slice();
-   if(!pos.length){var loc=(a.value?locateValue(a.value):null);
-    if(loc)pos=loc;
-    else{note('now click the answer tiles this piece makes, then Assign');return;}}
+   if(!pos.length){                                             // anagram fodder is SCRAMBLED, so it
+    var loc=(r!=='anagram'&&placeVal)?locateValue(placeVal):null; //  can't auto-place: click tiles
+    if(!loc&&r!=='anagram'&&placeVal&&placeVal.length>=3){      // a LETTER-SHIFT lands the value's
+     var rots=[placeVal.slice(-1)+placeVal.slice(0,-1),         //   letters rotated by one: TERNS
+               placeVal.slice(1)+placeVal.slice(0,1)];          //   -> STERN (last->front) is in
+     for(var ri=0;ri<rots.length;ri++){var rl=locateValue(rots[ri]);if(rl){loc=rl;break;}}}
+    if(loc)pos=loc;                                             //   the answer, so auto-place there
+    else if(r==='anagram'){note('now click the answer tiles this fodder ('+placeVal+') fills, in any order, then Assign');return;}
+    else{note('now click the answer tiles this piece makes ('+(placeVal||'')+'), then Assign');return;}}
    a.pos=pos.sort(function(x,y){return x-y;});
+   if(survivor!==null&&a.pos.length!==survivor.length){
+    note('you placed '+a.pos.length+' tile(s) but '+v+' −'+a.cut+' = '+survivor+' ('+survivor.length+')');return;}
+   if(r==='anagram'){                                           // fodder must CONTAIN the tiles;
+    var ts=msort(a.pos.map(function(p){return DATA.answer[p-1];}).join(''));  // surplus = a deletion
+    var acut=(cutEl&&cutEl.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+    if(acut){                                                   // an explicitly named deletion
+     var r1=msub(a.value, acut);
+     if(!r1.ok){note('“'+acut+'” has a letter not in the fodder '+a.value);return;}
+     if(r1.rem!==ts){note('fodder '+a.value+' − '+acut+' = '+(r1.rem||'(empty)')+' ≠ tiles ('+ts+')');return;}
+     a.cut=msort(acut);
+    }else{                                                      // surplus fodder is the deletion
+     var r2=msub(a.value, ts);
+     if(!r2.ok){note('fodder '+a.value+' does not contain all those tiles ('+ts+')');return;}
+     if(r2.rem)a.cut=r2.rem;}}
    if(r==='letters'&&!a.value){a.value=a.pos.map(function(p){return DATA.answer[p-1];}).join('');}
   }
   assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
-  assignments.push(a);addInp.value='';selPos=[];note('');drawRows();drawList();drawTiles();clearChecks();saveAssignments();
+  assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];note('');drawCutPrev();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
  }
  root.querySelector('#g-assign').addEventListener('click',assignNow);
- // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign
- candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;assignNow();}});
+ if(cutEl)cutEl.addEventListener('input',drawCutPrev);
+ if(addInp)addInp.addEventListener('input',drawCutPrev);
+ // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign.
+ // With a deletion typed, DON'T auto-assign (let the user place the survivor first).
+ candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}});
  root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
@@ -1988,7 +2102,8 @@ def _span_surface(clue_id, back_raw=None):
         note = store.get_note(conn, clue_id)              # restore the user note
     finally:
         conn.close()
-    rows = _word_roles(ctx, parse, filler)        # [{idx,text,role,label,value}], clue order
+    rows = _word_roles(ctx, parse, filler, split_hyphens=True)  # [{idx,text,role,label,value}];
+                                                  # hyphenated words split so each part gets a role
     back = back_raw or str(clue_id)
     try:
         saved_list = json.loads(saved) if saved else []
@@ -2011,6 +2126,8 @@ def _span_surface(clue_id, back_raw=None):
             "words": [r["text"] for r in rows],
             "answer": "".join(c for c in answer.upper() if c.isalpha()),
             "current": [{"label": r["label"], "value": r["value"]} for r in rows],
+            "subtypes": _IND_SUBTYPES,            # per-type sub-type options (data-driven dropdown:
+                                                  #   deletion / selection / letter_shift)
             "assignments": saved_list}
 
     if parse is not None:
@@ -2065,9 +2182,19 @@ def _span_surface(clue_id, back_raw=None):
          'click the tiles it makes:<br><span id="g-atiles" style="margin-top:.2rem;'
          'display:inline-block">%s</span></div>' % ans_tiles,
          '<p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Tick the word(s), pick a role. '
-         '<b>synonym</b>: type the value then click the answer tiles it makes. <b>letters</b> '
-         '(literal): just click the answer tiles it makes. <b>indicator/definition/link/filler</b>: '
-         'no tiles. Then Assign. When every tile is coloured, <b>Commit (manual)</b>.</p>',
+         '<b>synonym</b>: type the value then click the answer tiles it makes. If a letter is '
+         'deleted from the derivative (e.g. speech=ORATION, &ldquo;scrapping introduction&rdquo; '
+         'removes O), type the deleted run in <b>&minus; delete</b> and the survivor places itself. '
+         '<b>letters</b> (literal): just click the answer tiles it makes. '
+         '<b>anagram fodder</b>: tick the fodder word(s) &mdash; its value is their letters (shown '
+         'in the preview) &mdash; then click the answer tiles they rearrange into (any order); tag '
+         'the anagram word separately as an <b>indicator</b> (type anagram). If the fodder is '
+         'LONGER than the answer, place it on the (fewer) tiles and account the removed letter with '
+         'a <b>deletion</b> role: tick the word that supplies it (e.g. &ldquo;a&rdquo; &rarr; A) and '
+         'pick <b>deletion</b> &mdash; no tiles. (Or type the letter directly in <b>&minus; delete</b> '
+         'on the fodder.) '
+         '<b>indicator/definition/link/filler</b>: no tiles. Then Assign. When every tile is '
+         'coloured, <b>Commit (manual)</b>.</p>',
          '<table class="g-tbl"><thead><tr><th></th><th>word</th><th>role</th><th>brings</th>'
          '</tr></thead><tbody id="g-tbody">%s</tbody></table>' % trs,
          '<div id="g-bar" class="g-bar" style="display:none">',
@@ -2077,6 +2204,8 @@ def _span_surface(clue_id, back_raw=None):
          '<option value="synonym">synonym</option>'
          '<option value="substitution">substitution (abbr / symbol)</option>'
          '<option value="letters">letters (exact)</option>'
+         '<option value="anagram">anagram fodder</option>'
+         '<option value="deletion">deletion (letters removed)</option>'
          '<option value="indicator">indicator</option>'
          '<option value="link">link word</option>'
          '<option value="filler">filler</option>'
@@ -2085,6 +2214,10 @@ def _span_surface(clue_id, back_raw=None):
          '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
          '<span id="g-cand" style="display:none">value: <select id="g-candsel"></select> '
          'or add <input id="g-add" placeholder="new value" size="12"> '
+         '<span id="g-cutwrap" style="display:none;margin-left:.35rem">&minus; delete '
+         '<input id="g-cut" placeholder="e.g. O" size="5" title="Delete a run of letters from '
+         'the derivative (e.g. speech=ORATION, scrapping introduction removes O -> RATION)">'
+         '<span id="g-cutprev" style="margin-left:.35rem;font-size:.85rem"></span></span> '
          '<span id="g-del" style="margin-left:.4rem;font-size:.85rem;color:#b45309"></span></span>',
          '<button type="button" id="g-assign" class="g-assign">Assign</button>',
          '<span id="g-msg" style="color:#dc2626;font-size:.85rem"></span>',
@@ -2424,18 +2557,36 @@ def hsnote_route():
     return _hs_redirect(only, "Note saved." if note else "Note cleared.", back)
 
 
-def _note_block(clue_id):
-    """The user-facing note for a clue (authored in the hand-solver), or '' if none."""
+def _note_block(clue_id, raw_list):
+    """The user-facing comment for a clue, editable inline right below the summary. Shows the
+    saved comment (also editable in the hand-solver — same wfw_notes store) and a compact
+    box to type/change it. Posts to /cluecomment, which re-renders from store (no re-solve)."""
     conn = store.connect()
     try:
         note = store.get_note(conn, clue_id)
     finally:
         conn.close()
-    if not note:
-        return ""
-    return ('<div style="margin:.5rem 0;padding:.6rem .85rem;background:#fffbeb;'
-            'border:1px solid #fcd34d;border-radius:10px;color:#92600a;font-size:.95rem">'
-            '<strong>Note:</strong> %s</div>' % escape(note).replace("\n", "<br>"))
+    saved = ""
+    if note:
+        saved = ('<div style="margin:.5rem 0 .35rem;padding:.6rem .85rem;background:#fffbeb;'
+                 'border:1px solid #fcd34d;border-radius:10px;color:#92600a;font-size:.95rem">'
+                 '<strong>Comment:</strong> %s</div>' % escape(note).replace("\n", "<br>"))
+    h = _hidden(raw_list, clue_id)
+    clear_btn = ""
+    if note:
+        clear_btn = ('<button name="clear" value="1" style="margin-left:.4rem;background:#fff;'
+                     'color:#64748b;border:1px solid #cbd5e1;border-radius:8px;padding:.3rem .7rem;'
+                     'font-weight:600;cursor:pointer">Clear</button>')
+    editor = ('<form method="post" action="/cluecomment" style="margin:.15rem 0 .6rem">%s'
+              '<textarea name="note" rows="2" placeholder="Add a brief comment&hellip;" '
+              'style="width:100%%;max-width:46rem;box-sizing:border-box;border:1px solid #cbd5e1;'
+              'border-radius:8px;padding:.4rem .55rem;font-family:inherit;font-size:.92rem">%s'
+              '</textarea>'
+              '<div style="margin-top:.25rem"><button style="background:#0d9488;color:#fff;'
+              'border:none;border-radius:8px;padding:.3rem .8rem;font-weight:700;cursor:pointer">'
+              'Save comment</button>%s</div></form>'
+              % (h, escape(note), clear_btn))
+    return saved + editor
 
 
 @app.route("/hsstatus", methods=["POST"])
@@ -2636,7 +2787,8 @@ def hsmanualcommit_route():
     clue_text, answer, src, pnum, direction, enumeration, cnum = row
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
-    wt = [t for t in ctx.clue_tokens if t.kind == "word"]
+    wt = _hs_word_units(ctx)                       # hyphenated words split (line-up -> line + up)
+                                                   # so payload word-indices align with the /hs grid
     ans_letters = "".join(c for c in answer.upper() if c.isalpha())
     N = len(ans_letters)
     try:
@@ -2666,28 +2818,41 @@ def hsmanualcommit_route():
             continue
         role = (a.get("role") or "").strip()
         phrase, atoms = phrase_for(idx), atoms_for(idx)
-        if role in ("synonym", "letters", "substitution"):
+        if role in ("synonym", "letters", "substitution", "anagram"):
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
             value = (a.get("value") or "").strip().upper()
             if role == "letters" and not value:            # literal: value = the tiles' letters
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+            if role == "anagram" and not value:            # fodder = the ticked clue words' letters
+                value = "".join(c for c in phrase.upper() if c.isalpha())
             if not pos:
                 return _json({"ok": False, "msg": "The piece %r has no answer tiles — click "
                               "the answer letters it makes, then Assign." % phrase})
+            if role == "anagram":                          # fodder must CONTAIN the tiles it fills;
+                got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)  # any surplus fodder
+                from collections import Counter            # letters are a deletion before the anagram
+                short = Counter(got) - Counter(value)      # (10 fodder letters -> a 9-letter anagram)
+                if short:
+                    return _json({"ok": False, "msg": "Anagram fodder %r does not contain the tiles "
+                                  "you clicked (%s) — missing %s." % (value, got,
+                                  "".join(sorted(short.elements())))})
             si = len(sources)
             # record the piece's REAL mechanism so the render shows the right label (letters ->
-            # "Literal", substitution -> "Substitution", synonym -> "synonym") and NOT "MANUAL"
-            # on every piece; the whole parse is already flagged manual at the top.
-            mech = {"letters": "raw", "substitution": "abbreviation"}.get(role, "synonym")
+            # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
+            # and NOT "MANUAL" on every piece; the whole parse is already flagged manual at the top.
+            mech = {"letters": "raw", "substitution": "abbreviation",
+                    "anagram": "anagram_fodder"}.get(role, "synonym")
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism=mech, source="db"))
+            tr = "anagram_of" if role == "anagram" else None
             for p in pos:
                 if p in covered:
                     return _json({"ok": False, "msg": "Answer tile %d is claimed by two "
                                   "pieces — each tile belongs to exactly one piece." % p})
                 covered[p] = si
-                links.append(Link(answer_pos=p, source_index=si, operation="manual"))
+                links.append(Link(answer_pos=p, source_index=si, operation="manual",
+                                  transform=tr))
         elif role == "definition":
             definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
                                 mechanism="definition", source="manual")
@@ -2697,6 +2862,12 @@ def hsmanualcommit_route():
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
                                            note="%s%s indicator" % (it, ("/" + isb) if isb else ""),
                                            source="manual"))
+        elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
+            value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram
+            if not value:
+                value = "".join(c for c in phrase.upper() if c.isalpha())
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="deletion",
+                                           note="deleted letters: %s" % value, source="manual"))
         elif role in ("link", "filler"):
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
                                            note=("surface filler" if role == "filler"
@@ -2710,9 +2881,19 @@ def hsmanualcommit_route():
         return _json({"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
                       "Every answer letter must be coloured by a piece." % ", ".join(map(str, missing))})
 
+    if definition is None:
+        return _json({"ok": False, "msg": "Not committed — no definition. Every clue must end with "
+                      "a definition: tick the definition word(s) and pick the definition role."})
     parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
                   annotations=annotations, definition=definition, operation="manual",
                   solved_by="manual", status="pass")
+    # EVERY clue word must have a role. A manual PASS with clue words left unaccounted is a false
+    # pass (the human is asserting a complete solve) — refuse it, listing what is still unaccounted.
+    unaccounted = parse.unexplained_words(ctx)
+    if unaccounted:
+        return _json({"ok": False, "msg": "Not committed — these clue words have NO role: %s. Every "
+                      "clue word must be a piece, the definition, an indicator, a link, filler, or a "
+                      "deletion." % ", ".join("“%s”" % w for w in unaccounted)})
     conn = store.connect()
     try:
         store.set_hs_assignments(conn, cid, payload)

@@ -189,7 +189,21 @@ _IND_TYPES = ("anagram", "container", "insertion", "reversal", "deletion",
               "selection", "substitution", "alternation")
 _IND_COLOUR = {"anagram": "#7c3aed", "container": "#0e7490", "reversal": "#b45309",
                "deletion": "#be185d", "hidden": "#92600a", "homophone": "#4d7c0f",
-               "acrostic": "#5b21b6", "indicator": "#7c3aed"}
+               "acrostic": "#5b21b6", "letter-shift": "#0369a1", "indicator": "#7c3aed"}
+
+
+# Friendly detail for an indicator's sub-type code, per type (a manual "type/subtype" note like
+# "selection/first" or "deletion/head" must READ well, not show a bare code). Keyed by type then
+# sub-type; "middle" means different things for selection vs deletion, hence the per-type nesting.
+_SUBTYPE_DETAIL = {
+    "selection": {"first": "first letter(s)", "last": "last letter(s)", "outer": "outer letters",
+                  "middle": "middle letter(s)", "alternate": "alternate letters"},
+    "deletion": {"head": "remove first letter", "tail": "remove last letter",
+                 "ends": "remove outer letters", "middle": "remove middle letter",
+                 "empty": "remove inner letters", "general": "named letter(s)"},
+    "letter_shift": {"last_front": "move last letter to front",
+                     "first_end": "move first letter to end"},
+}
 
 
 def _indicator_label(note):
@@ -209,10 +223,19 @@ def _indicator_label(note):
         return "Alternation indicator", note.split(":", 1)[1].strip()
     if n.startswith("selection ("):               # "selection (first)"
         return "Selection indicator", note[note.find("(") + 1:note.find(")")].strip()
+    if n.startswith("letter_shift") or n.startswith("letter-shift") \
+            or n.startswith("letter shift"):       # "letter_shift/last_front indicator"
+        sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
+        detail = {"last_front": "move last letter to front",
+                  "first_end": "move first letter to end"}.get(sub, sub)
+        return "Letter-shift indicator", detail
     for t in _IND_TYPES:
         if t in n:
             disp = "Container" if t == "insertion" else t.capitalize()
-            return disp + " indicator", ""
+            # manual "type/subtype indicator" format (e.g. "selection/first", "deletion/head") —
+            # SHOW the sub-type, friendly-mapped, so it is not a bare "Selection indicator".
+            sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
+            return disp + " indicator", _SUBTYPE_DETAIL.get(t, {}).get(sub, sub)
     return "Indicator", ""
 
 
@@ -247,6 +270,14 @@ def _source_row(parse, si, src_fg, src_fill):
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
                % (escape(s.text), escape(s.value)))
+    # Show HOW the piece's letters reached the answer (reversed / minus a deleted run), so a
+    # piece that supplies IS but lands as SI reads "is -> IS reversed" here too — not a bare IS
+    # whose order isn't in the answer. Matches the assembly build line (same _transform_note).
+    if s.mechanism != "anagram_fodder":
+        al = parse.answer_letters()
+        positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
+        got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))
+        content += _transform_note(s.value, got)
     if s.mechanism == "homophone":
         tr = next((l.transform for l in parse.links
                    if l.source_index == si and l.transform), None)
@@ -296,7 +327,12 @@ def _annotation_row(parse, a):
             content += ' <span class="wfw-emuted">&mdash; %s</span>' % escape(detail)
     elif a.role == "deletion":
         style, label = "background:#b91c1c;color:#fff", "Deleted"
-        removed = note.split("→")[-1].strip() if "→" in note else ""
+        if "→" in note:
+            removed = note.split("→")[-1].strip()
+        elif note.lower().startswith("deleted letters:"):    # "deleted letters: A" -> show the A
+            removed = note.split(":", 1)[1].strip()
+        else:
+            removed = ""
         if removed:
             content += (' <span class="wfw-arrow">&rarr;</span> '
                         '<strong class="wfw-val">%s</strong>' % escape(removed))
@@ -629,6 +665,31 @@ def _render_homophone(parse, ctx, src_fg, src_fill):
 # generically so one renderer serves every compound (anagram+container, container+charade,
 # charade+deletion, reversal+charade, ...). Falls back to plain rows if the map is incomplete.
 
+def _transform_note(value, got):
+    """The 'reversed' / '&minus;deleted-run' marker for a piece whose DB value is `value` and
+    whose answer letters IN ANSWER READING ORDER are `got`. '' when they match plainly. Does
+    NOT cover anagram (the caller flags anagram_fodder itself). Shared by the assembly build
+    line (_piece_label) and the per-piece breakdown rows (_source_row) so they never diverge —
+    e.g. a piece that supplies IS but lands as SI shows 'reversed' in BOTH places."""
+    v = (value or "").upper()
+    if got == v:
+        return ""
+    if not got:                                          # piece contributes no answer letters
+        return ""                                        #   here -> not a reversal/deletion of it
+    if got == v[::-1]:
+        return ' <span class="wfw-emuted">reversed</span>'
+    if len(v) >= 3 and len(got) == len(v):               # a single-letter cyclic shift (rotation)
+        if got == v[-1] + v[:-1]:                         #   TERNS -> STERN (tail to the front)
+            return ' <span class="wfw-emuted">last&rarr;front</span>'
+        if got == v[1:] + v[0]:                          #   STERN -> TERNS (head to the back)
+            return ' <span class="wfw-emuted">first&rarr;end</span>'
+    for i in range(len(v)):                              # a single contiguous deletion of v,
+        for j in range(i + 1, len(v) + 1):               #   leaving a NON-empty survivor (got)
+            if v[:i] + v[j:] == got:
+                return ' <span class="wfw-emuted">&minus;%s</span>' % escape(v[i:j])
+    return ""
+
+
 def _piece_label(parse, si, positions, answer_letters):
     """The coloured value for source `si`, marked with how its letters reached the answer:
     reversed / anagram / minus-deleted-run, derived from positions vs the DB value."""
@@ -637,16 +698,12 @@ def _piece_label(parse, si, positions, answer_letters):
     got = "".join(answer_letters[p - 1] for p in positions if 1 <= p <= len(answer_letters))
     col = '<strong class="wfw-val" style="color:%s">%s</strong>' % (_src_colour(si), escape(v))
     if s.mechanism == "anagram_fodder":
+        from collections import Counter                   # fodder longer than what it fills => a
+        removed = "".join(sorted((Counter(v) - Counter(got)).elements()))  # deletion before the
+        if removed:                                       # anagram (10 fodder letters -> 9 tiles)
+            return col + ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)
         return col + ' <span class="wfw-emuted">anagram</span>'
-    if got == v:
-        return col
-    if got == v[::-1]:
-        return col + ' <span class="wfw-emuted">reversed</span>'
-    for i in range(len(v)):                              # a single contiguous deletion of v
-        for j in range(i + 1, len(v) + 1):
-            if v[:i] + v[j:] == got:
-                return col + ' <span class="wfw-emuted">&minus;%s</span>' % escape(v[i:j])
-    return col
+    return col + _transform_note(v, got)
 
 
 def _src_colour(si):
