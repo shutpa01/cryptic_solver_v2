@@ -56,7 +56,8 @@ _MECH_LABEL = {
     "hidden": "Hidden in",
     "hidden_reversed": "Hidden in (rev.)",
     "synonym": "Synonym",
-    "abbreviation": "Abbrev.",
+    "abbreviation": "Substitution",   # wordplay-table values (abbrevs, Roman numerals, compass
+                                      # points, symbols) — "substitution" is the accurate umbrella
     "raw": "Literal",
     "first_letter": "Initial",
     "last_letter": "Last letter",
@@ -688,7 +689,8 @@ def _assembly_expr(parse, answer_letters):
 
 @renders("anagram_container", "container_charade", "charade_deletion", "anagram_charade",
          "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade",
-         "container_inner_deletion", "container_inner_alternation", "charade_multi_deletion")
+         "container_inner_deletion", "container_inner_alternation", "charade_multi_deletion",
+         "manual")
 def _render_assembly(parse, ctx, src_fg, src_fill):
     expr = _assembly_expr(parse, parse.answer_letters())
     if expr:

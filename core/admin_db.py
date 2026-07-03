@@ -98,14 +98,39 @@ def add_synonym(word, synonym):
         return "Word and synonym are both required."
     conn = _conn()
     try:
-        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE word=? AND synonym=?",
-                        (word, synonym)).fetchone():
+        # CASE-INSENSITIVE dedup: clue words are often capitalised (start of clue / proper
+        # nouns) while the DB stores them lower-case, so an exact-case check let duplicates
+        # through (e.g. 'Good' vs 'good'). Match on lower(word)/upper(synonym).
+        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
+                        "AND upper(synonym)=upper(?)", (word, synonym)).fetchone():
             return "Already present: %r = %r" % (word, synonym)
         conn.execute("INSERT INTO synonyms_pairs (word, synonym, source, norm_word) "
                      "VALUES (?, ?, 'admin', ?)", (word, synonym, _normalize_key(word)))
         conn.commit()
         return "Added synonym: %r = %r (note: not used by the hidden engine yet)" % (
             word, synonym)
+    finally:
+        conn.close()
+
+
+def add_substitution(word, value):
+    """Add a wordplay SUBSTITUTION (word -> its cryptic value: an abbreviation, Roman numeral,
+    compass point, symbol, ...) to the `wordplay` table (cryptic_new.db) — NOT synonyms_pairs, so
+    it is labelled 'Substitution', not 'Synonym'. Case-insensitive dedup; category 'admin'."""
+    word = (word or "").strip()
+    value = (value or "").strip().upper()
+    if not word or not value:
+        return "Word and substitution value are both required."
+    conn = _conn()
+    try:
+        if conn.execute("SELECT 1 FROM wordplay WHERE lower(indicator)=lower(?) "
+                        "AND upper(substitution)=?", (word, value)).fetchone():
+            return "Already present: %r -> %s" % (word, value)
+        conn.execute("INSERT INTO wordplay (indicator, substitution, category, notes, norm_ind) "
+                     "VALUES (?, ?, 'admin', 'added via hand-solver', ?)",
+                     (word, value, _normalize_key(word)))
+        conn.commit()
+        return "Added substitution: %r -> %s" % (word, value)
     finally:
         conn.close()
 

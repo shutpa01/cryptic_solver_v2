@@ -1036,7 +1036,28 @@ function initHS(root, clueId, seed){
   if(active>=0){ if(pieces[active].pos.has(p))pieces[active].pos.delete(p); else if(owner<0)pieces[active].pos.add(p); }
   else { if(owner>=0)return; if(selAns.has(p))selAns.delete(p); else selAns.add(p); }
   draw();});});
- root.querySelector('.hs-verify').onclick=function(){result.innerHTML='<i>Verify (the gate) is wired next.</i>';};
+ var addpc=root.querySelector('.hs-addpc');
+ if(addpc){addpc.onclick=function(){
+  var t=(root.querySelector('.hs-pctext').value||'').trim();
+  var v=(root.querySelector('.hs-pcval').value||'').trim().toUpperCase();
+  if(!v){alert('Type the value (the letters this piece contributes to the answer).');return;}
+  pieces.push({text:t,value:v,mech:'derivative',atoms:new Set(),pos:new Set(),def:false});
+  root.querySelector('.hs-pctext').value='';root.querySelector('.hs-pcval').value='';
+  active=pieces.length-1;selClue.clear();selAns.clear();draw();};}
+ var commit=root.querySelector('.hs-commit');
+ if(commit){commit.onclick=function(){
+  var out=pieces.map(function(pc){return {text:pc.text,value:pieceVal(pc),mech:pc.mech,atoms:Array.from(pc.atoms),pos:Array.from(pc.pos),def:!!pc.def};});
+  var fd=new FormData();fd.append('only',clueId);fd.append('payload',JSON.stringify(out));
+  result.innerHTML='<i>committing…</i>';
+  fetch('/handsolvecommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
+   result.innerHTML='<b style="color:'+(o.ok?'#16a34a':'#dc2626')+'">'+esc(o.msg)+'</b>'+(o.ok?(' <a href="/?id='+clueId+'">view on the clue page</a>'):'');
+  }).catch(function(e){result.innerHTML='<b style="color:#dc2626">commit failed</b>';});};}
+ var uncommit=root.querySelector('.hs-uncommit');
+ if(uncommit){uncommit.onclick=function(){
+  var fd=new FormData();fd.append('only',clueId);
+  fetch('/handsolveuncommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
+   result.innerHTML='<b style="color:'+(o.ok?'#16a34a':'#dc2626')+'">'+esc(o.msg)+'</b>';
+  }).catch(function(e){result.innerHTML='<b style="color:#dc2626">uncommit failed</b>';});};}
  draw();
 }
 """
@@ -1137,8 +1158,19 @@ def _handsolve_block(clue_id):
               'chip selected, click the clue atoms and the answer atoms they make, then press '
               '&ldquo;link selected clue + answer atoms&rdquo;. With a chip active, click its '
               'clue atoms to add/remove them (to peel a letter like the &rsquo;s).</div>'
-            + '<div class="hs-row"><button class="hs-verify wfw-reload" '
-              'style="background:#16a34a;border-color:#16a34a">Verify</button></div>'
+            + '<div class="hs-row" style="font-size:.9rem">Add a derivative piece: '
+              '<input class="hs-pctext" placeholder="word(s), e.g. rock band" size="18"> '
+              '&rarr; <input class="hs-pcval" placeholder="value, e.g. REM" size="10"> '
+              '<button class="hs-addpc">Add piece</button> '
+              '<span style="color:#64748b;font-size:.82rem">then click its chip and the clue '
+              'atoms + answer tiles it makes.</span></div>'
+            + '<div class="hs-row"><button class="hs-commit wfw-reload" '
+              'style="background:#7c3aed;border-color:#7c3aed">Commit (manual)</button>'
+              '<button class="hs-uncommit" style="margin-left:.5rem;background:#fff;'
+              'color:#7c3aed;border:1px solid #7c3aed;border-radius:8px;padding:.35rem .8rem;'
+              'font-weight:700;cursor:pointer">Uncommit</button>'
+              '<span style="margin-left:.6rem;color:#64748b;font-size:.82rem">records exactly '
+              'what you tagged, frozen — no DB write, no solver.</span></div>'
             + '<div class="hs-result" style="margin-top:1rem"></div>'
             + '</div>'
             + f'<script>initHS(document.getElementById("{rid}"), {clue_id}, {seed_json});</script>')
@@ -1734,8 +1766,8 @@ def _resolve_one(clue_id):
     path (batch wiring + clue_overrides). Best-effort; never raises to the route."""
     try:
         # MANUAL-SOLVE GUARD: a committed manual solution (human-authored, frozen) must never
-        # be overwritten by the cascade. Skip re-solving it entirely; /hsuncommit lifts the
-        # freeze first, so an uncommit re-solve is not blocked here.
+        # be overwritten by the cascade. Skip re-solving it entirely; /handsolveuncommit lifts
+        # the freeze first, so an uncommit re-solve is not blocked here.
         conn = store.connect()
         try:
             sp = store.load_parse(conn, clue_id)
@@ -1800,7 +1832,21 @@ function initGrid(rootId, DATA){
  var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',letters:'#0891b2',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters';} // lands on tiles
+ var PAL=['#fca5a5','#fcd34d','#86efac','#93c5fd','#c4b5fd','#f9a8d4','#a5f3fc','#fdba74','#d9f99d','#f5d0fe','#fda4af','#bef264'];
+ var atiles=Array.prototype.slice.call(root.querySelectorAll('.g-atile'));
+ var cmsg=root.querySelector('#g-cmsg');
+ var selPos=[];
+ function pcCol(k){return PAL[k%PAL.length];}
+ function posOwner(p){for(var k=0;k<assignments.length;k++){var a=assignments[k];if(a.pos&&a.pos.indexOf(p)>=0)return k;}return -1;}
+ function locateValue(v){v=(v||'').toUpperCase();if(!v)return null;var ans=DATA.answer,hits=[];for(var s=0;s+v.length<=ans.length;s++){if(ans.substr(s,v.length)===v){var ps=[],ok=true;for(var j=0;j<v.length;j++){var p=s+j+1;if(posOwner(p)>=0){ok=false;break;}ps.push(p);}if(ok)hits.push(ps);}}return hits.length===1?hits[0]:null;}
+ function drawTiles(){atiles.forEach(function(t){var p=+t.dataset.pos;var o=posOwner(p);
+  if(o>=0){t.style.background=pcCol(o);t.style.borderColor=pcCol(o);t.style.color='#0f172a';}
+  else if(selPos.indexOf(p)>=0){t.style.background='#1d4ed8';t.style.borderColor='#1d4ed8';t.style.color='#fff';}
+  else{t.style.background='#fff';t.style.borderColor='#cbd5e1';t.style.color='#0f172a';}});}
+ atiles.forEach(function(t){t.addEventListener('click',function(){var p=+t.dataset.pos;if(posOwner(p)>=0)return;var i=selPos.indexOf(p);if(i>=0)selPos.splice(i,1);else selPos.push(p);drawTiles();});});
  function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd});}catch(e){}}
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
@@ -1809,9 +1855,9 @@ function initGrid(rootId, DATA){
   Array.prototype.slice.call(tbody.querySelectorAll('tr')).forEach(function(tr){
    var i=+tr.dataset.i, a=assignOf(i);
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
-   if(a){var col=ROLECOL[a.role]||'#334155';
+   if(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
     rc.innerHTML='<b style="color:'+col+'">'+a.role+(a.isub?('/'+a.isub):'')+'</b>';
-    bc.textContent=(a.role==='synonym'||a.role==='letters')?(a.value||''):'';
+    bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):'';
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -1822,11 +1868,11 @@ function initGrid(rootId, DATA){
  }
  function drawList(){
   listDiv.innerHTML=assignments.map(function(a,k){
-   var col=ROLECOL[a.role]||'#334155';
-   var v=(a.role==='synonym'||a.role==='letters')?(' = '+a.value):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
+   var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
+   var v=isPiece(a.role)?(' = '+a.value+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):'');
    return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+a.role+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
-  Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();saveAssignments();};});
+  Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
  }
  function updateBar(){var idx=checkedIdx();if(idx.length){bar.style.display='';selLbl.textContent=phraseOf(idx);}else{bar.style.display='none';}}
  function clearChecks(){Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=false;});updateBar();}
@@ -1839,11 +1885,11 @@ function initGrid(rootId, DATA){
  function roleFields(){var r=roleSel.value;
   itype.style.display=(r==='indicator')?'':'none';
   isub.style.display=(r==='indicator'&&itype.value==='deletion')?'':'none';
-  candWrap.style.display=(r==='synonym'||r==='letters')?'':'none';
-  if(candSel)candSel.style.display=(r==='synonym')?'':'none';   // 'letters' = type only, no
-  if(delEl)delEl.style.display=(r==='synonym')?'':'none';        // DB candidates / no prune
+  candWrap.style.display=isPiece(r)?'':'none';
+  if(candSel)candSel.style.display=isValued(r)?'':'none';       // 'letters' = type only, no
+  if(delEl)delEl.style.display=(r==='synonym')?'':'none';        // DB candidates / prune (syn only)
   if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':'new value';
-  if(r==='synonym')fetchCands();
+  if(isValued(r))fetchCands();
   if(r==='indicator'&&itype.value==='deletion')inferSub();
  }
  function delRow(word,value){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
@@ -1860,7 +1906,7 @@ function initGrid(rootId, DATA){
     Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v);};});}
   }).catch(function(){candSel.innerHTML='<option value="">(lookup failed — add below)</option>';});
  }
- tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(roleSel.value==='synonym')fetchCands();}});
+ tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();}});
  roleSel.addEventListener('change',roleFields);
  itype.addEventListener('change',roleFields);
  var msgEl=root.querySelector('#g-msg');
@@ -1868,19 +1914,36 @@ function initGrid(rootId, DATA){
  function assignNow(){
   var idx=checkedIdx();if(!idx.length){note('tick a word first');return;}
   var r=roleSel.value, a={idx:idx,role:r};
-  if(r==='synonym'){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('pick or type a value');return;}a.value=v;}
-  if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(!lv){note('type the exact letters');return;}a.value=lv;}
+  if(isValued(r)){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('type the value first');return;}a.value=v;}
+  if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
   if(r==='indicator'){a.itype=itype.value;a.isub=(itype.value==='deletion')?isub.value:'';}
+  if(isPiece(r)){
+   var pos=selPos.slice();
+   if(!pos.length){var loc=(a.value?locateValue(a.value):null);
+    if(loc)pos=loc;
+    else{note('now click the answer tiles this piece makes, then Assign');return;}}
+   a.pos=pos.sort(function(x,y){return x-y;});
+   if(r==='letters'&&!a.value){a.value=a.pos.map(function(p){return DATA.answer[p-1];}).join('');}
+  }
   assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
-  assignments.push(a);addInp.value='';note('');drawRows();drawList();clearChecks();saveAssignments();
+  assignments.push(a);addInp.value='';selPos=[];note('');drawRows();drawList();drawTiles();clearChecks();saveAssignments();
  }
  root.querySelector('#g-assign').addEventListener('click',assignNow);
- // picking an existing synonym from the dropdown ADDS it immediately (no separate Assign click)
- candSel.addEventListener('change',function(){if(roleSel.value==='synonym'&&candSel.value)assignNow();});
+ // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign
+ candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;assignNow();}});
  root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
- var gcm=root.querySelector('#g-commit');
- if(gcm){gcm.addEventListener('click',function(){if(!confirm('Commit these assignments as a MANUAL solution?\\n\\nRecords exactly what you typed, frozen — no reference-DB write, no solver check. For clues the solver cannot fairly do.'))return;payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hscommit';f.submit();});}
- drawRows();drawList();updateBar();roleFields();
+ root.querySelector('#g-commit').addEventListener('click',function(){
+  var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
+  cmsg.textContent='committing…';cmsg.style.color='#64748b';
+  fetch('/hsmanualcommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
+   if(o.ok){cmsg.textContent='✓ '+o.msg+' — opening the clue page…';cmsg.style.color='#16a34a';
+    setTimeout(function(){window.location.href='/?id='+encodeURIComponent(DATA.back||DATA.cid)+'#clue-'+DATA.cid;},800);}
+   else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';cmsg.style.fontSize='1rem';try{cmsg.scrollIntoView({block:'center'});}catch(e){}}
+  }).catch(function(){cmsg.textContent='commit failed (network)';cmsg.style.color='#dc2626';});});
+ root.querySelector('#g-uncommit').addEventListener('click',function(){
+  var fd=new FormData();fd.append('only',DATA.cid);
+  fetch('/hsmanualuncommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){cmsg.textContent=o.msg;cmsg.style.color=o.ok?'#16a34a':'#dc2626';}).catch(function(){cmsg.textContent='uncommit failed';cmsg.style.color='#dc2626';});});
+ drawRows();drawList();drawTiles();updateBar();roleFields();
 }
 """
 
@@ -1983,6 +2046,12 @@ def _span_surface(clue_id, back_raw=None):
         % (v, " selected" if v == cur_status else "", lab)
         for v, lab in (("pass", "PASS"), ("pending", "PENDING"), ("fail", "FAIL"),
                        ("invalid", "INVALID (missing indicator/operation)")))
+    ans_tiles = "".join(
+        '<span class="g-atile" data-pos="%d" style="display:inline-flex;align-items:center;'
+        'justify-content:center;min-width:1.7rem;height:2.1rem;margin:.12rem;border:2px solid '
+        '#cbd5e1;border-radius:7px;font-weight:800;font-family:monospace;cursor:pointer;'
+        'background:#fff">%s</span>' % (i + 1, escape(ch))
+        for i, ch in enumerate(data["answer"]))
     p = [_SPAN_CSS, "<script>%s</script>" % _SPAN_JS,
          '<div id="%s" class="g-root">' % rootid,
          _cid_label(clue_id, src, pnum, cnum, direction),
@@ -1992,9 +2061,13 @@ def _span_surface(clue_id, back_raw=None):
          nav_html,
          '<div style="margin:.3rem 0;font-size:1.1rem;font-weight:600">%s</div>'
          % escape(clue_text),
-         '<div class="g-ans">Answer: <b>%s</b></div>' % escape(data["answer"]),
-         '<p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Tick the word(s) of a group, '
-         'pick a role, choose/add a value, Assign. Repeat for every word, then Resolve once.</p>',
+         '<div class="g-ans">Answer &mdash; for a synonym/letters piece, after its value, '
+         'click the tiles it makes:<br><span id="g-atiles" style="margin-top:.2rem;'
+         'display:inline-block">%s</span></div>' % ans_tiles,
+         '<p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Tick the word(s), pick a role. '
+         '<b>synonym</b>: type the value then click the answer tiles it makes. <b>letters</b> '
+         '(literal): just click the answer tiles it makes. <b>indicator/definition/link/filler</b>: '
+         'no tiles. Then Assign. When every tile is coloured, <b>Commit (manual)</b>.</p>',
          '<table class="g-tbl"><thead><tr><th></th><th>word</th><th>role</th><th>brings</th>'
          '</tr></thead><tbody id="g-tbody">%s</tbody></table>' % trs,
          '<div id="g-bar" class="g-bar" style="display:none">',
@@ -2002,6 +2075,7 @@ def _span_surface(clue_id, back_raw=None):
          '<select id="g-role">'
          '<option value="definition">definition</option>'
          '<option value="synonym">synonym</option>'
+         '<option value="substitution">substitution (abbr / symbol)</option>'
          '<option value="letters">letters (exact)</option>'
          '<option value="indicator">indicator</option>'
          '<option value="link">link word</option>'
@@ -2022,16 +2096,13 @@ def _span_surface(clue_id, back_raw=None):
          '<input type="hidden" name="payload" id="g-payload">',
          '<button type="button" id="g-resolve" class="g-resolve">Resolve &amp; solve</button>',
          '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
-         'margin-left:.5rem" title="Record exactly what you typed as a MANUAL solution '
-         '(frozen, no DB write, no solver check) — for clues the solver cannot fairly do">'
-         'Commit (manual)</button>',
-         '</form>',
-         '<form method="post" action="/hsuncommit" style="margin:.35rem 0">',
-         '<input type="hidden" name="only" value="%d">' % clue_id,
-         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
-         '<button type="submit" style="background:#fff;color:#7c3aed;border:1px solid #7c3aed;'
-         'border-radius:8px;padding:.28rem .7rem;font-weight:700;cursor:pointer;font-size:.85rem">'
-         'Uncommit (hand back to cascade)</button>',
+         'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as a '
+         'MANUAL solution (frozen, no DB write, no solver) — for clues the solver cannot fairly '
+         'do">Commit (manual)</button>',
+         '<button type="button" id="g-uncommit" style="margin-left:.4rem;background:#fff;'
+         'color:#7c3aed;border:1px solid #7c3aed;border-radius:8px;padding:.35rem .8rem;'
+         'font-weight:700;cursor:pointer">Uncommit</button>',
+         '<span id="g-cmsg" style="margin-left:.5rem;font-weight:700"></span>',
          '</form>',
          '<form method="post" action="/hsstatus" style="margin:.5rem 0;display:flex;'
          'gap:.4rem;align-items:center;flex-wrap:wrap">',
@@ -2086,36 +2157,50 @@ def hs_route():
 
 @app.route("/hslookup")
 def hslookup_route():
-    """AJAX: the DB synonym/abbreviation candidate values for a ticked word-group, so the grid
-    can offer them at Assign time. A LOOKUP, never a solve. Returns JSON [{v,m,del}] where
-    `del` marks a value that is a DIRECT synonyms_pairs row (so it can be pruned if rogue);
-    values that appear only via the bidirectional lookup are not directly deletable."""
+    """AJAX candidate values for a ticked word-group: synonyms + abbreviations (the wordplay
+    table) + substitutions. A LOOKUP, never a solve. Abbreviations/substitutions are listed
+    FIRST (they are the short wordplay values the user hunts for and must never be crowded out
+    of the list by the synonyms), then the synonyms; BOTH groups sorted ALPHABETICALLY so a
+    value is easy to find among many. `del` marks a DIRECT synonyms_pairs row (prunable if rogue)."""
     import json, sqlite3
     phrase = (request.args.get("phrase") or "").strip()
-    out = []
+    abbr, syn = [], []
     if phrase:
-        direct = set()
+        direct, subs = set(), set()
         try:
             con = sqlite3.connect(admin_db.CRYPTIC_DB)
             for (v,) in con.execute("SELECT synonym FROM synonyms_pairs "
                                     "WHERE lower(word)=lower(?)", (phrase,)):
                 direct.add((v or "").upper())
+            for (v,) in con.execute("SELECT substitution FROM substitutions "
+                                    "WHERE lower(original_word)=lower(?)", (phrase,)):
+                if v:
+                    subs.add(v.strip().upper())
             con.close()
         except Exception:
             pass
         try:
             la = batch_wiring()["lookup_all"]
-            seen = set()
-            for v, m in la(phrase):
+            mechs = {}                                      # value -> set of mechanisms
+            for v, m in la(phrase):                        # NO early cap — collect every value
                 v = (v or "").upper()
-                if m in ("synonym", "abbreviation") and v and v not in seen:
-                    seen.add(v)
-                    out.append({"v": v, "m": m, "del": v in direct})
-                if len(out) >= 30:
-                    break
+                if v and m in ("synonym", "abbreviation"):
+                    mechs.setdefault(v, set()).add(m)
+            for v, ms in mechs.items():                    # a value that is EVER an abbreviation
+                if "abbreviation" in ms:                   # is grouped as an abbreviation
+                    abbr.append({"v": v, "m": "abbreviation", "del": v in direct})
+                else:
+                    syn.append({"v": v, "m": "synonym", "del": v in direct})
+            for v in subs:                                 # the substitutions table
+                if v and v not in mechs:
+                    abbr.append({"v": v, "m": "substitution", "del": False})
         except Exception:
-            out = []
-    return app.response_class(json.dumps(out), mimetype="application/json")
+            abbr, syn = [], []
+    abbr.sort(key=lambda d: d["v"])
+    syn.sort(key=lambda d: d["v"])
+    out = abbr + syn                                       # no cap — alphabetical, so a long
+    return app.response_class(json.dumps(out),             # list is still easy to scan/jump
+                              mimetype="application/json")
 
 
 @app.route("/hsdelete", methods=["POST"])
@@ -2435,6 +2520,12 @@ def hsresolve_route():
                     admin_db.add_synonym(phrase, val)
                     apply_add_to_wiring({"kind": "synonym", "word": phrase, "synonym": val})
                     applied.append("%r=%s" % (phrase, val))
+            elif role == "substitution":          # abbr/symbol -> the WORDPLAY table, not synonyms
+                val = (a.get("value") or "").strip().upper()
+                if val:
+                    admin_db.add_substitution(phrase, val)
+                    reload_wiring()               # substitutions load as abbreviations at build
+                    applied.append("%r=%s (substitution)" % (phrase, val))
             elif role == "letters":               # LITERAL piece — per-clue only, NO DB write
                 val = (a.get("value") or "").strip().upper()
                 if val:
@@ -2506,131 +2597,6 @@ def hsresolve_route():
     return _hs_redirect(only, _applied_msg(tail), back)
 
 
-@app.route("/hscommit", methods=["POST"])
-def hscommit_route():
-    """MANUAL SOLVE (recorder) — build a Parse DIRECTLY from the hand-solver assignments and
-    persist it FROZEN. For clues the cascade cannot and should not solve (unfair setter tricks,
-    anchorless indirect derivations). This is the OPPOSITE of the banned auto-builder: it
-    DERIVES nothing (the human types every piece's letters via the `letters` role), VERIFIES
-    nothing (the human owns the verdict), NEVER runs the cascade, and writes NOTHING to the
-    reference DB. Every piece is flagged provenance 'manual'."""
-    import json
-    only = (request.form.get("only") or "").strip()
-    back = (request.form.get("from") or only).strip()
-    payload = (request.form.get("payload") or "").strip()
-    if not only.isdigit():
-        return _hs_redirect(only, "No clue.", back)
-    cid = int(only)
-    row = _load_clue(cid)
-    if row is None:
-        return _hs_redirect(only, "No clue.", back)
-    clue_text, answer, src, pnum, direction, enumeration, cnum = row
-    answer = enum_space(answer, enumeration)
-    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
-    word_tokens = [t for t in ctx.clue_tokens if t.kind == "word"]
-    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
-    try:
-        assigns = json.loads(payload) if payload else []
-    except Exception:
-        assigns = []
-    if not assigns:
-        return _hs_redirect(only, "No assignments to commit.", back)
-
-    from core.wfw_model import Source, Link, Annotation, Parse
-
-    def atoms_for(idx):
-        out = []
-        for i in idx:
-            if 0 <= i < len(word_tokens):
-                out.extend(word_tokens[i].atom_ids)
-        return tuple(out)
-
-    def phrase_for(idx):
-        return " ".join(word_tokens[i].text for i in idx if 0 <= i < len(word_tokens))
-
-    pieces, definition, annotations = [], None, []
-    for a in assigns:
-        try:
-            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(word_tokens))
-        except Exception:
-            idx = []
-        if not idx:
-            continue
-        role = (a.get("role") or "").strip()
-        phrase, atoms = phrase_for(idx), atoms_for(idx)
-        if role in ("letters", "synonym"):
-            val = (a.get("value") or "").strip().upper()
-            if val:
-                pieces.append((phrase, val, atoms))
-        elif role == "definition":
-            definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
-                                mechanism="definition", source="manual")
-        elif role == "indicator":
-            itype = (a.get("itype") or "").strip() or "wordplay"
-            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
-                                           note="%s indicator" % itype.split(":")[0],
-                                           source="manual"))
-        elif role == "link":
-            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
-                                           note="link word", source="manual"))
-        elif role == "filler":
-            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
-                                           note="surface filler", source="manual"))
-
-    if not pieces:
-        return _hs_redirect(only, "A manual commit needs at least one piece with typed "
-                            "letters (the 'letters' role).", back)
-    assembled = "".join(v for _, v, _ in pieces)
-    if assembled != ans_letters:
-        return _hs_redirect(only, "The pieces spell %r but the answer is %r — fix the letters "
-                            "or their order before committing." % (assembled, ans_letters), back)
-
-    sources, links, pos = [], [], 0
-    for (phrase, val, atoms) in pieces:
-        si = len(sources)
-        sources.append(Source(clue_atom_ids=atoms, text=phrase, value=val,
-                              mechanism="manual", source="manual"))
-        for _ in val:
-            pos += 1
-            links.append(Link(answer_pos=pos, source_index=si, operation="manual"))
-
-    parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
-                  annotations=annotations, definition=definition, operation="manual",
-                  solved_by="manual", status="pass")
-    conn = store.connect()
-    try:
-        store.set_hs_assignments(conn, cid, payload)
-        store.save_parse(conn, cid, parse, ctx)   # status='pass', not frozen yet -> persists
-        store.set_status(conn, cid, "pass")
-        store.set_frozen(conn, cid)               # frozen: the cascade can never overwrite it
-        conn.commit()
-    finally:
-        conn.close()
-    return _hs_redirect(only, "Committed a MANUAL solution (%d piece%s) — frozen, and NOT "
-                        "written to the reference DB." % (len(pieces),
-                        "" if len(pieces) == 1 else "s"), back)
-
-
-@app.route("/hsuncommit", methods=["POST"])
-def hsuncommit_route():
-    """Clear a committed manual solution and hand the clue back to the cascade (lifts the
-    freeze, then re-solves normally so the manual parse is replaced by the cascade's verdict)."""
-    only = (request.form.get("only") or "").strip()
-    back = (request.form.get("from") or only).strip()
-    if not only.isdigit():
-        return _hs_redirect(only, "No clue.", back)
-    cid = int(only)
-    conn = store.connect()
-    try:
-        store.clear_frozen(conn, cid)
-        conn.commit()
-    finally:
-        conn.close()
-    _resolve_one(cid)          # freeze lifted -> the guard no longer skips -> cascade re-solves
-    return _hs_redirect(only, "Uncommitted the manual solution — handed back to the cascade.",
-                        back)
-
-
 @app.route("/handsolve")
 def handsolve_route():
     """Atom-level hand-solver for one clue or several (id box / A-B range)."""
@@ -2644,6 +2610,230 @@ def handsolve_route():
     for cid in ids:
         body += _handsolve_block(cid)
     return _page(body)
+
+
+def _json(obj):
+    import json as _j
+    return app.response_class(_j.dumps(obj), mimetype="application/json")
+
+
+@app.route("/hsmanualcommit", methods=["POST"])
+def hsmanualcommit_route():
+    """MANUAL SOLVE commit from the /hs word grid. Builds a FROZEN manual Parse from the
+    assignments: each synonym/letters PIECE is placed on the exact answer TILES the human
+    clicked (so reversal / container work — REM on tiles 1-3, EG on tiles 4-5 for MERGE),
+    and indicator / definition / link / filler are roles with no tiles. NO reference-DB write,
+    NO cascade, NO auto-verification — a recorder, the opposite of the banned builder. JSON."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _json({"ok": False, "msg": "No clue."})
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    wt = [t for t in ctx.clue_tokens if t.kind == "word"]
+    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    N = len(ans_letters)
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+
+    from core.wfw_model import Source, Link, Annotation, Parse
+
+    def atoms_for(idx):
+        out = []
+        for i in idx:
+            if 0 <= i < len(wt):
+                out.extend(wt[i].atom_ids)
+        return tuple(out)
+
+    def phrase_for(idx):
+        return " ".join(wt[i].text for i in idx if 0 <= i < len(wt))
+
+    sources, links, definition, annotations, covered = [], [], None, [], {}
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        role = (a.get("role") or "").strip()
+        phrase, atoms = phrase_for(idx), atoms_for(idx)
+        if role in ("synonym", "letters", "substitution"):
+            pos = sorted(int(p) for p in (a.get("pos") or [])
+                         if str(p).lstrip("-").isdigit())
+            value = (a.get("value") or "").strip().upper()
+            if role == "letters" and not value:            # literal: value = the tiles' letters
+                value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+            if not pos:
+                return _json({"ok": False, "msg": "The piece %r has no answer tiles — click "
+                              "the answer letters it makes, then Assign." % phrase})
+            si = len(sources)
+            # record the piece's REAL mechanism so the render shows the right label (letters ->
+            # "Literal", substitution -> "Substitution", synonym -> "synonym") and NOT "MANUAL"
+            # on every piece; the whole parse is already flagged manual at the top.
+            mech = {"letters": "raw", "substitution": "abbreviation"}.get(role, "synonym")
+            sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
+                                  mechanism=mech, source="db"))
+            for p in pos:
+                if p in covered:
+                    return _json({"ok": False, "msg": "Answer tile %d is claimed by two "
+                                  "pieces — each tile belongs to exactly one piece." % p})
+                covered[p] = si
+                links.append(Link(answer_pos=p, source_index=si, operation="manual"))
+        elif role == "definition":
+            definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
+                                mechanism="definition", source="manual")
+        elif role == "indicator":
+            it = (a.get("itype") or "").split(":")[0] or "wordplay"
+            isb = (a.get("isub") or "").strip()
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
+                                           note="%s%s indicator" % (it, ("/" + isb) if isb else ""),
+                                           source="manual"))
+        elif role in ("link", "filler"):
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
+                                           note=("surface filler" if role == "filler"
+                                                 else "link word"), source="manual"))
+
+    if not sources:
+        return _json({"ok": False, "msg": "Place at least one piece on the answer tiles "
+                      "(assign a synonym/letters role and click the tiles it makes)."})
+    missing = [p for p in range(1, N + 1) if p not in covered]
+    if missing:
+        return _json({"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
+                      "Every answer letter must be coloured by a piece." % ", ".join(map(str, missing))})
+
+    parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
+                  annotations=annotations, definition=definition, operation="manual",
+                  solved_by="manual", status="pass")
+    conn = store.connect()
+    try:
+        store.set_hs_assignments(conn, cid, payload)
+        store.save_parse(conn, cid, parse, ctx)
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    return _json({"ok": True, "msg": "Committed a MANUAL solution (%d piece%s) — frozen, and "
+                  "NOT written to the reference DB." % (len(sources),
+                  "" if len(sources) == 1 else "s")})
+
+
+@app.route("/hsmanualuncommit", methods=["POST"])
+def hsmanualuncommit_route():
+    """Clear a committed manual solution and hand the clue back to the cascade."""
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    conn = store.connect()
+    try:
+        store.clear_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    _resolve_one(cid)
+    return _json({"ok": True, "msg": "Uncommitted — handed back to the cascade."})
+
+
+@app.route("/handsolvecommit", methods=["POST"])
+def handsolvecommit_route():
+    """MANUAL SOLVE commit for the ATOM-LEVEL colour-tagging tool. Persists the human's placed
+    pieces (each piece = its clue atoms -> the answer TILES it colours) + the definition as a
+    FROZEN manual Parse. Because the human assigns each piece to its exact answer tiles, this
+    represents reversals / containers / anything — NOT a left-to-right concatenation. No
+    reference-DB write, no cascade, no auto-verification (the opposite of the banned builder).
+    Returns JSON for the tool's result panel."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _json({"ok": False, "msg": "No clue."})
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    N = len(ans_letters)
+    try:
+        pieces_in = json.loads(payload) if payload else []
+    except Exception:
+        pieces_in = []
+
+    from core.wfw_model import Source, Link, Parse
+    sources, links, definition, covered = [], [], None, {}
+    for pc in pieces_in:
+        atoms = tuple(str(a) for a in (pc.get("atoms") or []))
+        text = (pc.get("text") or "").strip()
+        value = (pc.get("value") or "").strip().upper()
+        mech = (pc.get("mech") or "manual").strip() or "manual"
+        pos = sorted(int(p) for p in (pc.get("pos") or [])
+                     if str(p).lstrip("-").isdigit())
+        if pc.get("def"):
+            definition = Source(clue_atom_ids=atoms, text=text or answer,
+                                value=ans_letters, mechanism="definition", source="manual")
+            continue
+        if not pos:
+            continue                       # a piece placed on no tiles contributes nothing
+        si = len(sources)
+        sources.append(Source(clue_atom_ids=atoms, text=(text or value), value=value,
+                              mechanism=mech, source="manual"))
+        for p in pos:
+            if p in covered:
+                return _json({"ok": False, "msg": "Answer tile %d is claimed by two pieces "
+                              "— each tile belongs to exactly one piece." % p})
+            covered[p] = si
+            links.append(Link(answer_pos=p, source_index=si, operation="manual"))
+
+    if not sources:
+        return _json({"ok": False, "msg": "Place at least one piece on the answer tiles first."})
+    missing = [p for p in range(1, N + 1) if p not in covered]
+    if missing:
+        return _json({"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
+                      "Every tile must be coloured by a piece." % ", ".join(map(str, missing))})
+
+    parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
+                  annotations=[], definition=definition, operation="manual",
+                  solved_by="manual", status="pass")
+    conn = store.connect()
+    try:
+        store.save_parse(conn, cid, parse, ctx)
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    return _json({"ok": True, "msg": "Committed a MANUAL solution (%d piece%s) — frozen, and "
+                  "NOT written to the reference DB." % (len(sources),
+                  "" if len(sources) == 1 else "s")})
+
+
+@app.route("/handsolveuncommit", methods=["POST"])
+def handsolveuncommit_route():
+    """Clear a committed manual solution and hand the clue back to the cascade."""
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    conn = store.connect()
+    try:
+        store.clear_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    _resolve_one(cid)
+    return _json({"ok": True, "msg": "Uncommitted — handed back to the cascade."})
 
 
 def _reload_clue_button(clue_id, raw_list):
@@ -2665,19 +2855,9 @@ def _reload_clue_button(clue_id, raw_list):
         '<a href="/hs?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
         'style="display:inline-block;text-decoration:none;background:#0d9488;'
         'border-color:#0d9488;margin:.4rem 0" '
-        'title="Open the span hand-solver (redesign) for this clue, carrying the clutch">'
+        'title="Open the hand-solver for this clue">'
         '&#9776; Hand-solver</a>'
-        '<a href="/rolegrid?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
-        'style="display:inline-block;text-decoration:none;background:#94a3b8;'
-        'border-color:#94a3b8;margin:.4rem 0 .4rem .4rem" '
-        'title="Open the OLD role-grid hand-solver for this clue">'
-        '&#9776; Old grid</a>'
-        '<a href="/handsolve?id=%d" class="wfw-reload wfw-reload-clue" '
-        'style="display:inline-block;text-decoration:none;background:#7c3aed;'
-        'border-color:#7c3aed;margin:.4rem 0 .4rem .4rem" '
-        'title="Open the (legacy) atom-level hand-solver for this clue">'
-        '&#9998; Atoms</a>'
-        % (escape(raw_list, quote=True), clue_id, clue_id, _frm, clue_id, _frm, clue_id))
+        % (escape(raw_list, quote=True), clue_id, clue_id, _frm))
 
 
 def _cid_label(clue_id, source=None, puzzle_number=None, clue_number=None, direction=None):
