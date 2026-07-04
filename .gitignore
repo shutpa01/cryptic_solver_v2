@@ -127,3 +127,4 @@ core/_*
 
 # WFW preview HTML dumps (one-off render snapshots)
 /wfw_*.html
+logs/
