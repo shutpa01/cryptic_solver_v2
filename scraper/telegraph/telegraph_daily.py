@@ -315,6 +315,13 @@ def harvest_today(driver, already_on_page=False):
             date_match = re.search(r'(\d{1,2} \w{3}, \d{4})', text)
             link_date = date_match.group(1) if date_match else None
 
+            # The puzzles home page surfaces TODAY'S featured puzzles with
+            # source=home; archive links carry source= (empty). Daily-cryptic
+            # and toughie tiles have EMPTY link text (no parseable date), so
+            # source=home is the reliable "this is today's puzzle" signal.
+            source_match = re.search(r'[?&]source=([^&#]*)', href)
+            is_home = source_match.group(1) == 'home' if source_match else False
+
             if link_type not in TYPE_MAP:
                 continue
 
@@ -323,12 +330,16 @@ def harvest_today(driver, already_on_page=False):
             # Log all puzzle links we find (first occurrence of each type)
             if link_type not in seen_types:
                 seen_types.add(link_type)
-                print(f"  [scan] {link_type} #{puzzle_num} date='{link_date}' api={api_id}")
+                print(f"  [scan] {link_type} #{puzzle_num} date='{link_date}' home={is_home} api={api_id}")
 
             # Only take today's puzzles
-            # Prize types show closing date not publication date, so skip date check
-            if not is_prize and link_date not in (today_str, today_str_padded):
-                continue
+            # Prize types show closing date not publication date, so skip date check.
+            # Featured tiles (source=home) with no link text also have no date to
+            # match — accept them via the is_home signal rather than skipping.
+            if not is_prize:
+                date_ok = link_date in (today_str, today_str_padded)
+                if not (date_ok or (is_home and link_date is None)):
+                    continue
 
             # Deduplicate by API ID
             api_key = f"{link_type}-{api_id}"
