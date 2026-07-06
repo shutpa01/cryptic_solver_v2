@@ -57,15 +57,20 @@ def solve_nested_container(ctx, defines, lookup_all, is_link, indicator_types,
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    from core.engine_common import better_near_miss
+    best_fail = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 3:
             continue
         parse = _try_split(ctx, answer, split, words, lookup_all, is_link,
                            indicator_types)
-        if parse is not None and parse.status == "pass":
+        if parse is None:
+            continue
+        if parse.status == "pass":
             return parse
-    return None
+        best_fail = better_near_miss(best_fail, parse, ctx)
+    return best_fail
 
 
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
@@ -93,6 +98,8 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     def runs_for(value):
         return val_runs.get(value, ())
 
+    from core.engine_common import better_near_miss
+    best_fail = None
     # Enumerate the two GENUINE insertions (all flank segments non-empty):
     #   answer = outer_left + X + outer_right        (OUTER = outer_left+outer_right)
     #   X      = mid_left  + inner + mid_right        (MIDDLE = mid_left+mid_right)
@@ -119,14 +126,18 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
                     parse = _assemble(ctx, split, words, answer, is_link, is_con,
                                       (p1, L1, p2, L2), outer, middle, inner,
                                       outer_rs, mid_rs, inner_rs)
-                    if parse is not None and parse.status == "pass":
+                    if parse is None:
+                        continue
+                    if parse.status == "pass":
                         return parse
-    return None
+                    best_fail = better_near_miss(best_fail, parse, ctx)
+    return best_fail
 
 
 def _assemble(ctx, split, words, answer, is_link, is_con, geom, outer, middle, inner,
               outer_rs, mid_rs, inner_rs):
     n = len(words)
+    best_fail, best_n = None, None
     for o in outer_rs:
         for m in mid_rs:
             if _overlap(o, m):
@@ -139,29 +150,31 @@ def _assemble(ctx, split, words, answer, is_link, is_con, geom, outer, middle, i
                 cons = [k for k in residue if is_con(k)]
                 if len(cons) < 2:
                     continue
-                # Pick two distinct container indicators; the rest must be DB links.
+                # Pick two distinct container indicators; ONLY genuine links are annotated, any
+                # non-link residue is left UNACCOUNTED so _verify NAMES it and marks a FAIL
+                # (near-miss). A clean pick (0 unaccounted) returns immediately; otherwise keep
+                # the best near-miss (fewest unaccounted; skip building clearly-worse ones to
+                # bound the deep nesting). Pass-invariant (an unaccounted word fails _verify).
                 for ci in range(len(cons)):
                     for cj in range(len(cons)):
                         if ci == cj:
                             continue
                         c_out, c_mid = cons[ci], cons[cj]
                         spoken = {c_out, c_mid}
-                        links, ok = [], True
-                        for k in residue:
-                            if k in spoken:
-                                continue
-                            if is_link and is_link(words[k].text):
-                                links.append(k)
-                            else:
-                                ok = False
-                                break
-                        if not ok:
-                            continue
+                        links = [k for k in residue if k not in spoken
+                                 and is_link and is_link(words[k].text)]
+                        unacct_n = len([k for k in residue if k not in spoken]) - len(links)
+                        if unacct_n and best_n is not None and unacct_n >= best_n:
+                            continue                 # not better than the current near-miss
                         parse = _build(ctx, split, words, answer, geom, outer, middle,
                                        inner, o, m, i, c_out, c_mid, links)
-                        if parse is not None and parse.status == "pass":
+                        if parse is None:
+                            continue
+                        if parse.status == "pass":
                             return parse
-    return None
+                        if best_n is None or unacct_n < best_n:
+                            best_fail, best_n = parse, unacct_n
+    return best_fail
 
 
 def _overlap(r1, r2):

@@ -61,7 +61,8 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "substitution": "substitution"}
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "insertion", "reversal", "deletion",
-              "selection", "acrostic", "homophone", "charade", "alternation", "letter_shift"]
+              "selection", "acrostic", "homophone", "charade", "alternation", "letter_shift",
+              "charade_positional", "definition by example"]
 # Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
 # has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
 # is what the code reads, the label is the clear descriptor shown to the user (the DB
@@ -88,6 +89,12 @@ _IND_SUBTYPES = {
     # selection, a shift with NO direction is meaningless, so there is no "no sub-type" option.
     "letter_shift": [("last_front", "move last letter to front"),
                      ("first_end", "move first letter to end")],
+    # POSITIONAL (charade re-ordering): a piece is placed AFTER/BEFORE its neighbour rather
+    # than in clue order ("X after Y" = Y+X). Like selection, a directionless positional is
+    # meaningless (the solver can't know the order), so there is no "no sub-type" option and
+    # add_indicator rejects a rule-less one. Values match core charade_positional_subtypes.
+    "charade_positional": [("after", "piece goes AFTER (behind) its neighbour"),
+                           ("before", "piece goes BEFORE (ahead of) its neighbour")],
 }
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
@@ -1265,7 +1272,9 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
             # (memory: definition-floor-redesign). Role category stays 'definition'.
             _dlabel = ("unidentified definition"
                        if getattr(parse.definition, "source", "db") == "pending"
-                       else "definition")
+                       else ("definition by example"
+                             if getattr(parse.definition, "mechanism", "") == "definition_by_example"
+                             else "definition"))
             for aid in (parse.definition.clue_atom_ids or ()):
                 amap[aid] = ("definition", _dlabel, "")
         for s in (parse.sources or []):
@@ -1293,6 +1302,79 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
         out.append({"idx": wi, "text": u.text, "role": role,
                     "label": label, "value": value})
         wi += 1
+    return out
+
+
+# mechanism (stored on a parse Source) -> hand-solver PIECE role. Mirror of the commit map
+# (letters->raw, substitution->abbreviation, anagram->anagram_fodder). An unknown mechanism
+# (alternate, first_letter, homophone, ...) falls back to 'synonym' — an editable starting point.
+_REV_MECH = {"raw": "letters", "abbreviation": "substitution",
+             "anagram_fodder": "anagram", "synonym": "synonym"}
+
+
+def _itype_from_note(note):
+    """Best-effort recover the hand-solver indicator (type, subtype) from a stored annotation
+    note (manual "reversal/general indicator" or engine "container indicator" / "deletion: cut
+    ..." forms). Longest type name first so 'charade_positional' beats 'charade'. Falls back to
+    a bare type (or none); the user adjusts."""
+    n = (note or "").strip().lower()
+    itype = ""
+    for t in sorted(_IND_TYPES, key=len, reverse=True):
+        if t in n:
+            itype = t
+            break
+    isub = ""
+    for sv, _lbl in _IND_SUBTYPES.get(itype, []):
+        if sv and sv in n:
+            isub = sv
+            break
+    return itype, isub
+
+
+def _assignments_from_parse(ctx, parse):
+    """Seed the hand-solver grid with the roles the STORED parse already gives, as EDITABLE
+    assignments — so re-tagging ONE word doesn't mean reassigning every word. Pieces carry their
+    answer TILES (from the parse links); definition / indicators / links map to their roles.
+    Word indices are `_hs_word_units` positions (the same grid the commit reads)."""
+    if parse is None:
+        return []
+    units = _hs_word_units(ctx)
+    aid2idx = {}
+    for i, u in enumerate(units):
+        for aid in (u.atom_ids or ()):
+            aid2idx[aid] = i
+
+    def idxs(atom_ids):
+        return sorted({aid2idx[a] for a in (atom_ids or ()) if a in aid2idx})
+
+    out = []
+    for si, s in enumerate(parse.sources or []):
+        idx = idxs(getattr(s, "clue_atom_ids", ()))
+        if not idx:
+            continue
+        pos = sorted(l.answer_pos for l in (parse.links or [])
+                     if getattr(l, "source_index", None) == si)
+        role = _REV_MECH.get(getattr(s, "mechanism", "") or "", "synonym")
+        out.append({"idx": idx, "role": role, "pos": pos,
+                    "value": (getattr(s, "value", "") or "")})
+    if parse.definition is not None:
+        d_idx = idxs(getattr(parse.definition, "clue_atom_ids", ()))
+        if d_idx:
+            _dk = ("dbe" if getattr(parse.definition, "mechanism", "") == "definition_by_example"
+                   else "def")
+            out.append({"idx": d_idx, "role": "definition", "dkind": _dk})
+    for an in (parse.annotations or []):
+        idx = idxs(getattr(an, "clue_atom_ids", ()))
+        if not idx:
+            continue
+        r = getattr(an, "role", "")
+        if r == "indicator":
+            it, isb = _itype_from_note(getattr(an, "note", ""))
+            out.append({"idx": idx, "role": "indicator", "itype": it, "isub": isb})
+        elif r == "link":
+            out.append({"idx": idx, "role": "link"})
+        elif r == "deletion":
+            out.append({"idx": idx, "role": "deletion", "value": ""})
     return out
 
 
@@ -1877,6 +1959,7 @@ function initGrid(rootId, DATA){
  var tbody=root.querySelector('#g-tbody');
  var bar=root.querySelector('#g-bar'), selLbl=root.querySelector('#g-sel');
  var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
+ var dkind=root.querySelector('#g-dkind');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
@@ -1916,7 +1999,7 @@ function initGrid(rootId, DATA){
   if(o>=0){t.style.background=pcCol(o);t.style.borderColor=pcCol(o);t.style.color='#0f172a';}
   else if(selPos.indexOf(p)>=0){t.style.background='#1d4ed8';t.style.borderColor='#1d4ed8';t.style.color='#fff';}
   else{t.style.background='#fff';t.style.borderColor='#cbd5e1';t.style.color='#0f172a';}});}
- atiles.forEach(function(t){t.addEventListener('click',function(){var p=+t.dataset.pos;if(posOwner(p)>=0)return;var i=selPos.indexOf(p);if(i>=0)selPos.splice(i,1);else selPos.push(p);drawTiles();});});
+ atiles.forEach(function(t){t.addEventListener('click',function(){var p=+t.dataset.pos;var o=posOwner(p);if(o>=0){releasePiece(o);return;}var i=selPos.indexOf(p);if(i>=0)selPos.splice(i,1);else selPos.push(p);drawTiles();});});
  function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd});}catch(e){}}
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
@@ -1926,7 +2009,7 @@ function initGrid(rootId, DATA){
    var i=+tr.dataset.i, a=assignOf(i);
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
    if(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-    rc.innerHTML='<b style="color:'+col+'">'+a.role+(a.isub?('/'+a.isub):'')+'</b>';
+    rc.innerHTML='<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+'</b>';
     bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.cut?(' <span style="color:#b45309">&minus;'+a.cut+'</span>'):'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):(a.role==='deletion'?('<span style="color:#b45309">&minus;'+(a.value||'')+'</span>'):'');
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
@@ -1940,9 +2023,27 @@ function initGrid(rootId, DATA){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
    var v=isPiece(a.role)?(' = '+a.value+(a.cut?(' &minus;'+a.cut):'')+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
-   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+a.role+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
+   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
+ }
+ // Click a COLOURED (owned) tile to RELEASE its whole piece back into edit: re-tick exactly its
+ // words, restore its role/value/cut, and drop its tiles back into the blue selection to re-pick.
+ function releasePiece(k){
+  var a=assignments[k];if(!a)return;
+  assignments.splice(k,1);
+  Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=(a.idx.indexOf(+c.value)>=0);});
+  roleSel.value=a.role;
+  if(a.role==='indicator'&&a.itype)itype.value=a.itype;
+  roleFields();
+  if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
+  if(a.role==='definition'&&dkind)dkind.value=a.dkind||'def';
+  if(isValued(a.role)||a.role==='letters'||a.role==='deletion')addInp.value=a.value||'';
+  if(cutEl)cutEl.value=a.cut||'';
+  selPos=(a.pos||[]).slice();
+  updateBar();
+  drawCutPrev();drawRows();drawList();drawTiles();saveAssignments();
+  note('released — adjust tiles / value, then Assign');
  }
  function updateBar(){var idx=checkedIdx();if(idx.length){bar.style.display='';selLbl.textContent=phraseOf(idx);}else{bar.style.display='none';}}
  function clearChecks(){Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=false;});updateBar();}
@@ -1963,6 +2064,7 @@ function initGrid(rootId, DATA){
   isub.style.display=(roleSel.value==='indicator')?'':'none';}
  function roleFields(){var r=roleSel.value;
   itype.style.display=(r==='indicator')?'':'none';
+  if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
   fillSub();                                                    // data-driven sub-type dropdown
   candWrap.style.display=((isPiece(r)&&r!=='anagram')||r==='deletion')?'':'none'; // deletion = type
   if(candSel)candSel.style.display=isValued(r)?'':'none';       // the removed letters (no tiles)
@@ -2007,6 +2109,7 @@ function initGrid(rootId, DATA){
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
   if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
+  if(r==='definition'&&dkind)a.dkind=dkind.value;               // 'def' | 'dbe' (label only)
   if(isPiece(r)){
    var placeVal=(survivor!==null)?survivor:a.value;             // what actually lands on the tiles
    var pos=selPos.slice();
@@ -2048,6 +2151,7 @@ function initGrid(rootId, DATA){
  root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
+  var al=root.querySelector('#g-andlit');if(al&&al.checked)fd.append('andlit','1');
   cmsg.textContent='committing…';cmsg.style.color='#64748b';
   fetch('/hsmanualcommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
    if(o.ok){cmsg.textContent='✓ '+o.msg+' — opening the clue page…';cmsg.style.color='#16a34a';
@@ -2109,6 +2213,9 @@ def _span_surface(clue_id, back_raw=None):
         saved_list = json.loads(saved) if saved else []
     except Exception:
         saved_list = []
+    if not saved_list:                        # no prior hand-solve -> seed EDITABLE assignments
+        saved_list = _assignments_from_parse(ctx, parse)   # from the stored parse, so re-tagging
+                                              # one word doesn't mean reassigning every word
 
     trs = "".join(
         '<tr data-i="%d"><td><input type="checkbox" class="g-chk" value="%d"></td>'
@@ -2179,7 +2286,9 @@ def _span_surface(clue_id, back_raw=None):
          '<div style="margin:.3rem 0;font-size:1.1rem;font-weight:600">%s</div>'
          % escape(clue_text),
          '<div class="g-ans">Answer &mdash; for a synonym/letters piece, after its value, '
-         'click the tiles it makes:<br><span id="g-atiles" style="margin-top:.2rem;'
+         'click the tiles it makes '
+         '<span style="color:#94a3b8;font-weight:400">(click a coloured tile to release its piece '
+         'and re-edit it)</span>:<br><span id="g-atiles" style="margin-top:.2rem;'
          'display:inline-block">%s</span></div>' % ans_tiles,
          '<p style="font-size:.85rem;color:#64748b;margin:.2rem 0">Tick the word(s), pick a role. '
          '<b>synonym</b>: type the value then click the answer tiles it makes. If a letter is '
@@ -2212,6 +2321,11 @@ def _span_surface(clue_id, back_raw=None):
          '<option value="none">none (clear)</option></select>',
          '<select id="g-itype" style="display:none">%s</select>' % itype_opts,
          '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
+         '<select id="g-dkind" style="display:none" title="A plain definition, or a '
+         'definition by example (DBE) — where the clue defines the answer via an example '
+         '(e.g. “flower” for a river). Same in every respect but the label.">'
+         '<option value="def">definition</option>'
+         '<option value="dbe">definition by example (DBE)</option></select>',
          '<span id="g-cand" style="display:none">value: <select id="g-candsel"></select> '
          'or add <input id="g-add" placeholder="new value" size="12"> '
          '<span id="g-cutwrap" style="display:none;margin-left:.35rem">&minus; delete '
@@ -2228,6 +2342,12 @@ def _span_surface(clue_id, back_raw=None):
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
          '<input type="hidden" name="payload" id="g-payload">',
          '<button type="button" id="g-resolve" class="g-resolve">Resolve &amp; solve</button>',
+         '<label style="margin-left:.6rem;font-weight:600;font-size:.9rem;cursor:pointer" '
+         'title="All-in-one (&amp;lit): the whole clue is BOTH the wordplay AND the definition '
+         '(the same words used twice). Tag the wordplay as usual and tick this; the whole clue is '
+         'taken as the definition, so you need no separate definition word. Verdict stays PENDING '
+         'for your confirmation, like a cryptic definition.">'
+         '<input type="checkbox" id="g-andlit"> &amp;lit (all-in-one)</label>',
          '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
          'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as a '
          'MANUAL solution (frozen, no DB write, no solver) — for clues the solver cannot fairly '
@@ -2854,8 +2974,13 @@ def hsmanualcommit_route():
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
                                   transform=tr))
         elif role == "definition":
+            # 'dbe' = definition by example — identical to a plain definition in every code
+            # path (still the parse.definition Source), only the rendered label differs; the
+            # marker rides on the mechanism so it round-trips through storage.
+            _dmech = ("definition_by_example"
+                      if (a.get("dkind") or "").strip() == "dbe" else "definition")
             definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
-                                mechanism="definition", source="manual")
+                                mechanism=_dmech, source="manual")
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
             isb = (a.get("isub") or "").strip()
@@ -2881,12 +3006,28 @@ def hsmanualcommit_route():
         return _json({"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
                       "Every answer letter must be coloured by a piece." % ", ".join(map(str, missing))})
 
+    andlit = bool((request.form.get("andlit") or "").strip())
+    if andlit:
+        # ALL-IN-ONE (&lit): the whole clue is BOTH the wordplay (the pieces above) AND the
+        # definition — the same words used twice. Build the definition from the WHOLE clue so the
+        # words carrying wordplay roles are also covered by it (no separate definition tick needed,
+        # and unexplained_words is satisfied). Never auto-confirmed, like a cryptic definition.
+        all_atoms = tuple(aid for u in wt for aid in u.atom_ids)
+        definition = Source(clue_atom_ids=all_atoms, text=clue_text, value=ans_letters,
+                            mechanism="definition", source="manual")
     if definition is None:
         return _json({"ok": False, "msg": "Not committed — no definition. Every clue must end with "
                       "a definition: tick the definition word(s) and pick the definition role."})
+    # status="pass" for the WRITE (save_parse refuses to persist a non-pass parse once the clue is
+    # frozen, store.py:132); for &lit the verdict is downgraded to 'pending' via set_status below
+    # (a direct UPDATE that bypasses that guard) so an &lit is never auto-confirmed — like a CD.
     parse = Parse(clue_text=clue_text, answer_text=answer, sources=sources, links=links,
-                  annotations=annotations, definition=definition, operation="manual",
+                  annotations=annotations, definition=definition,
+                  operation=("andlit" if andlit else "manual"),
                   solved_by="manual", status="pass")
+    if andlit:
+        parse.warnings = ["all-in-one (&lit) — the whole clue also reads as the definition; "
+                          "needs human confirmation to pass"]
     # EVERY clue word must have a role. A manual PASS with clue words left unaccounted is a false
     # pass (the human is asserting a complete solve) — refuse it, listing what is still unaccounted.
     unaccounted = parse.unexplained_words(ctx)
@@ -2898,7 +3039,7 @@ def hsmanualcommit_route():
     try:
         store.set_hs_assignments(conn, cid, payload)
         store.save_parse(conn, cid, parse, ctx)
-        store.set_status(conn, cid, "pass")
+        store.set_status(conn, cid, "pending" if andlit else "pass")
         store.set_frozen(conn, cid)
         conn.commit()
     finally:

@@ -78,15 +78,20 @@ def solve_container_inner_alternation(ctx, defines, lookup_all, is_link, indicat
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    from core.engine_common import better_near_miss
+    best_fail = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         n = len(words)
         if n < 4:                       # outer + fodder + container ind + alternation ind, min
             continue
         parse = _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types)
-        if parse is not None and parse.status == "pass":
+        if parse is None:
+            continue
+        if parse.status == "pass":
             return parse
-    return None
+        best_fail = better_near_miss(best_fail, parse, ctx)
+    return best_fail
 
 
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
@@ -108,6 +113,8 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
             val_cache[run] = _run_values(words, run[0], run[1], lookup_all)
         return val_cache[run]
 
+    from core.engine_common import better_near_miss
+    best_fail = None
     # Enumerate the insertion: inner = answer[p:p+L], outer = the rest; true container
     # (inner strictly interior so the outer straddles it on both sides).
     for p in range(1, N - 1):
@@ -134,9 +141,12 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
                         continue
                     parse = _build(ctx, split, words, answer, orun, outer, outer_hit,
                                    fi, sel[1], inner, p, L, con_run, alt_run, ind, is_link)
-                    if parse is not None and parse.status == "pass":
+                    if parse is None:
+                        continue
+                    if parse.status == "pass":
                         return parse
-    return None
+                    best_fail = better_near_miss(best_fail, parse, ctx)
+    return best_fail
 
 
 def _build(ctx, split, words, answer, orun, outer, outer_mech, fi, inner_atom_ids, inner,
@@ -144,17 +154,14 @@ def _build(ctx, split, words, answer, orun, outer, outer_mech, fi, inner_atom_id
     from core.definition_engine import dbe_annotation
     n = len(words)
     used = set(range(*orun)) | {fi} | ind
-    links_idx, ok = [], True
+    links_idx = []
     for k in range(n):
         if k in used:
             continue
         if is_link and is_link(words[k].text):
             links_idx.append(k)
-        else:
-            ok = False
-            break
-    if not ok:
-        return None
+        # else: non-link residue left unaccounted -> _verify marks a FAIL and names it
+        # (near-miss). Cannot pass (an unaccounted word fails _verify), so pass-invariant.
 
     outer_toks = words[orun[0]:orun[1]]
     outer_src = Source(

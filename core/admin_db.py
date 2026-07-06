@@ -232,6 +232,16 @@ def add_indicator(word, wordplay_type, subtype=None):
                     "last_front or first_end.")
         if sub not in ("last_front", "first_end"):
             return ("Unknown letter-shift sub-type %r. Use last_front or first_end." % sub)
+    # A POSITIONAL (charade re-ordering) indicator is meaningless without a direction — the
+    # solver could not know whether the piece goes after or before — so, like selection and
+    # letter-shift, it MUST carry a valid direction sub-type (core skips a blank-subtype row).
+    if wp == "charade_positional":
+        if not sub:
+            return ("A positional indicator needs a sub-type (which way it re-orders): "
+                    "after or before.")
+        if sub not in ("after", "before", "after_down", "before_down"):
+            return ("Unknown positional sub-type %r. Use after or before "
+                    "(or after_down/before_down for down clues)." % sub)
     label = "%s%s" % (wp, ("/" + sub) if sub else "")
     conn = _conn()
     try:

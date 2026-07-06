@@ -36,9 +36,26 @@ def _run_values(words, a, b, lookup_all):
     return out
 
 
+def _better_fail(cur, new, ctx):
+    """Keep the more-complete near-miss fail: fewest unaccounted clue words. The assembly
+    already tiles the FULL answer, so two fails differ only by how many leftover words remain
+    (e.g. DILEMMAS assembled SLID-reversed ∋ EMMA with only 'offering' outstanding)."""
+    if new is None:
+        return cur
+    if cur is None:
+        return new
+    try:
+        return new if len(new.unexplained_words(ctx)) < len(cur.unexplained_words(ctx)) else cur
+    except Exception:
+        return cur
+
+
 def solve_reversed_outer_container(ctx, defines, lookup_all, is_link, indicator_types,
                                    define_fallback=None, is_dbe=None):
-    """Container with a reversed-synonym outer + charade inner. Returns ONLY a clean PASS."""
+    """Container with a reversed-synonym outer + charade inner. Returns a clean PASS, else the
+    best NEAR-MISS fail (a complete assembly blocked only by unaccounted words) so the discovery
+    view shows what it had — instead of silently abstaining. A fail never displaces a simpler
+    engine: the cascade only short-circuits on pass/pending, so this stays pass-invariant."""
     from core.definition_engine import find_definitions
     answer = _answer(ctx)
     if len(answer) < 4:
@@ -47,15 +64,19 @@ def solve_reversed_outer_container(ctx, defines, lookup_all, is_link, indicator_
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    best_fail = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 3:
             continue
         parse = _try_split(ctx, answer, split, words, lookup_all, is_link,
                            indicator_types)
-        if parse is not None and parse.status == "pass":
+        if parse is None:
+            continue
+        if parse.status == "pass":
             return parse
-    return None
+        best_fail = _better_fail(best_fail, parse, ctx)
+    return best_fail
 
 
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
@@ -104,6 +125,7 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
         dfs(0, set(), [])
         return out
 
+    best_fail = None
     # Enumerate the insertion: inner sits strictly inside the outer (both flanks non-empty).
     for p in range(1, N - 1):
         for L in range(1, N - p):
@@ -119,9 +141,12 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
                 for piece_runs in tile_inner(inner, o_set):
                     parse = _assemble(ctx, split, words, answer, p, L, o, rev_outer,
                                       piece_runs, indicator_types, is_link)
-                    if parse is not None and parse.status == "pass":
+                    if parse is None:
+                        continue
+                    if parse.status == "pass":
                         return parse
-    return None
+                    best_fail = _better_fail(best_fail, parse, ctx)   # keep the near-miss
+    return best_fail
 
 
 def _con_run(words, positions, indicator_types):
@@ -158,8 +183,11 @@ def _assemble(ctx, split, words, answer, p, L, o_run, outer_value, piece_runs,
             continue
         if is_link and is_link(words[k].text):
             links.append(k)
-        else:
-            return None
+        # else: a non-link residue word is NOT discarded. It is left unaccounted so _verify
+        # NAMES it and marks a FAIL (near-miss evidence: "assembled the answer, but 'offering'
+        # is outstanding"), instead of the engine silently throwing away a complete assembly.
+        # It can never make the clue PASS — an unaccounted word fails _verify — so this is
+        # pass-invariant; it only enriches the fail the discovery process sees.
     return _build(ctx, split, words, answer, p, L, o_run, outer_value,
                   piece_runs, rev_pos, con_pos, links)
 

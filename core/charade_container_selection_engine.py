@@ -102,15 +102,20 @@ def solve_charade_container_selection(ctx, defines, lookup_all, is_link, indicat
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    from core.engine_common import better_near_miss
+    best_fail = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
         if len(words) < 4:        # outer + selected word + container ind + selection ind, min
             continue
         parse = _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                            selection_rules)
-        if parse is not None and parse.status == "pass":
+        if parse is None:
+            continue
+        if parse.status == "pass":
             return parse
-    return None
+        best_fail = better_near_miss(best_fail, parse, ctx)
+    return best_fail
 
 
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
@@ -149,12 +154,14 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     if not sel_words:
         return None
 
+    near = [None]        # best near-miss (side channel; dfs keeps its pass/None return protocol)
+
     def dfs(pos, used, pieces, con_used):
         if pos == N:
             if not con_used:
                 return None
             return _finalize(ctx, split, words, answer, pieces, used, ind, con_run, sel_run,
-                             is_link)
+                             is_link, near)
         # 1. plain value piece
         for a in range(n):
             if a in used or a in ind:
@@ -210,18 +217,25 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                                         return r
         return None
 
-    return dfs(0, set(), [], False)
+    result = dfs(0, set(), [], False)
+    if result is not None and result.status == "pass":
+        return result
+    return near[0]                                     # surface the best near-miss fail
 
 
-def _finalize(ctx, split, words, answer, pieces, used, ind, con_run, sel_run, is_link):
+def _finalize(ctx, split, words, answer, pieces, used, ind, con_run, sel_run, is_link, near):
+    from core.engine_common import better_near_miss
     n = len(words)
-    for k in range(n):
-        if k in used or k in ind:
-            continue
-        if not (is_link and is_link(words[k].text)):
-            return None                                # unaccounted content word -> reject
-    links = [k for k in range(n) if k not in used and k not in ind]
-    return _build(ctx, split, words, answer, pieces, con_run, sel_run, links)
+    # ONLY genuine links are annotated; any non-link residue stays UNACCOUNTED so _verify NAMES
+    # it and marks a FAIL. Build EVERY complete tiling and record the best as a near-miss (side
+    # channel `near`), but PRESERVE the DFS control flow: return the parse (stopping the search)
+    # ONLY when the residue is all links, else None (keep searching) — so on the clean path the
+    # build is byte-identical and pass behaviour is unchanged.
+    residue = [k for k in range(n) if k not in used and k not in ind]
+    links = [k for k in residue if is_link and is_link(words[k].text)]
+    parse = _build(ctx, split, words, answer, pieces, con_run, sel_run, links)
+    near[0] = better_near_miss(near[0], parse, ctx)
+    return parse if len(links) == len(residue) else None
 
 
 def _build(ctx, split, words, answer, pieces, con_run, sel_run, links):

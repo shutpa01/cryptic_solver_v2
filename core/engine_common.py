@@ -79,6 +79,25 @@ def definition_warning(parse):
     return None
 
 
+def better_near_miss(cur, new, ctx):
+    """Pick the more-complete NEAR-MISS fail between two non-pass parses, so an answer-driven
+    engine can surface its best partial (a complete assembly blocked only by leftover words)
+    instead of silently abstaining. Ranks by fewest unaccounted clue words, then by whether the
+    answer letters are fully covered. Used by the conservative compound engines that formerly
+    returned None on an unclassified residue word (memory: near-miss reporting)."""
+    if new is None:
+        return cur
+    if cur is None:
+        return new
+    try:
+        n_new, n_cur = len(new.unexplained_words(ctx)), len(cur.unexplained_words(ctx))
+        if n_new != n_cur:
+            return new if n_new < n_cur else cur
+        return new if (new.is_complete() and not cur.is_complete()) else cur
+    except Exception:
+        return cur
+
+
 def classify_links(ctx, parse, is_link):
     """Classify the still-unaccounted clue words: a confirmed link word becomes a
     'link' Annotation; anything else is left for the caller. Returns the list of

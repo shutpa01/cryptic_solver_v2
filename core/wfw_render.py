@@ -38,6 +38,7 @@ _TYPE_LABEL = {
     "hidden_reversed": "Hidden word (reversed)",
     "dd": "Double definition",
     "cd": "Cryptic definition",
+    "andlit": "All-in-one (&lit)",
     "charade": "Charade",
     "container": "Container",
     "anagram": "Anagram",
@@ -296,6 +297,8 @@ def _definition_row(parse):
         return None
     _dsrc = getattr(parse.definition, "source", "db")
     def_label, def_style, prov = "Definition", "background:#2563eb;color:#fff", ""
+    if getattr(parse.definition, "mechanism", "") == "definition_by_example":
+        def_label = "Definition by example"      # same layer as a definition; label only
     if _dsrc == "pending":
         def_label = "Unidentified definition"
         def_style = "background:#64748b;color:#fff"

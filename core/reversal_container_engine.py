@@ -84,6 +84,7 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types):
 
     runs = [(a, b) for a in range(n)
             for b in range(a + 1, min(a + MAX_PIECE_WORDS, n) + 1)]
+    best_nm = None                                 # best near-miss placement (fewest unaccounted)
     for (a1, b1) in runs:
         v1 = _value_candidates(words, a1, b1, lookup_all)
         if not v1:
@@ -113,23 +114,22 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types):
             if not con_ind or not rev_ind:
                 continue
             ind_set = set(con_ind) | set(rev_ind)
-            links, ok = [], True
-            for k in remaining:
-                if k in ind_set:
-                    continue
-                if residue_link(k):
-                    links.append(k)
-                else:
-                    ok = False                     # an unaccounted content word
-                    break
-            if not ok:
-                continue
-            return {"outer_run": outer_run, "inner_run": inner_run,
-                    "outer_val": outer_val, "inner_val": inner_val,
-                    "outer_mech": outer_mech, "inner_mech": inner_mech,
-                    "p": p, "Li": Li, "con": sorted(con_ind),
-                    "rev": sorted(set(rev_ind) - set(con_ind)), "links": sorted(links)}
-    return None
+            # ONLY genuine links are annotated; any non-link residue is left UNACCOUNTED so
+            # _verify NAMES it and marks a FAIL (near-miss). A clean placement (no unaccounted)
+            # is used immediately; otherwise keep the best near-miss (fewest unaccounted) to
+            # surface when none is clean. Pass-invariant (an unaccounted word fails _verify).
+            links = [k for k in remaining if k not in ind_set and residue_link(k)]
+            unacct = [k for k in remaining if k not in ind_set and not residue_link(k)]
+            pl = {"outer_run": outer_run, "inner_run": inner_run,
+                  "outer_val": outer_val, "inner_val": inner_val,
+                  "outer_mech": outer_mech, "inner_mech": inner_mech,
+                  "p": p, "Li": Li, "con": sorted(con_ind),
+                  "rev": sorted(set(rev_ind) - set(con_ind)), "links": sorted(links)}
+            if not unacct:
+                return pl
+            if best_nm is None or len(unacct) < best_nm[0]:
+                best_nm = (len(unacct), pl)
+    return best_nm[1] if best_nm else None
 
 
 def _build(ctx, split, words, answer, pl):
@@ -229,6 +229,7 @@ def solve_reversal_container(ctx, defines, lookup_all, is_link, indicator_types,
                                    is_dbe=is_dbe))
     if not splits:
         return None
+    from core.engine_common import better_near_miss
     best = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
@@ -240,6 +241,5 @@ def solve_reversal_container(ctx, defines, lookup_all, is_link, indicator_types,
         parse = _build(ctx, split, words, answer, pl)
         if parse.status == "pass":
             return parse
-        if best is None:
-            best = parse
+        best = better_near_miss(best, parse, ctx)
     return best

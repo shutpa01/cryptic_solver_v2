@@ -84,6 +84,7 @@ def solve_reversal_deletion(ctx, defines, lookup_all, is_link, indicator_types,
     if not splits:
         return None
 
+    from core.engine_common import better_near_miss
     best = None
     for split in splits:
         words = [t for t in split.wordplay_tokens if t.kind == "word"]
@@ -103,8 +104,10 @@ def solve_reversal_deletion(ctx, defines, lookup_all, is_link, indicator_types,
             if fi in ind or (is_link and is_link(words[fi].text)):
                 continue
             others = [k for k in range(n) if k not in ind and k != fi]
-            if any(not (is_link and is_link(words[k].text)) for k in others):
-                continue                                 # whole-answer form: the rest are links
+            # ONLY genuine links become link annotations; any non-link 'other' is left
+            # UNACCOUNTED so _verify NAMES it and marks a FAIL (near-miss) instead of silently
+            # abstaining. Cannot pass (an unaccounted word fails _verify) -> pass-invariant.
+            link_others = [k for k in others if is_link and is_link(words[k].text)]
             for val, mech in lookup_all(words[fi].text):
                 if mech not in ("synonym", "abbreviation"):
                     continue
@@ -116,11 +119,10 @@ def solve_reversal_deletion(ctx, defines, lookup_all, is_link, indicator_types,
                     continue
                 op, order, mid = hit
                 parse = _build(ctx, split, words, fi, v, mech, del_run, rev_run,
-                               others, op, order, mid, answer)
+                               link_others, op, order, mid, answer)
                 if parse.status == "pass":
                     return parse
-                if best is None:
-                    best = parse
+                best = better_near_miss(best, parse, ctx)
     return best
 
 

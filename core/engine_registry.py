@@ -1386,12 +1386,33 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     # Otherwise return the genuinely MOST COMPLETE fail so the richest evidence is shown
     # — measured (status, answer letters explained, clue words accounted, fewest
     # warnings), NOT by engine order.
-    candidates = [(p, n) for p, n in ((pd, "dd"), (pa, "anagram"), (pc, "charade"),
-                                      (ppos, "charade_positional"),
-                                      (pac, "anagram_charade"), (paco, "anagram_container"),
-                                      (pcon, "container"), (pccc, "container_charade"),
-                                      (phom, "homophone"),
-                                      (phomc, "charade_homophone"))
+    # ALL engines' fails are eligible (the free-tiling guesser was removed, so every remaining
+    # engine is answer-/signature-driven — its fail is an honest partial, safe to rank by
+    # completeness). Excludes pcd (that variable is REUSED for cryptic_definition below, and a
+    # CD is pending-or-None, never a fail). _most_complete picks the richest evidence.
+    candidates = [(p, n) for p, n in (
+        (pd, "dd"), (pa, "anagram"), (pasub, "anagram_substitution"),
+        (pamus, "anagram_multi_substitution"), (pad, "anagram_deletion"),
+        (pasd, "anagram_selection_deletion"), (pail, "anagram_insert_letter"),
+        (pc, "charade"), (ppos, "charade_positional"),
+        (pposl, "charade_positional_local"), (pcac2, "charade_acrostic"),
+        (pcca, "charade_container_acrostic"), (pcalt, "charade_alternation"),
+        (pac, "anagram_charade"), (paco, "anagram_container"),
+        (pcac, "charade_anagram_container"), (pchd, "charade_deletion"),
+        (pcmd, "charade_multi_deletion"), (pcnd, "charade_named_deletion"),
+        (pcmnd, "charade_multi_named_deletion"), (pchh, "charade_hollow"),
+        (pcon, "container"), (pccc, "container_charade"),
+        (pcic, "container_inner_charade"), (pcoc, "container_outer_charade"),
+        (pca, "container_acrostic"), (pcid, "container_inner_deletion"),
+        (pcia, "container_inner_alternation"),
+        (pcds, "container_deletion_selection"),
+        (pccs, "charade_container_selection"), (pnc, "nested_container"),
+        (proc, "reversed_outer_container"), (prev, "reversal"),
+        (prevc, "reversal_charade"), (prevce, "reversal_charade_evidence"),
+        (psrc, "selection_reversal_charade"), (prevwc, "reverse_charade"),
+        (prevcon, "reversal_container"), (prevdel, "reversal_deletion"),
+        (pdel, "deletion"), (psub, "substitution"), (plsub, "substitution"),
+        (phom, "homophone"), (phomc, "charade_homophone"), (palt, "alternation"))
                   if p is not None]
     if candidates:
         parse, name = _most_complete(candidates, ctx)
