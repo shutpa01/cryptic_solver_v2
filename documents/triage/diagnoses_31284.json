@@ -1,0 +1,189 @@
+{
+  "10077822": {
+    "reasons": ["missing data"],
+    "gaps": "TISSUE (paper) beheaded — 'cover off' removes the covering first letter → ISSUE; def = magazine. paper→TISSUE is ALREADY present; the only gap is a behead (first-letter deletion) indicator for 'cover off'.",
+    "enrichments": [
+      {"type": "indicator", "word": "cover off", "indicator_type": "deletion", "subtype": "first"}
+    ],
+    "note": "The deletion engine handles TISSUE−T once 'cover off' is a first-letter deletion indicator."
+  },
+  "10077823": {
+    "reasons": ["missing signature"],
+    "gaps": "ON + SET (SET = TV studio, present). 'in a TV studio?' idiomatically = 'on set' — the ON is carried by the whole phrase, not a single word. No per-word data path to ON.",
+    "signature": {"shape": "charade where one piece comes from a phrase equivalence ('in a TV studio' = 'on set')", "tier": "escalate", "note": "witty semi-&lit; hand-solve or human decision — not a clean per-word lookup"},
+    "note": "Def 'Attack'→ONSET already resolves."
+  },
+  "10077825": {
+    "reasons": ["missing data"],
+    "gaps": "reverse(jog = TROT) = TORT + OISE (French river) + S (starting to sweat) → TORTOISES; def = Slow movers. LOIRE is present as a French river, OISE is not.",
+    "enrichments": [
+      {"type": "synonym", "word": "French river", "value": "OISE", "answer": "TORTOISES"}
+    ],
+    "note": "reversal_charade assembles once OISE is present."
+  },
+  "10077826": {
+    "reasons": ["missing data"],
+    "gaps": "I (Current) + reverse(DAIL = elected house) → ILIAD; def = epic poem. 'elected house'→DAIL (the Dáil, Irish lower house) is absent.",
+    "enrichments": [
+      {"type": "synonym", "word": "elected house", "value": "DAIL", "answer": "ILIAD"}
+    ],
+    "note": "reversal_charade: I + rev(DAIL)."
+  },
+  "10077827": {
+    "reasons": ["missing signature", "data quality"],
+    "gaps": "RID (free) + ES (diesel essentially) → RIDES; def = Journeys; 'using' is a joiner. Blocked because 'using' is registered as an ANAGRAM indicator and is left unaccounted.",
+    "signature": {"shape": "charade RID+ES with an unindexed joiner ('using')", "tier": "escalate", "note": "no DB link words by policy (they overlap with indicators), so 'using' must be tolerated as filler by a signature, or its dubious anagram-indicator row reviewed"},
+    "note": "Also review the 'using' = anagram-indicator row — it misfires as a joiner here."
+  },
+  "10077828": {
+    "reasons": ["unparsed"],
+    "gaps": "def = celebratory drink→CHAMPAGNE (present). The wordplay device is not mechanically clear from the evidence.",
+    "note": "Honest 'cannot parse wordplay' — flag for a human parse rather than guess."
+  },
+  "10077829": {
+    "reasons": ["missing data"],
+    "gaps": "anagram of 'continued' (indicator 'Criminal') → UNNOTICED; def = 'under the radar'. The ONLY blocker is the missing definition.",
+    "enrichments": [
+      {"type": "definition", "definition": "under the radar", "answer": "UNNOTICED"}
+    ],
+    "note": "The anagram engine solves once the definition is present."
+  },
+  "10077832": {
+    "reasons": ["missing data"],
+    "gaps": "OFF (not working) + SPRING (well) → OFFSPRING; def = Children. well→SPRING is already present; only 'not working'→OFF is missing.",
+    "enrichments": [
+      {"type": "synonym", "word": "not working", "value": "OFF", "answer": "OFFSPRING"}
+    ],
+    "note": "charade assembles once OFF is present."
+  },
+  "10077834": {
+    "reasons": ["missing data"],
+    "gaps": "double definition: 'Unfashionable people' = SQUARES and 'particular powers' = SQUARES (x-squared). Both full-phrase definitions are absent.",
+    "enrichments": [
+      {"type": "definition", "definition": "Unfashionable people", "answer": "SQUARES"},
+      {"type": "definition", "definition": "particular powers", "answer": "SQUARES"}
+    ],
+    "note": "DD engine solves with both definitions."
+  },
+  "10077835": {
+    "reasons": ["missing data"],
+    "gaps": "BED (teaching graduate = B.Ed.) + POST (job) → BEDPOST; def = 'support for retirement' (a bedpost). Needs teaching graduate→BED and the definition.",
+    "enrichments": [
+      {"type": "substitution", "word": "teaching graduate", "value": "BED", "answer": "BEDPOST"},
+      {"type": "definition", "definition": "support for retirement", "answer": "BEDPOST"}
+    ],
+    "note": "job→POST should be present; charade."
+  },
+  "10077836": {
+    "reasons": ["missing data"],
+    "gaps": "O (old) + U (university) + STS (thoroughfares) → OUSTS; def = Expels. thoroughfares→STS (streets) is absent.",
+    "enrichments": [
+      {"type": "substitution", "word": "thoroughfares", "value": "STS", "answer": "OUSTS"}
+    ],
+    "note": "charade O+U+STS."
+  },
+  "10077837": {
+    "reasons": ["missing signature"],
+    "gaps": "anagram of ('lost' on us) + I (first person), indicators 'unfortunately'/'overwhelmed' → SOLUTIONS; def = Explanations. Multi-word literal fodder plus one looked-up inserted letter.",
+    "signature": {"shape": "anagram(multi-word literal fodder + a synonym-letter, e.g. first person→I)", "tier": "pending (tentative — L≈1, borderline)", "note": "the anagram_insert_letter family exists (see 19d); the gap is identifying the scattered fodder"},
+    "note": "Human confirms the shape and tier."
+  },
+  "10077838": {
+    "reasons": ["missing engine"],
+    "gaps": "acrostic: initial letters of 'Most Unions Stand In Corridors' = MUSIC; 'Leaders of' = acrostic indicator; def = 'singing, perhaps' (definition by example). Needs an initial-letters acrostic solver.",
+    "signature": {"shape": "initial-letters acrostic across N words", "tier": "escalate", "note": "acrostic engine/family"},
+    "note": "Escalate — engine gap. Also DBE def perhaps→MUSIC."
+  },
+  "10077839": {
+    "reasons": ["missing data"],
+    "gaps": "INDIA (Subcontinent) containing ONES (one's) → IND(ONES)IA; def = country. INDIA present; the inner fodder one's→ONES is absent.",
+    "enrichments": [
+      {"type": "synonym", "word": "one's", "value": "ONES", "answer": "INDONESIA"}
+    ],
+    "note": "container engine; INDIA around ONES."
+  },
+  "10077840": {
+    "reasons": ["missing data", "missing signature"],
+    "gaps": "double definition: 'Get ready' = PRIME (verb) and '11 or 13, say' = PRIME (a prime number, by example). Needs get ready→PRIME; the numeric DBE side cannot be a DB entry.",
+    "enrichments": [
+      {"type": "synonym", "word": "Get ready", "value": "PRIME", "answer": "PRIME"}
+    ],
+    "signature": {"shape": "DD where one side is a numeric definition-by-example ('11 or 13'→prime)", "tier": "pending", "note": "the solver cannot verify the numeric example → verdict pending"},
+    "note": "Half is data (get ready→PRIME), half is an unverifiable numeric DBE."
+  },
+  "10077841": {
+    "reasons": ["missing signature"],
+    "gaps": "OB (former pupil = Old Boy) + SERVING → OBSERVING; def = Watching. OB present; SERVING is clued by the whole phrase 'starting a tennis match' (the serve starts play) — a piece defined by a phrase, not a DB lookup.",
+    "signature": {"shape": "charade OB + a piece defined by a full phrase", "tier": "escalate", "note": "no clean per-word data path to SERVING; hand-solve or human"},
+    "note": "Watching→OBSERVING (def) resolves."
+  },
+  "10077843": {
+    "reasons": ["missing data"],
+    "gaps": "anagram of 'needs ring' (indicator 'put around') → RED ENSIGN; def = Flag. The ONLY blocker: 'put around' is not a DB anagram indicator.",
+    "enrichments": [
+      {"type": "indicator", "word": "put around", "indicator_type": "anagram"}
+    ],
+    "note": "The anagram engine solves once the indicator is present."
+  },
+  "10077845": {
+    "reasons": ["missing signature"],
+    "gaps": "IM (I'm) + PROMPT (on time) + U (you, heard) → IMPROMPTU; def = 'Without preparation'. All pieces present; U is a homophone ('you' heard = the letter U) and 'heard' is its indicator. The charade engine cannot absorb a homophone-indicated piece.",
+    "signature": {"shape": "charade including a homophone-letter piece + its 'heard' indicator", "tier": "pass (tentative — deterministic homophone, G=false)", "note": "or a small homophone-in-charade engine"},
+    "note": "Data all present (IM, PROMPT, U); this is a shape/engine gap."
+  },
+  "10077848": {
+    "reasons": ["missing signature"],
+    "gaps": "T (Time) + H (husband) + E (last letter of 'wrote', via 'at last') + TA (thank you) → THETA; def = letter. 'at last' = last-letter selection is present; the gap is a 4-piece charade that includes a last-letter selection piece.",
+    "signature": {"shape": "charade: abbr + abbr + [last-letter selection] + abbr", "tier": "pass (tentative — deterministic selection, G=false, L low)", "note": ""},
+    "note": "Human confirms shape/tier."
+  },
+  "10077849": {
+    "reasons": ["missing data"],
+    "gaps": "DS (police officer = Detective Sergeant) containing OFF (a third of 'offenders') → D(OFF)S → DOFFS; def = Removes. Needs police officer→DS (only DI present) and definition Removes→DOFFS.",
+    "enrichments": [
+      {"type": "substitution", "word": "police officer", "value": "DS", "answer": "DOFFS"},
+      {"type": "definition", "definition": "Removes", "answer": "DOFFS"}
+    ],
+    "note": "container engine; 'a third of offenders' = OFF is a first-third selection."
+  },
+  "10077850": {
+    "reasons": ["missing data"],
+    "gaps": "double definition: 'Martin' (a martin is a flier/bird, by example) and 'leaflet' = FLIER (present). Needs Martin→FLIER.",
+    "enrichments": [
+      {"type": "synonym", "word": "Martin", "value": "FLIER", "answer": "FLIER"}
+    ],
+    "note": "DD/DBE; leaflet→FLIER already present."
+  },
+  "10077824": {
+    "reasons": ["missing data"],
+    "gaps": "anagram of 'corner' + 'ref' (indicator 'dubious') → CONFERRER; def = Giver (provisional). Confirm the definition Giver→CONFERRER.",
+    "enrichments": [
+      {"type": "definition", "definition": "Giver", "answer": "CONFERRER"}
+    ],
+    "note": "Pending ONLY for the provisional definition; the anagram already matched."
+  },
+  "10077831": {
+    "reasons": ["missing data"],
+    "gaps": "hidden in 'plagiARISErs' ('Some' = hidden indicator); def = 'stand up'. The present 'stand up' definitions lack ARISE.",
+    "enrichments": [
+      {"type": "definition", "definition": "stand up", "answer": "ARISE"}
+    ],
+    "note": "The hidden match is fine; 'stand' stays unaccounted until the 2-word definition is confirmed."
+  },
+  "10077844": {
+    "reasons": ["missing data"],
+    "gaps": "SACK (Dismiss) + CLOT (fool) + H (hot), 'over' = positional → SACKCLOTH; def = 'itchy fabric'. All pieces already resolve; only the definition is missing.",
+    "enrichments": [
+      {"type": "definition", "definition": "itchy fabric", "answer": "SACKCLOTH"}
+    ],
+    "note": "charade_positional matched; pending only for the definition."
+  },
+  "10077847": {
+    "reasons": ["missing data"],
+    "gaps": "anagram of 'A genre' + S (lead character of Sussex), 'novel' indicator → ENRAGES; def = infuriates. Present 'infuriates' definitions are IRRITATES/VEXES, not ENRAGES.",
+    "enrichments": [
+      {"type": "definition", "definition": "infuriates", "answer": "ENRAGES"}
+    ],
+    "note": "anagram_insert_letter matched; pending only for the definition."
+  }
+}

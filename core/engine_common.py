@@ -122,6 +122,124 @@ def classify_links(ctx, parse, is_link):
     return unaccounted
 
 
+def typed_runs(word_tokens, positions, indicator_types, wptype, max_run=4):
+    """Every contiguous sub-run of `positions` (indices into word_tokens) whose JOINED
+    surface text the DB types as `wptype` — longest first, then earliest.
+
+    The phrase-aware complement of a per-word check: a multi-word indicator ("picked
+    up", "taken aback") is stored in the DB as ONE row, so testing words one at a time
+    can never see it. That single-word defect silently killed otherwise-correct parses
+    across the reversal family (2026-07-07, AROMA); residue/gate checks must use runs.
+
+    `wptype` may be one type name or a set of acceptable type names (e.g. the container
+    engines accept both 'container' and 'insertion')."""
+    if indicator_types is None:
+        return []
+    wanted = {wptype} if isinstance(wptype, str) else set(wptype)
+
+    def typed(text):
+        try:
+            return bool(wanted & (indicator_types(text) or set()))
+        except Exception:
+            return False
+
+    out = []
+    for group in contiguous_groups(sorted(positions)):
+        for length in range(min(len(group), max_run), 0, -1):
+            for s in range(0, len(group) - length + 1):
+                seg = group[s:s + length]
+                phrase = " ".join(word_tokens[i].text for i in seg)
+                if typed(phrase):
+                    out.append(list(seg))
+    out.sort(key=lambda seg: (-len(seg), seg[0]))
+    return out
+
+
+def indicator_plus_links(word_tokens, residue, indicator_types, wptype, is_link):
+    """Classify a residue as ONE DB-typed indicator (single word OR contiguous phrase)
+    plus DB link words. Tries every typed run (longest first) and returns
+    (indicator_positions, link_positions) for the first split where every remaining
+    residue word is a DB link; None when no split works. Nothing is assigned by
+    elimination — the indicator run must be DB-typed and the links must be DB links."""
+    for run in typed_runs(word_tokens, residue, indicator_types, wptype):
+        rest = [k for k in residue if k not in run]
+        if all(bool(is_link and is_link(word_tokens[k].text)) for k in rest):
+            return (run, rest)
+    return None
+
+
+def has_typed_indicator(word_tokens, indicator_types, wptype, max_run=4):
+    """Phrase-aware gate: True when any single word OR contiguous phrase of
+    `word_tokens` is DB-typed `wptype`. Replaces per-word any() gates, which miss an
+    indicator stored only as a multi-word phrase."""
+    return bool(typed_runs(word_tokens, range(len(word_tokens)), indicator_types,
+                           wptype, max_run=max_run))
+
+
+def classify_glue_run(word_tokens, run, indicator_types, wptype, is_link):
+    """Segment one CONTIGUOUS leftover run into DB link words and (possibly multi-word)
+    `wptype` indicator phrases. Returns [("indicator"|"link", [positions...]), ...] or
+    None when the run cannot be fully segmented. Longest indicator phrase first at each
+    step (with backtracking), so "picked up" is one indicator, not 'up' + a stranded
+    'picked'. Strictly WIDER than the per-word glue check it replaces: every old
+    single-word segmentation is still reachable."""
+    if indicator_types is None:
+        return None
+    run = list(run)
+    m = len(run)
+    wanted = {wptype} if isinstance(wptype, str) else set(wptype)
+
+    def typed(a, b):
+        phrase = " ".join(word_tokens[run[k]].text for k in range(a, b))
+        try:
+            return bool(wanted & (indicator_types(phrase) or set()))
+        except Exception:
+            return False
+
+    def seg(i):
+        if i == m:
+            return []
+        for j in range(min(m, i + 4), i, -1):        # longest indicator phrase first
+            if typed(i, j):
+                rest = seg(j)
+                if rest is not None:
+                    return [("indicator", [run[k] for k in range(i, j)])] + rest
+        if is_link and is_link(word_tokens[run[i]].text):
+            rest = seg(i + 1)
+            if rest is not None:
+                return [("link", [run[i]])] + rest
+        return None
+
+    return seg(0)
+
+
+def disjoint_typed_cover(word_tokens, positions, indicator_types, wptype):
+    """A DISJOINT, longest-first selection of DB-typed runs within `positions` — for
+    engines that treat EVERY typed leftover word as an indicator. Phrase runs are
+    preferred, single typed words kept, and each returned run is DB-typed as a WHOLE
+    (so an annotation per run is role_validity-safe; blindly merging adjacent separate
+    indicators would fabricate an untyped phrase)."""
+    chosen, taken = [], set()
+    for run in typed_runs(word_tokens, positions, indicator_types, wptype):
+        if not (set(run) & taken):
+            chosen.append(run)
+            taken.update(run)
+    return chosen
+
+
+def indicator_annotations(word_tokens, positions, note):
+    """ONE Annotation per contiguous run of `positions`, carrying the JOINED phrase —
+    so role_validity validates the DB row ("picked up"), never a component word.
+    Replaces the per-word `for k in pl[...]` annotation loops."""
+    out = []
+    for grp in contiguous_groups(sorted(positions)):
+        out.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in word_tokens[k].atom_ids),
+            text=" ".join(word_tokens[k].text for k in grp),
+            role="indicator", note=note))
+    return out
+
+
 def find_typed_run(word_tokens, candidate_positions, indicator_types, wptype,
                    min_length=1):
     """The LONGEST contiguous run of positions drawn from `candidate_positions`

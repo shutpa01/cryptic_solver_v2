@@ -139,6 +139,10 @@ def solve_anagram_multi_substitution(ctx, defines, value_lookup, indicator_types
                         # a false pass (SANATORIA passed by hand-waving "Top" as a dead indicator;
                         # BACCHUS by dropping "head"+"absorbed"). Only genuine LINK words may be
                         # leftover glue; a stray operator word means this is not a clean anagram.
+                        # PHRASE NOTE (2026-07-08 single-word sweep): deliberately NOT made
+                        # phrase-aware — an inert multi-word indicator phrase is just as much an
+                        # unused operator as an inert word, so this guard would reject it anyway;
+                        # per-word and phrase-aware give identical outcomes here.
                         inert_ind = sum(1 for k in glue
                                         if not (is_link and is_link(words[k].text)))
                         if inert_ind > 0:

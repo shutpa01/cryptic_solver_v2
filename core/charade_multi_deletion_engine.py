@@ -88,8 +88,14 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         except Exception:
             return set()
 
+    # PHRASE-AWARE deletion positions (see charade_deletion_engine): membership in any
+    # contiguous run whose JOINED text is a DB deletion row counts as deletion-typed.
+    from core.engine_common import typed_runs
+    _del_pos = {k for r in typed_runs(words, range(n), indicator_types, "deletion")
+                for k in r}
+
     def is_del(k):
-        return "deletion" in types(k)
+        return k in _del_pos
 
     def loc_ops(k):
         if not loc_rules:
@@ -110,12 +116,11 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     if not any(is_del(k) for k in range(n)):
         return None                              # GATE: a deletion indicator is required
 
-    # ops the clue's deletion indicators license (from DB sub-types)
+    # ops the clue's deletion indicators license (from DB sub-types) — PHRASE-AWARE
     ops = set()
-    for k in range(n):
-        if not is_del(k):
-            continue
-        subs = deletion_subtypes(words[k].text) if deletion_subtypes else set()
+    for _run in typed_runs(words, range(n), indicator_types, "deletion"):
+        _ph = " ".join(words[k].text for k in _run)
+        subs = deletion_subtypes(_ph) if deletion_subtypes else set()
         named = False
         for s in subs:
             op = deletion.SUBTYPE_OP.get(s)
@@ -209,10 +214,19 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     annotations = []
+    # deletion indicators annotated per RUN (joined phrase) — role_validity-safe.
+    from core.engine_common import disjoint_typed_cover
+    del_runs = disjoint_typed_cover(words, sorted(gaps), indicator_types, "deletion")
+    del_pos = {k for r in del_runs for k in r}
+    for run in del_runs:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="deletion indicator"))
     for g in gaps:
-        if is_del(g):
-            note, role = "deletion indicator", "indicator"
-        elif is_loc and is_loc(g):
+        if g in del_pos:
+            continue
+        if is_loc and is_loc(g):
             note, role = "deletion location indicator", "indicator"
         elif is_link and is_link(words[g].text):
             note, role = "link word", "link"

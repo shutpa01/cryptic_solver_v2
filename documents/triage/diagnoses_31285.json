@@ -1,0 +1,251 @@
+{
+  "10077940": {
+    "reasons": ["missing data", "missing engine"],
+    "reading": "TIGER = NIGER (African country) with a new first letter; def: someone ferocious",
+    "problem": "No engine can swap in a letter that nothing in the clue spells out.",
+    "action": "Accept the definition below anyway; the engine question is your call (build / leave).",
+    "gaps": "TIGER: NIGER ('African country', already in DB) with a NEW first letter ('with new leader') -> TIGER; def = 'someone ferocious'. The definition is absent. Even with it, NO engine replaces a first letter with an UNCLUED new letter: substitution_engine needs BOTH letters clued by wordplay values (substitution_engine.py:1-13); located_substitution replaces a located letter WITH a clued value (located_substitution_engine.py:1-22) - here nothing clues the T.",
+    "enrichments": [
+      {"type": "definition", "definition": "someone ferocious", "answer": "TIGER"}
+    ],
+    "note": "ENGINE ESCALATION: unclued first-letter replacement ('X with new leader'). Decide build vs hand-solve. Hand-solve covers this clue today."
+  },
+  "10077943": {
+    "reasons": ["missing data"],
+    "gaps": "TINGE hidden in 'StreeTING Evidently'; 'harbours' = the hidden indicator (no indicator rows for it in the DB); def = 'suspicion' -> TINGE (absent). The hidden engine already found the letters - it is pending only for these two gaps.",
+    "enrichments": [
+      {"type": "indicator", "word": "harbours", "indicator_type": "hidden", "subtype": ""},
+      {"type": "definition", "definition": "suspicion", "answer": "TINGE"}
+    ]
+  },
+  "10077948": {
+    "reasons": ["missing signature"],
+    "reading": "TERMINAL = TERM (spell) + IN + AL (jail, odd letters rejected); def: Last",
+    "problem": "WAS: the licence map had no entry for the 'alternation' indicator type, so 'oddly rejected' licensed nothing and your filed signature rolled back. FIXED 2026-07-08, A/B clean (0 regressions), LIVE.",
+    "action": "The signature is FILED (template 1670) and the clue is amber. Check the solve on the clue card; if right, set Status to PASS - the puzzle is then publishable. Promote the signature later with the 'Regression-check pending signatures' button.",
+    "gaps": "TERMINAL = TERM ('spell', in DB) + IN (literal) + AL (even letters of 'jail' - 'oddly rejected' is a registered alternation indicator phrase); def = 'Last' (confirmed, start). All material present. charade_signature_engine handles SYN+LIT+SEL slots, but 0 of the catalog's templates combine LIT_F and SEL_F (verified against catalog_templates).",
+    "signature": {"shape": "SYN_F+LIT_F+SEL_F charade def:start", "tier": "pass", "note": "rubric: L=1 (one synonym slot), G=false, 8-letter answer - PASS-tier eligible"},
+    "note": "History: your Resolve filed the right signature and it rolled back because SUBTYPE_RULE (selection_indicators.py) had no ('alternation') entry. First proposed fix was a duplicate 'selection/alternate' DB row - withdrawn as a workaround. Real fix = the map entries (alternation/alternating/alternate -> alternate rule), added 2026-07-08 with user approval, A/B-gated. The map still belongs in the DB long-term (hardcoded-lists workstream).",
+    "hs_seed": [
+      {"words": "Last", "role": "definition"},
+      {"words": "spell", "role": "synonym", "value": "TERM", "tiles": [1, 2, 3, 4]},
+      {"words": "in", "role": "letters", "value": "IN", "tiles": [5, 6]},
+      {"words": "jail", "role": "selection", "rule": "alternate", "value": "AL", "tiles": [7, 8]},
+      {"words": "oddly rejected", "role": "indicator", "itype": "alternation"}
+    ]
+  },
+  "10077951": {
+    "reasons": ["missing data"],
+    "gaps": "TASTING = T (Tango) + A + STING ('pop star', in DB); 'with' link. Charade template 192 already assembles it - the ONLY gap is the definition 'Sipping' -> TASTING.",
+    "enrichments": [
+      {"type": "definition", "definition": "Sipping", "answer": "TASTING"}
+    ]
+  },
+  "10077952": {
+    "reasons": ["missing engine"],
+    "reading": "ORION = reverse(R runs + O over) ('taken aback') + ION (lion beheaded, 'scratching head'); def: Hunter",
+    "problem": "No engine combines a reversed pair with a beheaded word.",
+    "action": "Engine gap — your call: build or hand-solve (/hs is pre-filled).",
+    "gaps": "ORION = reverse of [R ('runs') + O ('over')] via 'taken aback' -> OR, + ION ('lion' beheaded by 'scratching head', a registered first-letter deletion indicator); def = 'Hunter' -> ORION (confirmed). ALL data present. No engine composes this: reversal_charade reverses single DB-value pieces only (lion has no value ION); reverse_charade reverses the WHOLE assembly; selection_reversal_charade needs a SELECTION-typed indicator ('scratching head' is typed deletion); charade_named_deletion deletes FROM a value, it cannot make a beheaded-literal charade piece.",
+    "note": "ENGINE ESCALATION: charade with a reversed SEGMENT + a beheaded-literal piece. Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "Hunter", "role": "definition"},
+      {"words": "runs", "role": "substitution", "value": "R", "tiles": [2]},
+      {"words": "over", "role": "substitution", "value": "O", "tiles": [1]},
+      {"words": "taken aback", "role": "indicator", "itype": "reversal"},
+      {"words": "by", "role": "link"},
+      {"words": "lion", "role": "selection", "rule": "remove_first", "value": "ION", "tiles": [3, 4, 5]},
+      {"words": "scratching head", "role": "indicator", "itype": "deletion"}
+    ]
+  },
+  "10077953": {
+    "reasons": ["missing data"],
+    "gaps": "ON THE NAIL: double definition (or cryptic definition) - 'Where one's hammered, say' = ON THE NAIL (where a nail is hammered; whimsical half) and 'without delay' = ON THE NAIL (already in DB). The whimsical definition is the gap.",
+    "enrichments": [
+      {"type": "definition", "definition": "where one's hammered", "answer": "ON THE NAIL"}
+    ],
+    "note": "If it still does not solve after the definition lands, the likely reason is that dd_engine bridges the halves only across links or 'like'/'as' (dd_engine.py:40) and 'say' is neither - report back and we treat that then."
+  },
+  "10077954": {
+    "reasons": ["missing data"],
+    "gaps": "ADDRESSED = AD ('plug', in DB) + DRESSED ('put on clothes', absent); 'then' link; def = 'Grappled' (confirmed via synonyms_pairs) with 'with' as link. The phrase synonym is the only gap.",
+    "enrichments": [
+      {"type": "synonym", "word": "put on clothes", "value": "DRESSED"}
+    ],
+    "note": "Watch after accept: needs a charade template with a 3-word SYN slot (SYN_F+SYN_F(3w) def:start). If it still fails, it is a one-template signature gap."
+  },
+  "10077955": {
+    "reasons": ["missing engine"],
+    "reading": "SPEED = SPE (alternate letters of 'is upset', per 'Regularly') + ED (editor's); def: career",
+    "problem": "WAS: the alternation engine only took ONE fodder word. FIXED 2026-07-08 (fodder runs of 1-3 words), A/B clean (0 regressions), LIVE.",
+    "action": "Re-run the clue - it passes in the harness.",
+    "gaps": "SPEED = SPE (even letters of 'is upset' - 'Regularly', a registered alternate indicator) + ED ('editor's', in DB); 'by' link; def = 'career' (confirmed, end). ALL data present. charade_alternation_engine pairs the indicator with exactly ONE following content word (_alt_targets, charade_alternation_engine.py:49-71) - and it skips 'is' as a link while hunting fodder - so two-word fodder 'is upset' is structurally unreachable.",
+    "note": "ENGINE ESCALATION: multi-word alternation fodder. Same engine family as the known alternation-indicator issues (container_inner_alternation). Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "Regularly", "role": "indicator", "itype": "selection", "isub": "alternate"},
+      {"words": "is upset", "role": "selection", "rule": "alternate", "value": "SPE", "tiles": [1, 2, 3]},
+      {"words": "by", "role": "link"},
+      {"words": "editor's", "role": "substitution", "value": "ED", "tiles": [4, 5]},
+      {"words": "career", "role": "definition"}
+    ]
+  },
+  "10077956": {
+    "reasons": ["missing data"],
+    "gaps": "TREATMENT = TREAT ('titbit', absent - DB has only appetiser/bit of grub/cashew nuts) + M ('Male's', in DB) placed after TREAT by 'after', + ENT ('Hospital department', in DB); def = 'nurse may provide this' (absent).",
+    "enrichments": [
+      {"type": "synonym", "word": "titbit", "value": "TREAT"},
+      {"type": "definition", "definition": "nurse may provide this", "answer": "TREATMENT"}
+    ],
+    "note": "Watch after accept: charade_positional pivots GROUPS (answer = RIGHT-group + LEFT-group, charade_positional_engine.py:1-30); here ENT belongs to the right group so it would build TREAT+ENT+M, not TREAT+M+ENT. May need escalation once the data is in. /hs opens pre-filled with this reading.",
+    "hs_seed": [
+      {"words": "Male's", "role": "substitution", "value": "M", "tiles": [6]},
+      {"words": "after", "role": "indicator", "itype": "charade_positional:after"},
+      {"words": "titbit", "role": "synonym", "value": "TREAT", "tiles": [1, 2, 3, 4, 5]},
+      {"words": "Hospital department", "role": "synonym", "value": "ENT", "tiles": [7, 8, 9]},
+      {"words": "nurse may provide this", "role": "definition"}
+    ]
+  },
+  "10077957": {
+    "reasons": ["missing data", "missing engine"],
+    "reading": "GRAND = G (golf) + D (day) around RAN (bluster = RANT, endless); def: August",
+    "problem": "Your RANT landed fine; no engine wraps a two-piece outer around a shortened inner.",
+    "action": "Engine gap — your call: build or hand-solve (/hs is pre-filled).",
+    "gaps": "GRAND = G ('golf') + D ('day') wrapped around RAN ('bluster' = RANT, absent, curtailed by 'endless'); 'includes' = container indicator; def = 'August' -> GRAND (confirmed). Data gap: bluster -> RANT. Engine gap even after that: the outer is a TWO-piece charade AND the inner has a deletion - container_inner_deletion needs a single-value outer (container_inner_deletion_engine.py:21-22); container_outer_charade needs a PLAIN inner value (container_outer_charade_engine.py:1-16). Neither combines both.",
+    "enrichments": [
+      {"type": "synonym", "word": "bluster", "value": "RANT"}
+    ],
+    "note": "Add RANT regardless (true data). ENGINE ESCALATION: split-outer container with inner deletion. Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "August", "role": "definition"},
+      {"words": "golf", "role": "substitution", "value": "G", "tiles": [1]},
+      {"words": "day", "role": "substitution", "value": "D", "tiles": [5]},
+      {"words": "includes", "role": "indicator", "itype": "container"},
+      {"words": "endless", "role": "indicator", "itype": "deletion", "isub": "tail"},
+      {"words": "bluster", "role": "synonym", "value": "RANT", "cut": "T", "tiles": [2, 3, 4]}
+    ]
+  },
+  "10077958": {
+    "reasons": ["missing data", "missing signature"],
+    "reading": "ROOT OUT = ROOT (England cricketer) + OUT (in an exhausted state); def: Discover",
+    "problem": "ROOT should hang on 'England cricketer' (my first version left 'England' over); the 2-word + 4-word charade shape is also new to the catalog.",
+    "action": "Accept the synonym below, then Resolve in /hs (pre-filled) to file the shape.",
+    "gaps": "ROOT OUT = ROOT + OUT; def = 'Discover' (confirmed, start). Your accepted 'in an exhausted state' = OUT LANDED and works; the near-miss now places ROOT and OUT and leaves ONLY 'England' unaccounted - my first reading wrongly hung ROOT on bare 'cricketer'. Corrected: the synonym belongs on the PHRASE 'England cricketer' = ROOT (Joe Root). Even then the shape SYN_F(2w)+SYN_F(4w) charade def:start is not in the catalog (widths checked: nothing beyond 2w+3w).",
+    "enrichments": [
+      {"type": "synonym", "word": "England cricketer", "value": "ROOT"}
+    ],
+    "signature": {"shape": "SYN_F(2w)+SYN_F(4w) charade def:start", "tier": "pass", "note": "rubric: L=2, G=false, 7-letter answer - PASS-tier eligible"},
+    "note": "Accept the synonym, then hand-solve in /hs (opens pre-filled) - your Resolve files the template through the tiered route.",
+    "hs_seed": [
+      {"words": "Discover", "role": "definition"},
+      {"words": "England cricketer", "role": "synonym", "value": "ROOT", "tiles": [1, 2, 3, 4]},
+      {"words": "in an exhausted state", "role": "synonym", "value": "OUT", "tiles": [5, 6, 7]}
+    ]
+  },
+  "10077959": {
+    "reasons": ["missing signature"],
+    "reading": "BRACES = B (British) + RACE (people) + S (benefits, finally); def: Supports",
+    "problem": "The catalog has no charade shape ending in a picked letter (abbr + synonym + selection, def at start).",
+    "action": "Resolve in /hs (opens fully pre-filled) — that files the shape.",
+    "gaps": "BRACES = B ('British') + RACE ('people', in DB) + S ('benefits, finally' - 'finally' is a registered last-letter selection indicator); 'with' link; def = 'Supports' (confirmed, start). All material present. The near-miss (template 4, B+RACES) left 'benefits finally' unaccounted - the honest shape needs a SEL_F tail, and no charade template is ABR_F+SYN_F+SEL_F def:start (the catalog's only ABR/SYN/SEL mix is 1657, SEL_F+SYN_F+ABR_F def:end).",
+    "signature": {"shape": "ABR_F+SYN_F+SEL_F charade def:start", "tier": "pass", "note": "rubric: L=1, G=false, 6-letter answer - PASS-tier eligible"},
+    "note": "Hand-solve it in /hs (opens pre-filled with this reading); your Resolve files this signature through the tiered route.",
+    "hs_seed": [
+      {"words": "Supports", "role": "definition"},
+      {"words": "British", "role": "substitution", "value": "B", "tiles": [1]},
+      {"words": "people", "role": "synonym", "value": "RACE", "tiles": [2, 3, 4, 5]},
+      {"words": "with", "role": "link"},
+      {"words": "benefits", "role": "selection", "rule": "last", "value": "S", "tiles": [6]},
+      {"words": "finally", "role": "indicator", "itype": "selection", "isub": "last"}
+    ]
+  },
+  "10077964": {
+    "reasons": ["missing engine"],
+    "reading": "TERRIFIED = TIE (couple) around [ERR (sin) + IF] + D (prodded, essentially); def: Scared",
+    "problem": "No engine builds a container whose inside is two pieces, plus a tail letter.",
+    "action": "Engine gap — your call: build or hand-solve (/hs is pre-filled).",
+    "gaps": "TERRIFIED = TIE ('couple', in DB) admitting [ERR ('sin') + IF (literal)] -> T(ERRIF)IE, + D ('prodded, essentially' - 'essentially' is a registered middle-selection indicator; middle of 'prodded' = D); def = 'Scared' (confirmed). ALL data present. No engine composes it: container_inner_charade requires the container to BE the whole answer (container_inner_charade_engine.py:12-13); charade_container_selection's container piece takes a selection inner, not a charade (charade_container_selection_engine.py:1-17); the container SEL_F templates (1557/1558) take a single-value inner.",
+    "note": "ENGINE ESCALATION: container-with-charade-inner AS A CHARADE PIECE (plus a selection tail). Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "Scared", "role": "definition"},
+      {"words": "couple", "role": "synonym", "value": "TIE", "tiles": [1, 7, 8]},
+      {"words": "admitting", "role": "indicator", "itype": "container"},
+      {"words": "sin", "role": "synonym", "value": "ERR", "tiles": [2, 3, 4]},
+      {"words": "if", "role": "letters", "value": "IF", "tiles": [5, 6]},
+      {"words": "prodded", "role": "selection", "rule": "middle", "value": "D", "tiles": [9]},
+      {"words": "essentially", "role": "indicator", "itype": "selection", "isub": "middle"}
+    ]
+  },
+  "10077965": {
+    "reasons": ["missing data"],
+    "reading": "STRUGGLED = anagram of RT ('heartless' rat) + SLUGGED ('wildly'); def: Fought",
+    "problem": "The definition Fought = STRUGGLED never got applied (it wasn't rejected either) — still open below.",
+    "action": "Accept the definition; if it still fails, the mid-word deletion needs escalating.",
+    "gaps": "STRUGGLED = anagram of [RT ('heartless' rat) + SLUGGED], indicator 'wildly'; 'and' is a registered link; def = 'Fought' -> STRUGGLED (absent - and with NO confirmed definition every engine is blocked before it starts).",
+    "enrichments": [
+      {"type": "definition", "definition": "Fought", "answer": "STRUGGLED"}
+    ],
+    "note": "Watch after accept: the heart-deletion inside anagram fodder may still not assemble - anagram_deletion does named-letter and curtailment only (anagram_deletion_engine.py:3-14); 'heartless' is typed deletion/middle + parts/center_delete. If it still fails, escalate. /hs opens pre-filled with this reading.",
+    "hs_seed": [
+      {"words": "Fought", "role": "definition"},
+      {"words": "heartless", "role": "indicator", "itype": "deletion", "isub": "middle"},
+      {"words": "rat slugged", "role": "anagram", "value": "RATSLUGGED", "cut": "A", "tiles": [1, 2, 3, 4, 5, 6, 7, 8, 9]},
+      {"words": "and", "role": "link"},
+      {"words": "wildly", "role": "indicator", "itype": "anagram"}
+    ]
+  },
+  "10077966": {
+    "reasons": ["missing data"],
+    "gaps": "TAPROOMS = anagram of \"Ramp's too\" (indicator 'high'); def = 'areas where beer is served' (absent). The anagram engine already matched - pending only for the definition.",
+    "enrichments": [
+      {"type": "definition", "definition": "areas where beer is served", "answer": "TAPROOMS"}
+    ]
+  },
+  "10077968": {
+    "reasons": ["missing engine"],
+    "reading": "LISTENS = L (student) + [IS + TENS (anxious = TENSE, almost)] swapped by 'after'; def: pays attention",
+    "problem": "No engine does a re-ordered charade with a shortened piece.",
+    "action": "Engine gap — your call: build or hand-solve (/hs is pre-filled).",
+    "gaps": "LISTENS = L ('student') + [IS (literal) + TENS ('anxious' = TENSE, in DB, curtailed by 'almost')] placed after L by 'after'; def = 'pays attention' (confirmed, end). ALL data present. No engine combines a POSITIONAL re-order with a DELETED piece: charade_positional pieces are plain SYN/ABR/LIT only (ROLE_MECHANISM, charade_positional_engine.py:36); the deletion engines have no positional re-order.",
+    "note": "ENGINE ESCALATION: positional charade with a curtailed piece. Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "Is", "role": "letters", "value": "IS", "tiles": [2, 3]},
+      {"words": "almost", "role": "indicator", "itype": "deletion", "isub": "tail"},
+      {"words": "anxious", "role": "synonym", "value": "TENSE", "cut": "E", "tiles": [4, 5, 6, 7]},
+      {"words": "after", "role": "indicator", "itype": "charade_positional:after"},
+      {"words": "student", "role": "substitution", "value": "L", "tiles": [1]},
+      {"words": "pays attention", "role": "definition"}
+    ]
+  },
+  "10077969": {
+    "reasons": ["missing data", "missing engine"],
+    "reading": "STATED = STARTED (Began) ignoring R (Federer's last); def: set",
+    "problem": "Your definition landed fine; no engine deletes a letter named by \"X's last\".",
+    "action": "Engine gap — your call: build or hand-solve (/hs is pre-filled).",
+    "gaps": "STATED = STARTED ('Began', in DB) ignoring R ('Federer's last' - last letter of Federer); 'ignoring' = deletion indicator; def = 'set' -> STATED (absent - no confirmed definition at all). Data gap: the definition. Engine gap even after that: the deleted letter is named by a SELECTION ('X's last'), and charade_named_deletion requires the deleted letter to be a wordplay-table value of a clue word (charade_named_deletion_engine.py:10-13); charade_deletion deletes positional letters of the PIECE (this R is interior to STARTED). No engine deletes a selection-named letter from a synonym.",
+    "enrichments": [
+      {"type": "definition", "definition": "set", "answer": "STATED"}
+    ],
+    "note": "Add the definition regardless. ENGINE ESCALATION: deletion of a selection-named letter. Decide build vs hand-solve (/hs opens pre-filled with this reading).",
+    "hs_seed": [
+      {"words": "Began", "role": "synonym", "value": "STARTED", "cut": "R", "tiles": [1, 2, 3, 4, 5, 6]},
+      {"words": "ignoring", "role": "indicator", "itype": "deletion"},
+      {"words": "Federer's last", "role": "indicator", "itype": "selection", "isub": "last"},
+      {"words": "set", "role": "definition"}
+    ]
+  },
+  "10077970": {
+    "reasons": ["missing engine"],
+    "reading": "AROMA = reverse(O old + RA artist) ('picked up') + MA (mother's); def: fragrance",
+    "problem": "WAS: the reversal engine rejected the two-word indicator 'picked up'. FIXED 2026-07-07 (phrase-aware residue check, A/B over 1876 clues: 0 regressions) — AROMA passes in the harness.",
+    "action": "Re-run the clue (clue-page Re-run) — it should go green and drop off this list.",
+    "gaps": "AROMA = AR (reverse of RA, 'artist' - in the DB and reachable via lookup_all, verified) + O ('Old') + MA ('mother's'); 'picked up' = reversal indicator (registered as the two-word phrase); def = 'fragrance' (confirmed, end). ALL data present and reversal_charade's tiler CAN reach AR+O+MA - but its residue validator checks word-by-word (finalize, reversal_charade_engine.py:98-114): 'up' alone qualifies as the reversal indicator, then 'picked' must be a link word, and it is neither a link nor an indicator on its own -> the placement is rejected and the engine abstains (diagnose confirms: reversal_charade abstained).",
+    "note": "ENGINE ESCALATION - the sharpest one: the phrase-awareness fix already exists in this engine's ANNOTATION layer (reversal_charade_engine.py:170-179 validates 'picked up' as one phrase) but never reached the residue validator. Small, well-localised extension - but it touches a working stage engine, so it is A/B-gated and YOUR decision. /hs opens pre-filled with this reading.",
+    "hs_seed": [
+      {"words": "Old", "role": "substitution", "value": "O", "tiles": [3]},
+      {"words": "artist", "role": "synonym", "value": "RA", "tiles": [1, 2]},
+      {"words": "picked up", "role": "indicator", "itype": "reversal"},
+      {"words": "mother's", "role": "substitution", "value": "MA", "tiles": [4, 5]},
+      {"words": "fragrance", "role": "definition"}
+    ]
+  }
+}

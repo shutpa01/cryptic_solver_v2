@@ -59,6 +59,11 @@ def _run_values(words, a, b, lookup_all):
 
 
 def _has_reversal_indicator(words, indicator_types):
+    # PHRASE-AWARE gate (was per-word): an indicator stored only as a multi-word DB
+    # phrase ("picked up") must open the gate too.
+    from core.engine_common import has_typed_indicator
+    if has_typed_indicator(words, indicator_types, "reversal"):
+        return True
     for t in words:
         try:
             ty = indicator_types(t.text) or set()
@@ -99,19 +104,14 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
         if nrev < 1:
             return None
         residue = [k for k in range(n) if k not in used]
-        rev = [k for k in residue if is_rev(k)]
-        if not rev:
+        # PHRASE-AWARE residue split (was: pick ONE rev-typed word, everything else a
+        # link — which stranded 'picked' from "picked up" and rejected a correct parse).
+        from core.engine_common import indicator_plus_links
+        split = indicator_plus_links(words, residue, indicator_types, "reversal",
+                                     is_link)
+        if split is None:
             return None
-        c = rev[0]
-        links = []
-        for k in residue:
-            if k == c:
-                continue
-            if residue_link(k):
-                links.append(k)
-            else:
-                return None
-        return {"pieces": pieces, "rev": [c], "links": links}
+        return {"pieces": pieces, "rev": split[0], "links": split[1]}
 
     def dfs(pos, used, pieces, nrev):
         if pos == N:

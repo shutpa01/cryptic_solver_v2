@@ -111,6 +111,26 @@ def select_span(ctx, token, rule):
     return out
 
 
+def select_span_run(ctx, tokens, rule):
+    """select_span over a RUN of tokens: the rule is applied to the CONCATENATED letter
+    atoms of all tokens in order ('is upset' alternate -> IUST / SPE). For a single
+    token this equals select_span. Additive — select_span is untouched. Part of the
+    single-word-assumption fix (2026-07-08): selection fodder, like indicators, may
+    span several clue words."""
+    la = []
+    for t in tokens:
+        la.extend(_letter_atoms(ctx, t))
+    fn = SPAN_RULES.get(rule)
+    if fn is None:
+        return []
+    out = []
+    for cand in fn(la):
+        s = "".join(a.normalized for a in cand)
+        if s:
+            out.append((s, tuple(a.atom_id for a in cand)))
+    return out
+
+
 def match_span(ctx, token, rule, target):
     """The atom_ids if applying `rule` to `token` yields EXACTLY `target`, else None.
     Answer-driven: the consumer passes the answer span the piece must fill, so the

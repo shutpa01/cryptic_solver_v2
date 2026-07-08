@@ -94,20 +94,13 @@ def _assemble(answer, words, lookup_all, is_link, indicator_types):
                 used = set(range(ia, ib))
                 used |= {k for (a, b, _) in pieces for k in range(a, b)}
                 residue = [k for k in range(n) if k not in used]
-                con_caps = [k for k in residue if is_con(k)]
-                for c in con_caps:
-                    links, ok = [], True
-                    for k in residue:
-                        if k == c:
-                            continue
-                        if residue_link(k):
-                            links.append(k)
-                        else:
-                            ok = False
-                            break
-                    if ok:
-                        return {"p": p, "L": L, "inner": (ia, ib), "inner_val": vin,
-                                "pieces": pieces, "con": [c], "links": links}
+                # PHRASE-AWARE residue split (was per-word is_con + links).
+                from core.engine_common import indicator_plus_links
+                sp = indicator_plus_links(words, residue, indicator_types,
+                                          ("container", "insertion"), is_link)
+                if sp is not None:
+                    return {"p": p, "L": L, "inner": (ia, ib), "inner_val": vin,
+                            "pieces": pieces, "con": sp[0], "links": sp[1]}
     return None
 
 
@@ -151,10 +144,8 @@ def _build(ctx, split, words, answer, pl):
                           operation="container", clue_atom_id=None))
 
     annotations = []
-    for k in pl["con"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="container indicator"))
+    from core.engine_common import indicator_annotations
+    annotations.extend(indicator_annotations(words, pl["con"], "container indicator"))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",

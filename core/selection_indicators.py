@@ -27,6 +27,14 @@ SUBTYPE_RULE = {
     ("parts", "alternate"):         "alternate",
     ("parts", "even"):              "alternate",
     ("parts", "odd"):               "alternate",
+    # The alternation TYPE means "take alternate letters" by definition; its rows carry
+    # no sub-type. Without these entries a word/phrase typed ONLY as alternation (e.g.
+    # the phrase row 'oddly rejected') licensed nothing for the SEL engines — the gap
+    # that rolled back TERMINAL's hand-solved signature (2026-07-07). Mirrors the
+    # engines' own _ALT_IND_TYPES = {alternation, alternating, alternate}.
+    ("alternation", ""):            "alternate",
+    ("alternating", ""):            "alternate",
+    ("alternate", ""):              "alternate",
     ("selection", "last_letter"):   "last",
     ("selection", "outside_letters"): "outer",
     # Clean canonical subtype set for the `selection` type — one subtype per rule, so a

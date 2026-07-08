@@ -119,15 +119,22 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
                             continue                  # DB-only: a DB value is required
                         used = set(range(ia, ib)) | set(range(oa, ob))
                         residue = [k for k in range(n) if k not in used]
-                        con_caps = [k for k in residue if is_con(k)]
-                        ana_caps = [k for k in residue if is_ana(k)]
+                        # PHRASE-AWARE (was per-word is_con/is_ana): each indicator may
+                        # be a word or a contiguous DB-typed run.
+                        from core.engine_common import disjoint_typed_cover
+                        con_runs2 = disjoint_typed_cover(words, residue, indicator_types,
+                                                         ("container", "insertion"))
+                        ana_pos = {k for r in disjoint_typed_cover(
+                                       words, residue, indicator_types, "anagram")
+                                   for k in r}
                         # The container and anagram indicators must be DISTINCT words
                         # (a word like "about" is tagged both, but here it is one or
-                        # the other). Pick a container word, then anagram words that
-                        # are not it; the rest must be links.
+                        # the other). Pick a container run, then anagram words that
+                        # are not in it; the rest must be links.
                         anag_run = (ia, ib) if inner_anag else (oa, ob)
-                        for c in con_caps:
-                            ana = [k for k in ana_caps if k != c]
+                        for c_run in con_runs2:
+                            c_set = set(c_run)
+                            ana = [k for k in sorted(ana_pos) if k not in c_set]
                             ana_source = "db"
                             if not ana:
                                 # MISSING-INDICATOR FALLBACK: a container indicator is
@@ -135,11 +142,12 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
                                 # the residue word adjacent to the anagram component is
                                 # the anagram indicator — accept it provisionally.
                                 ana = [k for k in adjacent_run(
-                                    residue, anag_run[0], anag_run[1]) if k != c]
+                                    residue, anag_run[0], anag_run[1])
+                                    if k not in c_set]
                                 if not ana:
                                     continue
                                 ana_source = "pending"
-                            spoken = {c} | set(ana)
+                            spoken = c_set | set(ana)
                             links, ok = [], True
                             for k in residue:
                                 if k in spoken:
@@ -163,7 +171,7 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types,
                                 value_source = "pending"
                             placement = {"p": p, "L": L, "inner": (ia, ib),
                                          "outer": (oa, ob),
-                                         "inner_anag": inner_anag, "con": [c],
+                                         "inner_anag": inner_anag, "con": list(c_run),
                                          "ana": ana, "ana_source": ana_source,
                                          "value_source": value_source,
                                          "links": links}
@@ -217,15 +225,18 @@ def _build(ctx, split, words, answer, pl):
                           transform="anagram_of" if anag else None))
 
     annotations = []
-    for k in pl["con"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="container indicator"))
-    for k in pl["ana"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="anagram indicator",
-                                      source=pl.get("ana_source", "db")))
+    # indicator annotations per contiguous RUN (joined phrase) — role_validity-safe.
+    from core.engine_common import contiguous_groups
+    for grp in contiguous_groups(sorted(pl["con"])):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in grp), role="indicator",
+            note="container indicator"))
+    for grp in contiguous_groups(sorted(pl["ana"])):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in grp), role="indicator",
+            note="anagram indicator", source=pl.get("ana_source", "db")))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",

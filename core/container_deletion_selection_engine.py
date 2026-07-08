@@ -192,18 +192,23 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                         break
                 if built_outer is None:
                     continue
-                # INNER = the selection indicator's rule applied to a single disjoint word.
-                for fi in range(n):
-                    if fi in ind or fi in range(orun[0], orun[1]):
-                        continue
+                # INNER = the selection rule applied to a disjoint word OR contiguous
+                # run (1..3 words; was a single word only).
+                from core.selection import select_span_run
+                for fa in range(n):
+                  for fb in range(fa + 1, min(fa + 3, n) + 1):
+                    frun = set(range(fa, fb))
+                    if (frun & ind) or (frun & set(range(orun[0], orun[1]))):
+                        break
                     for rule in sel_rules:
-                        sel = next(((s, aids) for s, aids in select_span(ctx, words[fi], rule)
+                        sel = next(((s, aids) for s, aids
+                                    in select_span_run(ctx, words[fa:fb], rule)
                                     if s.upper() == inner), None)
                         if sel is None:
                             continue
                         parse = _build(ctx, split, words, answer, orun, outer, built_outer,
-                                       fi, rule, sel[1], inner, p, L, con_run, del_run,
-                                       sel_run, ind, is_link)
+                                       (fa, fb), rule, sel[1], inner, p, L, con_run,
+                                       del_run, sel_run, ind, is_link)
                         if parse is None:
                             continue
                         if parse.status == "pass":
@@ -217,8 +222,9 @@ def _build(ctx, split, words, answer, orun, outer, built_outer, fi, rule, inner_
     from collections import Counter
     from core.definition_engine import dbe_annotation
     V_o, omech, op = built_outer
+    fa, fb = fi                                  # the selected fodder RUN (was one word)
     n = len(words)
-    used = set(range(*orun)) | {fi} | ind
+    used = set(range(*orun)) | set(range(fa, fb)) | ind
     links_idx = []
     for k in range(n):
         if k in used:
@@ -232,9 +238,11 @@ def _build(ctx, split, words, answer, orun, outer, built_outer, fi, rule, inner_
     outer_src = Source(
         clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in outer_toks), value=V_o, mechanism=omech)
-    inner_src = Source(clue_atom_ids=words[fi].atom_ids, text=words[fi].text, value=inner,
-                       mechanism=_SEL_MECH.get(rule, rule))
-    if orun[0] < fi:
+    inner_src = Source(
+        clue_atom_ids=tuple(aid for t in words[fa:fb] for aid in t.atom_ids),
+        text=" ".join(t.text for t in words[fa:fb]), value=inner,
+        mechanism=_SEL_MECH.get(rule, rule))
+    if orun[0] < fa:
         sources, OUT, IN = [outer_src, inner_src], 0, 1
     else:
         sources, OUT, IN = [inner_src, outer_src], 1, 0
@@ -263,7 +271,8 @@ def _build(ctx, split, words, answer, orun, outer, built_outer, fi, rule, inner_
                    note="deletion: cut %s (%s) from %s -> %s" % (where, removed, V_o, outer)),
         Annotation(clue_atom_ids=tuple(aid for t in sel_toks for aid in t.atom_ids),
                    text=" ".join(t.text for t in sel_toks), role="indicator",
-                   note="%s-letter selection indicator (of %s)" % (rule, words[fi].text)),
+                   note="%s-letter selection indicator (of %s)"
+                        % (rule, " ".join(t.text for t in words[fa:fb]))),
     ]
     for k in links_idx:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,

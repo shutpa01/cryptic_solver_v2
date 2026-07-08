@@ -43,13 +43,9 @@ def _run_values(words, a, b, lookup_all):
 
 
 def _has_reversal_indicator(words, indicator_types):
-    for t in words:
-        try:
-            if "reversal" in (indicator_types(t.text) or set()):
-                return True
-        except Exception:
-            pass
-    return False
+    # PHRASE-AWARE gate (was per-word): a multi-word DB indicator must open it too.
+    from core.engine_common import has_typed_indicator
+    return has_typed_indicator(words, indicator_types, "reversal")
 
 
 def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types, sel_options):
@@ -91,21 +87,16 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types, sel_opti
         if sel_ind_words & used:
             return None
         residue = [k for k in range(n) if k not in used and k not in sel_ind_words]
-        rev = [k for k in residue if is_rev(k)]
-        if not rev:
-            return None
-        c = rev[0]
-        links = []
-        for k in residue:
-            if k == c:
-                continue
-            if residue_link(k):
-                links.append(k)
-            else:
-                return None                      # a content word unaccounted -> reject
-        return {"pieces": pieces, "rev": [c],
+        # PHRASE-AWARE residue split (was: one rev-typed WORD + links, which stranded
+        # the other half of a two-word indicator and rejected a correct parse).
+        from core.engine_common import indicator_plus_links
+        split = indicator_plus_links(words, residue, indicator_types, "reversal",
+                                     is_link)
+        if split is None:
+            return None                          # a content word unaccounted -> reject
+        return {"pieces": pieces, "rev": split[0],
                 "sel_ind": sorted(used_sel, key=lambda ri: ri[1]),
-                "links": sorted(links)}
+                "links": sorted(split[1])}
 
     def dfs(pos, used, used_sel, pieces, nrev, nsel):
         if pos == N:
@@ -129,21 +120,28 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types, sel_opti
                     if res:
                         return res
 
-        # selection piece: ONE word, a rule licensed by a selection indicator
-        for rule, idxs in sel_options:
-            idx_set = frozenset(idxs)
-            for j in range(n):
-                if j in used or j in idx_set:
-                    continue
-                for s, atom_ids in select_span(ctx, words[j], rule):
-                    if s and answer.startswith(s, pos):
-                        res = dfs(pos + len(s), used | {j},
-                                  used_sel + [(rule, tuple(idxs))],
-                                  pieces + [("sel", j, s,
-                                             {"atom_ids": atom_ids, "rule": rule})],
-                                  nrev, nsel + 1)
-                        if res:
-                            return res
+        # selection piece: a word OR contiguous run (was one word only), a rule
+        # licensed by a selection indicator. WIDTH-FIRST: every single-word option is
+        # tried before ANY multi-word run — the exact old exploration order — so the
+        # widening can only add tilings after the old ones, never displace the tiling
+        # the old search found first (IMPERIAL/DECREE regressed on that displacement).
+        from core.selection import select_span_run
+        for width in (1, 2, 3):
+            for rule, idxs in sel_options:
+                idx_set = frozenset(idxs)
+                for j in range(n - width + 1):
+                    run = frozenset(range(j, j + width))
+                    if (run & used) or (run & idx_set):
+                        continue
+                    for s, atom_ids in select_span_run(ctx, words[j:j + width], rule):
+                        if s and answer.startswith(s, pos):
+                            res = dfs(pos + len(s), used | run,
+                                      used_sel + [(rule, tuple(idxs))],
+                                      pieces + [("sel", (j, j + width), s,
+                                                 {"atom_ids": atom_ids, "rule": rule})],
+                                      nrev, nsel + 1)
+                            if res:
+                                return res
         return None
 
     return dfs(0, frozenset(), [], [], 0, 0)
@@ -159,7 +157,9 @@ def _build(ctx, split, words, answer, pl):
         si = len(sources)
         if kind == "sel":
             atom_ids = extra["atom_ids"]
-            sources.append(Source(clue_atom_ids=atom_ids, text=words[payload].text,
+            ja, jb = payload                     # the selection RUN (was a single index)
+            sources.append(Source(clue_atom_ids=atom_ids,
+                                  text=" ".join(t.text for t in words[ja:jb]),
                                   value=value, mechanism="selection"))
             for ci in range(len(value)):
                 pos += 1
@@ -180,10 +180,14 @@ def _build(ctx, split, words, answer, pl):
                               transform=transform))
 
     annotations = []
-    for k in pl["rev"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="reversal indicator"))
+    # ONE annotation per contiguous indicator run (joined phrase), so role_validity
+    # validates the DB row ("picked up"), never a bare component word.
+    from core.engine_common import contiguous_groups
+    for grp in contiguous_groups(sorted(pl["rev"])):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in grp), role="indicator",
+            note="reversal indicator"))
     for rule, idxs in pl["sel_ind"]:
         annotations.append(Annotation(
             clue_atom_ids=tuple(aid for k in idxs for aid in words[k].atom_ids),

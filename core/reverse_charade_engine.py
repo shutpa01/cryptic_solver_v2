@@ -69,17 +69,9 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     n, N = len(words), len(answer)
     rev = answer[::-1]                            # forward fodder must spell reverse(answer)
 
-    def is_rev_ind(k):
-        try:
-            return "reversal" in (indicator_types(words[k].text) or set())
-        except Exception:
-            return False
-
-    def is_glue(k):
-        return bool((is_link and is_link(words[k].text)) or is_rev_ind(k))
-
-    if not any(is_rev_ind(k) for k in range(n)):
-        return None                              # GATE: a reversal indicator is required
+    from core.engine_common import has_typed_indicator
+    if not has_typed_indicator(words, indicator_types, "reversal"):
+        return None                              # GATE (phrase-aware): reversal indicator required
 
     vcache = {}
 
@@ -91,7 +83,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     def dfs(wi, pos, pieces, gaps):
         if pos == len(rev):
             return _finalize(ctx, answer, split, words, pieces,
-                             gaps + list(range(wi, n)), is_rev_ind, is_glue, is_link)
+                             gaps + list(range(wi, n)), indicator_types, is_link)
         if wi >= n:
             return None
         # skip wi as a gap (reversal indicator / link)
@@ -111,18 +103,21 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     return dfs(0, 0, [], [])
 
 
-def _finalize(ctx, answer, split, words, pieces, gaps, is_rev_ind, is_glue, is_link):
+def _finalize(ctx, answer, split, words, pieces, gaps, indicator_types, is_link):
     if len(pieces) < 2:
         return None                              # a charade is >= 2 pieces
-    rev_gaps = [g for g in gaps if is_rev_ind(g)]
-    if not rev_gaps:
-        return None                              # the licensing reversal indicator must remain
-    # every leftover word must be the reversal indicator or a link, never a bare content word
-    from core.engine_common import contiguous_groups
+    # PHRASE-AWARE leftovers (was per-word glue, which stranded half of a two-word
+    # indicator): each contiguous leftover run must segment into DB link words and/or
+    # reversal-indicator words OR phrases; >= 1 indicator segment must remain overall.
+    from core.engine_common import contiguous_groups, classify_glue_run
+    segments = []
     for runidx in contiguous_groups(sorted(gaps)):
-        if all(is_glue(g) for g in runidx):
-            continue
-        return None
+        segs = classify_glue_run(words, runidx, indicator_types, "reversal", is_link)
+        if segs is None:
+            return None
+        segments.extend(segs)
+    if not any(kind == "indicator" for kind, _ in segments):
+        return None                              # the licensing reversal indicator must remain
 
     N = len(answer)
     # The forward fodder is pieces concatenated in clue order; the answer is its reverse, so
@@ -145,15 +140,14 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_rev_ind, is_glue, is_l
     definition = Source(clue_atom_ids=split.def_atom_ids, text=split.phrase,
                         value=ctx.answer_text, mechanism="definition", source=split.source)
     annotations = []
-    for g in gaps:
-        if is_rev_ind(g):
-            note, role = "reversal indicator", "indicator"
-        elif is_link and is_link(words[g].text):
-            note, role = "link word", "link"
-        else:
-            note, role = "link word", "link"
-        annotations.append(Annotation(clue_atom_ids=words[g].atom_ids,
-                                      text=words[g].text, role=role, note=note))
+    # ONE annotation per segment: an indicator segment carries the JOINED phrase, so
+    # role_validity validates the DB row ("picked up"), never a bare component word.
+    for kind, grp in segments:
+        role, note = (("indicator", "reversal indicator") if kind == "indicator"
+                      else ("link", "link word"))
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in grp), role=role, note=note))
     from core.definition_engine import dbe_annotation
     dbe = dbe_annotation(split)
     if dbe is not None:

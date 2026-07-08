@@ -65,47 +65,62 @@ def solve_anagram_selection_deletion(ctx, defines, indicator_types, is_link,
         def is_anag(k):
             return is_anagram_indicator(words[k].text, indicator_types)
 
-        def is_del(k):
-            return "deletion" in types(k)
-
         def is_link_w(k):
             return bool(is_link and is_link(words[k].text))
 
-        def sel_rules(k):
-            try:
-                return selection_rules(words[k].text) or set()
-            except Exception:
-                return set()
+        # PHRASE-AWARE indicators: deletion and selection rows may be multi-word.
+        from core.engine_common import typed_runs
+        _del_pos = {k for r in typed_runs(words, range(n), indicator_types, "deletion")
+                    for k in r}
+        sel_runs, _sel_pos = [], set()
+        for a in range(n):
+            for b in range(a + 1, min(a + 4, n) + 1):
+                phrase = " ".join(words[k].text for k in range(a, b))
+                try:
+                    rules = selection_rules(phrase) or set()
+                except Exception:
+                    rules = set()
+                if rules:
+                    sel_runs.append((list(range(a, b)), rules))
+                    _sel_pos.update(range(a, b))
 
         anag_words = [k for k in range(n) if is_anag(k)]
-        del_words = [k for k in range(n) if is_del(k)]
-        sel_words = [k for k in range(n) if sel_rules(k)]
-        if not anag_words or not del_words or not sel_words:
+        del_words = sorted(_del_pos)
+        if not anag_words or not del_words or not sel_runs:
             continue                              # gate: need all three indicators
 
-        for s in sel_words:
-            # the selected word: the next CONTENT word after the selection indicator,
-            # skipping link words and other indicators ("last of alluring" -> alluring).
+        for srun, srules in sel_runs:
+            # the selected fodder: the next CONTENT word after the selection indicator
+            # (links/other indicators skipped), extended to a RUN of 1..3 words from
+            # there ("last of alluring" -> alluring; multi-word fodder now reachable).
             sel_word = None
-            for j in range(s + 1, n):
-                if is_link_w(j) or j in anag_words or j in del_words or j in sel_words:
+            for j in range(srun[-1] + 1, n):
+                if is_link_w(j) or j in anag_words or j in _del_pos or j in _sel_pos:
                     continue
                 sel_word = j
                 break
             if sel_word is None:
                 continue
-            for rule in sel_rules(s):
-                for sel_str, sel_atoms in select_span(ctx, words[sel_word], rule):
-                    sel_str = "".join(c for c in sel_str.upper() if c.isalpha())
-                    if not sel_str or len(sel_str) > _MAX_SEL_LEN:
-                        continue
-                    parse = _attempt(ctx, answer, ans_c, split, words, n, is_anag,
-                                     is_link_w, anag_words, del_words, sel_words,
-                                     s, sel_word, sel_str, sel_atoms, rule)
-                    if parse is not None and parse.status == "pass":
-                        return parse
-                    if parse is not None and best is None:
-                        best = parse
+            from core.selection import select_span_run
+            for sw_end in range(sel_word + 1, min(sel_word + 3, n) + 1):
+                sw_run = list(range(sel_word, sw_end))
+                if any(k in anag_words or k in _del_pos or k in _sel_pos
+                       for k in sw_run):
+                    break
+                for rule in srules:
+                    for sel_str, sel_atoms in select_span_run(ctx, words[sel_word:sw_end],
+                                                              rule):
+                        sel_str = "".join(c for c in sel_str.upper() if c.isalpha())
+                        if not sel_str or len(sel_str) > _MAX_SEL_LEN:
+                            continue
+                        parse = _attempt(ctx, answer, ans_c, split, words, n, is_anag,
+                                         is_link_w, anag_words, del_words,
+                                         sorted(_sel_pos), srun, sw_run, sel_str,
+                                         sel_atoms, rule)
+                        if parse is not None and parse.status == "pass":
+                            return parse
+                        if parse is not None and best is None:
+                            best = parse
     return best
 
 
@@ -120,14 +135,16 @@ def _first_run(idxs, pred):
 
 
 def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_link_w, anag_words,
-             del_words, sel_words, sel_idx, sel_word_idx, removed, sel_atoms, rule):
-    """Fodder = the content words that are NOT indicators and NOT the selected word; the
-    selected letters are removed from the pool; the result must equal the answer EXACTLY."""
+             del_words, sel_words, sel_run, sel_word_run, removed, sel_atoms, rule):
+    """Fodder = the content words that are NOT indicators and NOT the selected word(s);
+    the selected letters are removed from the pool; the result must equal the answer
+    EXACTLY. `sel_run` = the selection indicator's positions; `sel_word_run` = the
+    selected fodder's positions (each a single word or a run)."""
     # the anagram-indicator run (first contiguous run of anag words)
     anag_run = _first_run(range(n), is_anag)
     if anag_run is None:
         return None
-    excl = set(anag_words) | set(del_words) | set(sel_words) | {sel_word_idx}
+    excl = set(anag_words) | set(del_words) | set(sel_words) | set(sel_word_run)
     cand = [k for k in range(n) if k not in excl]
     forced = [k for k in cand if not is_link_w(k)]       # content words -> fodder
     optional = [k for k in cand if is_link_w(k)]         # links: fodder OR inert
@@ -143,12 +160,12 @@ def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_link_w, anag_words
                 continue                          # removed letters must be in the pool
             if bulk_c - rc == ans_c:              # exact anagram after the deletion
                 return _build(ctx, answer, split, words, fodder, anag_run, del_words,
-                              sel_idx, sel_word_idx, removed, sel_atoms, rule)
+                              sel_run, sel_word_run, removed, sel_atoms, rule)
     return None
 
 
-def _build(ctx, answer, split, words, fodder, anag_run, del_words, sel_idx,
-           sel_word_idx, removed, sel_atoms, rule):
+def _build(ctx, answer, split, words, fodder, anag_run, del_words, sel_run,
+           sel_word_run, removed, sel_atoms, rule):
     from core.definition_engine import dbe_annotation
 
     sources, remaining = [], []
@@ -177,24 +194,28 @@ def _build(ctx, answer, split, words, fodder, anag_run, del_words, sel_idx,
     # indicator run, the selection indicator, the selected word, the deletion indicator(s)
     # that are not the selection word, and any leftover LINK words. Fodder words are the
     # sources above.
-    accounted = set(fodder) | set(anag_run) | {sel_idx, sel_word_idx}
+    accounted = set(fodder) | set(anag_run) | set(sel_run) | set(sel_word_run)
     anag_toks = [words[k] for k in anag_run]
     annotations = [Annotation(
         clue_atom_ids=tuple(aid for t in anag_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in anag_toks), role="indicator",
         note="anagram indicator")]
     annotations.append(Annotation(
-        clue_atom_ids=words[sel_idx].atom_ids, text=words[sel_idx].text, role="indicator",
+        clue_atom_ids=tuple(aid for k in sel_run for aid in words[k].atom_ids),
+        text=" ".join(words[k].text for k in sel_run), role="indicator",
         note="selection indicator (%s letter)" % rule))
     annotations.append(Annotation(
-        clue_atom_ids=words[sel_word_idx].atom_ids, text=words[sel_word_idx].text,
+        clue_atom_ids=tuple(aid for k in sel_word_run for aid in words[k].atom_ids),
+        text=" ".join(words[k].text for k in sel_word_run),
         role="deletion", note="%s letter → %s" % (rule, removed)))
-    for d in del_words:                           # the genuine deletion indicator(s), e.g.
-        if d in accounted:                        # "removing"; skip "last" if it doubles as
-            continue                              # both the selection and a deletion word
-        accounted.add(d)
+    # the genuine deletion indicator(s) — grouped per contiguous RUN (joined phrase),
+    # skipping any position that doubles as the selection indicator / selected word.
+    from core.engine_common import contiguous_groups
+    for drun in contiguous_groups([d for d in del_words if d not in accounted]):
+        accounted.update(drun)
         annotations.append(Annotation(
-            clue_atom_ids=words[d].atom_ids, text=words[d].text, role="indicator",
+            clue_atom_ids=tuple(aid for k in drun for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in drun), role="indicator",
             note="deletion indicator (removes the selected %s)" % removed))
     for k in range(len(words)):                    # leftover words are link glue ("of");
         if k in accounted:                         # forced fodder is already consumed, so a

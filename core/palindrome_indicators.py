@@ -1,35 +1,33 @@
 """Palindrome indicators — phrases signalling the answer reads the same both ways.
 
-The reference indicators table carries none (palindrome overlaps reversal wording, so
-adding them there would pollute the shared table), and the set is small and specific,
-so it lives here — the single gate for the palindrome engine. A palindrome clue has no
-clue-letter source; the indicator is the ONLY evidence that the symmetric answer is
-intended, so without one the engine must abstain.
+DB-DRIVEN (was a hardcoded word list — the same anti-pattern selection/deletion shed).
+The vocabulary now lives in the reference `indicators` table under wordplay_type
+'palindrome', so it is curated through the clue-page add gate (never a code edit) and
+cannot be silently extended to force a solve. The wiring (engine_registry) loads the rows
+and installs them via set_vocab(); this module keeps only the MATCH LOGIC, no vocabulary.
 
-Two ways to match:
-  - a known single word / contiguous phrase ("either way", "back and forth");
-  - a both-directions pair conjoined in the clue ("from the east and from the west" ->
-    east + west), which catches the many phrasings without enumerating them all.
+The rows are bucketed by subtype:
+  - 'single'   a one-word indicator ("palindrome", "reversible");
+  - 'phrase'   a contiguous multi-word phrase ("either way", "back and forth");
+  - 'opp_pair' a both-directions pair stored as two words ("east west"): if BOTH appear
+               anywhere in the clue, those two words are the indicator core.
+
+A palindrome clue has no clue-letter source; the indicator is the ONLY evidence that the
+symmetric answer is intended, so without one the engine must abstain.
 """
 
-_SINGLE = {"palindrome", "palindromic", "palindromes", "reversible",
-           "symmetrical", "symmetric"}
+# Installed by the wiring: normalised vocabulary from the indicators table. Empty until
+# wired (find_indicator then returns None, exactly like an unwired selection provider).
+_VOCAB = {"singles": frozenset(), "phrases": (), "pairs": ()}
 
-# contiguous multi-word phrases (lower-cased, alphabetic-only per word)
-_PHRASES = [
-    ("either", "way"), ("both", "ways"), ("any", "way"),
-    ("back", "and", "forth"), ("backwards", "and", "forwards"),
-    ("forwards", "and", "backwards"), ("to", "and", "fro"),
-    ("either", "direction"), ("both", "directions"),
-    ("same", "both", "ways"), ("the", "same", "either", "way"),
-    ("same", "in", "reverse"), ("same", "backwards"),
-]
 
-# opposite-direction pairs: if BOTH appear, those two words are the indicator core.
-_OPP_PAIRS = [
-    {"east", "west"}, {"left", "right"}, {"up", "down"}, {"north", "south"},
-    {"forwards", "backwards"}, {"forward", "backward"}, {"back", "forth"},
-]
+def set_vocab(singles, phrases, pairs):
+    """Install the palindrome vocabulary (already _norm-ed): singles = set of words,
+    phrases = list of word-tuples, pairs = list of 2-word frozensets."""
+    global _VOCAB
+    _VOCAB = {"singles": frozenset(singles),
+              "phrases": tuple(tuple(p) for p in phrases),
+              "pairs": tuple(frozenset(p) for p in pairs)}
 
 
 def _norm(text):
@@ -44,14 +42,14 @@ def find_indicator(words):
     nset = set(norms)
     pos = set()
     for i, w in enumerate(norms):
-        if w in _SINGLE:
+        if w in _VOCAB["singles"]:
             pos.add(i)
-    for phrase in _PHRASES:
+    for phrase in _VOCAB["phrases"]:
         L = len(phrase)
         for i in range(len(norms) - L + 1):
             if tuple(norms[i:i + L]) == phrase:
                 pos.update(range(i, i + L))
-    for pair in _OPP_PAIRS:
+    for pair in _VOCAB["pairs"]:
         if pair <= nset:
             pos.update(i for i, w in enumerate(norms) if w in pair)
     return sorted(pos) if pos else None

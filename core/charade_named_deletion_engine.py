@@ -90,13 +90,18 @@ def _assemble(ctx, answer, split, words, lookup_all, all_values, is_link, indica
         except Exception:
             return set()
 
+    # PHRASE-AWARE deletion positions (see charade_deletion_engine).
+    from core.engine_common import typed_runs
+    _del_pos = {k for r in typed_runs(words, range(n), indicator_types, "deletion")
+                for k in r}
+
     def is_del(k):
-        return "deletion" in types(k)
+        return k in _del_pos
 
     def is_glue(k):
-        return bool((is_link and is_link(words[k].text)) or types(k))
+        return bool((is_link and is_link(words[k].text)) or types(k) or k in _del_pos)
 
-    if not any(is_del(k) for k in range(n)):
+    if not _del_pos:
         return None                                 # GATE: a deletion indicator is required
 
     # namer letters per word (verified wordplay-table values only)
@@ -119,7 +124,7 @@ def _assemble(ctx, answer, split, words, lookup_all, all_values, is_link, indica
         if pos == N:
             return _finalize(ctx, answer, split, words, pieces,
                              gaps + list(range(wi, n)), namer_used, is_del, is_glue,
-                             is_link)
+                             is_link, indicator_types)
         if wi >= n:
             return None
         # skip wi as a gap (glue / link / indicator / namer)
@@ -158,7 +163,7 @@ def _assemble(ctx, answer, split, words, lookup_all, all_values, is_link, indica
 
 
 def _finalize(ctx, answer, split, words, pieces, gaps, namer_used, is_del, is_glue,
-              is_link):
+              is_link, indicator_types=None):
     if namer_used is None or len(pieces) < 2:
         return None
     if not any(p[3] == "named_del" for p in pieces):
@@ -198,12 +203,20 @@ def _finalize(ctx, answer, split, words, pieces, gaps, namer_used, is_del, is_gl
             annotations.append(Annotation(
                 clue_atom_ids=words[nk].atom_ids, text=words[nk].text, role="deletion",
                 note="deleted letters: %s" % L))
+    # deletion indicators annotated per RUN (joined phrase) — role_validity-safe.
+    from core.engine_common import disjoint_typed_cover
+    del_runs = disjoint_typed_cover(words, [g for g in gaps if g != namer_used],
+                                    indicator_types, "deletion")
+    del_pos = {k for r in del_runs for k in r}
+    for run in del_runs:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="deletion indicator"))
     for g in gaps:
-        if g == namer_used:
+        if g == namer_used or g in del_pos:
             continue                                # already annotated above
-        if is_del(g):
-            role, note = "indicator", "deletion indicator"
-        elif is_link and is_link(words[g].text):
+        if is_link and is_link(words[g].text):
             role, note = "link", "link word"
         else:
             role, note = "indicator", "charade indicator"

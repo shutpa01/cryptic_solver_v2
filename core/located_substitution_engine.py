@@ -78,23 +78,26 @@ def _try_split(ctx, answer, split, words, lookup_all, synonyms_of, is_link,
         except Exception:
             return set()
 
-    def rules(k):
-        try:
-            return selection_rules(words[k].text) or set()
-        except Exception:
-            return set()
-
-    sub_ind = [k for k in range(n) if "substitution" in types(k)]
+    # PHRASE-AWARE: substitution indicators and first/last location indicators may be
+    # multi-word DB rows; membership runs cover both single words and phrases.
+    from core.engine_common import typed_runs
+    sub_ind = sorted({k for r in typed_runs(words, range(n), indicator_types,
+                                            "substitution") for k in r})
     if not sub_ind:
         return None                              # gated: substitution indicator required
-    # Location indicators that fix a FIRST or LAST position.
-    loc = {}                                     # word index -> 'first' / 'last'
-    for k in range(n):
-        r = rules(k)
-        if "first" in r:
-            loc[k] = "first"
-        elif "last" in r:
-            loc[k] = "last"
+    # Location indicators that fix a FIRST or LAST position (word or phrase run).
+    loc = []                                     # [(run_positions, 'first'|'last'), ...]
+    for a in range(n):
+        for b in range(a + 1, min(a + 4, n) + 1):
+            phrase = " ".join(words[k].text for k in range(a, b))
+            try:
+                r = selection_rules(phrase) or set()
+            except Exception:
+                r = set()
+            if "first" in r:
+                loc.append((list(range(a, b)), "first"))
+            elif "last" in r:
+                loc.append((list(range(a, b)), "last"))
     if not loc:
         return None                              # gated: a first/last location required
 
@@ -106,15 +109,16 @@ def _try_split(ctx, answer, split, words, lookup_all, synonyms_of, is_link,
         return val_cache[k]
 
     best = None
-    for li, where in loc.items():
+    for li_run, where in loc:
+        li_set = set(li_run)
         for vi in range(n):                      # the inserted value's word
-            if vi == li or vi in sub_ind:
+            if vi in li_set or vi in sub_ind:
                 continue
             for V, vmech in values(vi):
                 for bstart in range(n):          # base span (contiguous)
                     for bend in range(bstart, n):
                         span = set(range(bstart, bend + 1))
-                        if li in span or vi in span or span & set(sub_ind):
+                        if (span & li_set) or vi in span or span & set(sub_ind):
                             continue
                         phrase = " ".join(words[k].text for k in range(bstart, bend + 1))
                         for bval in (synonyms_of(phrase) or []):
@@ -129,10 +133,10 @@ def _try_split(ctx, answer, split, words, lookup_all, synonyms_of, is_link,
                                 removed = B[-1]
                             if cand != answer:
                                 continue
-                            used = span | {vi, li} | set(sub_ind)
+                            used = span | {vi} | li_set | set(sub_ind)
                             parse = _build(ctx, split, words, answer, (bstart, bend),
-                                           B, where, removed, (vi, V, vmech), li, sub_ind,
-                                           used, is_link, types)
+                                           B, where, removed, (vi, V, vmech), li_run,
+                                           sub_ind, used, is_link, types)
                             if parse is not None and parse.status == "pass":
                                 return parse
                             if parse is not None and best is None:
@@ -140,7 +144,7 @@ def _try_split(ctx, answer, split, words, lookup_all, synonyms_of, is_link,
     return best
 
 
-def _build(ctx, split, words, answer, base_span, B, where, removed, value, li,
+def _build(ctx, split, words, answer, base_span, B, where, removed, value, li_run,
            sub_ind, used, is_link, types):
     """Assemble the Parse. The base contributes all but its located letter; the value
     fills that end. A residue DB deletion indicator is accounted as the removal
@@ -200,7 +204,8 @@ def _build(ctx, split, words, answer, base_span, B, where, removed, value, li,
         note="substitution: %s (%s) replaces the %s letter (%s) of %s"
              % (words[vi].text, V, where, removed, B)))
     annotations.append(Annotation(
-        clue_atom_ids=words[li].atom_ids, text=words[li].text, role="indicator",
+        clue_atom_ids=tuple(aid for k in li_run for aid in words[k].atom_ids),
+        text=" ".join(words[k].text for k in li_run), role="indicator",
         note="selection indicator (%s)" % where))
     for k in del_ind:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,

@@ -45,17 +45,8 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
     if target == answer:
         return None                                   # palindrome: no real reversal
 
-    def is_rev(k):
-        try:
-            ty = indicator_types(words[k].text) or set()
-        except Exception:
-            ty = set()
-        return "reversal" in ty
-
-    def residue_link(k):
-        return (is_link and is_link(words[k].text))
-
-    if not any(is_rev(k) for k in range(n)):
+    from core.engine_common import has_typed_indicator, indicator_plus_links
+    if not has_typed_indicator(words, indicator_types, "reversal"):
         return None                                   # gate: need a reversal indicator
 
     runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)]
@@ -70,20 +61,12 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
             continue
         used = set(range(a, b))
         residue = [k for k in range(n) if k not in used]
-        rev_caps = [k for k in residue if is_rev(k)]
-        for c in rev_caps:
-            links, ok = [], True
-            for k in residue:
-                if k == c:
-                    continue
-                if residue_link(k):
-                    links.append(k)
-                else:
-                    ok = False
-                    break
-            if ok:
-                return {"run": (a, b), "value": target, "mech": mech,
-                        "rev": [c], "links": links}
+        # PHRASE-AWARE residue split (was per-word is_rev + links, which stranded the
+        # other half of a two-word indicator like "picked up" and killed the parse).
+        split = indicator_plus_links(words, residue, indicator_types, "reversal", is_link)
+        if split is not None:
+            return {"run": (a, b), "value": target, "mech": mech,
+                    "rev": split[0], "links": split[1]}
     return None
 
 
@@ -105,10 +88,14 @@ def _build(ctx, split, words, answer, pl):
              for pos in range(1, len(answer) + 1)]
 
     annotations = []
-    for k in pl["rev"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="reversal indicator"))
+    # ONE annotation per contiguous indicator run, carrying the JOINED phrase — so
+    # role_validity validates "picked up" (the DB row), never a bare component word.
+    from core.engine_common import contiguous_groups
+    for grp in contiguous_groups(sorted(pl["rev"])):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in grp for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in grp), role="indicator",
+            note="reversal indicator"))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",

@@ -59,8 +59,10 @@ def make_db_wiring():
     from core.live_db import LiveDB
     db = LiveDB()
 
-    cryptic_db = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                              "data", "cryptic_new.db")
+    # Single source of truth for the reference-DB path: reuse the one LiveDB resolved
+    # (core.live_db._default_path). Same value as before; sharing it means a test can point
+    # the whole wiring at a temp DB copy by patching _default_path, never the real DB.
+    cryptic_db = db.path
 
     # Fill any blank normalized-key columns (e.g. rows hand-added in DB Browser),
     # so the live lookups — which key off that tidied column for speed — can see them
@@ -255,6 +257,33 @@ def make_db_wiring():
     # instead of its seed frozenset. A clue-level add patches _live_literal_index via
     # invalidate("literal"), so the provider closes over the live set.
     literals.set_words_provider(lambda: _live_literal_index)
+
+    # Palindrome indicator vocabulary: load from the indicators table (wordplay_type
+    # 'palindrome') and install into core.palindrome_indicators — was a hardcoded word list,
+    # now curated through the DB gate. Bucketed by subtype: 'opp_pair' (two words, both must
+    # appear) / a multi-word row = 'phrase' / a single word = 'single'.
+    from core import palindrome_indicators as _pal
+    _pn = _pal._norm
+    _pal_singles, _pal_phrases, _pal_pairs = set(), [], []
+    try:
+        _c = sqlite3.connect(cryptic_db, timeout=30)
+        try:
+            for wd, sub in _c.execute(
+                    "SELECT word, subtype FROM indicators WHERE wordplay_type='palindrome'"):
+                parts = [p for p in (_pn(x) for x in (wd or "").split()) if p]
+                if not parts:
+                    continue
+                if (sub or "").strip().lower() == "opp_pair" and len(parts) == 2:
+                    _pal_pairs.append(frozenset(parts))
+                elif len(parts) > 1:
+                    _pal_phrases.append(tuple(parts))
+                else:
+                    _pal_singles.add(parts[0])
+        finally:
+            _c.close()
+    except Exception:
+        pass
+    _pal.set_vocab(_pal_singles, _pal_phrases, _pal_pairs)
 
     def is_dbe(word):
         """A definition-by-example indicator ('perhaps', 'possibly', 'maybe', ...).
@@ -472,17 +501,37 @@ def make_db_wiring():
                                          load_reversal_templates,
                                          load_reversal_charade_templates,
                                          load_charade_homophone_templates,
-                                         load_deletion_templates)
-        charade_templates = load_charade_templates()
-        anagram_templates = load_anagram_templates()
-        anagram_charade_templates = load_anagram_charade_templates()
-        anagram_container_templates = load_anagram_container_templates()
-        container_templates = load_container_templates()
-        container_charade_templates = load_container_charade_templates()
-        reversal_templates = load_reversal_templates()
-        reversal_charade_templates = load_reversal_charade_templates()
-        charade_homophone_templates = load_charade_homophone_templates()
-        deletion_templates = load_deletion_templates()
+                                         load_deletion_templates,
+                                         load_template_tiers)
+        # The MAIN cascade loads only PASS-tier signatures (they may produce a PASS).
+        # PENDING-only signatures are loaded separately for the final pending stage
+        # (signature-tiers build §5 Step 3/4) so they can never pass in the main cascade.
+        charade_templates = load_charade_templates(tier='pass')
+        anagram_templates = load_anagram_templates(tier='pass')
+        anagram_charade_templates = load_anagram_charade_templates(tier='pass')
+        anagram_container_templates = load_anagram_container_templates(tier='pass')
+        container_templates = load_container_templates(tier='pass')
+        container_charade_templates = load_container_charade_templates(tier='pass')
+        reversal_templates = load_reversal_templates(tier='pass')
+        reversal_charade_templates = load_reversal_charade_templates(tier='pass')
+        charade_homophone_templates = load_charade_homophone_templates(tier='pass')
+        deletion_templates = load_deletion_templates(tier='pass')
+        # PENDING-only signatures, loaded once for the final pending-only stage (Step 4).
+        # They are NOT in the main cascade above, so they can never produce a PASS.
+        pending_templates = {
+            "charade": load_charade_templates(tier='pending'),
+            "anagram": load_anagram_templates(tier='pending'),
+            "anagram_charade": load_anagram_charade_templates(tier='pending'),
+            "anagram_container": load_anagram_container_templates(tier='pending'),
+            "container": load_container_templates(tier='pending'),
+            "container_charade": load_container_charade_templates(tier='pending'),
+            "reversal": load_reversal_templates(tier='pending'),
+            "reversal_charade": load_reversal_charade_templates(tier='pending'),
+            "charade_homophone": load_charade_homophone_templates(tier='pending'),
+            "deletion": load_deletion_templates(tier='pending'),
+        }
+        # {template_id: tier} over ALL templates — feeds the defence-in-depth cap in _finish.
+        template_tier = load_template_tiers()
     except Exception:
         charade_templates = anagram_templates = anagram_charade_templates = []
         anagram_container_templates = []
@@ -492,6 +541,8 @@ def make_db_wiring():
         reversal_charade_templates = []
         charade_homophone_templates = []
         deletion_templates = []
+        pending_templates = {}
+        template_tier = {}
 
     def invalidate(kind=None, word=None, synonym=None, definition=None, answer=None,
                    wordplay_type=None):
@@ -547,7 +598,9 @@ def make_db_wiring():
             "container_charade_templates": container_charade_templates,
             "reversal_templates": reversal_templates,
             "reversal_charade_templates": reversal_charade_templates,
-            "deletion_templates": deletion_templates}
+            "deletion_templates": deletion_templates,
+            "pending_templates": pending_templates,
+            "template_tier": template_tier}
 
 
 # The wiring keys that drive an AI (Haiku/Sonnet) call. A batch run nulls these
@@ -1032,7 +1085,7 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     pcia = solve_container_inner_alternation(
         ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
         wiring["indicator_types"], define_fallback=wiring.get("define_fallback"),
-        is_dbe=wiring.get("is_dbe"))
+        is_dbe=wiring.get("is_dbe"), selection_rules=wiring.get("selection_rules"))
     if pcia is not None and pcia.status in ("pass", "pending"):
         return _finish(pcia, "container_inner_alternation", ctx, wiring, source, puzzle_number, clue_id)
 
@@ -1355,6 +1408,16 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
                 return _finish(pacor, "anagram_container", ctx, wiring, source, puzzle_number,
                                clue_id)
 
+    # PENDING-ONLY SIGNATURES — the final signature stage (signature-tiers build §5 Step 4,
+    # the core). Runs the pending-tier signatures AFTER every PASS-capable engine; any match
+    # is CAPPED to 'pending' (never a pass). Reached only when everything above failed, so it
+    # can only ever turn FAIL -> PENDING — it can never touch a pass, pre-empt a better
+    # engine, or mint a false pass (safety by construction). Placed before the
+    # cryptic-definition fallback so a wordplay-based provisional beats a bare CD pending.
+    ppend = _solve_pending_signatures(ctx, wiring, source, puzzle_number, clue_id)
+    if ppend is not None:
+        return ppend
+
     # CRYPTIC DEFINITION — the LAST resort: no wordplay engine and not DD. If the WHOLE
     # clue is a recorded definition of the answer (scraped or hand-entered), treat it as a
     # cryptic definition. A CD has nothing to reconstruct, so it is NEVER auto-confirmed —
@@ -1502,6 +1565,135 @@ def _anagram_degenerate(parse):
     return bool(src) and (src == a or src == a[::-1])
 
 
+def _solve_pending_signatures(ctx, wiring, source, puzzle_number, clue_id):
+    """FINAL PENDING-only signature stage (signature-tiers build §5 Step 4 — the core).
+
+    Runs the template-driven signature engines against the PENDING-tier templates only, and
+    CAPS any match to status='pending'. Placed AFTER every PASS-capable engine and reached
+    only when they all failed (the cascade returns on any earlier pass/pending), so a match
+    here can only ever convert FAIL -> PENDING: it can never touch an existing pass, pre-empt
+    a better engine, or mint a false pass. The ordering IS the safety guarantee (soundness by
+    construction). Returns (parse, name) or None.
+
+    With no pending-tier templates loaded, every `if t` guard is false and the whole stage is
+    a fast no-op — so behaviour is UNCHANGED until a pending signature is filed."""
+    pend = wiring.get("pending_templates") or {}
+    if not pend:
+        return None
+
+    df = wiring.get("define_fallback")
+    dbe = wiring.get("is_dbe")
+
+    def _cap(parse, name):
+        # Only a clean reconstruction (pass) or an otherwise-clean pending is surfaced; a
+        # fail near-miss is dropped (return None) so the cascade falls through to the CD
+        # fallback. A surfaced parse is FORCED to 'pending' — a pending-only signature can
+        # never mint a pass.
+        if parse is not None and parse.status in ("pass", "pending"):
+            parse.status = "pending"
+            parse.warnings = list(parse.warnings) + [
+                "matched a NEW signature awaiting review — check this solve; if it is "
+                "right, set Status to PASS. The triage page's 'Regression-check pending "
+                "signatures' button promotes reviewed signatures for future puzzles"]
+            return _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id)
+        return None
+
+    t = pend.get("charade")
+    if t:
+        from core.charade_signature_engine import solve_charade
+        r = _cap(solve_charade(ctx, wiring["defines"], wiring["lookup"], wiring["is_link"],
+                               t, define_fallback=df, is_dbe=dbe), "charade")
+        if r is not None:
+            return r
+
+    t = pend.get("anagram")
+    if t:
+        from core.anagram_signature_engine import solve_anagram
+        r = _cap(solve_anagram(ctx, wiring["defines"], wiring["is_link"],
+                               wiring["indicator_types"], t,
+                               define_fallback=df, is_dbe=dbe), "anagram")
+        if r is not None:
+            return r
+
+    t = pend.get("anagram_charade")
+    if t:
+        from core.anagram_charade_signature_engine import solve_anagram_charade
+        r = _cap(solve_anagram_charade(ctx, wiring["defines"], wiring["lookup"],
+                                       wiring["is_link"], wiring["indicator_types"], t,
+                                       define_fallback=df, is_dbe=dbe), "anagram_charade")
+        if r is not None:
+            return r
+
+    t = pend.get("anagram_container")
+    if t:
+        from core.anagram_container_signature_engine import solve_anagram_container
+        r = _cap(solve_anagram_container(ctx, wiring["defines"], wiring["lookup_all"],
+                                         wiring["is_link"], wiring["indicator_types"], t,
+                                         define_fallback=df, is_dbe=dbe), "anagram_container")
+        if r is not None:
+            return r
+
+    t = pend.get("container")
+    if t:
+        from core.container_signature_engine import solve_container
+        r = _cap(solve_container(ctx, wiring["defines"], wiring["lookup_all"],
+                                 wiring["is_link"], wiring["indicator_types"], t,
+                                 define_fallback=df, is_dbe=dbe), "container")
+        if r is not None:
+            return r
+
+    t = pend.get("container_charade")
+    if t:
+        from core.container_charade_signature_engine import solve_container_charade
+        r = _cap(solve_container_charade(ctx, wiring["defines"], wiring["lookup_all"],
+                                         wiring["is_link"], wiring["indicator_types"], t,
+                                         define_fallback=df, is_dbe=dbe), "container_charade")
+        if r is not None:
+            return r
+
+    t = pend.get("reversal")
+    if t:
+        from core.reversal_signature_engine import solve_reversal
+        r = _cap(solve_reversal(ctx, wiring["defines"], wiring["lookup_all"],
+                                wiring["is_link"], wiring["indicator_types"], t,
+                                define_fallback=df, is_dbe=dbe), "reversal")
+        if r is not None:
+            return r
+
+    t = pend.get("reversal_charade")
+    if t:
+        from core.reversal_charade_signature_engine import solve_reversal_charade
+        r = _cap(solve_reversal_charade(ctx, wiring["defines"], wiring["lookup_all"],
+                                        wiring["is_link"], wiring["indicator_types"], t,
+                                        define_fallback=df, is_dbe=dbe), "reversal_charade")
+        if r is not None:
+            return r
+
+    t = pend.get("charade_homophone")
+    if t:
+        from core.charade_homophone_signature_engine import solve_charade_homophone
+        r = _cap(solve_charade_homophone(ctx, wiring["defines"], wiring["lookup"],
+                                         wiring["is_link"], wiring["indicator_types"], t,
+                                         wiring["sounds_alike"], wiring["synonyms_of"],
+                                         define_fallback=df, is_dbe=dbe,
+                                         suggest_hom=wiring.get("suggest_hom")),
+                 "charade_homophone")
+        if r is not None:
+            return r
+
+    t = pend.get("deletion")
+    if t:
+        from core.signature_verifier import solve_deletion
+        r = _cap(solve_deletion(ctx, wiring["defines"], wiring["lookup_all"],
+                                wiring["is_link"], wiring["deletion_subtypes"],
+                                templates=t, define_fallback=df, is_dbe=dbe,
+                                loc_rules=wiring.get("selection_rules")), "deletion")
+        if r is not None:
+            return r
+
+    return None
+
+
 def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
     """Queue any provisional pieces, persist the final Parse, return it.
 
@@ -1511,6 +1703,20 @@ def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
     hunting. Render keys off parse.operation first, so this stamp is identification only."""
     if parse is not None and name:
         parse.solved_by = name
+    # DEFENCE-IN-DEPTH TIER CAP (signature-tiers build §5 Step 5): a PENDING-only signature
+    # must never produce a PASS. The final pending stage already caps its own matches, but
+    # this is the belt-and-braces backstop — if a pending-tier template EVER reaches the main
+    # cascade and passes (e.g. a future loader-filter regression), force the verdict down to
+    # 'pending' here, keyed on the parse's template_id -> tier. Runs BEFORE the auto-signature
+    # filing below (which is gated on status=='pass'), so a capped parse is never auto-filed.
+    if parse is not None and parse.status == "pass":
+        _tid = getattr(parse, "template_id", None)
+        if _tid is not None and (wiring.get("template_tier") or {}).get(_tid) == "pending":
+            parse.status = "pending"
+            parse.warnings = list(parse.warnings) + [
+                "matched a NEW signature awaiting review — check this solve; if it is "
+                "right, set Status to PASS. The triage page's 'Regression-check pending "
+                "signatures' button promotes reviewed signatures for future puzzles"]
     # FLOOR GUARD: a GUESSED definition (source='pending' — the no-definition floor edge
     # guess or the Haiku fallback) must NEVER be shown on a FAIL. On a fail the wordplay did
     # not reconstruct the answer, so a guessed edge is a "forced definition with no wordplay"

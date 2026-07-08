@@ -62,40 +62,74 @@ _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
 # indicator types offered in the per-clue admin panel + enrichment edit.
 _IND_TYPES = ["hidden", "anagram", "container", "insertion", "reversal", "deletion",
               "selection", "acrostic", "homophone", "charade", "alternation", "letter_shift",
-              "charade_positional", "definition by example"]
-# Sub-types the SOLVING CODE actually recognises, per indicator type. Only `deletion`
-# has any (core.deletion.SUBTYPE_OP). Each is (stored-value, intuitive-label): the value
-# is what the code reads, the label is the clear descriptor shown to the user (the DB
-# names like "head"/"middle"/"empty" are counter-intuitive on their own).
-_IND_SUBTYPES = {
-    "deletion": [("", "— no sub-type —"),
-                 ("head", "remove first letter (behead)"),
-                 ("tail", "remove last letter (curtail)"),
-                 ("ends", "remove outer letters"),
-                 ("middle", "remove middle letter"),
-                 ("empty", "hollow — remove inner letters"),
-                 ("general", "letters named by another word")],
-    # SELECTION indicators name WHICH letters to KEEP as a piece. Unlike deletion there is
-    # NO "no sub-type" option — a rule-less selection is meaningless (the solver would not
-    # know which letter), and add_indicator rejects it. Values == the canonical selection
-    # rules (core.selection_indicators.CLUE_PAGE_SUBTYPES / SUBTYPE_RULE keys).
-    "selection": [("first", "first letter(s) (initially, primarily)"),
-                  ("last", "last letter(s) (finally, ultimately)"),
-                  ("outer", "outer letters (extremes, ends)"),
-                  ("middle", "middle letter(s) (centrally, heart of)"),
-                  ("alternate", "alternate letters (oddly, evenly)")],
-    # LETTER-SHIFT (cyclic rotation by one): move an end letter round to the other end, e.g.
-    # TERNS with the tail moved to the front -> STERN ("moving tail to the front"). Like
-    # selection, a shift with NO direction is meaningless, so there is no "no sub-type" option.
-    "letter_shift": [("last_front", "move last letter to front"),
-                     ("first_end", "move first letter to end")],
-    # POSITIONAL (charade re-ordering): a piece is placed AFTER/BEFORE its neighbour rather
-    # than in clue order ("X after Y" = Y+X). Like selection, a directionless positional is
-    # meaningless (the solver can't know the order), so there is no "no sub-type" option and
-    # add_indicator rejects a rule-less one. Values match core charade_positional_subtypes.
-    "charade_positional": [("after", "piece goes AFTER (behind) its neighbour"),
-                           ("before", "piece goes BEFORE (ahead of) its neighbour")],
+              "charade_positional", "palindrome", "spoonerism", "definition by example"]
+# Sub-types offered per indicator type for the Add-indicator dropdown. The VALUES are the
+# sub-codes the SOLVING ENGINES actually recognise, sourced from the engine maps
+# (selection_indicators.CLUE_PAGE_SUBTYPES / SUBTYPE_RULE, deletion.SUBTYPE_OP) so this
+# list can never drift out of sync with what the engines accept — a hardcoded copy could,
+# and did (it was missing `alternation` entirely). Labels are UI copy (legitimately here).
+# Shape is unchanged: {type: [(stored-value, intuitive-label), ...]}.
+#   - selection: the five canonical selection rules, straight from the engine constant.
+#   - deletion: canonical op codes, each asserted to be a real deletion.SUBTYPE_OP key so a
+#     divergence is caught at import; plus "" / "general" (a plain removal, letters named by
+#     another word — SUBTYPE_OP.get returns None for these, handled answer-driven).
+#   - letter_shift / charade_positional: the directions add_indicator validates.
+#   - alternation: its engines key on the wordplay_type ALONE (no sub-type), so it offers a
+#     single "no sub-type needed" option (value "") so it can be added from the clue page.
+_SUBTYPE_LABELS = {
+    ("selection", "first"):     "first letter(s) (initially, primarily)",
+    ("selection", "last"):      "last letter(s) (finally, ultimately)",
+    ("selection", "outer"):     "outer letters (extremes, ends)",
+    ("selection", "middle"):    "middle letter(s) (centrally, heart of)",
+    ("selection", "alternate"): "alternate letters (oddly, evenly)",
+    ("deletion", "head"):    "remove first letter (behead)",
+    ("deletion", "tail"):    "remove last letter (curtail)",
+    ("deletion", "ends"):    "remove outer letters",
+    ("deletion", "middle"):  "remove middle letter",
+    ("deletion", "empty"):   "hollow — remove inner letters",
+    ("deletion", "general"): "letters named by another word",
+    ("letter_shift", "last_front"): "move last letter to front",
+    ("letter_shift", "first_end"):  "move first letter to end",
+    ("charade_positional", "after"):  "piece goes AFTER (behind) its neighbour",
+    ("charade_positional", "before"): "piece goes BEFORE (ahead of) its neighbour",
+    ("alternation", ""): "— no sub-type needed —",
+    ("palindrome", ""): "single word or phrase (e.g. reversible, either way)",
+    ("palindrome", "opp_pair"): "opposite-direction pair (e.g. east west)",
+    ("spoonerism", ""): "whole phrase including Spooner (e.g. 'old Spooner', 'according to Spooner')",
 }
+
+
+def _build_ind_subtypes():
+    """Build the per-type sub-type dropdown options from the engines' recognised sub-codes."""
+    from core import selection_indicators, deletion
+    out = {}
+    # selection: exactly the engine's canonical selection rules (source of truth).
+    out["selection"] = [(c, _SUBTYPE_LABELS[("selection", c)])
+                        for c in selection_indicators.CLUE_PAGE_SUBTYPES]
+    # deletion: canonical op codes + the "" / general plain-removal choices. Assert each real
+    # op code is one the engine recognises, so this can never offer a dead sub-type.
+    _del_codes = ["", "head", "tail", "ends", "middle", "empty", "general"]
+    d = []
+    for c in _del_codes:
+        if c and c != "general":
+            assert c in deletion.SUBTYPE_OP, "deletion subtype %r not recognised by engine" % c
+        d.append((c, "— no sub-type —" if c == "" else _SUBTYPE_LABELS[("deletion", c)]))
+    out["deletion"] = d
+    out["letter_shift"] = [(c, _SUBTYPE_LABELS[("letter_shift", c)])
+                           for c in ("last_front", "first_end")]
+    out["charade_positional"] = [(c, _SUBTYPE_LABELS[("charade_positional", c)])
+                                 for c in ("after", "before")]
+    out["alternation"] = [("", _SUBTYPE_LABELS[("alternation", "")])]
+    # palindrome: a single word / phrase (loader infers single vs phrase from word count),
+    # or an opposite-direction pair (both words must appear). spoonerism: a lead word.
+    out["palindrome"] = [("", _SUBTYPE_LABELS[("palindrome", "")]),
+                         ("opp_pair", _SUBTYPE_LABELS[("palindrome", "opp_pair")])]
+    # spoonerism: a WHOLE phrase including the Spooner name (never bare lead words).
+    out["spoonerism"] = [("", _SUBTYPE_LABELS[("spoonerism", "")])]
+    return out
+
+
+_IND_SUBTYPES = _build_ind_subtypes()
 
 DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                   "data", "clues_master.db")
@@ -382,6 +416,35 @@ def reject():
                  scroll_to=only)
 
 
+def _capture_signature_review(clue_id, status):
+    """If this clue was solved by a PENDING-only signature, log the human verdict as a
+    signature review (signature-tiers build §5 Step 8). A pass override = 'confirm' (the
+    pending-only signature's reconstruction was faithful); a fail/invalid override =
+    'reject'. A 'pending' override records nothing (the human left it unreviewed). Only
+    pending-tier templates are logged — a pass-tier solve needs no review track record.
+    Never lets a logging error break the verdict override."""
+    verdict = {"pass": "confirm", "fail": "reject", "invalid": "reject"}.get(status)
+    if verdict is None:
+        return
+    try:
+        conn = store.connect()
+        try:
+            row = conn.execute("SELECT template_id FROM wfw_solve WHERE clue_id = ?",
+                               (clue_id,)).fetchone()
+        finally:
+            conn.close()
+        tid = row[0] if row else None
+        if tid is None:
+            return
+        from core.catalog_loader import load_template_tiers
+        if load_template_tiers().get(tid) != "pending":
+            return
+        from core import signature_reviews
+        signature_reviews.record(tid, clue_id, verdict)
+    except Exception:
+        pass
+
+
 @app.route("/setstatus", methods=["POST"])
 def setstatus():
     """Manually override one clue's verdict. Re-renders from store (no re-solve), so
@@ -396,6 +459,7 @@ def setstatus():
             store.set_status(conn, int(only), status)
         finally:
             conn.close()
+        _capture_signature_review(int(only), status)   # log pending-only sig reviews
         msg = "Status of clue %s set to %s." % (only, status)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
@@ -1220,6 +1284,7 @@ _FORCE_IND_OPTIONS = (
     ("letter_shift", "letter shift"),
     ("charade_positional:after", "positional — after"),
     ("charade_positional:before", "positional — before"),
+    ("palindrome", "palindrome"), ("spoonerism", "spoonerism"),
 )
 _FORCE_IND_TYPES = frozenset(v for v, _ in _FORCE_IND_OPTIONS)
 
@@ -1309,7 +1374,8 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
 # (letters->raw, substitution->abbreviation, anagram->anagram_fodder). An unknown mechanism
 # (alternate, first_letter, homophone, ...) falls back to 'synonym' — an editable starting point.
 _REV_MECH = {"raw": "letters", "abbreviation": "substitution",
-             "anagram_fodder": "anagram", "synonym": "synonym"}
+             "anagram_fodder": "anagram", "synonym": "synonym",
+             "selection": "selection"}
 
 
 def _itype_from_note(note):
@@ -1329,6 +1395,52 @@ def _itype_from_note(note):
             isub = sv
             break
     return itype, isub
+
+
+def _assignments_from_diagnosis(clue_id, pnum, rows):
+    """Seed the hand-solver grid from a triage diagnosis's structured reading (the `hs_seed`
+    list in documents/triage/diagnoses_<pnum>.json) — the user REVIEWS and adjusts Claude's
+    proposed pieces instead of re-deriving them. Purely a UI prefill: nothing is applied
+    until the user's own Resolve / Commit. Seed words are matched to grid rows left-to-right
+    (gaps allowed, e.g. anagram fodder around a link word); any entry that doesn't match
+    cleanly aborts the whole seed (falls back to the parse seed)."""
+    from core import triage
+    try:
+        d = triage.load_diagnoses(pnum).get(str(clue_id)) or {}
+    except Exception:
+        return []
+    seed = d.get("hs_seed") or []
+    if not seed:
+        return []
+
+    def norm(t):
+        return "".join(c for c in (t or "").lower() if c.isalnum())
+    row_norms = [norm(r["text"]) for r in rows]
+    used, out = set(), []
+    for e in seed:
+        words = [norm(w) for w in str(e.get("words") or "").split() if norm(w)]
+        if not words:
+            return []
+        idx, start = [], 0
+        for w in words:
+            found = next((i for i in range(start, len(row_norms))
+                          if i not in used and row_norms[i] == w), None)
+            if found is None:
+                return []                     # stale seed (text/units changed) — abort whole seed
+            idx.append(found)
+            used.add(found)
+            start = found + 1
+        a = {"idx": idx, "role": (e.get("role") or "").strip()}
+        for k in ("value", "rule", "itype", "isub", "dkind", "cut"):
+            if e.get(k):
+                a[k] = e[k]
+        if e.get("tiles"):
+            try:
+                a["pos"] = sorted(int(p) for p in e["tiles"])
+            except Exception:
+                return []
+        out.append(a)
+    return out
 
 
 def _assignments_from_parse(ctx, parse):
@@ -1959,13 +2071,32 @@ function initGrid(rootId, DATA){
  var tbody=root.querySelector('#g-tbody');
  var bar=root.querySelector('#g-bar'), selLbl=root.querySelector('#g-sel');
  var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
- var dkind=root.querySelector('#g-dkind');
+ var dkind=root.querySelector('#g-dkind'), selrule=root.querySelector('#g-selrule');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',anagram:'#0369a1',deletion:'#b45309',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
- function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='anagram';} // lands on tiles
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='selection'||r==='anagram';} // lands on tiles
+ // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
+ // value is DERIVED from the ticked word(s) — never free-typed — and cannot fabricate.
+ function selCands(letters,rule){var la=(letters||'').split(''),n=la.length;
+  switch(rule){
+   case 'first':return n?[la[0]]:[];
+   case 'last':return n?[la[n-1]]:[];
+   case 'outer':return n>=2?[la[0]+la[n-1]]:[];
+   case 'middle':return n<3?[]:(n%2?[la[(n-1)/2]]:[la[n/2-1]+la[n/2]]);
+   case 'alternate':if(n<2)return[];var a=[],b=[];for(var i=0;i<n;i++){(i%2?b:a).push(la[i]);}return[a.join(''),b.join('')];
+   case 'remove_first':return n>=2?[la.slice(1).join('')]:[];
+   case 'remove_last':return n>=2?[la.slice(0,n-1).join('')]:[];
+   case 'remove_outer':return n>=3?[la.slice(1,n-1).join('')]:[];
+   case 'remove_middle':return n<3?[]:(n%2?[la.slice(0,(n-1)/2).join('')+la.slice((n+1)/2).join('')]:[la.slice(0,n/2-1).join('')+la.slice(n/2+1).join('')]);
+  }return [];}
+ function fillSelCands(){if(roleSel.value!=='selection')return;var fl=fodderLetters(checkedIdx());
+  var cands=fl?selCands(fl,selrule.value):[];
+  candSel.innerHTML=cands.length?cands.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('')
+   :'<option value="">(tick word(s) first / word too short)</option>';
+  if(cands.length)addInp.value=cands[0];}
  function fodderLetters(idx){return idx.map(function(i){return (DATA.words[i]||'').toUpperCase().replace(/[^A-Z]/g,'');}).join('');}
  function msort(s){return (s||'').split('').sort().join('');}
  function msub(a,b){var arr=(a||'').split(''),ok=true;(b||'').split('').forEach(function(c){var i=arr.indexOf(c);if(i>=0)arr.splice(i,1);else ok=false;});return {ok:ok,rem:arr.sort().join('')};}
@@ -2009,7 +2140,7 @@ function initGrid(rootId, DATA){
    var i=+tr.dataset.i, a=assignOf(i);
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
    if(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-    rc.innerHTML='<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+'</b>';
+    rc.innerHTML='<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';
     bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.cut?(' <span style="color:#b45309">&minus;'+a.cut+'</span>'):'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):(a.role==='deletion'?('<span style="color:#b45309">&minus;'+(a.value||'')+'</span>'):'');
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
@@ -2023,7 +2154,7 @@ function initGrid(rootId, DATA){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
    var v=isPiece(a.role)?(' = '+a.value+(a.cut?(' &minus;'+a.cut):'')+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
-   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
+   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.rule?('/'+a.rule):'')+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
  }
@@ -2035,10 +2166,11 @@ function initGrid(rootId, DATA){
   Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=(a.idx.indexOf(+c.value)>=0);});
   roleSel.value=a.role;
   if(a.role==='indicator'&&a.itype)itype.value=a.itype;
+  if(a.role==='selection'&&selrule&&a.rule)selrule.value=a.rule;
   roleFields();
   if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
   if(a.role==='definition'&&dkind)dkind.value=a.dkind||'def';
-  if(isValued(a.role)||a.role==='letters'||a.role==='deletion')addInp.value=a.value||'';
+  if(isValued(a.role)||a.role==='letters'||a.role==='deletion'||a.role==='selection')addInp.value=a.value||'';
   if(cutEl)cutEl.value=a.cut||'';
   selPos=(a.pos||[]).slice();
   updateBar();
@@ -2065,34 +2197,48 @@ function initGrid(rootId, DATA){
  function roleFields(){var r=roleSel.value;
   itype.style.display=(r==='indicator')?'':'none';
   if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
+  if(selrule)selrule.style.display=(r==='selection')?'':'none'; // the selection rule picker
   fillSub();                                                    // data-driven sub-type dropdown
   candWrap.style.display=((isPiece(r)&&r!=='anagram')||r==='deletion')?'':'none'; // deletion = type
-  if(candSel)candSel.style.display=isValued(r)?'':'none';       // the removed letters (no tiles)
-  if(delEl)delEl.style.display=(r==='synonym')?'':'none';        // DB candidates / prune (syn only)
+  if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
+  if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':'new value');
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':'new value'));
   drawCutPrev();
   if(isValued(r))fetchCands();
+  if(r==='selection')fillSelCands();
+  if(r==='indicator')fetchTypes();               // show current DB typings + prune links
   if(r==='indicator'&&itype.value==='deletion')inferSub();
  }
- function delRow(word,value){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
+ function delRow(word,value,kind){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
   function h(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i);}
-  h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('kind','synonym');h('word',word);h('value',value);
+  h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('kind',kind||'synonym');h('word',word);h('value',value);
   document.body.appendChild(f);f.submit();}
+ function fetchTypes(){var idx=checkedIdx();if(!idx.length||!delEl){if(delEl)delEl.innerHTML='';return;}
+  var phr=phraseOf(idx);
+  fetch('/hstypes?phrase='+encodeURIComponent(phr)).then(function(r){return r.json();}).then(function(list){
+   if(!list.length){delEl.innerHTML='<span style="color:#94a3b8">no DB typings for this word</span>';return;}
+   delEl.innerHTML='typed in DB — prune a rogue one: '+list.map(function(o){
+    var v=o.t+(o.s?('/'+o.s):'');
+    return '<a href="#" class="g-delx" data-v="'+v+'" data-k="indicator">'+v+' ×</a>';}).join(' &nbsp; ');
+   Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){
+    x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v,'indicator');};});
+  }).catch(function(){delEl.innerHTML='';});}
  function fetchCands(){var idx=checkedIdx();if(!idx.length){candSel.innerHTML='';if(delEl)delEl.innerHTML='';return;}
   candSel.innerHTML='<option>…</option>';var phr=phraseOf(idx);
   fetch('/hslookup?id='+DATA.cid+'&phrase='+encodeURIComponent(phr)).then(function(r){return r.json();}).then(function(list){
    if(!list.length){candSel.innerHTML='<option value="">(none in DB — add below)</option>';}
    else{candSel.innerHTML='<option value="">— pick —</option>'+list.map(function(o){return '<option value="'+o.v+'">'+o.v+' ('+o.m+')</option>';}).join('');}
    if(delEl){var del=list.filter(function(o){return o.del;});
-    delEl.innerHTML=del.length?('rogue? prune: '+del.map(function(o){return '<a href="#" class="g-delx" data-v="'+o.v+'">'+o.v+' ×</a>';}).join(' &nbsp; ')):'';
-    Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v);};});}
+    delEl.innerHTML=del.length?('rogue? prune: '+del.map(function(o){return '<a href="#" class="g-delx" data-v="'+o.v+'" data-k="'+(o.dk||'synonym')+'">'+o.v+' ×</a>';}).join(' &nbsp; ')):'';
+    Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v,x.dataset.k);};});}
   }).catch(function(){candSel.innerHTML='<option value="">(lookup failed — add below)</option>';});
  }
- tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();drawCutPrev();}});
+ tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();if(roleSel.value==='selection')fillSelCands();if(roleSel.value==='indicator')fetchTypes();drawCutPrev();}});
  roleSel.addEventListener('change',roleFields);
  itype.addEventListener('change',roleFields);
+ if(selrule)selrule.addEventListener('change',fillSelCands);
  var msgEl=root.querySelector('#g-msg');
  function note(t){if(msgEl)msgEl.textContent=t||'';}
  function assignNow(){
@@ -2105,6 +2251,12 @@ function initGrid(rootId, DATA){
     if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
     a.cut=cut;}}
   if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
+  if(r==='selection'){var sfl=fodderLetters(idx),srl=selrule?selrule.value:'';
+   var scands=selCands(sfl,srl);
+   if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
+   var sv=((addInp.value||'').trim()||candSel.value||scands[0]||'').toUpperCase();
+   if(scands.indexOf(sv)<0){note(sv+' is not the '+srl+' selection of '+sfl+' (must be '+scands.join(' or ')+')');return;}
+   a.value=sv;a.rule=srl;}
   if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
@@ -2147,7 +2299,8 @@ function initGrid(rootId, DATA){
  if(addInp)addInp.addEventListener('input',drawCutPrev);
  // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign.
  // With a deletion typed, DON'T auto-assign (let the user place the survivor first).
- candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}});
+ candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}
+  else if(roleSel.value==='selection'&&candSel.value){addInp.value=candSel.value;}});
  root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
@@ -2213,9 +2366,10 @@ def _span_surface(clue_id, back_raw=None):
         saved_list = json.loads(saved) if saved else []
     except Exception:
         saved_list = []
-    if not saved_list:                        # no prior hand-solve -> seed EDITABLE assignments
-        saved_list = _assignments_from_parse(ctx, parse)   # from the stored parse, so re-tagging
-                                              # one word doesn't mean reassigning every word
+    if not saved_list:                        # no prior hand-solve -> seed EDITABLE assignments:
+        saved_list = _assignments_from_diagnosis(clue_id, pnum, rows)  # the triage reading first
+    if not saved_list:                        # else from the stored parse, so re-tagging one
+        saved_list = _assignments_from_parse(ctx, parse)   # word doesn't mean reassigning all
 
     trs = "".join(
         '<tr data-i="%d"><td><input type="checkbox" class="g-chk" value="%d"></td>'
@@ -2313,6 +2467,7 @@ def _span_surface(clue_id, back_raw=None):
          '<option value="synonym">synonym</option>'
          '<option value="substitution">substitution (abbr / symbol)</option>'
          '<option value="letters">letters (exact)</option>'
+         '<option value="selection">selection (letters from word)</option>'
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
          '<option value="indicator">indicator</option>'
@@ -2321,6 +2476,17 @@ def _span_surface(clue_id, back_raw=None):
          '<option value="none">none (clear)</option></select>',
          '<select id="g-itype" style="display:none">%s</select>' % itype_opts,
          '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
+         '<select id="g-selrule" style="display:none" title="Which letters the selection '
+         'takes from the ticked word(s) — mirrors the engine rules (core.selection).">'
+         '<option value="first">first letter</option>'
+         '<option value="last">last letter</option>'
+         '<option value="outer">outer letters</option>'
+         '<option value="middle">middle letter(s)</option>'
+         '<option value="alternate">alternate letters</option>'
+         '<option value="remove_first">all but first (behead)</option>'
+         '<option value="remove_last">all but last (curtail)</option>'
+         '<option value="remove_outer">inner letters (ends off)</option>'
+         '<option value="remove_middle">all but middle (heartless)</option></select>',
          '<select id="g-dkind" style="display:none" title="A plain definition, or a '
          'definition by example (DBE) — where the clue defines the answer via an example '
          '(e.g. “flower” for a river). Same in every respect but the label.">'
@@ -2439,11 +2605,24 @@ def hslookup_route():
                 v = (v or "").upper()
                 if v and m in ("synonym", "abbreviation"):
                     mechs.setdefault(v, set()).add(m)
+            wp_direct = set()
+            try:
+                con = sqlite3.connect(admin_db.CRYPTIC_DB)
+                for (v,) in con.execute("SELECT substitution FROM wordplay "
+                                        "WHERE lower(indicator)=lower(?)", (phrase,)):
+                    wp_direct.add((v or "").strip().upper())
+                con.close()
+            except Exception:
+                pass
             for v, ms in mechs.items():                    # a value that is EVER an abbreviation
+                # `dk` = which table a prune should hit (synonym row wins: it is the
+                # common pollution case); None when the value is a lookup artifact.
+                dk = ("synonym" if v in direct
+                      else ("substitution" if v in wp_direct else None))
                 if "abbreviation" in ms:                   # is grouped as an abbreviation
-                    abbr.append({"v": v, "m": "abbreviation", "del": v in direct})
+                    abbr.append({"v": v, "m": "abbreviation", "del": bool(dk), "dk": dk})
                 else:
-                    syn.append({"v": v, "m": "synonym", "del": v in direct})
+                    syn.append({"v": v, "m": "synonym", "del": bool(dk), "dk": dk})
             for v in subs:                                 # the substitutions table
                 if v and v not in mechs:
                     abbr.append({"v": v, "m": "substitution", "del": False})
@@ -2454,6 +2633,26 @@ def hslookup_route():
     out = abbr + syn                                       # no cap — alphabetical, so a long
     return app.response_class(json.dumps(out),             # list is still easy to scan/jump
                               mimetype="application/json")
+
+
+@app.route("/hstypes")
+def hstypes_route():
+    """AJAX: the DB indicator typings for a phrase — [{"t": type, "s": subtype}] — so the
+    hand-solver can SHOW (and prune) a rogue typing. A lookup, never a solve."""
+    import json as _j
+    import sqlite3 as _s
+    phrase = (request.args.get("phrase") or "").strip()
+    out = []
+    if phrase:
+        try:
+            con = _s.connect(admin_db.CRYPTIC_DB)
+            for t, s in con.execute("SELECT wordplay_type, COALESCE(subtype,'') FROM "
+                                    "indicators WHERE lower(word)=lower(?)", (phrase,)):
+                out.append({"t": t, "s": s})
+            con.close()
+        except Exception:
+            out = []
+    return app.response_class(_j.dumps(out), mimetype="application/json")
 
 
 @app.route("/hsdelete", methods=["POST"])
@@ -2472,6 +2671,13 @@ def hsdelete_route():
     if kind == "synonym":
         msg = admin_db.delete_synonym(word, value)
         apply_add_to_wiring({"kind": "synonym", "word": word, "synonym": value})
+    elif kind == "substitution":
+        msg = admin_db.delete_substitution(word, value)
+        apply_add_to_wiring({"kind": "substitution"})       # unknown kind -> full reload
+    elif kind == "indicator":
+        wp, _, sub = (value or "").partition("/")
+        msg = admin_db.delete_indicator(word, wp, sub or None)
+        apply_add_to_wiring({"kind": "indicator", "word": word, "type": wp})
     elif kind == "definition":
         msg = admin_db.delete_definition(word, value)
         apply_add_to_wiring({"kind": "definition", "definition": word, "answer": value})
@@ -2509,11 +2715,31 @@ def hsinfer_route():
 
 
 # hand role -> the signature fodder slot it implies (for signature creation)
-_HSROLE_FODDER = {"synonym": "SYN_F"}
+_HSROLE_FODDER = {"synonym": "SYN_F", "substitution": "ABR_F",
+                  "letters": "LIT_F", "selection": "SEL_F"}
 # indicator type -> (operation, indicator slot role)
 _HSIND_OP = {"deletion": ("deletion", "DEL_I"), "anagram": ("anagram", "ANA_I"),
              "reversal": ("reversal", "REV_I"), "container": ("container", "CON_I"),
              "insertion": ("container", "CON_I")}
+# indicator types that LICENSE a piece (the engines find them via find_indicators /
+# selection_rules) rather than defining the operation — residue in the candidate, not a slot.
+_HSIND_RESIDUE = frozenset({"selection", "alternation", "alternating", "alternate"})
+
+
+def _selection_candidates(phrase, rule):
+    """The engine's selection rule applied to the phrase's letters — the mirror of the /hs
+    grid's selCands (both mirror core.selection.SPAN_RULES, whose lambdas slice generic
+    lists, so plain characters work). The commit validates a selection piece against this,
+    so the derived value can never be free-typed."""
+    from core import selection
+    letters = [c for c in (phrase or "").upper() if c.isalpha()]
+    fn = selection.SPAN_RULES.get(rule)
+    if fn is None:
+        return []
+    try:
+        return ["".join(cand) for cand in fn(letters) if cand]
+    except Exception:
+        return []
 
 
 def _cand_from_assignments(assigns, n_total, answer=""):
@@ -2539,10 +2765,13 @@ def _cand_from_assignments(assigns, n_total, answer=""):
             if def_idx is not None:
                 return None                       # one definition only
             def_idx = idx
-        elif role in _HSROLE_FODDER:              # synonym -> a fodder value
-            syns.append((idx, (a.get("value") or "").strip().upper()))
+        elif role in _HSROLE_FODDER:              # a fodder value slot (SYN/ABR/LIT/SEL)
+            syns.append((idx, (a.get("value") or "").strip().upper(), _HSROLE_FODDER[role]))
         elif role == "indicator":
-            spec = _HSIND_OP.get((a.get("itype") or "").split(":")[0])
+            base = (a.get("itype") or "").split(":")[0]
+            if base in _HSIND_RESIDUE:
+                continue                          # licenses a piece; residue, not a slot
+            spec = _HSIND_OP.get(base)
             if spec is None:
                 return None                       # an operation we don't file yet
             op = spec[0]
@@ -2557,12 +2786,14 @@ def _cand_from_assignments(assigns, n_total, answer=""):
     # NAMED deletion: the synonym whose value is removed from another (the base) to spell the
     # answer is the REM_F source; the other is the SYN_F base.
     rem_key = None
-    if op == "deletion" and len(syns) >= 2 and answer:
+    if op == "deletion" and answer and len([s for s in syns if s[2] == "SYN_F"]) >= 2:
         from core import deletion
         ans = "".join(c for c in answer.upper() if c.isalpha())
-        for bidx, bval in syns:
-            for ridx, rval in syns:
-                if ridx is bidx or not bval or not rval:
+        for bidx, bval, btok in syns:
+            if btok != "SYN_F":
+                continue
+            for ridx, rval, rtok in syns:
+                if rtok != "SYN_F" or ridx is bidx or not bval or not rval:
                     continue
                 try:
                     if rval in deletion.removed_runs(bval, ans):
@@ -2574,8 +2805,9 @@ def _cand_from_assignments(assigns, n_total, answer=""):
                 break
 
     wp = []
-    for idx, _val in syns:
-        tok = "REM_F" if (rem_key is not None and tuple(idx) == rem_key) else "SYN_F"
+    for idx, _val, tok in syns:
+        if rem_key is not None and tuple(idx) == rem_key:
+            tok = "REM_F"
         wp.append((idx[0], tok, len(idx)))
     if indicator is not None:
         wp.append((indicator[0][0], indicator[1], len(indicator[0])))
@@ -2592,11 +2824,28 @@ def _cand_from_assignments(assigns, n_total, answer=""):
             "roles": [r for _, r, _ in wp], "n_words": [n for _, _, n in wp]}
 
 
+def _rollback_signature(tid):
+    """Remove a just-filed signature (+ its slots) — the rollback when it doesn't earn its place."""
+    from core import catalog_creator as CC
+    con = sqlite3.connect(CC._CLUES_DB)
+    try:
+        con.execute("DELETE FROM catalog_templates WHERE id=?", (tid,))
+        con.execute("DELETE FROM catalog_template_slots WHERE template_id=?", (tid,))
+        con.commit()
+    finally:
+        con.close()
+
+
 def _try_create_signature(cid, cand):
-    """A Resolve that leaves the clue unsolved may imply a signature the catalog lacks.
-    Create it (the catalog auto-backs-up), re-solve, and KEEP it ONLY if the clue now PASSES
-    — otherwise roll it back, so an unverified shape never pollutes the catalog. Returns a
-    one-line note for the user, or '' when nothing was attempted."""
+    """A Resolve that leaves the clue unsolved may imply a signature the catalog lacks. Decide
+    the signature's RISK CLASS from the rubric (catalog_creator.rubric_tier) and file it
+    accordingly:
+      * PENDING-only (risky) — filed straight away; safe BY CONSTRUCTION (it runs in the final
+        cascade stage, so it can only ever turn this FAIL into an amber 'needs checking', never
+        a green pass). Kept iff it fires; else rolled back.
+      * PASS-tier (safe shape) — may go green, so it must first clear the automatic before/after
+        A/B (0 regressions, no stray new passes on other clues). Handled in _create_pass_signature.
+    Returns a one-line note, or '' when nothing was attempted."""
     from core import catalog_creator as CC
     import sqlite3
     try:
@@ -2610,38 +2859,75 @@ def _try_create_signature(cid, cand):
             return ""                             # already present; the miss is elsewhere
     finally:
         con.close()
+    row = _load_clue(cid)
+    if row is None:
+        return ""
+    ct, ans, _s, _pn, _d, enum, _cn = row
+    answer = enum_space(ans, enum)
+    if CC.rubric_tier(cand, answer) == "pending":
+        return _create_pending_signature(cid, cand, sig)
+    return _create_pass_signature(cid, cand, sig, ct, answer)
+
+
+def _create_pending_signature(cid, cand, sig):
+    """File a risky signature as PENDING-only and keep it iff the clue now fires as an amber
+    'needs checking'. Safe by construction — it can never mint a green pass."""
+    from core import catalog_creator as CC
     try:
-        tid = CC.add_signature(cand, note="hand-solver: %s (clue %s)" % (sig, cid))
+        tid = CC.add_signature(cand, note="triage pending-only: %s (clue %s)" % (sig, cid),
+                               tier="pending")
     except Exception:
         return ""
     if tid is None:
         return ""
-    # Load the new catalog signature with ONE full reload (the catalog isn't a live query),
-    # then verify on the cached wiring (not a second make_db_wiring). Keep the signature ONLY
-    # if it is the one that now solves the clue (matched==sig), so we never keep a shape that
-    # merely coincides with another passing signature. A raw solve works because the
-    # hand-solve committed every piece to the reference DB.
-    reload_wiring()
-    row = _load_clue(cid)
-    keep = False
-    if row is not None:
-        ct, ans, _s, _pn, _d, enum, _cn = row
-        st, _name, msig, _p = CC.verify(ct, enum_space(ans, enum), batch_wiring())
-        keep = (st == "pass" and msig == sig)
-    if keep:
-        _resolve_one(cid)
-        return "created the missing signature %s — the clue now solves." % sig
-    con = sqlite3.connect(CC._CLUES_DB)                # rollback: not solved by the new sig
-    try:
-        con.execute("DELETE FROM catalog_templates WHERE id=?", (tid,))
-        con.execute("DELETE FROM catalog_template_slots WHERE template_id=?", (tid,))
-        con.commit()
-    finally:
-        con.close()
     reload_wiring()
     _resolve_one(cid)
-    return ("signature %s did not solve the clue, so it was rolled back "
-            "(check the assignments or a missing DB value)." % sig)
+    conn = store.connect()
+    try:
+        cp = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    if cp is not None and cp.status == "pending":
+        return ("filed a PENDING-ONLY signature %s — the clue now shows amber (needs checking); "
+                "confirm it to trust the solve." % sig)
+    _rollback_signature(tid)
+    reload_wiring()
+    _resolve_one(cid)
+    return ("signature %s did not fire (a needed value may be missing, or the roles don't "
+            "assemble), so it was rolled back." % sig)
+
+
+def _create_pass_signature(cid, cand, sig, clue_text, answer):
+    """PASS-tier-eligible (safe shape). A pass-tier signature can affect OTHER clues, so it may
+    NOT go green off nothing. File it as PENDING first (amber, harmless in the final stage), so
+    the clue is solved-as-needs-checking immediately; it is promoted to green only after the
+    automatic before/after A/B confirms it doesn't regress or fabricate on other clues. The
+    promotion is a separate gated step: `python -m core.ab_signature promote <template_id> <clue_id>`."""
+    from core import catalog_creator as CC
+    try:
+        tid = CC.add_signature(cand, note="triage pass-eligible (pending until A/B): %s (clue %s)"
+                               % (sig, cid), tier="pending")
+    except Exception:
+        return ""
+    if tid is None:
+        return ""
+    reload_wiring()
+    _resolve_one(cid)
+    conn = store.connect()
+    try:
+        cp = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    if cp is not None and cp.status == "pending":
+        return ("filed PASS-tier-eligible signature %s as pending (amber, needs checking) — it "
+                "goes green only after the automatic regression check. To run the check and "
+                "promote it if clean:  python -m core.ab_signature promote %d %d"
+                % (sig, tid, cid))
+    _rollback_signature(tid)
+    reload_wiring()
+    _resolve_one(cid)
+    return ("signature %s did not fire (a needed value may be missing, or the roles don't "
+            "assemble), so it was rolled back." % sig)
 
 
 @app.route("/hssave", methods=["POST"])
@@ -2801,6 +3087,14 @@ def hsresolve_route():
                 val = (a.get("value") or "").strip().upper()
                 if val:
                     applied.append("%r=%s (letters)" % (phrase, val))
+            elif role == "selection":             # SELECTION piece — per-clue only, NO DB write
+                val = (a.get("value") or "").strip().upper()
+                rule = (a.get("rule") or "").strip()
+                if val and val in _selection_candidates(phrase, rule):
+                    applied.append("%r=%s (selection/%s)" % (phrase, val, rule))
+                elif val:
+                    applied.append("%r=%s (selection/%s — NOT what the rule derives, ignored)"
+                                   % (phrase, val, rule))
             elif role == "indicator":
                 itype = (a.get("itype") or "").strip()
                 isub = (a.get("isub") or "").strip() or None
@@ -2888,6 +3182,639 @@ def _json(obj):
     return app.response_class(_j.dumps(obj), mimetype="application/json")
 
 
+# --- TRIAGE review page ------------------------------------------------------------------
+# Self-contained review surface for a nightly triage report. Renders each FAIL/PENDING clue's
+# diagnosis with EDITABLE data suggestions you mark Accept/Reject; then ONE "Apply queued"
+# button writes every marked add to the reference DB (via the dashboard's adders), reloads the
+# wiring ONCE, and re-solves each affected clue ONCE — the human's Apply IS the commit. After a
+# re-solve, a clue that passes with clue words still unaccounted is flagged (read from the
+# parse; no engine is touched). Missing-signature/engine/unparsed clues are shown read-only.
+# Touches none of the existing dashboard pages.
+
+_TRIAGE_CSS = """<style>
+.tr-wrap{font-family:system-ui;max-width:54rem}
+.tr-clue{border:1px solid #e2e8f0;border-radius:10px;padding:.7rem .9rem;margin:.7rem 0}
+.tr-h{font-size:1.05rem}
+.tr-st{font-size:.72rem;font-weight:800;padding:.1rem .45rem;border-radius:6px;margin-left:.4rem;color:#fff}
+.tr-fail{background:#dc2626}.tr-pending{background:#d97706}.tr-pass{background:#16a34a}
+.tr-clue-text{color:#334155;margin:.25rem 0 .35rem}
+.tr-gap{font-size:.9rem;color:#475569;background:#f8fafc;border-left:3px solid #cbd5e1;padding:.35rem .55rem;margin:.3rem 0}
+.tr-enr{display:flex;align-items:center;gap:.45rem;margin:.35rem 0;font-size:.92rem;flex-wrap:wrap}
+.tr-tag{font-size:.66rem;font-weight:800;color:#fff;background:#64748b;border-radius:5px;padding:.12rem .4rem;text-transform:uppercase}
+.tr-in{font-family:inherit;font-size:.9rem;padding:.15rem .35rem;border:1px solid #cbd5e1;border-radius:5px}
+.tr-act{display:inline-flex;gap:.7rem;align-items:center;font-size:.85rem;margin-left:.3rem}
+.tr-code{font-family:monospace;background:#f1f5f9;padding:.1rem .4rem;border-radius:5px}
+.tr-done{color:#166534}.tr-rej{color:#94a3b8}
+.tr-esc{font-size:.88rem;color:#6d28d9;background:#f5f3ff;border-left:3px solid #a78bfa;padding:.35rem .55rem;margin:.3rem 0}
+.tr-applybar{position:sticky;bottom:0;background:#fff;border-top:2px solid #e2e8f0;padding:.7rem 0;margin-top:1.2rem}
+.tr-apply-btn{background:#0d9488;color:#fff;border:none;border-radius:9px;padding:.5rem 1.2rem;font-weight:800;cursor:pointer;font-size:1rem}
+.tr-cat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:.4rem .6rem;margin:.35rem 0}
+.tr-catlabel{font-size:.72rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.04em}
+.tr-badge{font-size:.68rem;font-weight:800;color:#fff;border-radius:5px;padding:.12rem .45rem;text-transform:uppercase}
+.tr-ev{margin:.35rem 0 .1rem;padding-left:1.1rem;font-size:.9rem;color:#334155}
+.tr-ev li{margin:.1rem 0}
+.tr-hswrap{margin-top:.35rem;font-size:.9rem}
+.tr-hs{display:inline-block;background:#7c3aed;color:#fff;text-decoration:none;font-weight:700;border-radius:7px;padding:.25rem .7rem}
+.tr-hsmuted .tr-hs{background:#fff;color:#7c3aed;border:1px solid #c4b5fd;font-weight:600;padding:.15rem .55rem;font-size:.82rem}
+.tr-vlabel{font-size:.75rem;font-weight:800;color:#9a3412;text-transform:uppercase;letter-spacing:.03em;margin:.55rem 0 .1rem}
+.tr-vlabel span{font-weight:500;text-transform:none;color:#a16207;letter-spacing:0}
+.tr-reclass{background:#475569;color:#fff;border:none;border-radius:8px;padding:.35rem .8rem;font-weight:700;cursor:pointer}
+.tr-read{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:.5rem .7rem;margin:.4rem 0;
+         font-size:.98rem;color:#111827;line-height:1.5}
+.tr-read .tr-catlabel{color:#92400e}
+.tr-read-note{margin-top:.35rem;color:#334155;font-size:.92rem}
+</style>"""
+
+# deterministic-classifier category -> (label, colour) for the badge
+_CAT_META = {
+    "missing_data": ("missing data", "#b45309"),
+    "missing_signature": ("missing signature", "#6d28d9"),
+    "missing_engine": ("missing engine", "#b91c1c"),
+    "solves_now": ("should solve now", "#166534"),
+}
+
+
+def _classification_block(cid, cls):
+    """Render the DETERMINISTIC diagnosis for one clue: category badge(s) + mechanical evidence
+    (from core.triage_classify) + the bridge to the hand-solver. No value guesses here — those
+    are a separate, labelled block."""
+    from urllib.parse import quote
+    reasons = cls.get("reasons") or []
+    detail = cls.get("detail") or {}
+    out = ['<div class="tr-cat"><span class="tr-catlabel">Diagnosis (mechanical):</span> ']
+    for r in reasons:
+        lab, col = _CAT_META.get(r, (r.replace("_", " "), "#64748b"))
+        out.append('<span class="tr-badge" style="background:%s">%s</span> '
+                   % (col, escape(lab)))
+    ev = []
+    if detail.get("no_definition"):
+        ev.append("no confirmed definition")
+    if detail.get("unresolved_words"):
+        ev.append("no known value for: <b>%s</b>"
+                  % escape(", ".join(detail["unresolved_words"])))
+    for item in (detail.get("novel_shapes") or []):
+        sig, tier = item[0], item[1]
+        ev.append("new shape needed: <span class=\"tr-code\">%s</span> (tier: <b>%s</b>)"
+                  % (escape(sig), escape(tier)))
+    if detail.get("double_definition"):
+        ev.append("reads as a double definition")
+    if detail.get("possible_double_definition"):
+        ev.append("may be a double definition missing its other definition (%s)"
+                  % escape(str(detail["possible_double_definition"])))
+    if detail.get("acrostic"):
+        ev.append("initial letters spell the answer (acrostic)")
+    if detail.get("hidden"):
+        ev.append("answer sits inside the clue letters (hidden)")
+    if detail.get("homophone") or detail.get("homophone_entry_maybe_missing"):
+        ev.append("homophone involved — a sounds-like entry may be missing")
+    if detail.get("material_present_no_assembly"):
+        ev.append("pieces present but nothing known assembles them")
+    if ev:
+        out.append('<ul class="tr-ev">' + "".join("<li>%s</li>" % e for e in ev) + "</ul>")
+    hs = ('<a class="tr-hs" href="/hs?id=%d&amp;from=%s">Open in hand-solver &rarr;</a>'
+          % (cid, quote(str(cid))))
+    if "missing_signature" in reasons:
+        out.append('<div class="tr-hswrap">Fix the shape by hand: %s</div>' % hs)
+    else:
+        out.append('<div class="tr-hswrap tr-hsmuted">%s</div>' % hs)
+    out.append("</div>")
+    return "".join(out)
+
+_TRIAGE_ITYPES = ["anagram", "deletion", "selection", "reversal", "container", "hidden",
+                  "homophone", "charade_positional", "letter_shift", "acrostic"]
+
+
+def _enr_label(enr):
+    t = enr.get("type", "")
+    if t == "synonym":
+        return "synonym &nbsp; <b>%s</b> = %s" % (escape(enr.get("word", "")),
+                                                  escape(enr.get("value", "")))
+    if t == "substitution":
+        return "abbreviation &nbsp; <b>%s</b> &rarr; %s" % (escape(enr.get("word", "")),
+                                                            escape(enr.get("value", "")))
+    if t == "definition":
+        return "definition &nbsp; <b>%s</b> &rarr; %s" % (escape(enr.get("definition", "")),
+                                                          escape(enr.get("answer", "")))
+    if t == "indicator":
+        sub = ("/" + enr["subtype"]) if enr.get("subtype") else ""
+        return "indicator &nbsp; <b>%s</b> = %s%s" % (escape(enr.get("word", "")),
+                                                      escape(enr.get("indicator_type", "")),
+                                                      escape(sub))
+    return escape(str(enr))
+
+
+def _enr_type_name(t):
+    return {"synonym": "synonym", "substitution": "abbreviation",
+            "definition": "definition", "indicator": "indicator"}.get(t, t)
+
+
+def _enr_fields(i, enr):
+    """EDITABLE inputs for enrichment i, so a suggestion can be corrected before Accept
+    (e.g. an indicator 'cover off' -> 'tear cover off'). Field names carry the row index."""
+    t = enr.get("type", "")
+    h = '<input type="hidden" name="type_%d" value="%s">' % (i, escape(t, quote=True))
+
+    def v(x):
+        return escape(x or "", quote=True)
+
+    if t in ("synonym", "substitution"):
+        return h + ('<input class="tr-in" name="word_%d" value="%s" size="16"> = '
+                    '<input class="tr-in" name="value_%d" value="%s" size="10">'
+                    % (i, v(enr.get("word")), i, v(enr.get("value"))))
+    if t == "definition":
+        return h + ('<input class="tr-in" name="def_%d" value="%s" size="20"> &rarr; '
+                    '<input class="tr-in" name="ans_%d" value="%s" size="12">'
+                    % (i, v(enr.get("definition")), i, v(enr.get("answer"))))
+    if t == "indicator":
+        opts = "".join('<option%s>%s</option>'
+                       % (" selected" if o == enr.get("indicator_type") else "", o)
+                       for o in _TRIAGE_ITYPES)
+        return h + ('<input class="tr-in" name="word_%d" value="%s" size="16"> = '
+                    '<select class="tr-in" name="itype_%d">%s</select> '
+                    'sub <input class="tr-in" name="sub_%d" value="%s" size="7">'
+                    % (i, v(enr.get("word")), i, opts, i, v(enr.get("subtype"))))
+    return h
+
+
+def _triage_surface(src, pnum, notice=""):
+    from core import triage
+    meta, clues = triage.collect_puzzle(src, pnum)
+    diagnoses = triage.load_diagnoses(pnum)          # the human/AI value suggestions (labelled)
+    classified = triage.load_classified(pnum)         # the DETERMINISTIC categories (cached)
+    rejected = triage.rejected_keys(pnum)
+    review = [c for c in clues if c["status"] in ("fail", "pending")]
+
+    reclass = ('<form method="post" action="/triageclassify" style="display:inline">'
+               '<input type="hidden" name="src" value="%s">'
+               '<input type="hidden" name="pnum" value="%s">'
+               '<button class="tr-reclass">Run / refresh diagnosis</button></form>'
+               % (escape(src, quote=True), escape(str(pnum), quote=True)))
+
+    # Signature-regression status + button: publish-now / regression-check-later. The
+    # button starts a BACKGROUND batch A/B over every pending-tier signature; each is
+    # promoted only on a clean diff. Status comes from the job's file.
+    sig_st = _sigreg_read()
+    if sig_st.get("running"):
+        sig_line = ('<div class="wfw-notice" style="background:#fffbeb">Signature '
+                    'regression RUNNING (started %s): %s — refresh for progress.</div>'
+                    % (escape(sig_st.get("started", "")),
+                       escape(sig_st.get("phase", ""))))
+    elif sig_st.get("results"):
+        sig_line = ('<div class="wfw-notice">Last signature regression: %s</div>'
+                    % escape("; ".join("template %s → %s (%s)"
+                                       % (r["template"], r["action"], r["summary"][:80])
+                                       for r in sig_st["results"])))
+    else:
+        sig_line = ""
+
+    p = [_TRIAGE_CSS,
+         '<form method="post" action="/triageapply"><div class="tr-wrap">',
+         '<input type="hidden" name="src" value="%s">' % escape(src, quote=True),
+         '<input type="hidden" name="pnum" value="%s">' % escape(str(pnum), quote=True),
+         '<h2>Triage &mdash; %s %s</h2>' % (escape(src.title()), escape(str(pnum))),
+         '<p><b>%d</b> pass &middot; <b>%d</b> pending &middot; <b>%d</b> fail &nbsp;'
+         '(%d unsolved to review). %s '
+         '<button class="tr-reclass" style="background:#7c3aed" formaction="/sigregress" '
+         'title="Background batch: A/B-check every pending signature (two full solves '
+         'each) and promote the clean ones — run it after publishing, whenever suits.">'
+         'Regression-check pending signatures</button></p>'
+         % (meta["pass"], meta["pending"], meta["fail"], len(review), reclass),
+         sig_line]
+    if not classified:
+        p.append('<div class="wfw-notice">No diagnosis yet — click <b>Run / refresh diagnosis</b>. '
+                 'It runs the fixed mechanical checks (the same category every time) and re-solves '
+                 'any clue whose pieces are already all present.</div>')
+    if notice:
+        p.append('<div class="wfw-notice">%s</div>' % escape(notice))
+
+    i = 0
+    for c in review:
+        d = diagnoses.get(str(c["id"]), {})
+        cls = classified.get(str(c["id"]))
+        p.append('<div class="tr-clue" id="clue-%d">' % c["id"])
+        p.append('<div class="tr-h"><b>%s %s</b> &mdash; %s'
+                 '<span class="tr-st tr-%s">%s</span> '
+                 '<button class="tr-reclass" style="padding:.15rem .55rem;font-size:.78rem" '
+                 'formaction="/triagererun" name="rerun_cid" value="%d" '
+                 'title="Re-solve just this clue now (a couple of seconds)">Re-run</button>'
+                 '</div>'
+                 % (escape(str(c["number"])), escape(c["direction"]), escape(c["answer"]),
+                    c["status"], c["status"].upper(), c["id"]))
+        p.append('<div class="tr-clue-text">%s</div>' % escape(c["clue_text"]))
+
+        # 1) the DETERMINISTIC diagnosis (category + mechanical evidence + hand-solver bridge)
+        if cls:
+            p.append(_classification_block(c["id"], cls))
+
+        # 1b) the PROPOSED READING from the diagnoses file (Claude, labelled unverified).
+        # COMPACT: three short lines (Reading / Problem / Fix); the technical trace
+        # (gaps/signature/note) collapses behind a details toggle. Entries without the
+        # compact fields fall back to rendering the long text directly.
+        if any(d.get(k) for k in ("reading", "problem", "action", "gaps", "note", "signature")):
+            bits, deep = [], []
+            compact = bool(d.get("reading") or d.get("problem") or d.get("action"))
+            for key, lab in (("reading", "Reading"), ("problem", "Problem"), ("action", "Fix")):
+                if d.get(key):
+                    bits.append('<div style="margin-top:.25rem"><b>%s:</b> %s</div>'
+                                % (lab, escape(d[key])))
+            sig = d.get("signature") or {}
+            sig_html = ('signature needed: <span class="tr-code">%s</span> (tier: <b>%s</b>)%s'
+                        % (escape(sig.get("shape", "")), escape(sig.get("tier", "")),
+                           (" &mdash; " + escape(sig["note"])) if sig.get("note") else "")
+                        ) if sig else ""
+            for extra in (escape(d["gaps"]) if d.get("gaps") else "", sig_html,
+                          escape(d["note"]) if d.get("note") else ""):
+                if extra:
+                    (deep if compact else bits).append(
+                        extra if compact else '<div style="margin-top:.3rem">%s</div>' % extra)
+            if deep:
+                bits.append('<details style="margin-top:.3rem"><summary style="cursor:pointer;'
+                            'color:#92400e;font-size:.85rem">technical detail</summary>'
+                            '<div class="tr-read-note">%s</div></details>'
+                            % "<br><br>".join(deep))
+            p.append('<div class="tr-read"><span class="tr-catlabel">Proposed reading '
+                     '(Claude &mdash; unverified):</span>%s</div>' % "".join(bits))
+
+        # 2) the LABELLED value suggestions (human/AI, not mechanical) — editable + Accept/Reject
+        enrs = d.get("enrichments") or []
+        if enrs:
+            p.append('<div class="tr-vlabel">Suggested values '
+                     '<span>(human/AI &mdash; not mechanical; edit before accepting)</span></div>')
+        for enr in enrs:
+            key = triage.enrichment_key(c["id"], enr)
+            if triage.enrichment_present(enr):
+                p.append('<div class="tr-enr tr-done">&#10003; in DB: %s</div>' % _enr_label(enr))
+                continue
+            row_h = ('<input type="hidden" name="cid_%d" value="%d">'
+                     '<input type="hidden" name="key_%d" value="%s">'
+                     % (i, c["id"], i, escape(key, quote=True)))
+            if key in rejected:
+                p.append('<div class="tr-enr tr-rej"><span class="tr-tag">%s</span> '
+                         '&#10007; rejected: %s %s'
+                         '<label><input type="radio" name="act_%d" value="unreject"> '
+                         'un-reject</label></div>'
+                         % (escape(_enr_type_name(enr.get("type", ""))), _enr_label(enr),
+                            row_h, i))
+            else:
+                p.append('<div class="tr-enr"><span class="tr-tag">%s</span> %s %s'
+                         '<span class="tr-act">'
+                         '<label><input type="radio" name="act_%d" value="accept"> Accept</label>'
+                         '<label><input type="radio" name="act_%d" value="reject"> Reject</label>'
+                         '</span></div>'
+                         % (escape(_enr_type_name(enr.get("type", ""))), _enr_fields(i, enr),
+                            row_h, i, i))
+            i += 1
+        # DELETE facility: prune a SPURIOUS reference row that blocks this clue's solve
+        # (synonym/abbr/indicator/definition/link). Queued like an Accept; Apply deletes
+        # (recoverable in deleted_entries) and re-solves the clue.
+        p.append('<div class="tr-enr" style="border-top:1px dashed #e2e8f0;padding-top:.35rem">'
+                 '<span class="tr-tag" style="background:#b91c1c">delete</span> '
+                 '<input type="hidden" name="cid_%d" value="%d">'
+                 '<select class="tr-in" name="delkind_%d">'
+                 '<option value="synonym">synonym</option>'
+                 '<option value="abbreviation">abbreviation</option>'
+                 '<option value="indicator">indicator</option>'
+                 '<option value="definition">definition</option>'
+                 '<option value="link">link word</option></select> '
+                 '<input class="tr-in" name="delword_%d" placeholder="word / phrase" size="14"> '
+                 '<input class="tr-in" name="delval_%d" placeholder="value / type[/sub] / answer" '
+                 'size="16"> '
+                 '<span class="tr-act"><label><input type="radio" name="act_%d" value="delete"> '
+                 'Delete on Apply</label></span></div>'
+                 % (i, c["id"], i, i, i, i))
+        i += 1
+        p.append('</div>')
+
+    p.append('<input type="hidden" name="n" value="%d">' % i)
+    p.append('<div class="tr-applybar"><button class="tr-apply-btn" type="submit">'
+             'Apply queued &amp; re-solve</button></div>')
+    p.append('</div></form>')
+    return "".join(p)
+
+
+def _clue_unexplained(cid):
+    """(status, [unaccounted words]) for a clue as it now stands — read from the stored parse.
+    A PASS that still leaves clue words unaccounted is an unsound pass worth flagging."""
+    row = _load_clue(cid)
+    if row is None:
+        return (None, [])
+    ct, ans, _s, _pn, direction, enum, _cn = row
+    ans = enum_space(ans, enum)
+    ctx = build_wfw_atom_context(ct, ans, direction=direction)
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    if parse is None:
+        return (None, [])
+    try:
+        uw = list(parse.unexplained_words(ctx))
+    except Exception:
+        uw = []
+    return (parse.status, uw)
+
+
+def _sigreg_path():
+    from core import triage
+    return os.path.join(triage.TRIAGE_DIR, "sigregress_status.json")
+
+
+def _sigreg_read():
+    import json
+    try:
+        with open(_sigreg_path(), "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def _sigreg_write(d):
+    import json
+    os.makedirs(os.path.dirname(_sigreg_path()), exist_ok=True)
+    with open(_sigreg_path(), "w", encoding="utf-8") as f:
+        json.dump(d, f, indent=1)
+
+
+_sigreg_lock = None
+
+
+def _sigregress_job(rows):
+    """BACKGROUND job: A/B-check every active pending-tier signature (two fresh solves
+    each, ~20-30 min per signature) and PROMOTE each one whose diff is clean — the
+    'publish now, regression-check the day's signatures later' flow. Progress + results
+    land in the status file the triage page displays."""
+    import re as _re
+    from core import ab_signature
+    results = []
+    for n, (tid, notes) in enumerate(rows, 1):
+        trig = [int(x) for x in _re.findall(r"clue (\d+)", notes or "")]
+
+        def prog(phase, d, t, _n=n, _tid=tid):
+            st = _sigreg_read()
+            st["phase"] = ("template %d (%d of %d): %s %d/%d"
+                           % (_tid, _n, len(rows), phase, d, t))
+            _sigreg_write(st)
+
+        try:
+            action, summary, _ab = ab_signature.try_promote(tid, trigger_clue_ids=trig,
+                                                            progress=prog)
+        except Exception as e:
+            action, summary = "error", "%s: %s" % (type(e).__name__, e)
+        if action == "promote":
+            try:
+                reload_wiring()                   # the template now loads PASS-tier
+                for c in trig:
+                    _resolve_one(c)               # its clue(s) go green
+            except Exception:
+                pass
+        results.append({"template": tid, "action": action, "summary": summary})
+        st = _sigreg_read()
+        st.update({"done": n, "results": results})
+        _sigreg_write(st)
+    st = _sigreg_read()
+    st.update({"running": False, "phase": "finished"})
+    _sigreg_write(st)
+
+
+@app.route("/sigregress", methods=["POST"])
+def sigregress_route():
+    """START the batch signature regression (background thread). The user's click is the
+    trigger; each pending signature is promoted ONLY on a clean A/B verdict."""
+    import threading
+    from urllib.parse import quote
+    from datetime import datetime
+    global _sigreg_lock
+    if _sigreg_lock is None:
+        _sigreg_lock = threading.Lock()
+    src = (request.form.get("src") or "").strip()
+    pnum = (request.form.get("pnum") or "").strip()
+    with _sigreg_lock:
+        st = _sigreg_read()
+        if st.get("running"):
+            notice = "Signature regression already running — refresh for progress."
+        else:
+            import sqlite3
+            from core.ab_signature import _CLUES_DB
+            con = sqlite3.connect(_CLUES_DB)
+            try:
+                rows = con.execute("SELECT id, COALESCE(notes,'') FROM catalog_templates "
+                                   "WHERE tier='pending' AND active=1").fetchall()
+            finally:
+                con.close()
+            if not rows:
+                notice = "No pending signatures to check."
+            else:
+                _sigreg_write({"running": True,
+                               "started": datetime.now().isoformat(timespec="seconds"),
+                               "total": len(rows), "done": 0, "phase": "starting",
+                               "results": []})
+                threading.Thread(target=_sigregress_job, args=(rows,),
+                                 daemon=True).start()
+                notice = ("Signature regression started on %d pending signature(s) — "
+                          "two full solves each; refresh this page for progress."
+                          % len(rows))
+    return redirect("/triage?src=%s&pnum=%s&notice=%s"
+                    % (quote(src), quote(str(pnum)), quote(notice)))
+
+
+@app.route("/triagererun", methods=["POST"])
+def triagererun_route():
+    """Re-solve ONE clue from the triage page (the user's click; nothing else applied).
+    Uses the resident wiring — a couple of seconds, no snapshot rebuild."""
+    from urllib.parse import quote
+    src = (request.form.get("src") or "").strip()
+    pnum = (request.form.get("pnum") or "").strip()
+    cid = (request.form.get("rerun_cid") or "").strip()
+    if not cid.isdigit():
+        return redirect("/triage?src=%s&pnum=%s" % (quote(src), quote(str(pnum))))
+    _resolve_one(int(cid))
+    conn = store.connect()
+    try:
+        cp = store.load_parse(conn, int(cid))
+    finally:
+        conn.close()
+    st = cp.status if cp is not None else "unknown"
+    notice = "Re-ran clue %s: %s." % (cid, st.upper())
+    return redirect("/triage?src=%s&pnum=%s&notice=%s&scroll=%s"
+                    % (quote(src), quote(str(pnum)), quote(notice), cid))
+
+
+@app.route("/triage")
+def triage_route():
+    src = (request.args.get("src") or "telegraph").strip()
+    pnum = (request.args.get("pnum") or "").strip()
+    notice = (request.args.get("notice") or "").strip()
+    scroll = (request.args.get("scroll") or "").strip()
+    if not pnum:
+        return _page('<p style="font-family:system-ui">Usage: '
+                     '<a href="/triage?src=telegraph&amp;pnum=31284">'
+                     '/triage?src=telegraph&amp;pnum=31284</a></p>')
+    return _page(_triage_surface(src, pnum, notice), scroll_to=scroll or None)
+
+
+@app.route("/triageclassify", methods=["POST"])
+def triageclassify_route():
+    """Run the DETERMINISTIC classifier over every fail/pending clue and cache the result. Also
+    re-solve any clue the classifier marks 'solves_now' (its pieces, shape and definition are all
+    present) — a single re-solve to establish current truth (green -> drops off; still failing ->
+    the rare genuine oddity). Slow-ish (discover per clue), so it's an explicit action."""
+    from core import triage, triage_classify
+    src = (request.form.get("src") or "").strip()
+    pnum = (request.form.get("pnum") or "").strip()
+    if not pnum:
+        return redirect("/triage")
+    _meta, clues = triage.collect_puzzle(src, pnum)
+    review = [c for c in clues if c["status"] in ("fail", "pending")]
+    wiring = batch_wiring()
+    out, resolved = {}, 0
+    for c in review:
+        try:
+            cls = triage_classify.classify(c["clue_text"], c["answer"], wiring)
+        except Exception as e:
+            cls = {"reasons": ["missing_engine"], "detail": {"error": str(e)}}
+        out[str(c["id"])] = cls
+        if "solves_now" in cls.get("reasons", []):
+            _resolve_one(c["id"])           # single re-solve to establish current truth
+            resolved += 1
+    triage.save_classified(pnum, out)
+    from urllib.parse import quote
+    notice = ("Diagnosis refreshed: %d clue(s) classified; re-solved %d that should already solve."
+              % (len(out), resolved))
+    return redirect("/triage?src=%s&pnum=%s&notice=%s"
+                    % (quote(src), quote(str(pnum)), quote(notice)))
+
+
+@app.route("/triageapply", methods=["POST"])
+def triageapply_route():
+    """Apply the QUEUED enrichments in ONE pass: write each marked add (with your edits) to the
+    reference DB, reload the wiring ONCE, then re-solve each affected clue ONCE. The human's
+    Apply is the commit. Flags any clue that now passes with words still unaccounted."""
+    from core import triage
+    src = (request.form.get("src") or "").strip()
+    pnum = (request.form.get("pnum") or "").strip()
+    try:
+        n = int(request.form.get("n") or "0")
+    except ValueError:
+        n = 0
+    added, present, errors, deleted = [], [], [], []
+    n_rej = n_unrej = 0
+    affected, need_reload = set(), False
+    for i in range(n):
+        act = request.form.get("act_%d" % i)
+        if not act:
+            continue
+        cid = (request.form.get("cid_%d" % i) or "").strip()
+        key = (request.form.get("key_%d" % i) or "").strip()
+        t = (request.form.get("type_%d" % i) or "").strip()
+        if act == "delete":
+            # prune a spurious reference row (recoverable in deleted_entries), then the
+            # clue re-solves in the same pass as the accepts.
+            dkind = (request.form.get("delkind_%d" % i) or "").strip()
+            dword = (request.form.get("delword_%d" % i) or "").strip()
+            dval = (request.form.get("delval_%d" % i) or "").strip()
+            if not dword:
+                continue
+            if dkind == "synonym":
+                dm = admin_db.delete_synonym(dword, dval)
+                apply_add_to_wiring({"kind": "synonym", "word": dword, "synonym": dval})
+            elif dkind == "abbreviation":
+                dm = admin_db.delete_substitution(dword, dval)
+                need_reload = True
+            elif dkind == "indicator":
+                wp, _, sub = dval.partition("/")
+                dm = admin_db.delete_indicator(dword, wp, sub or None)
+                apply_add_to_wiring({"kind": "indicator", "word": dword, "type": wp})
+            elif dkind == "definition":
+                dm = admin_db.delete_definition(dword, dval)
+                apply_add_to_wiring({"kind": "definition", "definition": dword,
+                                     "answer": dval})
+            elif dkind == "link":
+                dm = admin_db.delete_link(dword)
+                apply_add_to_wiring({"kind": "link", "word": dword})
+            else:
+                continue
+            deleted.append(str(dm))
+            if cid.isdigit():
+                affected.add(int(cid))
+            continue
+        if act == "reject":
+            if key:
+                triage.mark_rejected(pnum, key)
+                n_rej += 1
+            continue
+        if act == "unreject":
+            if key:
+                triage.mark_rejected(pnum, key, undo=True)
+                n_unrej += 1
+            continue
+        if act != "accept":
+            continue
+        if t in ("synonym", "substitution"):
+            enr = {"type": t, "word": (request.form.get("word_%d" % i) or "").strip(),
+                   "value": (request.form.get("value_%d" % i) or "").strip()}
+        elif t == "definition":
+            enr = {"type": t, "definition": (request.form.get("def_%d" % i) or "").strip(),
+                   "answer": (request.form.get("ans_%d" % i) or "").strip()}
+        elif t == "indicator":
+            enr = {"type": t, "word": (request.form.get("word_%d" % i) or "").strip(),
+                   "indicator_type": (request.form.get("itype_%d" % i) or "").strip(),
+                   "subtype": (request.form.get("sub_%d" % i) or "").strip() or None}
+        else:
+            continue
+        m = str(triage.apply_enrichment(enr))
+        if m.startswith("Added"):
+            added.append(m)
+            if t == "substitution":
+                need_reload = True
+            else:
+                apply_add_to_wiring(triage.wiring_form(enr))
+        elif m.startswith("Already"):
+            present.append(m)
+        else:
+            errors.append(m)
+        if cid.isdigit():
+            affected.add(int(cid))
+
+    if need_reload:
+        reload_wiring()
+
+    results = {}
+    for cid in sorted(affected):
+        _resolve_one(cid)
+        results[cid] = _clue_unexplained(cid)     # (status, [unaccounted words])
+    now_pass = [cid for cid in sorted(affected) if results[cid][0] == "pass"]
+    warns = ["clue %d now PASSES but these words are unaccounted: %s"
+             % (cid, ", ".join(results[cid][1]))
+             for cid in sorted(affected) if results[cid][0] == "pass" and results[cid][1]]
+    scroll = next((str(cid) for cid in sorted(affected)
+                   if results[cid][0] in ("fail", "pending")), "")
+
+    bits = []
+    if added:
+        bits.append("added %d" % len(added))
+    if deleted:
+        bits.append("deleted: " + " | ".join(deleted))
+    if present:
+        bits.append("%d already present" % len(present))
+    if n_rej:
+        bits.append("rejected %d" % n_rej)
+    if n_unrej:
+        bits.append("un-rejected %d" % n_unrej)
+    if now_pass:
+        bits.append("now passing: %s" % ", ".join(str(x) for x in now_pass))
+    if errors:
+        bits.append("not added: %s" % "; ".join(errors))
+    notice = ("; ".join(bits) if bits else "Nothing queued.")
+    if warns:
+        notice += " — WARNING: " + " | ".join(warns)
+
+    from urllib.parse import quote
+    return redirect("/triage?src=%s&pnum=%s&notice=%s%s"
+                    % (quote(src), quote(str(pnum)), quote(notice),
+                       ("&scroll=%s" % scroll) if scroll else ""))
+
+
 @app.route("/hsmanualcommit", methods=["POST"])
 def hsmanualcommit_route():
     """MANUAL SOLVE commit from the /hs word grid. Builds a FROZEN manual Parse from the
@@ -2929,6 +3856,7 @@ def hsmanualcommit_route():
         return " ".join(wt[i].text for i in idx if 0 <= i < len(wt))
 
     sources, links, definition, annotations, covered = [], [], None, [], {}
+    db_adds = []   # reusable pieces to save to the reference DB AFTER a successful commit
     for a in assigns:
         try:
             idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
@@ -2938,7 +3866,7 @@ def hsmanualcommit_route():
             continue
         role = (a.get("role") or "").strip()
         phrase, atoms = phrase_for(idx), atoms_for(idx)
-        if role in ("synonym", "letters", "substitution", "anagram"):
+        if role in ("synonym", "letters", "substitution", "anagram", "selection"):
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
             value = (a.get("value") or "").strip().upper()
@@ -2946,6 +3874,13 @@ def hsmanualcommit_route():
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
             if role == "anagram" and not value:            # fodder = the ticked clue words' letters
                 value = "".join(c for c in phrase.upper() if c.isalpha())
+            if role == "selection":                        # derived letters — validate vs the rule
+                rule = (a.get("rule") or "").strip()       # so a selection can never be free-typed
+                cands = _selection_candidates(phrase, rule)
+                if not value or value not in cands:
+                    return _json({"ok": False, "msg": "Selection %r (%s) = %r is not what the "
+                                  "rule derives (%s)." % (phrase, rule or "no rule", value,
+                                  " / ".join(cands) if cands else "nothing — word too short")})
             if not pos:
                 return _json({"ok": False, "msg": "The piece %r has no answer tiles — click "
                               "the answer letters it makes, then Assign." % phrase})
@@ -2962,9 +3897,13 @@ def hsmanualcommit_route():
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
             # and NOT "MANUAL" on every piece; the whole parse is already flagged manual at the top.
             mech = {"letters": "raw", "substitution": "abbreviation",
-                    "anagram": "anagram_fodder"}.get(role, "synonym")
+                    "anagram": "anagram_fodder", "selection": "selection"}.get(role, "synonym")
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism=mech, source="db"))
+            if role == "synonym" and value:            # reusable -> save to the DB after commit
+                db_adds.append(("synonym", phrase, value))
+            elif role == "substitution" and value:     # abbr/symbol -> wordplay table, after commit
+                db_adds.append(("substitution", phrase, value))
             tr = "anagram_of" if role == "anagram" else None
             for p in pos:
                 if p in covered:
@@ -2981,12 +3920,16 @@ def hsmanualcommit_route():
                       if (a.get("dkind") or "").strip() == "dbe" else "definition")
             definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
                                 mechanism=_dmech, source="manual")
+            db_adds.append(("definition", phrase, ans_letters))   # reusable -> save after commit
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
             isb = (a.get("isub") or "").strip()
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
                                            note="%s%s indicator" % (it, ("/" + isb) if isb else ""),
                                            source="manual"))
+            _raw_it = (a.get("itype") or "").split(":")[0]        # save only a REAL chosen type
+            if _raw_it:
+                db_adds.append(("indicator", phrase, _raw_it, isb or None))
         elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
             value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram
             if not value:
@@ -3044,9 +3987,59 @@ def hsmanualcommit_route():
         conn.commit()
     finally:
         conn.close()
-    return _json({"ok": True, "msg": "Committed a MANUAL solution (%d piece%s) — frozen, and "
-                  "NOT written to the reference DB." % (len(sources),
-                  "" if len(sources) == 1 else "s")})
+
+    # The commit SUCCEEDED — now save the reusable pieces to the reference DB, so a hand-solve
+    # teaches the system: a synonym/definition/abbreviation/indicator supplied here helps future
+    # clues instead of being trapped in this one frozen parse. Dedup is built into each adder,
+    # so the ADD-NEW box can be used freely without creating duplicates. Link words, letters,
+    # anagram fodder, deletions and filler are deliberately NOT saved (per-clue or not reusable;
+    # link words in particular are kept out of the DB so they can't overlap with indicators).
+    # Done ONLY after a successful commit, so a rejected commit never writes.
+    added, present, rejected, need_reload = [], [], [], False
+    for item in db_adds:
+        kind = item[0]
+        try:
+            if kind == "synonym":
+                m = admin_db.add_synonym(item[1], item[2])
+            elif kind == "definition":
+                m = admin_db.add_definition(item[1], item[2])
+            elif kind == "indicator":
+                m = admin_db.add_indicator(item[1], item[2], item[3])
+            elif kind == "substitution":
+                m = admin_db.add_substitution(item[1], item[2])
+            else:
+                continue
+        except Exception as e:
+            m = "error adding %r: %s" % (item[1], e)
+        m = str(m)
+        if m.startswith("Added"):
+            added.append(m)
+            if kind == "synonym":
+                apply_add_to_wiring({"kind": "synonym", "word": item[1], "synonym": item[2]})
+            elif kind == "definition":
+                apply_add_to_wiring({"kind": "definition", "definition": item[1],
+                                     "answer": item[2]})
+            elif kind == "indicator":
+                apply_add_to_wiring({"kind": "indicator", "word": item[1], "type": item[2]})
+            elif kind == "substitution":
+                need_reload = True     # substitutions load as abbreviations at build
+        elif m.startswith("Already"):
+            present.append(m)
+        else:
+            rejected.append(m)
+    if need_reload:
+        reload_wiring()               # substitutions need a rebuild to go live
+
+    msg = ("Committed a MANUAL solution (%d piece%s) — frozen."
+           % (len(sources), "" if len(sources) == 1 else "s"))
+    if added:
+        msg += " Saved to reference DB: %d new (%s)." % (
+            len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
+    if present:
+        msg += " %d already in DB." % len(present)
+    if rejected:
+        msg += " Not saved: %s." % "; ".join(rejected)
+    return _json({"ok": True, "msg": msg})
 
 
 @app.route("/hsmanualuncommit", methods=["POST"])

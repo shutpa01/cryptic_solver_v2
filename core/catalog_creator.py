@@ -196,16 +196,12 @@ def _discover_reversal_charade(answer, words, split, lookup_all, is_link,
     from core.engine_common import find_typed_run
     n, N = len(words), len(answer)
 
-    def is_rev(k):
-        try:
-            return "reversal" in (indicator_types(words[k].text) or set())
-        except Exception:
-            return False
-
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
 
-    if not any(is_rev(k) for k in range(n)):
+    # PHRASE-AWARE gate (the residue matching below already uses find_typed_run).
+    from core.engine_common import has_typed_indicator
+    if not has_typed_indicator(words, indicator_types, "reversal"):
         return
 
     def run_roles(a, b):
@@ -269,16 +265,12 @@ def _discover_anagram_charade(answer, words, split, lookup_all, is_link, indicat
     from core.wordplay import raw
     n, N = len(words), len(answer)
 
-    def is_ana(k):
-        try:
-            return "anagram" in (indicator_types(words[k].text) or set())
-        except Exception:
-            return False
-
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
 
-    if not any(is_ana(k) for k in range(n)):
+    # PHRASE-AWARE gate (the residue matching below already uses find_typed_run).
+    from core.engine_common import has_typed_indicator
+    if not has_typed_indicator(words, indicator_types, "anagram"):
         return
 
     def run_roles(a, b):
@@ -498,11 +490,50 @@ def backup_catalog(con):
         con.execute("CREATE TABLE %s_bak_creator AS SELECT * FROM %s" % (t, t))
 
 
-def add_signature(cand, note, db_path=None, backup=True, origin="hand_added"):
+# Operations that add an arrangement/position/lookup degree of freedom. When one of these
+# ranges over SYNONYM material (a SYN_F/REM_F slot), that is the fabrication risk (G=true).
+# Fixed-order reconstruction (charade / reversal / homophone) has no such freedom → G=false,
+# even over synonyms — the safe workhorse (BUILD_PLAN §3, G-primary, SETTLED 2026-07-06).
+_FREE_OPS = {"anagram", "container", "insertion", "deletion", "charade_positional",
+             "positional"}
+
+
+def rubric_tier(cand, answer):
+    """The §3/§9 risk rubric, mechanised. Returns 'pass' or 'pending' for a signature candidate
+    ({operation, roles, ...}) — which catalog class it should be filed into:
+
+      L = indirection load = number of slots valued by a SYNONYM lookup (SYN_F / REM_F).
+          Anchored slots do NOT count: a fixed abbreviation (ABR_F), clue-literal letters
+          (LIT_F), a selection, or an indicator slot.
+      G = free choice over indirect material = a free-choice operation (_FREE_OPS) acting on
+          at least one synonym slot. Literal-fodder anagram / charade / reversal / homophone
+          → G=false.
+
+    PASS-tier iff  G=false AND L<=3 AND NOT short-answer-amplified.
+    PENDING-only otherwise (G=true, or L>=4, or the short-answer amplifier fires:
+                            answer<=4 letters AND L>=2).
+    Worked (BUILD_PLAN §3): EASED L0 / NAPOLEON L1,G0 / INHERITED L0 anagram / SECT+ION L2,G0
+    → pass;  PREY (insertion over a synonym, G1) → pending."""
+    roles = cand.get("roles", []) or []
+    L = sum(1 for r in roles if r in ("SYN_F", "REM_F"))
+    op = cand.get("operation", "") or ""
+    G = (op in _FREE_OPS) and (L >= 1)
+    ans_len = sum(1 for c in (answer or "") if c.isalpha())
+    short_amp = ans_len <= 4 and L >= 2
+    if (not G) and L <= 3 and not short_amp:
+        return "pass"
+    return "pending"
+
+
+def add_signature(cand, note, db_path=None, backup=True, origin="hand_added",
+                  tier="pass"):
     """Insert the candidate's signature (+ slots) into the catalog. Returns the
     new template id, or None if it already exists. Backs the catalog up first unless
     backup=False (the auto path files many in succession; git is the backup there).
-    `origin` tags the row ('hand_added' for the CLI, 'auto' for the solve hook)."""
+    `origin` tags the row ('hand_added' for the CLI, 'auto' for the solve hook).
+    `tier` is the signature tier — 'pass' (may PASS) or 'pending' (PENDING-only,
+    human-reviewed; runs only in the final pending stage). Caller supplies it from the
+    §3 risk rubric so a triaged signature is filed into the right class from the start."""
     sig = _signature_str(cand)
     con = sqlite3.connect(db_path or _CLUES_DB)
     try:
@@ -517,12 +548,24 @@ def add_signature(cand, note, db_path=None, backup=True, origin="hand_added"):
                           "FROM catalog_template_slots").fetchone()[0]
         pri = con.execute("SELECT COALESCE(MAX(priority),0)+1 FROM catalog_templates "
                           "WHERE operation=?", (cand["operation"],)).fetchone()[0]
-        con.execute(
-            "INSERT INTO catalog_templates(id,operation,signature,def_pos,count,"
-            "priority,origin,active,version,created_at,notes) "
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-            (tid, cand["operation"], sig, cand["def_pos"], 1, pri, origin, 1,
-             1, "2026-06-05", note))
+        # tier is written only if the column exists (post signature-tiers migration); against
+        # a pre-migration catalog it is omitted and the row defaults to the implicit 'pass'.
+        has_tier = any(r[1] == "tier" for r in
+                       con.execute("PRAGMA table_info(catalog_templates)"))
+        if has_tier:
+            con.execute(
+                "INSERT INTO catalog_templates(id,operation,signature,def_pos,count,"
+                "priority,origin,active,version,created_at,notes,tier) "
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                (tid, cand["operation"], sig, cand["def_pos"], 1, pri, origin, 1,
+                 1, "2026-06-05", note, tier))
+        else:
+            con.execute(
+                "INSERT INTO catalog_templates(id,operation,signature,def_pos,count,"
+                "priority,origin,active,version,created_at,notes) "
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+                (tid, cand["operation"], sig, cand["def_pos"], 1, pri, origin, 1,
+                 1, "2026-06-05", note))
         for pos, (role, nw) in enumerate(zip(cand["roles"], cand["n_words"])):
             con.execute("INSERT INTO catalog_template_slots(id,template_id,position,"
                         "role,n_words) VALUES(?,?,?,?,?)", (sid + pos, tid, pos,

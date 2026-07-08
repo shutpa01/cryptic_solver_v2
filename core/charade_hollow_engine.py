@@ -79,16 +79,28 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         except Exception:
             return set()
 
+    # PHRASE-AWARE hollow-indicator positions: single words AND contiguous runs whose
+    # JOINED text carries the 'empty' deletion sub-type in the DB.
+    _hollow_pos = set()
+    for a in range(n):
+        for b in range(a + 1, min(a + 4, n) + 1):
+            phrase = " ".join(words[k].text for k in range(a, b))
+            try:
+                subs = deletion_subtypes(phrase) if deletion_subtypes else set()
+            except Exception:
+                subs = set()
+            if "empty" in (subs or set()):
+                _hollow_pos.update(range(a, b))
+
     def is_hollow_ind(k):
-        subs = deletion_subtypes(words[k].text) if deletion_subtypes else set()
-        return "empty" in (subs or set())
+        return k in _hollow_pos
 
     def is_glue(k):
         # a leftover word is acceptable as charade glue if it is a link or ANY indicator,
         # never a bare content word.
-        return bool((is_link and is_link(words[k].text)) or types(k))
+        return bool((is_link and is_link(words[k].text)) or types(k) or k in _hollow_pos)
 
-    if not any(is_hollow_ind(k) for k in range(n)):
+    if not _hollow_pos:
         return None                              # GATE: a hollow indicator is required
 
     vcache = {}
@@ -178,10 +190,19 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_hollow_ind, is_glue,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     annotations = []
+    # hollow (deletion) indicators annotated per contiguous RUN (joined phrase) so a
+    # multi-word row validates as the DB phrase, never a bare component word.
+    from core.engine_common import contiguous_groups as _cg
+    hollow_gaps = sorted(g for g in gaps if is_hollow_ind(g))
+    for run in _cg(hollow_gaps):
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="deletion indicator"))
     for g in gaps:
         if is_hollow_ind(g):
-            role, note = "indicator", "deletion indicator"
-        elif is_link and is_link(words[g].text):
+            continue                             # annotated above, per run
+        if is_link and is_link(words[g].text):
             role, note = "link", "link word"
         else:
             role, note = "indicator", "charade indicator"

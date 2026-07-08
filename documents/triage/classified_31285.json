@@ -1,0 +1,75 @@
+{
+ "10077940": {
+  "reasons": ["missing_data", "missing_engine"],
+  "detail": {"no_definition": true}
+ },
+ "10077943": {
+  "reasons": ["missing_data"],
+  "detail": {"no_definition": true, "hidden": true}
+ },
+ "10077948": {
+  "reasons": ["missing_signature"],
+  "detail": {"novel_shapes": [["SYN_F+LIT_F+SEL_F charade def:start", "pass"]]}
+ },
+ "10077951": {
+  "reasons": ["missing_data"],
+  "detail": {"no_definition": true}
+ },
+ "10077952": {
+  "reasons": ["missing_engine"],
+  "detail": {"material_present_no_assembly": true}
+ },
+ "10077953": {
+  "reasons": ["missing_data"],
+  "detail": {"double_definition": true, "possible_double_definition": "where one's hammered, say"}
+ },
+ "10077954": {
+  "reasons": ["missing_data"],
+  "detail": {"unresolved_words": ["put on clothes"]}
+ },
+ "10077955": {
+  "reasons": ["missing_engine"],
+  "detail": {"material_present_no_assembly": true}
+ },
+ "10077956": {
+  "reasons": ["missing_data"],
+  "detail": {"no_definition": true, "unresolved_words": ["titbit"]}
+ },
+ "10077957": {
+  "reasons": ["missing_data", "missing_engine"],
+  "detail": {"unresolved_words": ["bluster"]}
+ },
+ "10077958": {
+  "reasons": ["missing_data", "missing_signature"],
+  "detail": {"unresolved_words": ["England cricketer"],
+             "novel_shapes": [["SYN_F(2w)+SYN_F(4w) charade def:start", "pass"]]}
+ },
+ "10077959": {
+  "reasons": ["missing_signature"],
+  "detail": {"novel_shapes": [["ABR_F+SYN_F+SEL_F charade def:start", "pass"]]}
+ },
+ "10077964": {
+  "reasons": ["missing_engine"],
+  "detail": {"material_present_no_assembly": true}
+ },
+ "10077965": {
+  "reasons": ["missing_data"],
+  "detail": {"no_definition": true}
+ },
+ "10077966": {
+  "reasons": ["missing_data"],
+  "detail": {"no_definition": true}
+ },
+ "10077968": {
+  "reasons": ["missing_engine"],
+  "detail": {"material_present_no_assembly": true}
+ },
+ "10077969": {
+  "reasons": ["missing_data", "missing_engine"],
+  "detail": {"no_definition": true}
+ },
+ "10077970": {
+  "reasons": ["missing_engine"],
+  "detail": {"material_present_no_assembly": true}
+ }
+}

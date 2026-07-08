@@ -497,6 +497,19 @@ def _classify_indicator(ctx, parse, indicator_types, is_link):
     hidden_capable = {t.index for t in leftovers if "hidden" in types_of(t)}
     pure_indicator = {t.index for t in leftovers
                       if "hidden" in types_of(t) and not linky(t)}
+    # PHRASE-AWARE: a multi-word hidden indicator row ("held by", "some of") makes ALL
+    # its member words indicator-capable, even ones untyped on their own. Index space =
+    # token.index (the same space the adjacency growth below uses), so build a sparse
+    # sequence for typed_runs to read token text from.
+    all_words = [t for t in ctx.clue_tokens if t.kind == "word"]
+    _max_i = max((t.index for t in all_words), default=-1)
+    _seq = [None] * (_max_i + 1)
+    for t in all_words:
+        _seq[t.index] = t
+    for run in engine_common.typed_runs(_seq, [t.index for t in leftovers],
+                                        indicator_types, "hidden"):
+        hidden_capable.update(run)
+        pure_indicator.update(run)
 
     indicator_idx = set(pure_indicator)
     if indicator_idx:

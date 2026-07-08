@@ -79,8 +79,10 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types):
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
 
-    if not any(is_con(k) for k in range(n)) or not any(is_rev(k) for k in range(n)):
-        return None                                # gate: need both indicators present
+    from core.engine_common import has_typed_indicator
+    if (not has_typed_indicator(words, indicator_types, ("container", "insertion"))
+            or not has_typed_indicator(words, indicator_types, "reversal")):
+        return None                                # gate (phrase-aware): both indicators required
 
     runs = [(a, b) for a in range(n)
             for b in range(a + 1, min(a + MAX_PIECE_WORDS, n) + 1)]
@@ -109,10 +111,27 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types):
                 inner_mech = next(m for v, m in v1 if v == inner_val)
             used = set(range(*outer_run)) | set(range(*inner_run))
             remaining = [k for k in range(n) if k not in used]
-            con_ind = [k for k in remaining if is_con(k)]
-            rev_ind = [k for k in remaining if is_rev(k)]
-            if not con_ind or not rev_ind:
+            # PHRASE-AWARE indicator identification (was per-word is_con/is_rev, which
+            # stranded half of a two-word indicator as an unaccounted word). Container
+            # first; the reversal cover is computed on what remains AFTER the container
+            # words, so an overlapping longer phrase row (ARABS: 'circling westerly' is
+            # a reversal ROW while 'circling' is the container) cannot steal a word the
+            # container role needs. Fallback to the full pool for a single word typed
+            # both ways (old behaviour: it serves as the container, rev set stays empty).
+            from core.engine_common import disjoint_typed_cover
+            con_runs = disjoint_typed_cover(words, remaining, indicator_types,
+                                            ("container", "insertion"))
+            if not con_runs:
                 continue
+            con_ind = sorted({k for r in con_runs for k in r})
+            rev_pool = [k for k in remaining if k not in con_ind]
+            rev_runs = disjoint_typed_cover(words, rev_pool, indicator_types, "reversal")
+            if not rev_runs:
+                rev_runs = disjoint_typed_cover(words, remaining, indicator_types,
+                                                "reversal")
+            if not rev_runs:
+                continue
+            rev_ind = sorted({k for r in rev_runs for k in r})
             ind_set = set(con_ind) | set(rev_ind)
             # ONLY genuine links are annotated; any non-link residue is left UNACCOUNTED so
             # _verify NAMES it and marks a FAIL (near-miss). A clean placement (no unaccounted)
@@ -123,8 +142,9 @@ def _assemble(ctx, answer, words, lookup_all, is_link, indicator_types):
             pl = {"outer_run": outer_run, "inner_run": inner_run,
                   "outer_val": outer_val, "inner_val": inner_val,
                   "outer_mech": outer_mech, "inner_mech": inner_mech,
-                  "p": p, "Li": Li, "con": sorted(con_ind),
-                  "rev": sorted(set(rev_ind) - set(con_ind)), "links": sorted(links)}
+                  "p": p, "Li": Li, "con": con_runs,
+                  "rev": [r for r in rev_runs if not (set(r) & set(con_ind))],
+                  "links": sorted(links)}
             if not unacct:
                 return pl
             if best_nm is None or len(unacct) < best_nm[0]:
@@ -161,14 +181,18 @@ def _build(ctx, split, words, answer, pl):
                               clue_atom_id=None))
 
     annotations = []
-    for k in pl["con"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="container indicator"))
-    for k in pl["rev"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="reversal indicator"))
+    # pl["con"]/pl["rev"] are RUNS (each DB-typed as a whole phrase) — one annotation
+    # per run, so role_validity validates the phrase row, never a component word.
+    for run in pl["con"]:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="container indicator"))
+    for run in pl["rev"]:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="reversal indicator"))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link", note="link word"))

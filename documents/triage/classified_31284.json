@@ -1,0 +1,139 @@
+{
+ "10077822": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "possible_double_definition": "other side of end"
+  }
+ },
+ "10077823": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "studio"
+   ]
+  }
+ },
+ "10077825": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "alongside",
+    "French",
+    "sweat"
+   ]
+  }
+ },
+ "10077827": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "diesel"
+   ]
+  }
+ },
+ "10077828": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "glass"
+   ]
+  }
+ },
+ "10077835": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "Teaching",
+    "graduate"
+   ]
+  }
+ },
+ "10077837": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "homophone": true,
+   "unresolved_words": [
+    "overwhelmed"
+   ]
+  }
+ },
+ "10077838": {
+  "reasons": [
+   "solves_now"
+  ],
+  "detail": {
+   "acrostic": true
+  }
+ },
+ "10077840": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "homophone": true,
+   "unresolved_words": [
+    "11",
+    "13"
+   ]
+  }
+ },
+ "10077841": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "former",
+    "pupil",
+    "tennis",
+    "match"
+   ]
+  }
+ },
+ "10077845": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "homophone": true,
+   "homophone_entry_maybe_missing": true
+  }
+ },
+ "10077848": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "wrote",
+    "you"
+   ]
+  }
+ },
+ "10077849": {
+  "reasons": [
+   "missing_data"
+  ],
+  "detail": {
+   "unresolved_words": [
+    "police",
+    "third",
+    "offenders"
+   ]
+  }
+ }
+}

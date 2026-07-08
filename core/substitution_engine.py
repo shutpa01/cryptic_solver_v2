@@ -59,8 +59,10 @@ def _single_letters(word, answer, lookup):
 
 def _try_split(ctx, answer, split, words, lookup, synonyms_of, is_link, indicator_types):
     N = len(answer)
-    ind = [i for i, t in enumerate(words)
-           if "substitution" in (indicator_types(t.text) or set())]
+    # PHRASE-AWARE: a substitution indicator may be a multi-word DB row ("instead of").
+    from core.engine_common import typed_runs
+    ind = sorted({k for r in typed_runs(words, range(len(words)), indicator_types,
+                                        "substitution") for k in r})
     if not ind:
         return None                                  # gated: needs a substitution indicator
     letter = {i: _single_letters(words[i].text, answer, lookup)

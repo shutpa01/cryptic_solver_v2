@@ -83,14 +83,16 @@ def _reconstruct(answer, op):
     return []
 
 
-def _del_ops(words, deletion_subtypes, is_del):
+def _del_ops(words, deletion_subtypes, indicator_types):
     """The deletion ops the clue's deletion indicators license (from their DB sub-types).
-    A generic/unnamed removal -> the common positional ops."""
+    A generic/unnamed removal -> the common positional ops. PHRASE-AWARE (was per-word):
+    a deletion indicator stored as a multi-word row ("scratching head" deletion/first)
+    contributes its op via the JOINED phrase."""
+    from core.engine_common import typed_runs
     ops = set()
-    for k in range(len(words)):
-        if not is_del(k):
-            continue
-        subs = deletion_subtypes(words[k].text) if deletion_subtypes else set()
+    for run in typed_runs(words, range(len(words)), indicator_types, "deletion"):
+        phrase = " ".join(words[k].text for k in run)
+        subs = deletion_subtypes(phrase) if deletion_subtypes else set()
         named = False
         for s in subs:
             op = deletion.SUBTYPE_OP.get(s)
@@ -188,9 +190,11 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
 
-    if not any(is_con(k) for k in range(n)) or not any(is_del(k) for k in range(n)):
-        return None                              # GATE: both ops' indicators required
-    ops = _del_ops(words, deletion_subtypes, is_del)
+    from core.engine_common import has_typed_indicator
+    if (not has_typed_indicator(words, indicator_types, ("container", "insertion"))
+            or not has_typed_indicator(words, indicator_types, "deletion")):
+        return None                # GATE (phrase-aware): both ops' indicators required
+    ops = _del_ops(words, deletion_subtypes, indicator_types)
     # LOCATION/OPERATION split: a location word pins which letters drop, but only because a
     # genuine deletion operation word is present (the gate above guarantees one). Fold its
     # op in so "short of capital" (general 'short' + location 'capital') can behead.
@@ -237,7 +241,7 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                                 continue
                             parse = _build(ctx, answer, split, words, (oa, ob), outer,
                                            vals, (ia, ib), inner, I, p, L, op,
-                                           is_con, is_del, residue_link, is_loc)
+                                           indicator_types, residue_link, is_loc)
                             if parse is None:
                                 continue
                             if parse.status == "pass":
@@ -248,15 +252,21 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
 
 
 def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, I, p, L,
-           op, is_con, is_del, residue_link, is_loc=None):
+           op, indicator_types, residue_link, is_loc=None):
+    from core.engine_common import disjoint_typed_cover
     n = len(words)
     oa, ob = outer_run
     ia, ib = inner_run
     used = set(range(oa, ob)) | set(range(ia, ib))
     residue = [k for k in range(n) if k not in used]
-    con = [k for k in residue if is_con(k)]
-    dele = [k for k in residue if is_del(k) and k not in con]
-    if not con or not dele:
+    # PHRASE-AWARE indicator identification (was per-word is_con/is_del).
+    con_runs = disjoint_typed_cover(words, residue, indicator_types,
+                                    ("container", "insertion"))
+    con = sorted({k for r in con_runs for k in r})
+    del_runs = disjoint_typed_cover(words, [k for k in residue if k not in con],
+                                    indicator_types, "deletion")
+    dele = sorted({k for r in del_runs for k in r})
+    if not con_runs or not del_runs:
         return None
     # A letter-location word in the residue ("capital"/"opening") is part of the deletion
     # expression (it names which letters the operation word removes), not unaccounted
@@ -308,14 +318,17 @@ def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, 
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     annotations = []
-    for k in con:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="container indicator"))
-    for k in dele:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="deletion indicator (%s)" % op))
+    # one annotation per RUN (joined phrase) — role_validity validates the DB row.
+    for run in con_runs:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="container indicator"))
+    for run in del_runs:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="deletion indicator (%s)" % op))
     for k in loc:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="indicator",

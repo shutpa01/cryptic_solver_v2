@@ -37,14 +37,9 @@ def _run_values(words, a, b, lookup_all):
 
 
 def _has_container_indicator(words, indicator_types):
-    for t in words:
-        try:
-            ty = indicator_types(t.text) or set()
-        except Exception:
-            ty = set()
-        if "container" in ty or "insertion" in ty:
-            return True
-    return False
+    # PHRASE-AWARE gate (was per-word): a multi-word DB indicator must open it too.
+    from core.engine_common import has_typed_indicator
+    return has_typed_indicator(words, indicator_types, ("container", "insertion"))
 
 
 def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
@@ -75,19 +70,13 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
         if not any(p[0] == "container" for p in pieces):
             return None
         residue = [k for k in range(n) if k not in used]
-        con = [k for k in residue if is_con(k)]
-        if not con:
+        # PHRASE-AWARE residue split (was: one con-typed WORD + links).
+        from core.engine_common import indicator_plus_links
+        sp = indicator_plus_links(words, residue, indicator_types,
+                                  ("container", "insertion"), is_link)
+        if sp is None:
             return None
-        c = con[0]
-        links = []
-        for k in residue:
-            if k == c:
-                continue
-            if residue_link(k):
-                links.append(k)
-            else:
-                return None
-        return {"pieces": pieces, "con": [c], "links": links}
+        return {"pieces": pieces, "con": sp[0], "links": sp[1]}
 
     def dfs(pos, used, pieces, con_used):
         if pos == N:
@@ -167,10 +156,8 @@ def _build(ctx, split, words, answer, pl):
                                   operation="container_charade", clue_atom_id=None))
 
     annotations = []
-    for k in pl["con"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
-                                      text=words[k].text, role="indicator",
-                                      note="container indicator"))
+    from core.engine_common import indicator_annotations
+    annotations.extend(indicator_annotations(words, pl["con"], "container indicator"))
     for k in pl["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,
                                       text=words[k].text, role="link",

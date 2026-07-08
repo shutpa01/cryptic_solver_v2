@@ -60,14 +60,9 @@ def _mech_for(words, a, b, value, lookup_all):
 
 
 def _has(words, indicator_types, *kinds):
-    for t in words:
-        try:
-            ty = indicator_types(t.text) or set()
-        except Exception:
-            ty = set()
-        if ty & set(kinds):
-            return True
-    return False
+    # PHRASE-AWARE gate (the residue matching below already uses find_typed_run).
+    from core.engine_common import has_typed_indicator
+    return has_typed_indicator(words, indicator_types, kinds)
 
 
 def solve_charade_container_acrostic(ctx, defines, lookup_all, is_link, indicator_types,

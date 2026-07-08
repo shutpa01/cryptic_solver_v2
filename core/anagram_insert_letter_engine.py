@@ -66,7 +66,10 @@ def _assemble(ctx, answer, split, words, indicator_types, is_link):
         return "acrostic" in types(k)
 
     anag = [k for k in range(n) if is_anagram_indicator(words[k].text, indicator_types)]
-    con = [k for k in range(n) if is_con(k)]
+    # PHRASE-AWARE container positions (a multi-word DB row counts for its members).
+    from core.engine_common import typed_runs
+    con = sorted({k for r in typed_runs(words, range(n), indicator_types,
+                                        ("container", "insertion")) for k in r})
     if not anag or not con:
         return None
     # selection indicators: first via 'acrostic' type or selection_indicators 'first';
@@ -192,9 +195,8 @@ def _build(ctx, answer, split, words, fodder, source_idxs, value, mech, note, pl
     for k in pl["anag"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
                                       role="indicator", note="anagram indicator"))
-    for k in pl["con"]:
-        annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
-                                      role="indicator", note="container indicator"))
+    from core.engine_common import indicator_annotations
+    annotations.extend(indicator_annotations(words, pl["con"], "container indicator"))
     annotations.append(Annotation(
         clue_atom_ids=words[pl["sel"]].atom_ids, text=words[pl["sel"]].text,
         role="indicator", note=note))

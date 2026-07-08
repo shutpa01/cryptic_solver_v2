@@ -46,37 +46,41 @@ def _alt_licensed(text, indicator_types, selection_rules):
     return False
 
 
+MAX_ALT_FODDER = 3      # alternation fodder may span several words ("is upset" -> SPE)
+
+
 def _alt_targets(words, n, is_link, indicator_types, selection_rules):
-    """[(indicator_run_indices, fodder_word_index), ...] — each alternation indicator run
-    (1..4 contiguous words) paired with the next CONTENT word it selects from (links
-    skipped). Longer indicator runs first."""
+    """[(indicator_run_indices, (fa, fb)), ...] — each alternation indicator run
+    (1..4 contiguous words) paired with a candidate FODDER RUN of 1..MAX_ALT_FODDER
+    contiguous words after it. WAS: exactly one content word (links skipped), which made
+    multi-word fodder ("Regularly is upset" -> SPE, SPEED) structurally unreachable and
+    also hid fodder starting with a link-typed word ('is'). The widening is constrained
+    by the answer-driven tiling, the >=1-ordinary-piece rule and the every-word-accounted
+    guard in _assemble/_verify. Longer indicator runs first."""
     out, seen = [], set()
     for L in range(min(4, n), 0, -1):
         for i in range(n - L + 1):
             phrase = " ".join(words[j].text for j in range(i, i + L))
             if not _alt_licensed(phrase, indicator_types, selection_rules):
                 continue
-            fodder = None
-            for j in range(i + L, n):
-                if is_link and is_link(words[j].text):
-                    continue
-                fodder = j
-                break
-            if fodder is None:
-                continue
-            key = (tuple(range(i, i + L)), fodder)
-            if key not in seen:
-                seen.add(key)
-                out.append(key)
+            ind = tuple(range(i, i + L))
+            for fa in range(i + L, n):
+                for fb in range(fa + 1, min(fa + MAX_ALT_FODDER, n) + 1):
+                    key = (ind, fa, fb)
+                    if key not in seen:
+                        seen.add(key)
+                        out.append((ind, (fa, fb)))
     return out
 
 
-def _assemble(answer, words, n, ind_set, fodder_idx, alt_val, lookup, is_link):
-    """Tile `answer` in clue order: indicator words carry no letters, the fodder word is the
+def _assemble(answer, words, n, ind_set, fodder_run, alt_val, lookup, is_link):
+    """Tile `answer` in clue order: indicator words carry no letters, the fodder RUN is the
     alternation piece (value `alt_val`), every other word is a DB value piece; leftover words
     are links. Requires the alternation piece AND >= 1 ordinary piece. Returns a placement
     {pieces, links} or None. pieces: [(start, end, mechanism, value)]."""
     N = len(answer)
+    fa, fb = fodder_run
+    fodder_set = set(range(fa, fb))
 
     def residue_link(k):
         return bool(is_link and is_link(words[k].text))
@@ -105,15 +109,15 @@ def _assemble(answer, words, n, ind_set, fodder_idx, alt_val, lookup, is_link):
             return None
         if i in ind_set:                             # indicator word — no letters
             return dfs(i + 1, pos, pieces, skipped, used_alt)
-        if i == fodder_idx:                          # the alternation piece (must be used)
+        if i == fa:                                  # the alternation piece (must be used)
             if alt_val and answer.startswith(alt_val, pos):
-                r = dfs(i + 1, pos + len(alt_val),
-                        pieces + [(i, i + 1, "alternate", alt_val)], skipped, True)
+                r = dfs(fb, pos + len(alt_val),
+                        pieces + [(fa, fb, "alternate", alt_val)], skipped, True)
                 if r:
                     return r
             return None
         for k in range(1, min(MAX_PIECE_WORDS, n - i) + 1):
-            if any((i + off) in ind_set or (i + off) == fodder_idx for off in range(k)):
+            if any((i + off) in ind_set or (i + off) in fodder_set for off in range(k)):
                 break                                # a piece run can't span ind / fodder
             phrase = " ".join(words[j].text for j in range(i, i + k))
             for val, mech in lookup(phrase, answer):
@@ -153,17 +157,23 @@ def solve_charade_alternation(ctx, defines, lookup, is_link, indicator_types,
         n = len(words)
         if n < 3:                                    # indicator + fodder + >= 1 piece
             continue
-        for ind_run, fodder_idx in _alt_targets(words, n, is_link, indicator_types,
-                                                 selection_rules):
-            for alt_val, _atoms in select_span(ctx, words[fodder_idx], "alternate"):
-                av = "".join(c for c in alt_val.upper() if c.isalpha())
+        for ind_run, fodder_run in _alt_targets(words, n, is_link, indicator_types,
+                                                selection_rules):
+            fa, fb = fodder_run
+            # alternate letters over the JOINED run letters, both alignments (for a
+            # single word this equals select_span(..., 'alternate') on that word).
+            letters = "".join(c for t in words[fa:fb] for c in t.text.upper()
+                              if c.isalpha())
+            if len(letters) < 2:
+                continue
+            for av in dict.fromkeys((letters[0::2], letters[1::2])):
                 if not av:
                     continue
-                placement = _assemble(answer, words, n, set(ind_run), fodder_idx, av,
+                placement = _assemble(answer, words, n, set(ind_run), fodder_run, av,
                                       lookup, is_link)
                 if placement is None:
                     continue
-                parse = _build(ctx, split, words, placement, ind_run, fodder_idx)
+                parse = _build(ctx, split, words, placement, ind_run, fodder_run)
                 if parse.status == "pass":
                     return parse
                 if best is None:
@@ -171,7 +181,7 @@ def solve_charade_alternation(ctx, defines, lookup, is_link, indicator_types,
     return best
 
 
-def _build(ctx, split, words, placement, ind_run, fodder_idx):
+def _build(ctx, split, words, placement, ind_run, fodder_run):
     """Assemble the Parse: one Source per piece (the alternation piece wears mechanism
     'alternate'), the alternation indicator + link words as annotations."""
     from core.definition_engine import dbe_annotation
@@ -192,7 +202,8 @@ def _build(ctx, split, words, placement, ind_run, fodder_idx):
     annotations = [Annotation(
         clue_atom_ids=tuple(aid for t in ind_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in ind_toks), role="indicator",
-        note="alternation indicator (alternate letters of %s)" % words[fodder_idx].text)]
+        note="alternation indicator (alternate letters of %s)"
+             % " ".join(words[k].text for k in range(fodder_run[0], fodder_run[1])))]
     for k in placement["links"]:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,
                                       role="link", note="link word"))

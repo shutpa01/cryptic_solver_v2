@@ -102,8 +102,16 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         except Exception:
             return set()
 
+    # PHRASE-AWARE deletion-indicator positions: a word is "deletion-typed" when it is
+    # deletion-typed on its own OR sits inside a contiguous run whose JOINED text is a
+    # DB deletion row ("scratching head"). One membership set upgrades the gate, the
+    # del_gaps check and the adjacency walk together.
+    from core.engine_common import typed_runs
+    _del_pos = {k for r in typed_runs(words, range(n), indicator_types, "deletion")
+                for k in r}
+
     def is_del(k):
-        return "deletion" in types(k)
+        return k in _del_pos
 
     def loc_ops(k):
         """The deletion ops the word's letter-location rules license (first->behead, ...);
@@ -126,12 +134,12 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     if not any(is_del(k) for k in range(n)):
         return None                              # GATE: a deletion indicator is required
 
-    # ops the clue's deletion indicators license (from DB sub-types)
+    # ops the clue's deletion indicators license (from DB sub-types) — PHRASE-AWARE:
+    # a multi-word deletion row contributes its sub-type via the JOINED phrase.
     ops = set()
-    for k in range(n):
-        if not is_del(k):
-            continue
-        subs = deletion_subtypes(words[k].text) if deletion_subtypes else set()
+    for r in typed_runs(words, range(n), indicator_types, "deletion"):
+        phrase = " ".join(words[k].text for k in r)
+        subs = deletion_subtypes(phrase) if deletion_subtypes else set()
         named = False
         for s in subs:
             op = deletion.SUBTYPE_OP.get(s)
@@ -278,10 +286,20 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
                         value=ctx.answer_text, mechanism="definition",
                         source=split.source)
     annotations = []
+    # deletion indicators annotated per RUN (joined phrase) so role_validity validates
+    # the DB row, never a bare component word; everything else stays per word.
+    from core.engine_common import disjoint_typed_cover
+    del_runs = disjoint_typed_cover(words, sorted(gaps), indicator_types, "deletion")
+    del_pos = {k for r in del_runs for k in r}
+    for run in del_runs:
+        annotations.append(Annotation(
+            clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+            text=" ".join(words[k].text for k in run), role="indicator",
+            note="deletion indicator"))
     for g in gaps:
-        if is_del(g):
-            note, role = "deletion indicator", "indicator"
-        elif is_loc and is_loc(g):
+        if g in del_pos:
+            continue                             # annotated above, per run
+        if is_loc and is_loc(g):
             # a location word is part of the deletion expression (it names which letters
             # the operation word removes), accounted because a deletion indicator is present
             note, role = "deletion location indicator", "indicator"

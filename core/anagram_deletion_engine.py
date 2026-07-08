@@ -81,37 +81,43 @@ def solve_anagram_deletion(ctx, defines, value_lookup, indicator_types, is_link,
         def is_anag(k):
             return is_anagram_indicator(words[k].text, indicator_types)
 
-        def is_del(k):
-            return "deletion" in types(k)
+        # PHRASE-AWARE deletion indicators: try each DB-typed RUN (single words as
+        # before, plus multi-word rows) as THE indicator. CANDIDATE runs — never a
+        # merged union: a deletion-typed word can also be plain fodder ("shirts OUT"),
+        # so only the run under trial is excluded from the fodder pool.
+        from core.engine_common import typed_runs
+        del_runs_cand = typed_runs(words, range(n), indicator_types, "deletion")
+        _del_single = {k for k in range(n) if "deletion" in types(k)}
 
         def is_link_w(k):
             return bool(is_link and is_link(words[k].text))
 
         anag_words = [k for k in range(n) if is_anag(k)]
-        del_words = [k for k in range(n) if is_del(k)]
-        if not anag_words or not del_words:
+        if not anag_words or not del_runs_cand:
             continue                              # gate: need both indicators
 
-        for d in del_words:
-            # the deletion indicator word `d`; its neighbours are the deleted/curtailed word
-            for nbr in (d - 1, d + 1):
+        for drun in del_runs_cand:
+            # the deletion indicator run; its neighbours are the deleted/curtailed word
+            for nbr in (drun[0] - 1, drun[-1] + 1):
                 # a neighbour may name the deleted letter or be the curtailed fodder word;
                 # it MAY also be anagram-typed (e.g. "new" = both an anagram word and the
                 # abbreviation N), so do NOT exclude it for that — the answer-driven match
-                # and the anag-indicator exclusion disambiguate.
-                if nbr < 0 or nbr >= n or nbr in del_words:
+                # and the anag-indicator exclusion disambiguate. A single-word deletion-
+                # typed neighbour is skipped (the OLD rule, unchanged); phrase members are
+                # not (they may be fodder).
+                if nbr < 0 or nbr >= n or nbr in _del_single or nbr in drun:
                     continue
                 # --- MECHANISM A: nbr NAMES the removed letters (its abbreviation) ---
                 for rv in _del_values(words[nbr].text, value_lookup):
-                    pl = _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_del,
-                                  is_link_w, value_lookup, del_idx=d,
+                    pl = _attempt(ctx, answer, ans_c, split, words, n, is_anag,
+                                  is_link_w, value_lookup, del_run=drun,
                                   named_idx=nbr, removed=rv, curtail_idx=None)
                     best, best_key = _keep(best, best_key, pl)
                 # --- MECHANISM B: nbr is a fodder word CURTAILED (drop last letter) ---
                 wl = raw(words[nbr].text)
                 if len(wl) >= 2:
-                    pl = _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_del,
-                                  is_link_w, value_lookup, del_idx=d,
+                    pl = _attempt(ctx, answer, ans_c, split, words, n, is_anag,
+                                  is_link_w, value_lookup, del_run=drun,
                                   named_idx=None, removed=None, curtail_idx=nbr)
                     best, best_key = _keep(best, best_key, pl)
     return best
@@ -127,21 +133,22 @@ def _keep(best, best_key, parse):
     return best, best_key
 
 
-def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_del, is_link_w,
-             value_lookup, del_idx, named_idx, removed, curtail_idx):
+def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_link_w,
+             value_lookup, del_run, named_idx, removed, curtail_idx):
     """Assemble fodder = all content words except the indicators / named-deletion word,
     apply the deletion, allow <= _MAX_SUBS substitutions, and require the resulting
-    multiset to equal the answer EXACTLY. Returns a PASS/pending parse or None."""
+    multiset to equal the answer EXACTLY. Returns a PASS/pending parse or None.
+    `del_run` = the deletion indicator's word positions (a single word or a phrase)."""
     from itertools import combinations
     # an anagram indicator run is required somewhere; pick the first contiguous anag run that
     # is NOT the deletion indicator or the named/curtailed word (a word like "new" can be
     # typed both 'anagram' AND give an abbreviation N — when it is the deleted letter it must
     # not also be claimed as the anagram indicator).
-    excl = {del_idx, named_idx, curtail_idx}
+    excl = set(del_run) | {named_idx, curtail_idx}
     anag_run = _first_run(range(n), lambda k: is_anag(k) and k not in excl)
     if anag_run is None:
         return None
-    reserved = set(anag_run) | {del_idx}
+    reserved = set(anag_run) | set(del_run)
     if named_idx is not None:
         reserved.add(named_idx)
     cand = [k for k in range(n) if k not in reserved]
@@ -179,7 +186,7 @@ def _attempt(ctx, answer, ans_c, split, words, n, is_anag, is_del, is_link_w,
                     if total != ans_c:
                         continue
                     return _build(ctx, answer, split, words, bulk, chosen, anag_run,
-                                  del_idx, named_idx, removed, curtail_idx)
+                                  del_run, named_idx, removed, curtail_idx)
     return None
 
 
@@ -215,7 +222,7 @@ def _first_run(idxs, pred):
     return run or None
 
 
-def _build(ctx, answer, split, words, bulk_idx, chosen, anag_run, del_idx,
+def _build(ctx, answer, split, words, bulk_idx, chosen, anag_run, del_run,
            named_idx, removed, curtail_idx):
     from core.definition_engine import dbe_annotation
 
@@ -252,14 +259,14 @@ def _build(ctx, answer, split, words, bulk_idx, chosen, anag_run, del_idx,
         text=" ".join(t.text for t in anag_toks), role="indicator",
         note="anagram indicator")]
     annotations.append(Annotation(
-        clue_atom_ids=words[del_idx].atom_ids, text=words[del_idx].text,
-        role="indicator",
+        clue_atom_ids=tuple(aid for k in del_run for aid in words[k].atom_ids),
+        text=" ".join(words[k].text for k in del_run), role="indicator",
         note="deletion indicator (removes %s)" % (removed or "last letter")))
     if named_idx is not None:
         annotations.append(Annotation(
             clue_atom_ids=words[named_idx].atom_ids, text=words[named_idx].text,
             role="deletion", note="deleted letters: %s" % removed))
-    used = {del_idx, named_idx, curtail_idx} | set(anag_run) | set(bulk_idx) \
+    used = {named_idx, curtail_idx} | set(del_run) | set(anag_run) | set(bulk_idx) \
         | {k for k, _, _ in chosen}
     for k in range(len(words)):
         if k not in used:

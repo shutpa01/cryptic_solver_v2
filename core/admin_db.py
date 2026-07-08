@@ -311,6 +311,31 @@ def delete_synonym(word, synonym):
         conn.close()
 
 
+def delete_substitution(word, value):
+    """Delete the (word -> value) row(s) from the wordplay table (recoverable). The
+    spurious-abbreviation case the hand-solver keeps hitting (e.g. a rogue word -> X
+    row that blocks the honest assembly)."""
+    word = (word or "").strip(); value = (value or "").strip()
+    if not word or not value:
+        return "Word and value are both required."
+    conn = _conn()
+    try:
+        rows = conn.execute("SELECT indicator, substitution FROM wordplay "
+                            "WHERE lower(indicator)=lower(?) AND upper(substitution)=upper(?)",
+                            (word, value)).fetchall()
+        for w, s in rows:
+            _record_deleted(conn, "substitution", word=w, value=s)
+        conn.execute("DELETE FROM wordplay WHERE lower(indicator)=lower(?) "
+                     "AND upper(substitution)=upper(?)", (word, value))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted abbreviation %r -> %r (%d row%s; recoverable)." %
+                (word, value, n, "" if n == 1 else "s")) if n else \
+               ("No wordplay row for %r -> %r — nothing deleted." % (word, value))
+    finally:
+        conn.close()
+
+
 def delete_definition(definition, answer):
     """Delete the (definition -> answer) row(s) from definition_answers_augmented."""
     definition = (definition or "").strip(); answer = (answer or "").strip()

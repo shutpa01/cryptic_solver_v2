@@ -29,7 +29,7 @@ Built TIGHT because a single-letter insert is the riskiest thing we do:
 Per-letter provenance on the inner. Pure and DB-decoupled.
 """
 
-from core.selection import select_span
+from core.selection import select_span, select_span_run
 from core.wfw_model import Source, Link, Annotation, Parse
 
 _VALUE_MECH = ("synonym", "abbreviation", "raw")
@@ -148,10 +148,18 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
             return False
         return all(is_link and is_link(words[k].text) for k in gap)
 
-    # candidate selected words: a single word ADJACENT to the selection indicator, not an
-    # indicator, whose DB-licensed rule(s) we will try against the inner span.
-    sel_words = [fi for fi in range(n) if fi not in ind and adjacent(fi)]
-    if not sel_words:
+    # candidate selected fodder: a word OR contiguous run (1..3 words, was one word only)
+    # whose nearest edge is ADJACENT to the selection indicator, none of it an indicator.
+    sel_runs_f = []
+    for fa in range(n):
+        for fb in range(fa + 1, min(fa + 3, n) + 1):
+            r = range(fa, fb)
+            if any(k in ind for k in r):
+                break
+            edge = fb - 1 if fb - 1 < sel_run[0] else fa
+            if adjacent(edge):
+                sel_runs_f.append((fa, fb))
+    if not sel_runs_f:
         return None
 
     near = [None]        # best near-miss (side channel; dfs keeps its pass/None return protocol)
@@ -185,20 +193,22 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                         outer = span[:q] + span[q + Li:]
                         if not outer:
                             continue
-                        for fi in sel_words:
-                            if fi in used:
+                        for (fa, fb) in sel_runs_f:
+                            frun = set(range(fa, fb))
+                            if frun & used:
                                 continue
                             sel = None
                             for rule in sel_rules:
                                 hit = next(((s, aids) for s, aids
-                                            in select_span(ctx, words[fi], rule)
+                                            in select_span_run(ctx, words[fa:fb], rule)
                                             if s.upper() == inner), None)
                                 if hit is not None:
                                     sel = (rule, hit[1])
                                     break
                             if sel is None:
                                 continue
-                            u1 = used | {fi}
+                            fi = (fa, fb)
+                            u1 = used | frun
                             for oa in range(n):
                                 if oa in u1 or oa in ind:
                                     continue
@@ -258,14 +268,17 @@ def _build(ctx, split, words, answer, pieces, con_run, sel_run, links):
                                       operation="charade", clue_atom_id=None))
         else:
             _, (oa, ob), fi, rule, outer, inner, sel_aids, L, q, Li, omech = piece
+            fa, fb = fi                          # the selected fodder RUN (was one word)
             outer_toks = words[oa:ob]
             o_si = len(sources)
             sources.append(Source(
                 clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
                 text=" ".join(t.text for t in outer_toks), value=outer, mechanism=omech))
             i_si = len(sources)
-            sources.append(Source(clue_atom_ids=words[fi].atom_ids, text=words[fi].text,
-                                  value=inner, mechanism=_SEL_MECH.get(rule, rule)))
+            sources.append(Source(
+                clue_atom_ids=tuple(aid for t in words[fa:fb] for aid in t.atom_ids),
+                text=" ".join(t.text for t in words[fa:fb]),
+                value=inner, mechanism=_SEL_MECH.get(rule, rule)))
             for off in range(L):
                 pos += 1
                 if q <= off < q + Li:
@@ -275,7 +288,8 @@ def _build(ctx, split, words, answer, pieces, con_run, sel_run, links):
                 else:
                     links_out.append(Link(answer_pos=pos, source_index=o_si,
                                           operation="container", clue_atom_id=None))
-            sel_note = "%s-letter selection indicator (of %s)" % (rule, words[fi].text)
+            sel_note = ("%s-letter selection indicator (of %s)"
+                        % (rule, " ".join(t.text for t in words[fa:fb])))
 
     con_toks = [words[k] for k in con_run]
     sel_toks = [words[k] for k in sel_run]

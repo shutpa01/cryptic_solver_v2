@@ -60,12 +60,19 @@ def _link_region_has_indicator(mid, indicator_types):
     blocked every DD whose definition merely contained a common word like "in"."""
     if indicator_types is None:
         return False
-    for t in mid:
-        try:
-            if indicator_types(t.text):
-                return True
-        except Exception:
-            pass
+    # PHRASE-AWARE (2026-07-08): an operative indicator stored as a multi-word DB row
+    # ("put up") sitting between the halves disqualifies the DD too — checking words
+    # one at a time could not see it. NOTE: this is a DISQUALIFIER, so phrase-awareness
+    # makes DD stricter; the A/B run judges the effect.
+    n = len(mid)
+    for L in range(1, min(4, n) + 1):
+        for i in range(n - L + 1):
+            phrase = " ".join(t.text for t in mid[i:i + L])
+            try:
+                if indicator_types(phrase):
+                    return True
+            except Exception:
+                pass
     return False
 
 

@@ -76,16 +76,10 @@ def solve_nested_container(ctx, defines, lookup_all, is_link, indicator_types,
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     n, N = len(words), len(answer)
 
-    def is_con(k):
-        try:
-            ty = indicator_types(words[k].text) or set()
-        except Exception:
-            ty = set()
-        return "container" in ty or "insertion" in ty
-
-    # Gate: at least two container indicators must be present.
-    con_words = [k for k in range(n) if is_con(k)]
-    if len(con_words) < 2:
+    # Gate (phrase-aware): at least two DISJOINT container indicators must be present.
+    from core.engine_common import disjoint_typed_cover
+    if len(disjoint_typed_cover(words, range(n), indicator_types,
+                                ("container", "insertion"))) < 2:
         return None
 
     runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)]
@@ -123,7 +117,7 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
                     inner_rs = runs_for(inner)
                     if not mid_rs or not inner_rs:
                         continue
-                    parse = _assemble(ctx, split, words, answer, is_link, is_con,
+                    parse = _assemble(ctx, split, words, answer, is_link, indicator_types,
                                       (p1, L1, p2, L2), outer, middle, inner,
                                       outer_rs, mid_rs, inner_rs)
                     if parse is None:
@@ -134,8 +128,9 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
     return best_fail
 
 
-def _assemble(ctx, split, words, answer, is_link, is_con, geom, outer, middle, inner,
-              outer_rs, mid_rs, inner_rs):
+def _assemble(ctx, split, words, answer, is_link, indicator_types, geom, outer, middle,
+              inner, outer_rs, mid_rs, inner_rs):
+    from core.engine_common import disjoint_typed_cover
     n = len(words)
     best_fail, best_n = None, None
     for o in outer_rs:
@@ -147,7 +142,9 @@ def _assemble(ctx, split, words, answer, is_link, is_con, geom, outer, middle, i
                     continue
                 used = _span(o) | _span(m) | _span(i)
                 residue = [k for k in range(n) if k not in used]
-                cons = [k for k in residue if is_con(k)]
+                # PHRASE-AWARE: each container indicator may be a word OR a phrase run.
+                cons = disjoint_typed_cover(words, residue, indicator_types,
+                                            ("container", "insertion"))
                 if len(cons) < 2:
                     continue
                 # Pick two distinct container indicators; ONLY genuine links are annotated, any
@@ -159,8 +156,8 @@ def _assemble(ctx, split, words, answer, is_link, is_con, geom, outer, middle, i
                     for cj in range(len(cons)):
                         if ci == cj:
                             continue
-                        c_out, c_mid = cons[ci], cons[cj]
-                        spoken = {c_out, c_mid}
+                        c_out, c_mid = cons[ci], cons[cj]   # each a RUN of positions
+                        spoken = set(c_out) | set(c_mid)
                         links = [k for k in residue if k not in spoken
                                  and is_link and is_link(words[k].text)]
                         unacct_n = len([k for k in residue if k not in spoken]) - len(links)
@@ -221,11 +218,13 @@ def _build(ctx, split, words, answer, geom, outer, middle, inner, o_run, m_run, 
         links_out.append(Link(answer_pos=pos + 1, source_index=si,
                               operation="container"))
 
+    # c_out / c_mid are RUNS — one annotation each with the JOINED phrase, so
+    # role_validity validates the DB row, never a bare component word.
     annotations = [
-        Annotation(clue_atom_ids=words[c_out].atom_ids, text=words[c_out].text,
-                   role="indicator", note="container indicator"),
-        Annotation(clue_atom_ids=words[c_mid].atom_ids, text=words[c_mid].text,
-                   role="indicator", note="container indicator"),
+        Annotation(clue_atom_ids=tuple(aid for k in run for aid in words[k].atom_ids),
+                   text=" ".join(words[k].text for k in run),
+                   role="indicator", note="container indicator")
+        for run in (c_out, c_mid)
     ]
     for k in links:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids,

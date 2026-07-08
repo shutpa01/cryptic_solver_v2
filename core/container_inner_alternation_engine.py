@@ -19,14 +19,42 @@ provenance on the inner (each inner answer letter <- the exact clue character it
 from). Own _verify calls role_validity. Returns ONLY a clean PASS. Pure and DB-decoupled.
 """
 
-from core.selection import select_span
+from core.selection import select_span, select_span_run
 from core.wfw_model import Source, Link, Annotation, Parse
 
 _VALUE_MECH = ("synonym", "abbreviation", "raw")
 MAX_RUN = 4
-# DB indicator types meaning "take alternate letters" (role_validity accepts these for an
-# annotation noted as an alternation indicator).
-_ALT_TYPES = {"alternation", "alternating"}
+# DB indicator types meaning "take alternate letters". WAS {alternation, alternating}
+# only — which left the COMMON cues (even, evenly, odd, regularly, ... — typed
+# parts/alternate or selection-licensed) invisible to this engine: the confirmed
+# 2026-07-07 bug. Now unified with charade_alternation: a word/phrase is licensed if
+# DB-typed one of these OR the selection layer licenses it for the 'alternate' rule.
+_ALT_TYPES = {"alternation", "alternating", "alternate"}
+
+
+def _alt_run(words, n, indicator_types, selection_rules, exclude):
+    """Longest contiguous run (1..MAX_RUN) not overlapping `exclude` that is licensed as
+    an alternate-letters indicator (type OR selection rule). Returns tuple or None."""
+    best = None
+    for L in range(min(MAX_RUN, n), 0, -1):
+        for i in range(n - L + 1):
+            idxs = tuple(range(i, i + L))
+            if any(k in exclude for k in idxs):
+                continue
+            phrase = " ".join(words[k].text for k in idxs)
+            ok = False
+            try:
+                ok = bool(set(indicator_types(phrase) or ()) & _ALT_TYPES)
+            except Exception:
+                pass
+            if not ok and selection_rules is not None:
+                try:
+                    ok = "alternate" in (selection_rules(phrase) or ())
+                except Exception:
+                    pass
+            if ok and (best is None or L > len(best)):
+                best = idxs
+    return best
 
 
 def _answer(ctx):
@@ -67,7 +95,8 @@ def _typed_run(words, n, wptypes, indicator_types, exclude):
 
 
 def solve_container_inner_alternation(ctx, defines, lookup_all, is_link, indicator_types,
-                                      define_fallback=None, is_dbe=None):
+                                      define_fallback=None, is_dbe=None,
+                                      selection_rules=None):
     """Outer DB value wrapped around an alternation inner. Returns ONLY a clean PASS, else
     None (abstain)."""
     from core.definition_engine import find_definitions
@@ -85,7 +114,8 @@ def solve_container_inner_alternation(ctx, defines, lookup_all, is_link, indicat
         n = len(words)
         if n < 4:                       # outer + fodder + container ind + alternation ind, min
             continue
-        parse = _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types)
+        parse = _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
+                           selection_rules)
         if parse is None:
             continue
         if parse.status == "pass":
@@ -94,12 +124,13 @@ def solve_container_inner_alternation(ctx, defines, lookup_all, is_link, indicat
     return best_fail
 
 
-def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
+def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
+               selection_rules=None):
     n, N = len(words), len(answer)
     con_run = _typed_run(words, n, {"container", "insertion"}, indicator_types, set())
     if con_run is None:
         return None
-    alt_run = _typed_run(words, n, _ALT_TYPES, indicator_types, set(con_run))
+    alt_run = _alt_run(words, n, indicator_types, selection_rules, set(con_run))
     if alt_run is None:
         return None
     ind = set(con_run) | set(alt_run)
@@ -129,18 +160,21 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
                 outer_hit = next((m for v, m in values(orun) if v == outer), None)
                 if outer_hit is None:
                     continue
-                # the inner is the alternate letters of a SINGLE clue word (the fodder),
-                # disjoint from the outer run and the indicators.
-                for fi in range(n):
-                    if fi in ind or fi in range(orun[0], orun[1]):
-                        continue
-                    sel = next(((s, aids) for s, aids in select_span(ctx, words[fi],
-                                                                     "alternate")
+                # the inner is the alternate letters of a clue word OR contiguous run
+                # (1..3 words; was a single word only), disjoint from outer/indicators.
+                for fa in range(n):
+                  for fb in range(fa + 1, min(fa + 3, n) + 1):
+                    frun = set(range(fa, fb))
+                    if (frun & ind) or (frun & set(range(orun[0], orun[1]))):
+                        break
+                    sel = next(((s, aids) for s, aids
+                                in select_span_run(ctx, words[fa:fb], "alternate")
                                 if s.upper() == inner), None)
                     if sel is None:
                         continue
                     parse = _build(ctx, split, words, answer, orun, outer, outer_hit,
-                                   fi, sel[1], inner, p, L, con_run, alt_run, ind, is_link)
+                                   (fa, fb), sel[1], inner, p, L, con_run, alt_run, ind,
+                                   is_link)
                     if parse is None:
                         continue
                     if parse.status == "pass":
@@ -152,8 +186,9 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types):
 def _build(ctx, split, words, answer, orun, outer, outer_mech, fi, inner_atom_ids, inner,
            p, L, con_run, alt_run, ind, is_link):
     from core.definition_engine import dbe_annotation
+    fa, fb = fi                                  # the fodder RUN (was one word)
     n = len(words)
-    used = set(range(*orun)) | {fi} | ind
+    used = set(range(*orun)) | set(range(fa, fb)) | ind
     links_idx = []
     for k in range(n):
         if k in used:
@@ -167,9 +202,10 @@ def _build(ctx, split, words, answer, orun, outer, outer_mech, fi, inner_atom_id
     outer_src = Source(
         clue_atom_ids=tuple(aid for t in outer_toks for aid in t.atom_ids),
         text=" ".join(t.text for t in outer_toks), value=outer, mechanism=outer_mech)
-    inner_src = Source(clue_atom_ids=words[fi].atom_ids, text=words[fi].text, value=inner,
-                       mechanism="alternate")
-    if orun[0] < fi:
+    inner_src = Source(
+        clue_atom_ids=tuple(aid for t in words[fa:fb] for aid in t.atom_ids),
+        text=" ".join(t.text for t in words[fa:fb]), value=inner, mechanism="alternate")
+    if orun[0] < fa:
         sources, OUT, IN = [outer_src, inner_src], 0, 1
     else:
         sources, OUT, IN = [inner_src, outer_src], 1, 0
@@ -192,7 +228,8 @@ def _build(ctx, split, words, answer, orun, outer, outer_mech, fi, inner_atom_id
                    note="container indicator"),
         Annotation(clue_atom_ids=tuple(aid for t in alt_toks for aid in t.atom_ids),
                    text=" ".join(t.text for t in alt_toks), role="indicator",
-                   note="alternation indicator (alternate letters of %s)" % words[fi].text),
+                   note="alternation indicator (alternate letters of %s)"
+                        % " ".join(t.text for t in words[fa:fb])),
     ]
     for k in links_idx:
         annotations.append(Annotation(clue_atom_ids=words[k].atom_ids, text=words[k].text,

@@ -137,9 +137,12 @@ def _place(slots, words, answer, postags, lookup, is_link, suggest_piece=None,
             if any(k in sel_ind for k in range(j, j + nw)):
                 continue                          # never build a piece from the indicator
             if slot.role == "SEL_F":
-                if nw != 1 or ctx is None or sel_rule is None:
-                    continue                      # selection is one word, indicator-gated
-                for value, atom_ids in select_span(ctx, words[j], sel_rule):
+                if ctx is None or sel_rule is None:
+                    continue                      # selection is indicator-gated
+                # a selection piece may span several words ('is upset' -> SPE) — the
+                # rule applies to the run's joined letters (was: one word only).
+                from core.selection import select_span_run
+                for value, atom_ids in select_span_run(ctx, words[j:j + nw], sel_rule):
                     if answer.startswith(value, pos):
                         r = dfs(si + 1, j + nw, pos + len(value),
                                 pieces + [(j, j + nw, "SEL_F", value,
