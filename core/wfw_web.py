@@ -1375,7 +1375,7 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
 # (alternate, first_letter, homophone, ...) falls back to 'synonym' — an editable starting point.
 _REV_MECH = {"raw": "letters", "abbreviation": "substitution",
              "anagram_fodder": "anagram", "synonym": "synonym",
-             "selection": "selection"}
+             "selection": "selection", "replacement_letter": "replacement"}
 
 
 def _itype_from_note(note):
@@ -2077,7 +2077,7 @@ function initGrid(rootId, DATA){
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
  var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
- function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='selection'||r==='anagram';} // lands on tiles
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram';} // lands on tiles
  // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
  // value is DERIVED from the ticked word(s) — never free-typed — and cannot fabricate.
  function selCands(letters,rule){var la=(letters||'').split(''),n=la.length;
@@ -2170,7 +2170,7 @@ function initGrid(rootId, DATA){
   roleFields();
   if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
   if(a.role==='definition'&&dkind)dkind.value=a.dkind||'def';
-  if(isValued(a.role)||a.role==='letters'||a.role==='deletion'||a.role==='selection')addInp.value=a.value||'';
+  if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='selection')addInp.value=a.value||'';
   if(cutEl)cutEl.value=a.cut||'';
   selPos=(a.pos||[]).slice();
   updateBar();
@@ -2204,7 +2204,7 @@ function initGrid(rootId, DATA){
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':'new value'));
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':'new value')));
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
@@ -2214,6 +2214,7 @@ function initGrid(rootId, DATA){
  function delRow(word,value,kind){var f=document.createElement('form');f.method='post';f.action='/hsdelete';
   function h(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i);}
   h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('kind',kind||'synonym');h('word',word);h('value',value);
+  if(DATA.src&&DATA.pnum){h('src',DATA.src);h('pnum',DATA.pnum);}
   document.body.appendChild(f);f.submit();}
  function fetchTypes(){var idx=checkedIdx();if(!idx.length||!delEl){if(delEl)delEl.innerHTML='';return;}
   var phr=phraseOf(idx);
@@ -2250,7 +2251,7 @@ function initGrid(rootId, DATA){
     if(survivor===null){note('“'+cut+'” is not a run of '+v);return;}
     if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
     a.cut=cut;}}
-  if(r==='letters'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
+  if(r==='letters'||r==='replacement'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
   if(r==='selection'){var sfl=fodderLetters(idx),srl=selrule?selrule.value:'';
    var scands=selCands(sfl,srl);
    if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
@@ -2289,7 +2290,7 @@ function initGrid(rootId, DATA){
      var r2=msub(a.value, ts);
      if(!r2.ok){note('fodder '+a.value+' does not contain all those tiles ('+ts+')');return;}
      if(r2.rem)a.cut=r2.rem;}}
-   if(r==='letters'&&!a.value){a.value=a.pos.map(function(p){return DATA.answer[p-1];}).join('');}
+   if((r==='letters'||r==='replacement')&&!a.value){a.value=a.pos.map(function(p){return DATA.answer[p-1];}).join('');}
   }
   assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
   assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];note('');drawCutPrev();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
@@ -2301,7 +2302,8 @@ function initGrid(rootId, DATA){
  // With a deletion typed, DON'T auto-assign (let the user place the survivor first).
  candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}
   else if(roleSel.value==='selection'&&candSel.value){addInp.value=candSel.value;}});
- root.querySelector('#g-resolve').addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
+ var grs=root.querySelector('#g-resolve');
+ if(grs)grs.addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
   var al=root.querySelector('#g-andlit');if(al&&al.checked)fd.append('andlit','1');
@@ -2340,10 +2342,119 @@ def _infer_synonym_value(candidates, ans_letters, lookup_all):
     return allv[0] if len(allv) == 1 else ""
 
 
-def _span_surface(clue_id, back_raw=None):
+def _hs_puzzle_context(clue_id, src, pnum, back):
+    """PUZZLE MODE work-list strip for /hs: every clue of the puzzle still FAIL/PENDING now
+    (live statuses, so the list shrinks as commits land) plus the current clue, each a link
+    that keeps the puzzle context; plus the sig-regression button (the post-publish A/B
+    trigger — memory: publish-first-process). Returns strip_html; best-effort — any load
+    failure just renders nothing extra."""
+    from core import triage
+    from urllib.parse import quote
+    try:
+        meta, clues = triage.collect_puzzle(src, pnum)
+    except Exception:
+        return ""
+    work = [c for c in clues if c["status"] in ("fail", "pending") or c["id"] == clue_id]
+    ctx_qs = "&amp;src=%s&amp;pnum=%s" % (quote(src), quote(str(pnum)))
+    bq = quote(back, safe="")
+    chips = []
+    for c in work:
+        cur = (c["id"] == clue_id)
+        col = {"fail": "#dc2626", "pending": "#b45309"}.get(c["status"], "#16a34a")
+        inner = escape("%s%s" % (c["number"], (c["direction"] or "")[:1]))
+        style = ("display:inline-block;margin:.12rem;padding:.15rem .5rem;border-radius:7px;"
+                 "border:2px solid %s;%stext-decoration:none;font-weight:700;color:#0f172a;"
+                 "font-size:.9rem" % (col, "background:#fef9c3;" if cur else "background:#fff;"))
+        if cur:
+            chips.append('<span style="%s">%s</span>' % (style, inner))
+        else:
+            chips.append('<a href="/hs?id=%d&amp;from=%s%s" style="%s">%s</a>'
+                         % (c["id"], bq, ctx_qs, style, inner))
+
+    sig_st = _sigreg_read()
+    if sig_st.get("running"):
+        sig_line = ('<div class="wfw-notice" style="background:#fffbeb">Signature regression '
+                    'RUNNING (started %s): %s — refresh for progress.</div>'
+                    % (escape(sig_st.get("started", "")), escape(sig_st.get("phase", ""))))
+    elif sig_st.get("results"):
+        sig_line = ('<div class="wfw-notice">Last signature regression: %s</div>'
+                    % escape("; ".join("template %s → %s (%s)"
+                                       % (r["template"], r["action"], r["summary"][:80])
+                                       for r in sig_st["results"])))
+    else:
+        sig_line = ""
+    strip = ('<div style="border:1px solid #e2e8f0;border-radius:10px;padding:.5rem .7rem;'
+             'margin:.4rem 0;background:#f8fafc">'
+             '<div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">'
+             '<b>%s %s</b><span style="color:#64748b;font-size:.9rem">%d pass &middot; '
+             '%d pending &middot; %d fail</span>'
+             '<form method="post" action="/sigregress" style="display:inline;margin-left:auto">'
+             '<input type="hidden" name="src" value="%s">'
+             '<input type="hidden" name="pnum" value="%s">'
+             '<input type="hidden" name="back" value="hs">'
+             '<button style="background:#7c3aed;color:#fff;border:none;border-radius:8px;'
+             'padding:.25rem .7rem;font-weight:700;cursor:pointer;font-size:.8rem" '
+             'title="Background batch: A/B-check every pending signature (two full solves '
+             'each) and promote the clean ones — run it when a day\'s puzzles are done.">'
+             'Regression-check pending signatures</button></form></div>'
+             '<div style="margin-top:.25rem">%s</div>%s</div>'
+             % (escape(src.title()), escape(str(pnum)), meta["pass"], meta["pending"],
+                meta["fail"], escape(src, quote=True), escape(str(pnum), quote=True),
+                "".join(chips), sig_line))
+
+    return strip
+
+
+def _hs_diag_banner(clue_id, pnum):
+    """The diagnosis banner for ONE clue on /hs: category badge(s) + the LOUD engine-gap
+    line + Reading/Problem/Fix + any signature shape, from the nightly diagnosis files.
+    Rendered on EVERY /hs view (the clue row knows its own puzzle number), so the warning
+    can never vanish just because the user arrived without the puzzle context in the URL.
+    Best-effort: no files / no entry → empty string."""
+    from core import triage
+    try:
+        d = triage.load_diagnoses(pnum).get(str(clue_id)) or {}
+    except Exception:
+        d = {}
+    try:
+        cls = triage.load_classified(pnum).get(str(clue_id)) or {}
+    except Exception:
+        cls = {}
+    reasons = cls.get("reasons") or []
+    bits = []
+    badges = "".join('<span style="background:%s;color:#fff;border-radius:6px;'
+                     'padding:.1rem .45rem;font-size:.78rem;font-weight:700;'
+                     'margin-right:.3rem">%s</span>'
+                     % (_CAT_META.get(r, (r, "#64748b"))[1],
+                        escape(_CAT_META.get(r, (r.replace("_", " "), ""))[0].upper()))
+                     for r in reasons)
+    if badges:
+        bits.append('<div>%s</div>' % badges)
+    if "missing_engine" in reasons:
+        bits.append('<div style="color:#b91c1c;font-weight:700;margin-top:.2rem">'
+                    'ENGINE GAP &mdash; don\'t chase data. Hand-solve it (Commit manual); '
+                    'the manual solve goes on the engine-improvement worklist.</div>')
+    for key, lab in (("reading", "Reading"), ("problem", "Problem"), ("action", "Fix")):
+        if d.get(key):
+            bits.append('<div style="margin-top:.2rem"><b>%s:</b> %s</div>'
+                        % (lab, escape(d[key])))
+    sig = d.get("signature") or {}
+    if sig:
+        bits.append('<div style="margin-top:.2rem">signature needed: '
+                    '<code>%s</code> (tier: <b>%s</b>)%s</div>'
+                    % (escape(sig.get("shape", "")), escape(sig.get("tier", "")),
+                       (" &mdash; " + escape(sig["note"])) if sig.get("note") else ""))
+    return ('<div style="border:1px solid #fde68a;background:#fffbeb;border-radius:10px;'
+            'padding:.45rem .7rem;margin:.3rem 0;font-size:.9rem">%s</div>'
+            % "".join(bits)) if bits else ""
+
+
+def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
     """Render the VERTICAL assignment grid for one clue: a row per clue word (preloaded with
     its current role) with a checkbox + role + 'brings' column, plus the role picker, the
-    in-memory assignment list, a single Resolve, and the solved breakdown card."""
+    in-memory assignment list, a single Resolve, and the solved breakdown card. With
+    src+pnum (PUZZLE MODE) it adds the work-list strip + diagnosis banner + Re-run — the
+    one-surface review flow that replaces the /triage page."""
     import json
     row = _load_clue(clue_id)
     if row is None:
@@ -2389,7 +2500,9 @@ def _span_surface(clue_id, back_raw=None):
             "current": [{"label": r["label"], "value": r["value"]} for r in rows],
             "subtypes": _IND_SUBTYPES,            # per-type sub-type options (data-driven dropdown:
                                                   #   deletion / selection / letter_shift)
-            "assignments": saved_list}
+            "assignments": saved_list,
+            "src": psrc or "",                    # puzzle context (PUZZLE MODE) — JS-built
+            "pnum": str(ppnum) if ppnum else ""}  # forms carry it so the strip survives
 
     if parse is not None:
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
@@ -2399,6 +2512,15 @@ def _span_surface(clue_id, back_raw=None):
 
     rootid = "g-%d" % clue_id
     from urllib.parse import quote
+    # PUZZLE MODE extras: the work-list strip + the current clue's diagnosis banner, and a
+    # query-string tail that keeps the puzzle context on every /hs link.
+    ctx_qs = (("&amp;src=%s&amp;pnum=%s" % (quote(psrc), ppnum)) if (psrc and ppnum) else "")
+    ctx_hidden = ('<input type="hidden" name="src" value="%s">'
+                  '<input type="hidden" name="pnum" value="%s">'
+                  % (escape(psrc or "", quote=True), ppnum or ""))
+    strip_html = ""
+    if psrc and ppnum:
+        strip_html = _hs_puzzle_context(clue_id, psrc, ppnum, back)
     # PREV/NEXT within the hand-solver: step through the CLUTCH (the `from` context) WITHOUT
     # leaving /hs. Shown only when this clue sits in a clutch of >1 (mirrors the role grid).
     nav_html = ""
@@ -2410,8 +2532,8 @@ def _span_surface(clue_id, back_raw=None):
         def _hsarrow(nid, label):
             if nid is None:
                 return '<span style="color:#cbd5e1">%s</span>' % label
-            return ('<a href="/hs?id=%d&amp;from=%s" style="text-decoration:none;'
-                    'font-weight:700;color:#0d9488">%s</a>' % (nid, bq, label))
+            return ('<a href="/hs?id=%d&amp;from=%s%s" style="text-decoration:none;'
+                    'font-weight:700;color:#0d9488">%s</a>' % (nid, bq, ctx_qs, label))
         prev_id = clutch_ids[pos - 1] if pos > 0 else None
         next_id = clutch_ids[pos + 1] if pos < len(clutch_ids) - 1 else None
         nav_html = ('<div style="display:flex;gap:1.2rem;align-items:center;margin:.3rem 0;'
@@ -2436,6 +2558,7 @@ def _span_surface(clue_id, back_raw=None):
          '<a href="/?id=%s#clue-%d" style="display:inline-block;margin:.25rem 0;'
          'text-decoration:none;font-weight:700;color:#0d9488">&larr; back to clue page</a>'
          % (quote(back, safe=""), clue_id),
+         strip_html,
          nav_html,
          '<div style="margin:.3rem 0;font-size:1.1rem;font-weight:600">%s</div>'
          % escape(clue_text),
@@ -2467,6 +2590,7 @@ def _span_surface(clue_id, back_raw=None):
          '<option value="synonym">synonym</option>'
          '<option value="substitution">substitution (abbr / symbol)</option>'
          '<option value="letters">letters (exact)</option>'
+         '<option value="replacement">replacement letter (unclued)</option>'
          '<option value="selection">selection (letters from word)</option>'
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
@@ -2506,18 +2630,22 @@ def _span_surface(clue_id, back_raw=None):
          '<form method="post" action="/hsresolve" id="g-form">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         ctx_hidden,
          '<input type="hidden" name="payload" id="g-payload">',
-         '<button type="button" id="g-resolve" class="g-resolve">Resolve &amp; solve</button>',
-         '<label style="margin-left:.6rem;font-weight:600;font-size:.9rem;cursor:pointer" '
+         # PUBLISH-FIRST PROCESS (memory: publish-first-process): the user's one action per
+         # clue is Commit (manual). Resolve & solve / Save pieces / Re-run are gone from the
+         # UI (routes kept); signature + engine work happens POST-publish from the frozen
+         # manual solves.
+         '<label style="font-weight:600;font-size:.9rem;cursor:pointer" '
          'title="All-in-one (&amp;lit): the whole clue is BOTH the wordplay AND the definition '
          '(the same words used twice). Tag the wordplay as usual and tick this; the whole clue is '
          'taken as the definition, so you need no separate definition word. Verdict stays PENDING '
          'for your confirmation, like a cryptic definition.">'
          '<input type="checkbox" id="g-andlit"> &amp;lit (all-in-one)</label>',
          '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
-         'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as a '
-         'MANUAL solution (frozen, no DB write, no solver) — for clues the solver cannot fairly '
-         'do">Commit (manual)</button>',
+         'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as '
+         'the solution (frozen; your reusable pieces are saved to the reference DB). This is '
+         'THE button: check the reading, correct it, Commit.">Commit (manual)</button>',
          '<button type="button" id="g-uncommit" style="margin-left:.4rem;background:#fff;'
          'color:#7c3aed;border:1px solid #7c3aed;border-radius:8px;padding:.35rem .8rem;'
          'font-weight:700;cursor:pointer">Uncommit</button>',
@@ -2527,6 +2655,7 @@ def _span_surface(clue_id, back_raw=None):
          'gap:.4rem;align-items:center;flex-wrap:wrap">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         ctx_hidden,
          '<span style="font-size:.85rem;color:#64748b">Mark verdict:</span>',
          '<select name="status">%s</select>' % status_opts,
          '<button type="submit" style="background:#475569;color:#fff;border:none;'
@@ -2538,6 +2667,7 @@ def _span_surface(clue_id, back_raw=None):
          '<form method="post" action="/hsnote" style="margin:.5rem 0">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         ctx_hidden,
          '<div style="font-size:.85rem;color:#64748b;margin-bottom:.2rem">'
          'Note (shows on the clue page for the user):</div>',
          '<textarea name="note" rows="3" style="width:100%%;max-width:46rem;box-sizing:'
@@ -2554,23 +2684,61 @@ def _span_surface(clue_id, back_raw=None):
 
 
 def _hs_redirect(only, msg="", back_raw=None):
-    """Post/Redirect/Get back to the span surface (clean URL, no resubmit on refresh)."""
+    """Post/Redirect/Get back to the span surface (clean URL, no resubmit on refresh).
+    Carries the puzzle context (src/pnum) through when the posting form/link supplied it,
+    so puzzle-mode /hs (the work-list strip) survives every action."""
     from urllib.parse import quote
     extra = ("&from=%s" % quote(back_raw, safe="")) if back_raw else ""
+    try:
+        psrc = (request.form.get("src") or request.args.get("src") or "").strip()
+        ppnum = (request.form.get("pnum") or request.args.get("pnum") or "").strip()
+    except Exception:
+        psrc = ppnum = ""
+    if psrc and ppnum.isdigit():
+        extra += "&src=%s&pnum=%s" % (quote(psrc), quote(ppnum))
     return redirect("/hs?id=%s&notice=%s%s" % (only, quote(msg), extra))
 
 
 @app.route("/hs")
 def hs_route():
-    """The span-assignment hand-solver for ONE clue."""
+    """The span-assignment hand-solver. Single clue: /hs?id=NNN. PUZZLE MODE:
+    /hs?src=telegraph&pnum=31285 (no id) — builds the FAIL/PENDING work list for the
+    puzzle and opens its first clue; the work-list strip + prev/next then walk the whole
+    puzzle without leaving /hs. This is the review surface (replaces the /triage page)."""
     cid = (request.args.get("id") or "").strip()
+    src = (request.args.get("src") or "").strip()
+    pnum = (request.args.get("pnum") or "").strip()
+    if not cid.isdigit() and src and pnum.isdigit():
+        from core import triage
+        from urllib.parse import quote
+        try:
+            meta, clues = triage.collect_puzzle(src, int(pnum))
+        except Exception as e:
+            return _page('<p class="warn">Could not load %s %s: %s</p>'
+                         % (escape(src), escape(pnum), escape(str(e))))
+        work = [c for c in clues if c["status"] in ("fail", "pending")]
+        if not work:
+            return _page('<p>No FAIL or PENDING clues in %s %s — nothing to review.</p>'
+                         % (escape(src.title()), escape(pnum)))
+        # `from` = the WHOLE puzzle (every clue, page order), NOT just the fails — it is the
+        # clue-page clutch, and the clue page is the record of ALL clues that ran. Filtering
+        # it made "back to clue page" rebuild a fail-only page (user report 2026-07-09).
+        # Fail-hopping belongs to the work-list strip alone.
+        ids = ",".join(str(c["id"]) for c in clues)
+        notice = (request.args.get("notice") or "").strip()
+        return redirect("/hs?id=%d&from=%s&src=%s&pnum=%s%s"
+                        % (work[0]["id"], quote(ids, safe=""), quote(src), quote(pnum),
+                           ("&notice=%s" % quote(notice)) if notice else ""))
     if not cid.isdigit():
         return _page('<p class="warn">Enter a clue id, e.g. '
-                     '<a href="/hs?id=10075533">/hs?id=10075533</a></p>')
+                     '<a href="/hs?id=10075533">/hs?id=10075533</a> — or a puzzle, e.g. '
+                     '<a href="/hs?src=telegraph&amp;pnum=31285">'
+                     '/hs?src=telegraph&amp;pnum=31285</a></p>')
     back = (request.args.get("from") or cid).strip()
     notice = (request.args.get("notice") or "").strip()
     body = ('<div class="wfw-notice">%s</div>' % escape(notice)) if notice else ""
-    body += _span_surface(int(cid), back)
+    body += _span_surface(int(cid), back, psrc=src or None,
+                          ppnum=int(pnum) if pnum.isdigit() else None)
     return _page(body)
 
 
@@ -2690,6 +2858,25 @@ def hsdelete_route():
     # longer sees the just-deleted row — no ~9s full reload needed.
     _resolve_one(cid)
     return _hs_redirect(only, msg + " Re-solved.", back)
+
+
+@app.route("/hsrerun", methods=["POST"])
+def hsrerun_route():
+    """Re-solve ONE clue from /hs (the user's click; nothing else applied). Resident
+    wiring — a couple of seconds, no snapshot rebuild. Mirrors /triagererun."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    cid = int(only)
+    _resolve_one(cid)
+    conn = store.connect()
+    try:
+        sp = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    status = ((sp.status if sp is not None else "") or "fail").upper()
+    return _hs_redirect(only, "Re-solved: %s." % status, back)
 
 
 @app.route("/hsinfer")
@@ -3614,6 +3801,9 @@ def sigregress_route():
                 notice = ("Signature regression started on %d pending signature(s) — "
                           "two full solves each; refresh this page for progress."
                           % len(rows))
+    if (request.form.get("back") or "").strip() == "hs":
+        return redirect("/hs?src=%s&pnum=%s&notice=%s"
+                        % (quote(src), quote(str(pnum)), quote(notice)))
     return redirect("/triage?src=%s&pnum=%s&notice=%s"
                     % (quote(src), quote(str(pnum)), quote(notice)))
 
@@ -3815,6 +4005,121 @@ def triageapply_route():
                        ("&scroll=%s" % scroll) if scroll else ""))
 
 
+def _apply_db_adds(db_adds):
+    """Write reusable pieces to the reference DB and fold each new row into the resident
+    wiring. Items: ("synonym", word, value) / ("definition", phrase, answer) /
+    ("indicator", phrase, type, subtype) / ("substitution", word, value). Dedup is built
+    into each adder, so repeats are harmless. Shared by the manual-solve commit and the
+    save-pieces-only path, so both write identically. Returns (added, present, rejected)
+    message lists."""
+    added, present, rejected, need_reload = [], [], [], False
+    for item in db_adds:
+        kind = item[0]
+        try:
+            if kind == "synonym":
+                m = admin_db.add_synonym(item[1], item[2])
+            elif kind == "definition":
+                m = admin_db.add_definition(item[1], item[2])
+            elif kind == "indicator":
+                m = admin_db.add_indicator(item[1], item[2], item[3])
+            elif kind == "substitution":
+                m = admin_db.add_substitution(item[1], item[2])
+            else:
+                continue
+        except Exception as e:
+            m = "error adding %r: %s" % (item[1], e)
+        m = str(m)
+        if m.startswith("Added"):
+            added.append(m)
+            if kind == "synonym":
+                apply_add_to_wiring({"kind": "synonym", "word": item[1], "synonym": item[2]})
+            elif kind == "definition":
+                apply_add_to_wiring({"kind": "definition", "definition": item[1],
+                                     "answer": item[2]})
+            elif kind == "indicator":
+                apply_add_to_wiring({"kind": "indicator", "word": item[1], "type": item[2]})
+            elif kind == "substitution":
+                need_reload = True     # substitutions load as abbreviations at build
+        elif m.startswith("Already"):
+            present.append(m)
+        else:
+            rejected.append(m)
+    if need_reload:
+        reload_wiring()               # substitutions need a rebuild to go live
+    return added, present, rejected
+
+
+@app.route("/hssavepieces", methods=["POST"])
+def hssavepieces_route():
+    """SAVE PIECES ONLY (no manual solve): write the grid's reusable pieces to the reference
+    DB, then re-solve the clue through the cascade — so the ENGINE stays the solver of
+    record. For data-gap clues: one click adds the missing synonym/definition/abbreviation/
+    indicator and shows whether the solver now passes on its own. Nothing is frozen, no
+    status is set; a clue that still fails simply still fails. JSON."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _json({"ok": False, "msg": "No clue."})
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    wt = _hs_word_units(ctx)
+    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+
+    # The SAME reusable-piece rules as the manual commit (synonym / substitution with a
+    # value; definition; indicator with a REAL chosen type) — link/letters/anagram fodder/
+    # deletion/selection/filler are per-clue and never saved.
+    db_adds = []
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        role = (a.get("role") or "").strip()
+        phrase = " ".join(wt[i].text for i in idx)
+        value = (a.get("value") or "").strip().upper()
+        if role == "synonym" and value:
+            db_adds.append(("synonym", phrase, value))
+        elif role == "substitution" and value:
+            db_adds.append(("substitution", phrase, value))
+        elif role == "definition":
+            db_adds.append(("definition", phrase, ans_letters))
+        elif role == "indicator":
+            it = (a.get("itype") or "").split(":")[0]
+            if it:
+                db_adds.append(("indicator", phrase, it, (a.get("isub") or "").strip() or None))
+    if not db_adds:
+        return _json({"ok": False, "msg": "Nothing to save — assign a synonym/abbreviation/"
+                      "definition/indicator first (link/letters/filler are per-clue, "
+                      "never saved)."})
+
+    added, present, rejected = _apply_db_adds(db_adds)
+    _resolve_one(cid)
+    conn = store.connect()
+    try:
+        sp = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    status = (sp.status if sp is not None else "fail") or "fail"
+    msg = "Saved: %d new, %d already in DB." % (len(added), len(present))
+    if rejected:
+        msg += " Not saved: %s." % "; ".join(rejected)
+    msg += " Re-solved: %s%s." % (status.upper(),
+                                  " — the engine solves it" if status == "pass" else "")
+    return _json({"ok": True, "msg": msg, "status": status})
+
+
 @app.route("/hsmanualcommit", methods=["POST"])
 def hsmanualcommit_route():
     """MANUAL SOLVE commit from the /hs word grid. Builds a FROZEN manual Parse from the
@@ -3866,11 +4171,12 @@ def hsmanualcommit_route():
             continue
         role = (a.get("role") or "").strip()
         phrase, atoms = phrase_for(idx), atoms_for(idx)
-        if role in ("synonym", "letters", "substitution", "anagram", "selection"):
+        if role in ("synonym", "letters", "replacement", "substitution", "anagram",
+                    "selection"):
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
             value = (a.get("value") or "").strip().upper()
-            if role == "letters" and not value:            # literal: value = the tiles' letters
+            if role in ("letters", "replacement") and not value:
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
             if role == "anagram" and not value:            # fodder = the ticked clue words' letters
                 value = "".join(c for c in phrase.upper() if c.isalpha())
@@ -3896,7 +4202,8 @@ def hsmanualcommit_route():
             # record the piece's REAL mechanism so the render shows the right label (letters ->
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
             # and NOT "MANUAL" on every piece; the whole parse is already flagged manual at the top.
-            mech = {"letters": "raw", "substitution": "abbreviation",
+            mech = {"letters": "raw", "replacement": "replacement_letter",
+                    "substitution": "abbreviation",
                     "anagram": "anagram_fodder", "selection": "selection"}.get(role, "synonym")
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism=mech, source="db"))
@@ -3995,40 +4302,7 @@ def hsmanualcommit_route():
     # anagram fodder, deletions and filler are deliberately NOT saved (per-clue or not reusable;
     # link words in particular are kept out of the DB so they can't overlap with indicators).
     # Done ONLY after a successful commit, so a rejected commit never writes.
-    added, present, rejected, need_reload = [], [], [], False
-    for item in db_adds:
-        kind = item[0]
-        try:
-            if kind == "synonym":
-                m = admin_db.add_synonym(item[1], item[2])
-            elif kind == "definition":
-                m = admin_db.add_definition(item[1], item[2])
-            elif kind == "indicator":
-                m = admin_db.add_indicator(item[1], item[2], item[3])
-            elif kind == "substitution":
-                m = admin_db.add_substitution(item[1], item[2])
-            else:
-                continue
-        except Exception as e:
-            m = "error adding %r: %s" % (item[1], e)
-        m = str(m)
-        if m.startswith("Added"):
-            added.append(m)
-            if kind == "synonym":
-                apply_add_to_wiring({"kind": "synonym", "word": item[1], "synonym": item[2]})
-            elif kind == "definition":
-                apply_add_to_wiring({"kind": "definition", "definition": item[1],
-                                     "answer": item[2]})
-            elif kind == "indicator":
-                apply_add_to_wiring({"kind": "indicator", "word": item[1], "type": item[2]})
-            elif kind == "substitution":
-                need_reload = True     # substitutions load as abbreviations at build
-        elif m.startswith("Already"):
-            present.append(m)
-        else:
-            rejected.append(m)
-    if need_reload:
-        reload_wiring()               # substitutions need a rebuild to go live
+    added, present, rejected = _apply_db_adds(db_adds)
 
     msg = ("Committed a MANUAL solution (%d piece%s) — frozen."
            % (len(sources), "" if len(sources) == 1 else "s"))

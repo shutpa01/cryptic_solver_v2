@@ -60,6 +60,8 @@ _MECH_LABEL = {
     "abbreviation": "Substitution",   # wordplay-table values (abbrevs, Roman numerals, compass
                                       # points, symbols) — "substitution" is the accurate umbrella
     "raw": "Literal",
+    "replacement_letter": "New letter",   # unclued replacement ("with new leader"): the
+                                          # letter comes from the answer, not a clue word
     "first_letter": "Initial",
     "last_letter": "Last letter",
     "outer": "Outer letters",
@@ -304,7 +306,9 @@ def _definition_row(parse):
         def_style = "background:#64748b;color:#fff"
         prov = ' <span class="wfw-prov">not confirmed</span>'
     elif _dsrc == "manual":
-        prov = ' <span class="wfw-prov">manual (not in DB)</span>'
+        # Just "manual": the commit DOES save the definition to the reference DB
+        # (wfw_web /hsmanualcommit db_adds), so the old "(not in DB)" claim was false.
+        prov = ' <span class="wfw-prov">manual</span>'
     return _row(_first_index(parse.definition.clue_atom_ids), def_label, def_style,
                 escape(parse.definition.text) + prov)
 
