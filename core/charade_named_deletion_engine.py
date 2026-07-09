@@ -181,9 +181,14 @@ def _finalize(ctx, answer, split, words, pieces, gaps, namer_used, is_del, is_gl
     for (a, b, seg, kind, info, namer) in pieces:
         toks = words[a:b]
         mech = "deletion" if kind == "named_del" else (info if info else "synonym")
+        # A deletion piece records the FULL DB value (BLUE), not the survivor (BLE) — the
+        # WFW rule is that a synonym used is always REVEALED. The links still cover only
+        # the survivor letters, so the render shows "miserable -> BLUE −U" via its
+        # value-vs-placed comparison (wfw_render._transform_note).
+        val = info if kind == "named_del" else seg
         sources.append(Source(
             clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-            text=" ".join(t.text for t in toks), value=seg, mechanism=mech, source="db"))
+            text=" ".join(t.text for t in toks), value=val, mechanism=mech, source="db"))
         si = len(sources) - 1
         for _ in range(len(seg)):
             links.append(Link(answer_pos=pos + 1, source_index=si,

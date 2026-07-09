@@ -272,8 +272,12 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
             mech = "deletion"
         else:
             mech = op                            # plain piece carries its mechanism
+        # A deletion piece records the FULL DB value (vrec, e.g. ORATION), not the survivor
+        # (seg, RATION) — the WFW rule is that a synonym used is always REVEALED. Links
+        # still cover only the survivor, so the render shows "ORATION −O" automatically.
+        val = vrec if kind == "deletion" else seg
         src = Source(clue_atom_ids=tuple(aid for t in toks for aid in t.atom_ids),
-                     text=" ".join(t.text for t in toks), value=seg, mechanism=mech,
+                     text=" ".join(t.text for t in toks), value=val, mechanism=mech,
                      source="db")
         si = len(sources)
         sources.append(src)

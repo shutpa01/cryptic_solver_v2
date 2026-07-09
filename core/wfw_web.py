@@ -2309,8 +2309,14 @@ function initGrid(rootId, DATA){
   var al=root.querySelector('#g-andlit');if(al&&al.checked)fd.append('andlit','1');
   cmsg.textContent='committing…';cmsg.style.color='#64748b';
   fetch('/hsmanualcommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
-   if(o.ok){cmsg.textContent='✓ '+o.msg+' — opening the clue page…';cmsg.style.color='#16a34a';
-    setTimeout(function(){window.location.href='/?id='+encodeURIComponent(DATA.back||DATA.cid)+'#clue-'+DATA.cid;},800);}
+   if(o.ok){cmsg.textContent='✓ '+o.msg;cmsg.style.color='#16a34a';
+    /* STAY on /hs (user 2026-07-09: bouncing to the clue page made the puzzle walk all
+       back-and-forth) — reload this clue in place so the strip + card update; the user
+       moves on with next clue. */
+    var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
+    if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
+    u+='&notice='+encodeURIComponent(o.msg);
+    setTimeout(function(){window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';cmsg.style.fontSize='1rem';try{cmsg.scrollIntoView({block:'center'});}catch(e){}}
   }).catch(function(){cmsg.textContent='commit failed (network)';cmsg.style.color='#dc2626';});});
  root.querySelector('#g-uncommit').addEventListener('click',function(){
@@ -2396,7 +2402,9 @@ def _hs_puzzle_context(clue_id, src, pnum, back):
              'padding:.25rem .7rem;font-weight:700;cursor:pointer;font-size:.8rem" '
              'title="Background batch: A/B-check every pending signature (two full solves '
              'each) and promote the clean ones — run it when a day\'s puzzles are done.">'
-             'Regression-check pending signatures</button></form></div>'
+             'Regression-check pending signatures</button></form>'
+             '<a href="/worklist" style="font-size:.8rem;color:#0d9488;font-weight:700;'
+             'text-decoration:none">engine worklist &rarr;</a></div>'
              '<div style="margin-top:.25rem">%s</div>%s</div>'
              % (escape(src.title()), escape(str(pnum)), meta["pass"], meta["pending"],
                 meta["fail"], escape(src, quote=True), escape(str(pnum), quote=True),
@@ -2858,6 +2866,56 @@ def hsdelete_route():
     # longer sees the just-deleted row — no ~9s full reload needed.
     _resolve_one(cid)
     return _hs_redirect(only, msg + " Re-solved.", back)
+
+
+@app.route("/worklist")
+def worklist_route():
+    """READ-ONLY: the engine-improvement worklist (populated by the post-publish
+    diagnosis; memory: postpub-diagnosis-design). Mechanisms the engines can't express,
+    counted from frozen manual solves + the dormant-corpus back-test — build priority by
+    evidence. Pending signature proposals live on their existing surfaces (amber clue
+    pills + the sig-regression button), not here."""
+    con = sqlite3.connect(DB)
+    try:
+        try:
+            rows = con.execute(
+                "SELECT mechanism, title, status, tier_note, manual_count, "
+                "backtest_count, test_clues, updated_at FROM engine_worklist "
+                "ORDER BY (manual_count + backtest_count) DESC").fetchall()
+        except sqlite3.OperationalError:
+            rows = None
+    finally:
+        con.close()
+    if rows is None:
+        return _page('<p class="warn">No engine_worklist table yet — it is created by '
+                     'the post-publish diagnosis.</p>')
+    p = ['<div style="font-family:system-ui;max-width:56rem">',
+         '<h2>Engine worklist</h2>',
+         '<p style="color:#64748b;font-size:.9rem">Mechanisms no engine can express, '
+         'from the post-publish diagnosis of manual solves. <b>manual</b> = your frozen '
+         'solves needing it; <b>back-test</b> = candidate clues in the dormant fail '
+         'corpus (a priority signal — over- and under-counts). Click a clue id to open '
+         'it in the hand-solver.</p>',
+         '<table style="border-collapse:collapse;width:100%">',
+         '<tr style="text-align:left;border-bottom:2px solid #e2e8f0">'
+         '<th style="padding:.3rem">mechanism</th><th>manual</th><th>back-test</th>'
+         '<th>status</th><th>test clues</th></tr>']
+    for mech, title, status, tnote, mc, bc, tests, upd in rows:
+        ids = [t for t in (tests or "").split(",") if t.strip().isdigit()]
+        links = " ".join('<a href="/hs?id=%s">%s</a>' % (t, t) for t in ids[:6])
+        if len(ids) > 6:
+            links += ' <span style="color:#94a3b8">+%d more</span>' % (len(ids) - 6)
+        p.append('<tr style="border-bottom:1px solid #f1f5f9;vertical-align:top">'
+                 '<td style="padding:.35rem .3rem"><b>%s</b><br>'
+                 '<span style="color:#475569;font-size:.85rem">%s</span>%s</td>'
+                 '<td>%d</td><td>%d</td><td>%s</td>'
+                 '<td style="font-size:.82rem">%s</td></tr>'
+                 % (escape(mech), escape(title or ""),
+                    ('<br><span style="color:#b45309;font-size:.78rem">%s</span>'
+                     % escape(tnote)) if tnote else "",
+                    mc, bc, escape(status or ""), links))
+    p.append('</table></div>')
+    return _page("".join(p))
 
 
 @app.route("/hsrerun", methods=["POST"])
