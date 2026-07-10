@@ -859,6 +859,33 @@
     };
     </script>
     {% block cordelia_tips %}{% endblock %}
+
+    <!-- WFW full-explanation overlay (live-site plumbing phase 2). Same-page:
+         opening never navigates away; close returns exactly where the user was. -->
+    <div id="wfw-overlay" class="hidden fixed inset-0 z-[110] bg-black/40" onclick="closeWfwOverlay()">
+        <div class="absolute inset-0 sm:inset-x-8 sm:inset-y-6 bg-white sm:rounded-xl shadow-2xl flex flex-col max-w-3xl mx-auto"
+             onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between px-4 py-2.5 bg-indigo-600 text-white sm:rounded-t-xl shrink-0">
+                <span class="font-semibold text-sm">Full explanation</span>
+                <button onclick="closeWfwOverlay()" class="text-white text-2xl leading-none cursor-pointer" aria-label="Close">&times;</button>
+            </div>
+            <div id="wfw-overlay-body" class="flex-1 overflow-y-auto p-4"></div>
+        </div>
+    </div>
+    <script>
+    function openWfwOverlay() {
+        document.getElementById('wfw-overlay-body').innerHTML =
+            '<span class="text-gray-400 text-sm">Loading…</span>';
+        document.getElementById('wfw-overlay').classList.remove('hidden');
+    }
+    function closeWfwOverlay() {
+        document.getElementById('wfw-overlay').classList.add('hidden');
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeWfwOverlay();
+    });
+    </script>
+
     <footer class="max-w-3xl mx-auto px-4 py-6 mt-8 border-t border-gray-100 text-center text-xs text-gray-400">
         <a href="/about" class="hover:text-indigo-500">About</a>
         <span class="mx-1">&middot;</span>

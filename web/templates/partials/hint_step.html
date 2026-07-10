@@ -16,6 +16,16 @@
         {% else %}
         <span>{{ hint.content }}</span>
         {% endif %}
+        {% if hint.wfw %}
+        <button hx-post="/wfwfull"
+                hx-vals='{"token": "{{ token }}"}'
+                hx-target="#wfw-overlay-body"
+                hx-swap="innerHTML"
+                onclick="openWfwOverlay()"
+                class="ml-2 text-xs px-2.5 py-1 rounded bg-indigo-600 text-white hover:bg-indigo-700 font-semibold cursor-pointer">
+            Show full explanation
+        </button>
+        {% endif %}
     </div>
     {% endfor %}
 </div>

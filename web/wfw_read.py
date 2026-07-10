@@ -331,3 +331,151 @@ def _removed(value, placed):
     if j != len(placed) or not out:
         return None
     return "".join(out)
+
+
+# ---------------------------------------------------------------------------
+# Full breakdown (phase 2) — everything the overlay renders
+# ---------------------------------------------------------------------------
+
+# One stable (text, fill) colour per source index — copied from the admin
+# renderer's palette (core/wfw_render.py) so both surfaces read alike.
+PALETTE = [
+    ("#1d6fb8", "#e3f0fb"), ("#2e8b57", "#e4f4ea"), ("#d2691e", "#fbeadf"),
+    ("#c2185b", "#fbe4ee"), ("#0097a7", "#e0f5f7"), ("#b8860b", "#f8efd6"),
+    ("#c62828", "#fbe4e4"), ("#6a1b9a", "#f0e4f7"),
+]
+ROLE_COLOURS = {                       # (text, fill) for the non-source roles
+    "definition": ("#166534", "#dcfce7"),
+    "indicator": ("#92400e", "#fef3c7"),
+    "link": ("#475569", "#e2e8f0"),
+}
+
+# Friendly pill label per piece mechanism (data copied from the admin renderer's
+# _MECH_LABEL — keep in sync by hand; no core import).
+_MECH_LABEL = {
+    "hidden": "Hidden in", "hidden_reversed": "Hidden in (rev.)",
+    "synonym": "Synonym", "abbreviation": "Substitution", "raw": "Literal",
+    "letters": "Letters", "replacement_letter": "New letter",
+    "first_letter": "Initial", "last_letter": "Last letter",
+    "outer": "Outer letters", "homophone": "Sounds like",
+    "anagram_fodder": "Anagram of", "alternate": "Alternate letters",
+    "selection": "Letters from", "deletion": "Deletion",
+    "definition": "Definition",
+}
+
+
+def source_colour(i):
+    return PALETTE[i % len(PALETTE)]
+
+
+def load_breakdown(clue_id):
+    """Everything the full-explanation overlay renders, as one plain dict —
+    or None when the clue has no pass parse (or no stored atoms).
+
+    {operation_label, summary, clue_tokens: [{text, role, source_index}],
+     answer_tiles: [{char, source_index}|{sep}], rows: [{pill, fg, fill, detail}]}
+    """
+    import json
+
+    parse = _load(clue_id)
+    if parse is None:
+        return None
+    try:
+        db = get_db()
+        row = db.execute("SELECT atoms FROM wfw_solve WHERE clue_id = ?",
+                         (clue_id,)).fetchone()
+        pieces = db.execute(
+            "SELECT role, ord, text, value, mechanism, note, atom_ids "
+            "FROM wfw_piece WHERE clue_id = ? ORDER BY ord", (clue_id,)).fetchall()
+    except sqlite3.OperationalError:
+        return None
+    if row is None or not row["atoms"]:
+        return None
+    try:
+        atoms = json.loads(row["atoms"])
+    except ValueError:
+        return None
+
+    # atom -> (role, source_index); precedence source > definition > indicator >
+    # link (an &lit uses the same words twice — the wordplay colour wins).
+    atom_role = {}
+    for want in ("source", "definition", "indicator", "link"):
+        for p in pieces:
+            if p["role"] != want:
+                continue
+            try:
+                aids = json.loads(p["atom_ids"] or "[]")
+            except ValueError:
+                aids = []
+            for aid in aids:
+                atom_role.setdefault(aid, (p["role"], p["ord"]))
+
+    clue_tokens = []
+    for t in atoms.get("clue_tokens", []):
+        role, si = None, None
+        for aid in t.get("atom_ids", []):
+            if aid in atom_role:
+                role, si = atom_role[aid]
+                break
+        clue_tokens.append({"text": t.get("text", ""),
+                            "kind": t.get("kind", "word"),
+                            "role": role, "source_index": si})
+
+    # answer tiles: letters coloured by the source that placed them
+    letters = "".join(c for c in parse["answer_text"].upper() if c.isalpha())
+    pos_src = {l["answer_pos"]: l["source_index"] for l in parse["links"]}
+    answer_tiles, pos = [], 0
+    for ch in parse["answer_text"].upper():
+        if ch.isalpha():
+            pos += 1
+            answer_tiles.append({"char": ch, "source_index": pos_src.get(pos)})
+        else:
+            answer_tiles.append({"sep": ch})
+
+    # per-source placed letters + transforms (for the honest detail line)
+    placed_all, trans = {}, {}
+    for l in parse["links"]:
+        si, p, tr = l["source_index"], l["answer_pos"], l["transform"]
+        if 0 < p <= len(letters):
+            placed_all[si] = placed_all.get(si, "") + letters[p - 1]
+        if tr:
+            trans.setdefault(si, []).append(tr)
+
+    rows = []
+    for d in parse["definitions"]:
+        fg, fill = ROLE_COLOURS["definition"]
+        rows.append({"pill": "Definition", "fg": fg, "fill": fill,
+                     "detail": '"%s" → %s' % (d["text"], parse["answer_text"].upper())})
+    for s in parse["sources"]:
+        if s["mechanism"] == "definition":     # second definition of a DD
+            fg, fill = ROLE_COLOURS["definition"]
+            rows.append({"pill": "Definition", "fg": fg, "fill": fill,
+                         "detail": '"%s" → %s'
+                                   % (s["text"], parse["answer_text"].upper())})
+            continue
+        fg, fill = source_colour(s["ord"])
+        detail = _describe(s, placed_all.get(s["ord"], ""), trans.get(s["ord"], []))
+        rows.append({"pill": _MECH_LABEL.get(s["mechanism"],
+                                             (s["mechanism"] or "Piece").title()),
+                     "fg": fg, "fill": fill, "detail": detail or ""})
+    for ind in parse["indicators"]:
+        fg, fill = ROLE_COLOURS["indicator"]
+        rows.append({"pill": "Indicator", "fg": fg, "fill": fill,
+                     "detail": '"%s"%s' % (ind["text"],
+                                           (" — " + ind["note"]) if ind["note"] else "")})
+    for p in pieces:
+        if p["role"] == "link":
+            fg, fill = ROLE_COLOURS["link"]
+            rows.append({"pill": "Link", "fg": fg, "fill": fill,
+                         "detail": '"%s"' % p["text"]})
+
+    n_src = max([s["ord"] for s in parse["sources"]], default=-1) + 1
+    return {
+        "operation_label": _wordplay_label(parse),
+        "summary": _summary(parse),
+        "clue_tokens": clue_tokens,
+        "answer_tiles": answer_tiles,
+        "rows": rows,
+        "src_fg": {i: source_colour(i)[0] for i in range(n_src)},
+        "src_fill": {i: source_colour(i)[1] for i in range(n_src)},
+    }

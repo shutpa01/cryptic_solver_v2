@@ -74,12 +74,16 @@ def reveal():
 
     show_all = step_raw == "all"
 
+    from web.wfw_read import has_wfw_pass
+    wfw = has_wfw_pass(clue_id)   # explanation steps offer the full-breakdown overlay
+
     if show_all:
         # Reveal everything
         revealed = []
         for s in steps:
             content = get_hint_content(clue, s["type"])
-            hint = {"label": s["label"], "type": s["type"], "content": content}
+            hint = {"label": s["label"], "type": s["type"], "content": content,
+                    "wfw": wfw and s["type"] == "explanation"}
             revealed.append(hint)
         return render_template(
             "partials/hint_step.html",
@@ -102,7 +106,8 @@ def reveal():
     # Return just this one step
     s = steps[step_num - 1]
     content = get_hint_content(clue, s["type"])
-    hint = {"label": s["label"], "type": s["type"], "content": content}
+    hint = {"label": s["label"], "type": s["type"], "content": content,
+            "wfw": wfw and s["type"] == "explanation"}
     revealed = [hint]
 
     return render_template(
@@ -113,6 +118,39 @@ def reveal():
         next_step=None,
         next_label=None,
     )
+
+
+@bp.route("/wfwfull", methods=["POST"])
+@rate_limit(scope="reveal", limit=30, window=60)
+def wfw_full():
+    """The full word-for-word explanation as an HTML fragment for the overlay.
+
+    Same protections as /reveal: signed token + valid session cookie (admin
+    bypasses). Serves only clues with a WFW pass parse."""
+    if not g.is_admin and not has_valid_session():
+        return render_template(
+            "partials/hint_error.html",
+            message="Session expired — please reload the page.",
+        ), 403
+
+    token = request.form.get("token", "")
+    if not token:
+        abort(400)
+    clue_id = _validate_token(token)
+    if clue_id is None:
+        return render_template("partials/hint_error.html",
+                               message="Session expired — please reload the page."), 403
+
+    clue = get_clue_by_id(clue_id)
+    if clue is None:
+        abort(404)
+
+    from web.wfw_read import load_breakdown
+    b = load_breakdown(clue_id)
+    if b is None:
+        return render_template("partials/hint_error.html",
+                               message="No full explanation available for this clue.")
+    return render_template("partials/wfw_full.html", b=b, clue=clue)
 
 
 @bp.route("/explain", methods=["POST"])

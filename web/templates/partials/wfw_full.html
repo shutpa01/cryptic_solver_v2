@@ -1,0 +1,63 @@
+{# Full word-for-word explanation — served by POST /wfwfull into the overlay.
+   Page-shape contract: EVERY clue word visible, coloured by its role; every
+   answer letter shown as a tile coloured by the piece that placed it. #}
+<div class="max-w-2xl mx-auto">
+    {# header: clue type + one-line summary #}
+    <div class="flex items-center gap-2 mb-3 flex-wrap">
+        <span class="text-xs font-bold tracking-wide uppercase px-2.5 py-1 rounded-full bg-indigo-100 text-indigo-700">{{ b.operation_label }}</span>
+        <span class="text-xs text-gray-400">{{ clue.clue_number }}{{ clue.direction[0] if clue.direction else '' }} · {{ clue.enumeration or '' }}</span>
+    </div>
+
+    {# the clue, every word coloured by its role #}
+    <p class="text-lg leading-loose mb-1">
+        {%- for t in b.clue_tokens -%}
+            {%- if t.role == 'source' -%}
+                <span class="font-semibold rounded px-1 py-0.5"
+                      style="color:{{ b.src_fg[t.source_index] }};background:{{ b.src_fill[t.source_index] }}">{{ t.text }}</span>
+            {%- elif t.role == 'definition' -%}
+                <span class="font-semibold rounded px-1 py-0.5" style="color:#166534;background:#dcfce7">{{ t.text }}</span>
+            {%- elif t.role == 'indicator' -%}
+                <span class="rounded px-1 py-0.5" style="color:#92400e;background:#fef3c7">{{ t.text }}</span>
+            {%- elif t.role == 'link' -%}
+                <span class="rounded px-1 py-0.5" style="color:#64748b;background:#f1f5f9">{{ t.text }}</span>
+            {%- else -%}
+                <span class="text-gray-700">{{ t.text }}</span>
+            {%- endif -%}
+            {{ ' ' }}
+        {%- endfor -%}
+    </p>
+    <p class="text-xs text-gray-400 mb-4">
+        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle mr-1" style="background:#dcfce7;border:1px solid #166534"></span>definition
+        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle ml-3 mr-1" style="background:#fef3c7;border:1px solid #92400e"></span>indicator
+        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle ml-3 mr-1" style="background:#f1f5f9;border:1px solid #64748b"></span>link
+        <span class="ml-3">coloured words build the answer</span>
+    </p>
+
+    {# answer tiles coloured by the piece that placed each letter #}
+    <div class="flex flex-wrap gap-1 mb-4 items-center">
+        {%- for tile in b.answer_tiles -%}
+            {%- if tile.sep is defined -%}
+                <span class="w-2"></span>
+            {%- else -%}
+                <span class="inline-flex items-center justify-center w-8 h-9 rounded-lg border-2 font-mono font-extrabold text-lg"
+                      style="{% if tile.source_index is not none %}color:{{ b.src_fg[tile.source_index] }};border-color:{{ b.src_fg[tile.source_index] }};background:{{ b.src_fill[tile.source_index] }}{% else %}color:#334155;border-color:#cbd5e1;background:#f8fafc{% endif %}">{{ tile.char }}</span>
+            {%- endif -%}
+        {%- endfor -%}
+    </div>
+
+    {# the one-line assembly #}
+    {% if b.summary %}
+    <p class="text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 mb-4 font-mono">{{ b.summary }}</p>
+    {% endif %}
+
+    {# word-by-word rows #}
+    <div class="space-y-1.5">
+        {% for r in b.rows %}
+        <div class="flex items-start gap-2">
+            <span class="shrink-0 text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-md min-w-[7rem] text-center"
+                  style="color:{{ r.fg }};background:{{ r.fill }}">{{ r.pill }}</span>
+            <span class="text-sm text-gray-800 pt-0.5">{{ r.detail }}</span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
