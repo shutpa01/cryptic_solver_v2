@@ -283,4 +283,10 @@ def create_app(config_name=None):
     app.register_blueprint(learn_bp)
     app.register_blueprint(tools_bp)
 
+    # ONE APP (live-site plumbing phase 5): serve the WFW admin solver under
+    # /solver/*, gated by this app's admin session. Lazy import — the heavy
+    # solver runtime loads on the first /solver request, never for site users.
+    from web.solver_mount import SolverMount
+    app.wsgi_app = SolverMount(app, app.wsgi_app)
+
     return app

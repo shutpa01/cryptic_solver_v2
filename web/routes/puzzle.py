@@ -161,8 +161,15 @@ def puzzle(source, puzzle_type, puzzle_number):
     breadcrumb_schema = generate_puzzle_breadcrumb_schema(source, puzzle_type, type_label, puzzle_number)
     faq_schema = generate_puzzle_faq_schema(source, type_label, puzzle_number, len(all_clues_list), pub_date)
 
+    # The WFW clue-page CLUTCH: every clue id of this puzzle, page order. The admin
+    # HS/WFW links must carry it (as `from` / the id list) so "back to clue page"
+    # inside the solver returns to the WHOLE puzzle — losing it collapses the back
+    # link to a single clue (fault fixed twice before; see wfw_web.py hs_route).
+    wfw_clutch = ",".join(str(c["id"]) for c in all_clues_list)
+
     response = make_response(render_template(
         "puzzle.html",
+        wfw_clutch=wfw_clutch,
         source=source,
         puzzle_type=puzzle_type,
         type_label=type_label,
