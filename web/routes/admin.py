@@ -1253,6 +1253,44 @@ def save_all_answers():
     return _json.dumps({"saved": saved, "skipped": skipped}), 200, {"Content-Type": "application/json"}
 
 
+@bp.route("/cascade/<source>/<int:puzzle_number>", methods=["POST"])
+def cascade_puzzle(source, puzzle_number):
+    """Run the WFW cascade NOW on this puzzle's un-cascaded clues.
+
+    The morning prize-puzzle flow (phase 6): the user solves the grid, saves the
+    answers, clicks Cascade now — the engines get first pass and the /solver/hs
+    work list is ready immediately, no waiting for the next nightly. Reuses
+    scripts/nightly_cascade.py (same guards: answer required, no existing parse,
+    never a frozen manual solve) in a subprocess so the site process stays light."""
+    _require_admin()
+    import subprocess
+    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+    script = str(PROJECT_ROOT / "scripts" / "nightly_cascade.py")
+    try:
+        result = subprocess.run(
+            [py, script, "--source", source, "--pnum", str(puzzle_number)],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            cwd=str(PROJECT_ROOT), timeout=600,
+        )
+    except subprocess.TimeoutExpired:
+        return ('<div class="text-sm text-red-700 bg-red-50 border border-red-200 '
+                'rounded p-2">Cascade timed out (10 min).</div>')
+    lines = [l.strip() for l in (result.stdout or "").splitlines() if l.strip()]
+    tail = "<br>".join(lines[-4:]) if lines else "no output"
+    if result.returncode != 0:
+        err = (result.stderr or "").strip().splitlines()[-3:]
+        return ('<div class="text-sm text-red-700 bg-red-50 border border-red-200 '
+                'rounded p-2">Cascade failed:<br>%s<br>%s</div>'
+                % (tail, "<br>".join(err)))
+    from flask import current_app
+    hs = "%s/hs?src=%s&pnum=%s" % (current_app.config.get("WFW_ADMIN_BASE", "/solver"),
+                                   source, puzzle_number)
+    return ('<div class="text-sm text-teal-800 bg-teal-50 border border-teal-200 '
+            'rounded p-2">%s<br><a href="%s" target="_blank" class="font-semibold '
+            'underline">Open the work list in the hand-solver &#8599;</a></div>'
+            % (tail, hs))
+
+
 @bp.route("/silly/<int:clue_id>", methods=["POST"])
 def toggle_silly(clue_id):
     """Toggle Cordelia's Silly Award on a clue."""

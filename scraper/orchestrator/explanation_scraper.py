@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Explanation Scraper Orchestrator
+"""Explanation Scraper Orchestrator — RETIRED 2026-07-10.
 
-Runs explanation scrapers that enrich existing clue rows with explanations and definitions.
-Typically run in the afternoon after puzzles have been solved and blogged about.
+Blog explanations (TFTT / Fifteensquared / BigDave) are NO LONGER part of the
+process: the publish-first workflow solves every clue via the WFW cascade +
+hand-solver, so there is nothing to wait for in the afternoon. Kept only for
+one-off manual back-catalogue runs; nothing schedules it.
 
-Usage:
+Usage (manual only):
     python explanation_scraper.py              # Run all explanation scrapers
     python explanation_scraper.py --only tftt  # Run only Times for the Times
 """

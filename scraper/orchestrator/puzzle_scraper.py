@@ -438,6 +438,11 @@ def main():
     parser = argparse.ArgumentParser(description='Run puzzle scrapers')
     parser.add_argument('--only', choices=list(SCRAPERS.keys()),
                         help='Run only this scraper')
+    parser.add_argument('--danword', action='store_true',
+                        help='Also run the Danword answer backfill for answerless '
+                             'puzzles. OFF by default (publish-first process '
+                             '2026-07-10: prize/answerless puzzles are hand-solved '
+                             'in the morning, never scraped from Danword).')
     args = parser.parse_args()
 
     print(f"Puzzle Scraper — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -492,12 +497,16 @@ def main():
     else:
         print("  None")
 
-    # Danword backfill for puzzles with missing answers
+    # Danword backfill — OPT-IN only (--danword). Default off: answerless
+    # puzzles (prizes) are hand-solved in the morning, not scraped.
     answerless = find_answerless_puzzles()
-    if answerless:
+    if args.danword and answerless:
         danword_results = run_danword_backfill(answerless)
     else:
         danword_results = []
+        if answerless:
+            print("\n  Danword backfill SKIPPED (opt-in via --danword): "
+                  + ", ".join("%s #%s" % (s, p) for s, p, _ in answerless))
 
     # Missing answers report
     missing_answers = find_missing_answers()
