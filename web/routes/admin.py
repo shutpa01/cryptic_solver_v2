@@ -436,6 +436,16 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
     answer = clue["answer"]
     clue_text = clue["clue_text"]
 
+    # FREEZE RULE (live-site plumbing phase 3, settled 2026-07-10): a WFW-solved
+    # clue is the new system's truth. The old pipeline writes clues +
+    # structured_explanations — a PARALLEL truth — so it must never touch one.
+    # Not even force: rework goes through the hand-solver (Uncommit), never here.
+    from web.wfw_read import has_wfw_pass
+    if has_wfw_pass(clue_id):
+        return ('<div class="mt-2 text-xs text-indigo-700 bg-indigo-50 border '
+                'border-indigo-200 rounded px-2 py-1">WFW-solved — frozen against the '
+                'old pipeline. Rework it in the hand-solver (Uncommit), not here.</div>')
+
     # Protect manually reviewed clues unless force is set
     if clue["reviewed"] == 1 and not force:
         return '<div class="mt-2 text-xs text-blue-700 bg-blue-50 border border-blue-200 rounded px-2 py-1">Manually reviewed — use Force Re-run to override.</div>'

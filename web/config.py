@@ -26,6 +26,11 @@ class Config:
     # configured number of trusted hops to find the real client IP.
     # Set to 0 only in environments with no proxy in front.
     PROXY_HOPS = 2
+    # Base URL of the WFW admin solver (core/wfw_web.py). The puzzle page's
+    # admin links (per-clue hand-solver / WFW clue page, per-puzzle work list)
+    # point across to it until the WFW pages are ported into this app
+    # (live-site plumbing phase 5).
+    WFW_ADMIN_BASE = os.environ.get("WFW_ADMIN_BASE", "http://127.0.0.1:5099")
     # When True, the FAQPage JSON-LD on /clue/* pages omits the curated
     # definition word and wordplay type, leaving only the answer + a
     # "see page for explanation" teaser. Off by default; flip to True to
