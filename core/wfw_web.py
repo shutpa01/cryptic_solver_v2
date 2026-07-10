@@ -758,13 +758,14 @@ def _body(raw, resolve_only=None, ai=False, discover=False, fill_missing=False):
         else:
             resolve = resolve_only is None or token in resolve_only
         cards += _render_one(token, raw, resolve, ai=ai, discover=discover)
-    return (FORM.format(cid=cid) + RELOAD_FORM.format(cid=cid)
-            + _signature_queue_html([t for t in tokens if t.isdigit()]) + cards)
+    # VIEW-ONLY page top: just the id navigation form. Reload-all and the signature
+    # queue banner are gone from the UI (routes kept) — /hs owns all admin actions.
+    return FORM.format(cid=cid) + cards
 
 
 def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
-    """Render one clue card: the breakdown, its enrichment rows, its admin panel,
-    and a per-clue reload button. Re-solves the clue only when `resolve` is True;
+    """Render one clue card, VIEW-ONLY: the breakdown, the saved comment and a
+    hand-solver link. Re-solves the clue only when `resolve` is True;
     otherwise it renders from the stored parse so a batch survives a single re-run.
     `ai` True uses the full AI wiring (per-clue, on demand); False uses the DB-only
     batch wiring. `discover` True enables auto-signature DISCOVERY+QUEUE for this clue
@@ -852,21 +853,13 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
                              'so it cannot take. Clear it or retype the exact edge words.'
                              '</div>' % escape(forced))
 
-    status = parse.status if parse is not None else "fail"
-    unaccounted = []
-    if parse is not None and ctx is not None:
-        try:
-            unaccounted = list(parse.unexplained_words(ctx))
-        except Exception:
-            unaccounted = []
+    # VIEW-ONLY (live-site cleanup 2026-07-10, settled design): the clue page shows the
+    # rendered parse, the saved comment and a hand-solver link — nothing else. Every admin
+    # control it carried (status, pin-definition, filler, enrichment queue, signature
+    # suggestions, add-to-DB forms, per-clue reload) lives in /hs now; the ROUTES stay.
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
-            + _note_block(clue_id, raw_list)
-            + _filler_block(clue_id, raw_list, unaccounted, filler)
-            + _enrichment_block(clue_text, answer, clue_id, raw_list)
-            + _clue_signature_suggestions(clue_id, raw_list)
-            + _clue_controls(clue_id, raw_list, status)
-            + _clue_admin_panel(clue_id, raw_list)
-            + _reload_clue_button(clue_id, raw_list))
+            + _note_block(clue_id, raw_list, editor=False)
+            + _handsolver_link(clue_id, raw_list))
 
 
 def _clue_controls(clue_id, raw_list, status):
@@ -2322,6 +2315,18 @@ function initGrid(rootId, DATA){
  root.querySelector('#g-uncommit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);
   fetch('/hsmanualuncommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){cmsg.textContent=o.msg;cmsg.style.color=o.ok?'#16a34a':'#dc2626';}).catch(function(){cmsg.textContent='uncommit failed';cmsg.style.color='#dc2626';});});
+ var gcd=root.querySelector('#g-cd');
+ if(gcd)gcd.addEventListener('click',function(){
+  var fd=new FormData();fd.append('only',DATA.cid);
+  cmsg.textContent='filing cryptic definition…';cmsg.style.color='#64748b';
+  fetch('/hscd',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
+   if(o.ok){cmsg.textContent='✓ '+o.msg;cmsg.style.color='#16a34a';
+    var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
+    if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
+    u+='&notice='+encodeURIComponent(o.msg);
+    setTimeout(function(){window.location.href=u;},700);}
+   else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
+  }).catch(function(){cmsg.textContent='CD failed (network)';cmsg.style.color='#dc2626';});});
  drawRows();drawList();drawTiles();updateBar();roleFields();
 }
 """
@@ -2650,6 +2655,11 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'taken as the definition, so you need no separate definition word. Verdict stays PENDING '
          'for your confirmation, like a cryptic definition.">'
          '<input type="checkbox" id="g-andlit"> &amp;lit (all-in-one)</label>',
+         '<button type="button" id="g-cd" style="margin-left:.6rem;background:#fff;'
+         'color:#b45309;border:1px solid #b45309;border-radius:8px;padding:.35rem .8rem;'
+         'font-weight:700;cursor:pointer" title="Cryptic definition: the WHOLE clue is the '
+         'definition — no pieces, no tiles needed. Files the clue as a CD, PENDING your '
+         'confirmation.">Cryptic definition</button>',
          '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
          'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as '
          'the solution (frozen; your reusable pieces are saved to the reference DB). This is '
@@ -3208,10 +3218,10 @@ def hsnote_route():
     return _hs_redirect(only, "Note saved." if note else "Note cleared.", back)
 
 
-def _note_block(clue_id, raw_list):
-    """The user-facing comment for a clue, editable inline right below the summary. Shows the
-    saved comment (also editable in the hand-solver — same wfw_notes store) and a compact
-    box to type/change it. Posts to /cluecomment, which re-renders from store (no re-solve)."""
+def _note_block(clue_id, raw_list, editor=True):
+    """The user-facing comment for a clue. `editor=False` (the view-only clue page) shows
+    ONLY the saved comment — editing lives in the hand-solver (same wfw_notes store).
+    `editor=True` adds the inline box posting to /cluecomment (route kept)."""
     conn = store.connect()
     try:
         note = store.get_note(conn, clue_id)
@@ -3222,6 +3232,8 @@ def _note_block(clue_id, raw_list):
         saved = ('<div style="margin:.5rem 0 .35rem;padding:.6rem .85rem;background:#fffbeb;'
                  'border:1px solid #fcd34d;border-radius:10px;color:#92600a;font-size:.95rem">'
                  '<strong>Comment:</strong> %s</div>' % escape(note).replace("\n", "<br>"))
+    if not editor:
+        return saved
     h = _hidden(raw_list, clue_id)
     clear_btn = ""
     if note:
@@ -3267,8 +3279,62 @@ def hsstatus_route():
         conn.commit()
     finally:
         conn.close()
+    _capture_signature_review(cid, status)   # log pending-only sig reviews (as /setstatus)
     return _hs_redirect(only, "Status set to %s (frozen so it sticks)." % status.upper(),
                         back)
+
+
+@app.route("/hscd", methods=["POST"])
+def hscd_route():
+    """CRYPTIC DEFINITION button (/hs): the WHOLE clue is the definition — no pieces, no
+    tiles. Mirrors the clue page's old pin-full-definition path (/forcedef with the whole
+    clue typed in): pin it, persist it to the reference DB, fold it into the cached wiring,
+    re-solve; the cascade's last-resort CD engine then files the clue PENDING for human
+    confirmation (a CD is never machine-confirmed). Replaces that path now the clue page
+    is view-only. Returns JSON like /hsmanualcommit (the button lives in the same form)."""
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _json({"ok": False, "msg": "No clue."})
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    conn = store.connect()
+    try:
+        sp = store.load_parse(conn, cid)
+        if (sp is not None and getattr(sp, "solved_by", "") == "manual"
+                and store.is_frozen(conn, cid)):
+            return _json({"ok": False,
+                          "msg": "Frozen manual solve — Uncommit before filing a CD."})
+    finally:
+        conn.close()
+    # The CD engine checks defines(<space-joined word tokens>, answer) — store exactly
+    # that string, so the whole-clue match cannot miss on punctuation.
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    whole = " ".join(t.text for t in ctx.clue_tokens if t.kind == "word")
+    conn = store.connect()
+    try:
+        store.set_forced_definition(conn, cid, whole)
+    finally:
+        conn.close()
+    addmsg = admin_db.add_definition(whole, answer)
+    apply_add_to_wiring({"kind": "definition", "definition": whole, "answer": answer})
+    _resolve_one(cid)
+    conn = store.connect()
+    try:
+        cp = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    if cp is not None and cp.operation == "cd" and cp.status == "pending":
+        return _json({"ok": True,
+                      "msg": "Filed as a cryptic definition (%s) — PENDING; confirm via "
+                             "Mark verdict when you agree." % addmsg})
+    got = ("%s/%s" % (cp.operation or "?", cp.status) if cp is not None else "no parse")
+    return _json({"ok": False,
+                  "msg": "Did not land as a CD (got %s). The whole-clue definition was "
+                         "still added to the DB (%s)." % (got, addmsg)})
 
 
 @app.route("/hsresolve", methods=["POST"])
@@ -4483,9 +4549,22 @@ def handsolveuncommit_route():
     return _json({"ok": True, "msg": "Uncommitted — handed back to the cascade."})
 
 
+def _handsolver_link(clue_id, raw_list):
+    """The one control on the view-only clue page: open this clue in the hand-solver
+    (the single solving surface — settled admin flow 2026-07-10)."""
+    from urllib.parse import quote
+    _frm = quote(raw_list or "", safe="")
+    return ('<a href="/hs?id=%d&amp;from=%s" class="wfw-reload wfw-reload-clue" '
+            'style="display:inline-block;text-decoration:none;background:#0d9488;'
+            'border-color:#0d9488;margin:.4rem 0" '
+            'title="Open the hand-solver for this clue">'
+            '&#9776; Hand-solver</a>' % (clue_id, _frm))
+
+
 def _reload_clue_button(clue_id, raw_list):
     """Per-clue button: reload the DB snapshot and re-run JUST this clue, keeping the
-    rest of the batch on screen."""
+    rest of the batch on screen. (No longer rendered — the clue page is view-only; kept
+    for rollback while the routes it posts to remain live.)"""
     from urllib.parse import quote
     _frm = quote(raw_list or "", safe="")     # carry the CLUTCH into the role grid
     return (
