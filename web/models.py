@@ -303,15 +303,20 @@ def get_puzzle_list(source, type_slug, page=1):
     # Fix any double-qualification from nested replacements
     qualified_where = qualified_where.replace("c.c.", "c.")
 
+    # A WFW pass parse (human-checked, publish-first) counts as both a definition
+    # and a full explanation — same rule as the hint ladder (wfw_read).
     rows = db.execute(
         """SELECT c.puzzle_number,
                   MAX(c.publication_date) AS publication_date,
                   COUNT(*) AS clue_count,
                   SUM(CASE WHEN c.answer IS NOT NULL AND c.answer != '' THEN 1 ELSE 0 END) AS with_answer,
-                  SUM(CASE WHEN c.definition IS NOT NULL AND c.definition != '' THEN 1 ELSE 0 END) AS with_def,
-                  SUM(CASE WHEN se.confidence >= 0.7 THEN 1 ELSE 0 END) AS with_expl
+                  SUM(CASE WHEN (c.definition IS NOT NULL AND c.definition != '')
+                            OR w.clue_id IS NOT NULL THEN 1 ELSE 0 END) AS with_def,
+                  SUM(CASE WHEN se.confidence >= 0.7
+                            OR w.clue_id IS NOT NULL THEN 1 ELSE 0 END) AS with_expl
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           LEFT JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
            WHERE %s
            GROUP BY c.puzzle_number
            ORDER BY MAX(c.publication_date) DESC
@@ -436,7 +441,15 @@ def compute_hint_tier(clue):
       PENDING: never processed by any pipeline
 
     max_steps is based on available hint data (definition, type, explanation).
+
+    WFW override (live-site plumbing phase 1): a clue with a WFW pass parse is
+    human-checked by construction (publish-first process) — full hints, HIGH.
+    Clues without one keep the old behaviour untouched.
     """
+    from web.wfw_read import has_wfw_pass
+    if has_wfw_pass(clue["id"]):
+        return "HIGH", 4
+
     # Step count based on what hint data exists
     has_def = bool(clue["definition"])
     has_type = bool(clue["wordplay_type"])
@@ -472,7 +485,10 @@ def compute_hint_tier(clue):
 
 
 def compute_solve_source(clue):
-    """Return engine source label: S, SE, P, or fail."""
+    """Return engine source label: W (WFW pass parse), S, SE, P, or fail."""
+    from web.wfw_read import has_wfw_pass
+    if has_wfw_pass(clue["id"]):
+        return "W"
     mv = clue["model_version"] if "model_version" in clue.keys() else None
     if mv is None:
         return "fail"
@@ -492,7 +508,17 @@ def get_hint_steps(clue, tier=None, is_admin=False):
 
     For non-admin users, LOW and FAIL tiers only show definition + answer
     (wordplay type and explanation are hidden to avoid showing bad content).
+
+    A WFW pass parse serves the full 4-step ladder regardless of the old-system
+    columns (which are empty for publish-first puzzles).
     """
+    from web.wfw_read import has_wfw_pass
+    if has_wfw_pass(clue["id"]):
+        return [{"step": 1, "label": "Definition", "type": "definition"},
+                {"step": 2, "label": "Wordplay type", "type": "wordplay_type"},
+                {"step": 3, "label": "Explanation", "type": "explanation"},
+                {"step": 4, "label": "Answer", "type": "answer"}]
+
     steps = []
     n = 1
 
@@ -578,7 +604,18 @@ def get_clue_by_id(clue_id):
 
 
 def get_hint_content(clue, step_type):
-    """Return the display content for a given hint step type."""
+    """Return the display content for a given hint step type.
+
+    A WFW pass parse feeds definition / wordplay type / explanation (the one-line
+    mechanical summary); the answer always comes from the clues row. Old-system
+    content is untouched when there is no WFW parse."""
+    if step_type != "answer":
+        from web.wfw_read import wfw_hint, has_wfw_pass
+        if has_wfw_pass(clue["id"]):
+            content = wfw_hint(clue["id"], step_type)
+            if content:
+                return content
+
     if step_type == "definition":
         return clue["definition"]
     elif step_type == "wordplay_type":
