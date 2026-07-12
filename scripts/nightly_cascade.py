@@ -126,6 +126,7 @@ def main():
 
     counts = {}
     per_puzzle = {}
+    unclaimed = []          # (cid, clue_text, spaced_answer): parse=None solves
     for cid, clue_text, answer, src, pn, direction, enum in rows:
         s = spans.get(cid)
         if s and s[0] == "stub":
@@ -139,6 +140,8 @@ def main():
                     clue_text, answer, wiring, source=src, puzzle_number=pn,
                     clue_id=cid, direction=direction)
                 status = parse.status if parse is not None else "fail"
+                if parse is None:
+                    unclaimed.append((cid, clue_text, answer))
             except Exception as e:
                 log("  ERROR clue %d: %s" % (cid, e))
                 status = "error"
@@ -146,6 +149,30 @@ def main():
         key = (src, pn)
         per_puzzle.setdefault(key, {}).setdefault(status, 0)
         per_puzzle[key][status] += 1
+
+    # NO ENGINE CLAIMED (parse=None): nothing was persisted, so without this the
+    # clue has NO wfw_solve row at all — invisible to every fail/pending work
+    # list (it silently drops out of review), and the clue page re-solves it on
+    # EVERY load (found 2026-07-12: telegraph 3377 13a hung the site). Record a
+    # minimal honest FAIL row so the clue stays in the net. Never overwrites.
+    if unclaimed:
+        import json as _json
+        con = store.connect()
+        try:
+            for cid, text, ans in unclaimed:
+                if con.execute("SELECT 1 FROM wfw_solve WHERE clue_id = ?",
+                               (cid,)).fetchone():
+                    continue
+                con.execute(
+                    "INSERT INTO wfw_solve (clue_id, clue_text, answer_text, "
+                    "operation, solved_by, status, confidence, warnings, atoms) "
+                    "VALUES (?, ?, ?, 'none', 'none', 'fail', NULL, ?, NULL)",
+                    (cid, text, ans,
+                     _json.dumps(["no engine claimed this clue"])))
+            con.commit()
+        finally:
+            con.close()
+        log("  %d unclaimed clue(s) recorded as honest fails" % len(unclaimed))
 
     for (src, pn), c in sorted(per_puzzle.items()):
         log("  %s #%s: %s" % (src, pn, ", ".join(

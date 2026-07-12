@@ -14,10 +14,18 @@ read it in full first:
   (prize puzzles are hand-solved by the user in the morning).
 
 ## The work
-For each in-scope clue, write your best COMPLETE reading straight into the
-hand-solver grid via `core.store.set_hs_assignments`: definition, every piece
-WITH its answer tiles, indicators (typed), links. The reading must account for
-every clue word and cover every answer tile.
+For each in-scope clue, file your best COMPLETE reading via
+`core.prefill_commit.file_pending_prefill(clue_id, assignments)` (one source
+of truth — it seeds the hand-solver grid AND commits the reading as a
+status='pending' parse, solved_by='prefill', NEVER pass; user design
+2026-07-12, memory: prefill-pending-commits). The assignments list is the /hs
+payload shape: definition, every piece WITH its answer tiles, indicators
+(typed), links. The reading must account for every clue word and cover every
+answer tile — `file_pending_prefill` runs the same validation gate as the
+user's own commit and refuses anything invalid, so CHECK ITS RETURN: an
+`ok: False` result means that clue stays blank; note it in the report.
+The user reviews from the clue page in the morning: Confirm (one click) or
+correct in /hs. You never touch verdicts.
 
 Prefill-discipline rules (user corrections, 2026-07-09 — do not repeat them):
 1. A literal word rearranged on the tiles = ANAGRAM FODDER role, never a synonym
@@ -44,11 +52,15 @@ confident is the setter's.
   button on /hs (route /hscd, built 2026-07-10).
 
 ## Hard rules
-- Writes allowed: `wfw_hs_assignments` ONLY (via store.set_hs_assignments).
+- Writes allowed: ONLY via `core.prefill_commit.file_pending_prefill` (which
+  writes wfw_hs_assignments + the pending wfw_solve/wfw_piece/wfw_link rows).
+  Never call store.save_parse / set_status / set_frozen yourself; never write
+  the reference DB, the catalog, or any engine code. A prefill parse is
+  PENDING by construction — you never file a pass and never touch a verdict.
 - Working/validation scripts go in a temp directory or logs/, NEVER the repo
   root or any package directory.
-- Never overwrite an existing assignment row, never touch wfw_solve, the
-  reference DB, the catalog, or any engine code.
+- Never overwrite existing user state (file_pending_prefill refuses this —
+  do not work around it).
 - Never re-run clues for score. No server restarts.
 - Finish by writing a short plain-English summary to
   `logs/prefill_YYYY-MM-DD.md`: per puzzle, how many clues prefilled / skipped

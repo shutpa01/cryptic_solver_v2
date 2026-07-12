@@ -872,8 +872,11 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     # rendered parse, the saved comment and a hand-solver link — nothing else. Every admin
     # control it carried (status, pin-definition, filler, enrichment queue, signature
     # suggestions, add-to-DB forms, per-clue reload) lives in /hs now; the ROUTES stay.
+    # ONE exception (user design 2026-07-12): a PENDING PREFILL reading gets its label +
+    # one-click Confirm here — the clue page IS the review surface for prefills.
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
             + _note_block(clue_id, raw_list, editor=False)
+            + _prefill_confirm_block(clue_id, parse, raw_list)
             + _handsolver_link(clue_id, raw_list))
 
 
@@ -4259,22 +4262,18 @@ def hssavepieces_route():
     return _json({"ok": True, "msg": msg, "status": status})
 
 
-@app.route("/hsmanualcommit", methods=["POST"])
-def hsmanualcommit_route():
-    """MANUAL SOLVE commit from the /hs word grid. Builds a FROZEN manual Parse from the
-    assignments: each synonym/letters PIECE is placed on the exact answer TILES the human
-    clicked (so reversal / container work — REM on tiles 1-3, EG on tiles 4-5 for MERGE),
-    and indicator / definition / link / filler are roles with no tiles. NO reference-DB write,
-    NO cascade, NO auto-verification — a recorder, the opposite of the banned builder. JSON."""
-    import json
-    only = (request.form.get("only") or "").strip()
-    payload = (request.form.get("payload") or "").strip()
-    if not only.isdigit():
-        return _json({"ok": False, "msg": "No clue."})
-    cid = int(only)
+def _build_manual_parse(cid, assigns, andlit=False):
+    """Build + VALIDATE a manual Parse from /hs grid assignments. THE single source
+    of truth for manual-reading validation (tile coverage, word coverage, fodder
+    rules, selection derivation): used by /hsmanualcommit (the user's commit),
+    core.prefill_commit (the nightly's PENDING filings) and /prefillconfirm (the
+    one-click review). Returns {"ok": False, "msg": ...} on any validation failure,
+    else {"ok": True, "parse": Parse(status='pass', solved_by='manual'),
+    "ctx": ..., "db_adds": [...], "n_sources": int} — the CALLER decides verdict,
+    freeze and whether the reusable-piece harvest (db_adds) is applied."""
     row = _load_clue(cid)
     if row is None:
-        return _json({"ok": False, "msg": "No clue."})
+        return {"ok": False, "msg": "No clue."}
     clue_text, answer, src, pnum, direction, enumeration, cnum = row
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
@@ -4282,10 +4281,6 @@ def hsmanualcommit_route():
                                                    # so payload word-indices align with the /hs grid
     ans_letters = "".join(c for c in answer.upper() if c.isalpha())
     N = len(ans_letters)
-    try:
-        assigns = json.loads(payload) if payload else []
-    except Exception:
-        assigns = []
 
     from core.wfw_model import Source, Link, Annotation, Parse
 
@@ -4323,25 +4318,25 @@ def hsmanualcommit_route():
                 rule = (a.get("rule") or "").strip()       # so a selection can never be free-typed
                 cands = _selection_candidates(phrase, rule)
                 if not value or value not in cands:
-                    return _json({"ok": False, "msg": "Selection %r (%s) = %r is not what the "
-                                  "rule derives (%s)." % (phrase, rule or "no rule", value,
-                                  " / ".join(cands) if cands else "nothing — word too short")})
+                    return {"ok": False, "msg": "Selection %r (%s) = %r is not what the "
+                            "rule derives (%s)." % (phrase, rule or "no rule", value,
+                            " / ".join(cands) if cands else "nothing — word too short")}
             if not pos:
-                return _json({"ok": False, "msg": "The piece %r has no answer tiles — click "
-                              "the answer letters it makes, then Assign." % phrase})
+                return {"ok": False, "msg": "The piece %r has no answer tiles — click "
+                        "the answer letters it makes, then Assign." % phrase}
             if role == "anagram":                          # fodder must CONTAIN the tiles it fills;
                 got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)  # any surplus fodder
                 from collections import Counter            # letters are a deletion before the anagram
                 short = Counter(got) - Counter(value)      # (10 fodder letters -> a 9-letter anagram)
                 if short:
-                    return _json({"ok": False, "msg": "Anagram fodder %r does not contain the tiles "
-                                  "you clicked (%s) — missing %s." % (value, got,
-                                  "".join(sorted(short.elements())))})
+                    return {"ok": False, "msg": "Anagram fodder %r does not contain the tiles "
+                            "you clicked (%s) — missing %s." % (value, got,
+                            "".join(sorted(short.elements())))}
                 if got == value:                           # unrearranged = NOT an anagram (user rule
-                    return _json({"ok": False,             # 2026-07-12): it is a charade literal
-                                  "msg": "%r is not an anagram — its letters land on the tiles "
-                                  "in their original order (%s). An anagram must rearrange; "
-                                  "tag this piece 'letters' (literal) instead." % (phrase, got)})
+                    return {"ok": False,                   # 2026-07-12): it is a charade literal
+                            "msg": "%r is not an anagram — its letters land on the tiles "
+                            "in their original order (%s). An anagram must rearrange; "
+                            "tag this piece 'letters' (literal) instead." % (phrase, got)}
             si = len(sources)
             # record the piece's REAL mechanism so the render shows the right label (letters ->
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
@@ -4358,8 +4353,8 @@ def hsmanualcommit_route():
             tr = "anagram_of" if role == "anagram" else None
             for p in pos:
                 if p in covered:
-                    return _json({"ok": False, "msg": "Answer tile %d is claimed by two "
-                                  "pieces — each tile belongs to exactly one piece." % p})
+                    return {"ok": False, "msg": "Answer tile %d is claimed by two "
+                            "pieces — each tile belongs to exactly one piece." % p}
                 covered[p] = si
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
                                   transform=tr))
@@ -4393,14 +4388,13 @@ def hsmanualcommit_route():
                                                  else "link word"), source="manual"))
 
     if not sources:
-        return _json({"ok": False, "msg": "Place at least one piece on the answer tiles "
-                      "(assign a synonym/letters role and click the tiles it makes)."})
+        return {"ok": False, "msg": "Place at least one piece on the answer tiles "
+                "(assign a synonym/letters role and click the tiles it makes)."}
     missing = [p for p in range(1, N + 1) if p not in covered]
     if missing:
-        return _json({"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
-                      "Every answer letter must be coloured by a piece." % ", ".join(map(str, missing))})
+        return {"ok": False, "msg": "Not committed — answer tile(s) %s have no piece. "
+                "Every answer letter must be coloured by a piece." % ", ".join(map(str, missing))}
 
-    andlit = bool((request.form.get("andlit") or "").strip())
     if andlit:
         # ALL-IN-ONE (&lit): the whole clue is BOTH the wordplay (the pieces above) AND the
         # definition — the same words used twice. Build the definition from the WHOLE clue so the
@@ -4410,8 +4404,8 @@ def hsmanualcommit_route():
         definition = Source(clue_atom_ids=all_atoms, text=clue_text, value=ans_letters,
                             mechanism="definition", source="manual")
     if definition is None:
-        return _json({"ok": False, "msg": "Not committed — no definition. Every clue must end with "
-                      "a definition: tick the definition word(s) and pick the definition role."})
+        return {"ok": False, "msg": "Not committed — no definition. Every clue must end with "
+                "a definition: tick the definition word(s) and pick the definition role."}
     # status="pass" for the WRITE (save_parse refuses to persist a non-pass parse once the clue is
     # frozen, store.py:132); for &lit the verdict is downgraded to 'pending' via set_status below
     # (a direct UPDATE that bypasses that guard) so an &lit is never auto-confirmed — like a CD.
@@ -4426,9 +4420,36 @@ def hsmanualcommit_route():
     # pass (the human is asserting a complete solve) — refuse it, listing what is still unaccounted.
     unaccounted = parse.unexplained_words(ctx)
     if unaccounted:
-        return _json({"ok": False, "msg": "Not committed — these clue words have NO role: %s. Every "
-                      "clue word must be a piece, the definition, an indicator, a link, filler, or a "
-                      "deletion." % ", ".join("“%s”" % w for w in unaccounted)})
+        return {"ok": False, "msg": "Not committed — these clue words have NO role: %s. Every "
+                "clue word must be a piece, the definition, an indicator, a link, filler, or a "
+                "deletion." % ", ".join("“%s”" % w for w in unaccounted)}
+    return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds,
+            "n_sources": len(sources)}
+
+
+@app.route("/hsmanualcommit", methods=["POST"])
+def hsmanualcommit_route():
+    """MANUAL SOLVE commit from the /hs word grid. Builds a FROZEN manual Parse from the
+    assignments: each synonym/letters PIECE is placed on the exact answer TILES the human
+    clicked (so reversal / container work — REM on tiles 1-3, EG on tiles 4-5 for MERGE),
+    and indicator / definition / link / filler are roles with no tiles. NO cascade, NO
+    auto-verification — a recorder, the opposite of the banned builder. JSON.
+    Building + validation live in _build_manual_parse (shared with the prefill flow)."""
+    import json
+    only = (request.form.get("only") or "").strip()
+    payload = (request.form.get("payload") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+    andlit = bool((request.form.get("andlit") or "").strip())
+    built = _build_manual_parse(cid, assigns, andlit=andlit)
+    if not built["ok"]:
+        return _json(built)
+    parse, ctx, db_adds = built["parse"], built["ctx"], built["db_adds"]
     conn = store.connect()
     try:
         store.set_hs_assignments(conn, cid, payload)
@@ -4448,8 +4469,9 @@ def hsmanualcommit_route():
     # Done ONLY after a successful commit, so a rejected commit never writes.
     added, present, rejected = _apply_db_adds(db_adds)
 
+    n = built["n_sources"]
     msg = ("Committed a MANUAL solution (%d piece%s) — frozen."
-           % (len(sources), "" if len(sources) == 1 else "s"))
+           % (n, "" if n == 1 else "s"))
     if added:
         msg += " Saved to reference DB: %d new (%s)." % (
             len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
@@ -4458,6 +4480,59 @@ def hsmanualcommit_route():
     if rejected:
         msg += " Not saved: %s." % "; ".join(rejected)
     return _json({"ok": True, "msg": msg})
+
+
+@app.route("/prefillconfirm", methods=["POST"])
+def prefillconfirm_route():
+    """ONE-CLICK review of a PENDING prefill reading, from the clue page (user design
+    2026-07-12, memory: prefill-pending-commits). Confirm = re-validate the saved /hs
+    payload through _build_manual_parse (the SAME gate as a hand commit), promote it to
+    a FROZEN manual pass, and harvest the reusable pieces to the reference DB — the
+    harvest /hsmanualcommit does, moved here because review now happens on the clue
+    page. Refuses anything that is not a pending prefill."""
+    import json
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _page('<div class="wfw-notice">No clue.</div>'
+                     + _body(raw, resolve_only=set()))
+    cid = int(only)
+    conn = store.connect()
+    try:
+        sp = store.load_parse(conn, cid)
+        saved = store.get_hs_assignments(conn, cid)
+    finally:
+        conn.close()
+    if sp is None or getattr(sp, "solved_by", "") != "prefill" \
+            or sp.status != "pending":
+        msg = "Not a pending prefill reading — nothing confirmed."
+    else:
+        try:
+            assigns = json.loads(saved) if saved else []
+        except Exception:
+            assigns = []
+        built = _build_manual_parse(cid, assigns)
+        if not built["ok"]:
+            msg = "Confirm refused — %s" % built["msg"]
+        else:
+            conn = store.connect()
+            try:
+                store.save_parse(conn, cid, built["parse"], built["ctx"])
+                store.set_frozen(conn, cid)
+                conn.commit()
+            finally:
+                conn.close()
+            added, present, rejected = _apply_db_adds(built["db_adds"])
+            msg = "Confirmed — now your frozen manual solve."
+            if added:
+                msg += " Saved to reference DB: %d new (%s)." % (
+                    len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
+            if present:
+                msg += " %d already in DB." % len(present)
+            if rejected:
+                msg += " Not saved: %s." % "; ".join(rejected)
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
 
 @app.route("/hsmanualuncommit", methods=["POST"])
@@ -4567,6 +4642,27 @@ def handsolveuncommit_route():
         conn.close()
     _resolve_one(cid)
     return _json({"ok": True, "msg": "Uncommitted — handed back to the cascade."})
+
+
+def _prefill_confirm_block(clue_id, parse, raw_list):
+    """PREFILL review control (user design 2026-07-12, memory: prefill-pending-commits):
+    a pending reading filed by the nightly prefill shows a loud PREFILL label + ONE
+    Confirm button. Confirm = re-validate the saved payload, promote to a FROZEN manual
+    pass, harvest the reusable pieces (all in /prefillconfirm). A wrong reading is fixed
+    through the hand-solver link as usual. Renders nothing on any other clue."""
+    if parse is None or parse.status != "pending" \
+            or getattr(parse, "solved_by", "") != "prefill":
+        return ""
+    return ('<form method="post" action="/prefillconfirm" '
+            'style="display:inline-block;margin:.4rem .5rem .4rem 0">%s'
+            '<span style="background:#fef3c7;color:#92400e;font-weight:800;'
+            'font-size:.75rem;letter-spacing:.05em;border-radius:6px;'
+            'padding:.25rem .5rem;margin-right:.5rem">PREFILL &mdash; awaiting review</span>'
+            '<button style="background:#16a34a;color:#fff;border:none;border-radius:8px;'
+            'padding:.35rem .9rem;font-weight:700;cursor:pointer" '
+            'title="Agree with this reading: commit it as YOUR manual solve (frozen) and '
+            'save its reusable pieces to the reference DB.">Confirm &#10003;</button>'
+            '</form>' % _hidden(raw_list, clue_id))
 
 
 def _handsolver_link(clue_id, raw_list):

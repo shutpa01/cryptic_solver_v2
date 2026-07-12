@@ -52,6 +52,39 @@ _TYPE_LABEL = {
     "homophone": "Homophone",
 }
 
+# Mechanism words recognised inside a manual solve's indicator notes ("anagram
+# indicator", "deletion/tail indicator", ...). Mirrors web/wfw_read._MECH_WORDS
+# — keep in sync by hand; the site must not import core and vice versa.
+_MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
+               "charade", "homophone", "alternation", "selection",
+               "palindrome", "spoonerism", "acrostic", "replacement",
+               "cycling", "substitution")
+
+
+def _manual_type_label(parse):
+    """The clue type of a manual/prefill parse, derived from the indicator notes
+    the human (or prefill) assigned — mirrors web/wfw_read._manual_label so the
+    clue page badge and the live-site hint label always agree."""
+    found = []
+    for a in (parse.annotations or []):
+        if getattr(a, "role", "") != "indicator":
+            continue
+        note = (getattr(a, "note", "") or "").lower()
+        if "definition by example" in note or "positional" in note:
+            continue            # definition marker / charade glue, not the clue type
+        for w in _MECH_WORDS:
+            if w in note and w not in found:
+                found.append(w)
+    if found:
+        return " + ".join(found).capitalize()
+    srcs = [s for s in (parse.sources or []) if s.mechanism != "definition"]
+    if len(srcs) >= 2:
+        return "Charade"
+    if len(srcs) == 1:
+        return {"synonym": "Synonym", "abbreviation": "Abbreviation",
+                "hidden": "Hidden word"}.get(srcs[0].mechanism, "Word building")
+    return "Word building"
+
 # Friendly role labels for a wordplay piece, by mechanism.
 _MECH_LABEL = {
     "hidden": "Hidden in",
@@ -98,7 +131,16 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
         tile_fill = {i: HIDDEN_FILL for i in range(len(parse.sources))}
 
     # --- header: clue-type badge + solving-engine tag + verdict ---
-    type_label = _TYPE_LABEL.get(parse.operation or "", (parse.operation or "—"))
+    # A manual/prefill parse stores the useless operation 'manual' — derive its
+    # REAL clue type from the indicator notes instead, exactly as the live-site
+    # hints do (web/wfw_read._manual_label, phase 1). Regression caught by the
+    # user 2026-07-12: the clue page is now the prefill REVIEW surface, so the
+    # badge must read "ANAGRAM", not "MANUAL".
+    _op = parse.operation or ""
+    if _op == "manual":
+        type_label = _manual_type_label(parse)
+    else:
+        type_label = _TYPE_LABEL.get(_op, _op or "—")
     engine = (getattr(parse, "solved_by", "") or "").strip()
     # Always show the SPECIFIC solving engine (parse.solved_by) so it is clear at a glance
     # which engine produced the parse — no DB query, no stack-trace hunting.

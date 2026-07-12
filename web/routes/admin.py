@@ -1291,6 +1291,122 @@ def cascade_puzzle(source, puzzle_number):
             % (tail, hs))
 
 
+_PREFILL_RUNS = {}   # (source, pnum) -> subprocess.Popen of the on-demand chain
+
+
+@bp.route("/prefill/<source>/<int:puzzle_number>", methods=["POST"])
+def prefill_puzzle(source, puzzle_number):
+    """ON-DEMAND prefill (user, 2026-07-12: a prize puzzle can't wait for the
+    nightly — the answers arrive when the user solves the grid). Launches
+    scripts/run_prefill.py DETACHED in the background: cascade the remainder,
+    then the headless Claude prefill, which files each validated reading as a
+    PENDING commit (never pass) for one-click Confirm on the clue page. The
+    button returns immediately — the run takes minutes and must never block
+    the site (lesson from the synchronous Cascade-now, 2026-07-12)."""
+    _require_admin()
+    import subprocess
+    import time as _time
+    key = (source, puzzle_number)
+    old = _PREFILL_RUNS.get(key)
+    if old is not None and old.poll() is None:
+        return ('<div class="text-sm text-amber-800 bg-amber-50 border '
+                'border-amber-200 rounded p-2">A prefill for this puzzle is '
+                'still running — readings appear on the clue page as they are '
+                'filed.</div>')
+    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+    script = str(PROJECT_ROOT / "scripts" / "run_prefill.py")
+    logf = PROJECT_ROOT / "logs" / ("prefill_ondemand_%s_%s_%s.log"
+                                    % (source, puzzle_number,
+                                       _time.strftime("%Y%m%d_%H%M")))
+    logf.parent.mkdir(exist_ok=True)
+    handle = open(logf, "w", encoding="utf-8")
+    _PREFILL_RUNS[key] = subprocess.Popen(
+        [py, script, "--source", source, "--pnum", str(puzzle_number)],
+        cwd=str(PROJECT_ROOT), stdout=handle, stderr=subprocess.STDOUT,
+        stdin=subprocess.DEVNULL,
+        creationflags=subprocess.CREATE_NO_WINDOW)
+    return _prefill_status_div(source, puzzle_number,
+                               "Prefill started (cascade first, then the "
+                               "Claude readings — usually 5&ndash;15 minutes)&hellip;")
+
+
+def _prefill_latest_log(source, puzzle_number):
+    files = sorted((PROJECT_ROOT / "logs").glob(
+        "prefill_ondemand_%s_%s_*.log" % (source, puzzle_number)))
+    return files[-1] if files else None
+
+
+def _prefill_filed_count(source, puzzle_number):
+    db = get_db()
+    row = db.execute(
+        "SELECT COUNT(1) FROM wfw_solve WHERE solved_by='prefill' AND "
+        "status='pending' AND clue_id IN (SELECT id FROM clues WHERE "
+        "source=? AND puzzle_number=?)",
+        (source, str(puzzle_number))).fetchone()
+    return row[0] if row else 0
+
+
+def _prefill_status_div(source, puzzle_number, lead=""):
+    """The self-polling status box (user, 2026-07-12: 'we shouldn't be left in
+    the dark — show a message until it finishes'). State comes from the run's
+    LOG FILE, not process handles, so it survives dev-server restarts. While
+    running it re-polls itself every 5s; the final state stops polling."""
+    import time as _time
+    logf = _prefill_latest_log(source, puzzle_number)
+    filed = _prefill_filed_count(source, puzzle_number)
+    text = ""
+    if logf is not None:
+        try:
+            text = logf.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            text = ""
+    from flask import current_app
+    from web.db import get_db as _gd
+    ids = ",".join(str(r[0]) for r in _gd().execute(
+        "SELECT id FROM clues WHERE source=? AND puzzle_number=? ORDER BY "
+        "CASE direction WHEN 'across' THEN 0 ELSE 1 END, "
+        "CAST(clue_number AS INTEGER)", (source, str(puzzle_number))))
+    review = ('<a href="%s/?id=%s" target="_blank" class="font-semibold '
+              'underline">Review on the clue page &#8599;</a>'
+              % (current_app.config.get("WFW_ADMIN_BASE", "/solver"), ids))
+    if "prefill complete" in text:
+        return ('<div class="text-sm text-teal-800 bg-teal-50 border '
+                'border-teal-200 rounded p-2">Prefill FINISHED — %d pending '
+                'reading%s awaiting your review. %s<br>'
+                '<span class="text-xs text-teal-600">Report: see logs/ '
+                '(%s)</span></div>'
+                % (filed, "" if filed == 1 else "s", review, logf.name))
+    if "prefill failed" in text or "cascade failed" in text:
+        tail = "<br>".join(l.strip() for l in text.strip().splitlines()[-3:])
+        return ('<div class="text-sm text-red-700 bg-red-50 border '
+                'border-red-200 rounded p-2">Prefill FAILED — %s<br>%s</div>'
+                % (logf.name if logf else "no log", tail))
+    stale = (logf is None
+             or _time.time() - logf.stat().st_mtime > 1800)
+    if logf is not None and not stale:
+        return ('<div hx-get="/admin/prefill_status/%s/%s" '
+                'hx-trigger="every 5s" hx-swap="outerHTML" '
+                'class="text-sm text-indigo-800 bg-indigo-50 border '
+                'border-indigo-200 rounded p-2">%s<br>'
+                'Prefill RUNNING &mdash; %d pending reading%s filed so far. '
+                'They appear on the clue page as they land; this box updates '
+                'itself.</div>'
+                % (source, puzzle_number, lead, filed,
+                   "" if filed == 1 else "s"))
+    return ('<div class="text-sm text-amber-800 bg-amber-50 border '
+            'border-amber-200 rounded p-2">No prefill run is active for this '
+            'puzzle%s.</div>'
+            % (" (last log stale &mdash; check logs/%s)" % logf.name
+               if logf is not None else ""))
+
+
+@bp.route("/prefill_status/<source>/<int:puzzle_number>")
+def prefill_status(source, puzzle_number):
+    """Poll target for the prefill status box."""
+    _require_admin()
+    return _prefill_status_div(source, puzzle_number)
+
+
 @bp.route("/silly/<int:clue_id>", methods=["POST"])
 def toggle_silly(clue_id):
     """Toggle Cordelia's Silly Award on a clue."""
