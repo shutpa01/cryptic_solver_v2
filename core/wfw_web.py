@@ -2687,6 +2687,21 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'font-weight:700;cursor:pointer">Uncommit</button>',
          '<span id="g-cmsg" style="margin-left:.5rem;font-weight:700"></span>',
          '</form>',
+         # RE-RUN restored 2026-07-13 (user-approved): after enriching the DB (e.g. the
+         # two halves of a double definition) the ENGINES need one user-clicked re-run
+         # to use it — every other re-run control was stripped in the publish-first
+         # cleanup, leaving no path at all (13a ON THE SPOT). The route's guard stands:
+         # a frozen manual solve is never overwritten.
+         '<form method="post" action="/hsrerun" style="margin:.5rem 0 0;display:inline-block">',
+         '<input type="hidden" name="only" value="%d">' % clue_id,
+         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+         ctx_hidden,
+         '<button type="submit" style="background:#fff;color:#0369a1;border:1px solid '
+         '#0369a1;border-radius:8px;padding:.35rem .8rem;font-weight:700;cursor:pointer" '
+         'title="Re-run this clue through the engines — use after adding the missing '
+         'data to the DB. A frozen manual solve is never overwritten.">'
+         '&#8635; Re-run engines</button>',
+         '</form>',
          '<form method="post" action="/hsstatus" style="margin:.5rem 0;display:flex;'
          'gap:.4rem;align-items:center;flex-wrap:wrap">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
