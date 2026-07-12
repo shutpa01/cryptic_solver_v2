@@ -100,21 +100,48 @@ def main():
         return 0
 
     from core import engine_registry
+    from core import span_join
+    from core import store
     from core.wfw_web import enum_space   # spaces multi-word answers per enumeration
     wiring = engine_registry.db_only(engine_registry.make_db_wiring())
+
+    # Split-enumeration pairs (one answer over TWO grid entries, e.g. CURRY (5,6)
+    # + a "See 3 Down" stub holding POWDER): solve the PRIMARY against the JOINED
+    # letters, and file a status='continuation' marker on the stub — it is not a
+    # fail (there is nothing to solve) and not a pass (nothing was verified), and
+    # the distinct status drops it out of every fail/pending work list.
+    con = store.connect()
+    try:
+        spans = span_join.classify_rows(con, rows)
+        for cid, clue_text, answer, src, pn, direction, enum in rows:
+            s = spans.get(cid)
+            if s and s[0] == "stub":
+                primary_id, label = s[1]
+                span_join.mark_continuation(con, cid, clue_text, answer,
+                                            primary_id, label)
+                log("  span-join: clue %d '%s' marked continuation of %s (%d)"
+                    % (cid, clue_text, label, primary_id))
+    finally:
+        con.close()
 
     counts = {}
     per_puzzle = {}
     for cid, clue_text, answer, src, pn, direction, enum in rows:
-        try:
-            answer = enum_space(answer, enum)
-            _ctx, parse, _name = engine_registry.solve_clue_text(
-                clue_text, answer, wiring, source=src, puzzle_number=pn,
-                clue_id=cid, direction=direction)
-            status = parse.status if parse is not None else "fail"
-        except Exception as e:
-            log("  ERROR clue %d: %s" % (cid, e))
-            status = "error"
+        s = spans.get(cid)
+        if s and s[0] == "stub":
+            status = "continuation"                    # marker already filed
+        else:
+            try:
+                if s and s[0] == "primary":
+                    answer = s[1]                      # the JOINED letters
+                answer = enum_space(answer, enum)
+                _ctx, parse, _name = engine_registry.solve_clue_text(
+                    clue_text, answer, wiring, source=src, puzzle_number=pn,
+                    clue_id=cid, direction=direction)
+                status = parse.status if parse is not None else "fail"
+            except Exception as e:
+                log("  ERROR clue %d: %s" % (cid, e))
+                status = "error"
         counts[status] = counts.get(status, 0) + 1
         key = (src, pn)
         per_puzzle.setdefault(key, {}).setdefault(status, 0)

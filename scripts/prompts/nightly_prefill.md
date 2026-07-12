@@ -27,6 +27,10 @@ Prefill-discipline rules (user corrections, 2026-07-09 — do not repeat them):
 3. A synonym used must ALWAYS be revealed in full — never only the
    post-deletion survivor.
 4. Selection pieces must obey the derivation rules (core.selection SPAN_RULES).
+5. A word can never be anagram fodder if its letters land in the answer in
+   their original order (user correction, 2026-07-12: TO in OBBLIGATO). An
+   anagram must rearrange. Such a word is a LITERAL — tag it "letters" on its
+   tiles, and keep the anagram piece to the words that are actually scrambled.
 
 ## Validation before ANY write (the established scratchpad pattern)
 Check word coverage, tile coverage, selection-rule validity, and fodder

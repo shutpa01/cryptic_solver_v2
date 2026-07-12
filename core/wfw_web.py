@@ -37,6 +37,7 @@ from core import anagram_container_screen
 from core import palindrome_screen
 from core import spoonerism_screen
 from core import admin_db
+from core import span_join
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
@@ -250,9 +251,23 @@ def _filler_for(clue_id):
 def _load_clue(clue_id):
     conn = sqlite3.connect(DB)
     try:
-        return conn.execute(
+        row = conn.execute(
             "SELECT clue_text, answer, source, puzzle_number, direction, enumeration, "
             "clue_number FROM clues WHERE id = ?", (clue_id,)).fetchone()
+        if row is None:
+            return None
+        # Split-enumeration PRIMARY (its enumeration counts more letters than the
+        # stored answer holds, and a "See <n> <dir>" stub completes it): present
+        # the JOINED answer, so every caller — the /hs tile row, Resolve, commit,
+        # re-run — works on the whole phrase. Wordplay pieces can cross the entry
+        # boundary (DINING ROOM = DIN+IN+GROOM), so the per-entry answer can never
+        # host them. Read-only lens: the clues row itself is never changed.
+        clue_text, answer, src, pnum, direction, enum, cnum = row
+        joined = span_join.primary_join(conn, src, pnum, cnum, direction,
+                                        answer, enum)
+        if joined is not None:
+            row = (clue_text, joined[0], src, pnum, direction, enum, cnum)
+        return row
     finally:
         conn.close()
 
@@ -4322,6 +4337,11 @@ def hsmanualcommit_route():
                     return _json({"ok": False, "msg": "Anagram fodder %r does not contain the tiles "
                                   "you clicked (%s) — missing %s." % (value, got,
                                   "".join(sorted(short.elements())))})
+                if got == value:                           # unrearranged = NOT an anagram (user rule
+                    return _json({"ok": False,             # 2026-07-12): it is a charade literal
+                                  "msg": "%r is not an anagram — its letters land on the tiles "
+                                  "in their original order (%s). An anagram must rearrange; "
+                                  "tag this piece 'letters' (literal) instead." % (phrase, got)})
             si = len(sources)
             # record the piece's REAL mechanism so the render shows the right label (letters ->
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
