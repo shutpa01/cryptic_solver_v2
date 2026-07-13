@@ -252,6 +252,15 @@ def fetch_everyman_uuid(puzzle_number):
         if r.status_code != 200:
             print(f"  Article HTTP {r.status_code}")
             return None
+        # PRECISE extraction first (verified 2026-07-13): the article embeds
+        # escaped JSON with "content":[{"type":"puzzle","uuid":"..."}] — the
+        # quotes appear backslash-escaped in the page state, hence \\? below.
+        m = re.search(
+            r'\\?"type\\?"\s*:\s*\\?"puzzle\\?"\s*,\s*\\?"uuid\\?"\s*:\s*'
+            r'\\?"([0-9a-f-]{36})\\?"', r.text)
+        if m:
+            return m.group(1)
+        # Fallback: probe every UUID on the page against the data API.
         uuids = set(re.findall(
             r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}',
             r.text))
@@ -289,8 +298,12 @@ def parse_everyman_puzzle(data):
     copy = data.get('copy', {})
     title = copy.get('title', '')
 
-    # Extract puzzle number from title like "Everyman No. 4147"
-    m = re.search(r'(\d{4,})', title)
+    # Extract puzzle number from title like "Everyman No. 4147" — commas
+    # stripped FIRST: since ~June 2026 the Observer formats some titles
+    # "Everyman 4,155", which made this parse return 0 and stalled the weekly
+    # catch-up loop at #4155 for six weeks (found 2026-07-13). The backfill
+    # path (backfill_everyman_previous) always stripped commas; now both do.
+    m = re.search(r'(\d{4,})', title.replace(',', ''))
     puzzle_number = int(m.group(1)) if m else 0
 
     # Parse date
