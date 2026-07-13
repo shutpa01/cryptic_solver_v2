@@ -41,6 +41,45 @@ from core import span_join
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
+def _manual_hidden_line(ctx, parse):
+    """Lit clue line for a MANUAL/PREFILL parse of a hidden clue, or None.
+
+    The hidden ENGINE's parses carry per-letter links, and its screen lights the
+    host letters (de[BRIE]fs). Manual and prefill parses store the whole host
+    phrase as one raw piece with a 'hidden indicator' annotation — no per-letter
+    links — so the generic renderer showed a plain clue line (regression seen
+    2026-07-13 on SALSA/KARACHI/NOTIFIED prefills). Here the run is DERIVED, not
+    guessed: only when the parse carries a hidden indicator, and only for a piece
+    whose value sits as a contiguous run (forward, or reversed for the
+    hidden-reversed case) strictly inside that piece's own clue letters. Anything
+    else returns None and the caller renders the plain line."""
+    notes = " ".join((a.note or "") for a in parse.annotations
+                     if getattr(a, "role", "") == "indicator").lower()
+    if "hidden indicator" not in notes:
+        return None
+    atom_by_id = {a.atom_id: a for a in ctx.clue_atoms}
+    lit = set()
+    for s in parse.sources:
+        atoms = sorted((atom_by_id[i] for i in s.clue_atom_ids
+                        if i in atom_by_id and atom_by_id[i].kind == "letter"),
+                       key=lambda a: a.index)
+        letters = "".join(a.normalized for a in atoms)
+        val = "".join(c for c in (s.value or "").upper() if c.isalpha())
+        if not val or len(val) >= len(letters):      # not a host with a run INSIDE it
+            continue
+        pos = letters.find(val)
+        if pos < 0:
+            pos = letters.find(val[::-1])            # hidden reversed
+        if pos < 0:
+            continue
+        lit.update(a.atom_id for a in atoms[pos:pos + len(val)])
+    if not lit:
+        return None
+    return "".join('<span class="wfw-lit">%s</span>' % escape(a.char)
+                   if a.atom_id in lit else escape(a.char)
+                   for a in ctx.clue_atoms)
+
+
 SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
            "homophone": homophone_screen.render,
            "dd": dd_screen.render,
@@ -851,7 +890,9 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
         if ctx is None:
             ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
-        card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
+        card = (screen(ctx, parse) if screen else
+                wfw_render.render_parse(parse, ctx=ctx,
+                                        clue_line_html=_manual_hidden_line(ctx, parse)))
 
     forced_banner = ""
     if forced:
@@ -2142,7 +2183,7 @@ function initGrid(rootId, DATA){
   else if(selPos.indexOf(p)>=0){t.style.background='#1d4ed8';t.style.borderColor='#1d4ed8';t.style.color='#fff';}
   else{t.style.background='#fff';t.style.borderColor='#cbd5e1';t.style.color='#0f172a';}});}
  atiles.forEach(function(t){t.addEventListener('click',function(){var p=+t.dataset.pos;var o=posOwner(p);if(o>=0){releasePiece(o);return;}var i=selPos.indexOf(p);if(i>=0)selPos.splice(i,1);else selPos.push(p);drawTiles();});});
- function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd});}catch(e){}}
+ function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){if(o&&o.msg){msgEl.style.color='#16a34a';msgEl.textContent=o.msg;}}).catch(function(){});}catch(e){}}
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
  function assignOf(i){for(var k=0;k<assignments.length;k++){if(assignments[k].idx.indexOf(i)>=0)return assignments[k];}return null;}
@@ -2252,7 +2293,7 @@ function initGrid(rootId, DATA){
  itype.addEventListener('change',roleFields);
  if(selrule)selrule.addEventListener('change',fillSelCands);
  var msgEl=root.querySelector('#g-msg');
- function note(t){if(msgEl)msgEl.textContent=t||'';}
+ function note(t){if(msgEl){msgEl.style.color='#dc2626';msgEl.textContent=t||'';}}
  function assignNow(){
   var idx=checkedIdx();if(!idx.length){note('tick a word first');return;}
   var r=roleSel.value, a={idx:idx,role:r}, survivor=null;
@@ -2537,7 +2578,9 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
 
     if parse is not None:
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
-        card = screen(ctx, parse) if screen else wfw_render.render_parse(parse, ctx=ctx)
+        card = (screen(ctx, parse) if screen else
+                wfw_render.render_parse(parse, ctx=ctx,
+                                        clue_line_html=_manual_hidden_line(ctx, parse)))
     else:
         card = '<p>Not solved yet — assign roles and Resolve.</p>'
 
@@ -3222,16 +3265,47 @@ def _create_pass_signature(cid, cand, sig, clue_text, answer):
 def hssave_route():
     """Save the hand-solver's current assignment list (JSON) for a clue, with NO solve — so
     each Assign persists immediately and a failed Resolve (or leaving the page) never loses
-    the work. Restored into the grid on the next /hs load. Returns a tiny ack."""
+    the work. Restored into the grid on the next /hs load.
+
+    ALSO writes the list's reusable pieces (synonym / abbreviation / definition / indicator
+    with a real type) to the reference DB right away — an Assign IS the enrichment (user
+    rule, re-stated 2026-07-12 after 16a LIGHTNING STRIKE: assigned DD definitions never
+    reached the DB, so Re-run had nothing to find). Dedup lives in the adders, so re-sending
+    the whole list on every Assign is harmless. NO solve here — the user's Re-run click
+    stays the only path to a re-solve. JSON ack with what was newly added."""
+    import json
     only = (request.form.get("only") or "").strip()
     payload = request.form.get("payload") or ""
-    if only.isdigit():
-        conn = store.connect()
-        try:
-            store.set_hs_assignments(conn, int(only), payload)
-        finally:
-            conn.close()
-    return app.response_class("ok", mimetype="text/plain")
+    if not only.isdigit():
+        return _json({"ok": False, "msg": ""})
+    cid = int(only)
+    conn = store.connect()
+    try:
+        store.set_hs_assignments(conn, cid, payload)
+    finally:
+        conn.close()
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+    added, rejected = [], []
+    if assigns:
+        row = _load_clue(cid)
+        if row is not None:
+            clue_text, answer, _src, _pnum, direction, enumeration, _cnum = row
+            answer = enum_space(answer, enumeration)
+            ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+            wt = _hs_word_units(ctx)
+            ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+            db_adds = _reusable_db_adds(wt, ans_letters, assigns)
+            if db_adds:
+                added, _present, rejected = _apply_db_adds(db_adds)
+    bits = []
+    if added:
+        bits.append(" · ".join(added))
+    if rejected:
+        bits.append("not saved: " + "; ".join(rejected))
+    return _json({"ok": True, "msg": " — ".join(bits)})
 
 
 @app.route("/hsnote", methods=["POST"])
@@ -4162,6 +4236,36 @@ def triageapply_route():
                        ("&scroll=%s" % scroll) if scroll else ""))
 
 
+def _reusable_db_adds(wt, ans_letters, assigns):
+    """Extract the REUSABLE pieces from a grid assignment list — the SAME rules as the
+    manual commit (synonym / substitution with a value; definition; indicator with a REAL
+    chosen type). Link / letters / anagram fodder / deletion / selection / filler are
+    per-clue and never saved. ONE place for the rules: /hssave (every Assign),
+    /hssavepieces (route kept) both use it."""
+    db_adds = []
+    for a in assigns:
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        role = (a.get("role") or "").strip()
+        phrase = " ".join(wt[i].text for i in idx)
+        value = (a.get("value") or "").strip().upper()
+        if role == "synonym" and value:
+            db_adds.append(("synonym", phrase, value))
+        elif role == "substitution" and value:
+            db_adds.append(("substitution", phrase, value))
+        elif role == "definition":
+            db_adds.append(("definition", phrase, ans_letters))
+        elif role == "indicator":
+            it = (a.get("itype") or "").split(":")[0]
+            if it:
+                db_adds.append(("indicator", phrase, it, (a.get("isub") or "").strip() or None))
+    return db_adds
+
+
 def _apply_db_adds(db_adds):
     """Write reusable pieces to the reference DB and fold each new row into the resident
     wiring. Items: ("synonym", word, value) / ("definition", phrase, answer) /
@@ -4232,30 +4336,7 @@ def hssavepieces_route():
     except Exception:
         assigns = []
 
-    # The SAME reusable-piece rules as the manual commit (synonym / substitution with a
-    # value; definition; indicator with a REAL chosen type) — link/letters/anagram fodder/
-    # deletion/selection/filler are per-clue and never saved.
-    db_adds = []
-    for a in assigns:
-        try:
-            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
-        except Exception:
-            idx = []
-        if not idx:
-            continue
-        role = (a.get("role") or "").strip()
-        phrase = " ".join(wt[i].text for i in idx)
-        value = (a.get("value") or "").strip().upper()
-        if role == "synonym" and value:
-            db_adds.append(("synonym", phrase, value))
-        elif role == "substitution" and value:
-            db_adds.append(("substitution", phrase, value))
-        elif role == "definition":
-            db_adds.append(("definition", phrase, ans_letters))
-        elif role == "indicator":
-            it = (a.get("itype") or "").split(":")[0]
-            if it:
-                db_adds.append(("indicator", phrase, it, (a.get("isub") or "").strip() or None))
+    db_adds = _reusable_db_adds(wt, ans_letters, assigns)
     if not db_adds:
         return _json({"ok": False, "msg": "Nothing to save — assign a synonym/abbreviation/"
                       "definition/indicator first (link/letters/filler are per-clue, "
