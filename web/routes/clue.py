@@ -278,7 +278,20 @@ def clue_page(slug):
         abort(404)
     clue_id = clue["id"]
 
-    # Find other appearances of the same clue text + answer
+    # WEEK-ONLY, NO LEGACY (user decision 2026-07-13, memory week-only-no-legacy):
+    # a public clue page exists IF AND ONLY IF the clue is served — WFW pass parse
+    # (engine pass / frozen manual / user-confirmed prefill) AND a served
+    # publication. Everything else answers 410 Gone at its stable URL; the page
+    # RETURNS at the same URL when the clue is later solved (resurrection). The
+    # legacy corpus stays in the DB as data — it is never rendered.
+    from web.serving import is_served, get_card, card_css, SERVED_SOURCES
+    wfw_card = (get_card(clue_id)
+                if clue["source"] in SERVED_SOURCES else None)
+    if wfw_card is None:
+        abort(410)
+
+    # Find other appearances of the same clue text + answer — link ONLY to pages
+    # that exist under the serving rule (never link to a 410).
     db = get_db()
     other_rows = db.execute(
         """SELECT id, source, puzzle_number, publication_date, clue_number, direction,
@@ -286,12 +299,12 @@ def clue_page(slug):
                   explanation, ai_explanation
            FROM clues
            WHERE answer = ? AND clue_text = ? AND id != ?
-             AND source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
+             AND source IN ('telegraph', 'times', 'guardian')
            ORDER BY publication_date DESC
            LIMIT 5""",
         (clue["answer"], clue["clue_text"], clue_id),
     ).fetchall()
-    matches = list(other_rows)
+    matches = [r for r in other_rows if is_served(r["source"], r["id"])]
 
     clue_dict = dict(clue)
 
@@ -1049,9 +1062,9 @@ def clue_page(slug):
     meta_description = generate_meta_description(clue_dict)
     faq_schema = generate_faq_schema(clue_dict, steps)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
-    word_roles_schema = generate_word_roles_schema(
-        clue_dict, role_groups, clue_dict.get("mechanism_label"),
-    )
+    # Legacy word-roles JSON-LD retired with the legacy render (week-only, no
+    # legacy): the served breakdown is the WFW parse, rendered in the page HTML.
+    word_roles_schema = None
 
     from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
@@ -1099,6 +1112,8 @@ def clue_page(slug):
     response = make_response(render_template(
         "clue.html",
         clue=clue_dict,
+        wfw_card=wfw_card,
+        wfw_card_css=card_css(),
         other_appearances=other_appearances,
         source_puzzle_url=source_puzzle_url,
         meta_description=meta_description,

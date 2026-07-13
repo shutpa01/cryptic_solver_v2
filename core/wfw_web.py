@@ -41,56 +41,9 @@ from core import span_join
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
 
-def _manual_hidden_line(ctx, parse):
-    """Lit clue line for a MANUAL/PREFILL parse of a hidden clue, or None.
-
-    The hidden ENGINE's parses carry per-letter links, and its screen lights the
-    host letters (de[BRIE]fs). Manual and prefill parses store the whole host
-    phrase as one raw piece with a 'hidden indicator' annotation — no per-letter
-    links — so the generic renderer showed a plain clue line (regression seen
-    2026-07-13 on SALSA/KARACHI/NOTIFIED prefills). Here the run is DERIVED, not
-    guessed: only when the parse carries a hidden indicator, and only for a piece
-    whose value sits as a contiguous run (forward, or reversed for the
-    hidden-reversed case) strictly inside that piece's own clue letters. Anything
-    else returns None and the caller renders the plain line."""
-    notes = " ".join((a.note or "") for a in parse.annotations
-                     if getattr(a, "role", "") == "indicator").lower()
-    if "hidden indicator" not in notes:
-        return None
-    atom_by_id = {a.atom_id: a for a in ctx.clue_atoms}
-    lit = set()
-    for s in parse.sources:
-        atoms = sorted((atom_by_id[i] for i in s.clue_atom_ids
-                        if i in atom_by_id and atom_by_id[i].kind == "letter"),
-                       key=lambda a: a.index)
-        letters = "".join(a.normalized for a in atoms)
-        val = "".join(c for c in (s.value or "").upper() if c.isalpha())
-        if not val or len(val) >= len(letters):      # not a host with a run INSIDE it
-            continue
-        pos = letters.find(val)
-        if pos < 0:
-            pos = letters.find(val[::-1])            # hidden reversed
-        if pos < 0:
-            continue
-        lit.update(a.atom_id for a in atoms[pos:pos + len(val)])
-    if not lit:
-        return None
-    return "".join('<span class="wfw-lit">%s</span>' % escape(a.char)
-                   if a.atom_id in lit else escape(a.char)
-                   for a in ctx.clue_atoms)
-
-
-SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
-           "homophone": homophone_screen.render,
-           "dd": dd_screen.render,
-           "charade": charade_screen.render, "anagram": anagram_screen.render,
-           "anagram_charade": anagram_charade_screen.render,
-           "anagram_container": anagram_container_screen.render,
-           "container": anagram_container_screen.render,
-           "container_charade": anagram_container_screen.render,
-           "charade_homophone": charade_homophone_screen.render,
-           "palindrome": palindrome_screen.render,
-           "spoonerism": spoonerism_screen.render}
+# SCREENS + _manual_hidden_line moved to core/wfw_card.py (2026-07-13) so the
+# public site renders the SAME card without importing this heavy solver app.
+from core.wfw_card import SCREENS, _manual_hidden_line  # noqa: F401
 _ENGINE_LABELS = {"hidden": "hidden", "dd": "double definition",
                   "charade": "charade", "anagram": "anagram",
                   "anagram_charade": "anagram + charade",

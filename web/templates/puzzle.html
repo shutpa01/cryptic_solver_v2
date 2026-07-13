@@ -190,15 +190,9 @@
                 {% if clue | def_missing %}
                 <span class="text-xs font-medium px-1.5 py-0.5 rounded bg-amber-100 text-amber-700" title="Definition '{{ clue.definition }}' → {{ clue.answer }} not in reference DB">DEF?</span>
                 {% endif %}
-                {% else %}
-                {% if clue.tier == 'HIGH' %}
-                <span title="I'm pretty confident I've nailed this one"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
-                {% elif clue.tier == 'MEDIUM' %}
-                <span title="I think this is right but I'm not completely sure"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
-                {% elif clue.tier == 'LOW' %}
-                <span title="My best guess — take with a pinch of salt!"><img src="/static/cordelia_flower.jpg" class="inline h-5 w-5" alt="flower"></span>
                 {% endif %}
-                {% endif %}
+                {# Tier flowers removed (user 2026-07-13): served explanations
+                   are human-verified WFW parses — nothing to rate. #}
             </div>
             {# Solve mode input — hidden until solve mode activated #}
             <div class="solve-input hidden mt-1 flex flex-wrap items-center gap-1.5 max-w-full">

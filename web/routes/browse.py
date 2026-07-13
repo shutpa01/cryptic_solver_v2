@@ -22,10 +22,13 @@ def _source_name(source):
 
 
 def _public_sources():
-    """BROWSE_SOURCES filtered for non-admin visitors (hides cordelia)."""
+    """BROWSE_SOURCES filtered for non-admin visitors: only the SERVED browse
+    options (week-only relaunch, user 2026-07-13 — DT + DT prize, Times +
+    Times Sunday, Guardian, Observer Everyman). Admin sees everything."""
     if getattr(g, "is_admin", False):
         return BROWSE_SOURCES
-    return [s for s in BROWSE_SOURCES if s[0] != "cordelia"]
+    from web.serving import SERVED_BROWSE
+    return [s for s in BROWSE_SOURCES if (s[0], s[1]) in SERVED_BROWSE]
 
 
 @bp.route("/")

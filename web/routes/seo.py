@@ -12,20 +12,31 @@ bp = Blueprint("seo", __name__)
 SITEMAP_PAGE_SIZE = 50000  # Google's limit per sitemap file
 CANONICAL_HOST = "https://justcordelia.com"
 
-# All sources to include in sitemaps
+# Sources for the PUZZLE and NEWS sitemaps (puzzle-page serving scope is a
+# pending decision — untouched today).
 SITEMAP_SOURCES = ('telegraph', 'times', 'dailymail', 'guardian', 'independent')
 
 
 def _clue_url_count():
-    """Count of clue URLs eligible for the sitemap (clue + answer present)."""
+    """Count of clue URLs in the sitemap = count of clue pages that EXIST.
+
+    Week-only, no legacy (user decision 2026-07-13): a clue page exists iff the
+    clue has a WFW pass parse AND a served source — the same rule the clue route
+    enforces with 410 (web/serving.py). The sitemap must list exactly those
+    pages: listing URLs that answer 410 would be lying to the crawler.
+    NOTE: this SQL count drives PAGINATION only; the page route additionally
+    drops the handful of pass rows whose breakdown cannot render, so it may
+    run a few high — harmless against the 50k page size."""
+    from web.serving import SERVED_SOURCES
     db = get_db()
-    placeholders = ",".join("?" for _ in SITEMAP_SOURCES)
+    placeholders = ",".join("?" for _ in SERVED_SOURCES)
     row = db.execute(
-        f"""SELECT COUNT(*) AS n FROM clues
-           WHERE source IN ({placeholders})
-             AND clue_text IS NOT NULL
-             AND answer IS NOT NULL AND answer != ''""",
-        SITEMAP_SOURCES,
+        f"""SELECT COUNT(*) AS n FROM clues c
+           JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
+           WHERE c.source IN ({placeholders})
+             AND c.clue_text IS NOT NULL
+             AND c.answer IS NOT NULL AND c.answer != ''""",
+        SERVED_SOURCES,
     ).fetchone()
     return row["n"] or 0
 
@@ -66,11 +77,13 @@ def robots_txt():
 def sitemap_index():
     """Sitemap index — paginated clue sitemaps, puzzle sitemap, news sitemap.
 
-    Lists every clue-sitemap page so Google sees the full corpus
-    (~580k URLs across ~12 pages of 50k each). The 7-day cutoff that
-    was in place 2026-04-19 to 2026-04-25 told Google only ~1k URLs
-    were canonical and is believed to have caused mass deindexing of
-    discovered URLs.
+    Clue sitemaps list exactly the clue pages that EXIST under the serving
+    rule (WFW pass + served source — week-only/no-legacy, user decision
+    2026-07-13); unserved clue URLs answer 410, and a sitemap must never list
+    a 410. This is a different regime from the 2026-04-19..25 "7-day cutoff"
+    (which listed a subset of pages that all still served 200 — the mismatch
+    between sitemap and site is what that episode warns against; today the
+    sitemap and the 410 gate share one rule in web/serving.py).
     """
     today = date.today().isoformat()
 
@@ -118,19 +131,26 @@ def sitemap_clues_paged(page):
     db = get_db()
     offset = (page - 1) * SITEMAP_PAGE_SIZE
 
-    placeholders = ",".join("?" for _ in SITEMAP_SOURCES)
+    # Served pages only — the SAME rule as the clue route's 410 gate (week-only,
+    # no legacy; web/serving.is_served). The SQL narrows to pass rows in served
+    # sources; is_served then drops the handful whose breakdown cannot render
+    # (no stored atoms — those pages 410, so they must not be listed).
+    # Lastmod = the later of publication and the WFW solve.
+    from web.serving import SERVED_SOURCES, is_served
+    placeholders = ",".join("?" for _ in SERVED_SOURCES)
     rows = db.execute(
-        f"""SELECT c.id, c.clue_text, c.publication_date,
-                   se.updated_at AS enriched_at
+        f"""SELECT c.id, c.source, c.clue_text, c.publication_date,
+                   w.created_at AS enriched_at
            FROM clues c
-           LEFT JOIN structured_explanations se ON se.clue_id = c.id
+           JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
            WHERE c.source IN ({placeholders})
              AND c.clue_text IS NOT NULL
              AND c.answer IS NOT NULL AND c.answer != ''
            ORDER BY c.id
            LIMIT ? OFFSET ?""",
-        (*SITEMAP_SOURCES, SITEMAP_PAGE_SIZE, offset),
+        (*SERVED_SOURCES, SITEMAP_PAGE_SIZE, offset),
     ).fetchall()
+    rows = [r for r in rows if is_served(r["source"], r["id"])]
 
     from web.routes.clue import generate_clue_slug
 

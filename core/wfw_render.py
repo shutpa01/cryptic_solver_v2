@@ -37,6 +37,7 @@ _TYPE_LABEL = {
     "hidden": "Hidden word",
     "hidden_reversed": "Hidden word (reversed)",
     "dd": "Double definition",
+    "double_definition": "Double definition",
     "cd": "Cryptic definition",
     "andlit": "All-in-one (&lit)",
     "charade": "Charade",
@@ -805,12 +806,13 @@ def _render_assembly(parse, ctx, src_fg, src_fill):
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
-PAGE_CSS = """
-  :root { --ink:#0f172a; --muted:#475569; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-         Helvetica, Arial, sans-serif; margin: 2rem auto; max-width: 680px;
-         color: var(--ink); background:#f1f5f9; padding:0 1rem; }
+# CARD_CSS is the card's own styles WITHOUT page-shell rules (body/:root/*) so
+# the public site can embed the identical card inside its own layout
+# (week-only relaunch 2026-07-13). PAGE_CSS = shell + CARD_CSS, unchanged look
+# for the solver's standalone pages.
+CARD_CSS = """
+  .wfw-card { --ink:#0f172a; --muted:#475569; }
+  .wfw-card, .wfw-card * { box-sizing: border-box; }
   .wfw-tag { color:#64748b; font-size:.8rem; letter-spacing:.04em;
              text-transform:uppercase; font-weight:600; }
   .wfw-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px;
@@ -876,6 +878,14 @@ PAGE_CSS = """
   .wfw-banner-pending ul, .wfw-banner-warn ul { margin:0; padding-left:1.2rem; }
   .wfw-banner-pending li, .wfw-banner-warn li { margin:.15rem 0; }
 """
+
+PAGE_CSS = """
+  :root { --ink:#0f172a; --muted:#475569; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+         Helvetica, Arial, sans-serif; margin: 2rem auto; max-width: 680px;
+         color: var(--ink); background:#f1f5f9; padding:0 1rem; }
+""" + CARD_CSS
 
 
 def render_page(parses, title="WFW preview"):
