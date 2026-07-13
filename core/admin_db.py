@@ -206,6 +206,65 @@ def add_homophone(word, homophone):
         conn.close()
 
 
+_SPOONERISMS_DDL = """CREATE TABLE IF NOT EXISTS spoonerisms (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source_phrase TEXT NOT NULL,
+    answer_phrase TEXT NOT NULL,
+    norm_source TEXT,
+    norm_answer TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+)"""
+
+
+def _norm_phrase(s):
+    """Letters-only lowercase key for spoonerism matching — spacing and punctuation
+    never matter to the sound pair (THE DEAR YACHT == the dear yacht == THEDEARYACHT)."""
+    return "".join(c for c in (s or "").lower() if c.isalpha())
+
+
+def add_spoonerism(source_phrase, answer_phrase):
+    """Add a vetted spoonerism PAIR (cryptic_new.db): the source phrase whose transposed
+    sounds give the answer phrase, e.g. THE DEAR YACHT -> THE YEAR DOT. Human-curated
+    sound knowledge, like the homophones table — the pair IS the justification the manual
+    commit gate checks, so nothing here is derived or verified phonetically. Directional
+    (source -> answer), one row per pair, deduped on letters-only keys."""
+    src = (source_phrase or "").strip().lower()
+    ans = (answer_phrase or "").strip().lower()
+    ns, na = _norm_phrase(src), _norm_phrase(ans)
+    if not ns or not na:
+        return "Both the source phrase and the answer are required."
+    if ns == na:
+        return "A spoonerism pair needs two different phrases."
+    conn = _conn()
+    try:
+        conn.execute(_SPOONERISMS_DDL)
+        if conn.execute("SELECT 1 FROM spoonerisms WHERE norm_source=? AND norm_answer=?",
+                        (ns, na)).fetchone():
+            return "Already present: spoonerism %r -> %r" % (src, ans)
+        conn.execute("INSERT INTO spoonerisms (source_phrase, answer_phrase, norm_source, "
+                     "norm_answer) VALUES (?, ?, ?, ?)", (src, ans, ns, na))
+        conn.commit()
+        return "Added spoonerism: %r -> %r" % (src, ans)
+    finally:
+        conn.close()
+
+
+def has_spoonerism(source_phrase, answer_phrase):
+    """True when the (source -> answer) pair is in the spoonerisms table (letters-only,
+    case-insensitive). The manual commit gate's check — a spoonerism piece is only
+    accepted when the human has vetted the pair."""
+    ns, na = _norm_phrase(source_phrase), _norm_phrase(answer_phrase)
+    if not ns or not na:
+        return False
+    conn = _conn()
+    try:
+        conn.execute(_SPOONERISMS_DDL)
+        return conn.execute("SELECT 1 FROM spoonerisms WHERE norm_source=? AND norm_answer=?",
+                            (ns, na)).fetchone() is not None
+    finally:
+        conn.close()
+
+
 def add_indicator(word, wordplay_type, subtype=None):
     word = (word or "").strip()
     wp = (wordplay_type or "").strip().lower()

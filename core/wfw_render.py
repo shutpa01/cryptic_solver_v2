@@ -100,6 +100,7 @@ _MECH_LABEL = {
     "last_letter": "Last letter",
     "outer": "Outer letters",
     "homophone": "Sounds like",
+    "spoonerism": "Spoonerism of",   # vetted pair (spoonerisms table): value = source phrase
     "anagram_fodder": "Anagram of",
     "alternate": "Alternate letters",
     "definition": "Definition",
@@ -319,7 +320,8 @@ def _source_row(parse, si, src_fg, src_fill):
     # Show HOW the piece's letters reached the answer (reversed / minus a deleted run), so a
     # piece that supplies IS but lands as SI reads "is -> IS reversed" here too — not a bare IS
     # whose order isn't in the answer. Matches the assembly build line (same _transform_note).
-    if s.mechanism != "anagram_fodder":
+    # Spoonerism pieces are a SOUND pair — their value never letter-matches the tiles.
+    if s.mechanism not in ("anagram_fodder", "spoonerism"):
         al = parse.answer_letters()
         positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
         got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))

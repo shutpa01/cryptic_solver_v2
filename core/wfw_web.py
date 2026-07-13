@@ -2080,9 +2080,9 @@ function initGrid(rootId, DATA){
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
- function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram';} // lands on tiles
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram'||r==='spoonerism';} // lands on tiles
  // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
  // value is DERIVED from the ticked word(s) — never free-typed — and cannot fabricate.
  function selCands(letters,rule){var la=(letters||'').split(''),n=la.length;
@@ -2175,7 +2175,7 @@ function initGrid(rootId, DATA){
   roleFields();
   if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
   if(a.role==='definition'&&dkind)dkind.value=a.dkind||'def';
-  if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='selection')addInp.value=a.value||'';
+  if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='selection'||a.role==='spoonerism')addInp.value=a.value||'';
   if(cutEl)cutEl.value=a.cut||'';
   selPos=(a.pos||[]).slice();
   updateBar();
@@ -2209,7 +2209,7 @@ function initGrid(rootId, DATA){
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':'new value')));
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value'))));
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
@@ -2266,6 +2266,9 @@ function initGrid(rootId, DATA){
   if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
+  if(r==='spoonerism'){var spv=(addInp.value||'').trim().toUpperCase();   // vetted sound pair:
+   if(!spv){note('type the FULL source phrase (e.g. THE DEAR YACHT)');return;}a.value=spv;
+   if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // covers the whole answer
   if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
   if(r==='definition'&&dkind)a.dkind=dkind.value;               // 'def' | 'dbe' (label only)
   if(isPiece(r)){
@@ -2606,6 +2609,9 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'a <b>deletion</b> role: tick the word that supplies it (e.g. &ldquo;a&rdquo; &rarr; A) and '
          'pick <b>deletion</b> &mdash; no tiles. (Or type the letter directly in <b>&minus; delete</b> '
          'on the fodder.) '
+         '<b>spoonerism</b>: tick the source word(s), type the FULL source phrase (e.g. '
+         'THE DEAR YACHT) &mdash; Assign files the pair to the spoonerisms table and the piece '
+         'covers the whole answer; tag the Spooner word as an <b>indicator</b> (type spoonerism). '
          '<b>indicator/definition/link/filler</b>: no tiles. Then Assign. When every tile is '
          'coloured, <b>Commit (manual)</b>.</p>',
          '<table class="g-tbl"><thead><tr><th></th><th>word</th><th>role</th><th>brings</th>'
@@ -2621,6 +2627,7 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="selection">selection (letters from word)</option>'
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
+         '<option value="spoonerism">spoonerism (source phrase)</option>'
          '<option value="indicator">indicator</option>'
          '<option value="link">link word</option>'
          '<option value="filler">filler</option>'
@@ -4212,6 +4219,8 @@ def _reusable_db_adds(wt, ans_letters, assigns):
             db_adds.append(("substitution", phrase, value))
         elif role == "definition":
             db_adds.append(("definition", phrase, ans_letters))
+        elif role == "spoonerism" and value:
+            db_adds.append(("spoonerism", value, ans_letters))
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0]
             if it:
@@ -4238,6 +4247,10 @@ def _apply_db_adds(db_adds):
                 m = admin_db.add_indicator(item[1], item[2], item[3])
             elif kind == "substitution":
                 m = admin_db.add_substitution(item[1], item[2])
+            elif kind == "spoonerism":
+                # vetted sound pair (source phrase -> answer); no wiring fold — only the
+                # manual commit gate consumes the table, not the engines
+                m = admin_db.add_spoonerism(item[1], item[2])
             else:
                 continue
         except Exception as e:
@@ -4407,6 +4420,36 @@ def _build_manual_parse(cid, assigns, andlit=False):
                 covered[p] = si
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
                                   transform=tr))
+        elif role == "spoonerism":
+            # A vetted sound pair (spoonerisms table): the source phrase transposes to sound
+            # like the WHOLE answer, so the piece covers every tile — sound has no per-letter
+            # provenance (same footing as the spoonerism engine). The pair must already be in
+            # the table (Assign files it), so the human vet — not letter arithmetic — is the
+            # justification the gate checks.
+            value = (a.get("value") or "").strip().upper()
+            if not value:
+                return {"ok": False, "msg": "The spoonerism piece needs its source phrase "
+                        "(e.g. THE DEAR YACHT) — type it, then Assign."}
+            pos = sorted(int(p) for p in (a.get("pos") or [])
+                         if str(p).lstrip("-").isdigit())
+            if pos != list(range(1, N + 1)):
+                return {"ok": False, "msg": "A spoonerism covers the WHOLE answer — its "
+                        "piece must claim every tile (it has no per-letter sources)."}
+            if not admin_db.has_spoonerism(value, ans_letters):
+                return {"ok": False, "msg": "The pair %s → %s is not in the spoonerisms "
+                        "table yet — Assign the piece first (Assign files the pair)."
+                        % (value, answer.upper())}
+            si = len(sources)
+            sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
+                                  mechanism="spoonerism", source="db"))
+            db_adds.append(("spoonerism", value, ans_letters))
+            for p in pos:
+                if p in covered:
+                    return {"ok": False, "msg": "Answer tile %d is claimed by two "
+                            "pieces — each tile belongs to exactly one piece." % p}
+                covered[p] = si
+                links.append(Link(answer_pos=p, source_index=si, operation="manual",
+                                  transform=None))
         elif role == "definition":
             # 'dbe' = definition by example — identical to a plain definition in every code
             # path (still the parse.definition Source), only the rendered label differs; the
@@ -4435,6 +4478,18 @@ def _build_manual_parse(cid, assigns, andlit=False):
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
                                            note=("surface filler" if role == "filler"
                                                  else "link word"), source="manual"))
+
+    # A spoonerism indicator's note carries the pair so the card renders the full
+    # "SOURCE → ANSWER" detail (wfw_render._indicator_label already parses the
+    # "spoonerism:" prefix — the same shape the spoonerism engine emits).
+    _spoon = next((s for s in sources if s.mechanism == "spoonerism"), None)
+    if _spoon is not None:
+        for i, ann in enumerate(annotations):
+            if ann.role == "indicator" and ann.note.startswith("spoonerism"):
+                annotations[i] = Annotation(
+                    clue_atom_ids=ann.clue_atom_ids, text=ann.text, role="indicator",
+                    note="spoonerism: %s → %s" % (_spoon.value, answer.upper()),
+                    source="manual")
 
     if not sources:
         return {"ok": False, "msg": "Place at least one piece on the answer tiles "
