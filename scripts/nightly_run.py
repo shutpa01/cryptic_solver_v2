@@ -142,6 +142,11 @@ def run_claude(prompt_name, label, timeout=5400):
         log(f"  Prompt file missing: {prompt_file}")
         return False
     prompt = prompt_file.read_text(encoding="utf-8")
+    # Strip any inherited ANTHROPIC_API_KEY so claude bills the subscription,
+    # never prepaid API credits (see run_prefill.py, 2026-07-13). The task
+    # scheduler env is clean today; this guards against future launch contexts.
+    claude_env = os.environ.copy()
+    claude_env.pop("ANTHROPIC_API_KEY", None)
     try:
         result = subprocess.run(
             [CLAUDE_EXE, "-p", prompt, "--dangerously-skip-permissions"],
@@ -152,6 +157,7 @@ def run_claude(prompt_name, label, timeout=5400):
             encoding="utf-8",
             errors="replace",
             timeout=timeout,
+            env=claude_env,
         )
     except subprocess.TimeoutExpired:
         log(f"  {label} TIMEOUT ({timeout}s)")

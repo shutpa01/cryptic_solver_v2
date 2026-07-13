@@ -21,6 +21,7 @@ this DETACHED so the site never blocks on it) or by hand:
 """
 
 import argparse
+import os
 import subprocess
 import sys
 import time
@@ -94,11 +95,17 @@ def main():
             return 1
 
     # 2. headless Claude prefill (same invocation as the nightly)
+    # The web server's environment carries ANTHROPIC_API_KEY (loaded from .env
+    # for the ai_* helpers). claude.exe prefers an API key over the claude.ai
+    # login, so a button-launched run would bill prepaid API credits — strip it
+    # so headless runs ALWAYS bill the subscription (2026-07-13).
+    claude_env = os.environ.copy()
+    claude_env.pop("ANTHROPIC_API_KEY", None)
     log("prefill: claude -p (scope %s) ..." % tag)
     r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--dangerously-skip-permissions"],
                        cwd=str(ROOT), stdin=subprocess.DEVNULL,
                        capture_output=True, text=True, encoding="utf-8",
-                       errors="replace", timeout=5400)
+                       errors="replace", timeout=5400, env=claude_env)
     for line in (r.stdout or "").strip().splitlines()[-25:]:
         log("  " + line)
     if r.returncode != 0:
