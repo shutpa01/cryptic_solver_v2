@@ -2317,6 +2317,26 @@ function initGrid(rootId, DATA){
   assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];note('');drawCutPrev();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
  }
  root.querySelector('#g-assign').addEventListener('click',assignNow);
+ /* Standalone DB-delete flow (user design 2026-07-14): type a word + partner, search every
+    reference table, click x to delete a hit (recoverable; re-solves this clue). */
+ var dWord=root.querySelector('#d-word'), dVal=root.querySelector('#d-val');
+ var dBtn=root.querySelector('#d-search'), dRes=root.querySelector('#d-results'), dMsg=root.querySelector('#d-msg');
+ function dbSearch(){
+  var w=(dWord.value||'').trim(), v=(dVal.value||'').trim();
+  if(!w&&!v){dMsg.textContent='type a word and/or its partner first';return;}
+  dMsg.textContent='searching…';dRes.innerHTML='';
+  fetch('/hsdbsearch?word='+encodeURIComponent(w)+'&value='+encodeURIComponent(v)).then(function(r){return r.json();}).then(function(list){
+   dMsg.textContent=list.length?(list.length+' row'+(list.length===1?'':'s')+' found — click × to delete'):'no matching rows in the DB';
+   dRes.innerHTML=list.map(function(o,i){
+    return '<div style="padding:.15rem 0">'+o.kind+': <b>'+o.word+'</b>'+(o.value?(' → <b>'+o.value+'</b>'):'')+
+     ' <a href="#" class="d-delx" data-i="'+i+'" style="color:#dc2626">delete ×</a></div>';}).join('');
+   Array.prototype.slice.call(dRes.querySelectorAll('.d-delx')).forEach(function(x){
+    x.onclick=function(e){e.preventDefault();var o=list[+x.dataset.i];
+     if(!window.confirm('Delete '+o.kind+' "'+o.word+'"'+(o.value?(' → "'+o.value+'"'):'')+'? (recoverable)'))return;
+     delRow(o.word,o.value,o.kind);};});
+  }).catch(function(){dMsg.textContent='search failed';});}
+ if(dBtn){dBtn.addEventListener('click',dbSearch);
+  [dWord,dVal].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();dbSearch();}});});}
  if(cutEl)cutEl.addEventListener('input',drawCutPrev);
  if(addInp)addInp.addEventListener('input',drawCutPrev);
  // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign.
@@ -2676,6 +2696,16 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<span id="g-msg" style="color:#dc2626;font-size:.85rem"></span>',
          '</div>',
          '<div id="g-list" class="g-list"></div>',
+         '<div style="margin:.6rem 0;padding:.5rem;border:1px solid #e2e8f0;'
+         'border-radius:6px;background:#fafafa">'
+         '<b>Delete a DB entry</b> <span style="color:#64748b;font-size:.85rem">'
+         '(searches synonyms, abbreviations, indicators, definitions, homophones, '
+         'spoonerisms, link words &mdash; deletes are recoverable)</span><br>'
+         'word <input id="d-word" size="16" placeholder="e.g. run"> '
+         'partner <input id="d-val" size="16" placeholder="value / type / answer"> '
+         '<button type="button" id="d-search">Search DB</button> '
+         '<span id="d-msg" style="color:#64748b;font-size:.85rem"></span>'
+         '<div id="d-results" style="margin-top:.35rem"></div></div>',
          '<form method="post" action="/hsresolve" id="g-form">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
@@ -2892,6 +2922,18 @@ def hstypes_route():
     return app.response_class(_j.dumps(out), mimetype="application/json")
 
 
+@app.route("/hsdbsearch")
+def hsdbsearch_route():
+    """AJAX for the standalone delete flow (user design 2026-07-14): type a word and its
+    partner, search EVERY reference table for the pair, list the hits for click-to-delete.
+    A search, never a delete — deletes go through /hsdelete on the user's click."""
+    import json as _j
+    word = (request.args.get("word") or "").strip()
+    value = (request.args.get("value") or "").strip()
+    return app.response_class(_j.dumps(admin_db.search_pairs(word, value)),
+                              mimetype="application/json")
+
+
 @app.route("/hsdelete", methods=["POST"])
 def hsdelete_route():
     """Delete a POLLUTING reference-DB row for a ticked span (recoverable in deleted_entries),
@@ -2921,6 +2963,11 @@ def hsdelete_route():
     elif kind == "link":
         msg = admin_db.delete_link(word)
         apply_add_to_wiring({"kind": "link", "word": word})
+    elif kind == "homophone":
+        msg = admin_db.delete_homophone(word, value)
+        apply_add_to_wiring({"kind": "homophone"})          # unknown kind -> full reload
+    elif kind == "spoonerism":
+        msg = admin_db.delete_spoonerism(word, value)       # no wiring: manual-gate only
     else:
         msg = "Unknown delete kind."
     # The invalidate above clears the cached lookup for the row, so the next live query no

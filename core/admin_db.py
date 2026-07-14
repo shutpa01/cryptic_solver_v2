@@ -450,6 +450,133 @@ def delete_indicator(word, wordplay_type, subtype=None):
         conn.close()
 
 
+def delete_homophone(word, homophone):
+    """Delete a homophone pair (BOTH directions — pairs are stored as two rows) from the
+    homophones table (recoverable)."""
+    word = (word or "").strip(); homophone = (homophone or "").strip()
+    if not word or not homophone:
+        return "Word and homophone are both required."
+    conn = _conn()
+    try:
+        rows = conn.execute(
+            "SELECT word, homophone FROM homophones WHERE "
+            "(lower(word)=lower(?) AND lower(homophone)=lower(?)) OR "
+            "(lower(word)=lower(?) AND lower(homophone)=lower(?))",
+            (word, homophone, homophone, word)).fetchall()
+        for w, h in rows:
+            _record_deleted(conn, "homophone", word=w, value=h)
+        conn.execute(
+            "DELETE FROM homophones WHERE "
+            "(lower(word)=lower(?) AND lower(homophone)=lower(?)) OR "
+            "(lower(word)=lower(?) AND lower(homophone)=lower(?))",
+            (word, homophone, homophone, word))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted homophone %r ~ %r (%d row%s; recoverable)." %
+                (word, homophone, n, "" if n == 1 else "s")) if n else \
+               ("No homophones row for %r ~ %r — nothing deleted." % (word, homophone))
+    finally:
+        conn.close()
+
+
+def delete_spoonerism(source_phrase, answer_phrase):
+    """Delete a vetted spoonerism pair (recoverable). Letters-only matching, same as the
+    lookup — spacing never matters."""
+    ns, na = _norm_phrase(source_phrase), _norm_phrase(answer_phrase)
+    if not ns or not na:
+        return "Source phrase and answer are both required."
+    conn = _conn()
+    try:
+        conn.execute(_SPOONERISMS_DDL)
+        rows = conn.execute("SELECT source_phrase, answer_phrase FROM spoonerisms "
+                            "WHERE norm_source=? AND norm_answer=?", (ns, na)).fetchall()
+        for s, a in rows:
+            _record_deleted(conn, "spoonerism", word=s, value=a)
+        conn.execute("DELETE FROM spoonerisms WHERE norm_source=? AND norm_answer=?",
+                     (ns, na))
+        conn.commit()
+        n = len(rows)
+        return ("Deleted spoonerism %r -> %r (%d row%s; recoverable)." %
+                (source_phrase, answer_phrase, n, "" if n == 1 else "s")) if n else \
+               ("No spoonerisms row for %r -> %r — nothing deleted."
+                % (source_phrase, answer_phrase))
+    finally:
+        conn.close()
+
+
+def search_pairs(word, value):
+    """THE standalone delete flow's search (user design 2026-07-14): find every reference-DB
+    row matching a typed (word, partner) pair — case-insensitive exact on each GIVEN field,
+    at least one required — across synonyms, abbreviations (wordplay), indicators,
+    definitions, homophones, spoonerisms and link words. Returns [{kind, word, value}]
+    where `value` is what /hsdelete expects for that kind (indicator = 'type' or
+    'type/subtype'; link = ''). A search, never a delete."""
+    word = (word or "").strip()
+    value = (value or "").strip()
+    if not word and not value:
+        return []
+    out = []
+    conn = _conn()
+
+    def _where(col_w, col_v):
+        conds, params = [], []
+        if word:
+            conds.append("lower(%s)=lower(?)" % col_w)
+            params.append(word)
+        if value and col_v:
+            conds.append("lower(%s)=lower(?)" % col_v)
+            params.append(value)
+        return " AND ".join(conds), params
+
+    try:
+        specs = [
+            ("synonym", "synonyms_pairs", "word", "synonym"),
+            ("substitution", "wordplay", "indicator", "substitution"),
+            ("definition", "definition_answers_augmented", "definition", "answer"),
+            ("homophone", "homophones", "word", "homophone"),
+            ("spoonerism", "spoonerisms", "source_phrase", "answer_phrase"),
+        ]
+        for kind, table, cw, cv in specs:
+            w, p = _where(cw, cv)
+            if not w:
+                continue
+            try:
+                for a, b in conn.execute(
+                        "SELECT %s, %s FROM %s WHERE %s LIMIT 40" % (cw, cv, table, w), p):
+                    out.append({"kind": kind, "word": a or "", "value": b or ""})
+            except Exception:
+                pass                                   # table may not exist yet (spoonerisms)
+        # indicators: the partner is the TYPE (or type/subtype)
+        if word:
+            try:
+                wp, _, sub = value.partition("/")
+                q = "SELECT word, wordplay_type, COALESCE(subtype,'') FROM indicators " \
+                    "WHERE lower(word)=lower(?)"
+                params = [word]
+                if wp:
+                    q += " AND lower(wordplay_type)=lower(?)"
+                    params.append(wp)
+                if sub:
+                    q += " AND lower(COALESCE(subtype,''))=lower(?)"
+                    params.append(sub)
+                for w2, t, s in conn.execute(q + " LIMIT 40", params):
+                    out.append({"kind": "indicator", "word": w2,
+                                "value": ("%s/%s" % (t, s)) if s else t})
+            except Exception:
+                pass
+        # link words: no partner
+        if word and not value:
+            try:
+                for (w2,) in conn.execute("SELECT word FROM link_words WHERE "
+                                          "lower(word)=lower(?) LIMIT 10", (word,)):
+                    out.append({"kind": "link", "word": w2, "value": ""})
+            except Exception:
+                pass
+    finally:
+        conn.close()
+    return out[:100]
+
+
 def delete_link(word):
     """Delete a link word from link_words."""
     word = (word or "").strip()
