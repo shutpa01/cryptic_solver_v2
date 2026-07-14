@@ -510,19 +510,55 @@ def search_pairs(word, value):
     at least one required — across synonyms, abbreviations (wordplay), indicators,
     definitions, homophones, spoonerisms and link words. Returns [{kind, word, value}]
     where `value` is what /hsdelete expects for that kind (indicator = 'type' or
-    'type/subtype'; link = ''). A search, never a delete."""
+    'type/subtype'; link = ''). A search, never a delete.
+
+    WIDENING (user 2026-07-14, the one/is case): the lookup layer matches inflected forms,
+    so a rogue pair the solver used may be STORED under a different word (one -> IS came
+    from the row ones -> IS). When an exact pair search finds NOTHING, automatically re-run
+    partner-only ("stored under a different word") and word-only ("same word, different
+    partner"), each hit carrying a `note` saying which — so the row is always findable
+    from what the user actually saw on the clue."""
     word = (word or "").strip()
     value = (value or "").strip()
     if not word and not value:
         return []
+    out = _search_pairs_exact(word, value)
+    if not out and word and value:
+        # 1) same partner, RELATED word (shares a stem: ones/one, running/run) — the
+        #    inflected-storage case; these are almost always the row the user means.
+        for r in _search_pairs_exact(word, value, stem=True):
+            r["note"] = "stored under a related word"
+            out.append(r)
+        # 2) still nothing: same partner under ANY word (capped, alphabetical).
+        if not out:
+            for r in _search_pairs_exact("", value):
+                r["note"] = "stored under a different word"
+                out.append(r)
+        # 3) still nothing: the typed word with any partner (a partner typo).
+        if not out:
+            for r in _search_pairs_exact(word, ""):
+                r["note"] = "same word, different partner"
+                out.append(r)
+    return out[:100]
+
+
+def _search_pairs_exact(word, value, stem=False):
+    """One pass of the pair search (see search_pairs). With stem=True the word matches
+    RELATED stored words too — either string extends the other (one ~ ones, run ~
+    running) — so a pair the lookup layer reached via inflection is findable."""
     out = []
     conn = _conn()
 
     def _where(col_w, col_v):
         conds, params = [], []
         if word:
-            conds.append("lower(%s)=lower(?)" % col_w)
-            params.append(word)
+            if stem:      # either string extends the other (one ~ ones, run ~ running)
+                conds.append("(lower(%s) LIKE lower(?) || '%%' OR "
+                             "lower(?) LIKE lower(%s) || '%%')" % (col_w, col_w))
+                params.extend([word, word])
+            else:
+                conds.append("lower(%s)=lower(?)" % col_w)
+                params.append(word)
         if value and col_v:
             conds.append("lower(%s)=lower(?)" % col_v)
             params.append(value)
@@ -550,9 +586,15 @@ def search_pairs(word, value):
         if word:
             try:
                 wp, _, sub = value.partition("/")
-                q = "SELECT word, wordplay_type, COALESCE(subtype,'') FROM indicators " \
-                    "WHERE lower(word)=lower(?)"
-                params = [word]
+                if stem:
+                    q = "SELECT word, wordplay_type, COALESCE(subtype,'') FROM indicators " \
+                        "WHERE (lower(word) LIKE lower(?) || '%' OR " \
+                        "lower(?) LIKE lower(word) || '%')"
+                    params = [word, word]
+                else:
+                    q = "SELECT word, wordplay_type, COALESCE(subtype,'') FROM indicators " \
+                        "WHERE lower(word)=lower(?)"
+                    params = [word]
                 if wp:
                     q += " AND lower(wordplay_type)=lower(?)"
                     params.append(wp)

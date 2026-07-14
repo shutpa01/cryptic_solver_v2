@@ -2329,6 +2329,7 @@ function initGrid(rootId, DATA){
    dMsg.textContent=list.length?(list.length+' row'+(list.length===1?'':'s')+' found — click × to delete'):'no matching rows in the DB';
    dRes.innerHTML=list.map(function(o,i){
     return '<div style="padding:.15rem 0">'+o.kind+': <b>'+o.word+'</b>'+(o.value?(' → <b>'+o.value+'</b>'):'')+
+     (o.note?(' <span style="color:#64748b;font-size:.85rem">('+o.note+')</span>'):'')+
      ' <a href="#" class="d-delx" data-i="'+i+'" style="color:#dc2626">delete ×</a></div>';}).join('');
    Array.prototype.slice.call(dRes.querySelectorAll('.d-delx')).forEach(function(x){
     x.onclick=function(e){e.preventDefault();var o=list[+x.dataset.i];
