@@ -2140,13 +2140,16 @@ function initGrid(rootId, DATA){
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
  function assignOf(i){for(var k=0;k<assignments.length;k++){if(assignments[k].idx.indexOf(i)>=0)return assignments[k];}return null;}
+ function assignsOf(i){var out=[];for(var k=0;k<assignments.length;k++){if(assignments[k].idx.indexOf(i)>=0)out.push(assignments[k]);}return out;}
  function drawRows(){
   Array.prototype.slice.call(tbody.querySelectorAll('tr')).forEach(function(tr){
-   var i=+tr.dataset.i, a=assignOf(i);
+   var i=+tr.dataset.i, all=assignsOf(i);
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
-   if(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-    rc.innerHTML='<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';
-    bc.innerHTML=isPiece(a.role)?((a.value||'')+(a.cut?(' <span style="color:#b45309">&minus;'+a.cut+'</span>'):'')+(a.pos&&a.pos.length?(' <span style="color:#64748b">@'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):(a.role==='deletion'?('<span style="color:#b45309">&minus;'+(a.value||'')+'</span>'):'');
+   if(all.length){
+    rc.innerHTML=all.map(function(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
+     return '<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';}).join(' + ');
+    var ap=null;for(var q=0;q<all.length;q++){if(isPiece(all[q].role)||all[q].role==='deletion'){ap=all[q];break;}}
+    bc.innerHTML=ap?(isPiece(ap.role)?((ap.value||'')+(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):'')+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -2300,7 +2303,17 @@ function initGrid(rootId, DATA){
      if(r2.rem)a.cut=r2.rem;}}
    if((r==='letters'||r==='replacement')&&!a.value){a.value=a.pos.map(function(p){return DATA.answer[p-1];}).join('');}
   }
-  assignments=assignments.filter(function(x){return !x.idx.some(function(i){return idx.indexOf(i)>=0;});});
+  /* DOUBLE DUTY (user 2026-07-14): a definition word may ALSO carry a wordplay role
+     (setters increasingly overlap them, e.g. the last word defines the answer AND signals
+     the anagram). So a definition never strips overlapping wordplay roles and vice versa —
+     only same-kind overlaps replace. Wordplay roles stay mutually exclusive with each
+     other, and 'none (clear)' still wipes everything it touches. */
+  assignments=assignments.filter(function(x){
+   if(!x.idx.some(function(i){return idx.indexOf(i)>=0;}))return true;   // no overlap
+   if(r==='none')return false;                                           // clear = wipe all
+   if(r==='definition')return x.role!=='definition';                     // def replaces defs only
+   return x.role==='definition';                                         // wordplay keeps defs
+  });
   assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];note('');drawCutPrev();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
  }
  root.querySelector('#g-assign').addEventListener('click',assignNow);
@@ -2612,7 +2625,9 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<b>spoonerism</b>: tick the source word(s), type the FULL source phrase (e.g. '
          'THE DEAR YACHT) &mdash; Assign files the pair to the spoonerisms table and the piece '
          'covers the whole answer; tag the Spooner word as an <b>indicator</b> (type spoonerism). '
-         '<b>indicator/definition/link/filler</b>: no tiles. Then Assign. When every tile is '
+         '<b>indicator/definition/link/filler</b>: no tiles. A word can do DOUBLE DUTY as '
+         'definition + a wordplay role: assigning the definition keeps the word&rsquo;s other '
+         'role (and vice versa) &mdash; the row shows both. Then Assign. When every tile is '
          'coloured, <b>Commit (manual)</b>.</p>',
          '<table class="g-tbl"><thead><tr><th></th><th>word</th><th>role</th><th>brings</th>'
          '</tr></thead><tbody id="g-tbody">%s</tbody></table>' % trs,
