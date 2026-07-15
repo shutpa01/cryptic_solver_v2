@@ -49,7 +49,7 @@
            class="text-xs text-gray-400 hover:text-indigo-500 italic">Solve on {{ source | source_name }} &rarr;</a>
         {% endif %}
     </div>
-    <div class="flex gap-2 items-center shrink-0">
+    <div class="flex flex-wrap gap-2 items-center justify-end">
         {% if g.is_admin %}
         <span class="text-xs px-2 py-0.5 rounded bg-orange-500 text-white font-bold">ADMIN</span>
         <a href="/admin/logout" class="text-xs text-orange-500 hover:text-orange-700 underline">Logout</a>
@@ -116,20 +116,24 @@
                 title="Run the WFW cascade now on any un-cascaded clues (prize puzzles: after entering the answers)">
             Cascade now
         </button>
-        <span id="cascade-spinner" class="htmx-indicator text-xs text-indigo-500">Cascading&hellip; (about a minute)</span>
         <button hx-post="/admin/prefill/{{ source }}/{{ puzzle_number }}"
                 hx-target="#cascade-result"
                 hx-swap="innerHTML"
+                hx-indicator="#prefill-spinner"
                 class="text-xs px-3 py-1.5 rounded border border-teal-500 text-teal-700 hover:bg-teal-50 font-medium cursor-pointer"
                 title="Background: cascade any remaining clues, then run the Claude prefill — each validated reading is filed as a PENDING commit for one-click Confirm on the clue page. For prize puzzles: after entering the answers.">
             Prefill now
         </button>
         {% endif %}
     </div>
-    {% if g.is_admin %}
-    <div id="cascade-result" class="mt-2"></div>
-    {% endif %}
 </div>
+{% if g.is_admin %}
+<div class="mb-6">
+    <span id="cascade-spinner" class="htmx-indicator text-sm font-medium text-indigo-600">&#9203; Cascading&hellip; this can take about a minute &mdash; please wait.</span>
+    <span id="prefill-spinner" class="htmx-indicator text-sm font-medium text-teal-600">&#9203; Starting prefill&hellip;</span>
+    <div id="cascade-result" class="mt-1"></div>
+</div>
+{% endif %}
 
 {% if source == 'cordelia' and puzzle_type == 'daily-mashup' %}
 <p class="text-sm text-purple-600 mb-4 italic">A mash-up puzzle: real grid and answers with alternative clues from across publications. Challenge yourself!</p>

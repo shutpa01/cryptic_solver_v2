@@ -42,6 +42,9 @@ PYTHON_SCRAPER = PYTHON_V2
 SCRAPER_SCRIPT = str(ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 CASCADE_SCRIPT = str(ROOT / "scripts" / "nightly_cascade.py")
 CLAUDE_EXE = r"C:\Users\shute\.local\bin\claude.exe"
+# Pin the headless model: the CLI otherwise inherits the user's saved default,
+# which changes whenever they /model in an interactive session (2026-07-14).
+CLAUDE_MODEL = "claude-fable-5"
 PROMPT_DIR = ROOT / "scripts" / "prompts"
 LOG_DIR = ROOT / "logs"
 
@@ -149,7 +152,8 @@ def run_claude(prompt_name, label, timeout=5400):
     claude_env.pop("ANTHROPIC_API_KEY", None)
     try:
         result = subprocess.run(
-            [CLAUDE_EXE, "-p", prompt, "--dangerously-skip-permissions"],
+            [CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
+             "--dangerously-skip-permissions"],
             cwd=str(ROOT),
             stdin=subprocess.DEVNULL,
             capture_output=True,

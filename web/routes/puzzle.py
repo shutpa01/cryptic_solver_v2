@@ -44,6 +44,16 @@ def puzzle(source, puzzle_type, puzzle_number):
     if not clues:
         abort(404)
 
+    # PUZZLE-LEVEL DISPLAY RULE (user 2026-07-15): a puzzle page exists for the
+    # public only when EVERY one of its clues is served (week-only, no legacy —
+    # clues serve one by one, the puzzle displays when all of them do). One
+    # unserved clue hides the whole puzzle at its stable URL; it returns
+    # (resurrection) when the last clue is solved. Admin always sees the page —
+    # it is the walk-the-puzzle workspace (Cascade/Prefill, /hs links).
+    from web.serving import puzzle_is_served
+    if not g.get("is_admin") and not puzzle_is_served(source, puzzle_number):
+        abort(410)
+
     pub_date = get_puzzle_date(source, puzzle_number)
     type_label = TYPE_LABELS[(source, puzzle_type)]
 

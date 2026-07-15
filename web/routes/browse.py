@@ -59,6 +59,12 @@ def search():
     db = get_db()
     placeholders = ",".join("?" for _ in SEARCH_SOURCES)
 
+    # PUZZLE-LEVEL DISPLAY RULE (user 2026-07-15): never surface a result that
+    # links to a 410. A puzzle result shows only when the whole puzzle is served;
+    # a clue result only when that clue is served. Admin sees everything.
+    from web.serving import is_served, puzzle_is_served
+    is_admin = g.get("is_admin", False)
+
     # Check if it looks like a puzzle number (e.g. "DT 31180", "29504", "times 5212")
     puzzle_match = re.match(
         r'^(?:dt|telegraph|times|guardian|independent|daily\s*mail)?\s*#?(\d{4,6})$',
@@ -76,7 +82,7 @@ def search():
         puzzles = []
         for r in rows:
             type_slug, type_label = classify_puzzle(r["source"], r["puzzle_number"], r["publication_date"])
-            if type_slug:
+            if type_slug and (is_admin or puzzle_is_served(r["source"], r["puzzle_number"])):
                 puzzles.append({
                     "source": r["source"],
                     "puzzle_number": r["puzzle_number"],
@@ -111,6 +117,8 @@ def search():
     from web.routes.clue import generate_clue_slug
     results = []
     for r in rows:
+        if not (is_admin or is_served(r["source"], r["id"])):
+            continue
         slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
         results.append({**dict(r), "slug": slug})
 
@@ -126,6 +134,10 @@ def search_suggest():
 
     db = get_db()
     placeholders = ",".join("?" for _ in SEARCH_SOURCES)
+
+    # Same display rule as /search — suggestions must never link to a 410.
+    from web.serving import is_served, puzzle_is_served
+    is_admin = g.get("is_admin", False)
 
     # Puzzle number search
     puzzle_match = re.match(
@@ -144,7 +156,7 @@ def search_suggest():
         results = []
         for r in rows:
             type_slug, type_label = classify_puzzle(r["source"], r["puzzle_number"], r["publication_date"])
-            if type_slug:
+            if type_slug and (is_admin or puzzle_is_served(r["source"], r["puzzle_number"])):
 
                 sname = _source_name(r["source"])
                 results.append({
@@ -179,6 +191,8 @@ def search_suggest():
     from web.routes.clue import generate_clue_slug
     results = []
     for r in rows:
+        if not (is_admin or is_served(r["source"], r["id"])):
+            continue
         slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
         if slug:
             enum = f" ({r['enumeration']})" if r["enumeration"] else ""

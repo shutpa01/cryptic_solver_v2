@@ -12,8 +12,10 @@ bp = Blueprint("seo", __name__)
 SITEMAP_PAGE_SIZE = 50000  # Google's limit per sitemap file
 CANONICAL_HOST = "https://justcordelia.com"
 
-# Sources for the PUZZLE and NEWS sitemaps (puzzle-page serving scope is a
-# pending decision — untouched today).
+# Candidate sources for the PUZZLE and NEWS sitemaps. Both sitemaps then filter
+# to fully-served puzzles via web.serving.served_puzzle_numbers (puzzle-level
+# display rule, user 2026-07-15) — which only ever returns served sources, so
+# dailymail/independent puzzles drop out automatically.
 SITEMAP_SOURCES = ('telegraph', 'times', 'dailymail', 'guardian', 'independent')
 
 
@@ -25,14 +27,16 @@ def _clue_url_count():
     enforces with 410 (web/serving.py). The sitemap must list exactly those
     pages: listing URLs that answer 410 would be lying to the crawler.
     NOTE: this SQL count drives PAGINATION only; the page route additionally
-    drops the handful of pass rows whose breakdown cannot render, so it may
-    run a few high — harmless against the 50k page size."""
+    drops rows whose card cannot render (a pass with no atoms, or an INVALID
+    with no comment), so it may run a few high — harmless against the 50k page
+    size. INVALID-with-comment pages are served too (user 2026-07-14), so the
+    count includes them; is_served is the final arbiter in the page route."""
     from web.serving import SERVED_SOURCES
     db = get_db()
     placeholders = ",".join("?" for _ in SERVED_SOURCES)
     row = db.execute(
         f"""SELECT COUNT(*) AS n FROM clues c
-           JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
+           JOIN wfw_solve w ON w.clue_id = c.id AND w.status IN ('pass', 'invalid')
            WHERE c.source IN ({placeholders})
              AND c.clue_text IS NOT NULL
              AND c.answer IS NOT NULL AND c.answer != ''""",
@@ -132,17 +136,18 @@ def sitemap_clues_paged(page):
     offset = (page - 1) * SITEMAP_PAGE_SIZE
 
     # Served pages only — the SAME rule as the clue route's 410 gate (week-only,
-    # no legacy; web/serving.is_served). The SQL narrows to pass rows in served
-    # sources; is_served then drops the handful whose breakdown cannot render
-    # (no stored atoms — those pages 410, so they must not be listed).
-    # Lastmod = the later of publication and the WFW solve.
+    # no legacy; web/serving.is_served). The SQL narrows to served sources and to
+    # pass OR reviewer-INVALID rows (an INVALID-with-comment clue is served too —
+    # user 2026-07-14); is_served then drops the ones whose card cannot render (a
+    # pass with no atoms, an INVALID with no comment — those pages 410, so they
+    # must not be listed). Lastmod = the later of publication and the WFW solve.
     from web.serving import SERVED_SOURCES, is_served
     placeholders = ",".join("?" for _ in SERVED_SOURCES)
     rows = db.execute(
         f"""SELECT c.id, c.source, c.clue_text, c.publication_date,
                    w.created_at AS enriched_at
            FROM clues c
-           JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
+           JOIN wfw_solve w ON w.clue_id = c.id AND w.status IN ('pass', 'invalid')
            WHERE c.source IN ({placeholders})
              AND c.clue_text IS NOT NULL
              AND c.answer IS NOT NULL AND c.answer != ''
@@ -190,7 +195,15 @@ def sitemap_clues_legacy():
 
 @bp.route("/sitemap-puzzles.xml")
 def sitemap_puzzles():
-    """Puzzle-level sitemap for 'DT 31180' style searches."""
+    """Puzzle-level sitemap for 'DT 31180' style searches.
+
+    Lists EXACTLY the puzzle pages that exist under the puzzle-level display
+    rule (user 2026-07-15): a puzzle page is served only when EVERY one of its
+    clues is served; otherwise it 410s. The sitemap must share that one rule
+    with the page gate — listing a puzzle URL that 410s would lie to the crawler
+    (the same scar tissue as the clue sitemap). served_puzzle_numbers() applies
+    the identical test as web.serving.puzzle_is_served in one query.
+    """
     db = get_db()
 
     placeholders = ",".join("?" for _ in SITEMAP_SOURCES)
@@ -205,12 +218,18 @@ def sitemap_puzzles():
         SITEMAP_SOURCES,
     ).fetchall()
 
+    from web.serving import served_puzzle_numbers
+    served = served_puzzle_numbers()
+
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 
     for row in rows:
         source = row["source"]
         pnum = row["puzzle_number"]
+
+        if (source, str(pnum)) not in served:
+            continue
 
         from web.models import classify_puzzle
         type_slug, _ = classify_puzzle(source, pnum, row["pub_date"])
@@ -262,6 +281,11 @@ def news_sitemap():
         "independent": "The Independent",
     }
 
+    # Same display rule as the puzzle page/sitemap: only fully-served puzzles
+    # exist, so news must not advertise a puzzle URL that 410s.
+    from web.serving import served_puzzle_numbers
+    served = served_puzzle_numbers()
+
     xml = ['<?xml version="1.0" encoding="UTF-8"?>']
     xml.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"')
     xml.append('        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">')
@@ -269,6 +293,9 @@ def news_sitemap():
     for row in rows:
         source = row["source"]
         pnum = row["puzzle_number"]
+
+        if (source, str(pnum)) not in served:
+            continue
 
         from web.models import classify_puzzle
         type_slug, type_label = classify_puzzle(source, pnum, row["publication_date"])

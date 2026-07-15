@@ -1,17 +1,13 @@
-"""Scraper Control — run and monitor puzzle scrapers."""
+"""Deploy — push the latest code and databases to the Cordelia droplet."""
 
 import sqlite3
 import subprocess
-from datetime import date, timedelta
 from pathlib import Path
 
-import pandas as pd
 import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
-PYTHON = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
-SCRAPER_SCRIPT = str(PROJECT_ROOT / "scraper" / "orchestrator" / "puzzle_scraper.py")
 GIT_BASH = r'C:\Program Files\Git\bin\bash.exe'
 
 
@@ -29,124 +25,13 @@ def _rsync(local_path, remote_path, timeout=300):
 
 
 def render():
-    st.header("Scraper Control")
-
-    try:
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.subheader("Run scrapers")
-            scraper_target = st.selectbox(
-                "Target",
-                ["All sources", "telegraph", "times", "guardian", "independent", "dailymail"],
-            )
-
-            if st.button("Run Scraper", type="primary"):
-                cmd = [PYTHON, SCRAPER_SCRIPT]
-                if scraper_target != "All sources":
-                    cmd += ["--only", scraper_target]
-
-                st.info(f"Running: `{' '.join(cmd)}`")
-                with st.spinner("Scraper running..."):
-                    try:
-                        result = subprocess.run(
-                            cmd,
-                            cwd=str(PROJECT_ROOT),
-                            capture_output=True,
-                            text=True,
-                            timeout=600,
-                            encoding="utf-8",
-                            errors="replace",
-                        )
-                        if result.returncode == 0:
-                            st.success("Scraper completed.")
-                        else:
-                            st.error(f"Scraper exited with code {result.returncode}")
-                        with st.expander("Output", expanded=True):
-                            st.code(result.stdout[-5000:] if len(result.stdout) > 5000
-                                    else result.stdout)
-                        if result.stderr:
-                            with st.expander("Errors"):
-                                st.code(result.stderr[-2000:])
-                    except subprocess.TimeoutExpired:
-                        st.error("Scraper timed out after 10 minutes.")
-                    except Exception as e:
-                        st.error(f"Failed to run scraper: {e}")
-
-        with col2:
-            st.subheader("Today's puzzle status")
-            _show_todays_puzzles()
-    except Exception as e:
-        st.error(f"Error in scraper section: {e}")
-
-    st.divider()
+    st.header("Deploy")
 
     st.subheader("Deploy to Cordelia")
     try:
         _render_cordelia_deploy()
     except Exception as e:
         st.error(f"Error in Cordelia deploy: {e}")
-
-    st.divider()
-
-    st.subheader("Scrape detector")
-    try:
-        _render_scrape_detector()
-    except Exception as e:
-        st.error(f"Error in scrape detector: {e}")
-
-    st.divider()
-
-    st.subheader("Recent scraper activity")
-    try:
-        _show_recent_activity()
-    except Exception as e:
-        st.error(f"Error in activity section: {e}")
-
-
-def _show_todays_puzzles():
-    """Show which of today's expected puzzles are in the DB."""
-    today = date.today()
-    dow = today.weekday()  # 0=Mon
-    today_str = today.isoformat()
-
-    conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
-    conn.row_factory = sqlite3.Row
-
-    # Expected puzzles for today (based on day of week)
-    expected = []
-    if dow in range(6):  # Mon-Sat
-        expected.append(("telegraph", "Telegraph Cryptic"))
-    if dow in (1, 2, 3, 4):  # Tue-Fri
-        expected.append(("telegraph", "Telegraph Toughie"))
-    if dow == 6:  # Sunday
-        expected.append(("telegraph", "Telegraph Prize Cryptic"))
-        expected.append(("telegraph", "Telegraph Prize Toughie"))
-    if dow in range(6):  # Mon-Sat
-        expected.append(("times", "Times Cryptic"))
-    if dow == 6:
-        expected.append(("times", "Sunday Times"))
-
-    for source, label in expected:
-        count = conn.execute(
-            "SELECT COUNT(*) FROM clues WHERE source = ? AND publication_date = ?",
-            (source, today_str),
-        ).fetchone()[0]
-
-        has_answers = conn.execute(
-            "SELECT COUNT(*) FROM clues WHERE source = ? AND publication_date = ? "
-            "AND answer IS NOT NULL AND answer != ''",
-            (source, today_str),
-        ).fetchone()[0]
-
-        if count == 0:
-            st.error(f"{label}: **Missing**")
-        elif has_answers < count:
-            st.warning(f"{label}: {count} clues, {has_answers} with answers")
-        else:
-            st.success(f"{label}: {count} clues, all with answers")
-
-    conn.close()
 
 
 CORDELIA_DROPLET = "root@165.232.46.255"
@@ -160,6 +45,11 @@ CORDELIA_CODE_DIRS = [
     ("web/templates", "web/templates", "*.html"),
     ("web/templates/partials", "web/templates/partials", "*.html"),
     ("web/static", "web/static", None),  # None = entire directory
+    # core/ powers the public clue-page card since the week-only relaunch
+    # (web.serving -> core.wfw_card / core.wfw_render; the /solver mount ->
+    # core.wfw_web). WITHOUT this the public clue pages 410 on the droplet.
+    ("core", "core", "*.py"),
+    ("core/atomsig", "core/atomsig", "*.py"),
     ("signature_solver", "signature_solver", "*.py"),
     ("backfill_ai_exp", "backfill_ai_exp", "*.py"),
     ("sonnet_pipeline", "sonnet_pipeline", "*.py"),
@@ -169,124 +59,6 @@ CORDELIA_CODE_DIRS = [
 CORDELIA_EXTRA_FILES = [
     ("data/base_catalog.json", "data/base_catalog.json"),
 ]
-
-
-def _render_scrape_detector():
-    """Surface IPs that look like batch /clue/* scrapers in nginx access logs."""
-    st.caption(
-        "Scan recent nginx access logs from the Cordelia droplet for IPs that "
-        "hit many /clue/ pages in a tight time window — the signature of a "
-        "daily batch scraper. Note: IPs shown are Cloudflare proxy IPs, not "
-        "real client IPs (see scripts/scrape_detector.py docstring)."
-    )
-
-    col1, col2 = st.columns(2)
-    with col1:
-        days = st.number_input(
-            "Days to scan", min_value=1, max_value=14, value=2, key="sd_days"
-        )
-    with col2:
-        threshold = st.number_input(
-            "Min /clue/ hits to flag", min_value=10, max_value=10000,
-            value=50, step=10, key="sd_threshold",
-        )
-
-    if not st.button("Run detector", type="primary", key="run_detector"):
-        return
-
-    # Import the script's analysis functions. Cached import path: scripts/.
-    import sys
-    scripts_dir = str(PROJECT_ROOT / "scripts")
-    if scripts_dir not in sys.path:
-        sys.path.insert(0, scripts_dir)
-    try:
-        from scrape_detector import fetch_log_lines, parse_line, analyse
-    except ImportError as e:
-        st.error(f"Could not import scrape_detector: {e}")
-        return
-
-    with st.spinner(f"Pulling last {days} day(s) of logs from droplet..."):
-        try:
-            lines = fetch_log_lines(int(days))
-        except Exception as e:
-            st.error(f"SSH/grep failed: {e}")
-            return
-
-    if not lines:
-        st.error(
-            "No log lines retrieved. Check SSH access to "
-            f"{CORDELIA_DROPLET} and that the log files exist."
-        )
-        return
-
-    st.write(f"Pulled **{len(lines):,}** log lines.")
-    records = [r for r in (parse_line(l) for l in lines) if r is not None]
-    st.write(f"Parsed **{len(records):,}** records.")
-
-    candidates = analyse(records, int(threshold))
-    if not candidates:
-        st.success(
-            f"No IPs above threshold ({threshold} clue hits). "
-            "No batch-scrape pattern detected in this window."
-        )
-        return
-
-    n_susp = sum(1 for c in candidates if c.get("suspicious"))
-    st.write(
-        f"Flagged **{len(candidates)}** IP(s) — "
-        f"**{n_susp} suspicious** (custom or missing UA), "
-        f"the rest matched a known bot or look like real browsers."
-    )
-    rows = []
-    for c in candidates:
-        span_s = c["span_seconds"]
-        if span_s < 3600:
-            span_str = f"{span_s / 60:.1f}m"
-        else:
-            span_str = f"{span_s / 3600:.1f}h"
-        rows.append({
-            "Susp": "!" if c.get("suspicious") else "",
-            "CF IP": c["ip"],
-            "Bot label": c.get("bot_label", ""),
-            "Score": c["score"],
-            "Clue hits": c["clue_hits"],
-            "Rate/min": round(c["rate_per_min"], 1),
-            "Span": span_str,
-            "Peak hour UTC": c["peak_hour"] if c["peak_hour"] is not None else "-",
-            "Peak %": round(c["peak_share"] * 100),
-            "UAs": len(c["uas"]),
-        })
-    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
-
-    # Detail expanders: show suspicious entries (any score) and high-score known
-    # entries (score >= 5). Suspicious ones first.
-    interesting = [c for c in candidates if c.get("suspicious") or c["score"] >= 5]
-    if not interesting:
-        return
-    try:
-        from scrape_detector import identify_bot  # already imported above
-    except ImportError:
-        identify_bot = lambda ua: ""
-    st.markdown(
-        f"**Detail for {len(interesting)} candidate(s) "
-        f"(suspicious or score ≥ 5):**"
-    )
-    for c in interesting:
-        flag = "🚩 " if c.get("suspicious") else ""
-        header = (
-            f"{flag}{c['ip']} — {c.get('bot_label', '?')} — "
-            f"score {c['score']}, {c['clue_hits']} hits"
-        )
-        with st.expander(header):
-            st.write(f"**First → last:** {c['first_time']} → {c['last_time']}")
-            st.write(
-                f"**Peak hour (UTC):** {c['peak_hour']} "
-                f"({c['peak_share']*100:.0f}% of hits)"
-            )
-            st.write(f"**Rate per minute:** {c['rate_per_min']:.1f}")
-            st.write(f"**User-agents ({len(c['uas'])}):**")
-            for ua in c["uas"][:8]:
-                st.code(f"[{identify_bot(ua)}] {ua}")
 
 
 def _render_cordelia_deploy():
@@ -474,35 +246,6 @@ def _render_cordelia_deploy():
                 st.success(f"{label}: {msg}")
             else:
                 st.error(f"{label}: {msg}")
-
-
-def _show_recent_activity():
-    """Show most recent puzzles scraped per source."""
-    conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
-    conn.row_factory = sqlite3.Row
-
-    rows = conn.execute("""
-        SELECT source, puzzle_number, publication_date, COUNT(*) as clue_count,
-               SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) as with_answer
-        FROM clues
-        WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail')
-          AND publication_date IS NOT NULL
-        GROUP BY source, puzzle_number
-        ORDER BY publication_date DESC
-        LIMIT 30
-    """).fetchall()
-    conn.close()
-
-    if rows:
-        data = [{
-            "Source": r["source"],
-            "Puzzle": r["puzzle_number"],
-            "Date": r["publication_date"],
-            "Clues": r["clue_count"],
-            "Answers": r["with_answer"],
-            "Complete": "Yes" if r["with_answer"] == r["clue_count"] else "No",
-        } for r in rows]
-        st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
 
 
 # Auto-render when Streamlit runs this file directly (multipage mode)

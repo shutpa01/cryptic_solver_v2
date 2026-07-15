@@ -31,6 +31,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PYTHON_V2 = str(ROOT / ".venv" / "Scripts" / "python.exe")
 CASCADE_SCRIPT = str(ROOT / "scripts" / "nightly_cascade.py")
 CLAUDE_EXE = r"C:\Users\shute\.local\bin\claude.exe"
+# Pin the headless model: the CLI otherwise inherits the user's saved default,
+# which changes whenever they /model in an interactive session (2026-07-14).
+CLAUDE_MODEL = "claude-fable-5"
 PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_prefill.md"
 LOG_DIR = ROOT / "logs"
 
@@ -102,7 +105,8 @@ def main():
     claude_env = os.environ.copy()
     claude_env.pop("ANTHROPIC_API_KEY", None)
     log("prefill: claude -p (scope %s) ..." % tag)
-    r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--dangerously-skip-permissions"],
+    r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
+                        "--dangerously-skip-permissions"],
                        cwd=str(ROOT), stdin=subprocess.DEVNULL,
                        capture_output=True, text=True, encoding="utf-8",
                        errors="replace", timeout=5400, env=claude_env)

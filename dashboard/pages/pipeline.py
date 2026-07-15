@@ -2,10 +2,10 @@
 
 import sqlite3
 import subprocess
-import sys
 from datetime import date
 from pathlib import Path
 
+import pandas as pd
 import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -86,156 +86,76 @@ def _check_fifteensquared_available(source, puzzle_number):
     return False
 
 
-def _get_unrun_puzzles(source_filter=None):
-    """Get puzzles that have answers but haven't been fully run through the pipeline."""
+def _get_unpublished_wfw(cutoff_iso):
+    """Puzzles published on/after `cutoff_iso` whose clues are NOT all served —
+    so they will NOT appear on the live site yet. 'Served' = a WFW pass, or an
+    INVALID with a reviewer comment: the SAME rule as the live puzzle page
+    (web.serving.puzzle_is_served). O/S per puzzle = total - served."""
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
-    where = "WHERE source IN ('telegraph', 'times', 'guardian', 'independent', 'dailymail', 'cordelia')"
-    params = []
-    if source_filter:
-        where = "WHERE source = ?"
-        params = [source_filter]
-    rows = conn.execute(f"""
-        SELECT source, puzzle_number, publication_date,
+    rows = conn.execute("""
+        SELECT c.source, c.puzzle_number, MAX(c.publication_date) AS pub,
                COUNT(*) AS total,
-               SUM(CASE WHEN answer IS NOT NULL AND answer != '' THEN 1 ELSE 0 END) AS with_answer,
-               SUM(CASE WHEN reviewed IS NULL AND (has_solution IS NULL OR has_solution = 0)
-                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS untried,
-               SUM(CASE WHEN has_solution = 1 THEN 1 ELSE 0 END) AS solved,
-               SUM(CASE WHEN has_solution = 0 AND reviewed IS NOT NULL
-                         AND clue_text NOT LIKE 'See %%' THEN 1 ELSE 0 END) AS failed
-        FROM clues
-        {where}
-          AND puzzle_number IS NOT NULL
-        GROUP BY source, puzzle_number
-        HAVING with_answer > 0 AND (untried > 0 OR failed > 0)
-        ORDER BY publication_date DESC
-        LIMIT 50
-    """, params).fetchall()
+               SUM(CASE WHEN w.clue_id IS NOT NULL
+                     OR (wi.clue_id IS NOT NULL AND n.note IS NOT NULL
+                         AND TRIM(n.note) != '') THEN 1 ELSE 0 END) AS served
+        FROM clues c
+        LEFT JOIN wfw_solve w  ON w.clue_id = c.id AND w.status = 'pass'
+        LEFT JOIN wfw_solve wi ON wi.clue_id = c.id AND wi.status = 'invalid'
+        LEFT JOIN wfw_notes  n ON n.clue_id = c.id
+        WHERE c.source IN ('telegraph', 'times', 'guardian')
+          AND c.publication_date >= ?
+        GROUP BY c.source, c.puzzle_number
+        HAVING served < total
+        ORDER BY pub, c.source
+    """, (cutoff_iso,)).fetchall()
     conn.close()
     return rows
+
+
+def _render_unpublished_section():
+    """Which puzzles since the launch floor are NOT yet published because a clue
+    is missing a served WFW status — with clue count and clues outstanding."""
+    st.subheader("Not yet published (WFW status missing)")
+    st.caption(
+        "Puzzles that will NOT appear on the live site yet because not every "
+        "clue is served — a WFW pass, or an INVALID with a comment. O/S = clues "
+        "still outstanding. Same rule as the live puzzle page."
+    )
+    cutoff = st.date_input(
+        "Published on or after", value=date(2026, 7, 11), key="wfw_cutoff",
+    )
+    rows = _get_unpublished_wfw(cutoff.isoformat())
+    if not rows:
+        st.success(
+            f"All served-source puzzles since {cutoff.isoformat()} are fully "
+            "served — nothing outstanding."
+        )
+        return
+    total_os = sum(r["total"] - r["served"] for r in rows)
+    st.warning(
+        f"{len(rows)} puzzle(s) not yet published — "
+        f"{total_os} clue(s) outstanding."
+    )
+    data = [{
+        "Source": r["source"],
+        "Puzzle": str(r["puzzle_number"]),
+        "Date": r["pub"] or "—",
+        "Clues": r["total"],
+        "O/S": r["total"] - r["served"],
+    } for r in rows]
+    st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
 
 
 def render():
     st.header("Pipeline Runner")
 
-    # --- Unrun puzzles selection ---
-    st.subheader("Puzzles awaiting pipeline")
-    filter_source = st.selectbox(
-        "Filter by source",
-        ["all", "telegraph", "times", "guardian", "independent", "dailymail", "cordelia"],
-        key="unrun_filter",
-    )
-    unrun = _get_unrun_puzzles(filter_source if filter_source != "all" else None)
-
-    if unrun:
-        today_str = date.today().isoformat()
-        today_puzzles = [r for r in unrun if r["publication_date"] == today_str]
-        older_puzzles = [r for r in unrun if r["publication_date"] != today_str]
-
-        batch_selected = []
-
-        def _render_unrun_table(rows, prefix):
-            selected = []
-            cols_header = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
-            cols_header[0].markdown("**Select**")
-            cols_header[1].markdown("**Source**")
-            cols_header[2].markdown("**Puzzle**")
-            cols_header[3].markdown("**Date**")
-            cols_header[4].markdown("**Total**")
-            cols_header[5].markdown("**Answers**")
-            cols_header[6].markdown("**Untried**")
-            cols_header[7].markdown("**Solved**")
-            for i, r in enumerate(rows):
-                cols = st.columns([1, 2, 2, 2, 1, 1, 1, 1])
-                key = f"{prefix}_{r['source']}_{r['puzzle_number']}"
-                if cols[0].checkbox("", key=key, label_visibility="collapsed"):
-                    selected.append((r["source"], str(r["puzzle_number"])))
-                cols[1].write(r["source"])
-                cols[2].write(str(r["puzzle_number"]))
-                cols[3].write(r["publication_date"] or "—")
-                cols[4].write(str(r["total"]))
-                cols[5].write(str(r["with_answer"]))
-                cols[6].write(str(r["untried"]))
-                cols[7].write(str(r["solved"] or 0))
-            return selected
-
-        if today_puzzles:
-            st.caption(f"Today's puzzles ({len(today_puzzles)})")
-            batch_selected += _render_unrun_table(today_puzzles, "sel")
-
-        if older_puzzles:
-            with st.expander(f"Older puzzles ({len(older_puzzles)})", expanded=False):
-                batch_selected += _render_unrun_table(older_puzzles, "old")
-
-        if batch_selected:
-            st.info(f"{len(batch_selected)} puzzle(s) selected")
-            bcol1, bcol2, bcol3 = st.columns(3)
-            with bcol1:
-                batch_write_db = st.checkbox("Write to DB", value=True, key="batch_write_db")
-            with bcol2:
-                batch_force = st.checkbox("Force fresh API calls", value=False, key="batch_force")
-            with bcol3:
-                batch_partials = st.checkbox("Re-run partials", value=False, key="batch_partials")
-
-            if st.button("Run Selected Puzzles", type="primary", key="run_batch"):
-                _run_batch(batch_selected, batch_write_db, batch_force, batch_partials)
-    else:
-        st.info("All puzzles with answers have been run through the pipeline.")
-
+    _render_unpublished_section()
     st.divider()
 
     # --- Reset previously run puzzles ---
     st.subheader("Reset Puzzles")
-    _render_reset_section(filter_source if filter_source != "all" else None)
-
-    st.divider()
-
-    # --- FifteenSquared catch-up ---
-    st.subheader("FifteenSquared Catch-up")
-    st.caption("Parse Guardian/Independent blog explanations (Haiku only, no Sonnet)")
-
-    fs_col1, fs_col2, fs_col3 = st.columns(3)
-    with fs_col1:
-        fs_source = st.selectbox(
-            "Source", ["Both", "guardian", "independent"],
-            key="fs_source",
-        )
-    with fs_col2:
-        fs_date = st.date_input("Date", value=date.today(), key="fs_date")
-    with fs_col3:
-        st.write("")  # spacer
-        st.write("")
-        fs_run_clicked = st.button("Run Catch-up", type="primary", key="run_fs_catchup")
-
-    # Output at full width, outside the columns
-    if fs_run_clicked:
-        source_arg = "" if fs_source == "Both" else f"--source {fs_source}"
-        date_arg = f"--date {fs_date.isoformat()}"
-        cmd = f"{sys.executable} scripts/fifteensquared_catchup.py {source_arg} {date_arg}".split()
-        cmd = [c for c in cmd if c]
-
-        with st.spinner("Running FifteenSquared catch-up..."):
-            try:
-                result = subprocess.run(
-                    cmd,
-                    cwd=str(PROJECT_ROOT),
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True,
-                    encoding="utf-8",
-                    errors="replace",
-                    timeout=300,
-                )
-                if result.returncode == 0:
-                    st.success("Catch-up completed.")
-                else:
-                    st.error(f"Catch-up failed (exit {result.returncode})")
-                output = result.stdout or "(no output)"
-                with st.expander("Output", expanded=True):
-                    st.code(output[-3000:] if len(output) > 3000 else output)
-            except Exception as e:
-                st.error(f"Error: {e}")
+    _render_reset_section()
 
     st.divider()
 
@@ -379,82 +299,6 @@ def render():
                 st.error("Pipeline timed out after 20 minutes")
             except Exception as e:
                 st.error(f"Failed to run pipeline: {e}")
-
-
-def _run_batch(puzzles, write_db, force, partials):
-    """Run the pipeline on multiple puzzles sequentially."""
-    total = len(puzzles)
-    progress = st.progress(0, text=f"Starting batch run: {total} puzzle(s)")
-    results = []
-
-    for i, (source, puzzle_number) in enumerate(puzzles):
-        progress.progress((i) / total, text=f"Running {source} #{puzzle_number} ({i+1}/{total})")
-
-        # Check for blog first — 10x cheaper via blog+Haiku
-        use_blog = False
-        blog_cmd = None
-        if source == "times":
-            try:
-                if _check_tftt_available(puzzle_number):
-                    use_blog = True
-                    blog_cmd = [PYTHON, "-m", "sonnet_pipeline.tftt_pipeline",
-                                str(puzzle_number), "--write-db"]
-            except Exception:
-                pass
-        elif source in ("guardian", "independent"):
-            try:
-                if _check_fifteensquared_available(source, puzzle_number):
-                    use_blog = True
-                    blog_cmd = [PYTHON, "-m", "sonnet_pipeline.fifteensquared_pipeline",
-                                source, str(puzzle_number), "--write-db"]
-            except Exception:
-                pass
-
-        if use_blog:
-            cmd = blog_cmd
-        else:
-            cmd = [PYTHON, "-m", "sonnet_pipeline.run", "--mode", "1", "--no-review",
-                   "--source", source, puzzle_number]
-            if write_db:
-                cmd += ["--write-db"]
-            if force:
-                cmd += ["--force"]
-            if partials:
-                cmd += ["--partials"]
-
-        try:
-            result = subprocess.run(
-                cmd,
-                cwd=str(PROJECT_ROOT),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                encoding="utf-8",
-                errors="replace",
-                timeout=1200,
-            )
-            ok = result.returncode == 0
-            label = f"[BLOG] {result.stdout or ''}" if use_blog else (result.stdout or "")
-            results.append((source, puzzle_number, ok, label))
-        except subprocess.TimeoutExpired:
-            results.append((source, puzzle_number, False, "TIMEOUT (20 min)"))
-        except Exception as e:
-            results.append((source, puzzle_number, False, str(e)))
-
-    progress.progress(1.0, text="Batch complete!")
-
-    # Show summary
-    successes = sum(1 for _, _, ok, _ in results if ok)
-    failures = total - successes
-    if failures == 0:
-        st.success(f"All {total} puzzle(s) completed successfully.")
-    else:
-        st.warning(f"{successes} succeeded, {failures} failed.")
-
-    for source, puzzle_number, ok, output in results:
-        icon = "+" if ok else "X"
-        with st.expander(f"[{icon}] {source} #{puzzle_number}", expanded=not ok):
-            st.code(output[-3000:] if len(output) > 3000 else output)
 
 
 def _render_reset_section(source_filter=None):

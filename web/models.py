@@ -91,6 +91,7 @@ def clue_slug(clue_text, enumeration=None):
 BROWSE_SOURCES = [
     ("telegraph", "cryptic", "Telegraph Cryptic"),
     ("telegraph", "prize", "Telegraph Prize Cryptic"),
+    ("telegraph", "prize-toughie", "Telegraph Prize Toughie"),
     ("times", "cryptic", "Times Cryptic"),
     ("times", "sunday", "Times Sunday"),
     ("guardian", "cryptic", "Guardian Cryptic"),
@@ -104,6 +105,7 @@ BROWSE_SOURCES = [
 TYPE_LABELS = {
     ("telegraph", "cryptic"): "Cryptic",
     ("telegraph", "prize"): "Prize Cryptic",
+    ("telegraph", "prize-toughie"): "Prize Toughie",
     ("times", "cryptic"): "Cryptic",
     ("times", "sunday"): "Sunday",
     ("guardian", "cryptic"): "Cryptic",
@@ -134,6 +136,11 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
     if source == "telegraph":
         if num == 99999:
             return "cryptic", "Tutorial"
+        if 1 <= num <= 2999:
+            # Prize Toughie (Sunday, weekly) — filed source='telegraph', number = the
+            # "No N" from the title (No 233 -> 233). Low range, no collision: prize
+            # cryptics are 3xxx, cryptics 31xxx (ingest 2026-07-15).
+            return "prize-toughie", "Prize Toughie"
         if 3000 <= num <= 3999:
             return "prize", "Prize Cryptic"
         if 31000 <= num <= 31999:
@@ -222,6 +229,11 @@ def _puzzle_filter_sql(source, type_slug):
             ))""",
             [source],
         )
+    elif source == "telegraph" and type_slug == "prize-toughie":
+        return (
+            "source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 1 AND 2999",
+            [source],
+        )
     elif source == "telegraph" and type_slug == "cryptic":
         return (
             """(source = ? AND CAST(puzzle_number AS INTEGER) BETWEEN 31000 AND 31999
@@ -286,15 +298,6 @@ def get_puzzle_list(source, type_slug, page=1):
     if where is None:
         return [], 0
 
-    # Count total puzzles for pagination
-    total = db.execute(
-        "SELECT COUNT(DISTINCT puzzle_number) FROM clues WHERE %s" % where,
-        params,
-    ).fetchone()[0]
-
-    total_pages = max(1, (total + per_page - 1) // per_page)
-    offset = (page - 1) * per_page
-
     # Qualify the WHERE clause column names for the JOIN
     qualified_where = (where
         .replace("source", "c.source")
@@ -302,6 +305,45 @@ def get_puzzle_list(source, type_slug, page=1):
         .replace("publication_date", "c.publication_date"))
     # Fix any double-qualification from nested replacements
     qualified_where = qualified_where.replace("c.c.", "c.")
+
+    # PUZZLE-LEVEL DISPLAY RULE (user 2026-07-15): the public browse list shows a
+    # puzzle only when EVERY clue is served — a pass, or an INVALID-with-comment
+    # (mirrors web.serving.is_served / puzzle_is_served). Admin sees every puzzle
+    # so the walk work-list stays complete. We narrow the candidate
+    # puzzle_numbers with SQL (fast, keeps pagination honest) rather than filter
+    # after the fact.
+    from flask import g as _g
+    served_filter = ""
+    served_params = []
+    if not _g.get("is_admin"):
+        served_rows = db.execute(
+            """SELECT c.puzzle_number
+               FROM clues c
+               LEFT JOIN wfw_solve w  ON w.clue_id = c.id AND w.status = 'pass'
+               LEFT JOIN wfw_solve wi ON wi.clue_id = c.id AND wi.status = 'invalid'
+               LEFT JOIN wfw_notes  n ON n.clue_id = c.id
+               WHERE %s
+               GROUP BY c.puzzle_number
+               HAVING COUNT(*) = SUM(CASE WHEN w.clue_id IS NOT NULL
+                   OR (wi.clue_id IS NOT NULL AND n.note IS NOT NULL
+                       AND TRIM(n.note) != '') THEN 1 ELSE 0 END)""" % qualified_where,
+            params,
+        ).fetchall()
+        served_pnums = [r["puzzle_number"] for r in served_rows]
+        if not served_pnums:
+            return [], 0
+        served_filter = " AND c.puzzle_number IN (%s)" % ",".join("?" for _ in served_pnums)
+        served_params = served_pnums
+
+    # Count total puzzles for pagination
+    total = db.execute(
+        "SELECT COUNT(DISTINCT c.puzzle_number) FROM clues c WHERE %s%s"
+        % (qualified_where, served_filter),
+        params + served_params,
+    ).fetchone()[0]
+
+    total_pages = max(1, (total + per_page - 1) // per_page)
+    offset = (page - 1) * per_page
 
     # A WFW pass parse (human-checked, publish-first) counts as both a definition
     # and a full explanation — same rule as the hint ladder (wfw_read).
@@ -317,11 +359,11 @@ def get_puzzle_list(source, type_slug, page=1):
            FROM clues c
            LEFT JOIN structured_explanations se ON se.clue_id = c.id
            LEFT JOIN wfw_solve w ON w.clue_id = c.id AND w.status = 'pass'
-           WHERE %s
+           WHERE %s%s
            GROUP BY c.puzzle_number
            ORDER BY MAX(c.publication_date) DESC
-           LIMIT ? OFFSET ?""" % qualified_where,
-        params + [per_page, offset],
+           LIMIT ? OFFSET ?""" % (qualified_where, served_filter),
+        params + served_params + [per_page, offset],
     ).fetchall()
 
     puzzles = []
