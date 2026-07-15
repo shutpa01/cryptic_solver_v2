@@ -243,8 +243,12 @@ def sitemap_puzzles():
         xml.append("    <changefreq>monthly</changefreq>")
         xml.append("  </url>")
 
-    # Static pages — tools, learn
-    for static_path in ("/tools", "/tools/anagram", "/tools/pattern", "/tools/synonym", "/learn"):
+    # Static pages — tools, learn (learn paths generated from route data so
+    # every listed URL renders 200)
+    from web.routes.learn import served_learn_paths
+    static_paths = ["/tools", "/tools/anagram", "/tools/pattern", "/tools/synonym"]
+    static_paths += served_learn_paths()
+    for static_path in static_paths:
         xml.append("  <url>")
         xml.append(f"    <loc>{CANONICAL_HOST}{static_path}</loc>")
         xml.append("    <changefreq>weekly</changefreq>")

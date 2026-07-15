@@ -118,6 +118,26 @@ TYPE_ORDER = [
 ]
 
 
+def served_learn_paths():
+    """Learn-zone paths that render 200, for the sitemap.
+
+    Mirrors the route gates: /learn/<wtype> needs type data; the practice page
+    also needs at least one clue. Single source of truth so the sitemap never
+    lists a URL that 404s.
+    """
+    data = _load_data()
+    types = data.get("types", {})
+    paths = ["/learn"]
+    for wtype in TYPE_ORDER:
+        type_data = types.get(wtype)
+        if not type_data:
+            continue
+        paths.append(f"/learn/{wtype}")
+        if type_data.get("clues"):
+            paths.append(f"/learn/{wtype}/practice")
+    return paths
+
+
 def _load_data():
     global _DATA
     if _DATA is None:
