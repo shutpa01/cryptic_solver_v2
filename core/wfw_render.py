@@ -388,6 +388,10 @@ def _annotation_row(parse, a):
         if removed:
             content += (' <span class="wfw-arrow">&rarr;</span> '
                         '<strong class="wfw-val">%s</strong>' % escape(removed))
+    elif a.role == "link" and note == "synonym by example":
+        # a perhaps/maybe word marking a by-example synonym — accounted, letterless, no
+        # validity (the wordplay twin of definition-by-example); its own pill, not "Link".
+        style, label = "background:#0891b2;color:#fff", "Synonym by example"
     else:
         style, label = "background:#64748b;color:#fff", "Link"
     if getattr(a, "source", "db") == "pending":

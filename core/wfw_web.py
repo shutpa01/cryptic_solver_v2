@@ -1302,7 +1302,8 @@ _MECH_LABEL = {"synonym": "synonym", "abbreviation": "abbreviation",
 
 
 import collections as _collections
-_HSUnit = _collections.namedtuple("_HSUnit", ["text", "atom_ids"])
+_HSUnit = _collections.namedtuple("_HSUnit", ["text", "atom_ids", "is_symbol"])
+_HSUnit.__new__.__defaults__ = (False,)   # word units omit it; punctuation sets True
 
 
 def _hs_word_units(ctx):
@@ -1324,6 +1325,14 @@ def _hs_word_units(ctx):
                     start = i + 1
         else:
             units.append(_HSUnit(text, tuple(aids)))
+    # NON-WORD atoms (punctuation / symbols) appended AFTER the words, so word indices
+    # never shift — saved word-only assignments stay aligned. They become SELECTABLE so a
+    # clue whose DEFINITION (or indicator) is punctuation can be tagged — "…" = ELLIPSIS, a
+    # "?" &lit, etc. Never REQUIRED: unexplained_words skips non-word tokens, so leaving them
+    # untagged never blocks a commit (user 2026-07-15: "able but not compelled").
+    for t in ctx.clue_tokens:
+        if t.kind != "word" and t.atom_ids:
+            units.append(_HSUnit(t.text, tuple(t.atom_ids), True))
     return units
 
 
@@ -1370,7 +1379,8 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
         if role == "none" and (u.text or "").strip().lower() in fil:
             role, label = "filler", "filler"
         out.append({"idx": wi, "text": u.text, "role": role,
-                    "label": label, "value": value})
+                    "label": label, "value": value,
+                    "is_symbol": getattr(u, "is_symbol", False)})
         wi += 1
     return out
 
@@ -1489,7 +1499,13 @@ def _assignments_from_parse(ctx, parse):
             it, isb = _itype_from_note(getattr(an, "note", ""))
             out.append({"idx": idx, "role": "indicator", "itype": it, "isub": isb})
         elif r == "link":
-            out.append({"idx": idx, "role": "link"})
+            # link / filler / synonym-by-example all store as a role="link" annotation;
+            # the note is the only distinguisher, so map it back so re-editing preserves
+            # the accurate grid role (all three recommit to the identical annotation).
+            _ln = getattr(an, "note", "") or ""
+            _lrole = ("synbyexample" if _ln == "synonym by example"
+                      else "filler" if _ln == "surface filler" else "link")
+            out.append({"idx": idx, "role": _lrole})
         elif r == "deletion":
             out.append({"idx": idx, "role": "deletion", "value": ""})
     return out
@@ -2080,9 +2096,9 @@ function initGrid(rootId, DATA){
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',synbyexample:'#0891b2',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
- function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram'||r==='spoonerism';} // lands on tiles
+ function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram'||r==='spoonerism'||r==='homophone';} // lands on tiles
  // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
  // value is DERIVED from the ticked word(s) — never free-typed — and cannot fabricate.
  function selCands(letters,rule){var la=(letters||'').split(''),n=la.length;
@@ -2147,7 +2163,7 @@ function initGrid(rootId, DATA){
    var rc=tr.querySelector('.r-role'), bc=tr.querySelector('.r-brings');
    if(all.length){
     rc.innerHTML=all.map(function(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-     return '<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';}).join(' + ');
+     return '<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';}).join(' + ');
     var ap=null;for(var q=0;q<all.length;q++){if(isPiece(all[q].role)||all[q].role==='deletion'){ap=all[q];break;}}
     bc.innerHTML=ap?(isPiece(ap.role)?((ap.value||'')+(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):'')+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
     tr.style.background='#f8fafc';
@@ -2162,7 +2178,7 @@ function initGrid(rootId, DATA){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
    var v=isPiece(a.role)?(' = '+a.value+(a.cut?(' &minus;'+a.cut):'')+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
-   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':a.role)+(a.rule?('/'+a.rule):'')+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
+   return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.rule?('/'+a.rule):'')+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
  }
@@ -2207,7 +2223,7 @@ function initGrid(rootId, DATA){
   if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
   if(selrule)selrule.style.display=(r==='selection')?'':'none'; // the selection rule picker
   fillSub();                                                    // data-driven sub-type dropdown
-  candWrap.style.display=((isPiece(r)&&r!=='anagram')||r==='deletion')?'':'none'; // deletion = type
+  candWrap.style.display=((isPiece(r)&&r!=='anagram'&&r!=='homophone')||r==='deletion')?'':'none'; // deletion = type; homophone = tiles
   if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
@@ -2272,6 +2288,8 @@ function initGrid(rootId, DATA){
   if(r==='spoonerism'){var spv=(addInp.value||'').trim().toUpperCase();   // vetted sound pair:
    if(!spv){note('type the FULL source phrase (e.g. THE DEAR YACHT)');return;}a.value=spv;
    if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // covers the whole answer
+  if(r==='homophone'){if(!selPos.length){note('tick the word(s), then click the answer tiles they SOUND LIKE (the homophone span), then Assign');return;}
+   a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; gate checks it sounds like the fodder
   if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
   if(r==='definition'&&dkind)a.dkind=dkind.value;               // 'def' | 'dbe' (label only)
   if(isPiece(r)){
@@ -2338,6 +2356,20 @@ function initGrid(rootId, DATA){
   }).catch(function(){dMsg.textContent='search failed';});}
  if(dBtn){dBtn.addEventListener('click',dbSearch);
   [dWord,dVal].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();dbSearch();}});});}
+ /* Add-a-homophone box (restored 2026-07-14): teaches the DB a sounds-like pair, then
+    re-solves this clue. Mirrors delRow — a form POST to /hsaddhomophone, server redirects
+    back to /hs so _span_surface re-renders in place. */
+ var hWord=root.querySelector('#h-word'), hVal=root.querySelector('#h-val');
+ var hBtn=root.querySelector('#h-add'), hMsg=root.querySelector('#h-msg');
+ function addHom(){var w=(hWord.value||'').trim(), v=(hVal.value||'').trim();
+  if(!w||!v){hMsg.textContent='type the word and its sounds-like partner';return;}
+  var f=document.createElement('form');f.method='post';f.action='/hsaddhomophone';
+  function h(n,val){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=val;f.appendChild(i);}
+  h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('word',w);h('homophone',v);
+  if(DATA.src&&DATA.pnum){h('src',DATA.src);h('pnum',DATA.pnum);}
+  document.body.appendChild(f);f.submit();}
+ if(hBtn){hBtn.addEventListener('click',addHom);
+  [hWord,hVal].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addHom();}});});}
  if(cutEl)cutEl.addEventListener('input',drawCutPrev);
  if(addInp)addInp.addEventListener('input',drawCutPrev);
  // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign.
@@ -2545,9 +2577,14 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
         saved_list = _assignments_from_parse(ctx, parse)   # word doesn't mean reassigning all
 
     trs = "".join(
-        '<tr data-i="%d"><td><input type="checkbox" class="g-chk" value="%d"></td>'
-        '<td class="g-word">%s</td><td class="r-role"></td><td class="r-brings"></td></tr>'
-        % (r["idx"], r["idx"], escape(r["text"])) for r in rows)
+        '<tr data-i="%d"%s><td><input type="checkbox" class="g-chk" value="%d"></td>'
+        '<td class="g-word"%s>%s</td><td class="r-role"></td><td class="r-brings"></td></tr>'
+        % (r["idx"],
+           ' style="opacity:.55"' if r.get("is_symbol") else '',
+           r["idx"],
+           ' title="punctuation — tag it (e.g. definition) only if it carries meaning; '
+           'optional"' if r.get("is_symbol") else '',
+           escape(r["text"])) for r in rows)
     itype_opts = "".join('<option value="%s">%s</option>' % (v, escape(lab))
                          for v, lab in sorted(_FORCE_IND_OPTIONS,
                                               key=lambda o: o[1].lower()))
@@ -2646,6 +2683,11 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<b>spoonerism</b>: tick the source word(s), type the FULL source phrase (e.g. '
          'THE DEAR YACHT) &mdash; Assign files the pair to the spoonerisms table and the piece '
          'covers the whole answer; tag the Spooner word as an <b>indicator</b> (type spoonerism). '
+         '<b>homophone</b>: tick the word(s) that sound like part (or all) of the answer, click '
+         'the answer tiles they sound like, then Assign &mdash; the placed span is checked '
+         'against the sounds-like dictionary + homophones table (add a missing pair in '
+         '&ldquo;Add a homophone&rdquo; first); tag the sound word (e.g. &ldquo;loudly&rdquo;) '
+         'as an <b>indicator</b> (type homophone). '
          '<b>indicator/definition/link/filler</b>: no tiles. A word can do DOUBLE DUTY as '
          'definition + a wordplay role: assigning the definition keeps the word&rsquo;s other '
          'role (and vice versa) &mdash; the row shows both. Then Assign. When every tile is '
@@ -2664,9 +2706,11 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
          '<option value="spoonerism">spoonerism (source phrase)</option>'
+         '<option value="homophone">homophone (sounds like)</option>'
          '<option value="indicator">indicator</option>'
          '<option value="link">link word</option>'
          '<option value="filler">filler</option>'
+         '<option value="synbyexample">synonym by example</option>'
          '<option value="none">none (clear)</option></select>',
          '<select id="g-itype" style="display:none">%s</select>' % itype_opts,
          '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
@@ -2707,6 +2751,15 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<button type="button" id="d-search">Search DB</button> '
          '<span id="d-msg" style="color:#64748b;font-size:.85rem"></span>'
          '<div id="d-results" style="margin-top:.35rem"></div></div>',
+         '<div style="margin:.6rem 0;padding:.5rem;border:1px solid #e2e8f0;'
+         'border-radius:6px;background:#fafafa">'
+         '<b>Add a homophone</b> <span style="color:#64748b;font-size:.85rem">'
+         '(teaches the DB a sounds-like pair, e.g. air = heir; stored both '
+         'directions)</span><br>'
+         'word <input id="h-word" size="16" placeholder="word in clue"> '
+         'sounds like <input id="h-val" size="16" placeholder="e.g. heir"> '
+         '<button type="button" id="h-add">Add homophone</button> '
+         '<span id="h-msg" style="color:#64748b;font-size:.85rem"></span></div>',
          '<form method="post" action="/hsresolve" id="g-form">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
@@ -2973,6 +3026,25 @@ def hsdelete_route():
         msg = "Unknown delete kind."
     # The invalidate above clears the cached lookup for the row, so the next live query no
     # longer sees the just-deleted row — no ~9s full reload needed.
+    _resolve_one(cid)
+    return _hs_redirect(only, msg + " Re-solved.", back)
+
+
+@app.route("/hsaddhomophone", methods=["POST"])
+def hsaddhomophone_route():
+    """Add a homophone (sounds-like) PAIR to the reference DB from /hs, then re-solve this
+    clue. Restores the homophone add that vanished when the old 'Add to reference DB' panel
+    (_clue_admin_panel) stopped rendering — nothing in the Assign/Commit flow files a
+    homophone (2026-07-14). Mirrors /hsdelete: add, reconcile wiring, re-solve, redirect."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    word = (request.form.get("word") or "").strip()
+    homophone = (request.form.get("homophone") or "").strip()
+    if not only.isdigit() or not word or not homophone:
+        return _hs_redirect(only, "Enter both the word and its sounds-like partner.", back)
+    cid = int(only)
+    msg = admin_db.add_homophone(word, homophone)
+    apply_add_to_wiring({"kind": "homophone"})          # unknown kind -> full reload
     _resolve_one(cid)
     return _hs_redirect(only, msg + " Re-solved.", back)
 
@@ -4421,6 +4493,12 @@ def _build_manual_parse(cid, assigns, andlit=False):
 
     sources, links, definition, annotations, covered = [], [], None, [], {}
     db_adds = []   # reusable pieces to save to the reference DB AFTER a successful commit
+    # A manual HOMOPHONE piece is justified by a homophone INDICATOR in the clue (user rule
+    # 2026-07-14) — not an automatic sound-check. The human owns the verdict; the indicator
+    # is the licence. Scan once so the homophone branch can require it regardless of order.
+    _has_hom_ind = any(isinstance(x, dict) and x.get("role") == "indicator"
+                       and (x.get("itype") or "").strip() == "homophone"
+                       for x in assigns)
     for a in assigns:
         try:
             idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
@@ -4513,10 +4591,51 @@ def _build_manual_parse(cid, assigns, andlit=False):
                 covered[p] = si
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
                                   transform=None))
+        elif role == "homophone":
+            # HOMOPHONE piece: the ticked fodder (e.g. "A E" from "A & E") sounds like the
+            # answer span the user places (AVOWAL). It may cover only PART of the answer, so
+            # it can be one piece of a charade (DISAVOWAL = DIS + AVOWAL) — a shape the
+            # signature catalog cannot reach (memory: charade-homophone-singleword-limit),
+            # which is why this manual role exists. NO automatic sound-check (the human owns
+            # the verdict, like every manual solve): the licence is a HOMOPHONE INDICATOR in
+            # the clue (user rule 2026-07-14). The placed letters ARE the value (from the
+            # tiles the user clicked, never free-typed).
+            pos = sorted(int(p) for p in (a.get("pos") or [])
+                         if str(p).lstrip("-").isdigit())
+            if not pos:
+                return {"ok": False, "msg": "The homophone piece %r has no answer tiles — "
+                        "tick the word(s), click the answer letters they sound like, then "
+                        "Assign." % phrase}
+            if not _has_hom_ind:
+                return {"ok": False, "msg": "A homophone needs a homophone indicator — tag "
+                        "the sound word (e.g. “loudly”) as an indicator (type homophone), "
+                        "then Assign the homophone piece."}
+            value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+            si = len(sources)
+            sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
+                                  mechanism="homophone", source="db"))
+            for p in pos:
+                if p in covered:
+                    return {"ok": False, "msg": "Answer tile %d is claimed by two "
+                            "pieces — each tile belongs to exactly one piece." % p}
+                covered[p] = si
+                links.append(Link(answer_pos=p, source_index=si, operation="manual",
+                                  transform='sounds like "%s"' % phrase))
         elif role == "definition":
             # 'dbe' = definition by example — identical to a plain definition in every code
             # path (still the parse.definition Source), only the rendered label differs; the
             # marker rides on the mechanism so it round-trips through storage.
+            # A clue has ONE definition. A SECOND definition-role tag (incl. def-by-example)
+            # used to silently overwrite the first, then the commit blamed the DROPPED word(s)
+            # for having "no role" — a baffling error (user hit it 2026-07-14 tagging "perhaps"
+            # as def-by-example). Refuse clearly instead. A double definition's second half is
+            # a synonym piece covering the whole answer, NOT a second definition tag, so this
+            # never blocks a real DD.
+            if definition is not None:
+                return {"ok": False, "msg": "Two definitions tagged: %r and %r. A clue has "
+                        "ONE definition — tag the extra word(s) as filler, a link, or an "
+                        "indicator (a “for example” word like “perhaps” is usually filler)."
+                        % (definition.text, phrase)}
             _dmech = ("definition_by_example"
                       if (a.get("dkind") or "").strip() == "dbe" else "definition")
             definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
@@ -4537,10 +4656,15 @@ def _build_manual_parse(cid, assigns, andlit=False):
                 value = "".join(c for c in phrase.upper() if c.isalpha())
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="deletion",
                                            note="deleted letters: %s" % value, source="manual"))
-        elif role in ("link", "filler"):
+        elif role in ("link", "filler", "synbyexample"):
+            # All three are accounted-but-letterless: the word gets a role="link" annotation
+            # so "every word must have a role" passes. The NOTE carries the accurate label —
+            # "synonym by example" is the wordplay twin of definition-by-example (a
+            # perhaps/maybe word marking a by-example synonym), no letters, no validity.
+            _lnote = {"filler": "surface filler",
+                      "synbyexample": "synonym by example"}.get(role, "link word")
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
-                                           note=("surface filler" if role == "filler"
-                                                 else "link word"), source="manual"))
+                                           note=_lnote, source="manual"))
 
     # A spoonerism indicator's note carries the pair so the card renders the full
     # "SOURCE → ANSWER" detail (wfw_render._indicator_label already parses the
