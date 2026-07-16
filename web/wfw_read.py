@@ -380,10 +380,14 @@ PALETTE = [
     ("#c2185b", "#fbe4ee"), ("#0097a7", "#e0f5f7"), ("#b8860b", "#f8efd6"),
     ("#c62828", "#fbe4e4"), ("#6a1b9a", "#f0e4f7"),
 ]
-ROLE_COLOURS = {                       # (text, fill) for the non-source roles
-    "definition": ("#166534", "#dcfce7"),
-    "indicator": ("#92400e", "#fef3c7"),
-    "link": ("#475569", "#e2e8f0"),
+# Definition / indicator / link render PLAIN (neutral grey pill). Only the
+# source pieces carry colour, so colour maps directly to the answer tiles —
+# nothing that doesn't build answer letters is colour-coded.
+_PLAIN_ROLE = ("#475569", "#f1f5f9")
+ROLE_COLOURS = {
+    "definition": _PLAIN_ROLE,
+    "indicator": _PLAIN_ROLE,
+    "link": _PLAIN_ROLE,
 }
 
 # Friendly pill label per piece mechanism (data copied from the admin renderer's
