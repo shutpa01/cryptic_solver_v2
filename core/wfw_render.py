@@ -236,7 +236,8 @@ _IND_TYPES = ("anagram", "container", "insertion", "reversal", "deletion",
               "selection", "substitution", "alternation")
 _IND_COLOUR = {"anagram": "#7c3aed", "container": "#0e7490", "reversal": "#b45309",
                "deletion": "#be185d", "hidden": "#92600a", "homophone": "#4d7c0f",
-               "acrostic": "#5b21b6", "letter-shift": "#0369a1", "indicator": "#7c3aed"}
+               "acrostic": "#5b21b6", "letter-shift": "#0369a1", "positional": "#475569",
+               "indicator": "#7c3aed"}
 
 
 # Friendly detail for an indicator's sub-type code, per type (a manual "type/subtype" note like
@@ -250,6 +251,8 @@ _SUBTYPE_DETAIL = {
                  "empty": "remove inner letters", "general": "named letter(s)"},
     "letter_shift": {"last_front": "move last letter to front",
                      "first_end": "move first letter to end"},
+    "charade_positional": {"after": "this piece goes after its neighbour",
+                           "before": "this piece goes before its neighbour"},
 }
 
 
@@ -276,6 +279,11 @@ def _indicator_label(note):
         detail = {"last_front": "move last letter to front",
                   "first_end": "move first letter to end"}.get(sub, sub)
         return "Letter-shift indicator", detail
+    if "charade_positional" in n:                  # "charade_positional/after indicator"
+        # a positional/charade indicator ("after", "before") — tells the reader WHERE the
+        # piece sits relative to its neighbour, not a bare "Indicator".
+        sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
+        return "Positional indicator", _SUBTYPE_DETAIL["charade_positional"].get(sub, sub)
     for t in _IND_TYPES:
         if t in n:
             disp = "Container" if t == "insertion" else t.capitalize()
