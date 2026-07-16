@@ -1069,6 +1069,17 @@ def clue_page(slug):
     from web.models import get_source_puzzle_url
     source_puzzle_url = get_source_puzzle_url(source, puzzle_number)
 
+    # Contextual learn link: if this clue's wordplay maps cleanly to a built
+    # /learn page, offer "see how <type> clues work". DB-safe (links only to an
+    # existing learn page), and passes internal-link equity to the learn zone.
+    # Key off mechanism_label (the WFW-derived displayed type, e.g. "REVERSAL";
+    # compound clues read "CHARADE REVERSAL" and correctly map to None). It already
+    # falls back to wordplay_type internally, so this covers served clues whose
+    # legacy wordplay_type column is empty.
+    from web.routes.learn import learn_slug_for_wordplay, TYPE_INFO
+    learn_slug = learn_slug_for_wordplay(clue_dict.get("mechanism_label"))
+    learn_label = TYPE_INFO.get(learn_slug, {}).get("label") if learn_slug else None
+
     role_choices = sorted([
         # Structural
         "definition",
@@ -1121,5 +1132,7 @@ def clue_page(slug):
         breadcrumb_schema=breadcrumb_schema,
         word_roles_schema=word_roles_schema,
         role_choices=role_choices,
+        learn_slug=learn_slug,
+        learn_label=learn_label,
     ))
     return issue_session_cookie(response)

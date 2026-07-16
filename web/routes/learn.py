@@ -118,6 +118,50 @@ TYPE_ORDER = [
 ]
 
 
+# Map a clue's wordplay_type (legacy column / verifier value) to a learn slug.
+# Only CLEAN single-type values link — compound / typo / junk values return None
+# so a clue page never links to a /learn page that 404s.
+_WORDPLAY_TO_LEARN = {
+    "charade": "charade",
+    "anagram": "anagram",
+    "container": "container",
+    "insertion": "container",
+    "double_definition": "double_definition",
+    "double definition": "double_definition",
+    "dd": "double_definition",
+    "reversal": "reversal",
+    "hidden": "hidden",
+    "hidden_word": "hidden",
+    "hidden_reversed": "hidden",
+    "hidden_in_word": "hidden",
+    "deletion": "deletion",
+    "acrostic": "acrostic",
+    "homophone": "homophone",
+    "homonym": "homophone",
+    "cryptic_definition": "cryptic_definition",
+    "cryptic definition": "cryptic_definition",
+}
+
+
+def learn_slug_for_wordplay(wordplay_type):
+    """Map a clue's wordplay_type to a /learn/<slug> that exists, or None.
+
+    Normalises case/spacing and matches ONLY a pure single-type value. Compound
+    "exploded" types ("charade, container", "charade anagram container") and
+    typos/junk return None, so the clue page never mislabels a multi-mechanism
+    clue as one type and never links to a /learn page that 404s.
+    """
+    if not wordplay_type:
+        return None
+    norm = wordplay_type.strip().lower()
+    # ONLY pure single-type clues get a specific learn link. Compound / "exploded"
+    # types (e.g. "charade, container", "charade anagram container") do NOT map —
+    # they return None so we never mislabel a multi-mechanism clue as one type.
+    # Those clues fall back to the page's generic "Teach me about cryptics" link.
+    slug = _WORDPLAY_TO_LEARN.get(norm)
+    return slug if slug in TYPE_ORDER else None
+
+
 def served_learn_paths():
     """Learn-zone paths that render 200, for the sitemap.
 
