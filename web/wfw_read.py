@@ -477,34 +477,43 @@ def load_breakdown(clue_id):
         if tr:
             trans.setdefault(si, []).append(tr)
 
-    rows = []
+    # EVERY row (definition / source / indicator / link) carries its clue
+    # position and the whole list is sorted by it, so the breakdown reads
+    # top-to-bottom in the clue's own word order — not grouped by role (which
+    # buried the definition at the top and the first-word indicator at the
+    # bottom). Matches the inline card renderer (core/wfw_render).
+    ans_up = parse["answer_text"].upper()
+    scored = []   # (clue_pos, row)
     for d in parse["definitions"]:
         fg, fill = ROLE_COLOURS["definition"]
-        rows.append({"pill": "Definition", "fg": fg, "fill": fill,
-                     "detail": '"%s" → %s' % (d["text"], parse["answer_text"].upper())})
-    for s in sorted(parse["sources"],
-                    key=lambda s: (s.get("clue_pos", _UNPLACED), s["ord"])):
+        scored.append((_clue_pos(d.get("atom_ids")),
+                       {"pill": "Definition", "fg": fg, "fill": fill,
+                        "detail": '"%s" → %s' % (d["text"], ans_up)}))
+    for s in parse["sources"]:
+        pos = s.get("clue_pos", _UNPLACED)
         if s["mechanism"] == "definition":     # second definition of a DD
             fg, fill = ROLE_COLOURS["definition"]
-            rows.append({"pill": "Definition", "fg": fg, "fill": fill,
-                         "detail": '"%s" → %s'
-                                   % (s["text"], parse["answer_text"].upper())})
+            scored.append((pos, {"pill": "Definition", "fg": fg, "fill": fill,
+                                 "detail": '"%s" → %s' % (s["text"], ans_up)}))
             continue
         fg, fill = source_colour(s["ord"])
         detail = _describe(s, placed_all.get(s["ord"], ""), trans.get(s["ord"], []))
-        rows.append({"pill": _MECH_LABEL.get(s["mechanism"],
-                                             (s["mechanism"] or "Piece").title()),
-                     "fg": fg, "fill": fill, "detail": detail or ""})
+        scored.append((pos, {"pill": _MECH_LABEL.get(s["mechanism"],
+                                                     (s["mechanism"] or "Piece").title()),
+                             "fg": fg, "fill": fill, "detail": detail or ""}))
     for ind in parse["indicators"]:
         fg, fill = ROLE_COLOURS["indicator"]
-        rows.append({"pill": "Indicator", "fg": fg, "fill": fill,
-                     "detail": '"%s"%s' % (ind["text"],
-                                           (" — " + ind["note"]) if ind["note"] else "")})
+        scored.append((_clue_pos(ind.get("atom_ids")),
+                       {"pill": "Indicator", "fg": fg, "fill": fill,
+                        "detail": '"%s"%s' % (ind["text"],
+                                              (" — " + ind["note"]) if ind["note"] else "")}))
     for p in pieces:
         if p["role"] == "link":
             fg, fill = ROLE_COLOURS["link"]
-            rows.append({"pill": "Link", "fg": fg, "fill": fill,
-                         "detail": '"%s"' % p["text"]})
+            scored.append((_clue_pos(p["atom_ids"]),
+                           {"pill": "Link", "fg": fg, "fill": fill,
+                            "detail": '"%s"' % p["text"]}))
+    rows = [r for _, r in sorted(scored, key=lambda x: x[0])]
 
     n_src = max([s["ord"] for s in parse["sources"]], default=-1) + 1
     return {
