@@ -2113,12 +2113,18 @@ function initGrid(rootId, DATA){
    case 'remove_outer':return n>=3?[la.slice(1,n-1).join('')]:[];
    case 'remove_middle':return n<3?[]:(n%2?[la.slice(0,(n-1)/2).join('')+la.slice((n+1)/2).join('')]:[la.slice(0,n/2-1).join('')+la.slice(n/2+1).join('')]);
   }return [];}
- function fillSelCands(){if(roleSel.value!=='selection')return;var fl=fodderLetters(checkedIdx());
-  var cands=fl?selCands(fl,selrule.value):[];
+ function fillSelCands(){if(roleSel.value!=='selection')return;var ci=checkedIdx();var fl=fodderLetters(ci);
+  var cands=fl?selCandsApos(ci,selrule.value):[];
   candSel.innerHTML=cands.length?cands.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('')
    :'<option value="">(tick word(s) first / word too short)</option>';
   if(cands.length)addInp.value=cands[0];}
  function fodderLetters(idx){return idx.map(function(i){return (DATA.words[i]||'').toUpperCase().replace(/[^A-Z]/g,'');}).join('');}
+ function selCandsApos(idx,rule){          // apostrophe divides a word (CHOIR'S -> CHOIR | S):
+  var out=selCands(fodderLetters(idx),rule).slice();                 // the rule on the WHOLE word
+  var raw=idx.map(function(i){return DATA.words[i]||'';}).join(' ');  // AND on each apostrophe-part
+  var segs=raw.split(/['’]/).map(function(s){return s.toUpperCase().replace(/[^A-Z]/g,'');}).filter(function(s){return s;});
+  if(segs.length>1){segs.forEach(function(s){selCands(s,rule).forEach(function(c){if(out.indexOf(c)<0)out.push(c);});});}
+  return out;}                             // so "last of CHOIR'S" offers R (before ') as well as S
  function msort(s){return (s||'').split('').sort().join('');}
  function msub(a,b){var arr=(a||'').split(''),ok=true;(b||'').split('').forEach(function(c){var i=arr.indexOf(c);if(i>=0)arr.splice(i,1);else ok=false;});return {ok:ok,rem:arr.sort().join('')};}
  var PAL=['#fca5a5','#fcd34d','#86efac','#93c5fd','#c4b5fd','#f9a8d4','#a5f3fc','#fdba74','#d9f99d','#f5d0fe','#fda4af','#bef264'];
@@ -2277,7 +2283,7 @@ function initGrid(rootId, DATA){
     a.cut=cut;}}
   if(r==='letters'||r==='replacement'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
   if(r==='selection'){var sfl=fodderLetters(idx),srl=selrule?selrule.value:'';
-   var scands=selCands(sfl,srl);
+   var scands=selCandsApos(idx,srl);
    if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
    var sv=((addInp.value||'').trim()||candSel.value||scands[0]||'').toUpperCase();
    if(scands.indexOf(sv)<0){note(sv+' is not the '+srl+' selection of '+sfl+' (must be '+scands.join(' or ')+')');return;}
@@ -3158,14 +3164,27 @@ def _selection_candidates(phrase, rule):
     lists, so plain characters work). The commit validates a selection piece against this,
     so the derived value can never be free-typed."""
     from core import selection
-    letters = [c for c in (phrase or "").upper() if c.isalpha()]
+    import re
     fn = selection.SPAN_RULES.get(rule)
     if fn is None:
         return []
-    try:
-        return ["".join(cand) for cand in fn(letters) if cand]
-    except Exception:
-        return []
+    # An apostrophe divides a word (CHOIR'S -> CHOIR | S): derive the rule over the WHOLE
+    # word AND over each apostrophe-part, so "last letter of CHOIR'S" offers R (before the ')
+    # as well as S (after). No apostrophe -> one part -> behaviour unchanged.
+    parts = [p for p in re.split(r"['’]", phrase or "") if any(c.isalpha() for c in p)]
+    letter_sets = ["".join(c for c in (phrase or "").upper() if c.isalpha())]
+    if len(parts) > 1:
+        letter_sets += ["".join(c for c in p.upper() if c.isalpha()) for p in parts]
+    out = []
+    for ls in letter_sets:
+        try:
+            for cand in fn([c for c in ls]):
+                s = "".join(cand)
+                if s and s not in out:
+                    out.append(s)
+        except Exception:
+            pass
+    return out
 
 
 def _cand_from_assignments(assigns, n_total, answer=""):
