@@ -18,6 +18,8 @@ Feeds the 4-step hint ladder (web/models.py hooks):
 Per-request memoised in flask.g — the puzzle page probes every clue.
 """
 
+import json
+import re
 import sqlite3
 
 from flask import g
@@ -53,6 +55,23 @@ _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
                "palindrome", "spoonerism", "acrostic", "replacement",
                "cycling", "substitution")
 
+_UNPLACED = 10 ** 9   # clue position for a piece with no locatable atoms — sorts last
+
+
+def _clue_pos(atom_ids_json):
+    """The piece's position in the clue's READING order: the smallest clue
+    character-index across its atom_ids. atom_ids look like 'clue_char_0015',
+    so the numeric suffix is the character offset. Every explanation is ordered
+    by this so it reads left-to-right like the clue; the colour coding (clue
+    words + answer tiles) carries which piece lands where in the answer."""
+    try:
+        ids = json.loads(atom_ids_json or "[]")
+    except (ValueError, TypeError):
+        return _UNPLACED
+    nums = [int(m.group(1)) for a in ids
+            for m in [re.search(r"(\d+)", a or "")] if m]
+    return min(nums) if nums else _UNPLACED
+
 
 def _load(clue_id):
     """The clue's wfw parse as a plain dict, or None (no row / not a pass /
@@ -70,8 +89,9 @@ def _load(clue_id):
             "FROM wfw_solve WHERE clue_id = ?", (clue_id,)).fetchone()
         if row is not None and row["status"] == "pass":
             pieces = db.execute(
-                "SELECT role, ord, text, value, mechanism, note FROM wfw_piece "
-                "WHERE clue_id = ? ORDER BY ord", (clue_id,)).fetchall()
+                "SELECT role, ord, text, value, mechanism, note, atom_ids "
+                "FROM wfw_piece WHERE clue_id = ? ORDER BY ord",
+                (clue_id,)).fetchall()
             links = db.execute(
                 "SELECT answer_pos, source_index, transform FROM wfw_link "
                 "WHERE clue_id = ? ORDER BY answer_pos", (clue_id,)).fetchall()
@@ -81,9 +101,10 @@ def _load(clue_id):
                 "answer_text": row["answer_text"] or "",
                 "definitions": [p for p in map(dict, pieces)
                                 if p["role"] == "definition"],
-                "sources": sorted((p for p in map(dict, pieces)
-                                   if p["role"] == "source"),
-                                  key=lambda p: p["ord"]),
+                "sources": sorted(
+                    ({**p, "clue_pos": _clue_pos(p.get("atom_ids"))}
+                     for p in map(dict, pieces) if p["role"] == "source"),
+                    key=lambda p: p["ord"]),
                 "indicators": [p for p in map(dict, pieces)
                                if p["role"] == "indicator"],
                 "links": [dict(l) for l in links],
@@ -190,18 +211,26 @@ def _summary(parse):
     segments = _segments(parse)
     if not segments:
         return None
-    line = " + ".join(segments) + " → " + answer
+    # order pieces by clue reading position (not answer-assembly order)
+    segments = sorted(segments, key=lambda ps: ps[0])
+    line = " + ".join(seg for _, seg in segments) + " → " + answer
     if op == "andlit":
         line += " (and the whole clue defines it — &lit)"
     return line
 
 
 def _segments(parse):
-    """Ordered descriptor per contiguous letters-run of the answer, merged so a
-    simple linear assembly reads piece by piece and a single split source reads
-    'OUTER around INNER'."""
+    """(clue_pos, descriptor) per contiguous letters-run of the answer, merged so
+    a simple linear assembly reads piece by piece and a single split source reads
+    'OUTER around INNER'. The caller orders by clue_pos so the line reads in the
+    clue's own word order; colour coding (clue words + answer tiles) shows where
+    each piece lands in the answer."""
     letters = "".join(c for c in parse["answer_text"].upper() if c.isalpha())
     srcs = {s["ord"]: s for s in parse["sources"]}
+
+    def cpos(si):
+        s = srcs.get(si)
+        return s.get("clue_pos", _UNPLACED) if s else _UNPLACED
 
     # contiguous runs of answer positions by source_index, in answer order
     runs = []           # [si, placed_letters, transforms]
@@ -235,7 +264,8 @@ def _segments(parse):
             # fodder texts in CLUE order (source ord), not answer-letter order
             texts = [srcs[si]["text"] for si in sorted(group_sis)
                      if srcs[si]["text"]]
-            merged.append(("ana", texts, all_placed))
+            gpos = min((cpos(si) for si in group_sis), default=_UNPLACED)
+            merged.append(("ana", texts, all_placed, gpos))
         else:
             merged.append(("src", si, placed, trs))
             i += 1
@@ -253,33 +283,39 @@ def _segments(parse):
             and merged[0][1] == merged[2][1]):
         outer = _describe(srcs.get(merged[0][1]),
                           placed_all[merged[0][1]], merged[0][3])
-        inner = (("anagram of " + " ".join('"%s"' % t for t in merged[1][1]))
-                 if merged[1][0] == "ana"
-                 else _describe(srcs.get(merged[1][1]),
-                                placed_all.get(merged[1][1], merged[1][2]),
-                                merged[1][3]))
-        return [outer + " around " + inner] if outer and inner else None
+        if merged[1][0] == "ana":
+            inner = "anagram of " + " ".join('"%s"' % t for t in merged[1][1])
+            inner_pos = merged[1][3]
+        else:
+            inner = _describe(srcs.get(merged[1][1]),
+                              placed_all.get(merged[1][1], merged[1][2]),
+                              merged[1][3])
+            inner_pos = cpos(merged[1][1])
+        if outer and inner:
+            return [(min(cpos(merged[0][1]), inner_pos),
+                     outer + " around " + inner)]
+        return None
 
     out, described, ana_done = [], set(), set()
     for m in merged:
         if m[0] == "ana":
             sis = frozenset(t for t in m[1])
             if sis and sis <= ana_done:   # split anagram group seen again: letters
-                out.append(m[2])
+                out.append((m[3], m[2]))
                 continue
             ana_done |= sis
-            out.append("anagram of " + " ".join('"%s"' % t for t in m[1]))
+            out.append((m[3], "anagram of " + " ".join('"%s"' % t for t in m[1])))
             continue
         si, placed, trs = m[1], m[2], m[3]
         s = srcs.get(si)
         if si in described:     # a split source seen again: just its letters
-            out.append(placed)
+            out.append((cpos(si), placed))
             continue
         described.add(si)
         d = _describe(s, placed_all.get(si, placed), trs)
         if d is None:
             return None
-        out.append(d)
+        out.append((cpos(si), d))
     return out
 
 
@@ -446,7 +482,8 @@ def load_breakdown(clue_id):
         fg, fill = ROLE_COLOURS["definition"]
         rows.append({"pill": "Definition", "fg": fg, "fill": fill,
                      "detail": '"%s" → %s' % (d["text"], parse["answer_text"].upper())})
-    for s in parse["sources"]:
+    for s in sorted(parse["sources"],
+                    key=lambda s: (s.get("clue_pos", _UNPLACED), s["ord"])):
         if s["mechanism"] == "definition":     # second definition of a DD
             fg, fill = ROLE_COLOURS["definition"]
             rows.append({"pill": "Definition", "fg": fg, "fill": fill,
