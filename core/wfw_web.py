@@ -4478,6 +4478,40 @@ def hssavepieces_route():
     return _json({"ok": True, "msg": msg, "status": status})
 
 
+def _promote_double_definition(parse, db_adds):
+    """Recognise a DOUBLE DEFINITION and rebuild it as one. The /hs grid can tag only ONE
+    definition, so a DD's second half is tagged a 'synonym' piece covering the whole answer
+    (the sanctioned shape; see the two-definitions guard). But that renders as an invented
+    'synonym' clue type. When the ONLY wordplay is a single synonym equal to the WHOLE
+    answer, alongside a definition and links, both halves are definitions -> rebuild as a
+    real DD (two definition sources, no wordplay, operation 'double_definition') so it
+    renders as two definitions, and harvest the second half to the DEFINITIONS table, not
+    synonyms. Mutates parse + db_adds in place; a no-op for every other shape."""
+    if parse.operation != "manual" or parse.definition is None:
+        return
+    syns = [s for s in parse.sources if s.mechanism == "synonym"]
+    if len(parse.sources) != 1 or len(syns) != 1:
+        return                                    # a real piece besides the synonym -> not a DD
+    s = syns[0]
+    ans = "".join(c for c in (parse.answer_text or "").upper() if c.isalpha())
+    val = "".join(c for c in (s.value or "").upper() if c.isalpha())
+    if not ans or val != ans:                     # the synonym must BE the whole answer
+        return
+    if any(getattr(a, "role", "") != "link" for a in (parse.annotations or [])):
+        return                                    # only links/filler may sit between the halves
+    from core.wfw_model import Source
+    def _asdef(src):
+        return Source(clue_atom_ids=src.clue_atom_ids, text=src.text,
+                      value=parse.answer_text, mechanism="definition", source="manual")
+    parse.sources = [_asdef(parse.definition), _asdef(s)]   # clue order: def half, then synonym half
+    parse.links = []                              # a DD has no per-letter provenance
+    parse.definition = None
+    parse.operation = "double_definition"
+    for i, add in enumerate(list(db_adds)):       # save the second half as a DEFINITION
+        if add[0] == "synonym" and (add[1] or "").strip() == (s.text or "").strip():
+            db_adds[i] = ("definition", add[1], add[2])
+
+
 def _build_manual_parse(cid, assigns, andlit=False):
     """Build + VALIDATE a manual Parse from /hs grid assignments. THE single source
     of truth for manual-reading validation (tile coverage, word coverage, fodder
@@ -4511,6 +4545,7 @@ def _build_manual_parse(cid, assigns, andlit=False):
         return " ".join(wt[i].text for i in idx if 0 <= i < len(wt))
 
     sources, links, definition, annotations, covered = [], [], None, [], {}
+    definition2 = None            # a SECOND definition tag -> a double definition (two defs, no wordplay)
     db_adds = []   # reusable pieces to save to the reference DB AFTER a successful commit
     # A manual HOMOPHONE piece is justified by a homophone INDICATOR in the clue (user rule
     # 2026-07-14) — not an automatic sound-check. The human owns the verdict; the indicator
@@ -4644,21 +4679,23 @@ def _build_manual_parse(cid, assigns, andlit=False):
             # 'dbe' = definition by example — identical to a plain definition in every code
             # path (still the parse.definition Source), only the rendered label differs; the
             # marker rides on the mechanism so it round-trips through storage.
-            # A clue has ONE definition. A SECOND definition-role tag (incl. def-by-example)
-            # used to silently overwrite the first, then the commit blamed the DROPPED word(s)
-            # for having "no role" — a baffling error (user hit it 2026-07-14 tagging "perhaps"
-            # as def-by-example). Refuse clearly instead. A double definition's second half is
-            # a synonym piece covering the whole answer, NOT a second definition tag, so this
-            # never blocks a real DD.
-            if definition is not None:
-                return {"ok": False, "msg": "Two definitions tagged: %r and %r. A clue has "
-                        "ONE definition — tag the extra word(s) as filler, a link, or an "
-                        "indicator (a “for example” word like “perhaps” is usually filler)."
-                        % (definition.text, phrase)}
+            # A clue usually has ONE definition. TWO definition tags = a DOUBLE DEFINITION
+            # (both halves define the whole answer, no wordplay) — collected in definition2
+            # and assembled as a real DD below. A THIRD is an over-tag, refused clearly (the
+            # old silent overwrite blamed the dropped word for having "no role" — user hit it
+            # 2026-07-14 tagging "perhaps" as def-by-example).
             _dmech = ("definition_by_example"
                       if (a.get("dkind") or "").strip() == "dbe" else "definition")
-            definition = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
-                                mechanism=_dmech, source="manual")
+            _dsrc = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
+                           mechanism=_dmech, source="manual")
+            if definition is None:
+                definition = _dsrc
+            elif definition2 is None:
+                definition2 = _dsrc
+            else:
+                return {"ok": False, "msg": "Three definitions tagged (%r, %r, %r). A clue "
+                        "has one definition, or two for a double definition — not three."
+                        % (definition.text, definition2.text, phrase)}
             db_adds.append(("definition", phrase, ans_letters))   # reusable -> save after commit
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
@@ -4697,6 +4734,27 @@ def _build_manual_parse(cid, assigns, andlit=False):
                     note="spoonerism: %s → %s" % (_spoon.value, answer.upper()),
                     source="manual")
 
+    if definition2 is not None:
+        # DOUBLE DEFINITION: two definition tags, both defining the whole answer, no
+        # wordplay. Build it as the DD engine does (two definition sources, no piece links,
+        # operation 'double_definition') so it renders as two definitions — never an invented
+        # 'synonym' clue type. A wordplay piece alongside two definitions is contradictory.
+        if sources:
+            return {"ok": False, "msg": "Not committed — a double definition is TWO "
+                    "definitions and no wordplay, but a wordplay piece is also tagged (%s). "
+                    "Untag it, or keep one definition and tag the rest as wordplay."
+                    % ", ".join(s.text for s in sources)}
+        parse = Parse(clue_text=clue_text, answer_text=answer,
+                      sources=[definition, definition2], links=[], annotations=annotations,
+                      definition=None, operation="double_definition",
+                      solved_by="manual", status="pass")
+        unaccounted = parse.unexplained_words(ctx)
+        if unaccounted:
+            return {"ok": False, "msg": "Not committed — these clue words have NO role: %s. "
+                    "Every clue word must be a definition half, a link, or filler."
+                    % ", ".join("“%s”" % w for w in unaccounted)}
+        return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds, "n_sources": 2}
+
     if not sources:
         return {"ok": False, "msg": "Place at least one piece on the answer tiles "
                 "(assign a synonym/letters role and click the tiles it makes)."}
@@ -4733,8 +4791,9 @@ def _build_manual_parse(cid, assigns, andlit=False):
         return {"ok": False, "msg": "Not committed — these clue words have NO role: %s. Every "
                 "clue word must be a piece, the definition, an indicator, a link, filler, or a "
                 "deletion." % ", ".join("“%s”" % w for w in unaccounted)}
+    _promote_double_definition(parse, db_adds)   # def + whole-answer synonym -> a real DD
     return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds,
-            "n_sources": len(sources)}
+            "n_sources": len(parse.sources)}
 
 
 @app.route("/hsmanualcommit", methods=["POST"])

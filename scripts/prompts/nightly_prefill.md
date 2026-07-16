@@ -39,6 +39,11 @@ Prefill-discipline rules (user corrections, 2026-07-09 — do not repeat them):
    their original order (user correction, 2026-07-12: TO in OBBLIGATO). An
    anagram must rearrange. Such a word is a LITERAL — tag it "letters" on its
    tiles, and keep the anagram piece to the words that are actually scrambled.
+6. A DOUBLE DEFINITION is TWO definitions of the same answer — tag BOTH halves
+   with the DEFINITION role (user correction, 2026-07-16: TEARS UP = "Causes
+   damage to" / "gets emotional"). There is no "synonym" clue type: never tag
+   one half as a synonym piece covering the whole answer. The joining word
+   (and / & / a comma) is a link.
 
 ## Validation before ANY write (the established scratchpad pattern)
 Check word coverage, tile coverage, selection-rule validity, and fodder

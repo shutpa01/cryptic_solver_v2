@@ -63,6 +63,10 @@ def _manual_hidden_line(ctx, parse):
 SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
            "homophone": homophone_screen.render,
            "dd": dd_screen.render,
+           # a manual/prefill DD promoted from def+whole-answer-synonym carries
+           # solved_by='manual'/'prefill', so dispatch on the OPERATION too, not just
+           # solved_by='dd' — both land on the same DD screen.
+           "double_definition": dd_screen.render,
            "charade": charade_screen.render, "anagram": anagram_screen.render,
            "anagram_charade": anagram_charade_screen.render,
            "anagram_container": anagram_container_screen.render,
