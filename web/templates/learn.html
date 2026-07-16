@@ -3,7 +3,17 @@
 {% block title %}How to Solve Cryptic Crosswords: A Beginner's Guide{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Think cryptic crosswords are impossible? Cordelia thought so too. Learn how they work — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools.">
+{% set meta_desc = "Think cryptic crosswords are impossible? Cordelia thought so too. Learn how they work — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools." %}
+<meta name="description" content="{{ meta_desc }}">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ meta_desc }}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
+<meta property="og:url" content="https://justcordelia.com{{ request.path }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ self.title() }}">
+<meta name="twitter:description" content="{{ meta_desc }}">
+<meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
 {% endblock %}
 
 {% block structured_data %}

@@ -2,6 +2,20 @@
 
 {% block title %}Practice {{ label }} Clues — Cryptic Crosswords{% endblock %}
 
+{% block meta %}
+{% set meta_desc = "Practice " ~ (label | lower) ~ " clues from real cryptic crosswords. Try to solve, then reveal the answer and see how the wordplay works. Free, no sign-up." %}
+<meta name="description" content="{{ meta_desc }}">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ meta_desc }}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
+<meta property="og:url" content="https://justcordelia.com{{ request.path }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ self.title() }}">
+<meta name="twitter:description" content="{{ meta_desc }}">
+<meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
+{% endblock %}
+
 {% block content %}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>

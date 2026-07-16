@@ -3,7 +3,17 @@
 {% block title %}How to Solve {{ label }} Clues in Cryptic Crosswords{% endblock %}
 
 {% block meta %}
-<meta name="description" content="Learn how {{ label | lower }} clues work in cryptic crosswords. {{ total }} example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay. No jargon, no snobbery.">
+{% set meta_desc = "Learn how " ~ (label | lower) ~ " clues work in cryptic crosswords. " ~ total ~ " example clues with colour-coded visual breakdowns showing definition, indicators, and wordplay. No jargon, no snobbery." %}
+<meta name="description" content="{{ meta_desc }}">
+<meta property="og:title" content="{{ self.title() }}">
+<meta property="og:description" content="{{ meta_desc }}">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
+<meta property="og:url" content="https://justcordelia.com{{ request.path }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ self.title() }}">
+<meta name="twitter:description" content="{{ meta_desc }}">
+<meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
 {% endblock %}
 
 {% block structured_data %}

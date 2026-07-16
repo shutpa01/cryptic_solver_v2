@@ -166,10 +166,22 @@ def puzzle(source, puzzle_type, puzzle_number):
         from scraper.danword.danword_lookup import find_puzzle_json
         has_grid = find_puzzle_json(source, puzzle_number) is not None
 
-    # Structured data for SEO
-    from web.routes.clue_seo import generate_puzzle_breadcrumb_schema, generate_puzzle_faq_schema
+    # Structured data + SEO title/heading/description. The title targets the
+    # search forms people actually type ("times cryptic crossword 29596",
+    # "DT 31205"); the heading is the keyword-rich H1.
+    from web.routes.clue_seo import (
+        generate_puzzle_breadcrumb_schema, generate_puzzle_faq_schema,
+        generate_puzzle_title, generate_puzzle_heading,
+        generate_puzzle_meta_description,
+    )
     breadcrumb_schema = generate_puzzle_breadcrumb_schema(source, puzzle_type, type_label, puzzle_number)
-    faq_schema = generate_puzzle_faq_schema(source, type_label, puzzle_number, len(all_clues_list), pub_date)
+    faq_schema = generate_puzzle_faq_schema(source, type_label, puzzle_number,
+                                            len(all_clues_list), pub_date,
+                                            puzzle_type=puzzle_type)
+    seo_title = generate_puzzle_title(source, puzzle_type, type_label, puzzle_number)
+    seo_heading = generate_puzzle_heading(source, puzzle_type, type_label, puzzle_number)
+    meta_description = generate_puzzle_meta_description(
+        source, puzzle_type, type_label, puzzle_number, len(all_clues_list), pub_date)
 
     # The WFW clue-page CLUTCH: every clue id of this puzzle, page order. The admin
     # HS/WFW links must carry it (as `from` / the id list) so "back to clue page"
@@ -194,6 +206,9 @@ def puzzle(source, puzzle_type, puzzle_number):
         tutorial_prefill=tutorial_prefill,
         breadcrumb_schema=breadcrumb_schema,
         faq_schema=faq_schema,
+        seo_title=seo_title,
+        seo_heading=seo_heading,
+        meta_description=meta_description,
     ))
     return issue_session_cookie(response)
 

@@ -365,10 +365,69 @@ def generate_puzzle_breadcrumb_schema(source, type_slug, type_label, puzzle_numb
     return json.dumps(schema, ensure_ascii=False)
 
 
-def generate_puzzle_faq_schema(source, type_label, puzzle_number, clue_count, publication_date):
+# Public, search-friendly names + common abbreviation per puzzle type, for SEO
+# titles/descriptions. Keyed (source, puzzle_type). The name is how solvers
+# actually search ("Sunday Times", not "Times Sunday"); the abbreviation is the
+# short form people type ("DT 31205").
+_PUZZLE_SEO_NAMES = {
+    ("telegraph", "cryptic"):       ("Telegraph Cryptic Crossword", "DT"),
+    ("telegraph", "prize"):         ("Telegraph Prize Cryptic Crossword", "DT"),
+    ("telegraph", "prize-toughie"): ("Telegraph Prize Toughie Crossword", None),
+    ("times", "cryptic"):           ("Times Cryptic Crossword", None),
+    ("times", "sunday"):            ("Sunday Times Cryptic Crossword", None),
+    ("guardian", "cryptic"):        ("Guardian Cryptic Crossword", None),
+    ("guardian", "everyman"):       ("Everyman Crossword", None),
+    ("independent", "cryptic"):     ("Independent Cryptic Crossword", None),
+    ("dailymail", "cryptic"):       ("Daily Mail Cryptic Crossword", None),
+}
+
+
+def puzzle_seo_name(source, puzzle_type, type_label):
+    """Return (search_name, abbreviation) for a puzzle. Falls back to a sensible
+    built name for any (source, type) not in the map."""
+    name, abbr = _PUZZLE_SEO_NAMES.get((source, puzzle_type), (None, None))
+    if name is None:
+        src = source.title().replace("Dailymail", "Daily Mail")
+        name = f"{src} {type_label} Crossword"
+    return name, abbr
+
+
+def generate_puzzle_title(source, puzzle_type, type_label, puzzle_number):
+    """SEO <title> for a puzzle page — targets '<publication> cryptic crossword
+    <number>' and, where it exists, the abbreviation form ('DT 31205')."""
+    name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
+    if abbr:
+        return f"{name} {puzzle_number} ({abbr} {puzzle_number}) — Answers & Hints"
+    return f"{name} {puzzle_number} — Answers & Hints"
+
+
+def generate_puzzle_heading(source, puzzle_type, type_label, puzzle_number):
+    """Keyword-rich H1 for a puzzle page (no answers/hints suffix)."""
+    name, _ = puzzle_seo_name(source, puzzle_type, type_label)
+    return f"{name} {puzzle_number}"
+
+
+def generate_puzzle_meta_description(source, puzzle_type, type_label,
+                                     puzzle_number, clue_count, publication_date):
+    """SEO meta description for a puzzle page."""
+    name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
+    ref = f"{abbr} {puzzle_number} — {name}" if abbr else f"{name} {puzzle_number}"
+    desc = (f"Answers, hints and step-by-step wordplay explanations for every clue "
+            f"in {ref}.")
+    if publication_date:
+        desc += f" Published {publication_date}."
+    return desc
+
+
+def generate_puzzle_faq_schema(source, type_label, puzzle_number, clue_count,
+                               publication_date, puzzle_type=None):
     """FAQPage JSON-LD for a puzzle page."""
-    source_display = source.title().replace("Dailymail", "Daily Mail")
-    puzzle_display = f"{source_display} {type_label} #{puzzle_number}"
+    if puzzle_type is not None:
+        name, _ = puzzle_seo_name(source, puzzle_type, type_label)
+        puzzle_display = f"{name} {puzzle_number}"
+    else:
+        source_display = source.title().replace("Dailymail", "Daily Mail")
+        puzzle_display = f"{source_display} {type_label} #{puzzle_number}"
 
     entries = []
 
