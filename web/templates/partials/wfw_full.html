@@ -8,30 +8,8 @@
         <span class="text-xs text-gray-400">{{ clue.clue_number }}{{ clue.direction[0] if clue.direction else '' }} · {{ clue.enumeration or '' }}</span>
     </div>
 
-    {# the clue, every word coloured by its role #}
-    <p class="text-lg leading-loose mb-1">
-        {%- for t in b.clue_tokens -%}
-            {%- if t.role == 'source' -%}
-                <span class="font-semibold rounded px-1 py-0.5"
-                      style="color:{{ b.src_fg[t.source_index] }};background:{{ b.src_fill[t.source_index] }}">{{ t.text }}</span>
-            {%- elif t.role == 'definition' -%}
-                <span class="font-semibold rounded px-1 py-0.5" style="color:#166534;background:#dcfce7">{{ t.text }}</span>
-            {%- elif t.role == 'indicator' -%}
-                <span class="rounded px-1 py-0.5" style="color:#92400e;background:#fef3c7">{{ t.text }}</span>
-            {%- elif t.role == 'link' -%}
-                <span class="rounded px-1 py-0.5" style="color:#64748b;background:#f1f5f9">{{ t.text }}</span>
-            {%- else -%}
-                <span class="text-gray-700">{{ t.text }}</span>
-            {%- endif -%}
-            {{ ' ' }}
-        {%- endfor -%}
-    </p>
-    <p class="text-xs text-gray-400 mb-4">
-        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle mr-1" style="background:#dcfce7;border:1px solid #166534"></span>definition
-        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle ml-3 mr-1" style="background:#fef3c7;border:1px solid #92400e"></span>indicator
-        <span class="inline-block w-2.5 h-2.5 rounded-sm align-middle ml-3 mr-1" style="background:#f1f5f9;border:1px solid #64748b"></span>link
-        <span class="ml-3">coloured words build the answer</span>
-    </p>
+    {# the clue itself is plain — the colour lives in the breakdown below #}
+    <p class="text-lg leading-loose mb-4 text-gray-800">{{ clue.clue_text }}</p>
 
     {# answer tiles coloured by the piece that placed each letter #}
     <div class="flex flex-wrap gap-1 mb-4 items-center">
