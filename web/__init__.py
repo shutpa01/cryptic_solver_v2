@@ -7,7 +7,7 @@ from markupsafe import Markup
 from flask import Flask, g, request, session
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from web.config import config_by_name
+from web.config import config_by_name, DEV_SECRET_KEY
 from web import db
 
 
@@ -35,6 +35,18 @@ def create_app(config_name=None):
 
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
+
+    # Refuse to boot production with a forgeable signing key. A known
+    # SECRET_KEY voids the admin session and every signed token (helper,
+    # reveal, puzzle-match). See web/config.py and the 2026-07-16 security
+    # review. Local development is allowed to run on the dev placeholder.
+    if config_name == "production" and app.config["SECRET_KEY"] == DEV_SECRET_KEY:
+        raise RuntimeError(
+            "SECRET_KEY is unset or the dev placeholder while running in "
+            "production. Set a strong random SECRET_KEY in the server's .env "
+            "before starting. Generate one with:  "
+            'python -c "import secrets; print(secrets.token_urlsafe(64))"'
+        )
 
     # nginx (in production) sets X-Forwarded-For. ProxyFix rewrites
     # request.remote_addr to the real client IP so per-IP rate limits
