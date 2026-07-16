@@ -226,6 +226,25 @@ def rate_limit(scope: str, limit: int, window: int):
     return decorator
 
 
+def check(scope: str, limit: int, window: int):
+    """Cross-worker per-IP limit for token+session-gated XHR endpoints (the
+    helper reference-DB / clue-corpus lookups). Returns a 429 response to hand
+    back from the view, or None when the request is allowed.
+
+    Unlike ``rate_limit`` there is deliberately NO verified-bot bypass: these
+    endpoints are never crawled, and a scraper must not be able to spoof a
+    Googlebot User-Agent to harvest the reference DB. Honours the
+    RATE_LIMIT_ENABLED kill switch. Admin bypass is the caller's job (the helper
+    blueprint returns early for g.is_admin before this is reached).
+    """
+    if not _is_enabled():
+        return None
+    allowed, retry_after = _check_and_increment(scope, _client_ip(), limit, window)
+    if not allowed:
+        return _build_429_response(retry_after)
+    return None
+
+
 def _testing_reset() -> None:
     """Clear all buckets. Tests only."""
     _ensure_db()

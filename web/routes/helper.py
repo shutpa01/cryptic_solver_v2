@@ -39,9 +39,20 @@ def generate_helper_token():
     return s.dumps({"helper": True}, salt="helper-access")
 
 
-_rate_limit_store = {}  # IP -> (count, window_start)
-RATE_LIMIT_MAX = 60     # requests per window
-RATE_LIMIT_WINDOW = 60  # seconds
+# Cross-worker per-IP rate limits (web/rate_limit.py, SQLite-backed — shared
+# across gunicorn workers and surviving restarts, unlike the old in-process
+# dict). Split by data sensitivity:
+#   - reference DB (curated synonyms / indicators / abbreviations = the IP we
+#     protect): tight. Real use is a handful of word lookups a minute; a
+#     harvester wanting the whole table is throttled to a crawl.
+#   - clue corpus (pattern / similar = commodity answers, auto-fired while
+#     solving): generous, so live solving is never throttled.
+_REF_DB_ENDPOINTS = {
+    "helper.lookup", "helper.meanings_expand", "helper.synonym_search",
+    "helper.word_info", "helper.anagram_search",
+}
+HELPER_REF_PER_MIN = 20
+HELPER_CLUE_PER_MIN = 120
 
 
 @bp.before_request
@@ -73,20 +84,16 @@ def _require_helper_token():
     if not has_valid_session():
         abort(403)
 
-    # Rate limiting
-    import time
-    ip = request.remote_addr or "unknown"
-    now = time.time()
-    if ip in _rate_limit_store:
-        count, window_start = _rate_limit_store[ip]
-        if now - window_start > RATE_LIMIT_WINDOW:
-            _rate_limit_store[ip] = (1, now)
-        elif count >= RATE_LIMIT_MAX:
-            abort(429)
-        else:
-            _rate_limit_store[ip] = (count + 1, window_start)
+    # Cross-worker per-IP rate limit, tight for the reference DB and generous
+    # for the commodity clue-corpus lookups. No verified-bot bypass here — a
+    # spoofed Googlebot UA must not be able to harvest the reference tables.
+    from web.rate_limit import check as _rate_check
+    if request.endpoint in _REF_DB_ENDPOINTS:
+        resp = _rate_check("helper_ref", HELPER_REF_PER_MIN, 60)
     else:
-        _rate_limit_store[ip] = (1, now)
+        resp = _rate_check("helper_clue", HELPER_CLUE_PER_MIN, 60)
+    if resp is not None:
+        return resp
 
 _BASE = Path(__file__).resolve().parent.parent.parent
 REF_DB = str(_BASE / "data" / "cryptic_new.db")
