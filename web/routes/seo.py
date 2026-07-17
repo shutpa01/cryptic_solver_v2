@@ -1,5 +1,9 @@
 """SEO routes — sitemaps and robots.txt."""
 
+import os
+import tempfile
+import threading
+import time
 from datetime import date, timedelta
 
 from flask import Blueprint, Response, abort, request, current_app
@@ -117,21 +121,54 @@ def sitemap_index():
     return Response("\n".join(xml), mimetype="application/xml")
 
 
-@bp.route("/sitemap-clues-<int:page>.xml")
-def sitemap_clues_paged(page):
-    """One page of the paginated clue sitemap.
+# --- clue-sitemap generation + cache -------------------------------------------------
+# Building a clue-sitemap PAGE renders a WFW card per clue (is_served -> get_card):
+# ~12s for 1599 clues. A cold 12s response can tip past a gateway timeout -> Google's
+# sitemap "temporary processing error". The cache is ON DISK (not per-process memory):
+# gunicorn runs several workers, so an in-memory cache leaves every worker to pay its own
+# cold build and requests hitting a cold worker stay slow (observed on the droplet: a
+# second fetch still took ~10s). A shared file means ONE worker builds, ALL workers serve
+# it instantly. get_card stays the SOLE arbiter of which URLs are listed (set unchanged);
+# we only avoid rebuilding on every fetch. Stale-while-revalidate: serve the last-built
+# file now, rebuild off-thread when older than the TTL, so no fetch waits on the render
+# (except the very first, before any file exists). A just-served clue is absent from the
+# sitemap for at most the TTL — Google polls sitemaps far slower, and it is internally
+# linked immediately regardless.
+_CLUE_SITEMAP_TTL = 3600  # seconds
+_SITEMAP_CACHE_DIR = os.path.join(tempfile.gettempdir(), "cordelia_sitemap")
+_clue_sitemap_lock = threading.Lock()
+_clue_sitemap_building = set()    # pages THIS worker already has a rebuild in flight for
 
-    Pages are 1-indexed. Each page contains up to SITEMAP_PAGE_SIZE
-    URLs (Google's 50k per-file limit). Ordered by clue id ASC for
-    stable pagination — new clues append to the last page rather than
-    shifting all earlier pages.
-    """
-    if page < 1:
-        abort(404)
-    n_pages = _clue_sitemap_page_count()
-    if page > n_pages:
-        abort(404)
 
+def _clue_cache_path(page):
+    return os.path.join(_SITEMAP_CACHE_DIR, "clues-%d.xml" % page)
+
+
+def _clue_cache_read(page):
+    """(mtime, xml) for the cached page, or (None, None) if not built yet."""
+    try:
+        path = _clue_cache_path(page)
+        mtime = os.path.getmtime(path)
+        with open(path, "r", encoding="utf-8") as fh:
+            return mtime, fh.read()
+    except OSError:
+        return None, None
+
+
+def _clue_cache_write(page, xml):
+    """Atomically publish the cached page (temp + rename) so a reader never sees a
+    partial file and all workers share one copy."""
+    os.makedirs(_SITEMAP_CACHE_DIR, exist_ok=True)
+    path = _clue_cache_path(page)
+    tmp = "%s.tmp.%d" % (path, os.getpid())
+    with open(tmp, "w", encoding="utf-8") as fh:
+        fh.write(xml)
+    os.replace(tmp, path)
+
+
+def _build_clue_sitemap_page(page):
+    """Render one clue-sitemap page's XML — the slow part (is_served/get_card per row).
+    Pure read; identical output to the pre-cache route. Runs inside an app context."""
     db = get_db()
     offset = (page - 1) * SITEMAP_PAGE_SIZE
 
@@ -180,7 +217,50 @@ def sitemap_clues_paged(page):
         xml.append("  </url>")
 
     xml.append("</urlset>")
-    return Response("\n".join(xml), mimetype="application/xml")
+    return "\n".join(xml)
+
+
+def _refresh_clue_sitemap(app, page):
+    """Background rebuild of one page (stale-while-revalidate): its own app context so
+    get_db works off the request thread; writes the shared file; clears the flag."""
+    try:
+        with app.app_context():
+            xml = _build_clue_sitemap_page(page)
+        _clue_cache_write(page, xml)
+    finally:
+        with _clue_sitemap_lock:
+            _clue_sitemap_building.discard(page)
+
+
+@bp.route("/sitemap-clues-<int:page>.xml")
+def sitemap_clues_paged(page):
+    """One page of the paginated clue sitemap (disk-cached; see _build_clue_sitemap_page).
+
+    Pages are 1-indexed, up to SITEMAP_PAGE_SIZE URLs (Google's 50k/file limit),
+    ordered by clue id ASC so new clues append to the last page.
+    """
+    if page < 1:
+        abort(404)
+    n_pages = _clue_sitemap_page_count()
+    if page > n_pages:
+        abort(404)
+
+    mtime, xml = _clue_cache_read(page)
+    if xml is None:
+        # No file yet (first fetch since deploy): build once, synchronously, share it.
+        xml = _build_clue_sitemap_page(page)
+        _clue_cache_write(page, xml)
+        return Response(xml, mimetype="application/xml")
+
+    if time.time() - mtime > _CLUE_SITEMAP_TTL:
+        # Stale: serve the shared file now, rebuild off-thread (rewrites it for all workers).
+        app = current_app._get_current_object()
+        with _clue_sitemap_lock:
+            if page not in _clue_sitemap_building:
+                _clue_sitemap_building.add(page)
+                threading.Thread(target=_refresh_clue_sitemap, args=(app, page),
+                                 daemon=True).start()
+    return Response(xml, mimetype="application/xml")
 
 
 @bp.route("/sitemap-clues.xml")
