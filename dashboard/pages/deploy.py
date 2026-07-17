@@ -117,26 +117,31 @@ def _render_cordelia_deploy():
                             failed = True
                             break
                     else:
-                        # Upload matching files
+                        # Upload matching files in ONE scp connection per directory
+                        # (was one SSH handshake per file — 330+ files took ~15 min).
+                        # Skip underscore-prefixed dev/analysis one-offs (_ab_*, _seed_*,
+                        # _test_*, _diag_*, _mine_* ...): verified 2026-07-17 that no served
+                        # file imports any of them (0/83). Keep __init__.py.
                         import glob
-                        files = glob.glob(str(local_path / pattern))
-                        for f in files:
-                            fname = Path(f).name
+                        files = [
+                            f for f in glob.glob(str(local_path / pattern))
+                            if not (Path(f).name.startswith('_') and Path(f).name != '__init__.py')
+                        ]
+                        if files:
                             try:
                                 result = subprocess.run(
-                                    ["scp", f, f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/{fname}"],
-                                    capture_output=True, text=True, timeout=30,
+                                    ["scp"] + files + [f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/"],
+                                    capture_output=True, text=True, timeout=300,
                                     encoding="utf-8", errors="replace",
                                 )
                                 if result.returncode != 0:
-                                    steps.append(("Upload code", False, f"Failed on {remote_dir}/{fname}: {result.stderr}"))
+                                    steps.append(("Upload code", False, f"Failed on {remote_dir}: {result.stderr}"))
                                     failed = True
-                                    break
-                                uploaded += 1
+                                else:
+                                    uploaded += len(files)
                             except Exception as e:
-                                steps.append(("Upload code", False, f"Failed on {remote_dir}/{fname}: {e}"))
+                                steps.append(("Upload code", False, f"Failed on {remote_dir}: {e}"))
                                 failed = True
-                                break
                     if failed:
                         break
 
@@ -239,6 +244,26 @@ def _render_cordelia_deploy():
                 except Exception as e:
                     steps.append(("Restart service", False, str(e)))
                     failed = True
+
+        # Step 4: IndexNow — notify Bing/Yandex of the newly-live URLs. Only when the DB
+        # was deployed (content went live); a code-only deploy serves no new pages. A
+        # notification failure NEVER fails the deploy — the deploy itself already succeeded.
+        if deploy_db and not failed:
+            with st.spinner("Notifying IndexNow (Bing) of new URLs..."):
+                try:
+                    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+                    result = subprocess.run(
+                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
+                         "--days", "3"],
+                        capture_output=True, text=True, timeout=120,
+                        encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
+                    )
+                    lines = (result.stdout or "").strip().splitlines()
+                    summary = lines[-1] if lines else (result.stderr or "").strip()[:200]
+                    steps.append(("IndexNow notify", result.returncode == 0,
+                                  summary or "done"))
+                except Exception as e:
+                    steps.append(("IndexNow notify", False, str(e)))
 
         # Show results
         for label, ok, msg in steps:

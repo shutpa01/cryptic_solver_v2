@@ -9,6 +9,7 @@ from datetime import date, timedelta
 from flask import Blueprint, Response, abort, request, current_app
 
 from web.db import get_db
+from web.indexnow import KEY as INDEXNOW_KEY
 from web.models import clue_slug
 
 bp = Blueprint("seo", __name__)
@@ -79,6 +80,14 @@ def robots_txt():
         f"Sitemap: {CANONICAL_HOST}/sitemap.xml\n"
     )
     return Response(body, mimetype="text/plain")
+
+
+@bp.route("/" + INDEXNOW_KEY + ".txt")
+def indexnow_key():
+    """IndexNow key file (public by design) — lets Bing/Yandex verify we own the domain
+    before honouring URL submissions. Served from the origin; Cloudflare only intercepts
+    /robots.txt, so this passes through. See web/indexnow.py."""
+    return Response(INDEXNOW_KEY, mimetype="text/plain")
 
 
 @bp.route("/sitemap.xml")
