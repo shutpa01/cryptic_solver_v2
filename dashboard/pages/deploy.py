@@ -253,8 +253,7 @@ def _render_cordelia_deploy():
                 try:
                     py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
                     result = subprocess.run(
-                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
-                         "--days", "3"],
+                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py")],
                         capture_output=True, text=True, timeout=120,
                         encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
                     )
