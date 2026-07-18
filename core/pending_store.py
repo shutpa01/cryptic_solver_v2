@@ -135,6 +135,30 @@ class PendingStore:
         return self._queue("synonym", word, value, answer, clue_text,
                            source, puzzle_number)
 
+    # --- substitutions (abbreviations/symbols: the wordplay table, NOT synonyms) ---
+    # A substitution piece asserts word -> an abbreviation/symbol value (VOL for
+    # 'volunteer', O for 'duck'). It must be queued as type='substitution' so its
+    # Accept routes to add_substitution (the wordplay table) — the SAME table the
+    # honesty gate checks via has_substitution. Queuing it as a synonym (the old bug)
+    # filed the Accept into synonyms_pairs, which has_substitution never sees, so
+    # Confirm could never reconcile. Reject/reuse keyed by (word, value), like synonyms.
+
+    def is_rejected_substitution(self, word, value):
+        conn = self._conn()
+        try:
+            row = conn.execute(
+                "SELECT 1 FROM rejected_enrichments "
+                "WHERE type='substitution' AND word=? AND letters=?",
+                (word, value)).fetchone()
+        finally:
+            conn.close()
+        return row is not None
+
+    def queue_substitution(self, word, value, answer, clue_text,
+                           source=None, puzzle_number=None):
+        return self._queue("substitution", word, value, answer, clue_text,
+                           source, puzzle_number)
+
     def _queue(self, etype, word, letters, answer, clue_text,
                source, puzzle_number):
         pn = None

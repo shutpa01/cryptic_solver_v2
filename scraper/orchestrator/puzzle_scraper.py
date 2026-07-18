@@ -61,8 +61,11 @@ def _rsync_json_dir(local_dir, remote_dir, timeout=300):
         s = '/' + s[0].lower() + s[2:]
     s = s.rstrip('/') + '/'
     remote = remote_dir.rstrip('/') + '/'
+    # -r is REQUIRED: without it rsync prints "skipping directory ." and transfers NOTHING,
+    # which is why the droplet was left without new grid JSONs (breaking solve-mode grids
+    # for freshly served puzzles). The dir is flat, so -r + --exclude='*' just keeps *.json.
     cmd = (
-        f"rsync -cz --mkpath --include='*.json' --exclude='*' "
+        f"rsync -crz --mkpath --include='*.json' --exclude='*' "
         f"{s} {remote}"
     )
     return subprocess.run(

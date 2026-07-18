@@ -160,17 +160,30 @@ function overlayWordHelp(span) {
 }
 
 function _toolsFillAnswer(word) {
-    // Fill the answer in both the overlay and the clue list input, then close
-    if (_toolsClueId) {
-        var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
-        if (input) {
-            input.value = word;
-            _saveSolveAnswer(_toolsClueId, word);
-        }
-        var overlayAnswer = document.getElementById('tools-overlay-answer');
-        if (overlayAnswer) overlayAnswer.value = word;
+    // Picking a result drops the word into the overlay answer box and KEEPS the overlay open,
+    // so the user commits it here via "Add to grid" (below) instead of being dumped back onto
+    // the puzzle page to hunt for the clue. (user request 2026-07-18: add to grid in tools, so
+    // an inexact scroll position on return no longer matters.)
+    if (!_toolsClueId) return;
+    var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
+    if (input) {
+        input.value = word;
+        _saveSolveAnswer(_toolsClueId, word);   // save as a guess (not yet on the grid)
     }
-    closeToolsOverlay();
+    var overlayAnswer = document.getElementById('tools-overlay-answer');
+    if (overlayAnswer) {
+        overlayAnswer.value = word;
+        // Make the filled box + Add-to-grid button obvious without popping the mobile keyboard
+        // (no focus() — that would open the keyboard over the button).
+        overlayAnswer.scrollIntoView({behavior: 'smooth', block: 'center'});
+        overlayAnswer.classList.add('ring-2', 'ring-emerald-300');
+        setTimeout(function() { overlayAnswer.classList.remove('ring-2', 'ring-emerald-300'); }, 1200);
+    }
+    var overlayResult = document.getElementById('tools-overlay-result');
+    if (overlayResult) {
+        overlayResult.className = 'text-xs text-gray-500';
+        overlayResult.textContent = 'Tap Add to grid to place it';
+    }
 }
 
 function toolsOverlayCheck() {
@@ -205,13 +218,23 @@ function toolsOverlayAddToGrid() {
     var overlayAnswer = document.getElementById('tools-overlay-answer');
     if (!overlayAnswer.value || !_toolsClueId) return;
 
-    // Sync to clue list input and add to grid
+    // Sync to clue list input and add to grid (updates the persistent grid + crossings)
     var input = document.querySelector('.solve-answer[data-clue-id="' + _toolsClueId + '"]');
-    if (input) {
-        input.value = overlayAnswer.value;
-        solveAddToGrid(input);
+    if (!input) return;
+    input.value = overlayAnswer.value;
+    solveAddToGrid(input);
+
+    // Surface the outcome (Added / needs more letters / crossing conflict — whatever
+    // solveAddToGrid wrote to the clue's result line) IN the overlay, and KEEP the overlay
+    // open. The grid + crossings are already updated, so the user never has to return to the
+    // puzzle to place the answer; they close the overlay when ready. (user request 2026-07-18)
+    var clueResult = input.parentElement.querySelector('.solve-result');
+    var overlayResult = document.getElementById('tools-overlay-result');
+    if (clueResult && overlayResult) {
+        overlayResult.textContent = clueResult.textContent || 'Added to grid';
+        var added = /added to grid/i.test(clueResult.textContent || '');
+        overlayResult.className = 'text-xs font-medium ' + (added ? 'text-indigo-600' : 'text-red-500');
     }
-    closeToolsOverlay();
 }
 
 /* --- Grid toggle --- */

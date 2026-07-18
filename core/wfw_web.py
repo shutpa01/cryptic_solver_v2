@@ -881,8 +881,21 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     # suggestions, add-to-DB forms, per-clue reload) lives in /hs now; the ROUTES stay.
     # ONE exception (user design 2026-07-12): a PENDING PREFILL reading gets its label +
     # one-click Confirm here — the clue page IS the review surface for prefills.
+    # PREFILL ENRICHMENT (user request 2026-07-18): the clue page is the prefill review
+    # surface, so the AI-proposed vocab the fabrication gate withheld (queued pieces the
+    # reference DB does not yet back, e.g. "too good -> PI") is surfaced INLINE here — each
+    # with its own Approve/Reject — so a correct reading can be sanctioned and then Confirmed
+    # without a detour to /hs. Scoped to a pending prefill (matches the Confirm block); the
+    # block renders "" when the prefill has no queued gap, so a clean pass stays clutter-free.
+    # The queue stores the letters-only answer (PendingStore._queue), so match on that form.
+    enrich_block = ""
+    if parse is not None and parse.status == "pending" \
+            and getattr(parse, "solved_by", "") == "prefill":
+        ans_letters = "".join(c for c in (answer or "").upper() if c.isalpha())
+        enrich_block = _enrichment_block(clue_text, ans_letters, clue_id, raw_list)
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
             + _note_block(clue_id, raw_list, editor=False)
+            + enrich_block
             + _prefill_confirm_block(clue_id, parse, raw_list)
             + _handsolver_link(clue_id, raw_list))
 
@@ -984,6 +997,15 @@ def _enrich_row(pid, typ, word, letters, ans, clue_id, raw_list):
                   f'<span class="wfw-arr">&rarr;</span>'
                   f'<input name="synonym" value="{v}">')
         kind = "synonym"
+    elif typ == "substitution":
+        # An abbreviation/symbol piece (VOL for 'volunteer'). Approve -> add_substitution
+        # (the wordplay table), which is what has_substitution — the honesty gate's check —
+        # reads; a synonym Accept would file the wrong table and Confirm would never pass.
+        # _do_add's substitution branch reads the value field as "value", not "synonym".
+        fields = (f'<input name="word" value="{w}">'
+                  f'<span class="wfw-arr">&rarr;</span>'
+                  f'<input name="value" value="{v}">')
+        kind = "substitution"
     elif typ == "indicator":
         opts = "".join('<option value="%s"%s>%s</option>'
                        % (t, " selected" if t == (letters or "").lower() else "", t)
@@ -3626,6 +3648,12 @@ def hscd_route():
     conn = store.connect()
     try:
         store.set_forced_definition(conn, cid, whole)
+        # Declaring the WHOLE clue a cryptic definition supersedes any partial hand-solver
+        # assignment left on the word grid (e.g. a word marked 'none'). Clear it — otherwise
+        # _resolve_one -> _resolve_from_assignment (authoritative over the cascade since
+        # 2026-07-17) rebuilds from that stale assignment, finds no assemblable pieces, and
+        # deletes the parse, so the last-resort CD engine never runs ("got no parse").
+        store.set_hs_assignments(conn, cid, "")
     finally:
         conn.close()
     addmsg = admin_db.add_definition(whole, answer)
@@ -4733,11 +4761,24 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 in_db = (admin_db.has_synonym(phrase, value) if role == "synonym"
                          else admin_db.has_substitution(phrase, value))
                 if not in_db:
-                    if _pending.is_rejected_synonym(phrase, value):
+                    # Queue + reject-check on the SAME queue type the piece's role resolves to,
+                    # so the panel's Accept routes to the SAME table the gate checks: a
+                    # substitution -> add_substitution (wordplay, has_substitution); a synonym ->
+                    # add_synonym (synonyms_pairs, has_synonym). Queuing a substitution as a
+                    # synonym (the old bug) filed the Accept into the wrong table, so Confirm
+                    # could never reconcile it (user-reported 2026-07-18: VOL, SP, MA, OS, ESP).
+                    rejected = (_pending.is_rejected_substitution(phrase, value)
+                                if role == "substitution"
+                                else _pending.is_rejected_synonym(phrase, value))
+                    if rejected:
                         return {"ok": False, "msg": "%r → %s was rejected by a reviewer — this "
                                 "AI reading cannot use it." % (phrase, value)}
                     piece_src = "pending"
-                    _pending.queue_synonym(phrase, value, ans_letters, clue_text, src, pnum)
+                    if role == "substitution":
+                        _pending.queue_substitution(phrase, value, ans_letters, clue_text,
+                                                    src, pnum)
+                    else:
+                        _pending.queue_synonym(phrase, value, ans_letters, clue_text, src, pnum)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism=mech, source=piece_src))
             if piece_src == "db" and role == "synonym" and value:   # reusable -> DB after commit
@@ -5284,6 +5325,7 @@ def _page(body, scroll_to=None):
                 background:#9a3412; border-radius:5px; padding:.15rem .4rem;
                 text-align:center; text-transform:uppercase; }}
   .wfw-etype-synonym {{ background:#1d4ed8; }}
+  .wfw-etype-substitution {{ background:#0e7490; }}
   .wfw-etype-indicator {{ background:#7c3aed; }}
   .wfw-etype-definition {{ background:#0f766e; }}
   .wfw-eform, .wfw-eform-r {{ display:inline-flex; gap:.4rem; align-items:center; }}

@@ -24,6 +24,39 @@ def _rsync(local_path, remote_path, timeout=300):
     )
 
 
+def _rsync_json_dir(local_dir, remote_path, timeout=600):
+    """Rsync only *.json CONTENTS of local_dir into remote_path (trailing slashes),
+    --mkpath to create it, no --delete. Mirrors the scraper's own sync
+    (scraper/orchestrator/puzzle_scraper.py:_rsync_json_dir). These JSONs are the
+    AUTHORITATIVE grid structure read by web/grid.py:build_grid_from_json — a newly
+    served puzzle has no solve-mode grid on the droplet without them, and the DB
+    alone does not carry them. Incremental (-c checksum), so only new/changed files
+    transfer. Local-only data, never web-served."""
+    s = str(local_dir).replace('\\', '/')
+    if len(s) >= 2 and s[1] == ':':
+        s = '/' + s[0].lower() + s[2:]
+    s = s.rstrip('/') + '/'
+    remote = remote_path.rstrip('/') + '/'
+    # -r is REQUIRED: without it rsync says "skipping directory ." and transfers nothing
+    # (the bug in the scraper's original _rsync_json_dir that left the droplet without new
+    # grid JSONs). The dir is flat, so -r + --exclude='*' just filters to the *.json files.
+    cmd = f"rsync -crz --mkpath --include='*.json' --exclude='*' {s} {remote}"
+    return subprocess.run(
+        [GIT_BASH, '-c', cmd],
+        capture_output=True, text=True, timeout=timeout,
+        encoding="utf-8", errors="replace",
+    )
+
+
+# Scraper JSON dirs shipped with a DB deploy — the grid-structure source the droplet
+# needs for solve-mode grids (see _rsync_json_dir). Serving papers only.
+CORDELIA_JSON_DIRS = [
+    ("scraper/telegraph", "scraper/telegraph"),
+    ("scraper/times", "scraper/times"),
+    ("scraper/guardian", "scraper/guardian"),
+]
+
+
 def render():
     st.header("Deploy")
 
@@ -226,6 +259,32 @@ def _render_cordelia_deploy():
                     except Exception as e:
                         steps.append(("Upload cryptic_new.db", False, str(e)))
                         failed = True
+
+            # Step 2b: sync the scraper grid-structure JSONs so a newly-served puzzle
+            # has its solve-mode grid on the droplet (the DB alone does not carry it).
+            # A JSON sync failure NEVER fails the deploy — the DB is already up; report
+            # it and carry on to the restart (matches the scraper's own sync behaviour).
+            if not failed:
+                for local_rel, remote_rel in CORDELIA_JSON_DIRS:
+                    local_dir = PROJECT_ROOT / local_rel
+                    if not local_dir.exists():
+                        continue
+                    with st.spinner(f"Syncing {local_rel} grid JSONs..."):
+                        try:
+                            result = _rsync_json_dir(
+                                local_dir,
+                                f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_rel}",
+                                timeout=600,
+                            )
+                            if result.returncode == 0:
+                                steps.append((f"Sync {local_rel} grids", True, "Done."))
+                            else:
+                                steps.append((f"Sync {local_rel} grids", False,
+                                              (result.stderr or "Failed.")[:200]))
+                        except subprocess.TimeoutExpired:
+                            steps.append((f"Sync {local_rel} grids", False, "Timed out."))
+                        except Exception as e:
+                            steps.append((f"Sync {local_rel} grids", False, str(e)))
 
         # Step 3: Restart service
         if not failed:
