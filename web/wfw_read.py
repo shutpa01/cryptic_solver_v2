@@ -55,6 +55,15 @@ _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
                "palindrome", "spoonerism", "acrostic", "replacement",
                "cycling", "substitution")
 
+# Canonical reading order for a composite clue type — outer operation first,
+# inner transforms last. We name EVERY mechanism a clue uses (the full clue-type
+# is a differentiator), so the order has to be deterministic. Mirrors
+# core/wfw_render._MECH_ORDER — keep in sync by hand.
+_MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
+               "selection", "hidden", "acrostic", "alternation", "homophone",
+               "spoonerism", "palindrome", "cycling", "letter_shift",
+               "substitution", "replacement")
+
 _UNPLACED = 10 ** 9   # clue position for a piece with no locatable atoms — sorts last
 
 
@@ -151,38 +160,138 @@ def _definition(parse):
 # step 2 — wordplay-type label
 # ---------------------------------------------------------------------------
 
+# Ops whose curated label is authoritative and must NOT be enriched from
+# notes/pieces: they either have no enumerable wordplay (double def / cryptic
+# def / continuation) or the enrichment would drop a defining designation
+# (&lit; a hidden word is never a charade). Mirrors core/wfw_render._ATOMIC_OPS.
+_ATOMIC_OPS = frozenset((
+    "dd", "double_definition", "cd", "andlit", "continuation",
+    "hidden", "hidden_reversed"))
+
+
+def _note_mech(note):
+    """The single mechanism an indicator note denotes, or None to skip. Handles the
+    note-vocabulary variants that don't spell the mechanism verbatim: insertion is
+    container from the other end; 'first-letter indicator' / 'last-letter indicator'
+    are selections; 'deleted letters' is deletion. 'positional' / 'definition by
+    example' / 'surface' notes are glue or markers, not clue-type mechanisms.
+    Mirrors core/wfw_render._note_mech."""
+    n = (note or "").lower()
+    if (not n or "definition by example" in n or "positional" in n
+            or "surface" in n or n == "wordplay indicator"):
+        return None
+    if "insertion" in n or "container" in n:
+        return "container"
+    if ("selection" in n or "first-letter" in n or "last-letter" in n
+            or "middle-letter" in n or "outer-letter" in n):
+        return "selection"
+    if "acrostic" in n:
+        return "acrostic"
+    if "letter_shift" in n:
+        return "letter_shift"
+    if "deletion" in n or "deleted" in n:
+        return "deletion"
+    for w in _MECH_WORDS:
+        if w in n:
+            return w
+    return None
+
+
+def _note_mechs(indicators):
+    """The mechanism set named by a solve's indicator notes, plus the count of
+    container/insertion joins. Charade is NOT included here — it carries no
+    indicator; the caller adds it from the join count."""
+    found = set()
+    container_joins = 0
+    for ind in indicators:
+        m = _note_mech(ind["note"])
+        if m is None:
+            continue
+        found.add(m)
+        if m == "container":
+            container_joins += 1
+    return found, container_joins
+
+
+# Ops whose extra sources are NOT charade pieces, so a charade must NOT be inferred
+# when one is present (a false mechanism is worse than an incomplete one):
+#  - gather ops assemble several source WORDS into one gestalt (anagram of a phrase,
+#    acrostic of consecutive words, alternate letters of a run, a spoonerism /
+#    homophone of a two-word phrase);
+#  - substitution / replacement swap one source's letters into another, they don't
+#    sit side by side.
+# Mirrors core/wfw_render._CHARADE_SUPPRESS.
+_CHARADE_SUPPRESS = frozenset((
+    "anagram", "acrostic", "alternation", "spoonerism", "homophone",
+    "hidden", "palindrome", "cycling", "substitution", "replacement"))
+
+
+def _has_charade(placed_pieces, container_joins, mechs):
+    """Charade (side-by-side concatenation) carries no indicator, so we infer it by
+    counting joins: PLACED pieces (sources that actually contribute answer letters —
+    a deleted/removed source places nothing) need placed-1 binary joins, and each
+    container nesting is one join, so any leftover join is a charade. Suppressed when
+    a _CHARADE_SUPPRESS op is present (that op accounts for the extra sources)."""
+    if mechs & _CHARADE_SUPPRESS:
+        return False
+    return placed_pieces - 1 > container_joins
+
+
+def _order_mechs(found):
+    """Canonical outer→inner ordering of a mechanism set into 'Container + charade
+    + selection'. Mirrors core/wfw_render._order_mechs."""
+    ordered = [m for m in _MECH_ORDER if m in found]
+    ordered += [m for m in found if m not in _MECH_ORDER]  # any stray note word
+    return (" + ".join(ordered)).replace("_", " ").capitalize()
+
+
 def _wordplay_label(parse):
     op = parse["operation"]
     if op == "manual":
         return _manual_label(parse)
+    if op in _ATOMIC_OPS:
+        return _OP_LABEL.get(op) or op.replace("_", " ").capitalize()
+    # Engine solves carry the same rich indicator notes as manual solves, and the
+    # notes are richer than the op name (op='container' can hide an inner acrostic
+    # + a charade). Read the mechanisms from notes+pieces and, if that reveals MORE
+    # than the op name already names, build the full clue-type; otherwise keep the
+    # curated op-name label (nicer phrasing for single-mechanism clues).
+    op_mechs = set(w for w in op.split("_") if w in _MECH_WORDS)
+    if "insertion" in op_mechs:
+        op_mechs.discard("insertion"); op_mechs.add("container")
+    placed = len({l["source_index"] for l in parse["links"]})
+    found, container_joins = _note_mechs(parse["indicators"])
+    if "container" in op_mechs:
+        container_joins = max(container_joins, 1)   # op name declares the nesting
+    allm = op_mechs | found
+    if _has_charade(placed, container_joins, allm):
+        allm.add("charade")
+    # A composite (2+ mechanisms) always renders in canonical order; a single
+    # mechanism that discovered something new does too. Only a single-mechanism op
+    # with nothing new keeps its curated (nicer) label. This keeps the badge and
+    # hint identical regardless of which curated compound entries each map happens
+    # to carry.
+    if allm and (len(allm) >= 2 or allm != op_mechs):
+        return _order_mechs(allm)
     if op in _OP_LABEL:
         return _OP_LABEL[op]
-    # Compound engine name: keep the mechanism words, drop shape modifiers
-    # (charade_multi_deletion -> "Charade + deletion").
-    words = [w for w in op.split("_") if w in _MECH_WORDS]
-    if words:
-        seen = []
-        for w in words:
-            if w not in seen:
-                seen.append(w)
-        return (" + ".join(seen)).capitalize()
+    # Compound engine name with no curated label: keep the mechanism words.
+    if op_mechs:
+        return _order_mechs(op_mechs)
     return op.replace("_", " ").capitalize() if op else None
 
 
 def _manual_label(parse):
-    """Derive the clue type of a frozen manual solve from its indicator notes —
-    the same information the solver's badge would carry had an engine solved it."""
-    found = []
-    for ind in parse["indicators"]:
-        note = (ind["note"] or "").lower()
-        if "definition by example" in note or "positional" in note:
-            continue            # definition marker / charade glue, not the clue type
-        for w in _MECH_WORDS:
-            if w in note and w not in found:
-                found.append(w)
-    if found:
-        return (" + ".join(found)).capitalize()
+    """Derive the clue type of a frozen manual solve, naming EVERY mechanism it
+    uses — the same information the solver's badge would carry had an engine
+    solved it. Mirrors core/wfw_render._manual_type_label."""
     n = len([s for s in parse["sources"] if s["mechanism"] != "definition"])
+    placed = len({l["source_index"] for l in parse["links"]})
+    found, container_joins = _note_mechs(parse["indicators"])
+    if _has_charade(placed, container_joins, found):
+        found.add("charade")
+    if found:
+        return _order_mechs(found)
     if n >= 2:
         return "Charade"
     if n == 1:

@@ -53,31 +53,114 @@ _TYPE_LABEL = {
     "homophone": "Homophone",
 }
 
-# Mechanism words recognised inside a manual solve's indicator notes ("anagram
-# indicator", "deletion/tail indicator", ...). Mirrors web/wfw_read._MECH_WORDS
-# — keep in sync by hand; the site must not import core and vice versa.
+# Mechanism words recognised inside an engine operation name ("anagram_container")
+# or a manual solve's indicator notes. Mirrors web/wfw_read._MECH_WORDS — keep in
+# sync by hand; the site must not import core and vice versa.
 _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
                "charade", "homophone", "alternation", "selection",
                "palindrome", "spoonerism", "acrostic", "replacement",
                "cycling", "substitution")
 
+# Canonical reading order for a composite clue type — outer operation first,
+# inner transforms last. We name EVERY mechanism a clue uses (the full clue-type
+# is a differentiator), so the order has to be deterministic. Mirrors
+# web/wfw_read._MECH_ORDER — keep in sync by hand.
+_MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
+               "selection", "hidden", "acrostic", "alternation", "homophone",
+               "spoonerism", "palindrome", "cycling", "letter_shift",
+               "substitution", "replacement")
 
-def _manual_type_label(parse):
-    """The clue type of a manual/prefill parse, derived from the indicator notes
-    the human (or prefill) assigned — mirrors web/wfw_read._manual_label so the
-    clue page badge and the live-site hint label always agree."""
-    found = []
+# Ops whose curated label is authoritative and must NOT be enriched (no enumerable
+# wordplay, or enrichment would drop a defining designation). Mirrors
+# web/wfw_read._ATOMIC_OPS.
+_ATOMIC_OPS = frozenset((
+    "dd", "double_definition", "cd", "andlit", "continuation",
+    "hidden", "hidden_reversed"))
+
+# Ops whose extra sources are NOT charade pieces, so a charade must NOT be inferred
+# when one is present (gather ops fold several words into one gestalt; substitution
+# swaps letters in place). Mirrors web/wfw_read._CHARADE_SUPPRESS.
+_CHARADE_SUPPRESS = frozenset((
+    "anagram", "acrostic", "alternation", "spoonerism", "homophone",
+    "hidden", "palindrome", "cycling", "substitution", "replacement"))
+
+
+def _note_mech(note):
+    """The single mechanism an indicator note denotes, or None to skip. Handles the
+    note-vocabulary variants that don't spell the mechanism verbatim (insertion =>
+    container; 'first-letter indicator' => selection; 'deleted letters' =>
+    deletion). Mirrors web/wfw_read._note_mech."""
+    n = (note or "").lower()
+    if (not n or "definition by example" in n or "positional" in n
+            or "surface" in n or n == "wordplay indicator"):
+        return None
+    if "insertion" in n or "container" in n:
+        return "container"
+    if ("selection" in n or "first-letter" in n or "last-letter" in n
+            or "middle-letter" in n or "outer-letter" in n):
+        return "selection"
+    if "acrostic" in n:
+        return "acrostic"
+    if "letter_shift" in n:
+        return "letter_shift"
+    if "deletion" in n or "deleted" in n:
+        return "deletion"
+    for w in _MECH_WORDS:
+        if w in n:
+            return w
+    return None
+
+
+def _note_mechs(parse):
+    """The mechanism set named by a manual/engine solve's indicator notes, plus the
+    count of container/insertion joins. Charade is added by the caller from the
+    join count (it carries no indicator)."""
+    found = set()
+    container_joins = 0
     for a in (parse.annotations or []):
         if getattr(a, "role", "") != "indicator":
             continue
-        note = (getattr(a, "note", "") or "").lower()
-        if "definition by example" in note or "positional" in note:
-            continue            # definition marker / charade glue, not the clue type
-        for w in _MECH_WORDS:
-            if w in note and w not in found:
-                found.append(w)
+        m = _note_mech(getattr(a, "note", ""))
+        if m is None:
+            continue
+        found.add(m)
+        if m == "container":
+            container_joins += 1
+    return found, container_joins
+
+
+def _has_charade(placed_pieces, container_joins, mechs):
+    """Charade (side-by-side concatenation) carries no indicator, so we infer it by
+    counting joins: PLACED pieces (sources that actually contribute answer letters —
+    a deleted/removed source places nothing) need placed-1 binary joins, each
+    container nesting is one join, any leftover join is a charade. Suppressed when a
+    _CHARADE_SUPPRESS op accounts for the extra sources. Mirrors web/wfw_read."""
+    if mechs & _CHARADE_SUPPRESS:
+        return False
+    return placed_pieces - 1 > container_joins
+
+
+def _order_mechs(found):
+    """Canonical outer→inner ordering of a mechanism set into 'Container + charade +
+    selection'. Mirrors web/wfw_read._order_mechs."""
+    ordered = [m for m in _MECH_ORDER if m in found]
+    ordered += [m for m in found if m not in _MECH_ORDER]
+    return (" + ".join(ordered)).replace("_", " ").capitalize()
+
+
+def _placed_pieces(parse):
+    return len({l.source_index for l in (parse.links or [])})
+
+
+def _manual_type_label(parse):
+    """The clue type of a manual/prefill parse, naming EVERY mechanism it uses —
+    mirrors web/wfw_read._manual_label so the clue page badge and the live-site
+    hint label always agree."""
+    found, container_joins = _note_mechs(parse)
+    if _has_charade(_placed_pieces(parse), container_joins, found):
+        found.add("charade")
     if found:
-        return " + ".join(found).capitalize()
+        return _order_mechs(found)
     srcs = [s for s in (parse.sources or []) if s.mechanism != "definition"]
     if len(srcs) >= 2:
         return "Charade"
@@ -85,6 +168,38 @@ def _manual_type_label(parse):
         return {"synonym": "Synonym", "abbreviation": "Abbreviation",
                 "hidden": "Hidden word"}.get(srcs[0].mechanism, "Word building")
     return "Word building"
+
+
+def _engine_type_label(parse):
+    """The clue type of an engine-solved parse, naming EVERY mechanism it uses. The
+    engine op-name flattens composites (op='container' hides an inner acrostic +
+    charade), and the rich indicator notes are more complete, so we read the
+    mechanisms from notes+pieces and, when that reveals MORE than the op name names,
+    build the full clue-type; otherwise keep the curated op-name label. Mirrors
+    web/wfw_read._wordplay_label's engine branch."""
+    op = parse.operation or ""
+    if op in _ATOMIC_OPS:
+        return _TYPE_LABEL.get(op) or op.replace("_", " ").capitalize()
+    op_mechs = set(w for w in op.split("_") if w in _MECH_WORDS)
+    if "insertion" in op_mechs:
+        op_mechs.discard("insertion"); op_mechs.add("container")
+    found, container_joins = _note_mechs(parse)
+    if "container" in op_mechs:
+        container_joins = max(container_joins, 1)   # op name declares the nesting
+    allm = op_mechs | found
+    if _has_charade(_placed_pieces(parse), container_joins, allm):
+        allm.add("charade")
+    # A composite (2+ mechanisms) always renders in canonical order; a single
+    # mechanism that discovered something new does too. Only a single-mechanism op
+    # with nothing new keeps its curated (nicer) label. Keeps badge and hint
+    # identical regardless of which curated compound entries each map carries.
+    if allm and (len(allm) >= 2 or allm != op_mechs):
+        return _order_mechs(allm)
+    if op in _TYPE_LABEL:
+        return _TYPE_LABEL[op]
+    if op_mechs:
+        return _order_mechs(op_mechs)
+    return op.replace("_", " ").capitalize() if op else "—"
 
 # Friendly role labels for a wordplay piece, by mechanism.
 _MECH_LABEL = {
@@ -139,10 +254,12 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
     # user 2026-07-12: the clue page is now the prefill REVIEW surface, so the
     # badge must read "ANAGRAM", not "MANUAL".
     _op = parse.operation or ""
-    if _op == "manual":
+    if (getattr(parse, "status", "") or "") == "invalid":
+        type_label = "unsound"          # do not badge the rejected reading's clue-type
+    elif _op == "manual":
         type_label = _manual_type_label(parse)
     else:
-        type_label = _TYPE_LABEL.get(_op, _op or "—")
+        type_label = _engine_type_label(parse)
     engine = (getattr(parse, "solved_by", "") or "").strip()
     # Always show the SPECIFIC solving engine (parse.solved_by) so it is clear at a glance
     # which engine produced the parse — no DB query, no stack-trace hunting.
@@ -184,8 +301,16 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
             tiles.append('<span class="wfw-tile-gap"></span>')
     tiles_html = "".join(tiles)
 
-    renderer = _TYPE_RENDERERS.get(parse.operation or "", _render_generic_breakdown)
-    breakdown = renderer(parse, ctx, src_fg, src_fill)
+    # INVALID = the reviewer judged the stored wordplay UNSOUND. Never render that wordplay
+    # breakdown (it is exactly the wrong parse the user does not want shown) — show an honest
+    # note instead. The answer tiles + the INVALID badge stay; the reviewer's comment is shown
+    # by the page around this card. Systemic: covers every invalid clue, not one at a time.
+    if (getattr(parse, "status", "") or "") == "invalid":
+        breakdown = ('<div class="wfw-row"><em>Marked INVALID — the stored wordplay is '
+                     'unsound, so it is not shown. See the comment for why.</em></div>')
+    else:
+        renderer = _TYPE_RENDERERS.get(parse.operation or "", _render_generic_breakdown)
+        breakdown = renderer(parse, ctx, src_fg, src_fill)
 
     prov_def = (parse.definition is not None
                 and getattr(parse.definition, "source", "db") == "pending")

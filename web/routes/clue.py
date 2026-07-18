@@ -989,16 +989,13 @@ def clue_page(slug):
         ai_explanation=clue_dict.get("ai_explanation"),
     )
 
-    # Replace the wordplay_type inline-hint content with the richer
-    # mechanism_label when we computed one. Falls back silently when
-    # no role data exists for the clue (mechanism_label is None or
-    # empty in that case).
-    if clue_dict["mechanism_label"]:
-        for h in inline_hints:
-            if h["type"] == "wordplay_type":
-                h["content"] = clue_dict["mechanism_label"]
-                h["is_mechanism_label"] = True
-                break
+    # The displayed wordplay-type is the CANONICAL full clue-type from wfw_hint
+    # (web/wfw_read._wordplay_label) — the same label the puzzle page and the admin
+    # badge use, so every user-facing surface reads identically ("Container + charade
+    # + selection"). The old _mechanism_label override is gone: it was a separate,
+    # pre-canonical deriver ("CHARADE CONTAINER", says 'insertion' not 'container')
+    # and was the only reason the clue page disagreed with the puzzle page (user,
+    # 2026-07-17). mechanism_label is still computed above only for the /learn link.
 
     # Puzzle context
     source = clue["source"]

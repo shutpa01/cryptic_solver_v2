@@ -135,6 +135,40 @@ def add_substitution(word, value):
         conn.close()
 
 
+def has_synonym(word, synonym):
+    """True when (word = synonym) is already in synonyms_pairs (case-insensitive,
+    matching add_synonym's dedup). The prefill honesty gate's check: an AI-proposed
+    synonym piece is trusted only when the reference DB already backs it — otherwise
+    it is provisional, never harvested (mirrors has_homophone / has_spoonerism)."""
+    word = (word or "").strip()
+    synonym = (synonym or "").strip()
+    if not word or not synonym:
+        return False
+    conn = _conn()
+    try:
+        return conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
+                            "AND upper(synonym)=upper(?)", (word, synonym)).fetchone() is not None
+    finally:
+        conn.close()
+
+
+def has_substitution(word, value):
+    """True when (word -> value) is already in the wordplay table (case-insensitive,
+    matching add_substitution's dedup). The prefill honesty gate's check for an
+    abbreviation/symbol piece — an AI-proposed substitution not in the DB is
+    provisional, never harvested."""
+    word = (word or "").strip()
+    value = (value or "").strip().upper()
+    if not word or not value:
+        return False
+    conn = _conn()
+    try:
+        return conn.execute("SELECT 1 FROM wordplay WHERE lower(indicator)=lower(?) "
+                            "AND upper(substitution)=?", (word, value)).fetchone() is not None
+    finally:
+        conn.close()
+
+
 def add_link_word(word):
     """Add a joining/link word to the link_words table (cryptic_new.db). A link word is
     glue an engine may skip between pieces (e.g. 'has' in 'X has Y'); it carries no
@@ -261,6 +295,53 @@ def has_spoonerism(source_phrase, answer_phrase):
         conn.execute(_SPOONERISMS_DDL)
         return conn.execute("SELECT 1 FROM spoonerisms WHERE norm_source=? AND norm_answer=?",
                             (ns, na)).fetchone() is not None
+    finally:
+        conn.close()
+
+
+def has_homophone(spoken, answer_phrase):
+    """True when 'spoken' is a SANCTIONED homophone of the answer letters — i.e. the pair
+    is in the homophones table (letters-only, case-insensitive, either direction). The
+    manual homophone gate's check: a homophone piece is only sanctioned once the human has
+    approved the sound-alike pair (mirrors has_spoonerism). Unsanctioned pairs live in
+    pending_enrichments (see queue_homophone) until approved."""
+    ns, na = _norm_phrase(spoken), _norm_phrase(answer_phrase)
+    if not ns or not na:
+        return False
+    conn = _conn()
+    try:
+        for (w, h) in conn.execute("SELECT word, homophone FROM homophones"):
+            nw, nh = _norm_phrase(w), _norm_phrase(h)
+            if (nw == ns and nh == na) or (nw == na and nh == ns):
+                return True
+        return False
+    finally:
+        conn.close()
+
+
+def queue_homophone(spoken, answer_phrase, clue_text, source, puzzle_number):
+    """Queue a TENTATIVE homophone pair (spoken sounds like the answer letters) to
+    pending_enrichments, so it shows in the enrichment queue for the human to Approve
+    (-> add_homophone, sanctioned) or Reject. No write to the live homophones table here —
+    the pair is not trusted until approved (user rule 2026-07-17: homophones are infinite,
+    so gate on approval, not pre-population). Deduped against the existing queue."""
+    sp = (spoken or "").strip()
+    al = "".join(c for c in (answer_phrase or "").upper() if c.isalpha())
+    if not sp or not al:
+        return "A tentative homophone needs a spoken word and answer letters."
+    conn = _mconn()
+    try:
+        if conn.execute("SELECT 1 FROM pending_enrichments WHERE type='homophone' "
+                        "AND lower(word)=? AND upper(letters)=?",
+                        (sp.lower(), al)).fetchone():
+            return "Tentative homophone already queued: %r sounds like %r" % (sp, al)
+        conn.execute(
+            "INSERT INTO pending_enrichments (type, word, letters, answer, clue_text, "
+            "source, puzzle_number, created_at) VALUES ('homophone', ?, ?, ?, ?, ?, ?, "
+            "datetime('now'))",
+            (sp, al, answer_phrase, clue_text or "", source or "", str(puzzle_number or "")))
+        conn.commit()
+        return "Queued tentative homophone: %r sounds like %r (approve to sanction)" % (sp, al)
     finally:
         conn.close()
 

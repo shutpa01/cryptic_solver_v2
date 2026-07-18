@@ -46,7 +46,10 @@ def file_pending_prefill(clue_id, assignments):
         conn.close()
 
     from core.wfw_web import _build_manual_parse
-    built = _build_manual_parse(clue_id, assignments)
+    # verify_db=True: the prefill is an AI reading, so a synonym/abbreviation piece the
+    # reference DB does not back is filed PROVISIONAL (never trusted, never harvested) and
+    # queued for review — an AI cannot fabricate a trusted letter-source (take->R).
+    built = _build_manual_parse(clue_id, assignments, verify_db=True)
     if not built["ok"]:
         return built                     # the validation gate's own message
 

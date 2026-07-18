@@ -791,18 +791,31 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     forced = _forced_def_for(clue_id)
     filler = _filler_for(clue_id)
     if resolve:
-        w = wiring() if ai else batch_wiring()
-        # Apply this clue's manual role overrides (filler + forced definition + forced
-        # indicator) via the single shared helper — the same forces, now also applied on
-        # the batch/A-B paths. No-op when the clue has none, so behaviour is unchanged.
-        from core import clue_overrides
-        w = clue_overrides.apply_forced_overrides(w, clue_id)
-        if discover:
-            w = dict(w)
-            w["auto_signature_queue"] = True   # discover + queue a signature if it fails
-        engine_registry.solve_clue_text(clue_text, answer, w,
-                                        source=src, puzzle_number=pnum, clue_id=clue_id,
-                                        direction=direction)
+        # The human's hand-solver assignment is AUTHORITATIVE over the engines, and a
+        # committed frozen manual solve is the human's frozen answer — neither may be
+        # re-guessed by the cascade (that is what let Approve fail to upgrade a clue and
+        # let a re-run clobber a good reading; user-reported 2026-07-17). Cascade ONLY
+        # when there is neither.
+        _c0 = store.connect()
+        try:
+            _sp0 = store.load_parse(_c0, clue_id)
+            _skip_manual = (_sp0 is not None and getattr(_sp0, "solved_by", "") == "manual"
+                            and store.is_frozen(_c0, clue_id))
+        finally:
+            _c0.close()
+        if not _skip_manual and not _resolve_from_assignment(clue_id):
+            w = wiring() if ai else batch_wiring()
+            # Apply this clue's manual role overrides (filler + forced definition + forced
+            # indicator) via the single shared helper — the same forces, now also applied on
+            # the batch/A-B paths. No-op when the clue has none, so behaviour is unchanged.
+            from core import clue_overrides
+            w = clue_overrides.apply_forced_overrides(w, clue_id)
+            if discover:
+                w = dict(w)
+                w["auto_signature_queue"] = True   # discover + queue a signature if it fails
+            engine_registry.solve_clue_text(clue_text, answer, w,
+                                            source=src, puzzle_number=pnum, clue_id=clue_id,
+                                            direction=direction)
     conn = store.connect()
     try:
         parse = store.load_parse(conn, clue_id)
@@ -978,6 +991,14 @@ def _enrich_row(pid, typ, word, letters, ans, clue_id, raw_list):
         fields = (f'<input name="word" value="{w}">'
                   f'<select name="type">{opts}</select>')
         kind = "indicator"
+    elif typ == "homophone":
+        # A tentative sound-alike pair: word SOUNDS LIKE letters (e.g. sole -> SOUL).
+        # Approve -> add_homophone (sanctioned, bidirectional). Only then can a homophone
+        # piece using this pair be committed (user rule 2026-07-17).
+        fields = (f'<input name="word" value="{w}">'
+                  f'<span class="wfw-arr">sounds like</span>'
+                  f'<input name="homophone" value="{v}">')
+        kind = "homophone"
     else:
         return (f'<div class="wfw-erow"><span class="wfw-etype">{escape(typ or "?")}'
                 f'</span><span class="wfw-emuted">{w} &rarr; {v}</span></div>')
@@ -2022,14 +2043,73 @@ def _span_phrase(clue_text, direction, widxs):
     return " ".join(words[i] for i in widxs)
 
 
+def _resolve_from_assignment(clue_id):
+    """The human's hand-solver assignment is AUTHORITATIVE over the engines: if the clue
+    has one, make the stored reading match it and return True — never re-guess with the
+    cascade over a human reading (that is what let Approve fail to upgrade a clue, and let
+    a re-run clobber a good reading with a worse engine guess; user-reported 2026-07-17).
+
+    - assembles -> persist as a PENDING prefill reading, so a piece whose homophone pair
+      was just approved flips from provisional (source='pending') to solid ('db') and a
+      Confirm can then pass it;
+    - does NOT assemble (e.g. every wordplay word marked 'none' = deliberately unsolvable)
+      -> clear the stale solve so no wrong/fabricated answer is displayed.
+    A stale freeze pinning the old solve is lifted first. Returns False when there is no
+    assignment (caller falls back to the cascade). A committed FROZEN MANUAL solve is
+    guarded by the caller and never reaches here."""
+    import json
+    conn = store.connect()
+    try:
+        raw = store.get_hs_assignments(conn, clue_id)
+        _existing = store.load_parse(conn, clue_id)
+    finally:
+        conn.close()
+    if not raw:
+        return False
+    # A confirmed PASS is the human's verdict — never rebuild or downgrade it (defends any
+    # pass carrying an assignment, in case one is ever not frozen). Return True so the
+    # caller does not fall through to the cascade either.
+    if _existing is not None and getattr(_existing, "status", "") == "pass":
+        return True
+    try:
+        assigns = json.loads(raw) if isinstance(raw, str) else raw
+    except Exception:
+        return False
+    if not assigns:
+        return False
+    # verify_db=True: this rebuild re-persists as a PENDING 'prefill' reading (below), and the
+    # assignment it reads may be a prefill's own AI payload — so it must apply the same honesty
+    # gate as the filing, or a fabricated piece (take->R) would be re-stamped source='db' on the
+    # next render, undoing the gate. It also completes this function's stated purpose (a piece
+    # flips provisional->solid once the DB backs it) for synonym/abbreviation pieces, not just
+    # homophones. The human's authority is exercised at the explicit commit (verify_db=False).
+    built = _build_manual_parse(clue_id, assigns, verify_db=True)
+    conn = store.connect()
+    try:
+        if store.is_frozen(conn, clue_id):
+            store.clear_frozen(conn, clue_id)      # a stale freeze must not pin the old solve
+        if built["ok"]:
+            p = built["parse"]
+            p.status = "pending"
+            p.solved_by = "prefill"
+            p.warnings = list(p.warnings or []) + [
+                "reading rebuilt from your hand-solver assignment"]
+            store.save_parse(conn, clue_id, p, built["ctx"])
+        else:
+            store.delete_parse(conn, clue_id)      # no valid reading -> unsolved, nothing shown
+        conn.commit()
+    finally:
+        conn.close()
+    return True
+
+
 def _resolve_one(clue_id):
-    """Re-solve a single clue through the cascade (DB-only) WITH its overrides applied, and
-    persist — so a freshly-forced role takes effect immediately. Mirrors the page's solve
-    path (batch wiring + clue_overrides). Best-effort; never raises to the route."""
+    """Re-solve a single clue and persist. The human's hand-solver assignment wins over the
+    engines (see _resolve_from_assignment); only a clue with neither an assignment nor a
+    committed frozen manual solve is re-run through the cascade. Best-effort; never raises."""
     try:
         # MANUAL-SOLVE GUARD: a committed manual solution (human-authored, frozen) must never
-        # be overwritten by the cascade. Skip re-solving it entirely; /handsolveuncommit lifts
-        # the freeze first, so an uncommit re-solve is not blocked here.
+        # be overwritten. Skip it entirely; /handsolveuncommit lifts the freeze first.
         conn = store.connect()
         try:
             sp = store.load_parse(conn, clue_id)
@@ -2038,6 +2118,8 @@ def _resolve_one(clue_id):
                 return
         finally:
             conn.close()
+        if _resolve_from_assignment(clue_id):      # human assignment is authoritative
+            return
         row = _load_clue(clue_id)
         if row is None:
             return
@@ -2294,8 +2376,9 @@ function initGrid(rootId, DATA){
   if(r==='spoonerism'){var spv=(addInp.value||'').trim().toUpperCase();   // vetted sound pair:
    if(!spv){note('type the FULL source phrase (e.g. THE DEAR YACHT)');return;}a.value=spv;
    if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // covers the whole answer
-  if(r==='homophone'){if(!selPos.length){note('tick the word(s), then click the answer tiles they SOUND LIKE (the homophone span), then Assign');return;}
-   a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; gate checks it sounds like the fodder
+  if(r==='homophone'){if(!selPos.length){note('type the word it SOUNDS LIKE in the add box (e.g. sole) — leave blank only if the clue word itself is that word — then tick the clue word(s), click the answer tiles, and Assign');return;}
+   a.spoken=((addInp.value||'').trim());                                                      // the actual sound-alike word (SOLE); blank => clue word is it
+   a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; the gate checks spoken~span is a sanctioned homophone
   if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
   if(r==='definition'&&dkind)a.dkind=dkind.value;               // 'def' | 'dbe' (label only)
   if(isPiece(r)){
@@ -3049,10 +3132,15 @@ def hsaddhomophone_route():
     if not only.isdigit() or not word or not homophone:
         return _hs_redirect(only, "Enter both the word and its sounds-like partner.", back)
     cid = int(only)
-    msg = admin_db.add_homophone(word, homophone)
-    apply_add_to_wiring({"kind": "homophone"})          # unknown kind -> full reload
-    _resolve_one(cid)
-    return _hs_redirect(only, msg + " Re-solved.", back)
+    # TENTATIVE, not a direct write: a homophone pair is only sanctioned when the human
+    # clicks Approve in the enrichment queue (user rule 2026-07-17 — homophones are infinite,
+    # so gate on approval). add_homophone (the actual table write) is reached ONLY via
+    # Approve -> _do_add, so there is a single sanctioning path.
+    row = _load_clue(cid)
+    ctext = row[0] if row else ""
+    msg = admin_db.queue_homophone(word, homophone, ctext, (row[2] if row else ""),
+                                   (row[3] if row else ""))
+    return _hs_redirect(only, msg, back)
 
 
 @app.route("/worklist")
@@ -4512,12 +4600,22 @@ def _promote_double_definition(parse, db_adds):
             db_adds[i] = ("definition", add[1], add[2])
 
 
-def _build_manual_parse(cid, assigns, andlit=False):
+def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     """Build + VALIDATE a manual Parse from /hs grid assignments. THE single source
     of truth for manual-reading validation (tile coverage, word coverage, fodder
     rules, selection derivation): used by /hsmanualcommit (the user's commit),
     core.prefill_commit (the nightly's PENDING filings) and /prefillconfirm (the
-    one-click review). Returns {"ok": False, "msg": ...} on any validation failure,
+    one-click review).
+
+    verify_db (the AI-reading honesty gate): when True (the prefill filing and the
+    Confirm), a synonym/abbreviation piece is trusted (source='db', harvestable) ONLY
+    if the reference DB already backs it; an unsourced one is made PROVISIONAL
+    (source='pending' — rendered provisional, kept out of the harvest) and queued for
+    review, so an AI reading can never FABRICATE a letter-source (e.g. take->R by
+    elimination) into a trusted piece. The human /hs commit keeps verify_db=False —
+    the human is the authority and their new vocab harvests as before.
+
+    Returns {"ok": False, "msg": ...} on any validation failure,
     else {"ok": True, "parse": Parse(status='pass', solved_by='manual'),
     "ctx": ..., "db_adds": [...], "n_sources": int} — the CALLER decides verdict,
     freeze and whether the reusable-piece harvest (db_adds) is applied."""
@@ -4531,6 +4629,11 @@ def _build_manual_parse(cid, assigns, andlit=False):
                                                    # so payload word-indices align with the /hs grid
     ans_letters = "".join(c for c in answer.upper() if c.isalpha())
     N = len(ans_letters)
+
+    _pending = None
+    if verify_db:                          # the AI-reading honesty gate needs the review queue
+        from core.pending_store import PendingStore
+        _pending = PendingStore()
 
     from core.wfw_model import Source, Link, Annotation, Parse
 
@@ -4581,6 +4684,24 @@ def _build_manual_parse(cid, assigns, andlit=False):
             if not pos:
                 return {"ok": False, "msg": "The piece %r has no answer tiles — click "
                         "the answer letters it makes, then Assign." % phrase}
+            if role in ("synonym", "substitution", "letters", "replacement"):
+                # A letter-placing piece must actually SPELL the tiles it lands on: its value
+                # (possibly reversed, or with a separate deletion) must CONTAIN those letters.
+                # Identity/reversal/deletion all preserve letters, so the tiles are always a
+                # letter-subset of the value. If they are NOT, the value does not make these
+                # letters at all — the commonest cause is a HOMOPHONE mis-tagged as a synonym
+                # ("few will" placed on FUEL: no U in the value). Reject it so the homophone
+                # goes through its own gate (user rule 2026-07-17) rather than hiding here.
+                got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+                from collections import Counter
+                missing = Counter(got) - Counter(c for c in value if c.isalpha())
+                if missing:
+                    return {"ok": False, "msg": "%r = %r can't spell the tiles it lands on "
+                            "(%s) — its value has no %s. If %r SOUNDS like %s, tag it a "
+                            "homophone (type the sound-alike word in the add box); reversal "
+                            "and deletion have their own roles."
+                            % (phrase, value, got, "".join(sorted(missing.elements())),
+                               phrase, got)}
             if role == "anagram":                          # fodder must CONTAIN the tiles it fills;
                 got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)  # any surplus fodder
                 from collections import Counter            # letters are a deletion before the anagram
@@ -4601,11 +4722,27 @@ def _build_manual_parse(cid, assigns, andlit=False):
             mech = {"letters": "raw", "replacement": "replacement_letter",
                     "substitution": "abbreviation",
                     "anagram": "anagram_fodder", "selection": "selection"}.get(role, "synonym")
+            # HONESTY GATE: a synonym/abbreviation piece asserts "this clue word means these
+            # letters" — the one thing an AI reading can FABRICATE (take->R by elimination).
+            # Under verify_db it is trusted (source='db', harvested) ONLY when the reference DB
+            # already backs it; otherwise it is PROVISIONAL — rendered 'provisional', kept out of
+            # the harvest, and queued for your review. A reviewer's prior rejection fails the
+            # build. The human /hs path (verify_db=False) is unchanged — the human is authority.
+            piece_src = "db"
+            if verify_db and role in ("synonym", "substitution"):
+                in_db = (admin_db.has_synonym(phrase, value) if role == "synonym"
+                         else admin_db.has_substitution(phrase, value))
+                if not in_db:
+                    if _pending.is_rejected_synonym(phrase, value):
+                        return {"ok": False, "msg": "%r → %s was rejected by a reviewer — this "
+                                "AI reading cannot use it." % (phrase, value)}
+                    piece_src = "pending"
+                    _pending.queue_synonym(phrase, value, ans_letters, clue_text, src, pnum)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
-                                  mechanism=mech, source="db"))
-            if role == "synonym" and value:            # reusable -> save to the DB after commit
+                                  mechanism=mech, source=piece_src))
+            if piece_src == "db" and role == "synonym" and value:   # reusable -> DB after commit
                 db_adds.append(("synonym", phrase, value))
-            elif role == "substitution" and value:     # abbr/symbol -> wordplay table, after commit
+            elif piece_src == "db" and role == "substitution" and value:  # abbr/symbol -> wordplay
                 db_adds.append(("substitution", phrase, value))
             tr = "anagram_of" if role == "anagram" else None
             for p in pos:
@@ -4646,14 +4783,18 @@ def _build_manual_parse(cid, assigns, andlit=False):
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
                                   transform=None))
         elif role == "homophone":
-            # HOMOPHONE piece: the ticked fodder (e.g. "A E" from "A & E") sounds like the
-            # answer span the user places (AVOWAL). It may cover only PART of the answer, so
-            # it can be one piece of a charade (DISAVOWAL = DIS + AVOWAL) — a shape the
-            # signature catalog cannot reach (memory: charade-homophone-singleword-limit),
-            # which is why this manual role exists. NO automatic sound-check (the human owns
-            # the verdict, like every manual solve): the licence is a HOMOPHONE INDICATOR in
-            # the clue (user rule 2026-07-14). The placed letters ARE the value (from the
-            # tiles the user clicked, never free-typed).
+            # HOMOPHONE piece: the clue word (e.g. "single") reaches a SPOKEN word (SOLE)
+            # that sounds like the placed answer span (SOUL). The spoken word is the one that
+            # actually sounds alike — the user types it (a.get("spoken")); when the clue word
+            # IS the spoken word (sole -> SOUL) it may be omitted and defaults to the phrase.
+            # It may cover only PART of the answer, so it can be one piece of a charade
+            # (SOUL MAN = SOUL + MAN). GATE (user rule 2026-07-17, revising the 2026-07-14
+            # indicator-only licence): the pair (spoken ~ placed letters) must be a SANCTIONED
+            # homophone in the homophones table — we must not tag a homophone without going
+            # through the real sound-alike word. A pair the user names that isn't sanctioned
+            # is QUEUED as tentative (homophones are infinite, so gate on approval not
+            # pre-population) and refused until approved. A homophone INDICATOR is still the
+            # licence for the operation.
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
             if not pos:
@@ -4665,16 +4806,31 @@ def _build_manual_parse(cid, assigns, andlit=False):
                         "the sound word (e.g. “loudly”) as an indicator (type homophone), "
                         "then Assign the homophone piece."}
             value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+            spoken_given = (a.get("spoken") or "").strip()
+            spoken = spoken_given or phrase
+            hom_source = "db"
+            if not admin_db.has_homophone(spoken, value):
+                if not spoken_given:
+                    return {"ok": False, "msg": "%r does not itself sound like %s — type the "
+                            "word it SOUNDS LIKE (e.g. sole) in the add box before Assign."
+                            % (phrase, value)}
+                # A pair the human NAMED but the table has not sanctioned: queue it TENTATIVE
+                # and accept the piece PROVISIONALLY (source='pending' -> the 'provisional'
+                # badge + banner). It is sanctioned only when the human Approves the pair in
+                # the enrichment queue (user rule 2026-07-17: homophones are infinite, so gate
+                # on approval, not pre-population) — the solve is not blocked mid-assign.
+                admin_db.queue_homophone(spoken_given, value, clue_text, src, pnum)
+                hom_source = "pending"
             si = len(sources)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
-                                  mechanism="homophone", source="db"))
+                                  mechanism="homophone", source=hom_source))
             for p in pos:
                 if p in covered:
                     return {"ok": False, "msg": "Answer tile %d is claimed by two "
                             "pieces — each tile belongs to exactly one piece." % p}
                 covered[p] = si
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
-                                  transform='sounds like "%s"' % phrase))
+                                  transform='sounds like "%s"' % spoken))
         elif role == "definition":
             # 'dbe' = definition by example — identical to a plain definition in every code
             # path (still the parse.definition Source), only the rendered label differs; the
@@ -4880,10 +5036,27 @@ def prefillconfirm_route():
             assigns = json.loads(saved) if saved else []
         except Exception:
             assigns = []
-        built = _build_manual_parse(cid, assigns)
+        built = _build_manual_parse(cid, assigns, verify_db=True)
         if not built["ok"]:
             msg = "Confirm refused — %s" % built["msg"]
         else:
+            # Block a pass built on an UNVERIFIED wordplay assertion — a synonym/abbreviation
+            # piece the reference DB does not back (the take->R trap). A provisional HOMOPHONE
+            # is NOT blocked: its sound is dictionary-verified, only the pair's DB-sanction is
+            # pending (existing design — it may pass provisionally). The user Accepts a genuine
+            # piece (it enters the DB, Confirm then passes) or Rejects it (clue stays unsolved).
+            prov = [s for s in built["parse"].sources
+                    if getattr(s, "source", "db") == "pending"
+                    and getattr(s, "mechanism", "") in ("synonym", "abbreviation")]
+            if prov:
+                msg = ("Confirm refused — this reading uses %d AI-proposed piece%s the "
+                       "reference DB does not back: %s. Accept the genuine one%s (it enters "
+                       "the DB, then Confirm passes) or reject it in the review queue first."
+                       % (len(prov), "" if len(prov) == 1 else "s",
+                          "; ".join("%s → %s" % (s.text, s.value) for s in prov),
+                          "" if len(prov) == 1 else "s"))
+                notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+                return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
             conn = store.connect()
             try:
                 store.save_parse(conn, cid, built["parse"], built["ctx"])

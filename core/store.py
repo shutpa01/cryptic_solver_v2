@@ -173,6 +173,19 @@ def save_parse(conn, clue_id, parse, ctx=None):
     conn.commit()
 
 
+def delete_parse(conn, clue_id):
+    """Remove a clue's stored solve (wfw_solve / wfw_piece / wfw_link) so it reverts to
+    UNSOLVED. Does NOT touch the hand-solver assignment, notes or overrides. Use when the
+    human's assignment has no valid reading (e.g. every wordplay word marked 'none' =
+    deliberately unsolvable) and a stale or fabricated solve must stop being displayed.
+    Ignores the freeze — the caller lifts it first when a stale freeze is protecting the
+    solve being cleared."""
+    ensure_schema(conn)
+    for table in ("wfw_solve", "wfw_piece", "wfw_link"):
+        conn.execute("DELETE FROM %s WHERE clue_id = ?" % table, (clue_id,))
+    conn.commit()
+
+
 def is_frozen(conn, clue_id):
     """True if this clue is frozen (a forced pass that must never be downgraded)."""
     ensure_schema(conn)
