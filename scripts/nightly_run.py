@@ -104,6 +104,32 @@ def run_scraper():
     return overall_ok
 
 
+def run_prize_toughie_ingest():
+    """Ingest the newest scraped Telegraph Prize Toughie into the `clues` table.
+
+    The main scraper downloads the Sunday Prize Toughie JSON, but its promote-to-`clues`
+    step is broken for embargoed prizes (it demands an `explanation` that is never scraped),
+    so the puzzle was silently left un-ingested until run by hand. This wires the standalone
+    ingest (scripts/ingest_prize_toughie.py --commit) into the nightly. It is IDEMPOTENT —
+    "ALREADY PRESENT, nothing to do" and exit 0 when the newest puzzle is already in the DB —
+    so it is safe every night and only writes when a fresh Sunday puzzle has appeared.
+    Never fails the nightly."""
+    log("Step 1b: Ingest Telegraph Prize Toughie (newest JSON, --commit)...")
+    try:
+        result = subprocess.run(
+            [PYTHON_V2, "-m", "scripts.ingest_prize_toughie", "--commit"],
+            cwd=str(ROOT), capture_output=True, text=True,
+            encoding="utf-8", errors="replace", timeout=120,
+        )
+    except Exception as e:
+        log(f"  Prize Toughie ingest ERROR: {e} — continuing")
+        return
+    for line in (result.stdout or "").strip().splitlines():
+        log(f"  {line}")
+    if result.returncode != 0 and result.stderr:
+        log(f"  stderr: {result.stderr[-300:]}")
+
+
 def run_cascade(target_date):
     """Run the WFW cascade on today's serving-paper clues (nightly_cascade.py)."""
     log("Step 2: WFW cascade (serving papers, answerless clues skipped)...")
@@ -206,6 +232,14 @@ def main():
             log("[DRY RUN] Would scrape: " + ", ".join(SCRAPE_SOURCES))
         else:
             run_scraper()
+
+    # Step 1b: ingest the Sunday Prize Toughie (idempotent; only writes on a fresh one).
+    # Runs regardless of --skip-scraper so a scraped-but-un-ingested puzzle still lands;
+    # gated only by --dry-run.
+    if args.dry_run:
+        log("[DRY RUN] Would ingest newest Prize Toughie (scripts.ingest_prize_toughie --commit)")
+    else:
+        run_prize_toughie_ingest()
 
     # Step 2: WFW cascade — today's serving-paper clues through the engines.
     if not args.skip_cascade:
