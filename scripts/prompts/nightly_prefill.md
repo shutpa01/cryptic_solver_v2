@@ -55,6 +55,17 @@ confident is the setter's.
 - A whole-clue CRYPTIC DEFINITION is not an /hs assignment job: leave it blank
   and list it in the report — the user files it with the "Cryptic definition"
   button on /hs (route /hscd, built 2026-07-10).
+- A SPOONERISM: assign it as ONE piece — role 'spoonerism', value = the SOURCE
+  PHRASE (the two clue-word synonyms joined, e.g. corporation->BELLY +
+  trousers->JEANS = "BELLY JEANS"), and that single piece claims EVERY answer tile
+  (sound has no per-letter provenance). Tag the Spooner word(s) ("altered by
+  Spooner", "according to Spooner") as the INDICATOR (itype spoonerism). If the
+  pair is not yet in the spoonerisms table it files PROVISIONALLY (like an
+  unsanctioned homophone) — the user's Confirm vets it and passes it, so you CAN
+  pre-solve a spoonerism. NEVER split it into two separate synonym pieces on their
+  own tiles: they only spell the answer AFTER the Spooner swap, so the tile gate
+  rejects them and the clue ends up broken (user-reported 2026-07-19: TIMES 5225
+  1d JELLY BEANS mis-filed as BELLY + JEANS synonyms + a spoonerism indicator).
 
 ## Hard rules
 - Writes allowed: ONLY via `core.prefill_commit.file_pending_prefill` (which

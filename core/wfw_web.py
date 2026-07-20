@@ -4808,13 +4808,26 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             if pos != list(range(1, N + 1)):
                 return {"ok": False, "msg": "A spoonerism covers the WHOLE answer — its "
                         "piece must claim every tile (it has no per-letter sources)."}
+            spoon_source = "db"
             if not admin_db.has_spoonerism(value, ans_letters):
-                return {"ok": False, "msg": "The pair %s → %s is not in the spoonerisms "
-                        "table yet — Assign the piece first (Assign files the pair)."
-                        % (value, answer.upper())}
+                if verify_db:
+                    # AI/PREFILL path: the pair is not vetted yet, so accept it PROVISIONALLY
+                    # (source='pending', the 'provisional' badge) exactly like an unsanctioned
+                    # homophone — do NOT fail. The clue files as a PENDING prefill; the human's
+                    # Confirm vets it (Confirm harvests the pair via db_adds below) and passes it.
+                    # A spoonerism provisional is NOT in the Confirm refuse-list (synonym/
+                    # abbreviation only), so Confirm passes it — same rule as a homophone. This
+                    # lets the prefill PRE-SOLVE a spoonerism without the AI writing the reference
+                    # DB. (user request 2026-07-19.) The HUMAN /hs commit path (verify_db=False)
+                    # is unchanged: its Assign already filed the pair, so it still hard-requires it.
+                    spoon_source = "pending"
+                else:
+                    return {"ok": False, "msg": "The pair %s → %s is not in the spoonerisms "
+                            "table yet — Assign the piece first (Assign files the pair)."
+                            % (value, answer.upper())}
             si = len(sources)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
-                                  mechanism="spoonerism", source="db"))
+                                  mechanism="spoonerism", source=spoon_source))
             db_adds.append(("spoonerism", value, ans_letters))
             for p in pos:
                 if p in covered:

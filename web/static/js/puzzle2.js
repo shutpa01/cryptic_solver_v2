@@ -224,16 +224,23 @@ function toolsOverlayAddToGrid() {
     input.value = overlayAnswer.value;
     solveAddToGrid(input);
 
-    // Surface the outcome (Added / needs more letters / crossing conflict — whatever
-    // solveAddToGrid wrote to the clue's result line) IN the overlay, and KEEP the overlay
-    // open. The grid + crossings are already updated, so the user never has to return to the
-    // puzzle to place the answer; they close the overlay when ready. (user request 2026-07-18)
+    // On a SUCCESSFUL add, close the overlay and jump to the grid — the user wants to be back
+    // on the grid the moment they place an answer (user request 2026-07-19; supersedes the
+    // 2026-07-18 keep-open behaviour). If the add was REJECTED (wrong length, etc.),
+    // solveAddToGrid wrote the reason to the clue result and did not place it — keep the
+    // overlay open and surface that reason so it isn't lost.
     var clueResult = input.parentElement.querySelector('.solve-result');
-    var overlayResult = document.getElementById('tools-overlay-result');
-    if (clueResult && overlayResult) {
-        overlayResult.textContent = clueResult.textContent || 'Added to grid';
-        var added = /added to grid/i.test(clueResult.textContent || '');
-        overlayResult.className = 'text-xs font-medium ' + (added ? 'text-indigo-600' : 'text-red-500');
+    var added = clueResult && /added to grid/i.test(clueResult.textContent || '');
+    if (added) {
+        closeToolsOverlay();
+        var grid = document.getElementById('grid-area');
+        if (grid) grid.scrollIntoView({ behavior: 'instant', block: 'start' });
+    } else {
+        var overlayResult = document.getElementById('tools-overlay-result');
+        if (clueResult && overlayResult) {
+            overlayResult.textContent = clueResult.textContent || 'Not added';
+            overlayResult.className = 'text-xs font-medium text-red-500';
+        }
     }
 }
 
@@ -544,11 +551,26 @@ function solveDelete(input, btn) {
     var clueId = input.dataset.clueId;
     var card = input.closest('.clue-card');
     var linkedId = card && card.dataset.linkedId;
-    // Remove from localStorage
+    // Mark as deliberately CLEARED (a tombstone), don't just remove the key. Admin solve
+    // mode re-runs _prefillDbAnswers on every entry, which re-adds any clue where
+    // !state[clueId] — so a plain `delete` let a deleted (e.g. wrong) DB answer come
+    // straight back ("whatever I do it enters the original wrong answer"). Leaving an empty
+    // entry keeps state[clueId] truthy, so prefill skips it and the delete sticks.
+    // _restoreSolveState renders value:'' as a blank input; grid/progress ignore it
+    // (no .correct). (user-reported 2026-07-19 on prize-toughie 234 9d.)
     var state = JSON.parse(localStorage.getItem(_solveKey) || '{}');
-    delete state[clueId];
-    if (linkedId) delete state[linkedId];
+    state[clueId] = { value: '', cleared: true };
+    if (linkedId) state[linkedId] = { value: '', cleared: true };
     localStorage.setItem(_solveKey, JSON.stringify(state));
+    // Admin: also clear the answer in the DB. An admin builds prize answers via "add to db"
+    // (Save -> /admin/save-all-answers), which writes clues.answer. That save only FILLS
+    // empty clues and never overwrites, and this delete previously only touched localStorage
+    // — so a wrong saved answer stayed in the DB and the admin grid pre-fill kept re-injecting
+    // it ("the delete does not work"). Clearing the DB row makes the delete real. (2026-07-19)
+    if (_cfg && _cfg.isAdmin) {
+        fetch('/admin/clear-answer/' + clueId, { method: 'POST' }).catch(function(){});
+        if (linkedId) fetch('/admin/clear-answer/' + linkedId, { method: 'POST' }).catch(function(){});
+    }
     // Reset input
     input.value = '';
     input.disabled = false;
@@ -828,8 +850,12 @@ function solveAddToGrid(input) {
     }
 
     // Crossing conflict check — block on Add to grid
+    // Admin exception: do NOT block an admin's Add-to-grid on a crossing conflict. The grid
+    // is pre-filled with DB answers that can be wrong, so a bad crossing letter would veto the
+    // admin's correct answer. The admin is the authority; regular solvers keep the block (their
+    // crossings come from their own confirmed answers, so a conflict is a real catch). 2026-07-19
     var conflict = _checkCrossingConflict(input, guess);
-    if (conflict) {
+    if (conflict && !(_cfg && _cfg.isAdmin)) {
         result.className = 'solve-result text-xs text-red-500';
         result.textContent = 'The letter at position ' + conflict.position + ' must be ' + conflict.expected + ' \u2014 does your answer fit?';
         return;

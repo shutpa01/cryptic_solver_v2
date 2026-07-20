@@ -1011,6 +1011,35 @@ def set_answer(clue_id):
     return f'<span class="text-xs text-green-600 font-bold">Answer set: {answer}</span>'
 
 
+@bp.route("/clear-answer/<int:clue_id>", methods=["POST"])
+def clear_answer(clue_id):
+    """Clear (empty) a clue's answer in the DB (admin only). The solve-mode delete button
+    calls this so an admin can UNDO a wrong answer they previously saved via 'add to db':
+    save-all-answers only FILLS empty clues (never overwrites), and the JS delete only
+    cleared localStorage — so a wrong DB answer kept coming back via the admin grid
+    pre-fill ('the delete does not work'). This restores the clue's empty state so it can
+    be re-solved and re-saved. (user-reported 2026-07-19.)"""
+    _require_admin()
+    import json as _json
+    from core import store as _store
+    db = get_admin_db()
+    cur = db.execute("UPDATE clues SET answer = '' WHERE id = ?", (clue_id,))
+    db.commit()
+    # Also drop any stored WFW parse built on the OLD answer. The explanation page renders
+    # from wfw_solve, not from clues.answer, so a leftover parse keeps showing the wrong
+    # answer even after the clue answer is cleared (user-reported 2026-07-19: changed 20a to
+    # FEET but the frozen MEAT charade parse stuck on the WFW page). Unfreeze first.
+    _c = _store.connect()
+    try:
+        if _store.is_frozen(_c, clue_id):
+            _store.clear_frozen(_c, clue_id)
+        _store.delete_parse(_c, clue_id)
+        _c.commit()
+    finally:
+        _c.close()
+    return _json.dumps({"cleared": cur.rowcount, "clue_id": clue_id}), 200, {"Content-Type": "application/json"}
+
+
 @bp.route("/queue-enrichment/<int:clue_id>", methods=["POST"])
 def queue_enrichment(clue_id):
     """Extract pieces from a clue's explanation and queue for dashboard enrichment."""

@@ -138,7 +138,7 @@ def engines(clue_text, answer, wiring):
 
     attempts = [
         ("hidden", lambda: mod("hidden_engine").solve_hidden(
-            ctx, w["defines"], w["is_link"], w["indicator_types"])),
+            ctx, w["defines"], indicator_types=w["indicator_types"], is_link=w["is_link"])),
         ("dd", lambda: mod("dd_engine").solve_dd(
             ctx, w["defines"], w["is_link"], w["indicator_types"], is_dbe=dbe)),
         ("anagram", lambda: mod("anagram_signature_engine").solve_anagram(
