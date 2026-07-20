@@ -59,6 +59,7 @@
         <input type="text" id="pattern-input"
                placeholder="e.g. S?O?E — use ? or spacebar for unknowns"
                value="{{ prefill_pattern }}"
+               autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false"
                class="flex-1 px-4 py-3 rounded-lg border border-gray-300 text-base uppercase tracking-wide font-mono focus:outline-none focus:border-emerald-400"
                autofocus>
         <button onclick="searchPattern()"
@@ -188,13 +189,14 @@ document.getElementById('pattern-input').addEventListener('keydown', function(e)
     }
 });
 document.getElementById('pattern-input').addEventListener('input', function() {
-    // Mobile soft keyboards don't fire a usable keydown for space, so the
-    // keydown handler above never runs there. Convert any space that lands
-    // in the value to '?' here too. Doing it on the first space also stops
-    // the OS double-space-to-full-stop shortcut from ever triggering.
-    if (this.value.indexOf(' ') >= 0) {
+    // Mobile soft keyboards deliver space via the input event (no usable keydown),
+    // and iOS rewrites a quick double-space into ". " (period + space) at the compose
+    // layer BEFORE we ever see it — which is why converting only spaces still left a
+    // full stop. Normalise both here: any space OR period in the value becomes '?'.
+    // A double-tap therefore yields '??', never a full stop. (1:1 length, caret safe.)
+    if (/[ .]/.test(this.value)) {
         var pos = this.selectionStart;
-        this.value = this.value.replace(/ /g, '?');
+        this.value = this.value.replace(/[ .]/g, '?');
         this.setSelectionRange(pos, pos);
     }
     clearTimeout(_patternTimer);
