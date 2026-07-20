@@ -188,6 +188,15 @@ document.getElementById('pattern-input').addEventListener('keydown', function(e)
     }
 });
 document.getElementById('pattern-input').addEventListener('input', function() {
+    // Mobile soft keyboards don't fire a usable keydown for space, so the
+    // keydown handler above never runs there. Convert any space that lands
+    // in the value to '?' here too. Doing it on the first space also stops
+    // the OS double-space-to-full-stop shortcut from ever triggering.
+    if (this.value.indexOf(' ') >= 0) {
+        var pos = this.selectionStart;
+        this.value = this.value.replace(/ /g, '?');
+        this.setSelectionRange(pos, pos);
+    }
     clearTimeout(_patternTimer);
     var val = this.value.trim();
     if (val.length >= 3) {
