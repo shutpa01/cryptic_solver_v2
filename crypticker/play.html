@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypticker — play (real data)</title>
+<style>
+  :root{
+    --ink:#1b2430; --paper:#f2f4f6; --card:#ffffff;
+    --def:#2f6fed; --clock:#d64545; --good:#2e9e5b; --muted:#8a94a3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:var(--paper);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:480px;padding:20px 16px 40px}
+  .brand{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+  .wordmark{font-weight:900;font-size:22px;letter-spacing:.06em}
+  .wordmark .tick{color:var(--clock)}
+  .brand .no{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.08em}
+
+  .timerwrap{height:6px;background:#dde2e8;border-radius:3px;overflow:hidden;margin-bottom:6px}
+  .timerbar{height:100%;width:100%;background:var(--ink);border-radius:3px;transition:width 1s linear, background-color .3s}
+  .timerbar.low{background:var(--clock)}
+  .timerrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .timertext{font-variant-numeric:tabular-nums;font-weight:700;font-size:13px;color:var(--muted)}
+  .timertext.low{color:var(--clock)}
+  .frozenflag{font-size:12px;font-weight:800;color:#4a9fd8;letter-spacing:.06em;visibility:hidden}
+  .frozenflag.on{visibility:visible}
+
+  .cluecard{background:var(--card);border:1px solid #e2e6eb;border-radius:14px;padding:22px 20px;box-shadow:0 1px 3px rgba(27,36,48,.06)}
+  .cluecount{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+  .clue{font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.5}
+  .clue .enum{color:var(--muted);font-size:16px;white-space:nowrap}
+  .defhl{background:#e5edfd;border-bottom:2px solid var(--def);border-radius:3px;padding:0 2px}
+
+  .rail{min-height:64px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;
+        margin:20px 0 8px;padding:12px;border-radius:12px;border:2px dashed #cdd4dc;background:#fafbfc;transition:border-color .2s}
+  .rail.correct{border-color:var(--good);background:#eef8f1}
+  .rail.wrong{animation:shake .35s}
+  .rail .placeholder{color:#b6bec9;font-size:14px;font-weight:600}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  @media (prefers-reduced-motion: reduce){.rail.wrong{animation:none}.timerbar{transition:none}}
+
+  .tile{border:none;cursor:pointer;user-select:none;font-family:inherit;font-weight:900;font-size:18px;
+    letter-spacing:.04em;color:#fff;padding:12px 14px;border-radius:10px;box-shadow:0 2px 0 rgba(0,0,0,.22);
+    transition:transform .08s, opacity .15s}
+  .tile:active{transform:translateY(2px);box-shadow:0 0 0 rgba(0,0,0,.2)}
+  .tile.small{padding:10px 11px;font-size:16px}
+  .tile.used{opacity:.16;pointer-events:none}
+  .tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 18px;min-height:52px}
+
+  /* anagram positional slots */
+  .slots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:20px 0 8px}
+  .slot{width:40px;height:46px;border-radius:9px;border:2px dashed #cdd4dc;background:#fafbfc;
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;color:#fff;cursor:pointer}
+  .slot.empty{color:#c3cad3}
+  .slot.locked{border-style:solid;cursor:default;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
+  .slots.correct .slot{border-color:var(--good)}
+
+  .hint{font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px}
+  .controls{display:flex;gap:10px;justify-content:center}
+  .btn{font-family:inherit;font-weight:700;font-size:15px;border-radius:10px;cursor:pointer;
+    padding:11px 22px;border:1.5px solid var(--ink);background:transparent;color:var(--ink)}
+  .btn.primary{background:var(--ink);color:#fff}
+  .btn.big{width:100%;padding:15px;font-size:17px}
+  .btn.bonus{border-color:#4a9fd8;color:#4a9fd8}
+  .btn:disabled{opacity:.3;cursor:default}
+
+  .panel{background:var(--card);border:1px solid #e2e6eb;border-radius:14px;padding:26px 22px;text-align:center;box-shadow:0 1px 3px rgba(27,36,48,.06)}
+  .panel h1{font-size:26px;font-weight:900;margin-bottom:12px}
+  .rules{text-align:left;font-family:Georgia,serif;font-size:15px;line-height:1.6;margin:0 auto 18px;max-width:360px}
+  .rules b{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:13.5px}
+  .rules li{margin-bottom:8px;list-style:none}
+  .score{font-size:56px;font-weight:900;line-height:1;margin:6px 0 2px}
+  .scoresub{color:var(--muted);font-weight:600;font-size:14px;margin-bottom:16px}
+  .sharebox{background:#fafbfc;border:1px solid #e2e6eb;border-radius:10px;padding:12px;font-size:15px;margin-bottom:14px;font-variant-numeric:tabular-nums;white-space:pre-line}
+  .reveal{margin-top:26px;text-align:left}
+  .reveal h2{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:center}
+  .rv{background:var(--card);border:1px solid #e2e6eb;border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .rv.locked{opacity:.65;border-style:dashed}
+  .rv .c.locked{color:#b6bec9;font-style:italic}
+  .rv .c{font-family:Georgia,serif;font-size:15.5px;margin-bottom:8px}
+  .rv .parse{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+  .rv .mini{color:#fff;font-weight:800;font-size:13px;padding:4px 8px;border-radius:6px}
+  .rv .arrow{color:var(--muted);font-weight:700}
+  .rv .ans{font-weight:900;letter-spacing:.05em}
+  .rv .why{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .rv .res{float:right;font-size:13px;font-weight:700}
+  .rv .res.ok{color:var(--good)} .rv .res.no{color:var(--clock)}
+
+  .overlay{position:fixed;inset:0;background:rgba(27,36,48,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+  .modal{background:var(--card);border-radius:16px;padding:24px 20px;max-width:400px;width:100%;text-align:center}
+  .modal .tag{font-size:11px;font-weight:800;letter-spacing:.12em;color:#4a9fd8;text-transform:uppercase;margin-bottom:8px}
+  .modal .q{font-size:18px;font-weight:800;margin-bottom:16px}
+  .modal .opts{display:flex;flex-direction:column;gap:8px}
+  .modal .opt{font-family:Georgia,serif;font-size:16px;padding:12px;border:1.5px solid #cdd4dc;border-radius:10px;background:#fafbfc;cursor:pointer}
+  .modal .verdict{font-weight:800;font-size:16px;margin-top:14px}
+  .modal .verdict.ok{color:var(--good)} .modal .verdict.no{color:var(--clock)}
+  .banner{text-align:center;font-size:13px;font-weight:700;margin-bottom:12px;min-height:18px}
+  .banner.ok{color:var(--good)} .banner.no{color:var(--clock)}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand">
+    <div class="wordmark">CRYP<span class="tick">TICKER</span></div>
+    <div class="no" id="brandno">DAILY</div>
+  </div>
+
+  <div id="intro" class="panel">
+    <h1>Build the answer.</h1>
+    <ul class="rules">
+      <li><b>Tap the pieces to assemble each answer.</b> Tap a placed piece to take it back. Each colour is one word from the clue — the pieces come in clue order, but the answer usually doesn't.</li>
+      <li><b>Easier clues:</b> the letters inside a piece are jumbled, and the definition is marked in the clue. <b>Harder clues:</b> clean pieces, no definition marked.</li>
+      <li><b>Anagrams:</b> single letters, with a few already locked in the right place to start you off.</li>
+      <li><b>One ✦ Bonus per round.</b> Answer a surprise question to win back the time this clue has cost you — up to a minute. Get it wrong and you've spent the time for nothing.</li>
+      <li><b>Skip costs time. Two minutes. Score = answers built.</b></li>
+    </ul>
+    <button class="btn primary big" onclick="startGame()">Start the clock</button>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="timerwrap"><div id="bar" class="timerbar"></div></div>
+    <div class="timerrow">
+      <span id="frozen" class="frozenflag">✦ CLOCK FROZEN</span>
+      <span id="ttext" class="timertext">2:00</span>
+    </div>
+    <div class="cluecard">
+      <div class="cluecount" id="count">Clue 1</div>
+      <div class="clue" id="cluetext"></div>
+    </div>
+    <div id="board"></div>
+    <div class="tray" id="tray"></div>
+    <div class="hint" id="hint"></div>
+    <div class="banner" id="banner"></div>
+    <div class="controls">
+      <button class="btn" id="skipbtn" onclick="skipClue()">Skip</button>
+      <button class="btn bonus" id="bonusbtn" onclick="openBonus()">✦ Bonus</button>
+    </div>
+  </div>
+
+  <div id="results" class="hidden">
+    <div class="panel">
+      <h1>Time.</h1>
+      <div class="score" id="finalscore">0</div>
+      <div class="scoresub" id="scoresub">assembled</div>
+      <div class="sharebox" id="sharetext"></div>
+      <button class="btn primary" onclick="copyShare()" id="copybtn">Copy result</button>
+      <button class="btn" onclick="location.reload()">Play again</button>
+    </div>
+    <div class="reveal"><h2>How they worked</h2><div id="reveals"></div></div>
+  </div>
+
+  <div id="bonusoverlay" class="overlay hidden">
+    <div class="modal">
+      <div class="tag">✦ Bonus gamble</div>
+      <div class="q" id="bq"></div>
+      <div class="opts" id="bopts"></div>
+      <div class="verdict" id="bverdict"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAY = {"puzzle_no": 1, "date": "2026-09-01", "time_limit_s": 120, "skip_penalty_s": 30, "clues": [{"clue_id": 1712237, "source": {"publication": "guardian", "puzzle": "29837", "position": "22D", "pub_date": "2025-10-28"}, "clue": "Rubbish American party’s leader broadcast on the radio?", "enum": "(4)", "answer": "PAPA", "mode": "easy", "kind": "charade", "definition": {"text": "party’s leader broadcast on the radio", "highlighted": true}, "atoms": [{"true": "PAP", "display": "APP", "colour": "#1d6fb8", "source_index": 0, "source_word": "Rubbish", "mechanism": "synonym"}, {"true": "A", "display": "A", "colour": "#2e8b57", "source_index": 1, "source_word": "American", "mechanism": "abbreviation"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Rubbish", "American", "party’s leader broadcast on the radio"], "correct_index": 2}, "explanation": "PAP (Rubbish) + A (American) → PAPA. Definition: party’s leader broadcast on the radio. guardian 29837 22D.", "slot": 1, "difficulty": 4.6}, {"clue_id": 1741204, "source": {"publication": "guardian", "puzzle": "28644", "position": "2D", "pub_date": "2022-01-03"}, "clue": "Old writer is generally accessible", "enum": "(4)", "answer": "OPEN", "mode": "easy", "kind": "charade", "definition": {"text": "generally accessible", "highlighted": true}, "atoms": [{"true": "O", "display": "O", "colour": "#1d6fb8", "source_index": 0, "source_word": "Old", "mechanism": "abbreviation"}, {"true": "PEN", "display": "PNE", "colour": "#2e8b57", "source_index": 1, "source_word": "writer", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Old", "generally accessible", "writer"], "correct_index": 1}, "explanation": "O (Old) + PEN (writer) → OPEN. Definition: generally accessible. guardian 28644 2D.", "slot": 2, "difficulty": 4.6}, {"clue_id": 1745949, "source": {"publication": "guardian", "puzzle": "28449", "position": "7D", "pub_date": "2021-05-19"}, "clue": "Bird leaves lake", "enum": "(4)", "answer": "TEAL", "mode": "easy", "kind": "charade", "definition": {"text": "Bird", "highlighted": true}, "atoms": [{"true": "TEA", "display": "ATE", "colour": "#1d6fb8", "source_index": 0, "source_word": "leaves", "mechanism": "synonym"}, {"true": "L", "display": "L", "colour": "#2e8b57", "source_index": 1, "source_word": "lake", "mechanism": "abbreviation"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Bird", "leaves", "lake"], "correct_index": 0}, "explanation": "TEA (leaves) + L (lake) → TEAL. Definition: Bird. guardian 28449 7D.", "slot": 3, "difficulty": 4.6}, {"clue_id": 1769749, "source": {"publication": "guardian", "puzzle": "27472", "position": "1D", "pub_date": "2018-04-02"}, "clue": "Insect lived quietly", "enum": "(4)", "answer": "WASP", "mode": "easy", "kind": "charade", "definition": {"text": "Insect", "highlighted": true}, "atoms": [{"true": "WAS", "display": "ASW", "colour": "#1d6fb8", "source_index": 0, "source_word": "lived", "mechanism": "synonym"}, {"true": "P", "display": "P", "colour": "#2e8b57", "source_index": 1, "source_word": "quietly", "mechanism": "abbreviation"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["lived", "Insect", "quietly"], "correct_index": 1}, "explanation": "WAS (lived) + P (quietly) → WASP. Definition: Insect. guardian 27472 1D.", "slot": 4, "difficulty": 4.6}, {"clue_id": 2005966, "source": {"publication": "telegraph", "puzzle": "29029", "position": "13A", "pub_date": "2019-04-19"}, "clue": "Tap supplies daughter with drink", "enum": "(4)", "answer": "Drum", "mode": "easy", "kind": "charade", "definition": {"text": "Tap", "highlighted": true}, "atoms": [{"true": "D", "display": "D", "colour": "#1d6fb8", "source_index": 0, "source_word": "daughter", "mechanism": "abbreviation"}, {"true": "RUM", "display": "RMU", "colour": "#2e8b57", "source_index": 1, "source_word": "drink", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["supplies", "Tap", "daughter"], "correct_index": 1}, "explanation": "D (daughter) + RUM (drink) → Drum. Definition: Tap. telegraph 29029 13A.", "slot": 5, "difficulty": 4.6}, {"clue_id": 2005991, "source": {"publication": "telegraph", "puzzle": "29028", "position": "12A", "pub_date": "2019-04-18"}, "clue": "Clobber good listener", "enum": "(4)", "answer": "Gear", "mode": "hard", "kind": "charade", "definition": {"text": "Clobber", "highlighted": false}, "atoms": [{"true": "G", "display": "G", "colour": "#1d6fb8", "source_index": 0, "source_word": "good", "mechanism": "abbreviation"}, {"true": "EAR", "display": "EAR", "colour": "#2e8b57", "source_index": 1, "source_word": "listener", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["good", "listener", "Clobber"], "correct_index": 2}, "explanation": "G (good) + EAR (listener) → Gear. Definition: Clobber. telegraph 29028 12A.", "slot": 6, "difficulty": 4.6}, {"clue_id": 10077539, "source": {"publication": "guardian", "puzzle": "30049", "position": "3D", "pub_date": "2026-07-03"}, "clue": "Was wolf-like lecturer against journalist’s opinion piece?", "enum": "(5)", "answer": "LOPED", "mode": "hard", "kind": "charade", "definition": {"text": "Was wolf-like", "highlighted": false}, "atoms": [{"true": "L", "display": "L", "colour": "#1d6fb8", "source_index": 0, "source_word": "lecturer", "mechanism": "abbreviation"}, {"true": "OPED", "display": "OPED", "colour": "#2e8b57", "source_index": 1, "source_word": "journalist’s opinion piece", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["lecturer", "against", "Was wolf-like"], "correct_index": 2}, "explanation": "L (lecturer) + OPED (journalist’s opinion piece) → LOPED. Definition: Was wolf-like. guardian 30049 3D.", "slot": 7, "difficulty": 5.0}, {"clue_id": 10074255, "source": {"publication": "telegraph-toughie", "puzzle": "3707", "position": "23A", "pub_date": "2026-06-18"}, "clue": "Patchy dessert, perhaps unadorned", "enum": "(7)", "answer": "PIEBALD", "mode": "hard", "kind": "charade", "definition": {"text": "Patchy", "highlighted": false}, "atoms": [{"true": "PIE", "display": "PIE", "colour": "#1d6fb8", "source_index": 0, "source_word": "dessert", "mechanism": "synonym"}, {"true": "BALD", "display": "BALD", "colour": "#2e8b57", "source_index": 1, "source_word": "unadorned", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Patchy", "dessert,", "perhaps"], "correct_index": 0}, "explanation": "PIE (dessert) + BALD (unadorned) → PIEBALD. Definition: Patchy. telegraph-toughie 3707 23A.", "slot": 8, "difficulty": 5.8}, {"clue_id": 10077832, "source": {"publication": "telegraph", "puzzle": "31284", "position": "26A", "pub_date": "2026-07-06"}, "clue": "Children not working well", "enum": "(9)", "answer": "OFFSPRING", "mode": "hard", "kind": "charade", "definition": {"text": "Children", "highlighted": false}, "atoms": [{"true": "OFF", "display": "OFF", "colour": "#1d6fb8", "source_index": 0, "source_word": "not working", "mechanism": "synonym"}, {"true": "SPRING", "display": "SPRING", "colour": "#2e8b57", "source_index": 1, "source_word": "well", "mechanism": "synonym"}], "assembly_order": [0, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["not", "Children", "working"], "correct_index": 1}, "explanation": "OFF (not working) + SPRING (well) → OFFSPRING. Definition: Children. telegraph 31284 26A.", "slot": 9, "difficulty": 6.6}, {"clue_id": 2028540, "source": {"publication": "telegraph", "puzzle": "29565", "position": "9A", "pub_date": "2021-01-06"}, "clue": "Got on, looking embarrassed by footballers", "enum": "(5)", "answer": "Fared", "mode": "hard", "kind": "reorder", "definition": {"text": "Got", "highlighted": false}, "atoms": [{"true": "RED", "display": "RED", "colour": "#1d6fb8", "source_index": 0, "source_word": "looking embarrassed", "mechanism": "synonym"}, {"true": "FA", "display": "FA", "colour": "#2e8b57", "source_index": 1, "source_word": "footballers", "mechanism": "synonym"}], "assembly_order": [1, 0], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Got", "on,", "looking"], "correct_index": 0}, "explanation": "FA (footballers) + RED (looking embarrassed) → Fared. Definition: Got. telegraph 29565 9A.", "slot": 10, "difficulty": 8.0}, {"clue_id": 1710249, "source": {"publication": "guardian", "puzzle": "95", "position": "6D", "pub_date": "2026-01-24"}, "clue": "Swelter unpleasantly in scuffle", "enum": "(7)", "answer": "WRESTLE", "mode": "anagram", "kind": "anagram", "definition": {"text": "scuffle", "highlighted": false}, "atoms": [{"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "W", "display": "W", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "L", "display": "L", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "T", "display": "T", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}, {"true": "R", "display": "R", "colour": "#1d6fb8", "source_index": 0, "source_word": "Swelter", "mechanism": "anagram_fodder"}], "assembly_order": [1, 6, 2, 0, 4, 3, 5], "anchors": [{"pos": 1, "atom_index": 6, "letter": "R"}, {"pos": 3, "atom_index": 0, "letter": "S"}, {"pos": 5, "atom_index": 3, "letter": "L"}], "bonus": {"question": "What is the definition?", "options": ["scuffle", "Swelter", "unpleasantly"], "correct_index": 0}, "explanation": "W (Swelter) + R (Swelter) + E (Swelter) + S (Swelter) + T (Swelter) + L (Swelter) + E (Swelter) → WRESTLE. Definition: scuffle. guardian 95 6D.", "slot": 11, "difficulty": 10.6}, {"clue_id": 10080054, "source": {"publication": "telegraph", "puzzle": "31295", "position": "11D", "pub_date": "2026-07-18"}, "clue": "Bouncy castle I burst", "enum": "(7)", "answer": "ELASTIC", "mode": "anagram", "kind": "anagram", "definition": {"text": "Bouncy", "highlighted": false}, "atoms": [{"true": "C", "display": "C", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "A", "display": "A", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "T", "display": "T", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "L", "display": "L", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "castle", "mechanism": "anagram_fodder"}, {"true": "I", "display": "I", "colour": "#2e8b57", "source_index": 1, "source_word": "I", "mechanism": "anagram_fodder"}], "assembly_order": [5, 4, 1, 2, 3, 6, 0], "anchors": [{"pos": 1, "atom_index": 4, "letter": "L"}, {"pos": 3, "atom_index": 2, "letter": "S"}, {"pos": 5, "atom_index": 6, "letter": "I"}], "bonus": {"question": "What is the definition?", "options": ["Bouncy", "castle", "I"], "correct_index": 0}, "explanation": "E (castle) + L (castle) + A (castle) + S (castle) + T (castle) + I (I) + C (castle) → ELASTIC. Definition: Bouncy. telegraph 31295 11D.", "slot": 12, "difficulty": 10.6}, {"clue_id": 10076608, "source": {"publication": "telegraph", "puzzle": "31279", "position": "30A", "pub_date": "2026-06-30"}, "clue": "Holidaymakers throw shirts out leaving hotel", "enum": "(8)", "answer": "TOURISTS", "mode": "anagram", "kind": "anagram", "definition": {"text": "Holidaymakers", "highlighted": false}, "atoms": [{"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "H", "display": "H", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "I", "display": "I", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "R", "display": "R", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "T", "display": "T", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "shirts", "mechanism": "anagram_fodder"}, {"true": "O", "display": "O", "colour": "#2e8b57", "source_index": 1, "source_word": "out", "mechanism": "anagram_fodder"}, {"true": "U", "display": "U", "colour": "#2e8b57", "source_index": 1, "source_word": "out", "mechanism": "anagram_fodder"}, {"true": "T", "display": "T", "colour": "#2e8b57", "source_index": 1, "source_word": "out", "mechanism": "anagram_fodder"}], "assembly_order": [4, 6, 7, 3, 2, 0, 8, 5], "anchors": [{"pos": 1, "atom_index": 6, "letter": "O"}, {"pos": 4, "atom_index": 2, "letter": "I"}, {"pos": 6, "atom_index": 8, "letter": "T"}], "bonus": {"question": "What is the definition?", "options": ["throw", "Holidaymakers", "shirts"], "correct_index": 1}, "explanation": "T (shirts) + O (out) + U (out) + R (shirts) + I (shirts) + S (shirts) + T (out) + S (shirts) → TOURISTS. Definition: Holidaymakers. telegraph 31279 30A.", "slot": 13, "difficulty": 11.4}, {"clue_id": 10074234, "source": {"publication": "telegraph", "puzzle": "31269", "position": "7D", "pub_date": "2026-06-18"}, "clue": "Plant seeds while missing hard ground", "enum": "(9)", "answer": "EDELWEISS", "mode": "anagram", "kind": "anagram", "definition": {"text": "Plant", "highlighted": false}, "atoms": [{"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "seeds", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "seeds", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "seeds", "mechanism": "anagram_fodder"}, {"true": "D", "display": "D", "colour": "#1d6fb8", "source_index": 0, "source_word": "seeds", "mechanism": "anagram_fodder"}, {"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "seeds", "mechanism": "anagram_fodder"}, {"true": "W", "display": "W", "colour": "#2e8b57", "source_index": 1, "source_word": "while", "mechanism": "anagram_fodder"}, {"true": "H", "display": "H", "colour": "#2e8b57", "source_index": 1, "source_word": "while", "mechanism": "anagram_fodder"}, {"true": "I", "display": "I", "colour": "#2e8b57", "source_index": 1, "source_word": "while", "mechanism": "anagram_fodder"}, {"true": "L", "display": "L", "colour": "#2e8b57", "source_index": 1, "source_word": "while", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#2e8b57", "source_index": 1, "source_word": "while", "mechanism": "anagram_fodder"}], "assembly_order": [1, 3, 2, 8, 5, 9, 7, 0, 4], "anchors": [{"pos": 1, "atom_index": 3, "letter": "D"}, {"pos": 4, "atom_index": 5, "letter": "W"}, {"pos": 7, "atom_index": 0, "letter": "S"}], "bonus": {"question": "What is the definition?", "options": ["Plant", "seeds", "while"], "correct_index": 0}, "explanation": "E (seeds) + D (seeds) + E (seeds) + L (while) + W (while) + E (while) + I (while) + S (seeds) + S (seeds) → EDELWEISS. Definition: Plant. telegraph 31269 7D.", "slot": 14, "difficulty": 12.2}, {"clue_id": 2004706, "source": {"publication": "telegraph", "puzzle": "28980", "position": "12A", "pub_date": "2019-02-21"}, "clue": "60s mum keeps home", "enum": "(6)", "answer": "Minute", "mode": "hard", "kind": "split", "definition": {"text": "60s", "highlighted": false}, "atoms": [{"true": "M", "display": "M", "colour": "#1d6fb8", "source_index": 0, "source_word": "mum", "mechanism": "synonym"}, {"true": "UTE", "display": "UTE", "colour": "#1d6fb8", "source_index": 0, "source_word": "mum", "mechanism": "synonym"}, {"true": "IN", "display": "IN", "colour": "#2e8b57", "source_index": 1, "source_word": "home", "mechanism": "synonym"}], "assembly_order": [0, 2, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["mum", "60s", "keeps"], "correct_index": 1}, "explanation": "M (mum) + IN (home) + UTE (mum) → Minute. Definition: 60s. telegraph 28980 12A.", "slot": 15, "difficulty": 12.9}, {"clue_id": 2130201, "source": {"publication": "times", "puzzle": "5157", "position": "1A", "pub_date": "2025-03-30"}, "clue": "Soldiers also used in strategy", "enum": "(7)", "answer": "PLATOON", "mode": "hard", "kind": "split", "definition": {"text": "Soldiers", "highlighted": false}, "atoms": [{"true": "TOO", "display": "TOO", "colour": "#1d6fb8", "source_index": 0, "source_word": "also", "mechanism": "synonym"}, {"true": "PLA", "display": "PLA", "colour": "#2e8b57", "source_index": 1, "source_word": "strategy", "mechanism": "synonym"}, {"true": "N", "display": "N", "colour": "#2e8b57", "source_index": 1, "source_word": "strategy", "mechanism": "synonym"}], "assembly_order": [1, 0, 2], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Soldiers", "also", "used"], "correct_index": 0}, "explanation": "PLA (strategy) + TOO (also) + N (strategy) → PLATOON. Definition: Soldiers. times 5157 1A.", "slot": 16, "difficulty": 13.3}, {"clue_id": 10074025, "source": {"publication": "telegraph", "puzzle": "31268", "position": "19D", "pub_date": "2026-06-17"}, "clue": "Extra housing grand upper-class space for those arriving late", "enum": "(6)", "answer": "MORGUE", "mode": "hard", "kind": "split", "definition": {"text": "space for those arriving late", "highlighted": false}, "atoms": [{"true": "MOR", "display": "MOR", "colour": "#1d6fb8", "source_index": 0, "source_word": "Extra", "mechanism": "synonym"}, {"true": "E", "display": "E", "colour": "#1d6fb8", "source_index": 0, "source_word": "Extra", "mechanism": "synonym"}, {"true": "G", "display": "G", "colour": "#2e8b57", "source_index": 1, "source_word": "grand", "mechanism": "synonym"}, {"true": "U", "display": "U", "colour": "#d2691e", "source_index": 2, "source_word": "upper-class", "mechanism": "synonym"}], "assembly_order": [0, 2, 3, 1], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Extra", "space for those arriving late", "housing"], "correct_index": 1}, "explanation": "MOR (Extra) + G (grand) + U (upper-class) + E (Extra) → MORGUE. Definition: space for those arriving late. telegraph 31268 19D.", "slot": 17, "difficulty": 14.4}, {"clue_id": 1956834, "source": {"publication": "guardian", "puzzle": "28877", "position": "2D", "pub_date": "2022-10-01"}, "clue": "Cornish fare near ruin in old county", "enum": "(15)", "answer": "CAERNARFONSHIRE", "mode": "anagram", "kind": "anagram", "definition": {"text": "old county", "highlighted": false}, "atoms": [{"true": "C", "display": "C", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "O", "display": "O", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "R", "display": "R", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "N", "display": "N", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "I", "display": "I", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "S", "display": "S", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "H", "display": "H", "colour": "#1d6fb8", "source_index": 0, "source_word": "Cornish", "mechanism": "anagram_fodder"}, {"true": "F", "display": "F", "colour": "#2e8b57", "source_index": 1, "source_word": "fare", "mechanism": "anagram_fodder"}, {"true": "A", "display": "A", "colour": "#2e8b57", "source_index": 1, "source_word": "fare", "mechanism": "anagram_fodder"}, {"true": "R", "display": "R", "colour": "#2e8b57", "source_index": 1, "source_word": "fare", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#2e8b57", "source_index": 1, "source_word": "fare", "mechanism": "anagram_fodder"}, {"true": "N", "display": "N", "colour": "#d2691e", "source_index": 2, "source_word": "near", "mechanism": "anagram_fodder"}, {"true": "E", "display": "E", "colour": "#d2691e", "source_index": 2, "source_word": "near", "mechanism": "anagram_fodder"}, {"true": "A", "display": "A", "colour": "#d2691e", "source_index": 2, "source_word": "near", "mechanism": "anagram_fodder"}, {"true": "R", "display": "R", "colour": "#d2691e", "source_index": 2, "source_word": "near", "mechanism": "anagram_fodder"}], "assembly_order": [0, 8, 10, 2, 3, 13, 9, 7, 1, 11, 5, 6, 4, 14, 12], "anchors": [{"pos": 3, "atom_index": 2, "letter": "R"}, {"pos": 11, "atom_index": 6, "letter": "H"}], "bonus": {"question": "What is the definition?", "options": ["old county", "Cornish", "fare"], "correct_index": 0}, "explanation": "C (Cornish) + A (fare) + E (fare) + R (Cornish) + N (Cornish) + A (near) + R (fare) + F (fare) + O (Cornish) + N (near) + S (Cornish) + H (Cornish) + I (Cornish) + R (near) + E (near) → CAERNARFONSHIRE. Definition: old county. guardian 28877 2D.", "slot": 18, "difficulty": 17.0}, {"clue_id": 10075100, "source": {"publication": "telegraph", "puzzle": "31272", "position": "11A", "pub_date": "2026-06-22"}, "clue": "Like individual I included for criticism", "enum": "(9)", "answer": "ASPERSION", "mode": "hard", "kind": "split", "definition": {"text": "criticism", "highlighted": false}, "atoms": [{"true": "AS", "display": "AS", "colour": "#1d6fb8", "source_index": 0, "source_word": "Like", "mechanism": "synonym"}, {"true": "S", "display": "S", "colour": "#d2691e", "source_index": 2, "source_word": "individual", "mechanism": "synonym"}, {"true": "ON", "display": "ON", "colour": "#d2691e", "source_index": 2, "source_word": "individual", "mechanism": "synonym"}, {"true": "I", "display": "I", "colour": "#c2185b", "source_index": 3, "source_word": "I", "mechanism": "raw"}, {"true": "PER", "display": "PER", "colour": "#2e8b57", "source_index": 1, "source_word": "for", "mechanism": "synonym"}], "assembly_order": [0, 4, 1, 3, 2], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Like", "individual", "criticism"], "correct_index": 2}, "explanation": "AS (Like) + PER (for) + S (individual) + I (I) + ON (individual) → ASPERSION. Definition: criticism. telegraph 31272 11A.", "slot": 19, "difficulty": 17.1}, {"clue_id": 10076509, "source": {"publication": "times", "puzzle": "29581", "position": "1A", "pub_date": "2026-06-29"}, "clue": "Around noon, day before, say Black Prince danced with her", "enum": "(10)", "answer": "CINDERELLA", "mode": "hard", "kind": "split", "definition": {"text": "Prince danced with her", "highlighted": false}, "atoms": [{"true": "N", "display": "N", "colour": "#2e8b57", "source_index": 1, "source_word": "noon", "mechanism": "synonym"}, {"true": "D", "display": "D", "colour": "#d2691e", "source_index": 2, "source_word": "day", "mechanism": "synonym"}, {"true": "ERE", "display": "ERE", "colour": "#c2185b", "source_index": 3, "source_word": "before", "mechanism": "synonym"}, {"true": "CI", "display": "CI", "colour": "#1d6fb8", "source_index": 0, "source_word": "Black", "mechanism": "synonym"}, {"true": "LLA", "display": "LLA", "colour": "#1d6fb8", "source_index": 0, "source_word": "Black", "mechanism": "synonym"}], "assembly_order": [3, 0, 1, 2, 4], "anchors": [], "bonus": {"question": "What is the definition?", "options": ["Around", "Prince danced with her", "noon,"], "correct_index": 1}, "explanation": "CI (Black) + N (noon) + D (day) + ERE (before) + LLA (Black) → CINDERELLA. Definition: Prince danced with her. times 29581 1A.", "slot": 20, "difficulty": 17.5}]};
+const PUZZLES = DAY.clues;
+const TOTAL_TIME = DAY.time_limit_s || 120;
+const SKIP_PENALTY = DAY.skip_penalty_s || 30;
+
+let idx=0, timeLeft=TOTAL_TIME, timer=null;
+let placed=[], slots=[], results=[], solvedCount=0;
+let bonusUsed=false, bonusOpen=false, clueStartTimeLeft=TOTAL_TIME;
+const el=id=>document.getElementById(id);
+const answerLetters=p=>(p.answer||"").toUpperCase().replace(/[^A-Z]/g,"");
+
+function startGame(){
+  el("brandno").textContent="DAILY №"+DAY.puzzle_no+" · "+DAY.date;
+  el("skipbtn").textContent="Skip −0:"+String(SKIP_PENALTY).padStart(2,"0");
+  el("intro").classList.add("hidden");
+  el("game").classList.remove("hidden");
+  loadClue(0);
+  timer=setInterval(tick,1000);
+}
+/* Clock never freezes. It runs through the bonus question too — winning refunds
+   the time this clue has cost you (deliberation included), capped at 60s. While
+   the bonus modal is open we don't end the round even at 0:00, so a correct
+   answer's refund can still rescue it. */
+function tick(){ timeLeft--; paintTime(); if(timeLeft<=0 && !bonusOpen) endGame(); }
+function paintTime(){
+  const t=Math.max(timeLeft,0), m=Math.floor(t/60), s=String(t%60).padStart(2,"0");
+  el("ttext").textContent=m+":"+s;
+  el("bar").style.width=(100*t/TOTAL_TIME)+"%";
+  if(t<=15){el("bar").classList.add("low");el("ttext").classList.add("low");}
+}
+function clueHTML(p){
+  let text=p.clue;
+  if(p.definition && p.definition.highlighted && p.definition.text){
+    text=text.replace(p.definition.text,"<span class='defhl'>"+p.definition.text+"</span>");
+  }
+  return text+(p.enum?(" <span class='enum'>"+p.enum+"</span>"):"");
+}
+function loadClue(i){
+  idx=i; placed=[]; slots=[]; clueStartTimeLeft=timeLeft;
+  const p=PUZZLES[i];
+  el("count").textContent="Clue "+(i+1)+" of "+PUZZLES.length;
+  el("cluetext").innerHTML=clueHTML(p);
+  el("hint").textContent =
+    p.mode==="anagram" ? "Single letters — some are locked in place. Fill the blanks."
+    : p.mode==="easy"  ? "Letters inside each piece are jumbled. The definition is marked."
+    : "Clean pieces in clue order — no definition marked.";
+  el("banner").textContent=""; el("banner").className="banner";
+  if(p.mode==="anagram") initSlots(p);
+  render();
+}
+function tileText(p,a){ return (p.mode==="easy" && a.display)?a.display:a.true; }
+
+/* ---------- render dispatch ---------- */
+function render(){
+  const p=PUZZLES[idx];
+  if(p.mode==="anagram"){ renderSlots(); renderTrayAnagram(); }
+  else { renderRail(); renderTray(); }
+}
+
+/* ---------- assembly modes (rail append) ---------- */
+function renderRail(revealTrue){
+  const p=PUZZLES[idx];
+  let board=el("board");
+  board.className="rail"; board.classList.remove("wrong");
+  board.innerHTML="";
+  if(placed.length===0){ board.innerHTML="<span class='placeholder'>tap pieces below</span>"; return; }
+  placed.forEach((ai,pi)=>{
+    const a=p.atoms[ai];
+    const b=document.createElement("button");
+    b.className="tile"; b.style.background=a.colour;
+    b.textContent=revealTrue?a.true:tileText(p,a);
+    b.onclick=()=>{ placed.splice(pi,1); render(); };
+    board.appendChild(b);
+  });
+}
+function renderTray(){
+  const p=PUZZLES[idx], tray=el("tray"); tray.innerHTML="";
+  p.atoms.forEach((a,ai)=>{
+    const b=document.createElement("button");
+    b.className="tile"+(placed.includes(ai)?" used":"");
+    b.style.background=a.colour;
+    b.textContent=tileText(p,a);
+    b.onclick=()=>{ if(!placed.includes(ai)){ placed.push(ai); render();
+      if(placed.length===p.atoms.length) checkAssembly(); } };
+    tray.appendChild(b);
+  });
+}
+function checkAssembly(){
+  const p=PUZZLES[idx];
+  const built=placed.map(ai=>p.atoms[ai].true).join("");
+  if(built===answerLetters(p)){ win(()=>renderRail(true)); }
+  else { const b=el("board"); b.classList.add("wrong"); setTimeout(()=>b.classList.remove("wrong"),400); }
+}
+
+/* ---------- anagram mode (positional slots) ---------- */
+function initSlots(p){
+  const n=answerLetters(p).length;
+  slots=Array.from({length:n},()=>({atom:null,locked:false}));
+  (p.anchors||[]).forEach(an=>{ slots[an.pos]={atom:an.atom_index,locked:true}; });
+}
+function slotUsed(ai){ return slots.some(s=>s.atom===ai); }
+function renderSlots(revealTrue){
+  const p=PUZZLES[idx], board=el("board");
+  board.className="slots"; board.innerHTML="";
+  slots.forEach((s,pi)=>{
+    const d=document.createElement("div");
+    d.className="slot"+(s.atom===null?" empty":"")+(s.locked?" locked":"");
+    if(s.atom!==null){ const a=p.atoms[s.atom]; d.style.background=a.colour; d.textContent=a.true; }
+    else d.textContent="·";
+    if(s.atom!==null && !s.locked) d.onclick=()=>{ slots[pi]={atom:null,locked:false}; render(); };
+    board.appendChild(d);
+  });
+}
+function renderTrayAnagram(){
+  const p=PUZZLES[idx], tray=el("tray"); tray.innerHTML="";
+  p.atoms.forEach((a,ai)=>{
+    const b=document.createElement("button");
+    b.className="tile small"+(slotUsed(ai)?" used":"");
+    b.style.background=a.colour; b.textContent=a.true;
+    b.onclick=()=>{ if(slotUsed(ai))return;
+      const empty=slots.findIndex(s=>s.atom===null);
+      if(empty<0)return;
+      slots[empty]={atom:ai,locked:false}; render();
+      if(slots.every(s=>s.atom!==null)) checkAnagram(); };
+    tray.appendChild(b);
+  });
+}
+function checkAnagram(){
+  const p=PUZZLES[idx];
+  const built=slots.map(s=>p.atoms[s.atom].true).join("");
+  if(built===answerLetters(p)){ win(()=>{ el("board").classList.add("correct"); }); }
+  else { const b=el("board"); b.classList.add("wrong"); setTimeout(()=>b.classList.remove("wrong"),400); }
+}
+
+/* ---------- shared win / skip / advance ---------- */
+function win(revealFn){
+  solvedCount++; results[idx]="ok";
+  revealFn && revealFn();
+  el("board").classList.add("correct");
+  setTimeout(nextClue,650);
+}
+function skipClue(){
+  results[idx]="skip"; timeLeft-=SKIP_PENALTY; paintTime();
+  if(timeLeft<=0){ endGame(); return; }
+  nextClue();
+}
+function nextClue(){
+  el("board").classList.remove("correct");
+  if(idx+1<PUZZLES.length) loadClue(idx+1); else endGame();
+}
+
+/* ---------- bonus (win = time back, capped 60s) ---------- */
+function openBonus(){
+  if(bonusUsed)return;
+  const p=PUZZLES[idx]; if(!p.bonus)return;
+  bonusUsed=true; el("bonusbtn").disabled=true; bonusOpen=true;   /* clock keeps running */
+  const b=p.bonus;
+  el("bq").textContent=b.question;
+  el("bverdict").textContent=""; el("bverdict").className="verdict";
+  const opts=el("bopts"); opts.innerHTML="";
+  b.options.forEach((o,oi)=>{
+    const btn=document.createElement("button");
+    btn.className="opt"; btn.textContent=o;
+    btn.onclick=()=>answerBonus(oi===b.correct_index);
+    opts.appendChild(btn);
+  });
+  el("bonusoverlay").classList.remove("hidden");
+}
+function answerBonus(right){
+  const v=el("bverdict");
+  if(right){
+    const refund=Math.min(60, Math.max(0, clueStartTimeLeft - timeLeft));
+    timeLeft+=refund; paintTime();
+    v.textContent="Correct — "+refund+"s back."; v.className="verdict ok";
+    el("banner").textContent="✦ +"+refund+"s refunded (max 1:00)."; el("banner").className="banner ok";
+  }else{
+    v.textContent="Wrong — no refund."; v.className="verdict no";
+    el("banner").textContent="✦ Gamble lost. Bonus spent."; el("banner").className="banner no";
+  }
+  setTimeout(()=>{ el("bonusoverlay").classList.add("hidden"); bonusOpen=false;
+    if(timeLeft<=0) endGame(); },900);
+}
+
+/* ---------- results ---------- */
+function endGame(){
+  clearInterval(timer);
+  for(let i=0;i<PUZZLES.length;i++) if(!results[i]) results[i]="unreached";
+  el("game").classList.add("hidden"); el("bonusoverlay").classList.add("hidden");
+  el("results").classList.remove("hidden");
+  el("finalscore").textContent=solvedCount;
+  el("scoresub").textContent="of "+PUZZLES.length+" assembled";
+  const squares=results.map(r=>r==="ok"?"🟩":"⬜").join("");
+  el("sharetext").textContent="CRYPTICKER №"+DAY.puzzle_no+" · "+solvedCount+"/"+PUZZLES.length+(bonusUsed?" ✦":"")+"\n"+squares;
+  const rv=el("reveals"); rv.innerHTML="";
+  PUZZLES.forEach((p,i)=>{
+    const d=document.createElement("div"); d.className="rv";
+    // NEVER divulge a clue the player didn't reach — no clue text, answer or
+    // atoms. Only clues they actually saw (solved or skipped) get the reveal.
+    if(results[i]==="unreached"){
+      d.classList.add("locked");
+      d.innerHTML="<span class='res no'>not reached</span>"
+        +"<div class='c locked'>Clue "+(i+1)+" — locked. Reach it to see how it worked.</div>";
+      rv.appendChild(d); return;
+    }
+    const res=results[i]==="ok"?"<span class='res ok'>solved</span>"
+      :"<span class='res no'>skipped</span>";
+    let parse;
+    if(p.mode==="anagram"){
+      parse=p.atoms.map(a=>"<span class='mini' style='background:"+a.colour+"'>"+a.true+"</span>").join("")
+        +"<span class='arrow'>⟶</span><span class='ans'>"+p.answer+"</span>";
+    }else{
+      parse=p.assembly_order.map(ai=>{const a=p.atoms[ai];
+        return "<span class='mini' style='background:"+a.colour+"'>"+a.true+"</span>";}).join("")
+        +"<span class='arrow'>⟶</span><span class='ans'>"+p.answer+"</span>";
+    }
+    d.innerHTML=res+"<div class='c'>"+p.clue+" "+(p.enum||"")+"</div><div class='parse'>"+parse+"</div><div class='why'>"+(p.explanation||"")+"</div>";
+    rv.appendChild(d);
+  });
+}
+function copyShare(){
+  navigator.clipboard.writeText(el("sharetext").textContent).then(()=>{
+    el("copybtn").textContent="Copied"; setTimeout(()=>el("copybtn").textContent="Copy result",1500);
+  }).catch(()=>{});
+}
+</script>
+</body>
+</html>
