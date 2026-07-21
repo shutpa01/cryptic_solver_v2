@@ -115,7 +115,7 @@
       <li><b>Tap the pieces to assemble each answer.</b> Tap a placed piece to take it back. Each colour is one word from the clue — the pieces come in clue order, but the answer usually doesn't.</li>
       <li><b>Easier clues:</b> the letters inside a piece are jumbled, and the definition is marked in the clue. <b>Harder clues:</b> clean pieces, no definition marked.</li>
       <li><b>Anagrams:</b> single letters, with a few already locked in the right place to start you off.</li>
-      <li><b>One ✦ Bonus per round.</b> Answer a surprise question to win back the time this clue has cost you — up to a minute. Get it wrong and you've spent the time for nothing.</li>
+      <li><b>One ✦ Bonus per round.</b> Answer a surprise question, then solve the clue, to win back the time it cost you — up to a minute. Get the question wrong, or fail to solve the clue, and you've spent the time for nothing.</li>
       <li><b>Skip costs time. Two minutes. Score = answers built.</b></li>
     </ul>
     <button class="btn primary big" onclick="startGame()">Start the clock</button>
@@ -171,7 +171,7 @@ const SKIP_PENALTY = DAY.skip_penalty_s || 30;
 
 let idx=0, timeLeft=TOTAL_TIME, timer=null;
 let placed=[], slots=[], results=[], solvedCount=0;
-let bonusUsed=false, bonusOpen=false, clueStartTimeLeft=TOTAL_TIME;
+let bonusUsed=false, bonusOpen=false, bonusWon=false, clueStartTimeLeft=TOTAL_TIME;
 const el=id=>document.getElementById(id);
 const answerLetters=p=>(p.answer||"").toUpperCase().replace(/[^A-Z]/g,"");
 
@@ -202,14 +202,17 @@ function clueHTML(p){
   return text+(p.enum?(" <span class='enum'>"+p.enum+"</span>"):"");
 }
 function loadClue(i){
-  idx=i; placed=[]; slots=[]; clueStartTimeLeft=timeLeft;
+  idx=i; placed=[]; slots=[]; clueStartTimeLeft=timeLeft; bonusWon=false;
   const p=PUZZLES[i];
   el("count").textContent="Clue "+(i+1)+" of "+PUZZLES.length;
   el("cluetext").innerHTML=clueHTML(p);
-  el("hint").textContent =
-    p.mode==="anagram" ? "Single letters — some are locked in place. Fill the blanks."
-    : p.mode==="easy"  ? "Letters inside each piece are jumbled. The definition is marked."
-    : "Clean pieces in clue order — no definition marked.";
+  if(p.mode==="anagram"){
+    el("hint").textContent="Single letters — some are locked in place. Fill the blanks.";
+  }else{
+    el("hint").textContent =
+      (p.jumbled ? "Letters inside each piece are jumbled. " : "Clean pieces, clue order. ")
+      + (p.definition && p.definition.highlighted ? "The definition is marked." : "No definition marked.");
+  }
   el("banner").textContent=""; el("banner").className="banner";
   if(p.mode==="anagram") initSlots(p);
   render();
@@ -301,6 +304,15 @@ function checkAnagram(){
 /* ---------- shared win / skip / advance ---------- */
 function win(revealFn){
   solvedCount++; results[idx]="ok";
+  // Bonus refund is claimed HERE — only once the clue is actually solved. Winning
+  // the question alone gives nothing; you must finish the clue to get its time
+  // back (whole turn, deliberation included), capped at 60s.
+  if(bonusWon){
+    const refund=Math.min(60, Math.max(0, clueStartTimeLeft - timeLeft));
+    timeLeft+=refund; paintTime();
+    el("banner").textContent="✦ +"+refund+"s refunded (max 1:00)."; el("banner").className="banner ok";
+    bonusWon=false;
+  }
   revealFn && revealFn();
   el("board").classList.add("correct");
   setTimeout(nextClue,650);
@@ -335,10 +347,9 @@ function openBonus(){
 function answerBonus(right){
   const v=el("bverdict");
   if(right){
-    const refund=Math.min(60, Math.max(0, clueStartTimeLeft - timeLeft));
-    timeLeft+=refund; paintTime();
-    v.textContent="Correct — "+refund+"s back."; v.className="verdict ok";
-    el("banner").textContent="✦ +"+refund+"s refunded (max 1:00)."; el("banner").className="banner ok";
+    bonusWon=true;                        /* refund is granted on SOLVE, not now */
+    v.textContent="Correct — now solve the clue for your time back."; v.className="verdict ok";
+    el("banner").textContent="✦ Bonus won — solve this clue to claim up to 1:00 back."; el("banner").className="banner ok";
   }else{
     v.textContent="Wrong — no refund."; v.className="verdict no";
     el("banner").textContent="✦ Gamble lost. Bonus spent."; el("banner").className="banner no";

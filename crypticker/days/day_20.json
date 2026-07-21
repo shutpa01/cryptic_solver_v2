@@ -44,6 +44,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -97,6 +98,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -150,6 +152,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -203,6 +206,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -256,6 +260,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -297,7 +302,7 @@
         },
         {
           "true": "EAR",
-          "display": "EAR",
+          "display": "ARE",
           "colour": "#2e8b57",
           "source_index": 1,
           "source_word": "listener",
@@ -309,6 +314,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -350,7 +356,7 @@
         },
         {
           "true": "OPED",
-          "display": "OPED",
+          "display": "PODE",
           "colour": "#2e8b57",
           "source_index": 1,
           "source_word": "journalist’s opinion piece",
@@ -362,6 +368,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -395,7 +402,7 @@
       "atoms": [
         {
           "true": "PIE",
-          "display": "PIE",
+          "display": "IPE",
           "colour": "#1d6fb8",
           "source_index": 0,
           "source_word": "dessert",
@@ -403,7 +410,7 @@
         },
         {
           "true": "BALD",
-          "display": "BALD",
+          "display": "ADBL",
           "colour": "#2e8b57",
           "source_index": 1,
           "source_word": "unadorned",
@@ -415,6 +422,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -448,7 +456,7 @@
       "atoms": [
         {
           "true": "OFF",
-          "display": "OFF",
+          "display": "FOF",
           "colour": "#1d6fb8",
           "source_index": 0,
           "source_word": "not working",
@@ -456,7 +464,7 @@
         },
         {
           "true": "SPRING",
-          "display": "SPRING",
+          "display": "PGRSIN",
           "colour": "#2e8b57",
           "source_index": 1,
           "source_word": "well",
@@ -468,6 +476,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": true,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -521,6 +530,7 @@
         0
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -635,6 +645,7 @@
           "letter": "L"
         }
       ],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -749,6 +760,7 @@
           "letter": "I"
         }
       ],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -880,6 +892,7 @@
           "letter": "T"
         }
       ],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1020,6 +1033,7 @@
           "letter": "S"
         }
       ],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1082,6 +1096,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1144,6 +1159,7 @@
         2
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1215,6 +1231,7 @@
         1
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1396,6 +1413,7 @@
           "letter": "H"
         }
       ],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1476,6 +1494,7 @@
         2
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [
@@ -1556,6 +1575,7 @@
         4
       ],
       "anchors": [],
+      "jumbled": false,
       "bonus": {
         "question": "What is the definition?",
         "options": [

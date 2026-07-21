@@ -178,12 +178,16 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
         if mode is None:
             mode = "easy" if jumble_ok else "hard"
         highlighted = (mode == "easy")
-        # per-atom display: jumble only in easy mode, only tiles of 3+ letters
+        # A charade's tiles sit in ANSWER order, so clean tiles would spell the
+        # answer outright (OFF + SPRING = OFFSPRING). Jumble charade tiles in
+        # EVERY mode so the answer is never on show. Reorder/split tiles stay
+        # clean — for those the non-trivial order IS the puzzle. Mode then only
+        # controls whether the definition is marked.
         out_atoms = []
         for i, a in enumerate(atoms):
             true = a["true"]
             display = true
-            if mode == "easy" and len(true) >= 3:
+            if jumble_ok and len(true) >= 3:
                 display = jumble(true, clue_id * 100 + i)
             out_atoms.append({
                 "true": true, "display": display,
@@ -213,6 +217,7 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
         "atoms": out_atoms,
         "assembly_order": assembly_order,
         "anchors": anchors,               # pre-placed positions (anagram foothold); [] otherwise
+        "jumbled": any(o["display"] != o["true"] for o in out_atoms),
         "bonus": bonus_question(parse, atoms),
         "explanation": explanation(parse, atoms, assembly_order, source),
     }
