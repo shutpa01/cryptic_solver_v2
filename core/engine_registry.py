@@ -92,7 +92,7 @@ def make_db_wiring():
     def _norm_ans(text):
         return (text or "").upper().replace(" ", "").replace("-", "")
 
-    _live_def_index, _live_ind_index, _subst_index = {}, {}, {}
+    _live_def_index, _live_ind_index = {}, {}
     try:
         _c = sqlite3.connect(cryptic_db, timeout=30)
         try:
@@ -104,18 +104,10 @@ def make_db_wiring():
                     "SELECT word, wordplay_type FROM indicators"):
                 if wd and wt:
                     _live_ind_index.setdefault(wd.lower().strip(), set()).add(wt)
-            # The small dedicated substitutions table (original_word -> substitution,
-            # e.g. times->X, artists->RA): folded into all_values so the anagram-
-            # substitution engine can draw a fodder letter from ANY table, not just one.
-            for ow, sub in _c.execute(
-                    "SELECT original_word, substitution FROM substitutions"):
-                if ow and sub:
-                    _subst_index.setdefault(ow.lower().strip(), []).append(
-                        (sub.strip().upper(), "substitution"))
         finally:
             _c.close()
     except Exception:
-        _live_def_index, _live_ind_index, _subst_index = {}, {}, {}
+        _live_def_index, _live_ind_index = {}, {}
 
     # The curated literal lexicon (short function words a setter may use as their own
     # letters: it->IT). Was a hardcoded frozenset in core.literals; now the live
@@ -415,19 +407,14 @@ def make_db_wiring():
 
     def all_values(word):
         """Every (value, mechanism) a word can take, across ALL tables — synonyms,
-        abbreviations and curated literals (via lookup_all) PLUS the substitutions table.
-        Used by the anagram-substitution engine, which deduces the EXACT residual letters
-        it needs, so a permissive multi-table source is safe (the residual match filters)."""
+        abbreviations and curated literals (via lookup_all). Used by the anagram-
+        substitution engine, which deduces the EXACT residual letters it needs, so a
+        permissive multi-table source is safe (the residual match filters)."""
         out, seen = [], set()
         for val, mech in lookup_all(word):
             if (val, mech) not in seen:
                 seen.add((val, mech))
                 out.append((val, mech))
-        for v in _match_variants(word):
-            for pair in _subst_index.get(v.lower().strip(), ()):
-                if pair not in seen:
-                    seen.add(pair)
-                    out.append(pair)
         return out
 
     def lookup(word, answer):

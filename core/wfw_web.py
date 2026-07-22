@@ -3009,24 +3009,20 @@ def hs_route():
 @app.route("/hslookup")
 def hslookup_route():
     """AJAX candidate values for a ticked word-group: synonyms + abbreviations (the wordplay
-    table) + substitutions. A LOOKUP, never a solve. Abbreviations/substitutions are listed
-    FIRST (they are the short wordplay values the user hunts for and must never be crowded out
-    of the list by the synonyms), then the synonyms; BOTH groups sorted ALPHABETICALLY so a
-    value is easy to find among many. `del` marks a DIRECT synonyms_pairs row (prunable if rogue)."""
+    table). A LOOKUP, never a solve. Abbreviations are listed FIRST (they are the short
+    wordplay values the user hunts for and must never be crowded out of the list by the
+    synonyms), then the synonyms; BOTH groups sorted ALPHABETICALLY so a value is easy to
+    find among many. `del` marks a DIRECT synonyms_pairs row (prunable if rogue)."""
     import json, sqlite3
     phrase = (request.args.get("phrase") or "").strip()
     abbr, syn = [], []
     if phrase:
-        direct, subs = set(), set()
+        direct = set()
         try:
             con = sqlite3.connect(admin_db.CRYPTIC_DB)
             for (v,) in con.execute("SELECT synonym FROM synonyms_pairs "
                                     "WHERE lower(word)=lower(?)", (phrase,)):
                 direct.add((v or "").upper())
-            for (v,) in con.execute("SELECT substitution FROM substitutions "
-                                    "WHERE lower(original_word)=lower(?)", (phrase,)):
-                if v:
-                    subs.add(v.strip().upper())
             con.close()
         except Exception:
             pass
@@ -3055,9 +3051,6 @@ def hslookup_route():
                     abbr.append({"v": v, "m": "abbreviation", "del": bool(dk), "dk": dk})
                 else:
                     syn.append({"v": v, "m": "synonym", "del": bool(dk), "dk": dk})
-            for v in subs:                                 # the substitutions table
-                if v and v not in mechs:
-                    abbr.append({"v": v, "m": "substitution", "del": False})
         except Exception:
             abbr, syn = [], []
     abbr.sort(key=lambda d: d["v"])
@@ -4758,8 +4751,14 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # build. The human /hs path (verify_db=False) is unchanged — the human is authority.
             piece_src = "db"
             if verify_db and role in ("synonym", "substitution"):
-                in_db = (admin_db.has_synonym(phrase, value) if role == "synonym"
-                         else admin_db.has_substitution(phrase, value))
+                # A letter-source is DB-backed if EITHER reference table justifies it. The
+                # honesty gate only guards against a FABRICATED source; a value the DB already
+                # holds under an equivalent role (a synonym present as an abbreviation, or vice
+                # versa) is not fabricated, so it must not be re-queued just because THIS reading
+                # tagged the word the other way. (home->IN lives in wordplay; a 'synonym'
+                # reading must not re-propose it.) Check both tables, not only the role's own.
+                in_db = (admin_db.has_synonym(phrase, value)
+                         or admin_db.has_substitution(phrase, value))
                 if not in_db:
                     # Queue + reject-check on the SAME queue type the piece's role resolves to,
                     # so the panel's Accept routes to the SAME table the gate checks: a

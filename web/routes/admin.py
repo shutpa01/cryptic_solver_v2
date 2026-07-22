@@ -166,6 +166,15 @@ def accept_enrichment(clue_id, word_index):
         "AND LOWER(word)=? AND UPPER(letters)=?",
         (etype, word.lower(),
          letters.upper() if etype != "indicator" else letters.lower()))
+    # Drop the matching queued row(s): Accept has just added this pair to the reference DB,
+    # so it is no longer a gap and must stop re-appearing in the enrichment review. An
+    # abbreviation may have been queued as either 'abbreviation' or 'substitution'.
+    pend_types = ("abbreviation", "substitution") if etype == "abbreviation" else (etype,)
+    db.execute(
+        "DELETE FROM pending_enrichments WHERE type IN (%s) "
+        "AND LOWER(word)=LOWER(?) AND LOWER(letters)=LOWER(?)"
+        % ",".join("?" for _ in pend_types),
+        (*pend_types, word, letters))
     db.commit()
     return ('<span class="text-xs text-emerald-700 font-medium">'
             f'Accepted: {etype}</span>')
