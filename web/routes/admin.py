@@ -697,7 +697,14 @@ def _rerun_clue_inner(clue_id, mechanical_only=False, force=False):
             message = "fifteensquared error: %s" % e
 
     # For Times clues, try TFTT first
-    if not success and source == "times" and answer:
+    # TFTT+haiku explainer DISABLED 2026-07-23: Haiku mis-parsed the Times-for-the-Times
+    # blog, extracting the wrong definition span (e.g. "Criminal"->IRATE, "guards"->COMMIE)
+    # and OVERWRITING clues.definition / ai_explanation with wrong readings the user then
+    # had to correct (74 in the backlog). Serving is wfw-based and unaffected; TFTT provides
+    # neither answers (scraper does) nor the public explanation (wfw does). The 4am
+    # "TFTT Retry" scheduled task is disabled too. To re-enable: restore `if not success`
+    # below and Enable-ScheduledTask "TFTT Retry".
+    if False and not success and source == "times" and answer:
         try:
             from sonnet_pipeline.tftt_pipeline import (
                 fetch_tftt, parse_with_haiku, score_parse, store_tftt_result
