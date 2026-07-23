@@ -4751,14 +4751,15 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # build. The human /hs path (verify_db=False) is unchanged — the human is authority.
             piece_src = "db"
             if verify_db and role in ("synonym", "substitution"):
-                # A letter-source is DB-backed if EITHER reference table justifies it. The
-                # honesty gate only guards against a FABRICATED source; a value the DB already
-                # holds under an equivalent role (a synonym present as an abbreviation, or vice
-                # versa) is not fabricated, so it must not be re-queued just because THIS reading
-                # tagged the word the other way. (home->IN lives in wordplay; a 'synonym'
-                # reading must not re-propose it.) Check both tables, not only the role's own.
-                in_db = (admin_db.has_synonym(phrase, value)
-                         or admin_db.has_substitution(phrase, value))
+                # A letter-source is DB-backed if the SOLVER'S OWN lookup can derive it — the
+                # bidirectional, inflection-aware, cross-table get_synonyms/get_abbreviations the
+                # engines use (admin_db.db_derives). The honesty gate only guards against a
+                # FABRICATED source; a value the engine can already resolve from the DB is not
+                # fabricated, so it must never be re-queued. Using the directional reference-table
+                # checks (has_synonym/has_substitution) was the bug: they miss a pair the DB stores
+                # the other way round (in->HOME stored only as Home->IN / home->in) OR under the
+                # other role, so the gate kept re-proposing values the engine already knows.
+                in_db = admin_db.db_derives(phrase, value)
                 if not in_db:
                     # Queue + reject-check on the SAME queue type the piece's role resolves to,
                     # so the panel's Accept routes to the SAME table the gate checks: a

@@ -169,6 +169,35 @@ def has_substitution(word, value):
         conn.close()
 
 
+def db_derives(word, value):
+    """True if the SOLVER'S OWN lookup can derive `value` from `word` — the same
+    bidirectional, inflection-aware synonym/abbreviation lookup the engines use
+    (core.live_db.LiveDB.get_synonyms / get_abbreviations). The prefill honesty gate
+    MUST use THIS, not the directional has_synonym / has_substitution reference-table
+    checks: those miss a pair the DB stores the OTHER way round — e.g. 'in' -> HOME is
+    stored only as Home->IN (synonyms_pairs) / home->in (wordplay), so the directional
+    check re-queued a value the engine can already resolve (clue 10081049 FATHOM,
+    2026-07-23). The gate only guards against a FABRICATED source; anything the engine
+    can derive from the DB is, by definition, not fabricated, so it must not be queued.
+    Best-effort: any error -> False (treat as an enrichment gap, never a false pass)."""
+    word = (word or "").strip()
+    value = (value or "").strip().upper()
+    if not word or not value:
+        return False
+    try:
+        from core.live_db import LiveDB
+        db = LiveDB()
+        try:
+            return value in db.get_synonyms(word) or value in db.get_abbreviations(word)
+        finally:
+            try:
+                db._conn.close()
+            except Exception:
+                pass
+    except Exception:
+        return False
+
+
 def add_link_word(word):
     """Add a joining/link word to the link_words table (cryptic_new.db). A link word is
     glue an engine may skip between pieces (e.g. 'has' in 'X has Y'); it carries no
