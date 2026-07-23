@@ -72,7 +72,12 @@ class LiveDB:
             multiword = " " in (word or "").strip()
             for v in self._word_variants(word):        # v is already a normalized key
                 for (s,) in self._conn.execute(
-                        "SELECT synonym FROM synonyms_pairs WHERE norm_word=?", (v,)):
+                        # api_mw_mesh EXCLUDED 2026-07-23 (user): ~796k uncurated Merriam-Webster
+                        # "words related to X" rows produced over-broad / wrong matches. Filtered
+                        # out of the solver's synonym lookup here (both passes). Rows are KEPT in
+                        # the table; delete this AND clause (both queries) to re-enable.
+                        "SELECT synonym FROM synonyms_pairs WHERE norm_word=? "
+                        "AND (source IS NULL OR source <> 'api_mw_mesh')", (v,)):
                     su = (s or "").strip().upper()
                     if su and su not in seen:
                         seen.add(su); out.append(su)
@@ -93,7 +98,8 @@ class LiveDB:
             for v in self._word_variants(word):
                 for (wd,) in self._conn.execute(
                         "SELECT word FROM synonyms_pairs "
-                        "WHERE synonym=? COLLATE NOCASE", (v,)):
+                        "WHERE synonym=? COLLATE NOCASE "
+                        "AND (source IS NULL OR source <> 'api_mw_mesh')", (v,)):
                     su = (wd or "").strip().upper()
                     if su and su not in seen:
                         seen.add(su); out.append(su)
