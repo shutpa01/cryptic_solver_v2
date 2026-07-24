@@ -978,14 +978,15 @@ def _enrichment_block(clue_text, answer, clue_id, raw_list):
     # click — the whole point is a single click, so it shows whenever there is anything to
     # approve (rows is always >=1 here; the block returns "" above when empty). The
     # per-row Approve / Reject stay for selective review.
+    # _hidden already emits both `id` (the clutch list) and `only` (this clue id),
+    # which is exactly what /approveall reads — no extra hidden field needed.
     h = _hidden(raw_list, clue_id)
     out.append(
         '<form method="post" action="/approveall" class="wfw-eform" '
         'style="margin:0 0 .4rem">%s'
-        '<input type="hidden" name="only" value="%d">'
         '<button class="wfw-ok" title="Approve all %d enrichment%s and Confirm the '
         'solve">Approve all &amp; Confirm (%d)</button></form>'
-        % (h, clue_id, len(rows), "" if len(rows) == 1 else "s", len(rows)))
+        % (h, len(rows), "" if len(rows) == 1 else "s", len(rows)))
     for pid, typ, word, letters, ans in rows:
         out.append(_enrich_row(pid, typ, word, letters, ans, clue_id, raw_list))
     out.append("</div>")
