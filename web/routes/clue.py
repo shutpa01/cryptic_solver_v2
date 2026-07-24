@@ -532,8 +532,12 @@ def clue_page(slug):
                 if in_db:
                     break
                 in_db = ref_acc.execute(
-                    "SELECT 1 FROM synonyms_pairs WHERE LOWER(word)=? "
-                    "AND UPPER(synonym)=? LIMIT 1",
+                    # COLLATE NOCASE (not LOWER(word)=) so the synonym NOCASE index is
+                    # SEEKABLE — LOWER(column) forced a full 1.35M-row scan (~274ms per
+                    # piece per page load); this is a sub-ms seek. Same case-insensitive
+                    # result. (perf fix 2026-07-24)
+                    "SELECT 1 FROM synonyms_pairs WHERE word=? COLLATE NOCASE "
+                    "AND synonym=? COLLATE NOCASE LIMIT 1",
                     (ph.lower(), letters.upper())).fetchone()
         elif role in ("abbreviation", "abbreviation_source") and letters:
             target = ("abbreviation", phrase, letters.upper())
@@ -655,8 +659,10 @@ def clue_page(slug):
                 for _ph in _phrase_variants(_src):
                     if _kind == 'synonym':
                         r = ref_acc.execute(
+                            # COLLATE NOCASE -> seekable NOCASE index (was a full
+                            # 1.35M-row scan via LOWER(word)=). perf fix 2026-07-24.
                             "SELECT 1 FROM synonyms_pairs WHERE "
-                            "LOWER(word)=? AND UPPER(synonym)=? LIMIT 1",
+                            "word=? COLLATE NOCASE AND synonym=? COLLATE NOCASE LIMIT 1",
                             (_ph.lower(), _ltrs.upper())).fetchone()
                     else:
                         r = ref_acc.execute(
