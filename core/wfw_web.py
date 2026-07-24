@@ -974,18 +974,18 @@ def _enrichment_block(clue_text, answer, clue_id, raw_list):
     if not rows:
         return ""
     out = ['<div class="wfw-enrich"><div class="wfw-enrich-h">Enrichment needed</div>']
-    # Approve-all: accept EVERY queued row for this clue AND Confirm the prefill in one
-    # click (the individual Approve / Reject below stay for selective review). Only shown
-    # when there is more than one row — a single row is already one click via its Approve.
-    if len(rows) > 1:
-        h = _hidden(raw_list, clue_id)
-        out.append(
-            '<form method="post" action="/approveall" class="wfw-eform" '
-            'style="margin:0 0 .4rem">%s'
-            '<input type="hidden" name="only" value="%d">'
-            '<button class="wfw-ok" title="Approve all %d enrichments and Confirm the '
-            'solve">Approve all &amp; Confirm (%d)</button></form>'
-            % (h, clue_id, len(rows), len(rows)))
+    # Approve-all: accept EVERY queued row for this clue AND Confirm the prefill in ONE
+    # click — the whole point is a single click, so it shows whenever there is anything to
+    # approve (rows is always >=1 here; the block returns "" above when empty). The
+    # per-row Approve / Reject stay for selective review.
+    h = _hidden(raw_list, clue_id)
+    out.append(
+        '<form method="post" action="/approveall" class="wfw-eform" '
+        'style="margin:0 0 .4rem">%s'
+        '<input type="hidden" name="only" value="%d">'
+        '<button class="wfw-ok" title="Approve all %d enrichment%s and Confirm the '
+        'solve">Approve all &amp; Confirm (%d)</button></form>'
+        % (h, clue_id, len(rows), "" if len(rows) == 1 else "s", len(rows)))
     for pid, typ, word, letters, ans in rows:
         out.append(_enrich_row(pid, typ, word, letters, ans, clue_id, raw_list))
     out.append("</div>")
