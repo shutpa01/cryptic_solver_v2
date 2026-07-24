@@ -974,6 +974,18 @@ def _enrichment_block(clue_text, answer, clue_id, raw_list):
     if not rows:
         return ""
     out = ['<div class="wfw-enrich"><div class="wfw-enrich-h">Enrichment needed</div>']
+    # Approve-all: accept EVERY queued row for this clue AND Confirm the prefill in one
+    # click (the individual Approve / Reject below stay for selective review). Only shown
+    # when there is more than one row — a single row is already one click via its Approve.
+    if len(rows) > 1:
+        h = _hidden(raw_list, clue_id)
+        out.append(
+            '<form method="post" action="/approveall" class="wfw-eform" '
+            'style="margin:0 0 .4rem">%s'
+            '<input type="hidden" name="only" value="%d">'
+            '<button class="wfw-ok" title="Approve all %d enrichments and Confirm the '
+            'solve">Approve all &amp; Confirm (%d)</button></form>'
+            % (h, clue_id, len(rows), len(rows)))
     for pid, typ, word, letters, ans in rows:
         out.append(_enrich_row(pid, typ, word, letters, ans, clue_id, raw_list))
     out.append("</div>")
@@ -5076,6 +5088,18 @@ def prefillconfirm_route():
         return _page('<div class="wfw-notice">No clue.</div>'
                      + _body(raw, resolve_only=set()))
     cid = int(only)
+    msg = _confirm_prefill(cid)
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
+
+
+def _confirm_prefill(cid):
+    """Re-validate a clue's PENDING prefill reading through _build_manual_parse (the SAME
+    gate as a hand commit), promote it to a FROZEN manual pass, and harvest the reusable
+    pieces to the reference DB. Returns a human message. Shared by /prefillconfirm and
+    /approveall so the two paths cannot diverge. Refuses anything that is not a pending
+    prefill, or whose reading still leans on an AI piece the reference DB does not back."""
+    import json
     conn = store.connect()
     try:
         sp = store.load_parse(conn, cid)
@@ -5084,49 +5108,103 @@ def prefillconfirm_route():
         conn.close()
     if sp is None or getattr(sp, "solved_by", "") != "prefill" \
             or sp.status != "pending":
-        msg = "Not a pending prefill reading — nothing confirmed."
-    else:
-        try:
-            assigns = json.loads(saved) if saved else []
-        except Exception:
-            assigns = []
-        built = _build_manual_parse(cid, assigns, verify_db=True)
-        if not built["ok"]:
-            msg = "Confirm refused — %s" % built["msg"]
-        else:
-            # Block a pass built on an UNVERIFIED wordplay assertion — a synonym/abbreviation
-            # piece the reference DB does not back (the take->R trap). A provisional HOMOPHONE
-            # is NOT blocked: its sound is dictionary-verified, only the pair's DB-sanction is
-            # pending (existing design — it may pass provisionally). The user Accepts a genuine
-            # piece (it enters the DB, Confirm then passes) or Rejects it (clue stays unsolved).
-            prov = [s for s in built["parse"].sources
-                    if getattr(s, "source", "db") == "pending"
-                    and getattr(s, "mechanism", "") in ("synonym", "abbreviation")]
-            if prov:
-                msg = ("Confirm refused — this reading uses %d AI-proposed piece%s the "
-                       "reference DB does not back: %s. Accept the genuine one%s (it enters "
-                       "the DB, then Confirm passes) or reject it in the review queue first."
-                       % (len(prov), "" if len(prov) == 1 else "s",
-                          "; ".join("%s → %s" % (s.text, s.value) for s in prov),
-                          "" if len(prov) == 1 else "s"))
-                notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-                return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
-            conn = store.connect()
-            try:
-                store.save_parse(conn, cid, built["parse"], built["ctx"])
-                store.set_frozen(conn, cid)
-                conn.commit()
-            finally:
-                conn.close()
-            added, present, rejected = _apply_db_adds(built["db_adds"])
-            msg = "Confirmed — now your frozen manual solve."
-            if added:
-                msg += " Saved to reference DB: %d new (%s)." % (
-                    len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
-            if present:
-                msg += " %d already in DB." % len(present)
-            if rejected:
-                msg += " Not saved: %s." % "; ".join(rejected)
+        return "Not a pending prefill reading — nothing confirmed."
+    try:
+        assigns = json.loads(saved) if saved else []
+    except Exception:
+        assigns = []
+    built = _build_manual_parse(cid, assigns, verify_db=True)
+    if not built["ok"]:
+        return "Confirm refused — %s" % built["msg"]
+    # Block a pass built on an UNVERIFIED wordplay assertion — a synonym/abbreviation
+    # piece the reference DB does not back (the take->R trap). A provisional HOMOPHONE
+    # is NOT blocked: its sound is dictionary-verified, only the pair's DB-sanction is
+    # pending (existing design — it may pass provisionally). The user Accepts a genuine
+    # piece (it enters the DB, Confirm then passes) or Rejects it (clue stays unsolved).
+    prov = [s for s in built["parse"].sources
+            if getattr(s, "source", "db") == "pending"
+            and getattr(s, "mechanism", "") in ("synonym", "abbreviation")]
+    if prov:
+        return ("Confirm refused — this reading uses %d AI-proposed piece%s the "
+                "reference DB does not back: %s. Accept the genuine one%s (it enters "
+                "the DB, then Confirm passes) or reject it in the review queue first."
+                % (len(prov), "" if len(prov) == 1 else "s",
+                   "; ".join("%s → %s" % (s.text, s.value) for s in prov),
+                   "" if len(prov) == 1 else "s"))
+    conn = store.connect()
+    try:
+        store.save_parse(conn, cid, built["parse"], built["ctx"])
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    added, present, rejected = _apply_db_adds(built["db_adds"])
+    msg = "Confirmed — now your frozen manual solve."
+    if added:
+        msg += " Saved to reference DB: %d new (%s)." % (
+            len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
+    if present:
+        msg += " %d already in DB." % len(present)
+    if rejected:
+        msg += " Not saved: %s." % "; ".join(rejected)
+    return msg
+
+
+# pending type -> the synthetic /enrich form dict, so Approve-all reuses _do_add +
+# apply_add_to_wiring exactly as a single Approve does (no separate add path to drift).
+def _pending_add_form(typ, word, letters, answer):
+    if typ == "definition":
+        return {"kind": "definition", "definition": word, "answer": answer or letters}
+    if typ == "synonym":
+        return {"kind": "synonym", "word": word, "synonym": letters}
+    if typ == "substitution":
+        return {"kind": "substitution", "word": word, "value": letters}
+    if typ == "indicator":
+        return {"kind": "indicator", "word": word, "type": letters, "subtype": ""}
+    if typ == "homophone":
+        return {"kind": "homophone", "word": word, "homophone": letters}
+    return None
+
+
+@app.route("/approveall", methods=["POST"])
+def approveall_route():
+    """ONE-CLICK: approve EVERY queued enrichment for this clue, then Confirm the prefill.
+    Each enrichment is added to the reference DB and dropped from the queue exactly as a
+    single Approve (/enrich) does; then the reading is re-validated, frozen and harvested via
+    the shared _confirm_prefill (same as /prefillconfirm). The per-enrichment Approve / Reject
+    stay for selective review — this is only for when you want to accept the whole reading."""
+    raw = (request.form.get("id") or "").strip()
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _page('<div class="wfw-notice">No clue.</div>'
+                     + _body(raw, resolve_only=set()))
+    cid = int(only)
+    # clue_text + letters-only answer identify this clue's queued rows (same keys the
+    # enrichment block renders from).
+    conn = admin_db._mconn()
+    try:
+        row = conn.execute("SELECT clue_text, answer FROM clues WHERE id=?",
+                           (cid,)).fetchone()
+    finally:
+        conn.close()
+    if not row:
+        return _page('<div class="wfw-notice">No clue.</div>'
+                     + _body(raw, resolve_only=set()))
+    clue_text = row[0] or ""
+    ans_letters = "".join(c for c in (row[1] or "").upper() if c.isalpha())
+    pend = admin_db.pending_for_clue(clue_text, ans_letters)
+    approved = 0
+    for pid, typ, word, letters, ans in pend:
+        form = _pending_add_form(typ, word, letters, ans)
+        if form is None:
+            continue
+        _do_add(form)                       # write to the reference DB (like /enrich)
+        apply_add_to_wiring(form)           # keep the cached wiring consistent
+        admin_db.delete_pending(pid)        # drop from the queue
+        approved += 1
+    confirm_msg = _confirm_prefill(cid)     # re-validate, freeze, harvest
+    msg = ("Approved %d enrichment%s. %s"
+           % (approved, "" if approved == 1 else "s", confirm_msg))
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
