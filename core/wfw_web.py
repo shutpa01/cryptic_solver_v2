@@ -398,8 +398,15 @@ def enrich():
     only = (request.form.get("only") or "").strip()
     pid = (request.form.get("pending_id") or "").strip()
     msg = _do_add(request.form)
-    if pid and not msg.startswith(("Definition and", "Word and", "Indicator word")):
-        admin_db.delete_pending(pid)               # accepted -> leave the queue
+    # Drop the queued row ONLY when the add SUCCEEDED (or the piece is already in the DB).
+    # Every adder returns "Added ..." / "Already ..." / "Approved ..." on success and an
+    # error SENTENCE on failure. The old check listed a FEW error prefixes to skip, so any
+    # OTHER error slipped through and deleted the pending row even though NOTHING was written
+    # — e.g. approving a selection indicator hit add_indicator's "A selection indicator needs
+    # a sub-type", wrote nothing, yet the queued enrichment was silently lost and Confirm
+    # stayed blocked forever (clue 10082098, 2026-07-30). Match success prefixes instead.
+    if pid and msg.startswith(("Added", "Already", "Approved")):
+        admin_db.delete_pending(pid)               # accepted / already present -> leave queue
     # Fold the approved piece into the cached wiring incrementally (see /admin) — no
     # full rebuild / 643k-row rescan.
     apply_add_to_wiring(request.form)
@@ -1020,11 +1027,28 @@ def _enrich_row(pid, typ, word, letters, ans, clue_id, raw_list):
                   f'<input name="value" value="{v}">')
         kind = "substitution"
     elif typ == "indicator":
+        qtype = (letters or "").lower()
         opts = "".join('<option value="%s"%s>%s</option>'
-                       % (t, " selected" if t == (letters or "").lower() else "", t)
+                       % (t, " selected" if t == qtype else "", t)
                        for t in _IND_TYPES)
+        # SUB-TYPE dropdown. add_indicator REJECTS a selection/letter_shift/positional
+        # indicator with no sub-type, so an approve row WITHOUT this field could never write
+        # those types — the add failed and (before the /enrich guard fix) the queue row was
+        # eaten. Render the sub-type options for the QUEUED type server-side (correct for the
+        # common approve-as-queued path, no JS needed); onchange repopulates via window.wfwSub
+        # when that helper is present (the clue admin panel defines it), else no-ops safely.
+        subs = _IND_SUBTYPES.get(qtype, [])
+        # Pre-select the sub-type read off this clue's solved parse (the direction is a fact of
+        # the assembly), so approving a positional/selection indicator is one click, not a pick.
+        _dsub = _indicator_subtype_from_parse(clue_id, qtype) if subs else ""
+        sub_opts = "".join('<option value="%s"%s>%s</option>'
+                           % (escape(c, quote=True), " selected" if c == _dsub else "", escape(lbl))
+                           for c, lbl in subs)
+        sub_sel = ('<select name="subtype" title="indicator sub-type">%s</select>' % sub_opts
+                   if subs else '<select name="subtype" style="display:none"></select>')
         fields = (f'<input name="word" value="{w}">'
-                  f'<select name="type">{opts}</select>')
+                  f'<select name="type" onchange="if(window.wfwSub)window.wfwSub(this)">{opts}</select>'
+                  f'{sub_sel}')
         kind = "indicator"
     elif typ == "homophone":
         # A tentative sound-alike pair: word SOUNDS LIKE letters (e.g. sole -> SOUL).
@@ -1456,16 +1480,110 @@ def _itype_from_note(note):
     a bare type (or none); the user adjusts."""
     n = (note or "").strip().lower()
     itype = ""
-    for t in sorted(_IND_TYPES, key=len, reverse=True):
-        if t in n:
-            itype = t
-            break
+    # Both charade-positional engines write the note as "positional indicator (<direction>...)"
+    # (charade_positional_engine.py / charade_positional_local_engine.py) — the TYPE NAME
+    # 'charade_positional' never appears in the note, so the generic type-scan below can't
+    # find it and the seeded suggestion loses BOTH its type and direction. Match on the
+    # engine's phrase and let the subtype loop pull the direction (after/before; the down
+    # variants collapse to after/before, which add_indicator accepts) so the seeded /hs
+    # suggestion carries the direction — enabling one-click Approve for the whole class.
+    if "positional indicator" in n:
+        itype = "charade_positional"
+    else:
+        for t in sorted(_IND_TYPES, key=len, reverse=True):
+            if t in n:
+                itype = t
+                break
     isub = ""
     for sv, _lbl in _IND_SUBTYPES.get(itype, []):
         if sv and sv in n:
             isub = sv
             break
     return itype, isub
+
+
+def _derive_positional_direction(parse, ind):
+    """Recover a charade_positional indicator's direction (after/before) from the SOLVED
+    assembly. A positional charade is answer-driven — the piece order that builds the answer
+    IS the direction — so this is a fact of the solve, never a guess. LEFT = pieces whose clue
+    words precede the indicator, RIGHT = those after it; if the LEFT group's letters lead the
+    answer the pivot is LEFT+RIGHT ('before'), else RIGHT+LEFT ('after')
+    (core/charade_positional_engine.py:22-23). This is the fallback for a parse whose NOTE was
+    flattened (a prior hand-commit dropped the sub-type); an engine parse still carries it in
+    the note and never reaches here. ABSTAINS ('') when the assembly does not cleanly split —
+    no sources/links, or a piece straddles the indicator — rather than guess wrong."""
+    atoms = set(getattr(ind, "clue_atom_ids", ()) or ())
+    if not atoms:
+        return ""
+    ind_min = min(atoms)
+    pos_by_src = {}
+    for l in (parse.links or []):
+        pos_by_src.setdefault(l.source_index, []).append(l.answer_pos)
+    left, right = [], []
+    for i, s in enumerate(parse.sources or []):
+        catoms = s.clue_atom_ids or ()
+        aps = pos_by_src.get(i)
+        if not catoms or not aps:
+            continue
+        if max(catoms) < ind_min:
+            left.extend(aps)
+        elif min(catoms) > ind_min:
+            right.extend(aps)
+        else:
+            return ""                 # a piece straddles the indicator — don't guess
+    if not left or not right:
+        return ""
+    return "before" if min(left) < min(right) else "after"
+
+
+def _indicator_subtype_from_parse(clue_id, base_type):
+    """The sub-type a queued indicator of `base_type` should carry for THIS clue, read off its
+    solved parse: the note's own sub-type, or — for a charade_positional whose note was
+    flattened — derived from the piece order. '' if not determinable (the approver then picks).
+    The direction is a fact of the answer-driven solve, so Approve carries it without a manual
+    guess. This is why a positional enrichment does not need the sub-type frozen into the queue
+    row — the parse is the single, always-present source."""
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+    finally:
+        conn.close()
+    if parse is None:
+        return ""
+    for an in (parse.annotations or []):
+        if getattr(an, "role", "") != "indicator":
+            continue
+        it, isb = _itype_from_note(getattr(an, "note", ""))
+        if it != base_type:
+            continue
+        if isb:
+            return isb
+        if it == "charade_positional":
+            return _derive_positional_direction(parse, an)
+        return ""
+    return ""
+
+
+def _positional_dir_from_assigns(assigns, ind_idx):
+    """Direction (after/before) a positional indicator implies, read off the piece order in a
+    hand-solver assignment (the commit's own input). A piece is LEFT/RIGHT by its FIRST clue
+    word relative to the indicator (min index — robust to a piece that spans the pivot); if the
+    LEFT group's answer tiles lead, the pivot is LEFT+RIGHT ('before'), else RIGHT+LEFT
+    ('after'). The order that builds the answer IS the direction, so the commit carries it
+    without a manual pick. '' when it can't be told (no pieces on a side)."""
+    if not ind_idx:
+        return ""
+    lo = min(ind_idx)
+    left, right = [], []
+    for a in assigns:
+        pos = [int(p) for p in (a.get("pos") or []) if str(p).lstrip("-").isdigit()]
+        idx = [int(i) for i in (a.get("idx") or []) if str(i).lstrip("-").isdigit()]
+        if not pos or not idx:
+            continue
+        (left if min(idx) < lo else right).extend(pos)
+    if not left or not right:
+        return ""
+    return "before" if min(left) < min(right) else "after"
 
 
 def _assignments_from_diagnosis(clue_id, pnum, rows):
@@ -1553,6 +1671,8 @@ def _assignments_from_parse(ctx, parse):
         r = getattr(an, "role", "")
         if r == "indicator":
             it, isb = _itype_from_note(getattr(an, "note", ""))
+            if it == "charade_positional" and not isb:
+                isb = _derive_positional_direction(parse, an)   # note lost it — recover from the assembly
             out.append({"idx": idx, "role": "indicator", "itype": it, "isub": isb})
         elif r == "link":
             # link / filler / synonym-by-example all store as a role="link" annotation;
@@ -2532,6 +2652,20 @@ function initGrid(rootId, DATA){
     setTimeout(function(){window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
   }).catch(function(){cmsg.textContent='CD failed (network)';cmsg.style.color='#dc2626';});});
+ /* INVALID needs a comment, set in ONE action: show the reason box only for INVALID and
+    block the submit (with an error) if it's empty — the server enforces the same rule. */
+ var sSel=root.querySelector('#g-status-sel');
+ var sForm=root.querySelector('#g-status-form');
+ var sRea=root.querySelector('#g-invalid-reason');
+ var sErr=root.querySelector('#g-status-err');
+ function syncReason(){if(sRea)sRea.style.display=(sSel&&sSel.value==='invalid')?'block':'none';if(sErr)sErr.textContent='';}
+ if(sSel)sSel.addEventListener('change',syncReason);
+ if(sForm)sForm.addEventListener('submit',function(e){
+  if(sSel&&sSel.value==='invalid'){
+   var ta=sRea?sRea.querySelector('textarea'):null;
+   if(!ta||!ta.value.trim()){e.preventDefault();if(sErr)sErr.textContent='INVALID needs a comment — add a reason first.';if(ta)ta.focus();}
+  }
+ });
  drawRows();drawList();drawTiles();updateBar();roleFields();
 }
 """
@@ -2902,8 +3036,8 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<button type="button" id="g-cd" style="margin-left:.6rem;background:#fff;'
          'color:#b45309;border:1px solid #b45309;border-radius:8px;padding:.35rem .8rem;'
          'font-weight:700;cursor:pointer" title="Cryptic definition: the WHOLE clue is the '
-         'definition — no pieces, no tiles needed. Files the clue as a CD, PENDING your '
-         'confirmation.">Cryptic definition</button>',
+         'definition — no pieces, no tiles needed. Files the clue as a CD and PASSES it '
+         '(frozen) in one click.">Cryptic definition</button>',
          '<button type="button" id="g-commit" class="g-resolve" style="background:#7c3aed;'
          'margin-left:.5rem" title="Record exactly what you tagged + placed on the tiles as '
          'the solution (frozen; your reusable pieces are saved to the reference DB). This is '
@@ -2928,18 +3062,29 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'data to the DB. A frozen manual solve is never overwritten.">'
          '&#8635; Re-run engines</button>',
          '</form>',
-         '<form method="post" action="/hsstatus" style="margin:.5rem 0;display:flex;'
-         'gap:.4rem;align-items:center;flex-wrap:wrap">',
+         '<form method="post" action="/hsstatus" id="g-status-form" style="margin:.5rem 0;'
+         'display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
          '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
          ctx_hidden,
          '<span style="font-size:.85rem;color:#64748b">Mark verdict:</span>',
-         '<select name="status">%s</select>' % status_opts,
+         '<select name="status" id="g-status-sel">%s</select>' % status_opts,
          '<button type="submit" style="background:#475569;color:#fff;border:none;'
          'border-radius:8px;padding:.3rem .75rem;font-weight:700;cursor:pointer">'
          'Set status</button>',
          '<span style="font-size:.78rem;color:#94a3b8">INVALID = unsolvable as written; '
          'the mark is frozen so it sticks.</span>',
+         '<span id="g-status-err" style="font-size:.85rem;color:#dc2626;font-weight:700">'
+         '</span>',
+         # INVALID reason — required, and saved WITH the status in this one submit (the
+         # server refuses INVALID with no comment). Shown only when INVALID is selected.
+         '<div id="g-invalid-reason" style="display:%s;width:100%%;margin-top:.15rem">'
+         % ("block" if cur_status == "invalid" else "none"),
+         '<textarea name="note" rows="2" placeholder="Required for INVALID: why can this '
+         'clue not be solved as written?" style="width:100%%;max-width:46rem;box-sizing:'
+         'border-box;border:1px solid #cbd5e1;border-radius:8px;padding:.4rem;'
+         'font-family:inherit;font-size:.95rem">%s</textarea>' % escape(note),
+         '</div>',
          '</form>',
          '<form method="post" action="/hsnote" style="margin:.5rem 0">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
@@ -3598,9 +3743,16 @@ def hsstatus_route():
     only = (request.form.get("only") or "").strip()
     back = (request.form.get("from") or only).strip()
     status = (request.form.get("status") or "").strip()
+    note = (request.form.get("note") or "").strip()
     if not only.isdigit() or status not in ("pass", "pending", "fail", "invalid"):
         return _hs_redirect(only, "No clue/status.", back)
     cid = int(only)
+    # INVALID must carry a comment explaining why the clue can't be solved as written — and
+    # it is set + saved in this one action. Refuse (status unchanged) if no comment.
+    if status == "invalid" and not note:
+        return _hs_redirect(only, "INVALID needs a comment — status not changed. Add a "
+                                  "reason explaining why the clue can't be solved as written.",
+                            back)
     conn = store.connect()
     try:
         if store.load_parse(conn, cid) is None:
@@ -3613,6 +3765,8 @@ def hsstatus_route():
                 store.save_parse(conn, cid, stub)
         store.set_status(conn, cid, status)
         store.set_frozen(conn, cid)
+        if status == "invalid":
+            store.set_note(conn, cid, note)   # save the reason in the same action
         conn.commit()
     finally:
         conn.close()
@@ -3671,9 +3825,19 @@ def hscd_route():
     finally:
         conn.close()
     if cp is not None and cp.operation == "cd" and cp.status == "pending":
+        # The user clicking the Cryptic-definition button IS the human confirmation — so
+        # pass + freeze it in the same action (was: left PENDING, forcing a second
+        # "Mark verdict -> PASS" click). Mirrors that manual Set-status path exactly.
+        conn = store.connect()
+        try:
+            store.set_status(conn, cid, "pass")
+            store.set_frozen(conn, cid)
+            conn.commit()
+        finally:
+            conn.close()
+        _capture_signature_review(cid, "pass")
         return _json({"ok": True,
-                      "msg": "Filed as a cryptic definition (%s) — PENDING; confirm via "
-                             "Mark verdict when you agree." % addmsg})
+                      "msg": "Filed as a cryptic definition (%s) — PASS (frozen)." % addmsg})
     got = ("%s/%s" % (cp.operation or "?", cp.status) if cp is not None else "no parse")
     return _json({"ok": False,
                   "msg": "Did not land as a CD (got %s). The whole-clue definition was "
@@ -3753,10 +3917,19 @@ def hsresolve_route():
                 itype = (a.get("itype") or "").strip()
                 isub = (a.get("isub") or "").strip() or None
                 base = itype.split(":")[0]
+                if base == "charade_positional" and not isub:
+                    # No direction on the tag (e.g. the human tagged the indicator but did not
+                    # pick after/before). It is a fact of the assembly, not a guess — recover it
+                    # from the piece order so the harvest + forced override carry a real
+                    # direction instead of add_indicator silently failing on a null sub-type.
+                    isub = _positional_dir_from_assigns(assigns, idx) or None
                 if base:
                     admin_db.add_indicator(phrase, base, isub)
                     apply_add_to_wiring({"kind": "indicator", "word": phrase, "type": base})
-                    store.add_forced_indicator(conn, cid, phrase, itype)
+                    # Encode the sub-type into the forced override ('charade_positional:after')
+                    # so clue_overrides registers the direction and the solved note carries it.
+                    forced = "%s:%s" % (base, isub) if isub else itype
+                    store.add_forced_indicator(conn, cid, phrase, forced)
                     applied.append("%r=%s%s" % (phrase, base, ("/" + isub) if isub else ""))
             elif role == "link":
                 admin_db.add_link_word(phrase)
@@ -4951,6 +5124,12 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
             isb = (a.get("isub") or "").strip()
             _raw_it = (a.get("itype") or "").split(":")[0]        # a REAL chosen type (or "")
+            if _raw_it == "charade_positional" and not isb:
+                # The reading tagged a positional indicator but carried no direction (an older
+                # assignment, before the seed derived it). The direction is a fact of the
+                # assembly — recover it from the piece order so the harvest writes a real
+                # after/before instead of failing "needs a sub-type".
+                isb = _positional_dir_from_assigns(assigns, idx)
             # HONESTY GATE (mirrors the definition/synonym gate above): an indicator is an
             # ASSERTION ("this phrase indicates <type>") that an AI reading can make without
             # the reference DB backing it. Under verify_db it is trusted (source='manual',
@@ -4985,6 +5164,15 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # so "every word must have a role" passes. The NOTE carries the accurate label —
             # "synonym by example" is the wordplay twin of definition-by-example (a
             # perhaps/maybe word marking a by-example synonym), no letters, no validity.
+            # PUNCTUATION IS NEVER A LINK WORD. A comma / ? / ! / … is not on the link-word
+            # list and carries no cryptic role, so a link/filler/synbyexample tag whose atoms
+            # are PURE PUNCTUATION (no alphabetic character) is IGNORED silently — never
+            # recorded as a "link" pill (user rule 2026-07-26). unexplained_words already
+            # skips non-word tokens, so dropping it can never leave a clue word unaccounted.
+            # Punctuation is kept only when SPECIFICALLY ATTACHED to a word (the idx also
+            # covers a real word, so the phrase still has a letter).
+            if not any(c.isalpha() for c in phrase):
+                continue
             _lnote = {"filler": "surface filler",
                       "synbyexample": "synonym by example"}.get(role, "link word")
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="link",
@@ -5213,7 +5401,7 @@ def _confirm_prefill(cid):
 
 # pending type -> the synthetic /enrich form dict, so Approve-all reuses _do_add +
 # apply_add_to_wiring exactly as a single Approve does (no separate add path to drift).
-def _pending_add_form(typ, word, letters, answer):
+def _pending_add_form(typ, word, letters, answer, subtype=""):
     if typ == "definition":
         return {"kind": "definition", "definition": word, "answer": answer or letters}
     if typ == "synonym":
@@ -5221,7 +5409,7 @@ def _pending_add_form(typ, word, letters, answer):
     if typ == "substitution":
         return {"kind": "substitution", "word": word, "value": letters}
     if typ == "indicator":
-        return {"kind": "indicator", "word": word, "type": letters, "subtype": ""}
+        return {"kind": "indicator", "word": word, "type": letters, "subtype": subtype}
     if typ == "homophone":
         return {"kind": "homophone", "word": word, "homophone": letters}
     return None
@@ -5254,18 +5442,59 @@ def approveall_route():
     clue_text = row[0] or ""
     ans_letters = "".join(c for c in (row[1] or "").upper() if c.isalpha())
     pend = admin_db.pending_for_clue(clue_text, ans_letters)
-    approved = 0
+    # An indicator's sub-type (selection rule / positional direction) is NOT stored in the
+    # queue — `letters` holds the TYPE only — but add_indicator REQUIRES it for selection /
+    # charade_positional / letter_shift. Recover it from THIS clue's saved /hs reading
+    # (itype -> isub) so Approve-all writes the SAME sub-type the reading used. When the
+    # reading never captured one (e.g. a positional indicator with no after/before), the add
+    # will fail and the row is KEPT for individual review — not silently eaten (2026-07-30).
+    import json as _json
+    conn = store.connect()
+    try:
+        _saved = store.get_hs_assignments(conn, cid)
+    finally:
+        conn.close()
+    _submap = {}
+    try:
+        for _a in _json.loads(_saved or "[]"):
+            if _a.get("role") == "indicator":
+                _it = (_a.get("itype") or "").split(":")[0]
+                _sub = (_a.get("isub") or "").strip()
+                if _it and _sub:
+                    _submap[_it] = _sub
+    except Exception:
+        pass
+    approved, failed = 0, []
     for pid, typ, word, letters, ans in pend:
-        form = _pending_add_form(typ, word, letters, ans)
+        # Sub-type: prefer the saved reading's isub (the suggestion the human confirmed); fall
+        # back to reading it off the solved parse (the direction is a fact of the assembly, not
+        # a guess) so a positional indicator approves in one click with NO manual pick even when
+        # no assignment was saved.
+        sub = ""
+        if typ == "indicator":
+            sub = _submap.get(letters, "") or _indicator_subtype_from_parse(cid, letters)
+        form = _pending_add_form(typ, word, letters, ans, sub)
         if form is None:
             continue
-        _do_add(form)                       # write to the reference DB (like /enrich)
-        apply_add_to_wiring(form)           # keep the cached wiring consistent
-        admin_db.delete_pending(pid)        # drop from the queue
-        approved += 1
+        add_msg = _do_add(form)             # write to the reference DB (like /enrich)
+        # Drop the queue row and count it ONLY when the add SUCCEEDED (or was already present).
+        # The old code ignored the result, so a REJECTED add (e.g. a selection/positional
+        # indicator with no sub-type) was counted "Approved" and its row deleted anyway —
+        # Confirm then refused on the still-unbacked piece and it silently re-queued (the
+        # infinite "Approve all does nothing" loop, clue 10082194).
+        if add_msg.startswith(("Added", "Already", "Approved")):
+            apply_add_to_wiring(form)       # keep the cached wiring consistent
+            admin_db.delete_pending(pid)    # drop from the queue — success only
+            approved += 1
+        else:
+            failed.append("%s (%s)" % (word, add_msg))
     confirm_msg = _confirm_prefill(cid)     # re-validate, freeze, harvest
-    msg = ("Approved %d enrichment%s. %s"
-           % (approved, "" if approved == 1 else "s", confirm_msg))
+    msg = "Approved %d enrichment%s." % (approved, "" if approved == 1 else "s")
+    if failed:
+        msg += (" %d need%s a sub-type — Approve %s individually and choose it: %s."
+                % (len(failed), "s" if len(failed) == 1 else "",
+                   "it" if len(failed) == 1 else "them", "; ".join(failed)))
+    msg += " " + confirm_msg
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 

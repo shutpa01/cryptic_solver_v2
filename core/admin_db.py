@@ -101,9 +101,28 @@ def add_synonym(word, synonym):
         # CASE-INSENSITIVE dedup: clue words are often capitalised (start of clue / proper
         # nouns) while the DB stores them lower-case, so an exact-case check let duplicates
         # through (e.g. 'Good' vs 'good'). Match on lower(word)/upper(synonym).
+        #
+        # MESH PROMOTION: api_mw_mesh rows are EXCLUDED from the solver lookup
+        # (live_db.get_synonyms) and from the honesty gate (db_derives), so a pair present
+        # ONLY as mesh is invisible to the engine. The old dedup treated ANY existing row as
+        # "already present" and added nothing — so Approving a mesh-only synonym was a no-op
+        # and the clue could NEVER confirm (genial->BENIGN, clue 10081267 BENEDICT: the gate
+        # kept refusing because the sole row stayed mesh-excluded). So: "already present" only
+        # if a CURATED (non-mesh) row backs it; a mesh-only pair is PROMOTED to 'admin' (the
+        # human's approval curates it out of the excluded pool), which the solver then sees.
         if conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
-                        "AND upper(synonym)=upper(?)", (word, synonym)).fetchone():
+                        "AND upper(synonym)=upper(?) "
+                        "AND (source IS NULL OR source <> 'api_mw_mesh')",
+                        (word, synonym)).fetchone():
             return "Already present: %r = %r" % (word, synonym)
+        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
+                        "AND upper(synonym)=upper(?) AND source='api_mw_mesh'",
+                        (word, synonym)).fetchone():
+            conn.execute("UPDATE synonyms_pairs SET source='admin' "
+                         "WHERE lower(word)=lower(?) AND upper(synonym)=upper(?) "
+                         "AND source='api_mw_mesh'", (word, synonym))
+            conn.commit()
+            return "Approved synonym (promoted from mesh): %r = %r" % (word, synonym)
         conn.execute("INSERT INTO synonyms_pairs (word, synonym, source, norm_word) "
                      "VALUES (?, ?, 'admin', ?)", (word, synonym, _normalize_key(word)))
         conn.commit()
@@ -174,13 +193,47 @@ def has_indicator(word, wordplay_type):
     (case-insensitive on word, exact on type — matching triage's is_present check and
     add_indicator's dedup). The prefill honesty gate's check for an indicator piece: an
     AI-proposed indicator is trusted only when the reference DB already types it that way —
-    otherwise it is provisional, queued, never harvested (mirrors has_synonym / is_definition)."""
+    otherwise it is provisional, queued, never harvested (mirrors has_synonym / is_definition).
+
+    SELECTION is special. The reference corpus stores letter-selection indicators under TWO
+    wordplay_type spellings that the SOLVER treats as identical: the newer 'selection' and
+    the original 'parts' (e.g. 'end' is 'parts'/'last', not 'selection'/*). The engine decides
+    whether a word licenses a selection rule via selection_indicators.SUBTYPE_RULE, which maps
+    BOTH ('parts','last') and ('selection','last') to the same rule 'last'
+    (engine_registry.selection_rules). An exact wordplay_type='selection' match is therefore
+    STRICTER than the solver itself — it misses the 'parts' rows and wrongly queues a
+    long-vetted indicator as fabricated, blocking Confirm forever (clue 10082098 'end',
+    2026-07-30). So for 'selection' the gate must use the SOLVER'S authority: the word is
+    backed iff any of its DB rows maps to a selection rule via SUBTYPE_RULE. This mirrors the
+    db_derives principle above — anything the engine can derive from the DB is, by definition,
+    not fabricated, so it must not be queued."""
     word = (word or "").strip()
     wp = (wordplay_type or "").strip().lower()
     if not word or not wp:
         return False
     conn = _conn()
     try:
+        if wp == "selection":
+            from core.selection_indicators import SUBTYPE_RULE
+            def _licenses(text):
+                rows = conn.execute("SELECT wordplay_type, subtype FROM indicators "
+                                    "WHERE lower(word)=lower(?)", (text,)).fetchall()
+                return any(SUBTYPE_RULE.get((wt, (sub or "").strip().lower()))
+                           for wt, sub in rows)
+            # Match the SOLVER, which recognises a selection indicator in a contiguous
+            # SUB-RUN of the tagged span, not only as a verbatim whole-phrase DB row
+            # (selection_indicators.find_indicators tries longer runs first, then shorter):
+            # the AI-tagged span 'regularly selected' is licensed by its sub-word
+            # 'regularly' (stored parts/alternate + selection/alternate), just as the engine
+            # would use it (clue 10082178 TREASURER, 2026-07-30). An exact whole-phrase
+            # lookup misses that and wrongly queues a solver-recognised indicator, blocking
+            # Confirm — the same class of bug as the parts/selection type-spelling miss.
+            toks = word.split()
+            for L in range(len(toks), 0, -1):
+                for i in range(len(toks) - L + 1):
+                    if _licenses(" ".join(toks[i:i + L])):
+                        return True
+            return False
         return conn.execute("SELECT 1 FROM indicators WHERE lower(word)=lower(?) "
                             "AND wordplay_type=?", (word, wp)).fetchone() is not None
     finally:
