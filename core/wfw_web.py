@@ -4909,8 +4909,34 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # 2026-07-14 tagging "perhaps" as def-by-example).
             _dmech = ("definition_by_example"
                       if (a.get("dkind") or "").strip() == "dbe" else "definition")
+            # HONESTY GATE (mirrors the synonym/abbreviation gate above): the definition is
+            # the clue's core assertion, and an AI reading can assert one the reference DB
+            # does not back. Under verify_db it is trusted (source='manual', harvestable)
+            # ONLY when the DB already defines phrase->answer (admin_db.is_definition — the
+            # same two tests the engines' defines() use); otherwise it is PROVISIONAL
+            # (source='pending', rendered provisional, kept out of the harvest) and QUEUED
+            # for review, exactly like an unbacked synonym. A reviewer's prior rejection
+            # fails the build. The human /hs commit (verify_db=False) is unchanged — the
+            # human is the authority and their definition harvests as before.
+            _dsource = "manual"
+            if verify_db:
+                # An AI reading NEVER asserts a definition "manually" (no human touched it).
+                # It is either backed by the reference DB (source='db' — shown as a plain,
+                # verified Definition with no badge, exactly like a cascade solve) or it is
+                # NOT (source='pending' — shown 'Unidentified definition / not confirmed' and
+                # QUEUED for review). "manual" is reserved for the human's own /hs commit
+                # (verify_db=False), where the human is the authority.
+                if admin_db.is_definition(phrase, ans_letters):
+                    _dsource = "db"
+                elif _pending.is_rejected_definition(phrase, ans_letters):
+                    return {"ok": False, "msg": "Definition %r → %s was rejected by a "
+                            "reviewer — this AI reading cannot use it."
+                            % (phrase, ans_letters)}
+                else:
+                    _dsource = "pending"
+                    _pending.queue_definition(phrase, ans_letters, clue_text, src, pnum)
             _dsrc = Source(clue_atom_ids=atoms, text=phrase, value=ans_letters,
-                           mechanism=_dmech, source="manual")
+                           mechanism=_dmech, source=_dsource)
             if definition is None:
                 definition = _dsrc
             elif definition2 is None:
@@ -4919,16 +4945,35 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 return {"ok": False, "msg": "Three definitions tagged (%r, %r, %r). A clue "
                         "has one definition, or two for a double definition — not three."
                         % (definition.text, definition2.text, phrase)}
-            db_adds.append(("definition", phrase, ans_letters))   # reusable -> save after commit
+            if _dsource != "pending":     # reusable -> save after commit (backed defs only;
+                db_adds.append(("definition", phrase, ans_letters))   # a pending def is not harvested
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
             isb = (a.get("isub") or "").strip()
+            _raw_it = (a.get("itype") or "").split(":")[0]        # a REAL chosen type (or "")
+            # HONESTY GATE (mirrors the definition/synonym gate above): an indicator is an
+            # ASSERTION ("this phrase indicates <type>") that an AI reading can make without
+            # the reference DB backing it. Under verify_db it is trusted (source='manual',
+            # harvestable) ONLY when the DB already types phrase->type (admin_db.has_indicator);
+            # otherwise it is PROVISIONAL (source='pending', kept out of the harvest) and
+            # QUEUED for review, exactly like an unbacked definition. A reviewer's prior
+            # rejection fails the build. The human /hs commit (verify_db=False) is unchanged —
+            # the human is the authority and their indicator harvests as before.
+            _isource = "manual"
+            if verify_db and _raw_it:
+                if admin_db.has_indicator(phrase, _raw_it):
+                    _isource = "db"
+                elif _pending.is_rejected_indicator(phrase, _raw_it):
+                    return {"ok": False, "msg": "Indicator %r (%s) was rejected by a "
+                            "reviewer — this AI reading cannot use it." % (phrase, _raw_it)}
+                else:
+                    _isource = "pending"
+                    _pending.queue_indicator(phrase, ans_letters, clue_text, _raw_it, src, pnum)
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
                                            note="%s%s indicator" % (it, ("/" + isb) if isb else ""),
-                                           source="manual"))
-            _raw_it = (a.get("itype") or "").split(":")[0]        # save only a REAL chosen type
-            if _raw_it:
-                db_adds.append(("indicator", phrase, _raw_it, isb or None))
+                                           source=_isource))
+            if _raw_it and _isource != "pending":     # reusable -> harvest (backed/human only;
+                db_adds.append(("indicator", phrase, _raw_it, isb or None))   # a pending indicator is not harvested
         elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
             value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram
             if not value:
@@ -5117,21 +5162,36 @@ def _confirm_prefill(cid):
     built = _build_manual_parse(cid, assigns, verify_db=True)
     if not built["ok"]:
         return "Confirm refused — %s" % built["msg"]
-    # Block a pass built on an UNVERIFIED wordplay assertion — a synonym/abbreviation
-    # piece the reference DB does not back (the take->R trap). A provisional HOMOPHONE
-    # is NOT blocked: its sound is dictionary-verified, only the pair's DB-sanction is
-    # pending (existing design — it may pass provisionally). The user Accepts a genuine
-    # piece (it enters the DB, Confirm then passes) or Rejects it (clue stays unsolved).
-    prov = [s for s in built["parse"].sources
+    # Block a pass built on an UNVERIFIED assertion the reference DB does not back — a
+    # synonym/abbreviation letter-source (the take->R trap) OR the DEFINITION itself (an
+    # AI can assert a definition the DB does not hold, e.g. 'come back to'->REVISIT). A
+    # provisional HOMOPHONE is NOT blocked: its sound is dictionary-verified, only the
+    # pair's DB-sanction is pending (existing design — it may pass provisionally). The
+    # user Accepts a genuine piece (it enters the DB, Confirm then passes) or Rejects it
+    # (clue stays unsolved). The definition lives in parse.definition (a normal clue) or in
+    # parse.sources (a double definition), so check both.
+    _pieces = list(built["parse"].sources)
+    if built["parse"].definition is not None:
+        _pieces.append(built["parse"].definition)
+    prov = [s for s in _pieces
             if getattr(s, "source", "db") == "pending"
-            and getattr(s, "mechanism", "") in ("synonym", "abbreviation")]
-    if prov:
+            and getattr(s, "mechanism", "") in ("synonym", "abbreviation",
+                                                "definition", "definition_by_example")]
+    # An unbacked INDICATOR is an annotation (not a source), so the scan above misses it.
+    # It is the same kind of unverified AI assertion, so a pending indicator blocks Confirm
+    # too — the user Accepts it in the review queue (it enters the indicators table) or rejects.
+    prov_ind = [an for an in built["parse"].annotations
+                if getattr(an, "role", "") == "indicator"
+                and getattr(an, "source", "db") == "pending"]
+    if prov or prov_ind:
+        descs = ["%s → %s" % (s.text, s.value) for s in prov]
+        descs += ["%s (indicator)" % an.text for an in prov_ind]
+        n = len(descs)
         return ("Confirm refused — this reading uses %d AI-proposed piece%s the "
                 "reference DB does not back: %s. Accept the genuine one%s (it enters "
                 "the DB, then Confirm passes) or reject it in the review queue first."
-                % (len(prov), "" if len(prov) == 1 else "s",
-                   "; ".join("%s → %s" % (s.text, s.value) for s in prov),
-                   "" if len(prov) == 1 else "s"))
+                % (n, "" if n == 1 else "s", "; ".join(descs),
+                   "" if n == 1 else "s"))
     conn = store.connect()
     try:
         store.save_parse(conn, cid, built["parse"], built["ctx"])

@@ -169,6 +169,24 @@ def has_substitution(word, value):
         conn.close()
 
 
+def has_indicator(word, wordplay_type):
+    """True when (word) is already typed as `wordplay_type` in the indicators table
+    (case-insensitive on word, exact on type — matching triage's is_present check and
+    add_indicator's dedup). The prefill honesty gate's check for an indicator piece: an
+    AI-proposed indicator is trusted only when the reference DB already types it that way —
+    otherwise it is provisional, queued, never harvested (mirrors has_synonym / is_definition)."""
+    word = (word or "").strip()
+    wp = (wordplay_type or "").strip().lower()
+    if not word or not wp:
+        return False
+    conn = _conn()
+    try:
+        return conn.execute("SELECT 1 FROM indicators WHERE lower(word)=lower(?) "
+                            "AND wordplay_type=?", (word, wp)).fetchone() is not None
+    finally:
+        conn.close()
+
+
 def db_derives(word, value):
     """True if the SOLVER'S OWN lookup can derive `value` from `word` — the same
     bidirectional, inflection-aware synonym/abbreviation lookup the engines use
@@ -196,6 +214,53 @@ def db_derives(word, value):
                 pass
     except Exception:
         return False
+
+
+def is_definition(phrase, answer):
+    """True if the reference DB already backs `phrase` as a definition of `answer` — the
+    SAME two tests the engines' defines() use (core.engine_registry):
+      1. a synonym-defined answer  (core.live_db.LiveDB.is_definition_of, inflection-aware),
+      2. an explicit definition_answers_augmented row (matched on the indexed norm_def key).
+    The prefill honesty gate uses THIS so an AI definition the DB already backs is never
+    re-queued, while an unbacked one is queued and made provisional. Exact-normalised (no
+    inflection growth) so it errs toward QUEUING an uncertain definition, never toward a
+    silent trust. Best-effort: any error -> False (treat as an enrichment gap, never a
+    false pass)."""
+    phrase = (phrase or "").strip()
+    answer = (answer or "").strip()
+    if not phrase or not answer:
+        return False
+    # 1) synonym-based definition (LiveDB — the engine's is_definition_of)
+    try:
+        from core.live_db import LiveDB
+        db = LiveDB()
+        try:
+            if db.is_definition_of(phrase, answer):
+                return True
+        finally:
+            try:
+                db._conn.close()
+            except Exception:
+                pass
+    except Exception:
+        pass
+    # 2) an explicit definition_answers_augmented row (idx_daa_norm on norm_def), the
+    #    answer compared letters-only so 'DINING ROOM'/'DININGROOM' both match.
+    key = _normalize_key(phrase)
+    na = answer.upper().replace(" ", "").replace("-", "")
+    try:
+        conn = _conn()
+        try:
+            for (ans,) in conn.execute(
+                    "SELECT answer FROM definition_answers_augmented WHERE norm_def=?",
+                    (key,)):
+                if (ans or "").upper().replace(" ", "").replace("-", "") == na:
+                    return True
+        finally:
+            conn.close()
+    except Exception:
+        pass
+    return False
 
 
 def add_link_word(word):
