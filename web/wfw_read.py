@@ -336,6 +336,8 @@ def _segments(parse):
     each piece lands in the answer."""
     letters = "".join(c for c in parse["answer_text"].upper() if c.isalpha())
     srcs = {s["ord"]: s for s in parse["sources"]}
+    _found, _ = _note_mechs(parse["indicators"])
+    has_ana, has_rev = "anagram" in _found, "reversal" in _found
 
     def cpos(si):
         s = srcs.get(si)
@@ -391,14 +393,14 @@ def _segments(parse):
     if (len(merged) == 3 and merged[0][0] == "src" and merged[2][0] == "src"
             and merged[0][1] == merged[2][1]):
         outer = _describe(srcs.get(merged[0][1]),
-                          placed_all[merged[0][1]], merged[0][3])
+                          placed_all[merged[0][1]], merged[0][3], has_ana, has_rev)
         if merged[1][0] == "ana":
             inner = "anagram of " + " ".join('"%s"' % t for t in merged[1][1])
             inner_pos = merged[1][3]
         else:
             inner = _describe(srcs.get(merged[1][1]),
                               placed_all.get(merged[1][1], merged[1][2]),
-                              merged[1][3])
+                              merged[1][3], has_ana, has_rev)
             inner_pos = cpos(merged[1][1])
         if outer and inner:
             return [(min(cpos(merged[0][1]), inner_pos),
@@ -421,15 +423,35 @@ def _segments(parse):
             out.append((cpos(si), placed))
             continue
         described.add(si)
-        d = _describe(s, placed_all.get(si, placed), trs)
+        d = _describe(s, placed_all.get(si, placed), trs, has_ana, has_rev)
         if d is None:
             return None
         out.append((cpos(si), d))
     return out
 
 
-def _describe(s, placed, transforms):
-    """One piece as 'text→VALUE [reversed] [less X]' — mechanical, no prose."""
+def _anagram_desc(value, placed, has_ana, has_rev):
+    """'anagram [less X]' when the clue names an anagram indicator and `placed` (the piece's
+    answer letters, in answer order) is a RE-ORDERING of `value` — a sub-multiset of it whose
+    order is not preserved. Lets a source roled selection/synonym still read as anagram fodder
+    so the hint line agrees with the card. Mirrors core/wfw_render._anagram_note. An in-order
+    survivor is a plain deletion (shown as 'less X' below); a real reversal keeps priority."""
+    if not has_ana or not value or not placed or placed == value:
+        return None
+    from collections import Counter
+    if Counter(placed) - Counter(value):                 # placed uses letters value lacks
+        return None
+    it = iter(value)
+    if all(ch in it for ch in placed):                   # in-order survivor => a deletion
+        return None
+    if has_rev and len(value) > 1 and placed == value[::-1]:
+        return None                                      # a real reversal keeps priority
+    removed = "".join(sorted((Counter(value) - Counter(placed)).elements()))
+    return "anagram less %s" % removed if removed else "anagram"
+
+
+def _describe(s, placed, transforms, has_ana=False, has_rev=False):
+    """One piece as 'text→VALUE [anagram|reversed] [less X]' — mechanical, no prose."""
     if s is None:
         return None
     text = (s["text"] or "").strip()
@@ -446,10 +468,26 @@ def _describe(s, placed, transforms):
 
     if not value:
         value = placed
+    # an anagram indicator governs a re-ordered piece: show 'anagram' (not the reversal/
+    # deletion the letters would otherwise be read as), matching the card.
+    ana = _anagram_desc(value, placed, has_ana, has_rev)
+    if ana:
+        base = ("%s→%s" % (text, value)) if text and value != text.upper() else (value or text)
+        return "%s %s" % (base, ana)
     # A manual solve stores no transform — but a piece whose placed letters are
     # exactly its value reversed IS a reversal, knowable from the letters alone.
     if (not reversed_ and len(value) > 1 and placed
             and placed == value[::-1] and placed != value):
+        reversed_ = True
+    # Reversal COMBINED with a deletion: the placed letters are NOT a forward
+    # sub-selection of the value, but the REVERSED placed letters ARE (value
+    # reversed then trimmed — e.g. LEMON reversed, less N -> OMEL). Without this
+    # the summary detects neither the reversal nor the deletion and silently maps
+    # the 5-letter value onto 4 tiles, dropping the removed letter. (clue 10081158
+    # OMELETTE: fruit=LEMON reversed less N.)
+    if (not reversed_ and len(value) > 1 and placed and placed != value
+            and _removed(value, placed) is None
+            and _removed(value, placed[::-1]) is not None):
         reversed_ = True
     base = ("%s→%s" % (text, value)) if text and value != text.upper() \
         else (value or text)

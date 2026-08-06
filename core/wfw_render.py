@@ -458,7 +458,8 @@ def _source_row(parse, si, src_fg, src_fill):
         al = parse.answer_letters()
         positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
         got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))
-        content += _transform_note(s.value, got)
+        ana = _anagram_note(parse, (s.value or "").upper(), got)
+        content += ana if ana else _transform_note(s.value, got)
     if s.mechanism == "homophone":
         tr = next((l.transform for l in parse.links
                    if l.source_index == si and l.transform), None)
@@ -879,6 +880,35 @@ def _transform_note(value, got):
     return ""
 
 
+def _anagram_note(parse, v, got):
+    """'anagram [&minus;X]' when the clue names an anagram indicator and `got` (the piece's
+    answer letters, in answer order) is a re-ordering of the piece value `v` — a sub-multiset
+    of it. Lets a source roled selection/synonym still read as anagram fodder when the
+    assignment names an anagram indicator, so the per-piece line agrees with the type badge
+    instead of guessing a rotation/reversal off the incidental letter order. Returns None to
+    fall through to _transform_note. A real reversal (reversal indicator + exact reverse)
+    keeps priority. This renderer IS the clue-page card on BOTH the admin solver and the
+    public site (via core/wfw_card.stored_card), so the fix covers both. The separate
+    web/wfw_read._summary (hints/overlay text) groups multi-piece anagrams its own way."""
+    from collections import Counter
+    if not got or got == v:                              # unchanged order => not this piece
+        return None
+    found, _ = _note_mechs(parse)
+    if "anagram" not in found:
+        return None
+    if Counter(got) - Counter(v):                        # got uses letters v doesn't have
+        return None                                      #   => not an anagram OF v
+    it = iter(v)                                          # got is v with letters dropped, order
+    if all(ch in it for ch in got):                      #   KEPT (an in-order survivor) => a
+        return None                                      #   plain deletion, not a re-ordering
+    if "reversal" in found and len(v) > 1 and got == v[::-1]:
+        return None                                      # a real reversal keeps priority
+    removed = "".join(sorted((Counter(v) - Counter(got)).elements()))
+    if removed:                                          # value longer than the tiles: a
+        return ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)  # deletion
+    return ' <span class="wfw-emuted">anagram</span>'    #   before the anagram
+
+
 def _piece_label(parse, si, positions, answer_letters):
     """The coloured value for source `si`, marked with how its letters reached the answer:
     reversed / anagram / minus-deleted-run, derived from positions vs the DB value."""
@@ -892,7 +922,8 @@ def _piece_label(parse, si, positions, answer_letters):
         if removed:                                       # anagram (10 fodder letters -> 9 tiles)
             return col + ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)
         return col + ' <span class="wfw-emuted">anagram</span>'
-    return col + _transform_note(v, got)
+    ana = _anagram_note(parse, v, got)
+    return col + (ana if ana else _transform_note(v, got))
 
 
 def _src_colour(si):
