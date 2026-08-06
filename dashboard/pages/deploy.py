@@ -304,6 +304,45 @@ def _render_cordelia_deploy():
                     steps.append(("Restart service", False, str(e)))
                     failed = True
 
+        # Step 3b: Warm the sitemap cache. The clue sitemap does a ~12s cold build on the
+        # first request after the droplet's /tmp cache is wiped (it renders a WFW card per
+        # served clue). Google's BATCH sitemap fetcher times out on that cold build and
+        # records "Couldn't fetch" — observed in GSC 2026-08: all three child sitemaps
+        # failed to fetch and 0 pages were discovered, even though a live URL-inspection
+        # test of the same URL succeeded (so the URL is reachable — it's speed, not a block).
+        # Warming right after the restart guarantees the fast cached copy exists before any
+        # crawler asks. Done ON the droplet, curling the app on 127.0.0.1:5002 (Host header
+        # so Flask routes it): Cloudflare 403s a non-browser request to the public URL from
+        # here, and the cache lives in the droplet's /tmp anyway. Children are read from the
+        # live index so a future sitemap-clues-2 is picked up automatically. Never fails the
+        # deploy (SEO plumbing, not content). See memory www_duplicate_site_redirect_fix.
+        if not failed:
+            with st.spinner("Warming sitemap cache..."):
+                warm_script = (
+                    'BASE=http://127.0.0.1:5002; H="Host: justcordelia.com"; '
+                    'IDX=$(curl -s --max-time 60 -H "$H" "$BASE/sitemap.xml"); '
+                    'echo "$IDX" | grep -oE "<loc>[^<]+" | sed "s/<loc>//" | while read u; do '
+                    'p=$(echo "$u" | sed "s#https://justcordelia.com##"); '
+                    'curl -s -o /dev/null --max-time 120 '
+                    '-w "%{http_code} %{time_total}s $p\\n" -H "$H" "$BASE$p"; '
+                    'done'
+                )
+                try:
+                    result = subprocess.run(
+                        ["ssh", CORDELIA_DROPLET, warm_script],
+                        capture_output=True, text=True, timeout=300,
+                        encoding="utf-8", errors="replace",
+                    )
+                    lines = [ln for ln in (result.stdout or "").splitlines() if ln.strip()]
+                    codes = [ln.split()[0] for ln in lines if ln.split()]
+                    ok = (result.returncode == 0 and bool(codes)
+                          and all(c.startswith("2") for c in codes))
+                    summary = (" | ".join(lines) if lines
+                               else (result.stderr or "").strip()[:200] or "no output")
+                    steps.append(("Warm sitemap", ok, summary))
+                except Exception as e:
+                    steps.append(("Warm sitemap", False, str(e)))
+
         # Step 4: IndexNow — notify Bing/Yandex of the newly-live URLs. Only when the DB
         # was deployed (content went live); a code-only deploy serves no new pages. A
         # notification failure NEVER fails the deploy — the deploy itself already succeeded.
