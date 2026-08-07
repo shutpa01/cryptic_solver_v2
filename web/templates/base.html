@@ -742,6 +742,11 @@
             if (!card) return;
             card.style.cursor = 'grab';
             function onDown(e) {
+                // Don't start a drag on a tap that begins on a control (the dismiss
+                // X, a link, the tutorial Back span). Dragging calls preventDefault on
+                // touchstart, which suppresses the synthesized click on mobile and turns
+                // those controls into dead taps.
+                if (e.target.closest && e.target.closest('a, button, [onclick]')) return;
                 var t = e.touches ? e.touches[0] : e;
                 dragging = true;
                 startX = t.clientX;
