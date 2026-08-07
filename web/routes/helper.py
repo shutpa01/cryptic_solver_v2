@@ -496,6 +496,22 @@ def synonym_search():
         all_syns = {s for s in all_syns if len(s.replace(' ', '').replace('-', '')) == target_len}
         abbreviations = {a for a in abbreviations if len(a) == target_len}
 
+    # Filter by "must include" letters if specified. Order-independent multiset
+    # containment: the candidate must contain each requested letter (with counts),
+    # anywhere — for when the user knows some letters but not their position.
+    include_letters = re.sub(r'[^A-Z]', '', request.args.get("include", "").upper())
+    if include_letters:
+        def _contains_all(candidate):
+            letters = list(candidate.replace(' ', '').replace('-', ''))
+            for ch in include_letters:
+                if ch in letters:
+                    letters.remove(ch)
+                else:
+                    return False
+            return True
+        all_syns = {s for s in all_syns if _contains_all(s)}
+        abbreviations = {a for a in abbreviations if _contains_all(a)}
+
     sorted_syns = sorted(all_syns, key=len)[:60]
     sorted_abbrs = sorted(abbreviations, key=len)[:20]
     total = len(sorted_syns) + len(sorted_abbrs)
