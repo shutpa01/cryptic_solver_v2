@@ -34,7 +34,7 @@
         <div class="flex items-start gap-2">
             <span class="shrink-0 text-[11px] font-bold uppercase tracking-wide px-2 py-1 rounded-md min-w-[7rem] text-center"
                   style="color:{{ r.fg }};background:{{ r.fill }}">{{ r.pill }}</span>
-            <span class="text-sm text-gray-800 pt-0.5">{{ r.detail }}</span>
+            <span class="text-sm text-gray-800 pt-0.5">{% if r.detail_html %}{{ r.detail_html | safe }}{% else %}{{ r.detail }}{% endif %}</span>
         </div>
         {% endfor %}
     </div>

@@ -443,6 +443,109 @@ def _row(sort_i, role_label, role_style, content):
             % (role_style, escape(role_label.upper()), content))
 
 
+# ---- letter-selection highlighting ------------------------------------------------
+# For a piece whose letters are SELECTED from the fodder (initials, alternate letters,
+# outer letters, ...) show WHICH letters were taken instead of a bare "address -> DRS".
+# Render-only: every candidate pattern is verified to actually spell the value, so we
+# never highlight letters that don't reproduce it — if none verifies we return None and
+# the caller falls back to the plain fodder text (no regression). Mechanism == the rule
+# for the named ones; the generic "selection" bucket is resolved by trying the patterns.
+_SELECTION_MECHS = {"selection", "first_letter", "last_letter",
+                    "outer", "middle", "alternate", "acrostic"}
+
+
+def _alpha_indices(text):
+    """Indices of the alphabetic characters in `text`, in order."""
+    return [i for i, ch in enumerate(text) if ch.isalpha()]
+
+
+def _cand_initials(text):
+    return [i for i, ch in enumerate(text)
+            if ch.isalpha() and (i == 0 or not text[i - 1].isalpha())]
+
+
+def _cand_finals(text):
+    return [i for i, ch in enumerate(text)
+            if ch.isalpha() and (i == len(text) - 1 or not text[i + 1].isalpha())]
+
+
+def _cand_outer(text):
+    a = _alpha_indices(text)
+    return sorted(set([a[0], a[-1]])) if a else []
+
+
+def _cand_alt(text, start):
+    return _alpha_indices(text)[start::2]
+
+
+def _cand_middle(text, n):
+    a = _alpha_indices(text)
+    if n <= 0 or n > len(a):
+        return []
+    off = (len(a) - n) // 2
+    return a[off:off + n]
+
+
+def _cand_greedy(text, want):
+    picks, wi = [], 0
+    for i, ch in enumerate(text):
+        if wi < len(want) and ch.isalpha() and ch.upper() == want[wi]:
+            picks.append(i)
+            wi += 1
+    return picks if wi == len(want) else []
+
+
+def _selection_picks(text, value, mechanism):
+    """Indices of the fodder letters that spell `value` under the selection rule, or None.
+
+    Tries the pattern that matches the mechanism first, then a few generic patterns,
+    then a greedy left-to-right subsequence. Only returns a candidate whose highlighted
+    letters exactly equal the value, so the highlight can never contradict the answer."""
+    want = [c.upper() for c in value if c.isalpha()]
+    if not want:
+        return None
+
+    def ok(idxs):
+        return idxs if [text[i].upper() for i in idxs] == want else None
+
+    order = {
+        "first_letter": [_cand_initials],
+        "acrostic":     [_cand_initials],
+        "last_letter":  [_cand_finals],
+        "outer":        [_cand_outer],
+        "alternate":    [lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1)],
+        "middle":       [lambda t: _cand_middle(t, len(want))],
+    }.get(mechanism, [
+        _cand_initials, _cand_finals,
+        lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1),
+        _cand_outer, lambda t: _cand_middle(t, len(want)),
+    ])
+    for gen in order:
+        picks = ok(gen(text))
+        if picks:
+            return picks
+    return ok(_cand_greedy(text, want))
+
+
+def _selection_fodder_html(text, value, mechanism):
+    """The fodder text with selected letters highlighted and the rest dimmed, or None
+    when the selection can't be reproduced (caller then shows the plain fodder)."""
+    picks = _selection_picks(text, value, mechanism)
+    if not picks:
+        return None
+    pick = set(picks)
+    out = []
+    for i, ch in enumerate(text):
+        e = escape(ch)
+        if not ch.isalpha():
+            out.append(e)
+        elif i in pick:
+            out.append('<span class="wfw-sel">%s</span>' % e)
+        else:
+            out.append('<span class="wfw-unsel">%s</span>' % e)
+    return "".join(out)
+
+
 # ---- reusable row builders (shared by every renderer) ----------------------------
 
 def _source_row(parse, si, src_fg, src_fill):
@@ -451,9 +554,13 @@ def _source_row(parse, si, src_fg, src_fill):
     s = parse.sources[si]
     label = _MECH_LABEL.get(s.mechanism, s.mechanism)
     style = "background:%s;color:%s" % (src_fill[si], src_fg[si])
+    # For a letter-selection piece, highlight WHICH fodder letters were taken.
+    fodder = None
+    if s.mechanism in _SELECTION_MECHS:
+        fodder = _selection_fodder_html(s.text, s.value, s.mechanism)
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
-               % (escape(s.text), escape(s.value)))
+               % (fodder if fodder else escape(s.text), escape(s.value)))
     # Show HOW the piece's letters reached the answer (reversed / minus a deleted run), so a
     # piece that supplies IS but lands as SI reads "is -> IS reversed" here too — not a bare IS
     # whose order isn't in the answer. Matches the assembly build line (same _transform_note).
@@ -1034,6 +1141,9 @@ CARD_CSS = """
   .wfw-enum { color:#94a3b8; font-weight:600; }
   .wfw-lit { background:#fde68a; border-radius:4px; padding:0 .06em;
              box-shadow:inset 0 -2px 0 #f59e0b; font-weight:800; color:#7a4f00; }
+  .wfw-sel { background:#fde68a; border-radius:3px; padding:0 .05em;
+             box-shadow:inset 0 -2px 0 #f59e0b; font-weight:800; color:#7a4f00; }
+  .wfw-unsel { color:#cbd5e1; }
   .wfw-tiles { display:flex; gap:.45rem; flex-wrap:wrap; margin:.25rem 0 1.3rem; }
   .wfw-tile { display:inline-flex; align-items:center; justify-content:center;
               width:2.7rem; height:2.7rem; border:2px solid; border-radius:10px;

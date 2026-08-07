@@ -542,6 +542,75 @@ def _removed(value, placed):
     return "".join(out)
 
 
+# ---- letter-selection highlighting (mirrors core/wfw_render; house rule: NO core
+# import — kept in sync by hand). For a piece whose letters are SELECTED from the
+# fodder, mark WHICH letters were taken instead of a bare "address -> DRS". Every
+# candidate pattern is verified to spell the value, so we never highlight letters that
+# don't reproduce it — else the caller shows the plain fodder (no regression). This
+# overlay uses Tailwind, not the card CSS, so the highlight styles are inlined. ------
+_SELECTION_MECHS = {"selection", "first_letter", "last_letter",
+                    "outer", "middle", "alternate", "acrostic"}
+_SEL_ON = ('background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;'
+           'padding:0 .05em;font-weight:800;color:#7a4f00')
+_SEL_OFF = 'color:#cbd5e1'
+
+
+def _alpha_idx(t):
+    return [i for i, ch in enumerate(t) if ch.isalpha()]
+
+
+def _sel_cands(text, mech, n):
+    """Candidate index-lists to try, in priority order for this mechanism."""
+    a = _alpha_idx(text)
+    initials = [i for i, ch in enumerate(text)
+                if ch.isalpha() and (i == 0 or not text[i - 1].isalpha())]
+    finals = [i for i, ch in enumerate(text)
+              if ch.isalpha() and (i == len(text) - 1 or not text[i + 1].isalpha())]
+    outer = sorted(set([a[0], a[-1]])) if a else []
+    alt0, alt1 = a[0::2], a[1::2]
+    off = (len(a) - n) // 2
+    middle = a[off:off + n] if 0 < n <= len(a) else []
+    by_mech = {
+        "first_letter": [initials], "acrostic": [initials],
+        "last_letter": [finals], "outer": [outer],
+        "alternate": [alt0, alt1], "middle": [middle],
+    }
+    return by_mech.get(mech, [initials, finals, alt0, alt1, outer, middle])
+
+
+def _sel_fodder_html(text, value, mech):
+    """The fodder with selected letters highlighted (inline styles), or None when the
+    selection can't be reproduced (caller then shows the plain fodder text)."""
+    from html import escape
+    want = [c.upper() for c in (value or "") if c.isalpha()]
+    if not text or not want:
+        return None
+    picks = None
+    for cand in _sel_cands(text, mech, len(want)):
+        if [text[i].upper() for i in cand] == want:
+            picks = cand
+            break
+    if picks is None:                       # greedy left-to-right subsequence, last resort
+        g, wi = [], 0
+        for i, ch in enumerate(text):
+            if wi < len(want) and ch.isalpha() and ch.upper() == want[wi]:
+                g.append(i)
+                wi += 1
+        picks = g if wi == len(want) else None
+    if not picks:
+        return None
+    pick = set(picks)
+    out = []
+    for i, ch in enumerate(text):
+        e = escape(ch)
+        if not ch.isalpha():
+            out.append(e)
+        else:
+            out.append('<span style="%s">%s</span>'
+                       % (_SEL_ON if i in pick else _SEL_OFF, e))
+    return "".join(out)
+
+
 # ---------------------------------------------------------------------------
 # Full breakdown (phase 2) — everything the overlay renders
 # ---------------------------------------------------------------------------
@@ -675,9 +744,19 @@ def load_breakdown(clue_id):
             continue
         fg, fill = source_colour(s["ord"])
         detail = _describe(s, placed_all.get(s["ord"], ""), trans.get(s["ord"], []))
-        scored.append((pos, {"pill": _MECH_LABEL.get(s["mechanism"],
-                                                     (s["mechanism"] or "Piece").title()),
-                             "fg": fg, "fill": fill, "detail": detail or ""}))
+        row = {"pill": _MECH_LABEL.get(s["mechanism"],
+                                       (s["mechanism"] or "Piece").title()),
+               "fg": fg, "fill": fill, "detail": detail or ""}
+        # For a letter-selection piece whose detail reads "fodder→VALUE", highlight
+        # WHICH fodder letters were taken. Only the leading fodder is replaced; the
+        # rest of the honest detail ("→DRS", " reversed", " less X") is escaped as-is.
+        if s["mechanism"] in _SELECTION_MECHS and detail:
+            from html import escape
+            txt = (s["text"] or "").strip()
+            fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"])
+            if fod and txt and detail.startswith(txt + "→"):
+                row["detail_html"] = fod + escape(detail[len(txt):])
+        scored.append((pos, row))
     for ind in parse["indicators"]:
         fg, fill = ROLE_COLOURS["indicator"]
         scored.append((_clue_pos(ind.get("atom_ids")),
