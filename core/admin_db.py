@@ -511,14 +511,19 @@ def add_indicator(word, wordplay_type, subtype=None):
         if ("selection", sub) not in SUBTYPE_RULE:
             return ("Unknown selection sub-type %r. Use one of: %s."
                     % (sub, ", ".join(CLUE_PAGE_SUBTYPES)))
-    # A LETTER-SHIFT (cyclic rotation by one) is meaningless without a direction — the solver
-    # could not know which end moves — so, like selection, it MUST carry a valid sub-type.
+    # A LETTER-SHIFT is meaningless without a direction — the reader could not know which
+    # letter moves which way — so, like selection, it MUST carry a valid sub-type. last_front
+    # /first_end are cyclic edge rotations; move_left/move_right relocate a named letter and
+    # are label-only (no solving duty) — the same as the rest of letter_shift, which no engine
+    # mechanically applies.
     if wp == "letter_shift":
+        _LS_SUBS = ("last_front", "first_end", "move_left", "move_right")
         if not sub:
             return ("A letter-shift indicator needs a sub-type (which way it moves): "
-                    "last_front or first_end.")
-        if sub not in ("last_front", "first_end"):
-            return ("Unknown letter-shift sub-type %r. Use last_front or first_end." % sub)
+                    "one of %s." % ", ".join(_LS_SUBS))
+        if sub not in _LS_SUBS:
+            return ("Unknown letter-shift sub-type %r. Use one of: %s."
+                    % (sub, ", ".join(_LS_SUBS)))
     # A POSITIONAL (charade re-ordering) indicator is meaningless without a direction — the
     # solver could not know whether the piece goes after or before — so, like selection and
     # letter-shift, it MUST carry a valid direction sub-type (core skips a blank-subtype row).

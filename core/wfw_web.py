@@ -83,6 +83,8 @@ _SUBTYPE_LABELS = {
     ("deletion", "general"): "letters named by another word",
     ("letter_shift", "last_front"): "move last letter to front",
     ("letter_shift", "first_end"):  "move first letter to end",
+    ("letter_shift", "move_left"):  "move letter left",
+    ("letter_shift", "move_right"): "move letter right",
     ("charade_positional", "after"):  "piece goes AFTER (behind) its neighbour",
     ("charade_positional", "before"): "piece goes BEFORE (ahead of) its neighbour",
     ("alternation", ""): "— no sub-type needed —",
@@ -109,7 +111,8 @@ def _build_ind_subtypes():
         d.append((c, "— no sub-type —" if c == "" else _SUBTYPE_LABELS[("deletion", c)]))
     out["deletion"] = d
     out["letter_shift"] = [(c, _SUBTYPE_LABELS[("letter_shift", c)])
-                           for c in ("last_front", "first_end")]
+                           for c in ("last_front", "first_end",
+                                     "move_left", "move_right")]
     out["charade_positional"] = [(c, _SUBTYPE_LABELS[("charade_positional", c)])
                                  for c in ("after", "before")]
     out["alternation"] = [("", _SUBTYPE_LABELS[("alternation", "")])]

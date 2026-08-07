@@ -305,6 +305,29 @@ def _manual_label(parse):
 # step 3 — one-line mechanical summary
 # ---------------------------------------------------------------------------
 
+# A letter-shift re-orders letters WITHIN a piece rather than contributing its own
+# letters, so it never surfaces as a segment in the assembly line — its direction has to
+# be named separately or the one-liner reads as a plain charade. Label-only (no solving
+# duty); mirrors core/wfw_render's letter-shift detail.
+_LETTER_SHIFT_DETAIL = {
+    "last_front": "move last letter to front",
+    "first_end": "move first letter to end",
+    "move_left": "move letter left",
+    "move_right": "move letter right",
+}
+
+
+def _letter_shift_note(indicators):
+    """The readable direction of a letter-shift indicator, or None if the clue has none."""
+    for ind in indicators:
+        n = (ind["note"] or "").lower()
+        if (n.startswith("letter_shift") or n.startswith("letter-shift")
+                or n.startswith("letter shift")):
+            sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
+            return _LETTER_SHIFT_DETAIL.get(sub, sub or "letter shift")
+    return None
+
+
 def _summary(parse):
     op = parse["operation"]
     answer = parse["answer_text"].upper()
@@ -323,6 +346,9 @@ def _summary(parse):
     # order pieces by clue reading position (not answer-assembly order)
     segments = sorted(segments, key=lambda ps: ps[0])
     line = " + ".join(seg for _, seg in segments) + " → " + answer
+    ls = _letter_shift_note(parse["indicators"])
+    if ls:
+        line += " (%s)" % ls
     if op == "andlit":
         line += " (and the whole clue defines it — &lit)"
     return line

@@ -375,7 +375,9 @@ _SUBTYPE_DETAIL = {
                  "ends": "remove outer letters", "middle": "remove middle letter",
                  "empty": "remove inner letters", "general": "named letter(s)"},
     "letter_shift": {"last_front": "move last letter to front",
-                     "first_end": "move first letter to end"},
+                     "first_end": "move first letter to end",
+                     "move_left": "move letter left",
+                     "move_right": "move letter right"},
     "charade_positional": {"after": "this piece goes after its neighbour",
                            "before": "this piece goes before its neighbour"},
 }
@@ -402,7 +404,9 @@ def _indicator_label(note):
             or n.startswith("letter shift"):       # "letter_shift/last_front indicator"
         sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
         detail = {"last_front": "move last letter to front",
-                  "first_end": "move first letter to end"}.get(sub, sub)
+                  "first_end": "move first letter to end",
+                  "move_left": "move letter left",
+                  "move_right": "move letter right"}.get(sub, sub)
         return "Letter-shift indicator", detail
     if "charade_positional" in n:                  # "charade_positional/after indicator"
         # a positional/charade indicator ("after", "before") — tells the reader WHERE the
@@ -581,6 +585,19 @@ def _render_generic_breakdown(parse, ctx, src_fg, src_fill):
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
+def _letter_shift_detail(parse):
+    """Readable direction of a letter-shift indicator on this parse, or None. A letter-shift
+    re-orders letters WITHIN a piece, so it contributes no chain segment; the summary must
+    name it explicitly or a charade + letter-shift reads as a plain charade. Label-only."""
+    for a in getattr(parse, "annotations", None) or []:
+        n = (getattr(a, "note", "") or "").lower()
+        if (n.startswith("letter_shift") or n.startswith("letter-shift")
+                or n.startswith("letter shift")):
+            sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
+            return _SUBTYPE_DETAIL["letter_shift"].get(sub, sub or "letter shift")
+    return None
+
+
 @renders("charade", "charade_alternation")
 def _render_charade(parse, ctx, src_fg, src_fill):
     """A + B + C -> ANSWER, pieces in clue order, then the detailed rows."""
@@ -589,6 +606,9 @@ def _render_charade(parse, ctx, src_fg, src_fill):
     chain = ' <span class="wfw-plus">+</span> '.join(_pval(parse, si, src_fg) for si in order)
     summ = ('%s <span class="wfw-arrow">&rarr;</span> '
             '<strong class="wfw-val">%s</strong>' % (chain, escape((parse.answer_text or "").upper())))
+    _ls = _letter_shift_detail(parse)
+    if _ls:
+        summ += ' <span class="wfw-emuted">(%s)</span>' % escape(_ls)
     return _build_line(summ) + _grid(_all_rows(parse, src_fg, src_fill))
 
 
@@ -971,8 +991,11 @@ def _assembly_expr(parse, answer_letters):
 def _render_assembly(parse, ctx, src_fg, src_fill):
     expr = _assembly_expr(parse, parse.answer_letters())
     if expr:
-        return _build_line('%s %s' % (expr, _arrow_ans(parse))) \
-            + _grid(_all_rows(parse, src_fg, src_fill))
+        line = '%s %s' % (expr, _arrow_ans(parse))
+        _ls = _letter_shift_detail(parse)
+        if _ls:
+            line += ' <span class="wfw-emuted">(%s)</span>' % escape(_ls)
+        return _build_line(line) + _grid(_all_rows(parse, src_fg, src_fill))
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
