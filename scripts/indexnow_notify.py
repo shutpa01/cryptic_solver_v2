@@ -30,6 +30,7 @@ catch-up, while everything older is marked done.
 import argparse
 import sqlite3
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # repo root on sys.path
@@ -131,6 +132,10 @@ def main():
                     help="mark EVERY served puzzle as already sent (no submission)")
     ap.add_argument("--force", action="store_true",
                     help="allow a large send even when the ledger is empty (bypass the guard)")
+    ap.add_argument("--max-seconds", type=float, default=0.0, metavar="N",
+                    help="stop starting new puzzles after N seconds of sending and defer the "
+                         "rest to the next run (0 = no limit). Keeps a deploy inside its "
+                         "subprocess budget; each puzzle stays atomic so nothing is re-sent.")
     args = ap.parse_args()
 
     app = create_app("development")
@@ -179,14 +184,21 @@ def main():
         print("Nothing new to announce.")
         return 0
 
-    sent_ok = fail = 0
-    for (source, number), v in sorted(new.items()):
+    items = sorted(new.items())
+    deadline = (time.monotonic() + args.max_seconds) if args.max_seconds else None
+    sent_ok = fail = processed = 0
+    for (source, number), v in items:
+        # Check the time budget BETWEEN puzzles only, so every puzzle is sent atomically and
+        # recorded whole — a deferred puzzle is retried intact next run, never half-announced.
+        if deadline is not None and time.monotonic() > deadline:
+            break
+        processed += 1
         if not v["urls"]:                                # served but nothing to send — never silent
             fail += 1
             print("  WARN   %-11s %-8s  served but produced 0 URLs — not sent, not recorded "
                   "(needs a look)" % (source, number))
             continue
-        status, body = indexnow.submit(v["urls"])       # one puzzle's URLs
+        status, body = indexnow.submit(v["urls"], timeout=10)   # one puzzle's URLs
         if status in (200, 202):
             _ledger_record(conn, source, number, now)    # record ONLY on success
             sent_ok += 1
@@ -195,8 +207,12 @@ def main():
             fail += 1
             print("  FAILED %-11s %-8s  HTTP %s  %s  (not recorded, will retry next run)"
                   % (source, number, status, body))
-    print("Done: %d puzzle(s) sent, %d failed." % (sent_ok, fail))
-    return 1 if fail else 0
+    deferred = len(items) - processed
+    if deferred:                                         # time budget hit — remainder next run
+        print("  TIME BUDGET (%gs) reached: %d puzzle(s) deferred to the next run."
+              % (args.max_seconds, deferred))
+    print("Done: %d puzzle(s) sent, %d failed, %d deferred." % (sent_ok, fail, deferred))
+    return 1 if fail else 0                              # deferral is NOT a failure
 
 
 if __name__ == "__main__":

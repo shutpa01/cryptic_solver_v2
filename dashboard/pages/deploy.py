@@ -350,9 +350,14 @@ def _render_cordelia_deploy():
             with st.spinner("Notifying IndexNow (Bing) of new URLs..."):
                 try:
                     py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+                    # Streams one GET per URL (~1.5s each), so runtime scales with URL count.
+                    # --max-seconds keeps the script inside the subprocess budget by deferring
+                    # any overflow to the next deploy (each puzzle atomic, nothing re-sent);
+                    # the 300s ceiling matches the other network steps and leaves ample margin.
                     result = subprocess.run(
-                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py")],
-                        capture_output=True, text=True, timeout=120,
+                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
+                         "--max-seconds", "200"],
+                        capture_output=True, text=True, timeout=300,
                         encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
                     )
                     lines = (result.stdout or "").strip().splitlines()
