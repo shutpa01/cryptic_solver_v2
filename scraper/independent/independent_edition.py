@@ -219,6 +219,10 @@ def parse_puzzle(puzzle_json, puzzle_date, puzzle_title):
     clues = []
     for item in items:
         clue_text_raw = item.get('clue', '')
+        # Strip inline HTML the JSON feed carries (<i>Aida</i> -> Aida) at the source, so the
+        # clean text flows to the DB, the grid and everything downstream. This JSON path never
+        # stripped (the HTML-scrape path uses get_text, which does), so italicised words leaked.
+        clue_text_raw = re.sub(r'<[^>]+>', '', clue_text_raw)
         answer = item.get('answer', '').upper()
         direction = 'across' if item['dir'] == 0 else 'down'
         clue_number = start_to_number[item['start']]

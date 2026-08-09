@@ -169,7 +169,9 @@ def save_clues(source: str, puzzle_number: str, pub_date: str,
                 pub_date,
                 clue['number'],
                 direction,
-                clue['clue'],
+                # Strip inline HTML from the verbatim JSON 'question' field, same guard as the
+                # Guardian/Independent JSON paths, so an italicised word can never leak here.
+                re.sub(r'<[^>]+>', '', clue['clue']),
                 clue['enumeration'],
                 clue['answer'],
             ))

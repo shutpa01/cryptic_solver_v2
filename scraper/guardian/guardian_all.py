@@ -667,7 +667,11 @@ def save_to_database(puzzle_data, puzzle_type, raw_api_data=None, source_url=Non
                 puzzle_date,
                 str(clue.get('number', '')),
                 direction,
-                clue.get('clue', ''),
+                # Strip inline HTML tags (<i>House</i> -> House) at THE single write point,
+                # so every Guardian type is covered. The cryptic parser strips upstream but
+                # the Everyman parser only unescaped, leaking <i> tags into clue_text every
+                # week (e.g. 4164 16A/5D). Stripping here can never be bypassed by a parser.
+                re.sub(r'<[^>]+>', '', clue.get('clue', '')),
                 clue.get('enumeration', ''),
                 answer,
             ))
