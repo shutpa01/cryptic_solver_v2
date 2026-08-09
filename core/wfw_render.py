@@ -618,7 +618,7 @@ def _source_row(parse, si, src_fg, src_fill):
         positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
         got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))
         ana = _anagram_note(parse, (s.value or "").upper(), got)
-        content += ana if ana else _transform_note(s.value, got)
+        content += ana if ana else _transform_note(s.value, got, parse)
     if s.mechanism == "homophone":
         tr = next((l.transform for l in parse.links
                    if l.source_index == si and l.transform), None)
@@ -1030,7 +1030,7 @@ def _render_homophone(parse, ctx, src_fg, src_fill):
 # generically so one renderer serves every compound (anagram+container, container+charade,
 # charade+deletion, reversal+charade, ...). Falls back to plain rows if the map is incomplete.
 
-def _transform_note(value, got):
+def _transform_note(value, got, parse=None):
     """The 'reversed' / '&minus;deleted-run' marker for a piece whose DB value is `value` and
     whose answer letters IN ANSWER READING ORDER are `got`. '' when they match plainly. Does
     NOT cover anagram (the caller flags anagram_fodder itself). Shared by the assembly build
@@ -1052,6 +1052,13 @@ def _transform_note(value, got):
         for j in range(i + 1, len(v) + 1):               #   leaving a NON-empty survivor (got)
             if v[:i] + v[j:] == got:
                 return ' <span class="wfw-emuted">&minus;%s</span>' % escape(v[i:j])
+    idx = v.find(got)                                    # 'peeled': got survives as a contiguous
+    if 0 < idx and idx + len(got) < len(v):              #   interior run of v, with BOTH a removed
+        found = _note_mechs(parse)[0] if parse is not None else set()
+        if "deletion" in found:                          #   prefix AND suffix — claimed ONLY when
+            pre, suf = v[:idx], v[idx + len(got):]        #   the clue names a deletion (SQUID->QUI),
+            return (' <span class="wfw-emuted">&minus;%s &minus;%s</span>'  # never on a hidden word
+                    % (escape(pre), escape(suf)))
     return ""
 
 
@@ -1098,7 +1105,7 @@ def _piece_label(parse, si, positions, answer_letters):
             return col + ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)
         return col + ' <span class="wfw-emuted">anagram</span>'
     ana = _anagram_note(parse, v, got)
-    return col + (ana if ana else _transform_note(v, got))
+    return col + (ana if ana else _transform_note(v, got, parse))
 
 
 def _src_colour(si):
