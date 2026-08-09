@@ -495,42 +495,87 @@ def _cand_greedy(text, want):
     return picks if wi == len(want) else []
 
 
-def _selection_picks(text, value, mechanism):
+def _cand_greedy_right(text, want):
+    """Like _cand_greedy but matches from the RIGHT — the last occurrence of the value's
+    letters. This is what a 'last letter' selection means: athlete's -> E is the SECOND e
+    (athletE's), not the first (athlEte's)."""
+    picks, wi = [], len(want) - 1
+    for i in range(len(text) - 1, -1, -1):
+        ch = text[i]
+        if wi >= 0 and ch.isalpha() and ch.upper() == want[wi]:
+            picks.append(i)
+            wi -= 1
+    return sorted(picks) if wi < 0 else []
+
+
+_SELECTION_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
+
+
+def _selection_rule(parse):
+    """The selection sub-rule (first/last/outer/middle/alternate) declared by the clue's
+    selection indicator, or None. The generic 'selection' mechanism doesn't carry the rule
+    on the source piece — the human's assignment stores it on the indicator (e.g. note
+    'selection/last indicator'), so read it there rather than re-guessing which letters."""
+    for a in getattr(parse, "annotations", []):
+        if getattr(a, "role", "") != "indicator":
+            continue
+        n = (getattr(a, "note", "") or "").lower()
+        if "selection" not in n:
+            continue
+        for sub in _SELECTION_RULE_SUBS:
+            if sub in n:
+                return sub
+    return None
+
+
+def _selection_picks(text, value, mechanism, rule=None):
     """Indices of the fodder letters that spell `value` under the selection rule, or None.
 
-    Tries the pattern that matches the mechanism first, then a few generic patterns,
-    then a greedy left-to-right subsequence. Only returns a candidate whose highlighted
-    letters exactly equal the value, so the highlight can never contradict the answer."""
+    `rule` is the sub-type from the human's assignment (first/last/outer/middle/alternate)
+    when the mechanism is the generic 'selection'; the named mechanisms carry their own rule.
+    Applies that rule DIRECTIONALLY — 'last' matches the rightmost letters, 'first' the
+    leftmost — so a duplicated letter (athlete's -> last E) is taken from the correct end.
+    Only returns a candidate whose highlighted letters exactly equal the value, so the
+    highlight can never contradict the answer."""
     want = [c.upper() for c in value if c.isalpha()]
     if not want:
         return None
+    n = len(want)
 
     def ok(idxs):
         return idxs if [text[i].upper() for i in idxs] == want else None
 
+    eff = rule or {
+        "first_letter": "first", "acrostic": "first",
+        "last_letter": "last", "outer": "outer",
+        "middle": "middle", "alternate": "alternate",
+    }.get(mechanism)
+
     order = {
-        "first_letter": [_cand_initials],
-        "acrostic":     [_cand_initials],
-        "last_letter":  [_cand_finals],
-        "outer":        [_cand_outer],
-        "alternate":    [lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1)],
-        "middle":       [lambda t: _cand_middle(t, len(want))],
-    }.get(mechanism, [
+        "first":     [_cand_initials, lambda t: _cand_greedy(t, want)],
+        "last":      [_cand_finals, lambda t: _cand_greedy_right(t, want)],
+        "outer":     [_cand_outer],
+        "alternate": [lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1)],
+        "middle":    [lambda t: _cand_middle(t, n), lambda t: _cand_greedy(t, want)],
+    }.get(eff, [
         _cand_initials, _cand_finals,
         lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1),
-        _cand_outer, lambda t: _cand_middle(t, len(want)),
+        _cand_outer, lambda t: _cand_middle(t, n),
     ])
     for gen in order:
         picks = ok(gen(text))
         if picks:
             return picks
-    return ok(_cand_greedy(text, want))
+    # Universal last resort — a valid subsequence from whichever end the rule prefers.
+    if eff == "last":
+        return ok(_cand_greedy_right(text, want)) or ok(_cand_greedy(text, want))
+    return ok(_cand_greedy(text, want)) or ok(_cand_greedy_right(text, want))
 
 
-def _selection_fodder_html(text, value, mechanism):
+def _selection_fodder_html(text, value, mechanism, rule=None):
     """The fodder text with selected letters highlighted and the rest dimmed, or None
     when the selection can't be reproduced (caller then shows the plain fodder)."""
-    picks = _selection_picks(text, value, mechanism)
+    picks = _selection_picks(text, value, mechanism, rule)
     if not picks:
         return None
     pick = set(picks)
@@ -554,10 +599,13 @@ def _source_row(parse, si, src_fg, src_fill):
     s = parse.sources[si]
     label = _MECH_LABEL.get(s.mechanism, s.mechanism)
     style = "background:%s;color:%s" % (src_fill[si], src_fg[si])
-    # For a letter-selection piece, highlight WHICH fodder letters were taken.
+    # For a letter-selection piece, highlight WHICH fodder letters were taken. For the
+    # generic 'selection' mechanism the rule (first/last/...) lives on the indicator, so
+    # read it from the assignment rather than re-guessing which of a repeated letter to take.
     fodder = None
     if s.mechanism in _SELECTION_MECHS:
-        fodder = _selection_fodder_html(s.text, s.value, s.mechanism)
+        rule = _selection_rule(parse) if s.mechanism == "selection" else None
+        fodder = _selection_fodder_html(s.text, s.value, s.mechanism, rule)
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
                % (fodder if fodder else escape(s.text), escape(s.value)))

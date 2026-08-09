@@ -559,8 +559,46 @@ def _alpha_idx(t):
     return [i for i, ch in enumerate(t) if ch.isalpha()]
 
 
-def _sel_cands(text, mech, n):
-    """Candidate index-lists to try, in priority order for this mechanism."""
+_SEL_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
+
+
+def _sel_rule(indicators):
+    """The selection sub-rule (first/last/...) from the clue's selection indicator, or None.
+    The generic 'selection' mechanism doesn't carry the rule on the source piece — the
+    human's assignment stores it on the indicator note (e.g. 'selection/last indicator') —
+    so read it there rather than re-guessing which of a repeated letter to take."""
+    for ind in (indicators or []):
+        note = (ind.get("note") or "").lower()
+        if "selection" not in note:
+            continue
+        for sub in _SEL_RULE_SUBS:
+            if sub in note:
+                return sub
+    return None
+
+
+def _greedy_sub(text, want, from_right):
+    """Leftmost (from_right=False) or rightmost subsequence of `want` in `text`, or None."""
+    if from_right:
+        picks, wi = [], len(want) - 1
+        for i in range(len(text) - 1, -1, -1):
+            if wi >= 0 and text[i].isalpha() and text[i].upper() == want[wi]:
+                picks.append(i)
+                wi -= 1
+        return sorted(picks) if wi < 0 else None
+    picks, wi = [], 0
+    for i, ch in enumerate(text):
+        if wi < len(want) and ch.isalpha() and ch.upper() == want[wi]:
+            picks.append(i)
+            wi += 1
+    return picks if wi == len(want) else None
+
+
+def _sel_cands(text, mech, n, rule=None):
+    """Candidate index-lists to try, in priority order for the effective selection rule.
+    `rule` (from the indicator) wins for the generic 'selection' mechanism; the named
+    mechanisms carry their own rule. 'last' is matched from the RIGHT so a repeated letter
+    is taken from the correct end (athlete's -> last E)."""
     a = _alpha_idx(text)
     initials = [i for i, ch in enumerate(text)
                 if ch.isalpha() and (i == 0 or not text[i - 1].isalpha())]
@@ -570,15 +608,18 @@ def _sel_cands(text, mech, n):
     alt0, alt1 = a[0::2], a[1::2]
     off = (len(a) - n) // 2
     middle = a[off:off + n] if 0 < n <= len(a) else []
-    by_mech = {
-        "first_letter": [initials], "acrostic": [initials],
-        "last_letter": [finals], "outer": [outer],
+    eff = rule or {
+        "first_letter": "first", "acrostic": "first", "last_letter": "last",
+        "outer": "outer", "middle": "middle", "alternate": "alternate",
+    }.get(mech)
+    by_rule = {
+        "first": [initials], "last": [finals], "outer": [outer],
         "alternate": [alt0, alt1], "middle": [middle],
     }
-    return by_mech.get(mech, [initials, finals, alt0, alt1, outer, middle])
+    return by_rule.get(eff, [initials, finals, alt0, alt1, outer, middle])
 
 
-def _sel_fodder_html(text, value, mech):
+def _sel_fodder_html(text, value, mech, rule=None):
     """The fodder with selected letters highlighted (inline styles), or None when the
     selection can't be reproduced (caller then shows the plain fodder text)."""
     from html import escape
@@ -586,17 +627,14 @@ def _sel_fodder_html(text, value, mech):
     if not text or not want:
         return None
     picks = None
-    for cand in _sel_cands(text, mech, len(want)):
+    for cand in _sel_cands(text, mech, len(want), rule):
         if [text[i].upper() for i in cand] == want:
             picks = cand
             break
-    if picks is None:                       # greedy left-to-right subsequence, last resort
-        g, wi = [], 0
-        for i, ch in enumerate(text):
-            if wi < len(want) and ch.isalpha() and ch.upper() == want[wi]:
-                g.append(i)
-                wi += 1
-        picks = g if wi == len(want) else None
+    if picks is None:                       # subsequence from the end the rule prefers
+        eff = rule or ("last" if mech == "last_letter" else None)
+        picks = (_greedy_sub(text, want, eff == "last")
+                 or _greedy_sub(text, want, eff != "last"))
     if not picks:
         return None
     pick = set(picks)
@@ -753,7 +791,8 @@ def load_breakdown(clue_id):
         if s["mechanism"] in _SELECTION_MECHS and detail:
             from html import escape
             txt = (s["text"] or "").strip()
-            fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"])
+            rule = _sel_rule(parse["indicators"]) if s["mechanism"] == "selection" else None
+            fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"], rule)
             if fod and txt and detail.startswith(txt + "→"):
                 row["detail_html"] = fod + escape(detail[len(txt):])
         scored.append((pos, row))
