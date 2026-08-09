@@ -5127,11 +5127,15 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             it = (a.get("itype") or "").split(":")[0] or "wordplay"
             isb = (a.get("isub") or "").strip()
             _raw_it = (a.get("itype") or "").split(":")[0]        # a REAL chosen type (or "")
-            if _raw_it == "charade_positional" and not isb:
-                # The reading tagged a positional indicator but carried no direction (an older
-                # assignment, before the seed derived it). The direction is a fact of the
-                # assembly — recover it from the piece order so the harvest writes a real
-                # after/before instead of failing "needs a sub-type".
+            if _raw_it == "charade_positional" and isb not in (
+                    "after", "before", "after_down", "before_down"):
+                # The positional direction is a FACT of the assembly, so an AI reading's own
+                # sub-type is trusted ONLY when it is a real direction. When it is EMPTY *or a
+                # bogus value* (e.g. the LLM copied the indicator word "on"), recover after/
+                # before from the piece order instead of storing a wrong/blank sub-type. A valid
+                # direction the human or a good reading supplied is kept — the derivation can
+                # abstain (assembly doesn't cleanly split), so we must not overwrite a known-good
+                # value with a blank. Abstain + no valid value => stays bare (honest).
                 isb = _positional_dir_from_assigns(assigns, idx)
             # HONESTY GATE (mirrors the definition/synonym gate above): an indicator is an
             # ASSERTION ("this phrase indicates <type>") that an AI reading can make without
