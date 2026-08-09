@@ -52,6 +52,31 @@ def _iso(s):
         return s
 
 
+def _pnum_from_title(path):
+    """The 'No N' puzzle number from a toughie JSON, or None when the title has no 'No N'."""
+    try:
+        copy = json.load(open(path, encoding="utf-8"))["json"]["copy"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+    m = re.search(r"No\s*(\d+)", copy.get("title", "") or "")
+    return int(m.group(1)) if m else None
+
+
+def _newest_json():
+    """The scraped toughie JSON with the HIGHEST puzzle number (higher = newer).
+
+    NOT 'newest by mtime': the scraper re-writes the older toughie JSONs every Sunday, so the
+    most-recently-written file can be an OLD puzzle. On 2026-08-09 that grabbed #233 (its file
+    was rewritten last) and the new #237 was never ingested. Pick by the 'No N' number, ignoring
+    files whose title has none so a stray internal id can't win. Falls back to mtime only if no
+    file yields a puzzle number."""
+    files = glob.glob(GLOB)
+    numbered = [(pn, p) for p in files if (pn := _pnum_from_title(p)) is not None]
+    if numbered:
+        return max(numbered, key=lambda t: t[0])[1]
+    return max(files, key=os.path.getmtime) if files else None
+
+
 def parse(path):
     copy = json.load(open(path, encoding="utf-8"))["json"]["copy"]
     title = copy.get("title", "")
@@ -75,7 +100,7 @@ def parse(path):
 def main():
     args = [a for a in sys.argv[1:] if a != "--commit"]
     commit = "--commit" in sys.argv
-    path = args[0] if args else max(glob.glob(GLOB), key=os.path.getmtime)
+    path = args[0] if args else _newest_json()
 
     title, pnum, date, clues = parse(path)
     print("File:   %s" % os.path.basename(path))
