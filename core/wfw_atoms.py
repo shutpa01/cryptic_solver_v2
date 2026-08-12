@@ -6,6 +6,7 @@ answer placements must reference.
 """
 from __future__ import annotations
 
+import unicodedata
 from dataclasses import dataclass
 from typing import Optional
 
@@ -226,9 +227,52 @@ def classify_char(char):
 
 
 def normalize_char(char):
-    if char.isalpha():
-        return char.upper()
-    return char
+    """The atom's COMPARABLE form: upper-case, with any diacritic FOLDED to the base
+    letter (fiancée -> FIANCEE, gratiné -> GRATINE, Señor -> SENOR).
+
+    `char` keeps the original verbatim, so display and reconstruct() are unaffected —
+    this field exists only to be compared, and every consumer compares it against
+    answer letters, which are plain ASCII. Without the fold, an accented clue word can
+    never letter-match its answer: alternate letters of FIANCÉE derived INÉ against
+    tiles INE, so the /hs selection gate refused every possible value and the clue was
+    unfileable (telegraph 31316 1a FINE). Same double-bind for hidden runs, anagram
+    fodder and acrostics through an accented word.
+
+    This is the cryptic convention already stated by core.wordplay.raw(); the fold is
+    inlined rather than imported to keep this foundation module dependency-free.
+
+    CANONICAL decomposition (NFD), deliberately NOT compatibility (NFKD). Over the whole
+    603k-clue corpus the two differ on exactly one character: 'º' (MASCULINE ORDINAL
+    INDICATOR), a mis-scraped degree sign in "90º". Python calls it alphabetic, so it is
+    already a letter atom; NFKD would fold it to a real letter O and hand the engines a
+    letter source that is not in the clue. NFD leaves it alone — inert, matching nothing,
+    exactly as before. æ ð ø ł œ likewise decompose under neither and stay inert.
+
+    Strict no-op for plain ASCII: NFD leaves unaccented characters unchanged. A char that
+    decomposes to several base letters falls back to a plain upper-case, preserving the
+    one-atom-one-character invariant that selection and the hidden-run scan rely on.
+    """
+    if not char.isalpha():
+        return char
+    folded = "".join(c for c in unicodedata.normalize("NFD", char)
+                     if not unicodedata.combining(c))
+    return folded.upper() if len(folded) == 1 else char.upper()
+
+
+def fold_letters(text):
+    """`text` as bare comparable letters: diacritics folded, upper-case, A-Z only.
+
+    The string-level counterpart of normalize_char, and the ONE definition of "the
+    letters of this word/answer" for the web layer — mirrored character-for-character by
+    foldLetters() in the /hs grid JS. Three subtly different hand-rolled versions of this
+    used to disagree (one kept É, one deleted it and silently shifted every later letter's
+    parity, one folded it), which is what made an accented clue unfileable.
+
+    Dropping to A-Z cannot fabricate a letter, only withhold one; it is checked never to
+    shorten any answer in the corpus.
+    """
+    return "".join(c for c in unicodedata.normalize("NFD", text or "").upper()
+                   if "A" <= c <= "Z")
 
 
 def reconstruct(atoms):

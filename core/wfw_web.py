@@ -40,6 +40,7 @@ from core import admin_db
 from core import span_join
 from core import store
 from core.wfw_atoms import build_wfw_atom_context
+from core.wfw_atoms import fold_letters as _raw_letters   # the ONE letter-extraction rule
 
 # SCREENS + _manual_hidden_line moved to core/wfw_card.py (2026-07-13) so the
 # public site renders the SAME card without importing this heavy solver app.
@@ -901,7 +902,7 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
     enrich_block = ""
     if parse is not None and parse.status == "pending" \
             and getattr(parse, "solved_by", "") == "prefill":
-        ans_letters = "".join(c for c in (answer or "").upper() if c.isalpha())
+        ans_letters = _raw_letters(answer)
         enrich_block = _enrichment_block(clue_text, ans_letters, clue_id, raw_list)
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
             + _note_block(clue_id, raw_list, editor=False)
@@ -2043,7 +2044,7 @@ def gridapply_route():
         groups.append((roles[i], list(range(i, j + 1))))
         i = j + 1
 
-    ans_letters = "".join(c for c in (answer or "").upper() if c.isalpha())
+    ans_letters = _raw_letters(answer)
     la = batch_wiring()["lookup_all"]
 
     def reuse_value(idxs):
@@ -2346,7 +2347,7 @@ function initGrid(rootId, DATA){
    case 'first':return n?[la[0]]:[];
    case 'last':return n?[la[n-1]]:[];
    case 'outer':return n>=2?[la[0]+la[n-1]]:[];
-   case 'middle':return n<3?[]:(n%2?[la[(n-1)/2]]:[la[n/2-1]+la[n/2]]);
+   case 'middle':{if(n<3)return[];var mc=[];for(var L=(n%2?1:2);L<=n-2;L+=2){var lo=(n-L)/2;mc.push(la.slice(lo,lo+L).join(''));}return mc;}  // every centred run bar the whole word (mirrors core.selection._middle, widened 2026-08-11)
    case 'alternate':if(n<2)return[];var a=[],b=[];for(var i=0;i<n;i++){(i%2?b:a).push(la[i]);}return[a.join(''),b.join('')];
    case 'remove_first':return n>=2?[la.slice(1).join('')]:[];
    case 'remove_last':return n>=2?[la.slice(0,n-1).join('')]:[];
@@ -2358,11 +2359,20 @@ function initGrid(rootId, DATA){
   candSel.innerHTML=cands.length?cands.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('')
    :'<option value="">(tick word(s) first / word too short)</option>';
   if(cands.length)addInp.value=cands[0];}
- function fodderLetters(idx){return idx.map(function(i){return (DATA.words[i]||'').toUpperCase().replace(/[^A-Z]/g,'');}).join('');}
+ // Diacritics FOLD to the base letter (fiancée -> FIANCEE), mirroring core.wfw_atoms
+ // .normalize_char / core.wordplay.raw. Stripping the accented letter instead of folding
+ // it silently shortened the word and shifted every later letter's parity, so the grid
+ // offered a candidate the server then refused (INE from FIANCE vs INÉ from FIANCÉE).
+ // NFD splits É into E + a combining mark; the mark is not A-Z, so the existing filter
+ // drops it and the base letter survives in place — fold, not delete. Canonical (NFD) not
+ // compatibility (NFKD), exactly as core.wfw_atoms.fold_letters, which this mirrors: NFKD
+ // would turn the degree sign in "90º" into a letter O the clue does not contain.
+ function foldLetters(s){return (s||'').normalize('NFD').toUpperCase().replace(/[^A-Z]/g,'');}
+ function fodderLetters(idx){return idx.map(function(i){return foldLetters(DATA.words[i]);}).join('');}
  function selCandsApos(idx,rule){          // apostrophe divides a word (CHOIR'S -> CHOIR | S):
   var out=selCands(fodderLetters(idx),rule).slice();                 // the rule on the WHOLE word
   var raw=idx.map(function(i){return DATA.words[i]||'';}).join(' ');  // AND on each apostrophe-part
-  var segs=raw.split(/['’]/).map(function(s){return s.toUpperCase().replace(/[^A-Z]/g,'');}).filter(function(s){return s;});
+  var segs=raw.split(/['’]/).map(foldLetters).filter(function(s){return s;});
   if(segs.length>1){segs.forEach(function(s){selCands(s,rule).forEach(function(c){if(out.indexOf(c)<0)out.push(c);});});}
   return out;}                             // so "last of CHOIR'S" offers R (before ') as well as S
  function msort(s){return (s||'').split('').sort().join('');}
@@ -2856,7 +2866,7 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
                                                   # (e.g. synonym prune) keep it, not collapse
                                                   # to this single clue
             "words": [r["text"] for r in rows],
-            "answer": "".join(c for c in answer.upper() if c.isalpha()),
+            "answer": _raw_letters(answer),
             "current": [{"label": r["label"], "value": r["value"]} for r in rows],
             "subtypes": _IND_SUBTYPES,            # per-type sub-type options (data-driven dropdown:
                                                   #   deletion / selection / letter_shift)
@@ -3428,17 +3438,21 @@ def _selection_candidates(phrase, rule):
     lists, so plain characters work). The commit validates a selection piece against this,
     so the derived value can never be free-typed."""
     from core import selection
+    from core.wfw_atoms import fold_letters as raw   # folds diacritics — see normalize_char
     import re
     fn = selection.SPAN_RULES.get(rule)
     if fn is None:
         return []
+    # Letters come through core.wordplay.raw so an accented word folds to its base letters
+    # (FIANCÉE -> FIANCEE) exactly as the atom layer does. Deriving on the accented letters
+    # made this check unsatisfiable: it demanded INÉ while the tile check demanded INE.
     # An apostrophe divides a word (CHOIR'S -> CHOIR | S): derive the rule over the WHOLE
     # word AND over each apostrophe-part, so "last letter of CHOIR'S" offers R (before the ')
     # as well as S (after). No apostrophe -> one part -> behaviour unchanged.
     parts = [p for p in re.split(r"['’]", phrase or "") if any(c.isalpha() for c in p)]
-    letter_sets = ["".join(c for c in (phrase or "").upper() if c.isalpha())]
+    letter_sets = [raw(phrase)]
     if len(parts) > 1:
-        letter_sets += ["".join(c for c in p.upper() if c.isalpha()) for p in parts]
+        letter_sets += [raw(p) for p in parts]
     out = []
     for ls in letter_sets:
         try:
@@ -3497,7 +3511,7 @@ def _cand_from_assignments(assigns, n_total, answer=""):
     rem_key = None
     if op == "deletion" and answer and len([s for s in syns if s[2] == "SYN_F"]) >= 2:
         from core import deletion
-        ans = "".join(c for c in answer.upper() if c.isalpha())
+        ans = _raw_letters(answer)
         for bidx, bval, btok in syns:
             if btok != "SYN_F":
                 continue
@@ -3674,7 +3688,7 @@ def hssave_route():
             answer = enum_space(answer, enumeration)
             ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
             wt = _hs_word_units(ctx)
-            ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+            ans_letters = _raw_letters(answer)
             db_adds = _reusable_db_adds(wt, ans_letters, assigns)
             if db_adds:
                 added, _present, rejected = _apply_db_adds(db_adds)
@@ -3817,6 +3831,12 @@ def hscd_route():
         # 2026-07-17) rebuilds from that stale assignment, finds no assemblable pieces, and
         # deletes the parse, so the last-resort CD engine never runs ("got no parse").
         store.set_hs_assignments(conn, cid, "")
+        # A CD declaration also supersedes a frozen ENGINE pass (a frozen MANUAL solve was
+        # refused above). Without this, a stale/bogus frozen engine pass (e.g. a false charade
+        # from an older engine) blocks the CD: the CD engine files 'pending', but save_parse
+        # never overwrites a frozen pass with a non-pass, so the clue "will not solve as a CD"
+        # every time. Lift the freeze so the CD parse can land (it is re-frozen as a PASS below).
+        store.clear_frozen(conn, cid)
     finally:
         conn.close()
     addmsg = admin_db.add_definition(whole, answer)
@@ -3866,7 +3886,7 @@ def hsresolve_route():
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
     allwords = [t.text for t in ctx.clue_tokens if t.kind == "word"]
-    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    ans_letters = _raw_letters(answer)
     try:
         assigns = json.loads(payload) if payload else []
     except Exception:
@@ -4748,7 +4768,7 @@ def hssavepieces_route():
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
     wt = _hs_word_units(ctx)
-    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    ans_letters = _raw_letters(answer)
     try:
         assigns = json.loads(payload) if payload else []
     except Exception:
@@ -4791,8 +4811,8 @@ def _promote_double_definition(parse, db_adds):
     if len(parse.sources) != 1 or len(syns) != 1:
         return                                    # a real piece besides the synonym -> not a DD
     s = syns[0]
-    ans = "".join(c for c in (parse.answer_text or "").upper() if c.isalpha())
-    val = "".join(c for c in (s.value or "").upper() if c.isalpha())
+    ans = _raw_letters(parse.answer_text)
+    val = _raw_letters(s.value)
     if not ans or val != ans:                     # the synonym must BE the whole answer
         return
     if any(getattr(a, "role", "") != "link" for a in (parse.annotations or [])):
@@ -4837,7 +4857,7 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
     wt = _hs_word_units(ctx)                       # hyphenated words split (line-up -> line + up)
                                                    # so payload word-indices align with the /hs grid
-    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    ans_letters = _raw_letters(answer)
     N = len(ans_letters)
 
     _pending = None
@@ -4883,7 +4903,7 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             if role in ("letters", "replacement") and not value:
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
             if role == "anagram" and not value:            # fodder = the ticked clue words' letters
-                value = "".join(c for c in phrase.upper() if c.isalpha())
+                value = _raw_letters(phrase)      # folds diacritics, as the atom layer does
             if role == "selection":                        # derived letters — validate vs the rule
                 rule = (a.get("rule") or "").strip()       # so a selection can never be free-typed
                 cands = _selection_candidates(phrase, rule)
@@ -4912,6 +4932,24 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                             "and deletion have their own roles."
                             % (phrase, value, got, "".join(sorted(missing.elements())),
                                phrase, got)}
+            if role == "selection":
+                # A selection PLACES exactly the letters its rule derived (minus an explicit
+                # cut). Nothing checked that: the letter-subset check above covers only
+                # synonym/substitution/letters/replacement, so a one-letter selection could be
+                # dropped on the whole answer and still satisfy every other gate — a false pass.
+                # (INTROIT 2026-08-11: "saintly shroud rite" tagged as ONE selection/first = S
+                # over all 7 tiles committed as a manual PASS.)
+                got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+                from collections import Counter
+                cut = "".join(c for c in (a.get("cut") or "").upper() if c.isalpha())
+                lands = Counter(c for c in value if c.isalpha()) - Counter(cut)
+                if Counter(got) != lands:
+                    return {"ok": False, "msg": "Selection %r (%s) = %r does not make the "
+                            "tiles you clicked (%s). A selection places exactly the letters "
+                            "the rule derives — tag ONE word per selection and click only "
+                            "the tiles that word makes." % (phrase, rule or "no rule",
+                                                            value + ("-" + cut if cut else ""),
+                                                            got or "none")}
             if role == "anagram":                          # fodder must CONTAIN the tiles it fills;
                 got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)  # any surplus fodder
                 from collections import Counter            # letters are a deletion before the anagram
@@ -5163,7 +5201,7 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
         elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
             value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram
             if not value:
-                value = "".join(c for c in phrase.upper() if c.isalpha())
+                value = _raw_letters(phrase)      # folds diacritics, as the atom layer does
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="deletion",
                                            note="deleted letters: %s" % value, source="manual"))
         elif role in ("link", "filler", "synbyexample"):
@@ -5447,7 +5485,7 @@ def approveall_route():
         return _page('<div class="wfw-notice">No clue.</div>'
                      + _body(raw, resolve_only=set()))
     clue_text = row[0] or ""
-    ans_letters = "".join(c for c in (row[1] or "").upper() if c.isalpha())
+    ans_letters = _raw_letters(row[1])
     pend = admin_db.pending_for_clue(clue_text, ans_letters)
     # An indicator's sub-type (selection rule / positional direction) is NOT stored in the
     # queue — `letters` holds the TYPE only — but add_indicator REQUIRES it for selection /
@@ -5543,7 +5581,7 @@ def handsolvecommit_route():
     clue_text, answer, src, pnum, direction, enumeration, cnum = row
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
-    ans_letters = "".join(c for c in answer.upper() if c.isalpha())
+    ans_letters = _raw_letters(answer)
     N = len(ans_letters)
     try:
         pieces_in = json.loads(payload) if payload else []
