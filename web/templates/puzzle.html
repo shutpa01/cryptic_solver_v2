@@ -234,6 +234,21 @@
     {# Buttons row — badges + hint buttons + admin buttons all on one line #}
     <div id="explain-{{ clue.id }}" class="ml-10 mt-1 flex flex-wrap gap-1.5 items-center max-w-full overflow-hidden">
         {% for s in clue.steps %}
+        {% if s.type == 'explanation' and clue.slug %}
+        {# The explanation step IS the clue page (2026-08-14). It is a real
+           anchor, not an hx-post button, so it is the internal link every clue
+           page previously lacked. NEW TAB (the /learn link on the clue page
+           does the same for the same reason): the puzzle page is never
+           navigated away from, so scroll position, already-revealed hints and
+           solve state are all exactly as the solver left them — closing the tab
+           puts them back on the clue they were reading. The whole button row
+           (#explain-<id>) is hidden in solve mode, so this link is too. #}
+        <a href="/clue/{{ clue.slug }}" target="_blank" rel="noopener"
+           class="text-xs px-2.5 py-1 rounded border font-medium cursor-pointer border-gray-300 text-gray-600 hover:bg-gray-50 no-underline inline-flex items-center gap-1"
+           title="Opens this clue's own page in a new tab — the puzzle stays where it is">
+            {{ s.label }}<span class="text-gray-400">&#8599;</span>
+        </a>
+        {% else %}
         <button hx-post="/reveal"
                 hx-vals='{"token": "{{ clue.token }}", "step": "{{ s.step }}"}'
                 hx-target="#hints-{{ clue.id }}"
@@ -246,6 +261,7 @@
                     {% endif %}">
             {{ s.label }}
         </button>
+        {% endif %}
         {% endfor %}
         {% if clue.steps | length > 1 %}
         <button hx-post="/reveal"

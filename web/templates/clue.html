@@ -35,6 +35,10 @@
 {% endblock %}
 
 {% block content %}
+{# Every route back to the puzzle carries the clue's own anchor, so the solver
+   lands on the clue they left. Ids are clue-{number}-{direction} (puzzle.html). #}
+{% set back_anchor = '#clue-' ~ clue.clue_number ~ '-' ~ clue.direction
+                     if clue.clue_number and clue.direction else '' %}
 {# Breadcrumb navigation #}
 <nav class="text-sm text-gray-500 mb-4">
     <a href="/" class="hover:text-indigo-600">Home</a>
@@ -44,18 +48,33 @@
     <span class="mx-1">/</span>
     <a href="/{{ clue.source }}/{{ clue.type_slug }}/" class="hover:text-indigo-600">{% if clue.source == 'cordelia' and clue.type_slug == 'daily-mashup' %}Cordelia's Daily Mash-up{% else %}{{ clue.source | source_name }} {{ clue.type_label }}{% endif %}</a>
     <span class="mx-1">/</span>
-    <a href="{{ clue.puzzle_url }}" class="hover:text-indigo-600">#{{ clue.puzzle_number }}</a>
+    <a href="{{ clue.puzzle_url }}{{ back_anchor }}" class="hover:text-indigo-600">#{{ clue.puzzle_number }}</a>
     {% endif %}
 </nav>
+
 
 {# Main clue card #}
 <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
     {# Clue text — single H1, clickable for word-lookup, also gets the
        enumeration suffix appended. One instance only; downstream
        sections do not repeat it. #}
-    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">
-        {{ clue.clue_text | clickable_words(clue.id) }}{% if clue.enumeration %} <span class="text-gray-500 font-normal">({{ clue.enumeration }})</span>{% endif %}
-    </h1>
+    {# Clue text and the way back share one row, so the button sits on the same
+       line as the clue itself — a solver who arrived from the puzzle's
+       Explanation link sees it without hunting or scrolling. Solid button, not
+       a faint text link (user 2026-08-14). It wraps under the clue on a narrow
+       screen and keeps the clue's left edge. #}
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+        <h1 class="text-xl font-semibold text-gray-900 leading-relaxed flex-1 min-w-[12rem]">
+            {{ clue.clue_text | clickable_words(clue.id) }}{% if clue.enumeration %} <span class="text-gray-500 font-normal">({{ clue.enumeration }})</span>{% endif %}
+        </h1>
+        {% if clue.puzzle_url %}
+        <a href="{{ clue.puzzle_url }}{{ back_anchor }}"
+           class="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 text-white text-sm font-bold no-underline shadow-sm hover:bg-indigo-700">
+            <span aria-hidden="true">&larr;</span>
+            Back to the puzzle
+        </a>
+        {% endif %}
+    </div>
     <div id="wordhelp-{{ clue.id }}" class="mt-1 lookup-host"></div>
 
     {# Source info line #}
@@ -120,8 +139,10 @@
     {{ wfw_card | safe }}
 
     {% if clue.puzzle_url %}
+    {# Return path: land on the clue they came from, not the top of a 30-clue
+       page. Anchor ids are clue-{number}-{direction} (puzzle.html clue_card). #}
     <div class="mt-3">
-        <a href="{{ clue.puzzle_url }}"
+        <a href="{{ clue.puzzle_url }}{{ back_anchor }}"
            class="py-3 px-4 bg-emerald-50 border-2 border-emerald-300 rounded-lg flex items-center gap-3 hover:bg-emerald-100 hover:border-emerald-400 no-underline transition-all">
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-emerald-700 shrink-0"><rect x="1" y="1" width="22" height="22" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="8.33" y="1" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="1" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="1" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="8.33" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/><rect x="15.67" y="8.33" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="1" y="15.67" width="7.33" height="7.33" fill="#111" opacity="0.85"/><rect x="8.33" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.5"/><rect x="15.67" y="15.67" width="7.33" height="7.33" fill="currentColor" opacity="0.15"/></svg>
             <div>

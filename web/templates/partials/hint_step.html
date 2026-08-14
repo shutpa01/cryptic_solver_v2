@@ -1,6 +1,12 @@
 {# HTMX fragment — returned by POST /reveal, swapped into #hints-<id> #}
+{# The explanation is NOT shown here any more (2026-08-14). It lives on the
+   clue's own page, linked from the Explanation step on the puzzle page
+   (puzzle.html), which made every clue page reachable by a crawler for the
+   first time. That also retired the "Show full explanation" overlay button
+   that used to hang off this row — POST /wfwfull and wfw_full.html now have no
+   caller. "Show all" therefore reveals definition, wordplay type and answer. #}
 <div class="mt-2 space-y-2">
-    {% for hint in revealed %}
+    {% for hint in revealed if hint.type != 'explanation' %}
     <div class="rounded px-3 py-2 text-sm
         {% if hint.type == 'answer' %}bg-indigo-50 border border-indigo-200
         {% elif hint.type == 'definition' %}bg-green-50 border border-green-200
@@ -11,20 +17,8 @@
         <span>{{ hint.content | wordplay_label }}</span>
         {% elif hint.type == 'answer' %}
         <span class="font-bold tracking-wider uppercase">{{ hint.content }}</span>
-        {% elif hint.type == 'explanation' and not hint.content %}
-        <span class="text-gray-500 italic">Explanation not yet available.</span>
         {% else %}
         <span>{{ hint.content }}</span>
-        {% endif %}
-        {% if hint.wfw %}
-        <button hx-post="/wfwfull"
-                hx-vals='{"token": "{{ token }}"}'
-                hx-target="#wfw-overlay-body"
-                hx-swap="innerHTML"
-                onclick="openWfwOverlay()"
-                class="ml-2 text-xs px-2.5 py-1 rounded bg-indigo-600 text-white hover:bg-indigo-700 font-semibold cursor-pointer">
-            Show full explanation
-        </button>
         {% endif %}
     </div>
     {% endfor %}
