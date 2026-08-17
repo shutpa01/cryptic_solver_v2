@@ -617,8 +617,15 @@ def _source_row(parse, si, src_fg, src_fill):
         al = parse.answer_letters()
         positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
         got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))
-        ana = _anagram_note(parse, (s.value or "").upper(), got)
-        content += ana if ana else _transform_note(s.value, got, parse)
+        # The RECORD first (what the solve itself says happened), then the anagram
+        # indicator, then — for rows written before pieces recorded anything — the old
+        # letter-derivation, and finally an explicit "not accounted for" rather than the
+        # silence that used to read as "landed unchanged".
+        rec = _recorded_note(s, got)
+        ana = _anagram_note(parse, (s.value or "").upper(), got) if rec is None else None
+        content += (rec if rec is not None else
+                    (ana if ana else (_transform_note(s.value, got, parse)
+                                      or _unexplained_note(s.value, got))))
     if s.mechanism == "homophone":
         tr = next((l.transform for l in parse.links
                    if l.source_index == si and l.transform), None)
@@ -1030,6 +1037,37 @@ def _render_homophone(parse, ctx, src_fg, src_fill):
 # generically so one renderer serves every compound (anagram+container, container+charade,
 # charade+deletion, reversal+charade, ...). Falls back to plain rows if the map is incomplete.
 
+def _recorded_note(src, got):
+    """The marker for a piece that RECORDS what happened to its value (the transform
+    stored on it at authoring, 2026-08-17) — or None when it records nothing.
+
+    This is the whole point of storing it: the card READS the change instead of
+    working it out from the letters, so a composed change (cut AND reversed) is
+    stated rather than falling through the guesses to silence. The record is still
+    checked against the letters it claims to place — a stored transform that does
+    not spell the tiles is ignored, never shown."""
+    from core import piece_transform
+    t = piece_transform.loads(getattr(src, "transform", "") or "")
+    if piece_transform.empty(t):
+        return None
+    if not piece_transform.places(src.value, t, got):
+        return None                                      # record disagrees with the tiles
+    return ' <span class="wfw-emuted">%s</span>' % escape(piece_transform.short(src.value, t))
+
+
+def _unexplained_note(value, got):
+    """The marker for a piece whose letters are NOT its value and where nothing —
+    no stored record, no anagram indicator, no single recognisable change — accounts
+    for the difference. Saying so is the point: the old code returned '' here, which
+    renders as 'the value landed unchanged' and produced assembly lines that do not
+    spell the answer (EPHESUS 10085630, OMELETTE 10081158). An explanation we cannot
+    stand behind must LOOK like one."""
+    from core import piece_transform
+    if piece_transform.letters_only(value) == piece_transform.letters_only(got):
+        return ""
+    return ' <span class="wfw-unex">not accounted for</span>'
+
+
 def _transform_note(value, got, parse=None):
     """The 'reversed' / '&minus;deleted-run' marker for a piece whose DB value is `value` and
     whose answer letters IN ANSWER READING ORDER are `got`. '' when they match plainly. Does
@@ -1104,8 +1142,12 @@ def _piece_label(parse, si, positions, answer_letters):
         if removed:                                       # anagram (10 fodder letters -> 9 tiles)
             return col + ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)
         return col + ' <span class="wfw-emuted">anagram</span>'
+    rec = _recorded_note(s, got)                    # what the piece RECORDS (never derived)
+    if rec is not None:
+        return col + rec
     ana = _anagram_note(parse, v, got)
-    return col + (ana if ana else _transform_note(v, got, parse))
+    return col + (ana if ana else
+                  (_transform_note(v, got, parse) or _unexplained_note(v, got)))
 
 
 def _src_colour(si):
@@ -1224,6 +1266,10 @@ CARD_CSS = """
   .wfw-eq { color:#94a3b8; font-weight:800; margin:0 .25rem; }
   .wfw-around { color:#0e7490; font-weight:700; font-style:italic; margin:0 .2rem;
                 font-family:-apple-system,'Segoe UI',sans-serif; }
+  .wfw-unex { display:inline-block; margin-left:.35rem; padding:.02rem .4rem;
+              border-radius:6px; background:#fef2f2; color:#b91c1c;
+              border:1px solid #fecaca; font-size:.72rem; font-weight:700;
+              font-family:-apple-system,'Segoe UI',sans-serif; }
   .wfw-prov { display:inline-block; margin-left:.4rem; padding:.05rem .45rem;
               border-radius:6px; background:#fef3c7; color:#92600a;
               border:1px solid #fcd34d; font-size:.72rem; font-weight:700;

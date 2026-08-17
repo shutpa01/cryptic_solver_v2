@@ -34,6 +34,15 @@ class Source:
                               #   'pending' = supplied provisionally (AI definition
                               #   fallback or edge-anchored) and queued for human
                               #   enrichment (badged, cleared once verified).
+    transform: str = ""       # WHAT HAPPENED to `value` on its way to the answer
+                              #   squares, RECORDED at authoring — the cuts (with
+                              #   the position each was taken from), any letter
+                              #   shift, and whether it was laid down reversed.
+                              #   A core.piece_transform JSON string; "" = the
+                              #   value landed unchanged, or (legacy rows) nothing
+                              #   was recorded and the renderer still works it out.
+                              #   NOT Link.transform, which labels one answer
+                              #   letter's operation.
 
 
 @dataclass

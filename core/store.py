@@ -57,7 +57,14 @@ CREATE TABLE IF NOT EXISTS wfw_piece (
     mechanism TEXT,
     source    TEXT,              -- 'db' | 'pending'
     note      TEXT,
-    atom_ids  TEXT               -- JSON array of clue atom ids this piece covers
+    atom_ids  TEXT,              -- JSON array of clue atom ids this piece covers
+    transform TEXT               -- SOURCE pieces: what happened to `value` on its
+                                 --   way to the answer squares (cuts with the
+                                 --   position each was taken from, letter shift,
+                                 --   reversal) as a core.piece_transform JSON
+                                 --   string. Recorded at authoring, never derived
+                                 --   at render. '' / NULL = landed unchanged, or a
+                                 --   row written before this column existed.
 );
 CREATE TABLE IF NOT EXISTS wfw_link (
     clue_id      INTEGER NOT NULL,
@@ -112,6 +119,11 @@ def ensure_schema(conn):
         conn.execute("ALTER TABLE wfw_solve ADD COLUMN atoms TEXT")
     if "template_id" not in cols:
         conn.execute("ALTER TABLE wfw_solve ADD COLUMN template_id INTEGER")
+    # Same additive migration for wfw_piece.transform (2026-08-17): existing rows
+    # get NULL, which reads back as "nothing recorded" — no stored solve changes.
+    pcols = {r[1] for r in conn.execute("PRAGMA table_info(wfw_piece)")}
+    if "transform" not in pcols:
+        conn.execute("ALTER TABLE wfw_piece ADD COLUMN transform TEXT")
     conn.commit()
 
 
@@ -143,16 +155,17 @@ def save_parse(conn, clue_id, parse, ctx=None):
          parse.confidence, json.dumps(list(parse.warnings or [])),
          json.dumps(ctx.as_dict()) if ctx is not None else None))
 
-    def _piece(role, ord_, text, value, mechanism, source, note, atom_ids):
+    def _piece(role, ord_, text, value, mechanism, source, note, atom_ids,
+               transform=""):
         conn.execute(
             "INSERT INTO wfw_piece (clue_id, role, ord, text, value, mechanism, "
-            "source, note, atom_ids) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "source, note, atom_ids, transform) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (clue_id, role, ord_, text, value, mechanism, source, note,
-             json.dumps(list(atom_ids or ()))))
+             json.dumps(list(atom_ids or ())), transform or ""))
 
     for i, s in enumerate(parse.sources):
         _piece("source", i, s.text, s.value, s.mechanism, s.source, "",
-               s.clue_atom_ids)
+               s.clue_atom_ids, getattr(s, "transform", "") or "")
     if parse.definition is not None:
         d = parse.definition
         _piece("definition", 0, d.text, d.value, d.mechanism, d.source, "",
@@ -243,8 +256,8 @@ def load_parse(conn, clue_id):
      warnings, template_id) = head
 
     pieces = conn.execute(
-        "SELECT role, ord, text, value, mechanism, source, note, atom_ids "
-        "FROM wfw_piece WHERE clue_id = ?", (clue_id,)).fetchall()
+        "SELECT role, ord, text, value, mechanism, source, note, atom_ids, "
+        "transform FROM wfw_piece WHERE clue_id = ?", (clue_id,)).fetchall()
 
     def _atoms(js):
         return tuple(json.loads(js)) if js else ()
@@ -252,11 +265,12 @@ def load_parse(conn, clue_id):
     sources = []
     definition = None
     annotations = []
-    for role, ord_, text, value, mechanism, source, note, atom_ids in \
+    for role, ord_, text, value, mechanism, source, note, atom_ids, transform in \
             sorted(pieces, key=lambda p: p[1]):
         if role == "source":
             sources.append(Source(clue_atom_ids=_atoms(atom_ids), text=text,
-                                  value=value, mechanism=mechanism, source=source))
+                                  value=value, mechanism=mechanism, source=source,
+                                  transform=transform or ""))
         elif role == "definition":
             definition = Source(clue_atom_ids=_atoms(atom_ids), text=text,
                                 value=value, mechanism=mechanism, source=source)

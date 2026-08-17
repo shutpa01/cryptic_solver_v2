@@ -33,7 +33,10 @@ Prefill-discipline rules (user corrections, 2026-07-09 — do not repeat them):
 2. before/after/on/under between charade pieces = POSITIONAL INDICATOR
    (itype charade_positional), NOT a link word.
 3. A synonym used must ALWAYS be revealed in full — never only the
-   post-deletion survivor.
+   post-deletion survivor. Because the value is the FULL word, the change
+   between it and the tiles it fills must be RECORDED on the piece — see
+   "Recording what happens to a piece" below. A piece whose value does not
+   land unchanged and carries no record is REFUSED by the gate.
 4. Selection pieces must obey the derivation rules (core.selection SPAN_RULES).
 5. A word can never be anagram fodder if its letters land in the answer in
    their original order (user correction, 2026-07-12: TO in OBBLIGATO). An
@@ -44,6 +47,33 @@ Prefill-discipline rules (user corrections, 2026-07-09 — do not repeat them):
    damage to" / "gets emotional"). There is no "synonym" clue type: never tag
    one half as a synonym piece covering the whole answer. The joining word
    (and / & / a comma) is a link.
+
+## Recording what happens to a piece (user rule 2026-08-17)
+
+A wordplay piece names its value IN FULL. When the letters that reach the answer
+are not that value, the piece carries an `xf` field saying exactly what happened
+— the solve RECORDS it; nothing works it out afterwards. Without it the reading
+is refused, and the refusal message tells you what is missing.
+
+    {"idx": [2], "role": "synonym", "value": "SUPER", "pos": [1, 2, 6, 7],
+     "xf": {"cuts": [{"letters": "R", "at": 4}], "rev": true, "shift": null}}
+
+- `cuts` — the letters removed, each with `at`, the 0-based index it was taken
+  from in the letters as they stand when that cut is applied. The position is
+  REQUIRED: "BALSA minus A" is ambiguous (BLSA or BALS), and an ambiguous record
+  is a guess. Several cuts apply left to right.
+- `rev` — true when the surviving letters were laid on the tiles backwards.
+- `shift` — `"last_front"` or `"first_end"` for a single-letter rotation, else null.
+
+Order is fixed: cuts, then shift, then reverse. So EPHESUS's "fabulous,
+revolutionary, unfinished" = SUPER, cut its last letter R (at index 4), reversed
+= EPUS. Omit `xf` entirely when the value lands unchanged.
+
+This is only for the ORDER-PRESERVING roles (synonym, substitution, letters,
+replacement). Anagram fodder, selections, homophones and spoonerisms say what
+happened to them through their own role and need no `xf`. Check your reading by
+applying the record yourself: it must reproduce the tiles you listed in `pos`
+exactly, or the clue will be refused and left blank.
 
 ## Validation before ANY write (the established scratchpad pattern)
 Check word coverage, tile coverage, selection-rule validity, and fodder

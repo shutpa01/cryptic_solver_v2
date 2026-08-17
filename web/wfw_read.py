@@ -82,6 +82,24 @@ def _clue_pos(atom_ids_json):
     return min(nums) if nums else _UNPLACED
 
 
+def _piece_columns(db):
+    """The columns wfw_piece actually has here, memoised per request.
+
+    The site must keep serving against a database deployed BEFORE a column was
+    added: naming `transform` in the SELECT would raise OperationalError, which
+    _load turns into "no wfw parse" — silently dropping the word-for-word solve
+    off every clue page until the DB caught up. So ask first, and simply do
+    without the record on an older copy (the piece then reads as it did before)."""
+    cols = getattr(g, "_wfw_piece_cols", None)
+    if cols is None:
+        try:
+            cols = {r[1] for r in db.execute("PRAGMA table_info(wfw_piece)")}
+        except sqlite3.OperationalError:
+            cols = set()
+        g._wfw_piece_cols = cols
+    return cols
+
+
 def _load(clue_id):
     """The clue's wfw parse as a plain dict, or None (no row / not a pass /
     tables absent). Memoised per request."""
@@ -97,9 +115,10 @@ def _load(clue_id):
             "SELECT operation, solved_by, status, answer_text "
             "FROM wfw_solve WHERE clue_id = ?", (clue_id,)).fetchone()
         if row is not None and row["status"] == "pass":
+            _xf = ", transform" if "transform" in _piece_columns(db) else ""
             pieces = db.execute(
-                "SELECT role, ord, text, value, mechanism, note, atom_ids "
-                "FROM wfw_piece WHERE clue_id = ? ORDER BY ord",
+                "SELECT role, ord, text, value, mechanism, note, atom_ids" + _xf +
+                " FROM wfw_piece WHERE clue_id = ? ORDER BY ord",
                 (clue_id,)).fetchall()
             links = db.execute(
                 "SELECT answer_pos, source_index, transform FROM wfw_link "
@@ -494,6 +513,14 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
 
     if not value:
         value = placed
+    # THE RECORD FIRST (2026-08-17): when the piece stores what happened to its value,
+    # say that — no letter-guessing at all. Checked against the letters it claims to
+    # place, so a record that disagrees with the tiles is ignored rather than shown.
+    xf = _xf_load(s.get("transform"))
+    if xf and _xf_apply(value, xf) == _xf_letters(placed):
+        base = ("%s→%s" % (text, value)) if text and value != text.upper() \
+            else (value or text)
+        return "%s %s" % (base, _xf_words(value, xf))
     # an anagram indicator governs a re-ordered piece: show 'anagram' (not the reversal/
     # deletion the letters would otherwise be read as), matching the card.
     ana = _anagram_desc(value, placed, has_ana, has_rev)
@@ -525,7 +552,86 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
         missing = _removed(value, cmp_placed)
         if missing:
             base += " less %s" % missing
+        else:
+            # Nothing recorded, and no single change explains the letters. Say so:
+            # printing the bare value asserts it landed as written, which is how the
+            # card came to spell LEMONETTE. (Mirrors the card's "not accounted for".)
+            base += " (not accounted for)"
     return base
+
+
+def _xf_letters(text):
+    return "".join(c for c in (text or "").upper() if c.isalpha())
+
+
+def _xf_load(stored):
+    """A piece's RECORDED transform (core/piece_transform JSON) as a dict, or {}.
+    Mirrors core/piece_transform.loads — house rule: no core import here, keep in
+    sync by hand."""
+    if not stored:
+        return {}
+    try:
+        t = json.loads(stored)
+    except (ValueError, TypeError):
+        return {}
+    if not isinstance(t, dict):
+        return {}
+    cuts = []
+    for c in (t.get("cuts") or ()):
+        if not isinstance(c, dict):
+            continue
+        run = _xf_letters(c.get("letters"))
+        try:
+            at = int(c.get("at"))
+        except (TypeError, ValueError):
+            continue
+        if run:
+            cuts.append({"letters": run, "at": at})
+    shift = t.get("shift") if t.get("shift") in ("last_front", "first_end") else None
+    if not cuts and not t.get("rev") and not shift:
+        return {}
+    return {"cuts": cuts, "rev": bool(t.get("rev")), "shift": shift}
+
+
+def _xf_apply(value, t):
+    """The letters `value` places after its recorded transform, or None. Mirrors
+    core/piece_transform.apply — a cut is lifted from exactly where the record says."""
+    v = _xf_letters(value)
+    if not v:
+        return None
+    if not t:
+        return v
+    for c in t.get("cuts") or ():
+        run, at = c.get("letters") or "", c.get("at")
+        if not isinstance(at, int) or at < 0 or v[at:at + len(run)] != run:
+            return None
+        v = v[:at] + v[at + len(run):]
+    if not v:
+        return None
+    if t.get("shift") == "last_front":
+        v = v[-1] + v[:-1]
+    elif t.get("shift") == "first_end":
+        v = v[1:] + v[0]
+    if t.get("rev"):
+        v = v[::-1]
+    return v
+
+
+_XF_SHIFT_WORDS = {"last_front": "last letter to the front",
+                   "first_end": "first letter to the end"}
+
+
+def _xf_words(value, t):
+    """The recorded transform in the hint line's own vocabulary ('less R reversed').
+    Mirrors core/piece_transform.short, worded to match the rest of _describe."""
+    bits = []
+    for c in t.get("cuts") or ():
+        bits.append("less %s" % c["letters"])
+    if t.get("shift"):
+        bits.append(_XF_SHIFT_WORDS[t["shift"]])
+    if t.get("rev"):
+        bits.append("reversed")
+    return " ".join(bits)
 
 
 def _removed(value, placed):
@@ -704,9 +810,10 @@ def load_breakdown(clue_id):
         db = get_db()
         row = db.execute("SELECT atoms FROM wfw_solve WHERE clue_id = ?",
                          (clue_id,)).fetchone()
+        _xf = ", transform" if "transform" in _piece_columns(db) else ""
         pieces = db.execute(
-            "SELECT role, ord, text, value, mechanism, note, atom_ids "
-            "FROM wfw_piece WHERE clue_id = ? ORDER BY ord", (clue_id,)).fetchall()
+            "SELECT role, ord, text, value, mechanism, note, atom_ids" + _xf +
+            " FROM wfw_piece WHERE clue_id = ? ORDER BY ord", (clue_id,)).fetchall()
     except sqlite3.OperationalError:
         return None
     if row is None or not row["atoms"]:

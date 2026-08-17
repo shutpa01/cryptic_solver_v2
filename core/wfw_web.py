@@ -39,6 +39,7 @@ from core import spoonerism_screen
 from core import admin_db
 from core import span_join
 from core import store
+from core import piece_transform          # what happened to a piece's value, RECORDED
 from core.wfw_atoms import build_wfw_atom_context
 from core.wfw_atoms import fold_letters as _raw_letters   # the ONE letter-extraction rule
 
@@ -2388,6 +2389,57 @@ function initGrid(rootId, DATA){
  // Remove the FIRST contiguous run `cut` from a derivative `v` -> the SURVIVING letters that land on
  // the answer (e.g. ORATION - O = RATION). Returns null when `cut` is not a contiguous run of `v`.
  function applyCut(v,cut){v=(v||'').toUpperCase();cut=(cut||'').toUpperCase();if(!cut)return v;var i=v.indexOf(cut);return i<0?null:(v.slice(0,i)+v.slice(i+cut.length));}
+ /* ---- the piece TRANSFORM: RECORDED here, never worked out later (user rule 2026-08-17).
+    Mirrors core/piece_transform.py, which re-checks it on commit — keep the two in step.
+    A piece records the letters cut from its value AND WHERE each was taken from ("BALSA
+    minus A" is ambiguous: BLSA or BALS), any single-letter shift, and whether the
+    survivor was laid on the tiles backwards. */
+ function xfApply(value,xf){var v=foldLetters(value);if(!v)return null;
+  if(!xf)return v;
+  var cuts=xf.cuts||[];
+  for(var i=0;i<cuts.length;i++){var run=cuts[i].letters||'',at=cuts[i].at;
+   if(typeof at!=='number'||at<0||!run||v.substr(at,run.length)!==run)return null;
+   v=v.slice(0,at)+v.slice(at+run.length);}
+  if(!v)return null;                                            // a piece must place something
+  if(xf.shift==='last_front')v=v.slice(-1)+v.slice(0,-1);
+  else if(xf.shift==='first_end')v=v.slice(1)+v.slice(0,1);
+  if(xf.rev)v=v.split('').reverse().join('');
+  return v;}
+ function xfShort(xf){if(!xf)return '';var b=[];
+  (xf.cuts||[]).forEach(function(c){b.push('&minus;'+c.letters);});
+  if(xf.shift)b.push(xf.shift==='last_front'?'last&rarr;front':'first&rarr;end');
+  if(xf.rev)b.push('reversed');return b.join(' ');}
+ function cutSpots(v,cut){var out=[],i=v.indexOf(cut);while(i>=0){out.push(i);i=v.indexOf(cut,i+1);}return out;}
+ /* THE recording step: which cut / shift / reversal actually turns `value` into the tiles
+    the USER clicked. Their own placement decides it — and where more than one record would
+    produce those tiles, the MINIMAL claim wins: fewest changes first, and a reversal ahead
+    of a shift (on a two-letter value the three are the same operation, and "reversed" is
+    what it is). A genuine tie (FREE -> FRE: either E) is left BARE for the cut box to
+    settle, and so is anything no record explains — better an Assign that says it cannot
+    name the change than a solve that files one nobody chose. When no cut is typed only an
+    END deletion is considered (behead / curtail): an interior cut has to be named. */
+ function xfPrio(xf){var ops=(xf.cuts?xf.cuts.length:0)+(xf.rev?1:0)+(xf.shift?1:0);
+  return ops*100+(xf.shift?10:0)+(xf.rev?1:0);}
+ function xfFor(value,cut,tiles){
+  var v=foldLetters(value),cutsets=[],i;
+  cut=foldLetters(cut);
+  if(cut){var spots=cutSpots(v,cut);
+   for(i=0;i<spots.length;i++)cutsets.push([{letters:cut,at:spots[i]}]);
+  }else{cutsets.push([]);
+   for(var k=1;k<v.length;k++){cutsets.push([{letters:v.slice(0,k),at:0}]);
+    cutsets.push([{letters:v.slice(v.length-k),at:v.length-k}]);}}
+  var opts=[{rev:false,shift:null},{rev:true,shift:null},
+            {rev:false,shift:'last_front'},{rev:false,shift:'first_end'}];
+  var best=null,bestP=1e9,tied=false;
+  for(var s=0;s<cutsets.length;s++){
+   for(var o=0;o<opts.length;o++){
+    var xf={cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift};
+    if(xfApply(v,xf)!==tiles)continue;
+    var p=xfPrio(xf);
+    if(p<bestP){best=xf;bestP=p;tied=false;}
+    else if(p===bestP&&best&&JSON.stringify(xf)!==JSON.stringify(best))tied=true;}}
+  return tied?null:best;}
+ function isOrdered(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement';}
  function drawCutPrev(){if(!cutPrev)return;var r=roleSel.value;
   if(r==='anagram'){                                            // ANAGRAM fodder: show the fodder
    var fl=fodderLetters(checkedIdx());                          //   letters + the deletion preview
@@ -2422,7 +2474,7 @@ function initGrid(rootId, DATA){
     rc.innerHTML=all.map(function(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
      return '<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';}).join(' + ');
     var ap=null;for(var q=0;q<all.length;q++){if(isPiece(all[q].role)||all[q].role==='deletion'){ap=all[q];break;}}
-    bc.innerHTML=ap?(isPiece(ap.role)?((ap.value||'')+(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):'')+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
+    bc.innerHTML=ap?(isPiece(ap.role)?((ap.value||'')+(ap.xf?(' <span style="color:#b45309">'+xfShort(ap.xf)+'</span>'):(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):''))+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -2434,7 +2486,7 @@ function initGrid(rootId, DATA){
  function drawList(){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-   var v=isPiece(a.role)?(' = '+a.value+(a.cut?(' &minus;'+a.cut):'')+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
+   var v=isPiece(a.role)?(' = '+a.value+(a.xf?(' '+xfShort(a.xf)):(a.cut?(' &minus;'+a.cut):''))+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
    return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.rule?('/'+a.rule):'')+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
@@ -2555,6 +2607,8 @@ function initGrid(rootId, DATA){
    var pos=selPos.slice();
    if(!pos.length){                                             // anagram fodder is SCRAMBLED, so it
     var loc=(r!=='anagram'&&placeVal)?locateValue(placeVal):null; //  can't auto-place: click tiles
+    if(!loc&&r!=='anagram'&&placeVal&&placeVal.length>1){       // laid down BACKWARDS is as common
+     loc=locateValue(placeVal.split('').reverse().join(''));}   //   as any rotation: SUPE -> EPUS
     if(!loc&&r!=='anagram'&&placeVal&&placeVal.length>=3){      // a LETTER-SHIFT lands the value's
      var rots=[placeVal.slice(-1)+placeVal.slice(0,-1),         //   letters rotated by one: TERNS
                placeVal.slice(1)+placeVal.slice(0,1)];          //   -> STERN (last->front) is in
@@ -2565,6 +2619,13 @@ function initGrid(rootId, DATA){
    a.pos=pos.sort(function(x,y){return x-y;});
    if(survivor!==null&&a.pos.length!==survivor.length){
     note('you placed '+a.pos.length+' tile(s) but '+v+' −'+a.cut+' = '+survivor+' ('+survivor.length+')');return;}
+   if(isOrdered(r)&&a.value){                                   // RECORD what happened to the value
+    var tls=a.pos.map(function(p){return DATA.answer[p-1];}).join('');   // (never derived later)
+    var xf=xfFor(a.value,(a.cut||''),tls);
+    if(!xf){note(a.value+(a.cut?(' −'+a.cut):'')+' does not make '+tls+
+      ' — check the tiles, or name the letters to delete in the cut box. A piece may be '+
+      'cut, shifted or reversed, but WHICH it was has to be recorded.');return;}
+    a.xf=xf;}
    if(r==='anagram'){                                           // fodder must CONTAIN the tiles;
     var ts=msort(a.pos.map(function(p){return DATA.answer[p-1];}).join(''));  // surplus = a deletion
     var acut=(cutEl&&cutEl.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
@@ -2679,6 +2740,21 @@ function initGrid(rootId, DATA){
    var ta=sRea?sRea.querySelector('textarea'):null;
    if(!ta||!ta.value.trim()){e.preventDefault();if(sErr)sErr.textContent='INVALID needs a comment — add a reason first.';if(ta)ta.focus();}
   }
+ });
+ /* An assignment saved BEFORE pieces recorded their transform (2026-08-17) carries a
+    value and its tiles but no record of the change between them — and the commit now
+    refuses a piece whose change is not recorded. Work it out ONCE here, from the tiles
+    already in this saved assignment, and show it in the row ("SUPER −R reversed @1,2,6,7")
+    so it is on screen before anything is committed: the human sees and commits the
+    record, exactly as if they had just placed it. Nothing is written until they do, and
+    a piece no combination explains stays bare — the commit then says so plainly. */
+ assignments.forEach(function(a){
+  if(!a||a.xf||!isOrdered(a.role)||!a.value||!a.pos||!a.pos.length)return;
+  var tls=a.pos.slice().sort(function(x,y){return x-y;})
+           .map(function(p){return DATA.answer[p-1];}).join('');
+  if(foldLetters(a.value)===tls)return;                         // landed unchanged: nothing to record
+  var xf=xfFor(a.value,(a.cut||''),tls);
+  if(xf)a.xf=xf;
  });
  drawRows();drawList();drawTiles();updateBar();roleFields();
 }
@@ -4901,6 +4977,7 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
             value = (a.get("value") or "").strip().upper()
+            xform = {}                 # what happened to the value (recorded, never derived)
             if role in ("letters", "replacement") and not value:
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
             if role == "anagram" and not value:            # fodder = the ticked clue words' letters
@@ -4916,23 +4993,41 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 return {"ok": False, "msg": "The piece %r has no answer tiles — click "
                         "the answer letters it makes, then Assign." % phrase}
             if role in ("synonym", "substitution", "letters", "replacement"):
-                # A letter-placing piece must actually SPELL the tiles it lands on: its value
-                # (possibly reversed, or with a separate deletion) must CONTAIN those letters.
-                # Identity/reversal/deletion all preserve letters, so the tiles are always a
-                # letter-subset of the value. If they are NOT, the value does not make these
-                # letters at all — the commonest cause is a HOMOPHONE mis-tagged as a synonym
-                # ("few will" placed on FUEL: no U in the value). Reject it so the homophone
-                # goes through its own gate (user rule 2026-07-17) rather than hiding here.
+                # A letter-placing piece must SPELL THE TILES IT LANDS ON, EXACTLY — and if it
+                # does so only after a change (letters cut, a shift, laid down backwards), that
+                # change is RECORDED on the piece, not left for a renderer to work out later
+                # (user rule 2026-08-17). The old test asked only that the tiles be a letter
+                # SUBSET of the value, so a 5-letter value could sit on 4 tiles with nothing
+                # anywhere saying where the fifth letter went: EPHESUS (10085630) committed
+                # "fabulous = SUPER" on EPUS and the card printed "SUPER around HES -> EPHESUS".
+                # Now the recorded transform must reproduce the tiles or the piece is refused.
                 got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
-                from collections import Counter
-                missing = Counter(got) - Counter(c for c in value if c.isalpha())
-                if missing:
-                    return {"ok": False, "msg": "%r = %r can't spell the tiles it lands on "
-                            "(%s) — its value has no %s. If %r SOUNDS like %s, tag it a "
-                            "homophone (type the sound-alike word in the add box); reversal "
-                            "and deletion have their own roles."
-                            % (phrase, value, got, "".join(sorted(missing.elements())),
-                               phrase, got)}
+                xform = piece_transform.coerce(a.get("xf"))
+                if not piece_transform.places(value, xform, got):
+                    from collections import Counter
+                    missing = Counter(got) - Counter(c for c in value if c.isalpha())
+                    if missing:
+                        # Not a recording problem: the value hasn't got these letters at all.
+                        # Commonest cause is a HOMOPHONE mis-tagged as a synonym ("few will"
+                        # on FUEL: no U in the value) — send it to its own gate (2026-07-17).
+                        return {"ok": False, "msg": "%r = %r can't spell the tiles it lands on "
+                                "(%s) — its value has no %s. If %r SOUNDS like %s, tag it a "
+                                "homophone (type the sound-alike word in the add box); reversal "
+                                "and deletion have their own roles."
+                                % (phrase, value, got, "".join(sorted(missing.elements())),
+                                   phrase, got)}
+                    if piece_transform.empty(xform):
+                        return {"ok": False, "msg": "%r = %r does not land as %s, and nothing "
+                                "on the piece says what happened to it. Re-place it in the "
+                                "grid: type the letters to delete in the cut box, and click "
+                                "the tiles in the order the letters go in, so the deletion / "
+                                "reversal is RECORDED rather than guessed at later."
+                                % (phrase, value, got)}
+                    return {"ok": False, "msg": "%r = %r %s makes %s, not the tiles you "
+                            "clicked (%s)." % (phrase, value,
+                                               piece_transform.describe(value, xform),
+                                               piece_transform.apply(value, xform) or "nothing",
+                                               got)}
             if role == "selection":
                 # A selection PLACES exactly the letters its rule derived (minus an explicit
                 # cut). Nothing checked that: the letter-subset check above covers only
@@ -5008,7 +5103,8 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                     else:
                         _pending.queue_synonym(phrase, value, ans_letters, clue_text, src, pnum)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
-                                  mechanism=mech, source=piece_src))
+                                  mechanism=mech, source=piece_src,
+                                  transform=piece_transform.dumps(xform)))
             if piece_src == "db" and role == "synonym" and value:   # reusable -> DB after commit
                 db_adds.append(("synonym", phrase, value))
             elif piece_src == "db" and role == "substitution" and value:  # abbr/symbol -> wordplay
