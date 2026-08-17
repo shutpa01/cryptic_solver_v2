@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>{{ model.title or 'Crossword' }}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/engine.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/shells/telegraph.css') }}">
+</head>
+<body class="tg">
+
+<header class="tg-top">
+  <div class="tg-top-left">
+    <button class="tg-icon-btn" id="tg-back" aria-label="Back">
+      <span class="tg-chev">‹</span>
+    </button>
+    <span class="tg-timer" id="tg-timer">00:00</span>
+  </div>
+
+  <div class="tg-plaque" id="tg-plaque">{{ model.title }}</div>
+
+  <nav class="tg-top-right">
+    <div class="tg-menu">
+      <button class="tg-tool" data-menu="reveal" aria-label="Reveal" aria-haspopup="true" aria-expanded="false">
+        <span class="tg-tool-icon" aria-hidden="true">◇</span>
+        <span class="tg-tool-label">Reveal</span>
+      </button>
+      <ul class="tg-dropdown" data-for="reveal" hidden>
+        <li><button data-action="reveal-letter">Letter</button></li>
+        <li><button data-action="reveal-word">Word</button></li>
+        <li><button data-action="reveal-grid">Grid</button></li>
+      </ul>
+    </div>
+
+    <div class="tg-menu">
+      <button class="tg-tool" data-menu="check" aria-label="Check" aria-haspopup="true" aria-expanded="false">
+        <span class="tg-tool-icon" aria-hidden="true">✓</span>
+        <span class="tg-tool-label">Check</span>
+      </button>
+      <ul class="tg-dropdown" data-for="check" hidden>
+        <li><button data-action="check-letter">Letter</button></li>
+        <li><button data-action="check-word">Word</button></li>
+        <li><button data-action="check-grid">Grid</button></li>
+      </ul>
+    </div>
+
+    <div class="tg-menu">
+      <button class="tg-tool" data-menu="tools" aria-label="Solver tools" aria-haspopup="true" aria-expanded="false">
+        <span class="tg-tool-icon" aria-hidden="true">✦</span>
+        <span class="tg-tool-label">Tools</span>
+      </button>
+      <ul class="tg-dropdown" data-for="tools" hidden>
+        <li><button data-action="tool" data-tab="anagram">Anagram</button></li>
+        <li><button data-action="tool" data-tab="pattern">Pattern matcher</button></li>
+        <li><button data-action="tool" data-tab="synonym">Synonym</button></li>
+        <li><button data-action="tool" data-tab="hints">Hints and explanations</button></li>
+      </ul>
+    </div>
+
+    <div class="tg-menu">
+      <button class="tg-tool" data-menu="more" aria-label="More options" aria-haspopup="true" aria-expanded="false">
+        <span class="tg-tool-icon" aria-hidden="true">⋯</span>
+        <span class="tg-tool-label">More</span>
+      </button>
+      <div class="tg-dropdown tg-dropdown-wide" data-for="more" hidden>
+        <button class="tg-more-item" data-action="reset">Reset puzzle</button>
+        <div class="tg-more-row">
+          <span>Font size</span>
+          <div class="tg-steps" role="group" aria-label="Font size">
+            <button data-action="font" data-size="1">A</button>
+            <button data-action="font" data-size="2" class="is-on">A</button>
+            <button data-action="font" data-size="3">A</button>
+          </div>
+        </div>
+        <label class="tg-more-row"><span>Show timer</span>
+          <input type="checkbox" data-option="showTimer" checked></label>
+        <label class="tg-more-row"><span>Skip filled squares</span>
+          <input type="checkbox" data-option="skipFilled"></label>
+        <label class="tg-more-row"><span>Auto check answers</span>
+          <input type="checkbox" data-option="autoCheck"></label>
+        <label class="tg-more-row"><span>Hide completed clues</span>
+          <input type="checkbox" data-option="hideCompleted"></label>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main class="tg-main">
+  <section class="tg-left">
+    <div class="tg-grid-wrap" id="tg-grid"></div>
+    <div class="tg-clue-bar" id="tg-bar"></div>
+    <p class="tg-status" id="tg-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="tg-clues cg-scroll" id="tg-clue-columns">
+    <div class="tg-clue-col">
+      <h2 class="tg-clue-head">Across</h2>
+      <div id="tg-across"></div>
+    </div>
+    <div class="tg-clue-col">
+      <h2 class="tg-clue-head">Down</h2>
+      <div id="tg-down"></div>
+    </div>
+  </section>
+
+  {# Tools mode replaces both clue columns; the grid and clue bar stay put. #}
+  <section class="tg-working cg-scroll" id="tg-tools" hidden></section>
+</main>
+
+<script id="tg-model" type="application/json">{{ model_json|safe }}</script>
+<script>
+  window.CORDELIA_BOOT = {
+    token: {{ token|tojson }},
+    renewAfter: {{ renew_after }},
+    publisher: {{ publisher|tojson }}
+  };
+</script>
+<script src="{{ url_for('static', filename='js/engine.js') }}"></script>
+<script src="{{ url_for('static', filename='js/shells/telegraph.js') }}"></script>
+</body>
+</html>

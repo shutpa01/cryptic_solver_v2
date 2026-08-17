@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cordelia publisher widget — dev index</title>
+<style>
+  body { font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         margin: 2rem auto; max-width: 56rem; padding: 0 1rem; color: #1b1b1b; }
+  h1 { font-size: 1.3rem; margin-bottom: 0.2rem; }
+  h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;
+       color: #7a7a7a; margin: 1.6rem 0 0.4rem; }
+  p.note { color: #666; font-size: 0.9rem; }
+  ul { list-style: none; padding: 0; margin: 0; }
+  li { padding: 0.28rem 0; border-bottom: 1px solid #f0eeea; display: flex;
+       align-items: baseline; gap: 0.5rem; flex-wrap: wrap; }
+  a { color: #0a3d62; text-decoration: none; font-weight: 600; }
+  a:hover { text-decoration: underline; }
+  .tag { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em;
+         padding: 0.1rem 0.4rem; border-radius: 3px; }
+  .full { background: #d8f0dd; color: #14622f; }
+  .some { background: #fdf0d0; color: #8a5a08; }
+  .none { background: #f0eeea; color: #777; }
+  .embargo { background: #fbe0dc; color: #94331f; }
+  code { background: #f4f2ee; padding: 0.1rem 0.3rem; border-radius: 2px; }
+  .steps { background: #f8f7f4; border-left: 3px solid #0a3d62; padding: 0.6rem 0.9rem;
+           font-size: 0.9rem; }
+  .steps li { border: 0; display: list-item; }
+  .steps ol { padding-left: 1.1rem; margin: 0.3rem 0 0; }
+</style>
+</head>
+<body>
+<h1>Publisher widget — local index</h1>
+<p class="note">
+  Development only. In production the publisher frames
+  <code>/embed/&lt;source&gt;/&lt;number&gt;?k=&lt;key&gt;</code> directly and this
+  page does not exist.
+</p>
+
+<div class="steps">
+  <strong>Worth knowing before you start</strong>
+  <ol>
+    <li>The match count is <em>invisible in an empty grid by design</em> — it
+      appears at 99 matches or fewer. Type two or three crossing letters to see
+      it in the last square of the entry. A wrong letter gives a red zero.</li>
+    <li>Tools mode: right-click any square, or use the Tools icon top right.
+      Click words in the clue bar under the grid to feed the anagram and word
+      tools.</li>
+    <li>Green puzzles below exercise everything; the others have answers but no
+      explanations, so the hint rungs will be greyed out.</li>
+  </ol>
+</div>
+
+{% set ready = puzzles | selectattr('has_answers') | selectattr('fully_explained') | list %}
+{% set others = puzzles | rejectattr('has_answers') | list %}
+{% set partial = puzzles | selectattr('has_answers') | rejectattr('fully_explained') | list %}
+
+<h2>Best for testing — answers and a full set of explanations ({{ ready|length }})</h2>
+<ul>
+  {% for p in ready %}
+  <li>
+    <a href="/embed/telegraph/{{ p.number }}?k=demo">{{ p.title or p.kind }}</a>
+    <span class="tag full">{{ p.explained }} clues explained</span>
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>Answers, partial or no explanations ({{ partial|length }})</h2>
+<ul>
+  {% for p in partial[:40] %}
+  <li>
+    <a href="/embed/telegraph/{{ p.number }}?k=demo">{{ p.title or p.kind }}</a>
+    {% if p.explained %}
+      <span class="tag some">{{ p.explained }} of {{ p.clue_total }} explained</span>
+    {% else %}
+      <span class="tag none">no explanations</span>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>Embargoed — no answers in the feed ({{ others|length }})</h2>
+<p class="note">
+  These are the honesty paths: Check reports squares it cannot check, Reveal
+  says nothing is published, and the answer-bearing hint rungs stay disabled
+  even where the database holds the answer.
+</p>
+<ul>
+  {% for p in others[:15] %}
+  <li>
+    <a href="/embed/telegraph/{{ p.number }}?k=demo">{{ p.title or p.kind }}</a>
+    <span class="tag embargo">embargoed</span>
+  </li>
+  {% endfor %}
+</ul>
+</body>
+</html>

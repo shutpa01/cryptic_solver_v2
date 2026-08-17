@@ -1,0 +1,339 @@
+/* Cordelia publisher widget — engine styles.
+ *
+ * Structure only: how a grid, a clue list and a clue bar are built. Every
+ * colour, weight and size is a custom property with a neutral default, so a
+ * shell restyles the whole widget by setting those properties and never by
+ * overriding a rule in here. Adding the Times and Guardian shells should not
+ * touch this file.
+ */
+
+/* An explicit `display` in a stylesheet beats the browser's `[hidden]` rule,
+ * so any element styled `display: grid/flex` ignores the hidden attribute and
+ * stays in the layout. That silently pushed tools mode into a zero-height row
+ * beneath the grid instead of into the space the clue columns had vacated. */
+[hidden] { display: none !important; }
+
+:root {
+  --cg-cell-size: 2rem;
+  --cg-gap: 1px;
+  --cg-grid-line: #1a1a1a;
+  --cg-cell-bg: #ffffff;
+  --cg-block-bg: #1a1a1a;
+  --cg-active-bg: #cfe4ff;
+  --cg-cursor-bg: #ffd75e;
+  --cg-wrong-colour: #c0392b;
+  --cg-letter-colour: #111111;
+  --cg-num-colour: #6b6b6b;
+  --cg-count-colour: #147a3d;
+  --cg-count-zero-colour: #c0392b;
+  --cg-font: Georgia, "Times New Roman", serif;
+  --cg-ui-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --cg-clue-size: 0.85rem;
+}
+
+.cg-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cg-cols), var(--cg-cell-size));
+  gap: var(--cg-gap);
+  background: var(--cg-grid-line);
+  border: 2px solid var(--cg-grid-line);
+  width: max-content;
+  touch-action: manipulation;
+}
+
+.cg-block { background: var(--cg-block-bg); }
+
+.cg-cell {
+  position: relative;
+  background: var(--cg-cell-bg);
+  width: var(--cg-cell-size);
+  height: var(--cg-cell-size);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cg-cell.is-active { background: var(--cg-active-bg); }
+.cg-cell.is-cursor { background: var(--cg-cursor-bg); }
+
+.cg-num {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  font: 600 0.5rem/1 var(--cg-ui-font);
+  color: var(--cg-num-colour);
+  pointer-events: none;
+}
+
+.cg-letter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 700 calc(var(--cg-cell-size) * 0.6) / 1 var(--cg-font);
+  color: var(--cg-letter-colour);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.cg-cell.is-wrong .cg-letter { color: var(--cg-wrong-colour); }
+.cg-cell.is-wrong::after {
+  content: "";
+  position: absolute;
+  inset: 12% 12% auto auto;
+  width: 55%;
+  height: 55%;
+  border-top: 2px solid var(--cg-wrong-colour);
+  border-right: 2px solid var(--cg-wrong-colour);
+  transform: rotate(45deg);
+  transform-origin: top right;
+  opacity: 0.45;
+}
+
+/* The match count: bottom-right of the last square of the active entry.
+ * The clue number already owns the top-left, so this corner reads as native. */
+.cg-count {
+  position: absolute;
+  right: 1px;
+  bottom: 0;
+  font: 700 0.5rem/1 var(--cg-ui-font);
+  color: var(--cg-count-colour);
+  pointer-events: none;
+}
+
+.cg-count.is-zero { color: var(--cg-count-zero-colour); }
+
+/* Offscreen but focusable — it owns the caret and raises the soft keyboard.
+ * Not display:none, which would make it unfocusable and silently kill typing
+ * on every phone. */
+.cg-capture {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  left: -9999px;
+}
+
+/* --- clue lists ----------------------------------------------------- */
+
+.cg-clues {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cg-clue {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0.4rem;
+  font: var(--cg-clue-size)/1.35 var(--cg-font);
+  cursor: pointer;
+}
+
+.cg-clue:hover { background: rgba(0, 0, 0, 0.035); }
+
+.cg-clue-num {
+  flex: 0 0 1.6rem;
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cg-clue.is-active { background: var(--cg-active-bg); }
+.cg-clue.is-active .cg-clue-num { text-decoration: underline; }
+
+.cg-clue-enum { color: var(--cg-num-colour); margin-left: 0.3rem; }
+
+.cg-clue.is-done { opacity: 0.45; }
+.cg-clues.hide-completed .cg-clue.is-done { display: none; }
+
+.cg-scroll { overflow-y: auto; }
+
+/* --- clue bar ------------------------------------------------------- */
+
+.cg-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.cg-bar-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  font: var(--cg-clue-size)/1.3 var(--cg-font);
+}
+
+.cg-bar-num { font-weight: 700; white-space: nowrap; }
+.cg-bar-enum { color: var(--cg-num-colour); white-space: nowrap; }
+
+.cg-bar-nav {
+  border: 0;
+  background: transparent;
+  font: 1.3rem/1 var(--cg-ui-font);
+  padding: 0 0.5rem;
+  cursor: pointer;
+  color: inherit;
+}
+
+/* --- clue words in the bar ------------------------------------------ */
+
+.cg-word {
+  cursor: pointer;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.cg-word:hover { background: rgba(0, 0, 0, 0.07); }
+.cg-word.is-picked { background: var(--cg-cursor-bg); }
+
+/* --- tools working section ------------------------------------------ */
+
+.cg-tools { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.cg-tools-head {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--cg-rule, #d8d5cf);
+}
+
+.cg-tools-clue {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  font: var(--cg-clue-size)/1.35 var(--cg-font);
+}
+
+.cg-tools-close {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.4rem;
+  color: inherit;
+}
+
+.cg-tabs { display: flex; gap: 0.2rem; flex-wrap: wrap; }
+
+.cg-tab {
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  background: transparent;
+  border-radius: 3px;
+  padding: 0.25rem 0.6rem;
+  font: 0.78rem var(--cg-ui-font);
+  cursor: pointer;
+  color: inherit;
+}
+
+.cg-tab.is-on {
+  background: var(--cg-accent, #0a3d62);
+  border-color: var(--cg-accent, #0a3d62);
+  color: #fff;
+}
+
+.cg-tool-panel { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.cg-tool-row { display: flex; gap: 0.4rem; align-items: flex-end; }
+
+.cg-tool-label {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font: 0.72rem var(--cg-ui-font);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #7a7a7a;
+}
+
+.cg-tool-input {
+  font: 0.95rem var(--cg-font);
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cg-tool-go {
+  border: 1px solid var(--cg-accent, #0a3d62);
+  background: var(--cg-accent, #0a3d62);
+  color: #fff;
+  border-radius: 3px;
+  padding: 0.4rem 0.8rem;
+  font: 0.78rem var(--cg-ui-font);
+  cursor: pointer;
+}
+
+.cg-tool-check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: 0.78rem var(--cg-ui-font);
+  color: #555;
+}
+
+.cg-tool-note { margin: 0.2rem 0; font: 0.75rem var(--cg-ui-font); color: #777; }
+.cg-tool-head { margin: 0.5rem 0 0.2rem; font: 700 0.72rem var(--cg-ui-font);
+                text-transform: uppercase; letter-spacing: 0.1em; color: #7a7a7a; }
+.cg-tool-values { margin: 0.1rem 0; font: 0.85rem/1.5 var(--cg-font); }
+.cg-tool-len { font-weight: 700; color: #7a7a7a; }
+
+.cg-word-list {
+  list-style: none;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.cg-word-hit {
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  background: #fff;
+  border-radius: 3px;
+  padding: 0.2rem 0.45rem;
+  font: 0.82rem var(--cg-font);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  color: inherit;
+}
+
+.cg-word-hit:hover { background: var(--cg-active-bg); }
+
+.cg-hint-row { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+
+.cg-hint-step {
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  background: transparent;
+  border-radius: 3px;
+  padding: 0.3rem 0.6rem;
+  font: 0.78rem var(--cg-ui-font);
+  cursor: pointer;
+  color: inherit;
+}
+
+.cg-hint-step:disabled { opacity: 0.4; cursor: default; }
+.cg-hint-step.is-used { background: var(--cg-active-bg); }
+
+.cg-hint-block { margin-top: 0.5rem; }
+.cg-hint-value { margin: 0.1rem 0; font: 0.95rem/1.5 var(--cg-font); }
+.cg-hint-lines { margin: 0.2rem 0 0; padding-left: 1.2rem;
+                 font: 0.88rem/1.6 var(--cg-font); }
+
+/* The length that fits the entry the solver is on — the row that matters. */
+.cg-tool-values.is-fitting {
+  background: var(--cg-active-bg);
+  border-radius: 3px;
+  padding: 0.25rem 0.35rem;
+}
