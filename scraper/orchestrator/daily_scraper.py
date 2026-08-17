@@ -7,9 +7,28 @@ Each script handles its own logic for what puzzles to fetch.
 
 import subprocess
 import sys
+import re
 import sqlite3
 from datetime import datetime
 from pathlib import Path
+
+# The ONE chokepoint that strips HTML markup out of clue text. Setters' italics
+# arrive from the source APIs as literal <i>…</i>; if that markup reaches the
+# master clues table the tokenizer splits the tag letter into a stray "i" word
+# that then has to be given a role (it gets mis-tagged as a link word). Every
+# per-publication scraper is supposed to strip tags, but the coverage has always
+# been inconsistent — so we strip once more HERE, where every source funnels into
+# the master `clues` table, and it can never be forgotten again. The pattern is
+# TAG-SPECIFIC (a letter must follow "<" or "</"), so a bare "<" used as real
+# cryptic content (e.g. "< kind of tense" = less-than) is left untouched.
+_HTML_TAG_RE = re.compile(r"</?[a-zA-Z][^>]*>")
+
+
+def strip_html_tags(text):
+    """Remove real HTML tags from clue text, leaving a lone '<' as-is."""
+    if not text:
+        return text
+    return _HTML_TAG_RE.sub("", text)
 
 BASE_PATH = Path(r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\scraper")
 PYTHON = r"C:\Users\shute\PycharmProjects\cryptic_solver_V2\.venv\Scripts\python.exe"
@@ -98,6 +117,7 @@ def sync_to_master_clues():
         return
 
     conn = sqlite3.connect(CLUES_MASTER_DB)
+    conn.create_function("strip_html_tags", 1, strip_html_tags)
     cursor = conn.cursor()
 
     # Ensure unique index exists (source + answer + clue_text handles all publications)
@@ -132,7 +152,7 @@ def sync_to_master_clues():
                 puzzle_date,
                 clue_number,
                 direction,
-                clue_text,
+                strip_html_tags(clue_text),
                 enumeration,
                 answer,
                 ?,
