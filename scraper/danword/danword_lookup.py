@@ -289,13 +289,21 @@ def find_puzzle_json(source, puzzle_number):
             if path.exists():
                 return path
 
-        # Also try matching by puzzle number in title
+        # Also try matching by puzzle number in the title (files are named by the real
+        # Telegraph number, e.g. ..._93444.json, but the puzzle is served under its
+        # display sequence, e.g. Prize Toughie No 235). Match the number as a WHOLE
+        # integer, not a substring: a plain `"235" in title` also matched "No 31235"
+        # (a Prize Cryptic), returning the wrong grid so no answers placed. Prefer the
+        # number quoted after "No", else any standalone number token in the title.
+        want = int(puzzle_number)
         for f in TELEGRAPH_JSON_DIR.glob("telegraph_prize-*.json"):
             try:
-                data = json.loads(f.read_text())
+                data = json.loads(f.read_text(encoding="utf-8"))
                 copy = data.get('json', {}).get('copy', {})
-                title = copy.get('title', '')
-                if str(puzzle_number) in title:
+                title = copy.get('title', '') or ''
+                m = re.search(r'\bNo\.?\s*0*(\d+)', title)
+                nums = [int(m.group(1))] if m else [int(n) for n in re.findall(r'\d+', title)]
+                if want in nums:
                     return f
             except Exception:
                 continue
