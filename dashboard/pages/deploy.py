@@ -356,7 +356,7 @@ def _render_cordelia_deploy():
                     # the 300s ceiling matches the other network steps and leaves ample margin.
                     result = subprocess.run(
                         [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
-                         "--max-seconds", "200"],
+                         "--max-seconds", "200", "--puzzle-pages-only"],
                         capture_output=True, text=True, timeout=300,
                         encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
                     )

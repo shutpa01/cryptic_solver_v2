@@ -20,6 +20,7 @@ then records the puzzle. Sent exactly once, ever.
     python scripts/indexnow_notify.py --seed-before DATE  # mark puzzles published <= DATE as sent
     python scripts/indexnow_notify.py --seed-all         # mark EVERY served puzzle as sent
     python scripts/indexnow_notify.py --force            # allow a big send with an empty ledger
+    python scripts/indexnow_notify.py --puzzle-pages-only # announce ONLY the 3-4 puzzle pages
 
 ONE-TIME MIGRATION: Bing already has the existing pages, so seed the ledger first with
 everything already sent, then a normal run only announces genuinely new puzzles. Seeding
@@ -75,11 +76,17 @@ def _ledger_record(conn, source, number, when):
 
 # --- gather every served puzzle's URLs, grouped by puzzle ----------------------------
 
-def collect_puzzle_urls(db):
+def collect_puzzle_urls(db, include_clue_pages=True):
     """Every fully-served puzzle -> its production URLs (the puzzle page + each served clue
     page), grouped by (source, puzzle_number). Same serving truth as the sitemap/410 gate,
     so a URL that would 410 is never included. Returns:
         {(source, number): {"urls": [puzzle_url, clue_url, ...], "pub": "YYYY-MM-DD"}}
+
+    include_clue_pages=False announces ONLY the puzzle page for each puzzle (3-4 URLs a day
+    instead of ~95). This does NOT remove or unpublish anything: every clue URL stays in the
+    sitemap, stays linked from its puzzle page, and stays crawlable. It only stops us
+    *pushing* the long tail, so the submission budget lands on the few pages whose demand
+    window is wide enough to be worth indexing. See --puzzle-pages-only.
     """
     from web.serving import SERVED_SOURCES, is_served, served_puzzle_numbers
     from web.routes.clue import generate_clue_slug
@@ -104,6 +111,8 @@ def collect_puzzle_urls(db):
             entry["urls"].append(f"{BASE}/{r['source']}/{slug}/{r['puzzle_number']}")
 
     # 2) Append each served clue's own page URL under its (already-present) puzzle.
+    if not include_clue_pages:
+        return out
     csql = (f"SELECT c.id, c.source, c.puzzle_number, c.clue_text FROM clues c "
             f"JOIN wfw_solve w ON w.clue_id = c.id AND w.status IN ('pass','invalid') "
             f"WHERE c.source IN ({ph}) AND c.clue_text IS NOT NULL "
@@ -132,6 +141,13 @@ def main():
                     help="mark EVERY served puzzle as already sent (no submission)")
     ap.add_argument("--force", action="store_true",
                     help="allow a large send even when the ledger is empty (bypass the guard)")
+    ap.add_argument("--puzzle-pages-only", action="store_true",
+                    help="announce ONLY each puzzle's own page, not its clue pages (3-4 URLs "
+                         "a day instead of ~95). Removes nothing: clue URLs stay in the "
+                         "sitemap and stay crawlable — we just stop pushing the long tail. "
+                         "NOTE: the ledger records a puzzle once sent, so a puzzle announced "
+                         "this way will not later have its clue pages sent unless its ledger "
+                         "row is cleared.")
     ap.add_argument("--max-seconds", type=float, default=0.0, metavar="N",
                     help="stop starting new puzzles after N seconds of sending and defer the "
                          "rest to the next run (0 = no limit). Keeps a deploy inside its "
@@ -143,7 +159,10 @@ def main():
         from web.db import get_db
         db = get_db()
         now = _db_now(db)
-        puzzles = collect_puzzle_urls(db)
+        puzzles = collect_puzzle_urls(db, include_clue_pages=not args.puzzle_pages_only)
+    if args.puzzle_pages_only:
+        print("IndexNow: PUZZLE PAGES ONLY — clue pages will not be announced "
+              "(they remain in the sitemap and crawlable).")
 
     conn = _ledger_conn()
     sent = _ledger_sent(conn)
