@@ -59,18 +59,11 @@ def _clue_sitemap_page_count():
 def robots_txt():
     """Serve robots.txt with sitemap location."""
     body = (
-        "User-agent: GPTBot\n"
-        "Disallow: /\n"
-        "\n"
-        "User-agent: ClaudeBot\n"
-        "Disallow: /\n"
-        "\n"
-        "User-agent: Bytespider\n"
-        "Disallow: /\n"
-        "\n"
-        "User-agent: CCBot\n"
-        "Disallow: /\n"
-        "\n"
+        # AI crawlers are deliberately NOT disallowed. The site's differentiator is
+        # step-by-step wordplay reasoning, which AI assistants preferentially cite
+        # (Bing AI Performance: 321 Copilot citations 21 Jul–6 Aug 2026, 50% citation
+        # share on clue queries). Blocking them closed the one retrieval channel that
+        # does not depend on this domain's demoted search ranking.
         "User-agent: *\n"
         "Allow: /\n"
         "Disallow: /admin/\n"
