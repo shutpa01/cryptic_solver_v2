@@ -46,11 +46,17 @@ SUBTYPE_RULE = {
     ("selection", "outer"):         "outer",
     ("selection", "middle"):        "middle",
     ("selection", "alternate"):     "alternate",
+    # NAMED positions ("second and third in Gleneagles"). Deliberately maps to NO rule:
+    # the setter names the positions, so there is nothing for an engine to derive and the
+    # combinations cannot be enumerated. Present as a KEY so the write layer accepts the
+    # subtype, but valued None so `if rule:` in engine_registry.selection_rules skips it and
+    # admin_db's backing check does not count it. A label the human can record, nothing more.
+    ("selection", "named"):         None,
 }
 
 # The canonical selection subtypes (the keys of SUBTYPE_RULE under the `selection` type)
 # that the clue-page Add panel offers and the write layer accepts. Order = display order.
-CLUE_PAGE_SUBTYPES = ("first", "last", "outer", "middle", "alternate")
+CLUE_PAGE_SUBTYPES = ("first", "last", "outer", "middle", "alternate", "named")
 
 # Provider set by the wiring: rules_for(text) -> set of selection rules the DB licenses
 # for that word/phrase (inflection-aware). None until wired (find_indicators then empty).

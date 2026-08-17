@@ -76,6 +76,7 @@ _SUBTYPE_LABELS = {
     ("selection", "outer"):     "outer letters (extremes, ends)",
     ("selection", "middle"):    "middle letter(s) (centrally, heart of)",
     ("selection", "alternate"): "alternate letters (oddly, evenly)",
+    ("selection", "named"):     "named letters (second and third, etc.)",
     ("deletion", "head"):    "remove first letter (behead)",
     ("deletion", "tail"):    "remove last letter (curtail)",
     ("deletion", "ends"):    "remove outer letters",
