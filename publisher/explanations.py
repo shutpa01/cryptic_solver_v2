@@ -2,6 +2,17 @@
 
 Steps, each giving more away: definition, clue type, answer, full explanation.
 
+**The full explanation IS the site's WFW breakdown.** `web.wfw_read` is imported
+directly — the one deliberate crossing of the rule that this package imports
+nothing from `web` (see `publisher_build_decisions`). Reimplementing it was
+tried and thrown away: the format is the product, and a second copy of 950
+lines of transform handling, selection-fodder highlighting and colour
+assignment would fork from the page it is meant to reproduce the first time
+either changed. The coupling is narrow — `wfw_read` is a leaf that deliberately
+avoids `core/` imports and needs only `current_app.config["CLUES_DB"]` and
+Flask's `g`, both of which this app has, so it travels if the package is ever
+lifted out.
+
 **This module serves RENDERED TEXT, never parse primitives.** No atom ids, no
 mechanism codes, no roles or ordinals reach the browser. That line is the whole
 commercial argument of the licensing design: the structured corpus is the one
@@ -21,23 +32,6 @@ import sqlite3
 # How a piece reads once it is a sentence rather than a row. Anything not
 # listed falls back to a plain, honest phrasing — the alternative is inventing
 # grammar for a mechanism nobody has described yet.
-_MECHANISM_PHRASING = {
-    "definition": "{text} is the definition",
-    "synonym": "{text} gives {value}",
-    "abbreviation": "{text} is short for {value}",
-    "anagram_fodder": "{text} supplies the letters",
-    "selection": "{text} contributes {value}",
-    "raw": "{text} is used as it stands, giving {value}",
-    "first_letter": "the first letter of {text} gives {value}",
-    "hidden": "{value} is hidden inside {text}",
-    "hidden_reversed": "{value} is hidden backwards inside {text}",
-    "homophone": "{text} sounds like {value}",
-    "deletion": "{value} is removed from {text}",
-    "alternate": "alternate letters of {text} give {value}",
-    "definition_by_example": "{text} is an example, giving {value}",
-    "replacement_letter": "a letter of {text} is replaced, giving {value}",
-}
-
 _OPERATION_LABELS = {
     "double_definition": "Double definition",
     "triple_definition": "Triple definition",
@@ -128,33 +122,71 @@ def steps_for(clues_db, clue_id):
         db.close()
 
     passed = solve is not None and (solve["status"] or "").lower() == "pass"
+    breakdown = _breakdown(clue_id) if passed else None
 
     return {
         "definition": _definition(pieces) if passed else None,
-        "clue_type": _clue_type(solve, clue) if passed else None,
+        # Prefer the site's own label: it names EVERY mechanism a clue uses,
+        # which is the detailed clue type the licensing design treats as the
+        # thing that is new to the world. The local map is only a fallback for
+        # a pass with no stored atoms.
+        "clue_type": (breakdown["label"] if breakdown else None)
+                     or (_clue_type(solve, clue) if passed else None),
         "answer": (clue["answer"] or "").upper() or None,
-        "explanation": _explanation(pieces, clue["clue_text"]) if passed else None,
+        "explanation": breakdown,
         "enumeration": clue["enumeration"] or None,
     }
 
 
-def _in_clue_order(pieces, clue_text):
-    """Sort pieces by where their words fall in the clue.
+def _breakdown(clue_id):
+    """The WFW breakdown, with colours resolved, ready to render.
 
-    Stored order is insertion order, which interleaves the definition among the
-    letters and reads as a jumble. Clue order is the rule the public overlay
-    already follows: read the clue left to right and see what each part does.
-    Pieces whose text cannot be located keep their stored position, at the end,
-    rather than being dropped.
+    Shape matches the overlay on the site: a clue-type pill, the answer as
+    tiles coloured by the piece that placed each letter, the one-line assembly,
+    and word-by-word rows in clue order. Returns None when the clue has a pass
+    but no stored atoms, which is the one case the overlay cannot draw either.
     """
-    haystack = (clue_text or "").lower()
-    ordered = []
-    for piece in pieces:
-        text = (piece["text"] or "").strip().lower()
-        at = haystack.find(text) if text else -1
-        ordered.append(((0, at) if at >= 0 else (1, piece["ord"]), piece))
-    ordered.sort(key=lambda pair: pair[0])
-    return [piece for _key, piece in ordered]
+    from web.wfw_read import load_breakdown
+
+    data = load_breakdown(clue_id)
+    if data is None:
+        return None
+
+    fg_by_source = data.get("src_fg") or {}
+    fill_by_source = data.get("src_fill") or {}
+
+    tiles = []
+    for tile in data.get("answer_tiles", []):
+        if "sep" in tile:
+            tiles.append({"sep": True})
+            continue
+        source = tile.get("source_index")
+        tiles.append({
+            "char": tile.get("char", ""),
+            # A letter no piece accounts for is drawn plain rather than given a
+            # colour it has not earned.
+            "fg": fg_by_source.get(source),
+            "fill": fill_by_source.get(source),
+        })
+
+    rows = []
+    for row in data.get("rows", []):
+        rows.append({
+            "pill": row.get("pill", ""),
+            "fg": row.get("fg"),
+            "fill": row.get("fill"),
+            # detail_html carries the site's fodder-letter highlighting; the
+            # rest of the line is escaped where it is built.
+            "html": row.get("detail_html"),
+            "text": row.get("detail", ""),
+        })
+
+    return {
+        "label": data.get("operation_label"),
+        "summary": data.get("summary"),
+        "tiles": tiles,
+        "rows": rows,
+    }
 
 
 def _definition(pieces):
@@ -187,41 +219,3 @@ def _clue_type(solve, clue):
     if fallback:
         return fallback.replace("_", " ").capitalize()
     return None
-
-
-def _explanation(pieces, clue_text):
-    lines = []
-    for piece in _in_clue_order(pieces, clue_text):
-        line = _render_piece(piece)
-        if line:
-            lines.append(line)
-    return lines or None
-
-
-def _render_piece(piece):
-    text = (piece["text"] or "").strip()
-    value = (piece["value"] or "").strip().upper()
-    mechanism = (piece["mechanism"] or "").strip()
-    role = (piece["role"] or "").strip()
-    note = (piece["note"] or "").strip()
-
-    if not text:
-        return None
-
-    if role == "indicator":
-        kind = mechanism.replace("_", " ") if mechanism else ""
-        line = (f"{_quote(text)} is the {kind} indicator" if kind
-                else f"{_quote(text)} is the indicator")
-    elif role == "link":
-        line = f"{_quote(text)} joins the parts"
-    elif mechanism in _MECHANISM_PHRASING:
-        line = _MECHANISM_PHRASING[mechanism].format(text=_quote(text), value=value)
-    elif value:
-        line = f"{_quote(text)} gives {value}"
-    else:
-        # No mechanism recorded and no value: say only what is known.
-        line = f"{_quote(text)} is part of the wordplay"
-
-    if note:
-        line += f" ({note})"
-    return line + "."

@@ -305,17 +305,35 @@ class PublisherTests(unittest.TestCase):
             self.post("/api/hints", {"entry": "d1", "step": "everything"},
                       token).status_code, 400)
 
-    def test_explanation_reads_in_clue_order(self):
-        """Storage order interleaves the definition among the letters and
-        reads as a jumble; the public rule is clue order."""
-        from publisher.explanations import load_clue_index, steps_for
-        db = self.app.config["CLUES_DB"]
-        index = load_clue_index(db, "telegraph", "31268")
-        steps = steps_for(db, index["a6"])
-        lines = steps["explanation"]
-        # 'Starts to strut wildly after getting hot goods?'
-        self.assertTrue(lines[0].startswith("‘Starts’"))
-        self.assertIn("hot goods", lines[-1])
+    def test_full_explanation_is_the_site_wfw_breakdown(self):
+        """Not a reinvented prose format — the same shape the site's overlay
+        draws: a clue-type label, answer tiles coloured by the piece that
+        placed each letter, the one-line assembly, and rows in clue order."""
+        token, _, _ = self.embed(EXPLAINED)
+        value = self.post("/api/hints", {"entry": "d1", "step": "explanation"},
+                          token).json["value"]
+
+        self.assertEqual(value["label"], "Container + acrostic")
+        self.assertEqual("".join(t.get("char", "") for t in value["tiles"]), "MESCAL")
+        self.assertIn("MESCAL", value["summary"])
+
+        # Letters carry the colour of the piece that placed them, and the
+        # container source differs from the acrostic ones.
+        colours = [t.get("fg") for t in value["tiles"] if t.get("char")]
+        self.assertEqual(len(set(colours)), 3)
+
+        pills = [r["pill"] for r in value["rows"]]
+        self.assertEqual(pills[0], "Definition")
+        self.assertIn("Indicator", pills)
+        self.assertIn("Synonym", pills)
+
+    def test_clue_type_names_every_mechanism(self):
+        """The detailed clue type is the part that is new to the world; a flat
+        'Container' would throw away exactly what is being sold."""
+        token, _, _ = self.embed(EXPLAINED)
+        value = self.post("/api/hints", {"entry": "d1", "step": "clue_type"},
+                          token).json["value"]
+        self.assertEqual(value, "Container + acrostic")
 
     def test_tools_require_a_token(self):
         for path in ("/api/tools/lookup", "/api/tools/synonym",

@@ -48,6 +48,13 @@
     this.activeId = null;
     this._handlers = {};
 
+    // Picked clue words, as indices into the ACTIVE clue's tokens. This lives
+    // on the engine rather than in a view because the same selection shows in
+    // three places at once — the clue bar, the active row of the clue list,
+    // and the header of the tools panel. Two views each holding their own copy
+    // would drift apart the moment a solver used both.
+    this.picked = [];
+
     this.restore();
     var first = this.firstEntry();
     if (first) this.select(first.id);
@@ -112,7 +119,7 @@
     var index = cellIndex == null ? this.firstUnfilledIndex(entry) : cellIndex;
     var cell = entry.cells[Math.max(0, Math.min(index, entry.len - 1))];
     this.cursor = { r: cell[0], c: cell[1] };
-    this.emit('selection', this.selectionState());
+    this._announce();
   };
 
   Engine.prototype.firstUnfilledIndex = function (entry) {
@@ -142,7 +149,7 @@
     this.dir = dir;
     this.activeId = id;
     this.cursor = { r: r, c: c };
-    this.emit('selection', this.selectionState());
+    this._announce();
   };
 
   Engine.prototype.flip = function () {
@@ -152,7 +159,7 @@
     if (!id) return;
     this.dir = other;
     this.activeId = id;
-    this.emit('selection', this.selectionState());
+    this._announce();
   };
 
   /* Tab / the clue-bar chevrons: move through the list in reading order,
@@ -176,6 +183,117 @@
       cells: entry ? entry.cells : []
     };
   };
+
+  /* Every route to a new selection goes through here, so picked words can be
+   * dropped exactly when the clue changes — the indices refer to the active
+   * clue's tokens and mean nothing against a different clue. Moving the cursor
+   * WITHIN an entry keeps them. */
+  Engine.prototype._announce = function () {
+    if (this.activeId !== this._announcedId) {
+      this._announcedId = this.activeId;
+      if (this.picked.length) {
+        this.picked = [];
+        this.emit('words', { indices: [], words: [] });
+      }
+    }
+    this.emit('selection', this.selectionState());
+  };
+
+  /* --- picked clue words -------------------------------------------- */
+
+  /* Split a clue into tokens, keeping the whitespace so a view can rebuild the
+   * line exactly. Word tokens carry the index the selection is expressed in,
+   * so every surface numbers them identically. */
+  Engine.prototype.clueTokens = function (entry) {
+    var tokens = [];
+    var index = 0;
+    (entry && entry.clue ? entry.clue : '').split(/(\s+)/).forEach(function (raw) {
+      if (!raw) return;
+      if (!raw.trim()) {
+        tokens.push({ text: raw, word: false, index: null });
+        return;
+      }
+      tokens.push({
+        text: raw,
+        word: true,
+        index: index++,
+        clean: raw.replace(/[^A-Za-z]/g, '')
+      });
+    });
+    return tokens;
+  };
+
+  /* Adjacency selection: a run of neighbouring words, so "French kiss" can be
+   * taken as a phrase. Clicking away from the run starts a new one rather than
+   * building a nonsense scatter of words. */
+  Engine.prototype.toggleWord = function (index) {
+    var picked = this.picked.slice();
+    var at = picked.indexOf(index);
+    if (at !== -1) {
+      // Only the ends can be dropped without splitting the run in two.
+      if (index === picked[0] || index === picked[picked.length - 1]) {
+        picked.splice(at, 1);
+      } else {
+        picked = [index];
+      }
+    } else if (!picked.length) {
+      picked = [index];
+    } else if (index === picked[0] - 1 || index === picked[picked.length - 1] + 1) {
+      picked.push(index);
+      picked.sort(function (a, b) { return a - b; });
+    } else {
+      picked = [index];
+    }
+    this.picked = picked;
+    this.emit('words', { indices: picked.slice(), words: this.pickedWords() });
+  };
+
+  Engine.prototype.pickedWords = function () {
+    var tokens = this.clueTokens(this.current()).filter(function (t) { return t.word; });
+    return this.picked.map(function (i) {
+      return tokens[i] ? tokens[i].clean : '';
+    }).filter(Boolean);
+  };
+
+  Engine.prototype.clearWords = function () {
+    if (!this.picked.length) return;
+    this.picked = [];
+    this.emit('words', { indices: [], words: [] });
+  };
+
+  /* --- shared clue rendering ---------------------------------------- */
+
+  /* One renderer for all three places a clue appears with clickable words: the
+   * bar under the grid, the active row of the clue list, and the tools header.
+   * They must tokenise and number identically or a selection made in one would
+   * highlight the wrong words in another. */
+  function renderClueWords(engine, entry, container) {
+    container.innerHTML = '';
+    engine.clueTokens(entry).forEach(function (token) {
+      if (!token.word) {
+        container.appendChild(document.createTextNode(token.text));
+        return;
+      }
+      var span = el('span', 'cg-word', token.text);
+      span.dataset.index = token.index;
+      span.addEventListener('click', function (event) {
+        // The clue list row is itself a button that selects the entry; a word
+        // click must not also re-trigger it.
+        event.stopPropagation();
+        engine.toggleWord(token.index);
+      });
+      container.appendChild(span);
+    });
+    paintPickedWords(engine, container);
+  }
+
+  function paintPickedWords(engine, root) {
+    if (!root) return;
+    root.querySelectorAll('.cg-word').forEach(function (span) {
+      span.classList.toggle('is-picked',
+        engine.picked.indexOf(Number(span.dataset.index)) !== -1);
+    });
+  }
 
   /* --- typing ------------------------------------------------------- */
 
@@ -219,14 +337,14 @@
       var cell = entry.cells[next];
       if (raw || !this.options.skipFilled || !this.letters[key(cell[0], cell[1])]) {
         this.cursor = { r: cell[0], c: cell[1] };
-        this.emit('selection', this.selectionState());
+        this._announce();
         return;
       }
       next += delta;
     }
     // Ran off the end: stay put rather than jumping to another entry. The
     // paper's own solver does the same — the entry boundary is meaningful.
-    this.emit('selection', this.selectionState());
+    this._announce();
   };
 
   Engine.prototype.moveCursor = function (dr, dc) {
@@ -256,7 +374,7 @@
     }
     this.activeId = id;
     this.cursor = { r: r, c: c };
-    this.emit('selection', this.selectionState());
+    this._announce();
   };
 
   Engine.prototype.handleKey = function (event) {
@@ -463,6 +581,12 @@
     var self = this;
 
     this.table.addEventListener('mousedown', function (event) {
+      // LEFT button only. A right-click was running this whole path: it moved
+      // the cursor (and flipped direction when it landed on the square you
+      // were already on) and called preventDefault, which in some browsers
+      // also suppresses the contextmenu event that opens tools mode. Right-
+      // click should open the tools where you are, not move you first.
+      if (event.button !== 0) return;
       var node = event.target.closest('.cg-cell');
       if (!node) return;
       event.preventDefault();      // keep focus on the capture input
@@ -529,14 +653,25 @@
    * not that the word list is short. */
   GridView.prototype.showCount = function (entry, count, capped) {
     this.clearCounts();
-    if (!entry || !entry.len || capped || count == null) return;
-    if (count > 99) return;
+    if (!entry || !entry.len || count == null) return;
     var last = entry.cells[entry.len - 1];
     var node = this.cells[key(last[0], last[1])];
     if (!node) return;
     var slot = node.querySelector('.cg-count');
-    slot.textContent = String(count);
-    slot.classList.toggle('is-zero', count === 0);
+
+    // Over the ceiling, say so. Showing nothing was indistinguishable from the
+    // feature being broken — which is exactly how it was reported. A five-
+    // letter entry with three letters known (?A?E?) routinely passes 100, so
+    // this is not a rare corner: it hit 262 entries across the local puzzles.
+    // "99+" is deliberately muted, not green: it is not an actionable count,
+    // it is an answer to "is this thing working?".
+    if (capped || count > 99) {
+      slot.textContent = '99+';
+      slot.classList.add('is-over');
+    } else {
+      slot.textContent = String(count);
+      slot.classList.toggle('is-zero', count === 0);
+    }
     node.classList.add('has-count');
   };
 
@@ -547,6 +682,7 @@
       var slot = node.querySelector('.cg-count');
       slot.textContent = '';
       slot.classList.remove('is-zero');
+      slot.classList.remove('is-over');
     }, this);
   };
 
@@ -601,10 +737,15 @@
     this.container = container;
     this.direction = direction;
     this.items = {};
+    this.texts = {};
+    this.wordedId = null;   // the row currently rendered with clickable words
     this.render();
 
     var self = this;
     engine.on('selection', function () { self.paint(); });
+    engine.on('words', function () {
+      if (self.wordedId) paintPickedWords(engine, self.texts[self.wordedId]);
+    });
   }
 
   ClueListView.prototype.render = function () {
@@ -619,6 +760,7 @@
       body.appendChild(el('span', 'cg-clue-text', entry.clue));
       if (entry.enum) body.appendChild(el('span', 'cg-clue-enum', '(' + entry.enum + ')'));
       item.appendChild(body);
+      self.texts[entry.id] = item.querySelector('.cg-clue-text');
       // A clue is a control, so it has to behave like one: reachable by tab,
       // announced as a button, and activated by Enter or Space. Without this
       // the clue list is mouse-only.
@@ -649,7 +791,47 @@
       var on = !!activeId && resolved && resolved.id === activeId;
       this.items[id].classList.toggle('is-active', on);
     }, this);
+    this.paintWords(activeId, entry);
     if (activeId && this.items[activeId]) this.scrollTo(this.items[activeId]);
+  };
+
+  /* Clue words are clickable on the ACTIVE row only.
+   *
+   * On desktop this list is far more prominent than the bar under the grid, so
+   * a bar-only interaction was never going to be found. The reason words were
+   * kept out of the list was that a row is also the entry selector and a tap
+   * meant for 14 Across would land on a word — which only applies to rows that
+   * are not yet selected. Restricting the spans to the active row removes the
+   * collision: an inactive row has no word spans to intercept the click, and
+   * clicking the active row again would have done nothing anyway.
+   */
+  ClueListView.prototype.paintWords = function (activeId, entry) {
+    if (this.wordedId === activeId) {
+      if (activeId) paintPickedWords(this.engine, this.texts[activeId]);
+      return;
+    }
+    // Put the previously active row back to plain text, and back to being a
+    // button. A row keeps role="button" only while it is a plain selector;
+    // once it carries clickable words, nesting them inside a button would be
+    // both invalid and unusable with a screen reader.
+    if (this.wordedId && this.texts[this.wordedId]) {
+      var previous = this.engine.entry(this.wordedId);
+      this.texts[this.wordedId].textContent = previous ? previous.clue : '';
+      var previousItem = this.items[this.wordedId];
+      if (previousItem) {
+        previousItem.setAttribute('role', 'button');
+        previousItem.setAttribute('tabindex', '0');
+      }
+    }
+    this.wordedId = activeId;
+    if (activeId && this.texts[activeId] && entry) {
+      renderClueWords(this.engine, entry, this.texts[activeId]);
+      var item = this.items[activeId];
+      if (item) {
+        item.removeAttribute('role');
+        item.removeAttribute('tabindex');
+      }
+    }
   };
 
   ClueListView.prototype.scrollTo = function (item) {
@@ -666,6 +848,7 @@
     this.render();
     var self = this;
     engine.on('selection', function () { self.paint(); });
+    engine.on('words', function () { self.paintWords(); });
   }
 
   ClueBarView.prototype.render = function () {
@@ -691,29 +874,12 @@
   ClueBarView.prototype.paint = function () {
     var entry = this.engine.current();
     this.body.innerHTML = '';
-    this.selected = [];
     if (!entry) return;
     var label = entry.number + ' ' + (entry.dir === ACROSS ? 'Across' : 'Down');
     this.body.appendChild(el('span', 'cg-bar-num', label));
 
-    // Clue words are clickable HERE and not in the clue list. In this shell the
-    // list is also the entry selector, so a tap meant to select 14 Across would
-    // land on a word instead.
     var text = el('span', 'cg-bar-text');
-    this.words = [];
-    var self = this;
-    (entry.clue || '').split(/(\s+)/).forEach(function (token) {
-      if (!token.trim()) {
-        text.appendChild(document.createTextNode(token));
-        return;
-      }
-      var index = self.words.length;
-      var span = el('span', 'cg-word', token);
-      span.dataset.index = index;
-      span.addEventListener('click', function () { self.toggleWord(index); });
-      text.appendChild(span);
-      self.words.push({ el: span, raw: token, clean: token.replace(/[^A-Za-z]/g, '') });
-    });
+    renderClueWords(this.engine, entry, text);
     this.body.appendChild(text);
 
     if (entry.enum) {
@@ -721,52 +887,12 @@
     }
   };
 
-  /* Adjacency selection: a run of neighbouring words, so "French kiss" can be
-   * looked up as a phrase. Clicking away from the run starts a new one rather
-   * than building a nonsense scatter of words. */
-  ClueBarView.prototype.toggleWord = function (index) {
-    var selected = this.selected || [];
-    var at = selected.indexOf(index);
-    if (at !== -1) {
-      // Only the ends can be dropped without splitting the run in two.
-      if (index === selected[0] || index === selected[selected.length - 1]) {
-        selected.splice(at, 1);
-      } else {
-        selected = [index];
-      }
-    } else if (!selected.length) {
-      selected = [index];
-    } else if (index === selected[0] - 1 || index === selected[selected.length - 1] + 1) {
-      selected.push(index);
-      selected.sort(function (a, b) { return a - b; });
-    } else {
-      selected = [index];
-    }
-    this.selected = selected;
-    this.paintWords();
-    this.engine.emit('words', {
-      indices: selected.slice(),
-      words: this.selectedWords()
-    });
-  };
-
-  ClueBarView.prototype.selectedWords = function () {
-    var words = this.words || [];
-    return (this.selected || []).map(function (i) {
-      return words[i] ? words[i].clean : '';
-    }).filter(Boolean);
-  };
-
   ClueBarView.prototype.paintWords = function () {
-    var selected = this.selected || [];
-    (this.words || []).forEach(function (word, i) {
-      word.el.classList.toggle('is-picked', selected.indexOf(i) !== -1);
-    });
+    paintPickedWords(this.engine, this.body);
   };
 
   ClueBarView.prototype.clearWords = function () {
-    this.selected = [];
-    this.paintWords();
+    this.engine.clearWords();
   };
 
   /* ------------------------------------------------------------------ *
@@ -796,18 +922,39 @@
     this.render();
 
     var self = this;
+    this.entryId = null;
     engine.on('selection', function () {
-      if (self.open) self.refreshHeader();
+      if (!self.open) return;
+      var entry = engine.current();
+      var id = entry ? entry.id : null;
+      // A different clue means every field in the panel now belongs to the
+      // wrong one: anagram fodder picked from the old clue, a pattern from the
+      // old entry, a lookup of a word that is no longer on screen, and — worst
+      // — hint rungs already revealed for the previous answer. Rebuild the
+      // panel from scratch rather than leave any of it behind.
+      if (id !== self.entryId) {
+        self.entryId = id;
+        self.words = [];
+        self.renderPanel();
+      }
+      self.refreshHeader();
     });
     engine.on('letters', function () {
       if (self.open && self.tab === 'pattern') self.prefillPattern();
     });
     engine.on('words', function (payload) {
       self.words = payload.words;
-      if (!self.open) self.show('lookup');
-      else if (self.tab !== 'anagram') self.show('lookup');
-      else self.runAnagram();
-      if (self.tab === 'lookup') self.runLookup();
+      paintPickedWords(engine, self.headerBody);
+      // An empty payload is the selection being cleared as the clue changed.
+      // Opening a tool panel off the back of that would yank the working
+      // section around every time the solver moved to another clue.
+      if (!self.words.length) return;
+      if (self.open && self.tab === 'anagram') {
+        self.runAnagram();
+        return;
+      }
+      self.show('lookup');
+      self.runLookup();
     });
   }
 
@@ -860,6 +1007,8 @@
     this.open = true;
     this.container.hidden = false;
     this.tab = tab || this.tab;
+    var current = this.engine.current();
+    this.entryId = current ? current.id : null;
     var self = this;
     Object.keys(this.tabButtons).forEach(function (id) {
       self.tabButtons[id].classList.toggle('is-on', id === self.tab);
@@ -887,7 +1036,11 @@
     if (!entry) return;
     var label = entry.number + ' ' + (entry.dir === ACROSS ? 'Across' : 'Down');
     this.headerBody.appendChild(el('span', 'cg-bar-num', label));
-    this.headerBody.appendChild(el('span', 'cg-bar-text', entry.clue));
+    // Words are clickable here too — this is the clue sitting directly above
+    // the anagram box, so it is where changing the fodder is most natural.
+    var text = el('span', 'cg-bar-text');
+    renderClueWords(this.engine, entry, text);
+    this.headerBody.appendChild(text);
     if (entry.enum) {
       this.headerBody.appendChild(el('span', 'cg-bar-enum', '(' + entry.enum + ')'));
     }
@@ -896,6 +1049,9 @@
 
   ToolsView.prototype.renderPanel = function () {
     this.panel.innerHTML = '';
+    this.message = el('p', 'cg-tool-msg');
+    this.message.hidden = true;
+    this.panel.appendChild(this.message);
     var builder = {
       anagram: this.buildAnagram,
       pattern: this.buildPattern,
@@ -946,38 +1102,86 @@
 
   /* A result is clickable: it drops straight into the grid, which is the whole
    * reason for having the tools next to the squares rather than in a tab. */
-  ToolsView.prototype._wordList = function (box, words, capped, total) {
+  ToolsView.prototype._wordList = function (box, words, capped, total, quiet) {
     box.innerHTML = '';
     if (!words.length) {
-      box.appendChild(el('p', 'cg-tool-note', 'Nothing in the corpus fits that.'));
+      if (!quiet) {
+        box.appendChild(el('p', 'cg-tool-note', 'Nothing in the corpus fits that.'));
+      }
       return;
     }
-    var count = capped
-      ? 'Showing ' + words.length + ' of ' + total
-      : words.length + (words.length === 1 ? ' match' : ' matches');
-    box.appendChild(el('p', 'cg-tool-note', count));
+    // `quiet` suppresses the count line — the word lookup stacks one list per
+    // length and already labels each with its length, so a tally above every
+    // one of them is noise.
+    if (!quiet) {
+      var count = capped
+        ? 'Showing ' + words.length + ' of ' + total
+        : words.length + (words.length === 1 ? ' match' : ' matches');
+      box.appendChild(el('p', 'cg-tool-note', count));
+    } else if (capped) {
+      box.appendChild(el('span', 'cg-tool-more', '+' + (total - words.length) + ' more'));
+    }
     var list = el('ul', 'cg-word-list');
     var self = this;
     words.forEach(function (word) {
       var item = el('li');
       var button = el('button', 'cg-word-hit', word);
-      button.addEventListener('click', function () { self.fill(word); });
+      button.addEventListener('click', function () { self.flash(self.fill(word)); });
       item.appendChild(button);
       list.appendChild(item);
     });
     box.appendChild(list);
   };
 
-  /* Write a result into the current entry, but only where it fits and only
-   * over squares the solver has not already filled with something else. */
+  /* Write a result into the current entry. Returns null on success, or a short
+   * reason it could not be placed.
+   *
+   * A result the same length as the entry IS the answer, so it fills the whole
+   * entry wherever the cursor happens to be. A SHORTER result is a component —
+   * a synonym or abbreviation that forms part of the answer — so it goes in at
+   * the cursor, exactly as typing it would. Anything longer than the entry is
+   * never offered as a button in the first place.
+   */
   ToolsView.prototype.fill = function (word) {
     var entry = this.engine.current();
-    if (!entry) return;
+    if (!entry) return 'Select a clue first.';
     var letters = word.replace(/[^A-Za-z]/g, '').toUpperCase();
-    if (letters.length !== entry.len) return;
+    if (!letters.length) return null;
+    if (letters.length > entry.len) {
+      return word + ' is too long for this entry.';
+    }
+
+    var start = 0;
+    if (letters.length < entry.len) {
+      start = this.engine.cursor
+        ? this.engine.indexInEntry(entry, this.engine.cursor.r, this.engine.cursor.c)
+        : 0;
+      if (start < 0) start = 0;
+      if (start + letters.length > entry.len) {
+        // Refuse rather than shunt it somewhere the solver did not choose.
+        return word + ' needs ' + letters.length + ' squares — only ' +
+          (entry.len - start) + ' left from here.';
+      }
+    }
+
     var map = {};
-    entry.cells.forEach(function (rc, i) { map[key(rc[0], rc[1])] = letters[i]; });
+    for (var i = 0; i < letters.length; i++) {
+      var cell = entry.cells[start + i];
+      map[key(cell[0], cell[1])] = letters[i];
+    }
     this.engine.applyLetters(map);
+
+    // Leave the cursor after what was just placed, so components can be
+    // dropped in one after another.
+    var next = entry.cells[Math.min(start + letters.length, entry.len - 1)];
+    this.engine.selectCellKeepingDirection(next[0], next[1]);
+    return null;
+  };
+
+  ToolsView.prototype.flash = function (message) {
+    if (!this.message) return;
+    this.message.textContent = message || '';
+    this.message.hidden = !message;
   };
 
   // --- pattern ---------------------------------------------------------
@@ -1119,10 +1323,27 @@
         box.appendChild(el('h4', 'cg-tool-head', data.word));
         var any = false;
 
+        // Everything that is not LONGER than the entry is clickable. One that
+        // matches the length is the answer and fills the entry; a shorter one
+        // is a component and goes in at the cursor. Only lengths that cannot
+        // physically go in the grid stay as plain text.
+        var entryLen = entry ? entry.len : 0;
         (data.meanings || []).forEach(function (group) {
           any = true;
-          var line = el('p', 'cg-tool-values');
-          if (group.fits) line.classList.add('is-fitting');
+          if (entryLen && group.length <= entryLen) {
+            var head = el('p', 'cg-tool-values');
+            if (group.fits) head.classList.add('is-fitting');
+            head.appendChild(el('span', 'cg-tool-len', group.length + ':'));
+            head.appendChild(document.createTextNode(
+              group.fits ? ' fits this entry' : ' goes in at the cursor'));
+            box.appendChild(head);
+            var wrap = el('div');
+            box.appendChild(wrap);
+            self._wordList(wrap, group.words, !!group.more,
+                           group.words.length + group.more, true);
+            return;
+          }
+          var line = el('p', 'cg-tool-values cg-tool-toolong');
           line.appendChild(el('span', 'cg-tool-len', group.length + ':'));
           line.appendChild(document.createTextNode(' ' + group.words.join(' · ') +
             (group.more ? ' (+' + group.more + ' more)' : '')));
@@ -1153,6 +1374,59 @@
   };
 
   // --- hints and explanations ------------------------------------------
+
+  /* The WFW breakdown, drawn the way the site draws it: a clue-type pill, the
+   * answer as tiles coloured by the piece that placed each letter, the one-line
+   * assembly, then word-by-word rows in clue order. The colours arrive already
+   * resolved so this stays a dumb renderer.
+   *
+   * Row detail may carry `html` — the fodder-letter highlighting, generated by
+   * our own renderer with everything else escaped where it is built. It is not
+   * user input and not publisher input. */
+  function renderBreakdown(breakdown, container) {
+    if (!breakdown) return;
+
+    if (breakdown.label) {
+      container.appendChild(el('span', 'cg-wfw-type', breakdown.label));
+    }
+
+    if ((breakdown.tiles || []).length) {
+      var tiles = el('div', 'cg-wfw-tiles');
+      breakdown.tiles.forEach(function (tile) {
+        if (tile.sep) {
+          tiles.appendChild(el('span', 'cg-wfw-gap'));
+          return;
+        }
+        var node = el('span', 'cg-wfw-tile', tile.char);
+        if (tile.fg) {
+          node.style.color = tile.fg;
+          node.style.borderColor = tile.fg;
+          node.style.background = tile.fill || 'transparent';
+        }
+        tiles.appendChild(node);
+      });
+      container.appendChild(tiles);
+    }
+
+    if (breakdown.summary) {
+      container.appendChild(el('p', 'cg-wfw-summary', breakdown.summary));
+    }
+
+    (breakdown.rows || []).forEach(function (row) {
+      var line = el('div', 'cg-wfw-row');
+      var pill = el('span', 'cg-wfw-pill', row.pill);
+      if (row.fg) {
+        pill.style.color = row.fg;
+        pill.style.background = row.fill || 'transparent';
+      }
+      var detail = el('span', 'cg-wfw-detail');
+      if (row.html) detail.innerHTML = row.html;
+      else detail.textContent = row.text || '';
+      line.appendChild(pill);
+      line.appendChild(detail);
+      container.appendChild(line);
+    });
+  }
 
   var HINT_STEPS = [
     { id: 'definition', label: 'Definition' },
@@ -1206,10 +1480,8 @@
         if (data.value == null) {
           block.appendChild(el('p', 'cg-tool-note',
             data.unavailable || 'Not available for this clue.'));
-        } else if (Array.isArray(data.value)) {
-          var list = el('ol', 'cg-hint-lines');
-          data.value.forEach(function (line) { list.appendChild(el('li', null, line)); });
-          block.appendChild(list);
+        } else if (step.id === 'explanation') {
+          renderBreakdown(data.value, block);
         } else {
           block.appendChild(el('p', 'cg-hint-value', data.value));
         }

@@ -337,3 +337,107 @@
   border-radius: 3px;
   padding: 0.25rem 0.35rem;
 }
+
+/* --- WFW breakdown --------------------------------------------------
+ * The site's full-explanation shape: type pill, answer tiles coloured by the
+ * piece that placed each letter, the one-line assembly, then word-by-word
+ * rows. Colours arrive inline from the server, so nothing here sets them. */
+
+.cg-wfw-type {
+  display: inline-block;
+  font: 700 0.66rem var(--cg-ui-font);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  background: #e6ecfb;
+  color: #29408f;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.cg-wfw-tiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  align-items: center;
+  margin: 0.35rem 0 0.55rem;
+}
+
+.cg-wfw-gap { width: 0.5rem; }
+
+.cg-wfw-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.85rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 5px;
+  background: #f8fafc;
+  color: #334155;
+  font: 800 0.95rem/1 var(--cg-font);
+}
+
+.cg-wfw-summary {
+  margin: 0 0 0.6rem;
+  padding: 0.35rem 0.55rem;
+  background: #f7f6f3;
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  border-radius: 4px;
+  font: 0.78rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+
+.cg-wfw-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  margin-bottom: 0.3rem;
+}
+
+.cg-wfw-pill {
+  flex: 0 0 6.2rem;
+  text-align: center;
+  font: 700 0.62rem/1.5 var(--cg-ui-font);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  padding: 0.18rem 0.3rem;
+  background: #f0eeea;
+  color: #555;
+}
+
+.cg-wfw-detail {
+  font: 0.84rem/1.5 var(--cg-font);
+  padding-top: 0.08rem;
+  overflow-wrap: anywhere;
+}
+
+/* Over the ceiling: present but muted, and narrower so "99+" still fits the
+ * corner. Grey, not green — it is not a count you can act on. */
+.cg-count.is-over {
+  color: #9aa3ad;
+  font-size: 0.42rem;
+  letter-spacing: -0.02em;
+}
+
+/* Why a click could not be honoured — e.g. a component that will not fit from
+ * where the cursor is. Transient, not an error state. */
+.cg-tool-msg {
+  margin: 0;
+  padding: 0.3rem 0.5rem;
+  background: #fdf3e3;
+  border: 1px solid #e8d5ac;
+  border-radius: 3px;
+  font: 0.76rem var(--cg-ui-font);
+  color: #7a5312;
+}
+
+/* Lengths that cannot go in the grid at all — shown, but plainly. */
+.cg-tool-toolong { color: #8a8a8a; }
+
+.cg-tool-more {
+  font: 0.68rem var(--cg-ui-font);
+  color: #8a8a8a;
+  margin-left: 0.25rem;
+}

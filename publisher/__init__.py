@@ -26,6 +26,17 @@ def create_app(config_name="development"):
     app.register_blueprint(embed_bp)
     app.register_blueprint(api_bp)
 
+    @app.teardown_appcontext
+    def _close_db(_exception=None):
+        # web.wfw_read (the full-explanation breakdown) opens its connection
+        # through web.db.get_db, which parks it on flask.g and relies on the
+        # site's teardown to close it. This app has to do that itself or every
+        # explanation request leaks a SQLite handle.
+        from flask import g
+        connection = g.pop("db", None)
+        if connection is not None:
+            connection.close()
+
     @app.after_request
     def _headers(response):
         response.headers.setdefault("X-Content-Type-Options", "nosniff")
