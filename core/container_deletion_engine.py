@@ -291,6 +291,12 @@ def _build(ctx, answer, split, words, outer_run, outer, vals, inner_run, inner, 
         return None
     if "".join(c for _t, c in survived) != answer:
         return None
+    # It cannot be a two-piece construction if a single piece supplies the whole
+    # answer. When every surviving letter carries the same tag, the other piece was
+    # added and then wholly deleted — it does no work (e.g. "collapsing"=BANKRUPTCY
+    # with PU wrapped round it and stripped off). Reject: not a real container+deletion.
+    if len({t for t, _c in survived}) < 2:
+        return None
 
     def mech_of(run, value):
         sp = _can_make(words, run[0], run[1], value, vals, {})
