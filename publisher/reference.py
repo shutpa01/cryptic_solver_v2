@@ -12,9 +12,13 @@ Two rules hold everywhere in this module:
   walked; the job is to make walking it slow, bounded and visible.
 * **Nothing is invented.** Every word returned came out of the curated tables.
   A tool that pads its results with a generic dictionary would destroy the
-  thing the whole product is sold on.
+  thing the whole product is sold on. The one addition is the puzzle's own
+  answer, put into the pattern shortlist on purpose (see `choose_options`) —
+  it comes from the feed, not from a dictionary, and never appears for a
+  puzzle whose solution we do not hold.
 """
 
+import hashlib
 import re
 import sqlite3
 import threading
@@ -22,6 +26,10 @@ import threading
 RESULT_CAP = 100
 SYNONYM_CAP = 60
 ABBREVIATION_CAP = 20
+
+# The shortlist an entry is offered. Mirrors Config.MATCH_OPTIONS, which is
+# what the routes actually pass; this is only the default for direct callers.
+OPTION_LIMIT = 9
 
 _anagram_lock = threading.Lock()
 _anagram_index = {}     # length -> {signature: set(display)}
@@ -35,6 +43,24 @@ def _connect(path):
 
 def _clean(word):
     return re.sub(r"[^A-Z]", "", (word or "").upper())
+
+
+def normalise_key(text):
+    """Collapse a lookup key the way the reference DB's stored keys are built.
+
+    A VERBATIM copy of `signature_solver.db._normalize_key`, duplicated rather
+    than imported because this package stays liftable (see
+    `publisher_build_decisions`). It must not drift: the DB's `norm_word` and
+    `norm_def` columns were written with that function, and a key built any
+    other way silently matches nothing.
+
+    Word-joining punctuation becomes a space, so 'pen-pushers' meets 'pen
+    pushers'; other punctuation is dropped, so "Jill's companion" meets
+    'jills companion'.
+    """
+    text = re.sub(r"[-‐-―/]+", " ", (text or "").lower())
+    text = re.sub(r"[^a-z0-9 ]", "", text)
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def signature(word):
@@ -65,8 +91,14 @@ def lookup(ref_db, word, letters=None, entry_length=None):
     thirty-eight six-letter candidates and no way to see the rest is a dead end
     precisely where the answer must be — and we know the length, so there is no
     reason to make them guess.
+
+    Keyed on `norm_word` / `norm_def`, which is how our own solver reads these
+    tables (`core/live_db.py:79`). Matching on LOWER(word) instead misses every
+    row whose key differs from its display form — 39,265 synonym rows, among
+    them "Jill's companion" -> JACK. If the solver could find it, so must this:
+    the clue was solved with these very tables.
     """
-    word_lower = (word or "").strip().lower()
+    word_lower = normalise_key(word)
     if not word_lower:
         return {"word": word, "meanings": [], "indicators": [],
                 "abbreviations": [], "homophones": []}
@@ -77,10 +109,10 @@ def lookup(ref_db, word, letters=None, entry_length=None):
             rows = db.execute(
                 """SELECT DISTINCT val FROM (
                        SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                       WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym,' ','')) = ?
+                       WHERE norm_word = ? AND LENGTH(REPLACE(synonym,' ','')) = ?
                        UNION
                        SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                       WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer,' ','')) = ?
+                       WHERE norm_def = ? AND LENGTH(REPLACE(answer,' ','')) = ?
                    ) ORDER BY val LIMIT ?""",
                 (word_lower, letters, word_lower, letters, RESULT_CAP),
             ).fetchall()
@@ -89,10 +121,10 @@ def lookup(ref_db, word, letters=None, entry_length=None):
             rows = db.execute(
                 """SELECT DISTINCT val, LENGTH(REPLACE(val,' ','')) AS len FROM (
                        SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                       WHERE LOWER(word) = ?
+                       WHERE norm_word = ?
                        UNION
                        SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                       WHERE LOWER(definition) = ?
+                       WHERE norm_def = ?
                    ) ORDER BY LENGTH(REPLACE(val,' ','')), val""",
                 (word_lower, word_lower),
             ).fetchall()
@@ -118,13 +150,13 @@ def lookup(ref_db, word, letters=None, entry_length=None):
             }
             for r in db.execute(
                 "SELECT wordplay_type, subtype FROM indicators "
-                "WHERE LOWER(word) = ? ORDER BY wordplay_type",
+                "WHERE norm_word = ? ORDER BY wordplay_type",
                 (word_lower,),
             ).fetchall()
         ]
 
         abbreviation_sql = ("SELECT DISTINCT substitution FROM wordplay "
-                            "WHERE LOWER(indicator) = ?")
+                            "WHERE norm_ind = ?")
         if letters:
             abbreviations = [r["substitution"] for r in db.execute(
                 abbreviation_sql + " AND LENGTH(substitution) = ? "
@@ -135,7 +167,7 @@ def lookup(ref_db, word, letters=None, entry_length=None):
                 "LIMIT 15", (word_lower,)).fetchall()]
 
         homophone_sql = ("SELECT DISTINCT homophone FROM homophones "
-                         "WHERE LOWER(word) = ?")
+                         "WHERE norm_word = ?")
         if letters:
             homophones = [r["homophone"] for r in db.execute(
                 homophone_sql + " AND LENGTH(homophone) = ? ORDER BY homophone "
@@ -156,6 +188,58 @@ def lookup(ref_db, word, letters=None, entry_length=None):
     }
 
 
+def word_info(ref_db, clues_db, word, limit=8):
+    """What a RESULT word means — the ⓘ beside a match.
+
+    The reverse of the word lookup: not "what can this clue word become" but
+    "if I put this word in the grid, what would it be doing there". A solver
+    scanning nine words that all fit needs that to choose between them, and
+    without it the list is nine strings.
+
+    Mirrors the site's `/helper/word-info` (`web/routes/helper.py:528`): the
+    reverse synonym lookup, plus the definitions that answer to this word,
+    shortest first.
+    """
+    clean = (word or "").strip().upper()
+    if not clean or len(clean) < 2:
+        return {"word": word, "meanings": []}
+
+    variants = [clean]
+    if " " in clean:
+        variants.append(clean.replace(" ", ""))
+    elif len(clean) > 5:
+        # A solid entry may be a spaced answer in the corpus. The site looks the
+        # spacing up rather than guessing where the break goes.
+        db = _connect(clues_db)
+        try:
+            row = db.execute(
+                "SELECT answer FROM clues WHERE UPPER(REPLACE(answer,' ','')) = ? "
+                "AND answer LIKE '% %' LIMIT 1", (clean,)).fetchone()
+        finally:
+            db.close()
+        if row:
+            variants.append(row["answer"].upper())
+
+    meanings = set()
+    db = _connect(ref_db)
+    try:
+        for variant in variants:
+            for row in db.execute(
+                    "SELECT DISTINCT LOWER(word) AS v FROM synonyms_pairs "
+                    "WHERE UPPER(synonym) = ? LIMIT 20", (variant,)).fetchall():
+                meanings.add(row["v"])
+            for row in db.execute(
+                    "SELECT DISTINCT LOWER(definition) AS v FROM "
+                    "definition_answers_augmented WHERE UPPER(answer) = ? LIMIT 20",
+                    (variant,)).fetchall():
+                meanings.add(row["v"])
+    finally:
+        db.close()
+
+    # Shortest first: a one-word gloss tells a solver more than a phrase.
+    return {"word": clean, "meanings": sorted(meanings, key=len)[:limit]}
+
+
 # --- synonym tool --------------------------------------------------------
 
 def synonyms(ref_db, word, length=None, include=""):
@@ -168,7 +252,9 @@ def synonyms(ref_db, word, length=None, include=""):
     if not raw or len(raw) > 50:
         return {"word": raw, "synonyms": [], "abbreviations": [], "capped": False}
 
-    word_lower = raw.lower().strip(".,;:!?\"'()-")
+    # Normalised keys, as the solver uses (see `lookup`): a typed apostrophe or
+    # hyphen must not be the reason a known phrase comes back empty.
+    word_lower = normalise_key(raw)
     word_upper = raw.upper().strip(".,;:!?\"'()-")
 
     db = _connect(ref_db)
@@ -178,15 +264,15 @@ def synonyms(ref_db, word, length=None, include=""):
         for variant in _variants(word_lower):
             for r in db.execute(
                 "SELECT DISTINCT UPPER(synonym) AS s FROM synonyms_pairs "
-                "WHERE LOWER(word) = ?", (variant,)):
+                "WHERE norm_word = ?", (variant,)):
                 found.add(r["s"])
             for r in db.execute(
                 "SELECT DISTINCT UPPER(answer) AS a FROM definition_answers_augmented "
-                "WHERE LOWER(definition) = ?", (variant,)):
+                "WHERE norm_def = ?", (variant,)):
                 found.add(r["a"])
             for r in db.execute(
                 "SELECT DISTINCT UPPER(substitution) AS s FROM wordplay "
-                "WHERE LOWER(indicator) = ?", (variant,)):
+                "WHERE norm_ind = ?", (variant,)):
                 if r["s"]:
                     abbreviations.add(r["s"])
 
@@ -236,12 +322,72 @@ def _contains_all(candidate, wanted):
 
 # --- pattern tool --------------------------------------------------------
 
+def fits_pattern(word, normalised, enumeration=None):
+    """True when `word` could sit in a grid pattern of letters and dots.
+
+    `normalised` is corpus.normalise_pattern output — upper case, dots for the
+    squares still empty.
+    """
+    if not word or not normalised:
+        return False
+    clean = _clean(word)
+    if len(clean) != len(normalised):
+        return False
+    if not re.match("^" + normalised.replace(".", "[A-Z]") + "$", clean):
+        return False
+    parts = re.findall(r"\d+", enumeration or "")
+    if parts and sum(int(p) for p in parts) != len(clean):
+        parts = []          # the enumeration describes something else; ignore it
+    return _enum_ok(word, parts) if parts else True
+
+
+def _sample_order(words, seed):
+    """A fixed, arbitrary order for `words` — the same one every time.
+
+    The fillers that sit beside the answer must not be the alphabetically
+    first nine, or the answer stands out the moment it is not one of them.
+    Neither may they reshuffle: open the same entry twice and get two
+    different shortlists and the widget looks like it is guessing. Hashing
+    each word with the pattern gives both — spread, and stability.
+    """
+    return sorted(words, key=lambda w: hashlib.md5(
+        (seed + "|" + w).encode("utf-8")).hexdigest())
+
+
+def choose_options(matches, answer=None, limit=OPTION_LIMIT, seed=""):
+    """The words an entry is offered: at most `limit`, alphabetical, and with
+    `answer` among them whenever there is one.
+
+    The answer is put in deliberately. Above the limit the list is a shortlist,
+    not a tally, and a shortlist that could exclude the answer would send the
+    solver away from it — the opposite of the help the chip promises. `answer`
+    is None for a puzzle whose solution we do not hold (an embargoed prize),
+    and then nothing is added: the widget never serves an answer it has been
+    refused elsewhere.
+
+    Nothing else is invented — every filler came out of the curated corpus.
+    """
+    pool = [w for w in matches if w != answer]
+    room = limit - 1 if answer else limit
+    chosen = _sample_order(pool, seed)[:max(room, 0)]
+    if answer:
+        chosen.append(answer)
+    return sorted(chosen)
+
+
 def pattern_matches(corpus_module, clues_db, ref_db, pattern, enumeration=None,
-                    include=""):
+                    include="", answer=None, limit=OPTION_LIMIT, ceiling=None):
     """Words fitting a grid pattern, listed.
 
     Runs against the same corpus as the match count so the two can never
     disagree — a count of 34 above a list of 12 would read as broken.
+
+    `total` stays honest about how many words really fit; `matches` is the
+    shortlist the solver is shown, which is capped at `limit` and always holds
+    the answer. The scan is deliberately NOT bounded by default: the panel
+    prints "showing 9 of 41", and a bounded scan would print the bound —
+    "showing 9 of 200" is a number the widget cannot stand behind. Pass
+    `ceiling` only where a floor is acceptable.
     """
     normalised = corpus_module.normalise_pattern(pattern)
     if normalised is None:
@@ -258,6 +404,7 @@ def pattern_matches(corpus_module, clues_db, ref_db, pattern, enumeration=None,
     wanted = _clean(include)
 
     seen = {}
+    hit_ceiling = False
     for clean, display in bucket:
         if clean in seen or not regex.match(clean):
             continue
@@ -266,12 +413,26 @@ def pattern_matches(corpus_module, clues_db, ref_db, pattern, enumeration=None,
         if wanted and not _contains_all(clean, wanted):
             continue
         seen[clean] = display
+        if ceiling and len(seen) >= ceiling:
+            hit_ceiling = True
+            break
 
-    ordered = sorted(seen.values())
+    # An answer that does not fit the pattern is not offered. The solver has a
+    # wrong letter in the grid, and quietly listing the answer anyway would
+    # hand them a free Check — Check is what the paper sells.
+    if answer and not fits_pattern(answer, normalised, enumeration):
+        answer = None
+    if answer and wanted and not _contains_all(answer, wanted):
+        answer = None       # the solver's own filter wins over the shortcut
+
+    total = len(seen)
+    if answer and answer not in seen.values():
+        total += 1          # never report a total below the list length
+    chosen = choose_options(list(seen.values()), answer, limit, normalised)
     return {
-        "matches": ordered[:RESULT_CAP],
-        "capped": len(ordered) > RESULT_CAP,
-        "total": len(ordered),
+        "matches": chosen,
+        "capped": total > len(chosen) or hit_ceiling,
+        "total": total,
     }
 
 

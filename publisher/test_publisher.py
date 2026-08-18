@@ -111,14 +111,52 @@ class PublisherTests(unittest.TestCase):
                              {"patterns": {"a1": "ZQXJ???"}}, token)
         self.assertEqual(response.json["counts"]["a1"], {"n": 0, "capped": False})
 
-    def test_partial_entry_counts_and_caps(self):
+    def test_a_narrowed_entry_counts(self):
         token, _, _ = self.embed(SOLVED)
         counts = self.post("/api/match-counts",
-                           {"patterns": {"a1": "WAR????"}}, token).json["counts"]["a1"]
-        self.assertTrue(0 < counts["n"] <= 100)
-        capped = self.post("/api/match-counts",
-                           {"patterns": {"a1": "W??????"}}, token).json["counts"]["a1"]
-        self.assertTrue(capped["capped"])
+                           {"patterns": {"a1": "WARSH??"}}, token).json["counts"]["a1"]
+        self.assertTrue(0 < counts["n"] <= 9)
+
+    def test_more_than_nine_shows_nothing_at_all(self):
+        """A chip the solver cannot act on is noise, and a board covered in
+        them cannot be scanned. Above the limit the entry stays silent."""
+        token, _, _ = self.embed(SOLVED)
+        counts = self.post("/api/match-counts",
+                           {"patterns": {"a1": "W??????"}}, token).json["counts"]
+        self.assertIsNone(counts["a1"])
+
+    def test_an_entry_with_every_crossing_filled_is_offered_a_shortlist(self):
+        """Such an entry can never narrow again from the grid, so staying
+        silent would leave the solver stuck with no way forward."""
+        token, _, _ = self.embed(SOLVED)
+        counts = self.post("/api/match-counts",
+                           {"patterns": {"a1": "W??????"},
+                            "crossed": ["a1"]}, token).json["counts"]["a1"]
+        self.assertEqual(counts["n"], 9)
+
+    def test_the_number_is_the_length_of_the_list_it_opens(self):
+        """The chip promises a list. A 9 above a list of 41, or of 3, would be
+        the feature contradicting itself in one click."""
+        token, _, _ = self.embed(SOLVED)
+        for pattern, crossed in (("WARSH??", []), ("W??????", ["a1"])):
+            counts = self.post("/api/match-counts",
+                               {"patterns": {"a1": pattern},
+                                "crossed": crossed}, token).json["counts"]["a1"]
+            listed = self.post("/api/tools/pattern",
+                               {"pattern": pattern, "entry": "a1"}, token).json
+            self.assertEqual(counts["n"], len(listed["matches"]), pattern)
+
+    def test_wrong_letters_get_no_shortlist_and_no_free_check(self):
+        """A red zero says the letters are wrong. Listing the answer beside it
+        would tell the solver which letters, for nothing."""
+        token, _, _ = self.embed(SOLVED)
+        counts = self.post("/api/match-counts",
+                           {"patterns": {"a1": "ZQXJ???"},
+                            "crossed": ["a1"]}, token).json["counts"]["a1"]
+        self.assertEqual(counts["n"], 0)
+        listed = self.post("/api/tools/pattern",
+                           {"pattern": "ZQXJ???", "entry": "a1"}, token).json
+        self.assertEqual(listed["matches"], [])
 
     # --- check and reveal -------------------------------------------------
 
@@ -224,22 +262,128 @@ class PublisherTests(unittest.TestCase):
         others = [g for g in data["meanings"] if not g.get("fits")]
         self.assertTrue(all(len(g["words"]) <= 5 for g in others))
 
+    def test_the_more_label_can_actually_fetch_the_rest(self):
+        """The "+53 more" label is a control, as it is on the site. Asking for
+        one length must return more than the five the summary showed."""
+        token, _, _ = self.embed(EXPLAINED)
+        summary = self.post("/api/tools/lookup", {"word": "Spirit"}, token).json
+        trimmed = next(g for g in summary["meanings"] if g["more"] > 0)
+        full = self.post("/api/tools/lookup",
+                         {"word": "Spirit", "letters": trimmed["length"]}, token).json
+        self.assertEqual(len(full["meanings"]), 1)
+        self.assertEqual(full["meanings"][0]["length"], trimmed["length"])
+        self.assertGreater(len(full["meanings"][0]["words"]), len(trimmed["words"]))
+
+    def test_word_info_says_what_a_result_means(self):
+        """Nine words that all fit are nine strings without this."""
+        token, _, _ = self.embed(SOLVED)
+        data = self.post("/api/tools/word-info", {"word": "WARSHIP"}, token).json
+        self.assertEqual(data["word"], "WARSHIP")
+        self.assertTrue(data["meanings"])
+        self.assertTrue(all(len(m) <= len(data["meanings"][-1])
+                            for m in data["meanings"]))   # shortest first
+
+    def test_word_info_needs_a_token(self):
+        self.assertEqual(
+            self.client.post("/api/tools/word-info", json={"word": "WARSHIP"})
+            .status_code, 401)
+
+    def test_lookup_finds_a_phrase_the_solver_already_used(self):
+        """"Jill's companion" -> JACK is in the reference DB, keyed as
+        'jills companion'. Matching on LOWER(word) missed it and every other
+        row whose key differs from its display form. Our own solver reads these
+        tables by the normalised key (core/live_db.py:79); so must the widget,
+        or it denies knowing what it used to solve the clue."""
+        token, _, _ = self.embed(SOLVED)
+        for spelling in ("Jill's companion", "jills companion", "JILL'S COMPANION"):
+            data = self.post("/api/tools/lookup", {"word": spelling}, token).json
+            words = [w for group in data["meanings"] for w in group["words"]]
+            self.assertIn("JACK", words, spelling)
+
+    def test_lookup_matches_a_hyphenated_phrase(self):
+        token, _, _ = self.embed(SOLVED)
+        data = self.post("/api/tools/lookup", {"word": "pen-pushers"}, token).json
+        words = [w for group in data["meanings"] for w in group["words"]]
+        self.assertIn("BORING WRITERS", words)
+
     def test_synonym_searches_both_directions(self):
         token, _, _ = self.embed(EXPLAINED)
         data = self.post("/api/tools/synonym", {"word": "spirit"}, token).json
         self.assertTrue(data["synonyms"])
         self.assertNotIn("SPIRIT", data["synonyms"])   # never echo the query
 
-    def test_pattern_list_agrees_with_the_match_count(self):
-        """A count of 34 above a list of 12 would read as broken. They run
-        against the same corpus, so they must not disagree."""
+    def test_the_shortlist_is_capped_alphabetical_and_holds_the_answer(self):
         token, _, _ = self.embed(SOLVED)
-        pattern = "WAR????"
+        listed = self.post("/api/tools/pattern",
+                           {"pattern": "W??????", "entry": "a1"}, token).json
+        self.assertEqual(len(listed["matches"]), 9)
+        self.assertIn("WARSHIP", listed["matches"])
+        self.assertEqual(listed["matches"], sorted(listed["matches"]))
+        self.assertTrue(listed["capped"])
+        self.assertGreaterEqual(listed["total"], len(listed["matches"]))
+
+    def test_must_include_narrows_the_pattern_search(self):
+        """The site's second pattern field (puzzle.html:368). The pattern says
+        where letters go; this says which must be in there somewhere."""
+        token, _, _ = self.embed(SOLVED)
+        listed = self.post("/api/tools/pattern",
+                           {"pattern": "W??????", "entry": "a1",
+                            "include": "SH"}, token).json
+        self.assertTrue(listed["matches"])
+        for word in listed["matches"]:
+            letters = word.replace(" ", "").upper()
+            self.assertIn("S", letters, word)
+            self.assertIn("H", letters, word)
+
+    def test_must_include_also_governs_the_answer(self):
+        """The shortcut must not smuggle the answer past the solver's own
+        filter — a list that answers a question nobody asked is worse than a
+        short one."""
+        token, _, _ = self.embed(SOLVED)
+        listed = self.post("/api/tools/pattern",
+                           {"pattern": "W??????", "entry": "a1",
+                            "include": "ZQ"}, token).json
+        self.assertNotIn("WARSHIP", listed["matches"])
+
+    def test_the_shortlist_does_not_reshuffle_between_openings(self):
+        """Two different nines for the same pattern would read as guessing."""
+        token, _, _ = self.embed(SOLVED)
+        first = self.post("/api/tools/pattern",
+                          {"pattern": "W??????", "entry": "a1"}, token).json
+        again = self.post("/api/tools/pattern",
+                          {"pattern": "W??????", "entry": "a1"}, token).json
+        self.assertEqual(first["matches"], again["matches"])
+
+    def test_the_corpus_is_built_in_a_fixed_order(self):
+        """Stability across restarts, not just within one. The buckets were
+        built from sets, whose iteration order Python randomises per process,
+        so the "unchanging" nine changed every time the server came up."""
+        from publisher import corpus
+        corpus.invalidate()
+        first = corpus.load(self.app.config["CLUES_DB"], self.app.config["REF_DB"])
+        snapshot = {n: list(words) for n, words in first.items()}
+        corpus.invalidate()
+        second = corpus.load(self.app.config["CLUES_DB"], self.app.config["REF_DB"])
+        for length, words in snapshot.items():
+            self.assertEqual(words, list(second[length]), f"length {length}")
+        for length, words in second.items():
+            self.assertEqual(words, sorted(words), f"length {length} unsorted")
+
+    def test_an_answer_we_do_not_hold_is_never_added(self):
+        """A prize puzzle under embargo has no solution here, and Check and
+        Reveal both say so. The shortlist must be silent in the same breath."""
+        token, model, _ = self.embed(EMBARGOED)
+        entry = self.entry_of(model, "a1")
+        pattern = "?" * entry["len"]
+        pattern = "S" + pattern[1:]
         listed = self.post("/api/tools/pattern",
                            {"pattern": pattern, "entry": "a1"}, token).json
-        counted = self.post("/api/match-counts",
-                            {"patterns": {"a1": pattern}}, token).json["counts"]["a1"]
-        self.assertEqual(listed["total"], counted["n"])
+        with self.app.app_context():
+            from publisher import corpus, reference
+            plain = reference.pattern_matches(
+                corpus, self.app.config["CLUES_DB"], self.app.config["REF_DB"],
+                pattern, entry.get("enum"), "", answer=None, limit=9)
+        self.assertEqual(listed["matches"], plain["matches"])
 
     def test_anagram_finds_the_answer_and_never_echoes_the_fodder(self):
         token, _, _ = self.embed(EXPLAINED)

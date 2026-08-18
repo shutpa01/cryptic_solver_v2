@@ -101,8 +101,9 @@
   opacity: 0.45;
 }
 
-/* The match count: bottom-right of the last square of the active entry.
- * The clue number already owns the top-left, so this corner reads as native.
+/* The match count: the last square of an entry — top-right for an across,
+ * bottom-left for a down. The clue number owns the top-left of every square it
+ * appears in, and these two corners never collide with it or with each other.
  *
  * Sized to be READ. It was 0.5rem — an 8px glyph in a 34px square, sitting
  * against a bold serif letter — which rendered correctly and was reported
@@ -111,8 +112,6 @@
  * the letter behind it. */
 .cg-count {
   position: absolute;
-  right: -3px;
-  bottom: -4px;
   z-index: 2;
   min-width: 0.95rem;
   padding: 0 0.15rem;
@@ -122,14 +121,31 @@
   color: #ffffff;
   background: var(--cg-count-colour);
   box-shadow: 0 0 0 1.5px #ffffff;
-  pointer-events: none;
+  /* The chip is a CONTROL — click it for the words that fit — so it takes the
+   * pointer and says so. With pointer-events:none it took no clicks at all,
+   * and because it sits PROUD of its square (right/bottom negative) the
+   * overhanging edge was hit-tested against the squares BEHIND it: a click on
+   * the chip of 11 Across selected the square below, and the count vanished
+   * with the selection. "A dead click and then the number disappeared." */
+  pointer-events: auto;
+  cursor: pointer;
 }
 
+.cg-count:hover { box-shadow: 0 0 0 1.5px #ffffff, 0 0 0 3px rgba(0, 0, 0, 0.25); }
+
+/* A square can end an across entry AND a down entry. Across reads top-right,
+ * down bottom-left — opposite corners, so the two never sit on top of each
+ * other, and neither is ever mistaken for the clue number at top-left. */
+.cg-count-a { top: -4px; right: -3px; }
+.cg-count-d { bottom: -4px; left: -3px; }
+
+/* An unset count draws nothing, so it must not take clicks either. */
 .cg-count:empty {
   padding: 0;
   min-width: 0;
   background: none;
   box-shadow: none;
+  pointer-events: none;
 }
 
 .cg-count.is-zero { background: var(--cg-count-zero-colour); }
@@ -329,6 +345,9 @@
   gap: 0.25rem;
 }
 
+/* A word and its ⓘ are one thing and must wrap as one. */
+.cg-word-list li { display: inline-flex; align-items: center; gap: 0.1rem; }
+
 .cg-word-hit {
   border: 1px solid var(--cg-rule, #d8d5cf);
   background: #fff;
@@ -444,16 +463,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Over the ceiling: present but muted, and narrower so "99+" still fits the
- * corner. Grey, not green — it is not a count you can act on. */
-/* Over the ceiling: still a chip, but grey — it is not a count you can act on,
- * it answers "is this thing working?". Slightly tighter to fit "99+". */
-.cg-count.is-over {
-  background: #8d97a3;
-  font-size: 0.58rem;
-  letter-spacing: -0.03em;
-}
-
 /* Why a click could not be honoured — e.g. a component that will not fit from
  * where the cursor is. Transient, not an error state. */
 .cg-tool-msg {
@@ -474,6 +483,41 @@
   color: #8a8a8a;
   margin-left: 0.25rem;
 }
+
+/* When it can actually fetch the rest it must LOOK like it can. A label
+ * reading "+53 more" that takes no click was read as broken, and rightly. */
+.cg-tool-more.is-live {
+  color: var(--cg-count-colour, #147a3d);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cg-tool-more.is-live:hover { color: #0d5d2d; }
+
+/* The ⓘ beside a result — what that word means in a crossword. Quiet enough
+ * not to compete with the word, close enough to belong to it. */
+.cg-word-info {
+  border: 0;
+  background: none;
+  padding: 0 0.1rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: #9aa0a6;
+  cursor: pointer;
+}
+
+.cg-word-info:hover { color: var(--cg-count-colour, #147a3d); }
+
+/* The answer, in the line under the list — one at a time, as on the site. */
+.cg-tool-info {
+  margin: 0.35rem 0 0;
+  padding-top: 0.3rem;
+  border-top: 1px solid var(--cg-rule, #d8d5cf);
+  font: italic 0.76rem/1.45 var(--cg-font);
+  color: #4a4a4a;
+}
+
+.cg-tool-info:empty { border: 0; padding: 0; margin: 0; }
 
 /* --- clear controls -------------------------------------------------- */
 

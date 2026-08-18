@@ -35,6 +35,10 @@
     }
   });
 
+  // The match count in the grid is a way in too — the same one the live site
+  // gives it: how many words fit, click to see them, click one to enter it.
+  grid.onCountClick = function () { tools.openPattern(); };
+
   // Right-click anywhere in the grid is the desktop way in. There is no
   // right-click on a phone, which is why the fourth icon exists as well.
   document.getElementById('tg-grid').addEventListener('contextmenu', function (event) {

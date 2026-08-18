@@ -8,6 +8,27 @@
 3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
 4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
 
+## MANDATE — THE PUBLISHER WIDGET REPLICATES THE LIVE SITE
+
+The widget in `publisher/` is a **re-format of the live solving system**, not a
+new product. **The live implementation is the specification.**
+
+Before changing, explaining or defending ANY widget behaviour, read the live
+path and cite it: `web/templates/puzzle.html`, `web/static/js/puzzle2.js`
+(and `puzzle.js`), `web/routes/helper.py`.
+
+- Never answer "what is this feature for?" from `publisher/`'s own code, from a
+  memory file, or from a design summary. Those are second-hand and have been
+  wrong. The live code is first-hand.
+- If the live system has no such behaviour, say so and ask. Do not invent it.
+- A bug report is about the feature's PURPOSE, not only its mechanism. Fixing
+  the mechanism while missing the purpose wastes whole cycles.
+
+Cost of ignoring this: 2026-08-18 — three hours, one small change. The match
+count was called a readout when the live site makes it the doorway to the
+pattern finder, and it was shown on the active entry alone when its purpose is
+scanning the whole board. Both answers were in the live code in plain sight.
+
 ## MEMORY HYGIENE — CRITICAL
 
 5. **Save to memory frequently during long conversations.** Do not wait until the

@@ -75,6 +75,21 @@ class Config:
     # only shows a number at 99 or fewer, so counting past 100 is wasted work.
     MATCH_COUNT_CEILING = 100
 
+    # How many words an entry is ever offered, and therefore the largest number
+    # the grid can show. The paper format cannot carry "67 words fit" — a chip
+    # you cannot act on is noise, and the board is only scannable if a number
+    # on it means "this one has nearly closed". Above the limit the entry shows
+    # nothing at all, unless every crossing letter is already in (see
+    # MATCH_OPTIONS_WHEN_CROSSED below).
+    MATCH_OPTIONS = 9
+
+    # Once every crossing square of an entry has a letter, the grid can tell
+    # the solver nothing more and the count would stay hidden forever. At that
+    # point we deliberately offer a shortlist of MATCH_OPTIONS anyway, with the
+    # answer among them. This is a decision to help, not a count — the number
+    # shown is the length of the shortlist, never the true tally.
+    MATCH_OPTIONS_WHEN_CROSSED = True
+
 
 class DevelopmentConfig(Config):
     DEBUG = True

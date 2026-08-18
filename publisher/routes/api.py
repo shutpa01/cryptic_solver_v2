@@ -14,7 +14,6 @@ from publisher import corpus, explanations, reference
 from publisher.auth import (
     AuthError, mint_token, require_token, scoped_to, token_age_ok_for_renew,
 )
-from publisher.corpus import count_matches
 from publisher.puzzles import PuzzleNotFound, build_model
 
 bp = Blueprint("api", __name__)
@@ -90,19 +89,33 @@ def renew():
 @bp.route("/api/match-counts", methods=["POST"])
 @require_token
 def match_counts():
-    """How many corpus words fit each entry's current letters.
+    """How many words each entry is offered — never more than MATCH_OPTIONS.
 
-    Body: {"patterns": {"a1": "S?O?E", ...}}
-    Returns {"counts": {"a1": {"n": 12, "capped": false}, ...}}
+    Body: {"patterns": {"a1": "S?O?E", ...}, "crossed": ["a1", ...]}
+    Returns {"counts": {"a1": {"n": 4, "capped": false}, ...}}
 
-    A pattern with no unknown squares is refused with null. That is deliberate
-    and enforced here rather than in the browser: a count on a full entry is a
-    free Check, and Check is what the paper sells.
+    The number is the LENGTH OF THE SHORTLIST the solver gets on clicking it,
+    not the true tally, and the two are computed the same way here and in
+    /api/tools/pattern so they can never disagree.
+
+    Three refusals, all deliberate and all enforced here rather than in the
+    browser:
+
+    * A pattern with no unknown squares — a count on a full entry is a free
+      Check, and Check is what the paper sells.
+    * A pattern with no letters at all — an empty entry has no meaningful
+      count, and a red zero on every empty entry would destroy the one signal
+      the product is sold on.
+    * More words fit than the limit — a chip reading "67" is one the solver
+      cannot act on, and a board covered in them cannot be scanned. The
+      exception is `crossed`: entries the caller says have every crossing
+      letter in place. Those can never narrow further from the grid, so they
+      are offered the shortlist anyway rather than staying silent forever.
     """
     loaded, error = _scoped_puzzle()
     if error:
         return error
-    model = loaded[0]
+    model, solutions, _letters = loaded
     entries = _entry_map(model)
 
     body = request.get_json(silent=True) or {}
@@ -111,8 +124,11 @@ def match_counts():
         return jsonify({"error": "patterns must be an object"}), 400
     if len(patterns) > 100:
         return jsonify({"error": "too many patterns"}), 400
+    crossed = body.get("crossed")
+    crossed = set(crossed) if isinstance(crossed, list) else set()
 
-    ceiling = current_app.config["MATCH_COUNT_CEILING"]
+    limit = current_app.config["MATCH_OPTIONS"]
+    offer_when_crossed = current_app.config["MATCH_OPTIONS_WHEN_CROSSED"]
     counts = {}
     for entry_id, pattern in patterns.items():
         entry = entries.get(entry_id)
@@ -125,13 +141,58 @@ def match_counts():
         if not any(ch in "?._ " for ch in pattern):
             counts[entry_id] = None      # full entry: not a free Check
             continue
-        n, capped = count_matches(
+
+        # One past the limit is all we need to know: it separates "this entry
+        # has closed down to a handful" from "hundreds fit", and the early exit
+        # keeps a whole-grid request cheap on every keystroke.
+        words, over = corpus.match_words(
             current_app.config["CLUES_DB"], current_app.config["REF_DB"],
-            pattern, entry.get("enum"), ceiling,
+            pattern, entry.get("enum"), limit + 1,
         )
-        counts[entry_id] = None if n is None else {"n": n, "capped": capped}
+        if words is None:
+            counts[entry_id] = None      # empty entry: no meaningful count
+            continue
+        if over:
+            counts[entry_id] = (
+                {"n": limit, "capped": True}
+                if offer_when_crossed and entry_id in crossed else None
+            )
+            continue
+        counts[entry_id] = {
+            "n": len(_shortlist(entry, solutions, words, pattern, limit)),
+            "capped": False,
+        }
 
     return jsonify({"counts": counts})
+
+
+def _answer_for(entry, solutions):
+    """The entry's answer as the corpus would hold it, or None.
+
+    None means "we do not hold it" — an embargoed prize puzzle, where Check and
+    Reveal both say so. The shortlist must be silent in exactly the same
+    circumstances, or the widget contradicts itself and leaks what the feed
+    withheld.
+    """
+    answer = solutions.get(entry["id"])
+    return corpus.display_form(answer, entry.get("enum")) if answer else None
+
+
+def _shortlist(entry, solutions, words, pattern, limit):
+    """The words this entry is offered, from an already-scanned match set.
+
+    Built by the same call the pattern tool makes, so the number on the grid is
+    the length of the list the click produces — never a promise the list then
+    contradicts.
+    """
+    normalised = corpus.normalise_pattern(pattern) or ""
+    answer = _answer_for(entry, solutions)
+    # An answer that does not fit what is in the grid is not offered: the
+    # solver has a wrong letter, and listing the answer anyway would tell them
+    # so for nothing.
+    if answer and not reference.fits_pattern(answer, normalised, entry.get("enum")):
+        answer = None
+    return reference.choose_options(words, answer, limit, normalised)
 
 
 @bp.route("/api/check", methods=["POST"])
@@ -245,6 +306,26 @@ def tools_lookup():
     return jsonify(reference.lookup(ref, word, letters, entry_length))
 
 
+@bp.route("/api/tools/word-info", methods=["POST"])
+@require_token
+def tools_word_info():
+    """The ⓘ beside a result: what this word means in a crossword.
+
+    Same reverse lookup the site runs from its match lists
+    (`web/routes/helper.py:528`). It describes a corpus word, not this puzzle,
+    so it gives nothing away that the word itself did not.
+    """
+    _loaded, error = _scoped_puzzle()
+    if error:
+        return error
+    body = request.get_json(silent=True) or {}
+    word = (body.get("word") or "").strip()
+    if not word or len(word) > 60:
+        return jsonify({"error": "word required"}), 400
+    clues, ref = _dbs()
+    return jsonify(reference.word_info(ref, clues, word))
+
+
 @bp.route("/api/tools/synonym", methods=["POST"])
 @require_token
 def tools_synonym():
@@ -268,11 +349,17 @@ def tools_synonym():
 @bp.route("/api/tools/pattern", methods=["POST"])
 @require_token
 def tools_pattern():
-    """Pattern search. Prefills from the entry, so it usually arrives filled in."""
+    """Pattern search. Prefills from the entry, so it usually arrives filled in.
+
+    This is where the grid's number is cashed in: click a chip and the words it
+    counted are listed, at most MATCH_OPTIONS of them, alphabetical, with the
+    answer among them. `total` still reports how many really fit, so a widened
+    pattern reads "showing 9 of 41" rather than pretending nine is all there is.
+    """
     loaded, error = _scoped_puzzle()
     if error:
         return error
-    model = loaded[0]
+    model, solutions, _letters = loaded
     body = request.get_json(silent=True) or {}
     pattern = (body.get("pattern") or "").strip()
     if not pattern or len(pattern) > 30:
@@ -280,12 +367,22 @@ def tools_pattern():
 
     enumeration = body.get("enum")
     entry = _entry_map(model).get(body.get("entry"))
+    if entry and entry.get("stub_of"):
+        entry = _entry_map(model).get(entry["stub_of"])
     if enumeration is None and entry:
         enumeration = entry.get("enum")
 
+    # The answer of the entry the search was launched from — and only if it
+    # fits the pattern actually being searched, which `pattern_matches` checks.
+    # A solver who edits the box into some other pattern is not handed this
+    # entry's answer for a pattern it does not match.
+    answer = _answer_for(entry, solutions) if entry else None
+
     clues, ref = _dbs()
     return jsonify(reference.pattern_matches(
-        corpus, clues, ref, pattern, enumeration, body.get("include") or ""))
+        corpus, clues, ref, pattern, enumeration, body.get("include") or "",
+        answer=answer,
+        limit=current_app.config["MATCH_OPTIONS"]))
 
 
 @bp.route("/api/tools/anagram", methods=["POST"])

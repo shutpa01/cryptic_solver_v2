@@ -43,6 +43,11 @@
     // through there — that difference is the whole point of clicking a number
     // rather than a square.
     this.startsAt = {};
+    // Which entries RUN THROUGH a square. A square carrying two of them is a
+    // crossing, and a crossing that has a letter in it is the only way the
+    // grid can narrow an entry down — which is what decides whether an entry
+    // still has anything to learn from the board (see crossingsFilled).
+    this.through = {};
     var self = this;
     model.entries.forEach(function (entry) {
       self.entries[entry.id] = entry;
@@ -51,6 +56,10 @@
       var at = self.startsAt[key(first[0], first[1])] || {};
       at[entry.dir] = entry.id;
       self.startsAt[key(first[0], first[1])] = at;
+      entry.cells.forEach(function (rc) {
+        var k = key(rc[0], rc[1]);
+        (self.through[k] = self.through[k] || []).push(entry.id);
+      });
     });
 
     this.letters = {};        // "r,c" -> "A"
@@ -226,7 +235,7 @@
       this._announcedId = this.activeId;
       if (this.picked.length) {
         this.picked = [];
-        this.emit('words', { indices: [], words: [] });
+        this.emit('words', { indices: [], words: [], phrase: '' });
       }
     }
     this.emit('selection', this.selectionState());
@@ -250,7 +259,14 @@
         text: raw,
         word: true,
         index: index++,
-        clean: raw.replace(/[^A-Za-z]/g, '')
+        // Two forms, because the two tools need different things. `clean` is
+        // letters only, which is what anagram fodder is. `plain` keeps the
+        // word as the setter wrote it, punctuation and all: the reference
+        // tables are keyed on a normalised form of the REAL word, so throwing
+        // the apostrophe away in the browser is what lost "Jill's companion"
+        // -> JACK. The server normalises; it cannot un-strip.
+        clean: raw.replace(/[^A-Za-z]/g, ''),
+        plain: raw.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '')
       });
     });
     return tokens;
@@ -278,20 +294,33 @@
       picked = [index];
     }
     this.picked = picked;
-    this.emit('words', { indices: picked.slice(), words: this.pickedWords() });
+    this.emit('words', {
+      indices: picked.slice(),
+      words: this.pickedWords(),
+      phrase: this.pickedPhrase()
+    });
   };
 
   Engine.prototype.pickedWords = function () {
+    return this._pickedForm('clean');
+  };
+
+  /* The picked run as the clue writes it — the form the reference lookup wants. */
+  Engine.prototype.pickedPhrase = function () {
+    return this._pickedForm('plain').join(' ');
+  };
+
+  Engine.prototype._pickedForm = function (form) {
     var tokens = this.clueTokens(this.current()).filter(function (t) { return t.word; });
     return this.picked.map(function (i) {
-      return tokens[i] ? tokens[i].clean : '';
+      return tokens[i] ? tokens[i][form] : '';
     }).filter(Boolean);
   };
 
   Engine.prototype.clearWords = function () {
     if (!this.picked.length) return;
     this.picked = [];
-    this.emit('words', { indices: [], words: [] });
+    this.emit('words', { indices: [], words: [], phrase: '' });
   };
 
   /* --- shared clue rendering ---------------------------------------- */
@@ -462,6 +491,30 @@
 
   Engine.prototype.isFull = function (id) {
     return this.patternFor(id).indexOf('?') === -1;
+  };
+
+  /* True when every square this entry shares with another entry already has a
+   * letter in it.
+   *
+   * Such an entry has taken everything the grid can give it: no crossing clue
+   * can add a letter, so its pattern will not narrow again however much more
+   * of the puzzle is solved. That is the one case where the widget offers a
+   * shortlist even though far more than nine words fit — otherwise those
+   * clues stay silent forever, which is precisely where a solver is stuck. */
+  Engine.prototype.crossingsFilled = function (id) {
+    var entry = this.resolve(id);
+    if (!entry || !entry.cells.length) return false;
+    var self = this;
+    var crossings = 0;
+    var filled = 0;
+    entry.cells.forEach(function (rc) {
+      var k = key(rc[0], rc[1]);
+      var here = self.through[k] || [];
+      if (here.length < 2) return;          // nothing crosses this square
+      crossings++;
+      if (self.letters[k]) filled++;
+    });
+    return crossings > 0 && filled === crossings;
   };
 
   Engine.prototype.progress = function () {
@@ -645,7 +698,12 @@
           node.appendChild(num);
         }
         node.appendChild(el('span', 'cg-letter'));
-        node.appendChild(el('span', 'cg-count'));
+        // Two slots, because a square can be the LAST of an across entry and
+        // the last of a down entry at once — the across count reads top-right
+        // and the down count bottom-left, so neither hides the other, and
+        // neither goes near the top-left, which the clue number owns.
+        node.appendChild(el('span', 'cg-count cg-count-a'));
+        node.appendChild(el('span', 'cg-count cg-count-d'));
         table.appendChild(node);
         this.cells[key(r, c)] = node;
       }
@@ -682,6 +740,25 @@
       var node = event.target.closest('.cg-cell');
       if (!node) return;
       event.preventDefault();      // keep focus on the capture input
+      // The count is a CONTROL, exactly as on the live site: it says how many
+      // words fit, and clicking it shows you which ones (puzzle.html:226 ->
+      // patternFromCrossing, puzzle2.js:1179 — open the pattern finder on this
+      // entry's pattern and run the search). The shell decides where that
+      // lands, so the engine only reports the click.
+      // It must never fall through to the square: the chip is drawn proud of
+      // its cell, so the overhanging edge used to select the square BEHIND it
+      // (a different clue), and on the cursor's own square a click flipped
+      // direction. Either way the count vanished, since it only renders on the
+      // active entry — "a dead click and then the number disappeared".
+      var chip = event.target.closest('.cg-count');
+      if (chip) {
+        // The chip speaks for ONE entry, which is not necessarily the selected
+        // one — every entry shows its count, so a click has to go to the clue
+        // whose number was clicked.
+        if (chip.dataset.entry) self.engine.select(chip.dataset.entry);
+        if (self.onCountClick) self.onCountClick(self.engine.current());
+        return;
+      }
       var r = Number(node.dataset.r);
       var c = Number(node.dataset.c);
       // Handled here rather than with a listener on the number itself: the
@@ -744,43 +821,56 @@
     }, this);
   };
 
-  /* The match count: a number in the bottom-right of the LAST square of the
-   * active entry. Shown only at 99 or fewer — that is when it becomes useful
-   * — and never once the entry is full, so it can never be read as a free
-   * Check. Zero is styled red by the shell: it means the letters are wrong,
-   * not that the word list is short. */
-  GridView.prototype.showCount = function (entry, count, capped) {
+  /* The match count sits in the last square of an entry, and EVERY entry that
+   * has one shows it at once — that is the point of the feature. The solver
+   * scans the board, sees which clues are down to a handful of possibilities,
+   * and goes at those. A count on the selected clue only would tell you nothing
+   * until you had already chosen what to work on.
+   *
+   * A number here is never above nine, and the server sends nothing at all for
+   * the entries where more than nine fit — so a chip means "this one has come
+   * down to a handful", and the board thins out as it is solved rather than
+   * carrying a number everywhere. The number is the length of the list the
+   * chip opens, so the two can never contradict each other.
+   *
+   * Zero is red: the letters in the grid are wrong. A full entry gets no count
+   * at all (refused server-side), so it can never be read as a free Check. */
+  GridView.prototype.showCounts = function (results) {
     this.clearCounts();
-    if (!entry || !entry.len || count == null) return;
-    var last = entry.cells[entry.len - 1];
-    var node = this.cells[key(last[0], last[1])];
-    if (!node) return;
-    var slot = node.querySelector('.cg-count');
+    var self = this;
+    (results || []).forEach(function (item) {
+      var entry = item.entry;
+      if (!entry || !entry.len || item.n == null) return;
+      var last = entry.cells[entry.len - 1];
+      var node = self.cells[key(last[0], last[1])];
+      if (!node) return;
+      var slot = node.querySelector(
+        entry.dir === DOWN ? '.cg-count-d' : '.cg-count-a');
+      if (!slot) return;
 
-    // Over the ceiling, say so. Showing nothing was indistinguishable from the
-    // feature being broken — which is exactly how it was reported. A five-
-    // letter entry with three letters known (?A?E?) routinely passes 100, so
-    // this is not a rare corner: it hit 262 entries across the local puzzles.
-    // "99+" is deliberately muted, not green: it is not an actionable count,
-    // it is an answer to "is this thing working?".
-    if (capped || count > 99) {
-      slot.textContent = '99+';
-      slot.classList.add('is-over');
-    } else {
-      slot.textContent = String(count);
-      slot.classList.toggle('is-zero', count === 0);
-    }
-    node.classList.add('has-count');
+      slot.textContent = String(item.n);
+      slot.classList.toggle('is-zero', item.n === 0);
+      // The chip is a control, so it carries the entry it speaks for: clicking
+      // it selects THAT clue and opens the words that fit, whichever clue you
+      // were on before.
+      slot.dataset.entry = entry.id;
+      slot.title = (entry.number || '') + ' ' +
+        (entry.dir === DOWN ? 'Down' : 'Across') +
+        ' — open in pattern finder, see the words that fit';
+      node.classList.add('has-count');
+    });
   };
 
   GridView.prototype.clearCounts = function () {
     Object.keys(this.cells).forEach(function (k) {
       var node = this.cells[k];
       node.classList.remove('has-count');
-      var slot = node.querySelector('.cg-count');
-      slot.textContent = '';
-      slot.classList.remove('is-zero');
-      slot.classList.remove('is-over');
+      node.querySelectorAll('.cg-count').forEach(function (slot) {
+        slot.textContent = '';
+        slot.removeAttribute('title');
+        delete slot.dataset.entry;
+        slot.classList.remove('is-zero');
+      });
     }, this);
   };
 
@@ -796,7 +886,8 @@
     this.timer = null;
 
     var self = this;
-    engine.on('selection', function () { self.schedule(); });
+    // Counts depend on the LETTERS, not on what is selected — the whole board
+    // is counted, so moving between clues changes nothing and costs nothing.
     engine.on('letters', function () { self.schedule(); });
     this.schedule();
   }
@@ -804,27 +895,51 @@
   MatchCount.prototype.schedule = function () {
     var self = this;
     global.clearTimeout(this.timer);
-    this.gridView.clearCounts();
-    var entry = this.engine.current();
-    if (!entry || this.engine.isFull(entry.id)) return;
-    this.timer = global.setTimeout(function () { self.fetchNow(entry); }, this.delay);
+    this.timer = global.setTimeout(function () { self.fetchNow(); }, this.delay);
   };
 
-  MatchCount.prototype.fetchNow = function (entry) {
+  /* One request for the whole grid. The endpoint takes up to 100 patterns at a
+   * time and was built for exactly this; asking entry by entry was the narrow
+   * half. Counts are NOT cleared before the reply lands — repainting them from
+   * a fresh set avoids the board going blank on every keystroke. */
+  MatchCount.prototype.fetchNow = function () {
     var self = this;
+    var engine = this.engine;
     var patterns = {};
-    patterns[entry.id] = this.engine.patternFor(entry.id);
-    this.api.post('/api/match-counts', { patterns: patterns })
+    var crossed = [];
+    var wanted = [];
+    engine.model.entries.forEach(function (entry) {
+      if (entry.stub_of || !entry.len) return;
+      if (engine.isFull(entry.id)) return;   // a full entry is refused a count
+      patterns[entry.id] = engine.patternFor(entry.id);
+      // Only the browser knows the shape of the grid, so it is the browser
+      // that reports which entries can no longer be narrowed by their
+      // crossings. The server decides what to do about it.
+      if (engine.crossingsFilled(entry.id)) crossed.push(entry.id);
+      wanted.push(entry);
+    });
+    if (!wanted.length) {
+      this.gridView.clearCounts();
+      return;
+    }
+    var stamp = ++this._seq;
+    this.api.post('/api/match-counts', { patterns: patterns, crossed: crossed })
       .then(function (data) {
-        // Ignore a reply that arrived after the solver moved on.
-        var still = self.engine.current();
-        if (!still || still.id !== entry.id) return;
-        var result = (data.counts || {})[entry.id];
-        if (!result) return;
-        self.gridView.showCount(entry, result.n, result.capped);
+        if (stamp !== self._seq) return;     // a later keystroke already won
+        var counts = data.counts || {};
+        self.gridView.showCounts(wanted.map(function (entry) {
+          var result = counts[entry.id];
+          return {
+            entry: entry,
+            n: result ? result.n : null,
+            capped: result ? result.capped : false
+          };
+        }));
       })
       .catch(function () { /* a count is an aid, never an interruption */ });
   };
+
+  MatchCount.prototype._seq = 0;
 
   /* ------------------------------------------------------------------ *
    * ClueListView / ClueBarView — same markup everywhere, placed by the shell.
@@ -1051,6 +1166,7 @@
     });
     engine.on('words', function (payload) {
       self.words = payload.words;
+      self.phrase = payload.phrase || payload.words.join(' ');
       paintPickedWords(engine, self.headerBody);
       // An empty payload is the selection being cleared as the clue changed.
       // Opening a tool panel off the back of that would yank the working
@@ -1096,7 +1212,14 @@
     TABS.forEach(function (tab) {
       var button = el('button', 'cg-tab', tab.label);
       button.setAttribute('role', 'tab');
-      button.addEventListener('click', function () { self.show(tab.id); });
+      // Switching tool by hand drops the picked clue words. They stay
+      // highlighted in the clue above otherwise, looking active while the new
+      // tool ignores them — and the only way to use them is to unpick and pick
+      // again. A highlight has to mean the tool is using that word.
+      button.addEventListener('click', function () {
+        if (tab.id !== self.tab) self.engine.clearWords();
+        self.show(tab.id);
+      });
       tabs.appendChild(button);
       self.tabButtons[tab.id] = button;
     });
@@ -1191,7 +1314,9 @@
     this.flash('');
   };
 
-  ToolsView.prototype._field = function (labelText, value, onRun) {
+  /* `noButton` for a field that searches as you type — a second Search button
+   * beside the first would only ask which one to press. */
+  ToolsView.prototype._field = function (labelText, value, onRun, noButton) {
     var row = el('div', 'cg-tool-row');
     var label = el('label', 'cg-tool-label', labelText);
     var input = el('input', 'cg-tool-input');
@@ -1199,8 +1324,8 @@
     input.value = value || '';
     input.spellcheck = false;
     input.autocomplete = 'off';
-    var button = el('button', 'cg-tool-go', 'Search');
-    button.addEventListener('click', function () { onRun(input.value); });
+    var button = noButton ? null : el('button', 'cg-tool-go', 'Search');
+    if (button) button.addEventListener('click', function () { onRun(input.value); });
     input.addEventListener('keydown', function (event) {
       // Stop the grid engine swallowing letters typed into a tool field.
       event.stopPropagation();
@@ -1208,7 +1333,7 @@
     });
     label.appendChild(input);
     row.appendChild(label);
-    row.appendChild(button);
+    if (button) row.appendChild(button);
     this.panel.appendChild(row);
     return input;
   };
@@ -1230,8 +1355,18 @@
   };
 
   /* A result is clickable: it drops straight into the grid, which is the whole
-   * reason for having the tools next to the squares rather than in a tab. */
-  ToolsView.prototype._wordList = function (box, words, capped, total, quiet) {
+   * reason for having the tools next to the squares rather than in a tab.
+   *
+   * `opts.info` puts an ⓘ beside each word — what that word means in a
+   * crossword, which is how the site's own match lists work
+   * (partials/pattern_results.html:22). Nine words that all fit are nine
+   * strings until you can see what they mean.
+   *
+   * `opts.onMore` makes the "+N more" label a CONTROL rather than a caption.
+   * The site's version fetches the rest (partials/helper_results.html:59-63);
+   * a label that says more exist and cannot show them is a dead end. */
+  ToolsView.prototype._wordList = function (box, words, capped, total, quiet, opts) {
+    opts = opts || {};
     box.innerHTML = '';
     if (!words.length) {
       if (!quiet) {
@@ -1242,24 +1377,69 @@
     // `quiet` suppresses the count line — the word lookup stacks one list per
     // length and already labels each with its length, so a tally above every
     // one of them is noise.
+    var self = this;
     if (!quiet) {
       var count = capped
         ? 'Showing ' + words.length + ' of ' + total
         : words.length + (words.length === 1 ? ' match' : ' matches');
       box.appendChild(el('p', 'cg-tool-note', count));
     } else if (capped) {
-      box.appendChild(el('span', 'cg-tool-more', '+' + (total - words.length) + ' more'));
+      var more = el('span', 'cg-tool-more', '+' + (total - words.length) + ' more');
+      if (opts.onMore) {
+        more.classList.add('is-live');
+        more.setAttribute('role', 'button');
+        more.setAttribute('tabindex', '0');
+        more.title = 'Show the rest';
+        more.addEventListener('click', function () { opts.onMore(); });
+        more.addEventListener('keydown', function (event) {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          opts.onMore();
+        });
+      }
+      box.appendChild(more);
     }
     var list = el('ul', 'cg-word-list');
-    var self = this;
+    // One shared line under the list, as on the site: the ⓘ answers in place
+    // rather than opening anything, and a second click on the same word puts
+    // it away again.
+    var info = opts.info ? el('p', 'cg-tool-info') : null;
     words.forEach(function (word) {
       var item = el('li');
       var button = el('button', 'cg-word-hit', word);
       button.addEventListener('click', function () { self.flash(self.fill(word)); });
       item.appendChild(button);
+      if (info) {
+        var mark = el('button', 'cg-word-info', 'ⓘ');
+        mark.type = 'button';
+        mark.title = 'What does ' + word + ' mean?';
+        mark.setAttribute('aria-label', 'What does ' + word + ' mean?');
+        mark.addEventListener('click', function () { self.showWordInfo(info, word); });
+        item.appendChild(mark);
+      }
       list.appendChild(item);
     });
     box.appendChild(list);
+    if (info) box.appendChild(info);
+  };
+
+  /* The ⓘ answer, in the line under the list. Same reverse lookup the site
+   * runs (/helper/word-info): what this word means in a crossword. */
+  ToolsView.prototype.showWordInfo = function (line, word) {
+    if (line.dataset.word === word) {      // second click on the same ⓘ
+      line.textContent = '';
+      delete line.dataset.word;
+      return;
+    }
+    line.dataset.word = word;
+    line.textContent = word + ': looking up…';
+    this.api.post('/api/tools/word-info', { word: word }).then(function (data) {
+      if (line.dataset.word !== word) return;   // a later ⓘ already won
+      var meanings = (data.meanings || []).join(', ');
+      line.textContent = word + ': ' + (meanings || 'no definitions recorded');
+    }).catch(function () {
+      if (line.dataset.word === word) line.textContent = word + ': could not look that up.';
+    });
   };
 
   /* Write a result into the current entry. Returns null on success, or a short
@@ -1320,6 +1500,18 @@
     this.patternInput = this._field('Pattern', this.currentPattern(), function (value) {
       self.runPattern(value);
     });
+    // "Must include" — the site's second pattern field (puzzle.html:368-374).
+    // The pattern says WHERE letters go; this says which letters must be in
+    // there SOMEWHERE, which is what a solver knows from the wordplay before
+    // they know the order. It re-searches as you type, as the live one does.
+    this.patternInclude = this._field('Must include', '', function () {
+      self.runPattern();
+    }, true);
+    this.patternInclude.placeholder = 'e.g. LT';
+    this.patternInclude.addEventListener('input', function () {
+      global.clearTimeout(self._includeTimer);
+      self._includeTimer = global.setTimeout(function () { self.runPattern(); }, 400);
+    });
     this.patternResults = this._results();
     this.patternResults.appendChild(el('p', 'cg-tool-note',
       'Prefilled from the grid. ? is an unknown square.'));
@@ -1336,15 +1528,30 @@
     }
   };
 
+  /* The whole journey behind the count, in one call: open the pattern tool on
+   * this entry and SEARCH, so the words are on screen without a second action.
+   * The live site does exactly this from its "n matches" (puzzle2.js:1215-1220
+   * — solverTab('pattern'), fill the box, search). Clicking a result then
+   * drops it into the grid, which the results list already does. */
+  ToolsView.prototype.openPattern = function () {
+    this.show('pattern');
+    if (this.patternInput) this.runPattern(this.patternInput.value);
+  };
+
   ToolsView.prototype.runPattern = function (value) {
     var entry = this.engine.current();
     var box = this.patternResults;
+    if (value == null) value = this.patternInput ? this.patternInput.value : '';
+    if (!value) return;
     this._busy(box);
     var self = this;
     this.api.post('/api/tools/pattern', {
-      pattern: value, entry: entry ? entry.id : null
+      pattern: value,
+      include: this.patternInclude ? this.patternInclude.value : '',
+      entry: entry ? entry.id : null
     }).then(function (data) {
-      self._wordList(box, data.matches || [], data.capped, data.total);
+      self._wordList(box, data.matches || [], data.capped, data.total,
+                     false, { info: true });
     }).catch(function () { self._failed(box); });
   };
 
@@ -1385,7 +1592,10 @@
       pattern: (this.anagramUsesGrid && this.anagramUsesGrid.checked && entry)
         ? this.engine.patternFor(entry.id) : null
     }).then(function (data) {
-      self._wordList(box, data.matches || [], data.capped, data.total);
+      // The site puts the same ⓘ on anagram results as on pattern results
+      // (partials/anagram_results.html:21).
+      self._wordList(box, data.matches || [], data.capped, data.total,
+                     false, { info: true });
     }).catch(function () { self._failed(box); });
   };
 
@@ -1444,7 +1654,8 @@
     var self = this;
     var entry = this.engine.current();
     this.api.post('/api/tools/lookup', {
-      word: this.words.join(' '),
+      // As written, not letters-only: see clueTokens.
+      word: this.phrase || this.words.join(' '),
       entry: entry ? entry.id : null
     })
       .then(function (data) {
@@ -1469,13 +1680,12 @@
             var wrap = el('div');
             box.appendChild(wrap);
             self._wordList(wrap, group.words, !!group.more,
-                           group.words.length + group.more, true);
+                           group.words.length + group.more, true,
+                           { onMore: self._expander(wrap, group.length, false) });
             return;
           }
           var line = el('p', 'cg-tool-values cg-tool-toolong');
-          line.appendChild(el('span', 'cg-tool-len', group.length + ':'));
-          line.appendChild(document.createTextNode(' ' + group.words.join(' · ') +
-            (group.more ? ' (+' + group.more + ' more)' : '')));
+          self._lengthLine(line, group.length, group.words, group.more);
           box.appendChild(line);
         });
 
@@ -1500,6 +1710,50 @@
           box.appendChild(el('p', 'cg-tool-note', 'Nothing recorded for that word.'));
         }
       }).catch(function () { self._failed(box); });
+  };
+
+  /* One length's worth of meanings that are too long to go in the grid, drawn
+   * as plain text — with the "+N more" still a control. The site expands these
+   * the same way it expands the others; being unusable for THIS entry is no
+   * reason to hide what the word can mean. */
+  ToolsView.prototype._lengthLine = function (line, length, words, more) {
+    line.innerHTML = '';
+    line.appendChild(el('span', 'cg-tool-len', length + ':'));
+    line.appendChild(document.createTextNode(' ' + words.join(' · ')));
+    if (!more) return;
+    var rest = el('span', 'cg-tool-more is-live', ' +' + more + ' more');
+    rest.setAttribute('role', 'button');
+    rest.setAttribute('tabindex', '0');
+    rest.title = 'Show the rest';
+    var run = this._expander(line, length, true);
+    rest.addEventListener('click', run);
+    rest.addEventListener('keydown', function (event) {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      run();
+    });
+    line.appendChild(rest);
+  };
+
+  /* Fetch every meaning of this clue word at one length and redraw that group
+   * in place. The endpoint already takes `letters` — only the browser was
+   * never asking, so the label sat there naming a number it would not show. */
+  ToolsView.prototype._expander = function (target, length, asText) {
+    var self = this;
+    return function () {
+      var entry = self.engine.current();
+      self.api.post('/api/tools/lookup', {
+        word: self.phrase || self.words.join(' '),
+        entry: entry ? entry.id : null,
+        letters: length
+      }).then(function (data) {
+        var group = (data.meanings || [])[0] || { words: [] };
+        if (asText) self._lengthLine(target, length, group.words, 0);
+        else self._wordList(target, group.words, false, group.words.length, true);
+      }).catch(function () {
+        self.flash('Could not fetch the rest just now.');
+      });
+    };
   };
 
   // --- hints and explanations ------------------------------------------

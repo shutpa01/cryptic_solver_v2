@@ -93,9 +93,14 @@ def _build(clues_db, ref_db):
     finally:
         conn.close()
 
+    # SORTED, not set order. The bucket order decides which display form wins
+    # for a word and which nine of sixty-two get shown, and Python randomises
+    # set iteration per process — so an unsorted build gave a different
+    # shortlist after every server restart. The sampling is meant to be stable.
     grouped = {}
-    for clean, displays in entries.items():
-        grouped.setdefault(len(clean), []).extend((clean, d) for d in displays)
+    for clean in sorted(entries):
+        grouped.setdefault(len(clean), []).extend(
+            (clean, d) for d in sorted(entries[clean]))
 
     counts["distinct words"] = len(entries)
     return grouped, counts
@@ -150,8 +155,50 @@ def _enum_ok(display, enum_parts):
     return all(len(w) == int(p) for w, p in zip(words, enum_parts))
 
 
+def match_words(clues_db, ref_db, pattern, enumeration=None, ceiling=100):
+    """Corpus words fitting `pattern`, stopping at `ceiling`.
+
+    Returns (words, capped). `words` is None — never [] — when the pattern
+    carries no information (empty, or all unknowns); see the note in
+    `count_matches` on why that distinction is load-bearing. `capped` is True
+    when the scan stopped at the ceiling, so more words fit than are listed.
+
+    The early exit is what keeps this cheap enough to run over every entry in
+    the grid on each keystroke: with a ceiling of ten, an entry that hundreds
+    of words fit costs ten matches, not a bucket scan.
+    """
+    normalised = normalise_pattern(pattern)
+    if normalised is None:
+        return None, False
+
+    by_length = load(clues_db, ref_db)
+    bucket = by_length.get(len(normalised))
+    if not bucket:
+        return [], False
+
+    enum_parts = re.findall(r"\d+", enumeration or "")
+    if enum_parts and sum(int(p) for p in enum_parts) != len(normalised):
+        # The enumeration does not describe this many squares — trust the
+        # squares and drop the filter rather than return a confident zero.
+        enum_parts = []
+
+    regex = re.compile("^" + normalised.replace(".", "[A-Z]") + "$")
+    seen = {}
+    for clean, display in bucket:
+        if clean in seen:
+            continue
+        if not regex.match(clean):
+            continue
+        if not _enum_ok(display, enum_parts):
+            continue
+        seen[clean] = display
+        if len(seen) >= ceiling:
+            return list(seen.values()), True
+    return list(seen.values()), False
+
+
 def count_matches(clues_db, ref_db, pattern, enumeration=None, ceiling=100):
-    """Count corpus words fitting `pattern`, stopping at `ceiling`.
+    """How many corpus words fit `pattern`, stopping at `ceiling`.
 
     Returns (count, capped). `capped` is True when counting stopped at the
     ceiling, so the caller can render "over" rather than a misleading number.
@@ -162,31 +209,20 @@ def count_matches(clues_db, ref_db, pattern, enumeration=None, ceiling=100):
     an entry with no letters in it yet would put a red zero on every empty
     entry in the puzzle and destroy the one signal the product is sold on.
     """
-    normalised = normalise_pattern(pattern)
-    if normalised is None:
-        return None, False
+    words, capped = match_words(clues_db, ref_db, pattern, enumeration, ceiling)
+    return (None if words is None else len(words)), capped
 
-    by_length = load(clues_db, ref_db)
-    bucket = by_length.get(len(normalised))
-    if not bucket:
-        return 0, False
 
-    enum_parts = re.findall(r"\d+", enumeration or "")
-    if enum_parts and sum(int(p) for p in enum_parts) != len(normalised):
-        # The enumeration does not describe this many squares — trust the
-        # squares and drop the filter rather than return a confident zero.
-        enum_parts = []
+def display_form(answer, enumeration=None):
+    """An answer as the corpus would hold it: letters only, spaced by its
+    enumeration. ('ADLIBBING', '2-7') -> 'AD LIBBING'.
 
-    regex = re.compile("^" + normalised.replace(".", "[A-Z]") + "$")
-    seen = set()
-    for clean, display in bucket:
-        if clean in seen:
-            continue
-        if not regex.match(clean):
-            continue
-        if not _enum_ok(display, enum_parts):
-            continue
-        seen.add(clean)
-        if len(seen) >= ceiling:
-            return len(seen), True
-    return len(seen), False
+    Used when the answer is placed beside corpus words, so a multi-word answer
+    is not the one entry in the list that looks foreign.
+    """
+    if not answer:
+        return None
+    clean = re.sub(r"[^A-Z]", "", answer.upper())
+    if not clean:
+        return None
+    return _format_with_enum(clean, enumeration)
