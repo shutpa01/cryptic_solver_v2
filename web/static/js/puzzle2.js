@@ -94,11 +94,17 @@ function _buildOverlayClueWords(container, text) {
     parts.forEach(function(part) {
         if (part.trim()) {
             var clean = part.replace(/[^A-Za-z]/g, '').toLowerCase();
+            // As written, edge punctuation trimmed. The reference tables are
+            // keyed on a normalised form of the REAL word, so a stripped
+            // apostrophe loses "Jill's companion" -> JACK before the request
+            // is even made. clean stays for anagram fodder.
+            var plain = part.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '');
             if (clean) {
                 var span = document.createElement('span');
                 span.className = 'clue-word cursor-pointer hover:bg-indigo-100 hover:rounded px-0.5 -mx-0.5 transition-colors';
                 span.dataset.idx = wordIdx;
                 span.dataset.clean = clean;
+                span.dataset.plain = plain;
                 span.textContent = part;
                 span.onclick = function() { overlayWordHelp(this); };
                 container.appendChild(span);
@@ -115,6 +121,7 @@ function _buildOverlayClueWords(container, text) {
 function overlayWordHelp(span) {
     var idx = parseInt(span.dataset.idx);
     var clean = span.dataset.clean;
+    var plain = span.dataset.plain || clean;
 
     // If anagram tab is open, send word there directly
     if (_isAnagramMode()) {
@@ -134,21 +141,21 @@ function overlayWordHelp(span) {
         var minIdx = Math.min.apply(null, _selectedWords.map(function(w) { return w.idx; }));
         var maxIdx = Math.max.apply(null, _selectedWords.map(function(w) { return w.idx; }));
         if (idx === minIdx - 1 || idx === maxIdx + 1) {
-            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+            _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: _toolsClueId});
             span.classList.add('bg-indigo-200', 'rounded');
         } else {
             _clearSelection();
-            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+            _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: _toolsClueId});
             span.classList.add('bg-indigo-200', 'rounded');
         }
     } else {
-        _selectedWords.push({el: span, idx: idx, clean: clean, clueId: _toolsClueId});
+        _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: _toolsClueId});
         span.classList.add('bg-indigo-200', 'rounded');
     }
 
     // Build the lookup phrase from selected words in order
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
-    var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
+    var phrase = _selectedWords.map(function(w) { return w.plain || w.clean; }).join(' ');
 
     // Word lookup in the overlay results area — include enum so filter button appears
     var lookupUrl = '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht;
@@ -307,6 +314,7 @@ function _isAnagramMode() {
 function wordHelp(span) {
     var idx = parseInt(span.dataset.idx);
     var clean = span.dataset.clean;
+    var plain = span.dataset.plain || clean;
     var clueId = span.dataset.clue;
     var target = 'wordhelp-' + clueId;
     _lastFocusedClueId = clueId;
@@ -347,22 +355,22 @@ function wordHelp(span) {
         var maxIdx = Math.max.apply(null, _selectedWords.map(function(w) { return w.idx; }));
         if (idx === minIdx - 1 || idx === maxIdx + 1) {
             // Extend selection
-            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: clueId});
             span.classList.add('bg-indigo-200', 'rounded');
         } else {
             // Non-adjacent — start fresh
             _clearSelection();
-            _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+            _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: clueId});
             span.classList.add('bg-indigo-200', 'rounded');
         }
     } else {
-        _selectedWords.push({el: span, idx: idx, clean: clean, clueId: clueId});
+        _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain, clueId: clueId});
         span.classList.add('bg-indigo-200', 'rounded');
     }
 
     // Build the lookup phrase from selected words in order
     _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
-    var phrase = _selectedWords.map(function(w) { return w.clean; }).join(' ');
+    var phrase = _selectedWords.map(function(w) { return w.plain || w.clean; }).join(' ');
 
     // Show inline below the clue
     document.querySelectorAll('[id^="wordhelp-"]').forEach(function(e) {

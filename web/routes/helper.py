@@ -17,6 +17,12 @@ from web.word_cache import match_pattern, match_pattern_user
 from web.session_token import has_valid_session
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
+# The reference tables are keyed for lookup by norm_word / norm_def / norm_ind,
+# written by THIS function and reconciled at every wiring build
+# (core/norm_backfill.py). The solver reads them that way (core/live_db.py:79);
+# these endpoints must too, or they cannot find what the solver just used.
+from signature_solver.db import _normalize_key
+
 # Stop words to ignore when searching for similar clues
 _STOP_WORDS = frozenset(
     "a an the in on of to for and or but is it its by at with from as "
@@ -146,7 +152,10 @@ def lookup():
         if nums:
             enum_pattern = [int(n) for n in nums]
 
-    word_lower = word.lower()
+    # Normalised, because that is how the rows are keyed. Matching
+    # LOWER(word) missed every row whose display form differs from its key —
+    # 39,265 in synonyms_pairs alone, among them "Jill's companion" -> JACK.
+    word_lower = _normalize_key(word)
     db = _get_ref_db()
 
     # 1. "Could mean" — combined synonyms + definition answers, deduplicated
@@ -156,10 +165,10 @@ def lookup():
         synonyms = db.execute(
             """SELECT DISTINCT val FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
+                   WHERE norm_word = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
+                   WHERE norm_def = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
                ) ORDER BY val""",
             (word_lower, total_letters, word_lower, total_letters),
         ).fetchall()
@@ -181,10 +190,10 @@ def lookup():
         synonyms = db.execute(
             """SELECT DISTINCT val FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
+                   WHERE norm_word = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
+                   WHERE norm_def = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
                ) ORDER BY val LIMIT 15""",
             (word_lower, letters, word_lower, letters),
         ).fetchall()
@@ -193,10 +202,10 @@ def lookup():
         synonyms = db.execute(
             """SELECT DISTINCT val, LENGTH(REPLACE(val, ' ', '')) as len FROM (
                    SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE LOWER(word) = ?
+                   WHERE norm_word = ?
                    UNION
                    SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE LOWER(definition) = ?
+                   WHERE norm_def = ?
                ) ORDER BY LENGTH(REPLACE(val, ' ', '')), val""",
             (word_lower, word_lower),
         ).fetchall()
@@ -217,7 +226,7 @@ def lookup():
     # 2. Indicators — alphabetical by type, include subtype
     indicators = db.execute(
         """SELECT wordplay_type, subtype, confidence FROM indicators
-           WHERE LOWER(word) = ?
+           WHERE norm_word = ?
            ORDER BY wordplay_type""",
         (word_lower,),
     ).fetchall()
@@ -226,7 +235,7 @@ def lookup():
     if letters:
         abbreviations = db.execute(
             """SELECT DISTINCT substitution FROM wordplay
-               WHERE LOWER(indicator) = ? AND LENGTH(substitution) = ?
+               WHERE norm_ind = ? AND LENGTH(substitution) = ?
                ORDER BY substitution
                LIMIT 10""",
             (word_lower, letters),
@@ -234,7 +243,7 @@ def lookup():
     else:
         abbreviations = db.execute(
             """SELECT DISTINCT substitution FROM wordplay
-               WHERE LOWER(indicator) = ?
+               WHERE norm_ind = ?
                ORDER BY LENGTH(substitution), substitution
                LIMIT 15""",
             (word_lower,),
@@ -244,7 +253,7 @@ def lookup():
     if letters:
         homophones = db.execute(
             """SELECT DISTINCT homophone FROM homophones
-               WHERE LOWER(word) = ? AND LENGTH(homophone) = ?
+               WHERE norm_word = ? AND LENGTH(homophone) = ?
                ORDER BY homophone
                LIMIT 10""",
             (word_lower, letters),
@@ -252,7 +261,7 @@ def lookup():
     else:
         homophones = db.execute(
             """SELECT DISTINCT homophone FROM homophones
-               WHERE LOWER(word) = ?
+               WHERE norm_word = ?
                ORDER BY homophone
                LIMIT 10""",
             (word_lower,),
@@ -307,15 +316,15 @@ def meanings_expand():
     if not word or not letters:
         abort(400)
 
-    word_lower = word.lower()
+    word_lower = _normalize_key(word)
     db = _get_ref_db()
     rows = db.execute(
         """SELECT DISTINCT val FROM (
                SELECT UPPER(synonym) AS val FROM synonyms_pairs
-               WHERE LOWER(word) = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
+               WHERE norm_word = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
                UNION
                SELECT UPPER(answer) AS val FROM definition_answers_augmented
-               WHERE LOWER(definition) = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
+               WHERE norm_def = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
            ) ORDER BY val LIMIT ?""",
         (word_lower, letters, word_lower, letters, HELPER_RESULT_CAP),
     ).fetchall()
@@ -420,7 +429,7 @@ def synonym_search():
     if not raw or len(raw) > 50:
         abort(400)
 
-    word_lower = raw.lower().strip(".,;:!?\"'()-")
+    word_lower = _normalize_key(raw)
     word_upper = raw.upper().strip(".,;:!?\"'()-")
 
     ref = _get_ref_db()
@@ -438,19 +447,19 @@ def synonym_search():
     for v in variants:
         # Forward: word -> synonyms
         for r in ref.execute(
-            "SELECT DISTINCT UPPER(synonym) AS s FROM synonyms_pairs WHERE LOWER(word) = ?", (v,)
+            "SELECT DISTINCT UPPER(synonym) AS s FROM synonyms_pairs WHERE norm_word = ?", (v,)
         ).fetchall():
             synonyms.add(r["s"])
 
         # Forward: word -> definition answers
         for r in ref.execute(
-            "SELECT DISTINCT UPPER(answer) AS a FROM definition_answers_augmented WHERE LOWER(definition) = ?", (v,)
+            "SELECT DISTINCT UPPER(answer) AS a FROM definition_answers_augmented WHERE norm_def = ?", (v,)
         ).fetchall():
             synonyms.add(r["a"])
 
         # Abbreviations: word -> substitution
         for r in ref.execute(
-            "SELECT DISTINCT UPPER(substitution) AS s FROM wordplay WHERE LOWER(indicator) = ?", (v,)
+            "SELECT DISTINCT UPPER(substitution) AS s FROM wordplay WHERE norm_ind = ?", (v,)
         ).fetchall():
             if r["s"]:
                 abbreviations.add(r["s"])

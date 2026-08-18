@@ -237,12 +237,21 @@ def create_app(config_name=None):
                     if ref_db and not _word_in_db(clean, ref_db):
                         missing_class = " underline decoration-red-400 decoration-2 underline-offset-2"
 
+                    # Two forms of the word, because the tools want different
+                    # things. data-clean is letters only — anagram fodder, and
+                    # what the tutorial hooks match on. data-plain keeps the
+                    # word as the setter wrote it, because the reference tables
+                    # are keyed on a NORMALISED form of the real word: strip
+                    # the apostrophe here and "Jill's companion" can never find
+                    # JACK, however the server queries.
+                    plain = re.sub(r'^[^A-Za-z0-9]+|[^A-Za-z0-9]+$', '', part)
                     out.append(
                         '<span class="clue-word cursor-pointer hover:bg-indigo-100 '
                         'hover:rounded px-0.5 -mx-0.5 transition-colors%s" '
-                        'data-idx="%d" data-clean="%s" data-clue="%s" '
+                        'data-idx="%d" data-clean="%s" data-plain="%s" data-clue="%s" '
                         'onclick="wordHelp(this)">%s</span>'
-                        % (missing_class, word_idx, clean, clue_id, part)
+                        % (missing_class, word_idx, clean,
+                           Markup.escape(plain), clue_id, part)
                     )
                     word_idx += 1
                 else:
