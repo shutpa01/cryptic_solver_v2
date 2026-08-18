@@ -55,13 +55,24 @@
 .cg-cell.is-active { background: var(--cg-active-bg); }
 .cg-cell.is-cursor { background: var(--cg-cursor-bg); }
 
+/* The clue number is a control: clicking it jumps to the clue it labels, from
+ * anywhere. Padded well beyond the glyph so it is hittable on a phone, but
+ * kept in the corner so it never swallows a tap meant for the square. */
 .cg-num {
   position: absolute;
-  top: 1px;
-  left: 2px;
+  top: 0;
+  left: 0;
+  padding: 1px 3px 3px 2px;
   font: 600 0.5rem/1 var(--cg-ui-font);
   color: var(--cg-num-colour);
-  pointer-events: none;
+  cursor: pointer;
+  border-radius: 0 0 4px 0;
+}
+
+.cg-num:hover {
+  color: var(--cg-accent, #0a3d62);
+  background: rgba(10, 61, 98, 0.12);
+  font-weight: 800;
 }
 
 .cg-letter {
@@ -91,17 +102,37 @@
 }
 
 /* The match count: bottom-right of the last square of the active entry.
- * The clue number already owns the top-left, so this corner reads as native. */
+ * The clue number already owns the top-left, so this corner reads as native.
+ *
+ * Sized to be READ. It was 0.5rem — an 8px glyph in a 34px square, sitting
+ * against a bold serif letter — which rendered correctly and was reported
+ * twice as "not showing". This is the product's headline feature; it does not
+ * get to hide. It sits on its own opaque chip so it never has to compete with
+ * the letter behind it. */
 .cg-count {
   position: absolute;
-  right: 1px;
-  bottom: 0;
-  font: 700 0.5rem/1 var(--cg-ui-font);
-  color: var(--cg-count-colour);
+  right: -3px;
+  bottom: -4px;
+  z-index: 2;
+  min-width: 0.95rem;
+  padding: 0 0.15rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  font: 800 0.66rem/1.35 var(--cg-ui-font);
+  color: #ffffff;
+  background: var(--cg-count-colour);
+  box-shadow: 0 0 0 1.5px #ffffff;
   pointer-events: none;
 }
 
-.cg-count.is-zero { color: var(--cg-count-zero-colour); }
+.cg-count:empty {
+  padding: 0;
+  min-width: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.cg-count.is-zero { background: var(--cg-count-zero-colour); }
 
 /* Offscreen but focusable — it owns the caret and raises the soft keyboard.
  * Not display:none, which would make it unfocusable and silently kill typing
@@ -415,10 +446,12 @@
 
 /* Over the ceiling: present but muted, and narrower so "99+" still fits the
  * corner. Grey, not green — it is not a count you can act on. */
+/* Over the ceiling: still a chip, but grey — it is not a count you can act on,
+ * it answers "is this thing working?". Slightly tighter to fit "99+". */
 .cg-count.is-over {
-  color: #9aa3ad;
-  font-size: 0.42rem;
-  letter-spacing: -0.02em;
+  background: #8d97a3;
+  font-size: 0.58rem;
+  letter-spacing: -0.03em;
 }
 
 /* Why a click could not be honoured — e.g. a component that will not fit from
@@ -441,3 +474,45 @@
   color: #8a8a8a;
   margin-left: 0.25rem;
 }
+
+/* --- clear controls -------------------------------------------------- */
+
+/* Erase the current answer. Appears wherever the active clue is shown: the
+ * bar under the grid, the highlighted row of the clue list, and the tools
+ * header. Understated — it sits beside a clue, not in a toolbar. */
+.cg-clear-entry {
+  flex: 0 0 auto;
+  margin-left: auto;
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  background: transparent;
+  border-radius: 3px;
+  padding: 0.1rem 0.4rem;
+  font: 0.66rem var(--cg-ui-font);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #7a7a7a;
+  cursor: pointer;
+}
+
+.cg-clear-entry:hover {
+  color: var(--cg-wrong-colour);
+  border-color: var(--cg-wrong-colour);
+}
+
+.cg-clue .cg-clear-entry { margin-left: 0.5rem; }
+
+/* Reset the current tool. Aligned right at the foot of the panel, away from
+ * the Search button so the two are never confused. */
+.cg-tool-clear {
+  align-self: flex-start;
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  background: transparent;
+  border-radius: 3px;
+  padding: 0.25rem 0.7rem;
+  font: 0.72rem var(--cg-ui-font);
+  color: #7a7a7a;
+  cursor: pointer;
+  order: 99;
+}
+
+.cg-tool-clear:hover { color: var(--cg-ink, #1b1b1b); border-color: #9aa3ad; }

@@ -38,8 +38,20 @@
     }, options || {});
 
     this.entries = {};
+    // Which entries START at a square, by direction. A clue number labels the
+    // entries that begin there, which is not the same as the entries running
+    // through there — that difference is the whole point of clicking a number
+    // rather than a square.
+    this.startsAt = {};
     var self = this;
-    model.entries.forEach(function (entry) { self.entries[entry.id] = entry; });
+    model.entries.forEach(function (entry) {
+      self.entries[entry.id] = entry;
+      if (entry.stub_of || !entry.cells.length) return;
+      var first = entry.cells[0];
+      var at = self.startsAt[key(first[0], first[1])] || {};
+      at[entry.dir] = entry.id;
+      self.startsAt[key(first[0], first[1])] = at;
+    });
 
     this.letters = {};        // "r,c" -> "A"
     this.wrong = {};          // "r,c" -> true, cleared as soon as it is retyped
@@ -150,6 +162,27 @@
     this.activeId = id;
     this.cursor = { r: r, c: c };
     this._announce();
+  };
+
+  /* Clicking the number in a square jumps straight to the clue it labels,
+   * from wherever you are. Where a number labels both an across and a down
+   * clue, it takes across first and swaps on a second click — the same
+   * two-state behaviour as clicking a shared square, anchored to the number. */
+  Engine.prototype.selectByNumber = function (r, c) {
+    var starts = this.startsAt[key(r, c)];
+    if (!starts) {
+      this.selectCell(r, c);      // no clue begins here — behave as a square
+      return;
+    }
+    var across = starts[ACROSS];
+    var down = starts[DOWN];
+    var target;
+    if (across && down) {
+      target = this.activeId === across ? down : across;
+    } else {
+      target = across || down;
+    }
+    if (target) this.select(target);
   };
 
   Engine.prototype.flip = function () {
@@ -285,6 +318,26 @@
       container.appendChild(span);
     });
     paintPickedWords(engine, container);
+  }
+
+  /* The erase control for the active clue. Built here so the clue bar, the
+   * active row of the clue list and the tools header all get the same button
+   * rather than three near-identical ones. */
+  function clearEntryButton(engine, entryId) {
+    var button = el('button', 'cg-clear-entry', 'Clear');
+    button.type = 'button';
+    button.title = 'Erase this answer';
+    button.setAttribute('aria-label', 'Erase this answer');
+    button.addEventListener('click', function (event) {
+      // The clue-list row is itself a selector; erasing must not read as a
+      // click on the row.
+      event.stopPropagation();
+      engine.clearEntry(entryId);
+    });
+    button.addEventListener('mousedown', function (event) {
+      event.stopPropagation();
+    });
+    return button;
   }
 
   function paintPickedWords(engine, root) {
@@ -438,6 +491,37 @@
     } catch (e) { this.letters = {}; }
   };
 
+  /* Erase just this entry's letters. Crossing squares go with it — they belong
+   * to this entry too, and leaving them would make "clear" a half-measure the
+   * solver then has to finish by hand. */
+  Engine.prototype.clearEntry = function (id) {
+    var entry = this.resolve(id || this.activeId);
+    if (!entry || !entry.cells.length) return;
+    var cleared = [];
+    var self = this;
+    entry.cells.forEach(function (rc) {
+      var k = key(rc[0], rc[1]);
+      if (self.letters[k] === undefined && !self.wrong[k]) return;
+      delete self.letters[k];
+      delete self.wrong[k];
+      cleared.push(k);
+    });
+    if (!cleared.length) return;
+    this.persist();
+    this.emit('letters', { cells: cleared });
+    this.emit('progress', this.progress());
+
+    // Put the caret back at the start of what was just emptied. Without this
+    // the cursor stays wherever it was — usually the end — so clearing and
+    // retyping drops the new letters into the last squares instead of the
+    // first, which is never what "clear and start again" means.
+    if (entry.id === this.activeId) {
+      var first = entry.cells[0];
+      this.cursor = { r: first[0], c: first[1] };
+      this._announce();
+    }
+  };
+
   Engine.prototype.reset = function () {
     this.letters = {};
     this.wrong = {};
@@ -551,7 +635,15 @@
         node.dataset.r = r;
         node.dataset.c = c;
         node.setAttribute('role', 'gridcell');
-        if (cell.n) node.appendChild(el('span', 'cg-num', cell.n));
+        if (cell.n) {
+          var num = el('span', 'cg-num', cell.n);
+          var starts = this.engine.startsAt[key(r, c)] || {};
+          var labels = [];
+          if (starts[ACROSS]) labels.push(cell.n + ' Across');
+          if (starts[DOWN]) labels.push(cell.n + ' Down');
+          if (labels.length) num.title = 'Go to ' + labels.join(' / ');
+          node.appendChild(num);
+        }
         node.appendChild(el('span', 'cg-letter'));
         node.appendChild(el('span', 'cg-count'));
         table.appendChild(node);
@@ -590,7 +682,13 @@
       var node = event.target.closest('.cg-cell');
       if (!node) return;
       event.preventDefault();      // keep focus on the capture input
-      self.engine.selectCell(Number(node.dataset.r), Number(node.dataset.c));
+      var r = Number(node.dataset.r);
+      var c = Number(node.dataset.c);
+      // Handled here rather than with a listener on the number itself: the
+      // square's own mousedown would otherwise fire first and move the
+      // selection before the number's click ever arrived.
+      if (event.target.closest('.cg-num')) self.engine.selectByNumber(r, c);
+      else self.engine.selectCell(r, c);
       self.focus();
     });
 
@@ -823,6 +921,10 @@
         previousItem.setAttribute('tabindex', '0');
       }
     }
+    if (this.clearButton && this.clearButton.parentNode) {
+      this.clearButton.parentNode.removeChild(this.clearButton);
+      this.clearButton = null;
+    }
     this.wordedId = activeId;
     if (activeId && this.texts[activeId] && entry) {
       renderClueWords(this.engine, entry, this.texts[activeId]);
@@ -830,6 +932,10 @@
       if (item) {
         item.removeAttribute('role');
         item.removeAttribute('tabindex');
+        // The erase control appears on the highlighted row only — 32 of them
+        // down a clue list would be noise, and only one clue is ever current.
+        this.clearButton = clearEntryButton(this.engine, activeId);
+        item.appendChild(this.clearButton);
       }
     }
   };
@@ -885,6 +991,7 @@
     if (entry.enum) {
       this.body.appendChild(el('span', 'cg-bar-enum', '(' + entry.enum + ')'));
     }
+    this.body.appendChild(clearEntryButton(this.engine, entry.id));
   };
 
   ClueBarView.prototype.paintWords = function () {
@@ -1044,6 +1151,7 @@
     if (entry.enum) {
       this.headerBody.appendChild(el('span', 'cg-bar-enum', '(' + entry.enum + ')'));
     }
+    this.headerBody.appendChild(clearEntryButton(this.engine, entry.id));
     if (this.open && this.tab === 'pattern') this.prefillPattern();
   };
 
@@ -1060,6 +1168,27 @@
       hints: this.buildHints
     }[this.tab];
     if (builder) builder.call(this);
+
+    // Every tool gets the same escape hatch, in the same place, so a wrong
+    // turn is one click to undo instead of a field to select and retype.
+    var clear = el('button', 'cg-tool-clear', 'Clear');
+    clear.type = 'button';
+    clear.title = 'Reset this tool';
+    var self = this;
+    clear.addEventListener('click', function () { self.clearTool(); });
+    this.panel.appendChild(clear);
+  };
+
+  /* Put the current tool back exactly how it opens. One rule for all five, so
+   * "Clear" never needs explaining: the anagram and word tools also drop the
+   * clue words they were fed from, or they would simply refill themselves. */
+  ToolsView.prototype.clearTool = function () {
+    if (this.tab === 'anagram' || this.tab === 'lookup') {
+      this.words = [];
+      this.engine.clearWords();
+    }
+    this.renderPanel();
+    this.flash('');
   };
 
   ToolsView.prototype._field = function (labelText, value, onRun) {
