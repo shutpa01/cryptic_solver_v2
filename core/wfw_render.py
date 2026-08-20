@@ -51,6 +51,7 @@ _TYPE_LABEL = {
     "charade_alternation": "Charade + alternation",
     "acrostic": "Acrostic",
     "homophone": "Homophone",
+    "reverse_anagram": "Reverse anagram",
 }
 
 # Mechanism words recognised inside an engine operation name ("anagram_container")
@@ -75,13 +76,22 @@ _MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
 # web/wfw_read._ATOMIC_OPS.
 _ATOMIC_OPS = frozenset((
     "dd", "double_definition", "cd", "andlit", "continuation",
-    "hidden", "hidden_reversed"))
+    "hidden", "hidden_reversed", "reverse_anagram"))
 
 # Ops whose extra sources are NOT charade pieces, so a charade must NOT be inferred
 # when one is present (gather ops fold several words into one gestalt; substitution
-# swaps letters in place). Mirrors web/wfw_read._CHARADE_SUPPRESS.
+# swaps letters in place).
+# HOMOPHONE is NOT here (user-reported 2026-08-20, EYEBALLING guardian 30090 11a =
+# EYE ["vote in favour", sounds like AYE] + BALLING ["outcry", sounds like BAWLING]).
+# A homophone piece is a WHOLE PIECE that sounds like something else, so two of them —
+# or one beside a synonym — sit side by side exactly as charade parts do; suppressing
+# the charade labelled the clue "Homophone" and misled any reader who took the
+# clue-type hint. Each sound belongs to ONE source (its own 'sounds like' transform),
+# so the join count cannot invent a charade out of one sound: measured over all 6,590
+# stored solves, 37 labels gain the charade and every one has genuinely separate
+# pieces. Mirrors web/wfw_read._CHARADE_SUPPRESS.
 _CHARADE_SUPPRESS = frozenset((
-    "anagram", "acrostic", "alternation", "spoonerism", "homophone",
+    "anagram", "acrostic", "alternation", "spoonerism",
     "hidden", "palindrome", "cycling", "substitution", "replacement"))
 
 
@@ -226,13 +236,17 @@ def _colour(i):
     return PALETTE[i % len(PALETTE)]
 
 
-def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
+def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""):
     """Return the HTML fragment for one solved clue (the shared base screen).
 
     A clue type customises only:
     - `clue_line_html`: a pre-rendered clue line (hidden lights the host letters);
     - `coloured`: per-source palette colour on or off (hidden runs uncoloured and
-      uses the single amber accent instead).
+      uses the single amber accent instead);
+    - `comment`: the reviewer's own words. A REVERSE ANAGRAM has no assemblable
+      wordplay to render — the answer read as wordplay produces a phrase in the
+      clue — so the comment IS the explanation and is rendered above the
+      definition. Ignored for every other clue type.
     """
     if coloured:
         src_fg = {i: _colour(i)[0] for i in range(len(parse.sources))}
@@ -311,6 +325,14 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True):
     else:
         renderer = _TYPE_RENDERERS.get(parse.operation or "", _render_generic_breakdown)
         breakdown = renderer(parse, ctx, src_fg, src_fill)
+        # REVERSE ANAGRAM: the answer itself, read as wordplay, produces a phrase in the
+        # clue — there is no chain of pieces to lay out, so the reviewer's comment carries
+        # the mechanism and leads the breakdown. The definition row still follows it (every
+        # clue ends with a definition). No banner: the clue is sound, and the clue-type
+        # badge already names it (user, 2026-08-20).
+        if (parse.operation or "") == "reverse_anagram" and (comment or "").strip():
+            breakdown = ('<div class="wfw-comment">%s</div>'
+                         % escape(comment.strip()).replace("\n", "<br>")) + breakdown
 
     prov_def = (parse.definition is not None
                 and getattr(parse.definition, "source", "db") == "pending")
@@ -377,7 +399,8 @@ _SUBTYPE_DETAIL = {
     "letter_shift": {"last_front": "move last letter to front",
                      "first_end": "move first letter to end",
                      "move_left": "move letter left",
-                     "move_right": "move letter right"},
+                     "move_right": "move letter right",
+                     "named": "the named letters change places"},
     "charade_positional": {"after": "this piece goes after its neighbour",
                            "before": "this piece goes before its neighbour"},
 }
@@ -403,11 +426,7 @@ def _indicator_label(note):
     if n.startswith("letter_shift") or n.startswith("letter-shift") \
             or n.startswith("letter shift"):       # "letter_shift/last_front indicator"
         sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
-        detail = {"last_front": "move last letter to front",
-                  "first_end": "move first letter to end",
-                  "move_left": "move letter left",
-                  "move_right": "move letter right"}.get(sub, sub)
-        return "Letter-shift indicator", detail
+        return "Letter-shift indicator", _SUBTYPE_DETAIL["letter_shift"].get(sub, sub)
     if "charade_positional" in n:                  # "charade_positional/after indicator"
         # a positional/charade indicator ("after", "before") — tells the reader WHERE the
         # piece sits relative to its neighbour, not a bare "Indicator".
@@ -612,8 +631,11 @@ def _source_row(parse, si, src_fg, src_fill):
     # Show HOW the piece's letters reached the answer (reversed / minus a deleted run), so a
     # piece that supplies IS but lands as SI reads "is -> IS reversed" here too — not a bare IS
     # whose order isn't in the answer. Matches the assembly build line (same _transform_note).
-    # Spoonerism pieces are a SOUND pair — their value never letter-matches the tiles.
-    if s.mechanism not in ("anagram_fodder", "spoonerism"):
+    # Spoonerism pieces are a SOUND pair — their value never letter-matches the tiles, and a
+    # DEFINITION source (both halves of a double definition) places no letters at all: neither
+    # has letters that could disagree with its value, so neither goes through this at all.
+    if s.mechanism not in ("anagram_fodder", "spoonerism",
+                           "definition", "definition_by_example"):
         al = parse.answer_letters()
         positions = sorted(l.answer_pos for l in parse.links if l.source_index == si)
         got = "".join(al[p - 1] for p in positions if 1 <= p <= len(al))
@@ -623,9 +645,19 @@ def _source_row(parse, si, src_fg, src_fill):
         # silence that used to read as "landed unchanged".
         rec = _recorded_note(s, got)
         ana = _anagram_note(parse, (s.value or "").upper(), got) if rec is None else None
+        # A PROVEN named shift accounts for this piece at ASSEMBLY level: its own
+        # letters are right, they simply land displaced because two letters traded
+        # places across the join. Judging the piece alone called that "not accounted
+        # for" — the very complaint that started this (user, 2026-08-18): the label
+        # ignored what the assembly needed in order to work.
+        _shifted = (rec is None and ana is None
+                    and _named_shift_proof(parse) is not None
+                    and sorted(got) == sorted(_letters_of(s.value)))
         content += (rec if rec is not None else
-                    (ana if ana else (_transform_note(s.value, got, parse)
-                                      or _unexplained_note(s.value, got))))
+                    (ana if ana else
+                     (' <span class="wfw-emuted">moved by the exchange</span>' if _shifted
+                      else (_transform_note(s.value, got, parse)
+                            or _unexplained_note(s.value, got)))))
     if s.mechanism == "homophone":
         tr = next((l.transform for l in parse.links
                    if l.source_index == si and l.transform), None)
@@ -688,6 +720,14 @@ def _annotation_row(parse, a):
         if removed:
             content += (' <span class="wfw-arrow">&rarr;</span> '
                         '<strong class="wfw-val">%s</strong>' % escape(removed))
+    elif a.role == "shifted":
+        # a word that NAMES a letter which moves ("tense" -> T). Letterless: the letter is
+        # already on the board inside the shifted piece — this row says WHICH one moved.
+        style, label = "background:#c2410c;color:#fff", "Letter moved"
+        moved = note.split(":", 1)[1].strip() if ":" in note else ""
+        if moved:
+            content += (' <span class="wfw-arrow">&rarr;</span> '
+                        '<strong class="wfw-val">%s</strong>' % escape(moved))
     elif a.role == "link" and note == "synonym by example":
         # a perhaps/maybe word marking a by-example synonym — accounted, letterless, no
         # validity (the wordplay twin of definition-by-example); its own pill, not "Link".
@@ -745,6 +785,33 @@ def renders(*ops):
 def _render_generic_breakdown(parse, ctx, src_fg, src_fill):
     """Fallback: every clue word/span in clue order with its role (the original format)."""
     return _grid(_all_rows(parse, src_fg, src_fill))
+
+
+def _has_named_shift(parse):
+    """True when this parse carries a letter-shift indicator whose sub-type is
+    'named' — the clue NAMES the letters that move, rather than rotating an end."""
+    for a in getattr(parse, "annotations", None) or []:
+        n = (getattr(a, "note", "") or "").lower()
+        if n.startswith(("letter_shift", "letter-shift", "letter shift")) \
+                and "/named" in n:
+            return True
+    return False
+
+
+def _shift_named_letters(parse):
+    """The letters the clue names as moving, in clue order — read from the
+    'shifted' annotations ("tense" -> T, "Romeo" -> R). These place no tiles;
+    they say WHICH letters move."""
+    out = []
+    for a in sorted((getattr(parse, "annotations", None) or []),
+                    key=lambda x: _first_index(x.clue_atom_ids)):
+        if getattr(a, "role", "") != "shifted":
+            continue
+        note = getattr(a, "note", "") or ""
+        val = note.split(":", 1)[1].strip().upper() if ":" in note else ""
+        if len(val) == 1:
+            out.append(val)
+    return out
 
 
 def _letter_shift_detail(parse):
@@ -1061,8 +1128,16 @@ def _unexplained_note(value, got):
     for the difference. Saying so is the point: the old code returned '' here, which
     renders as 'the value landed unchanged' and produced assembly lines that do not
     spell the answer (EPHESUS 10085630, OMELETTE 10081158). An explanation we cannot
-    stand behind must LOOK like one."""
+    stand behind must LOOK like one.
+
+    It applies ONLY to a piece that actually places letters. A source contributing
+    NONE — both halves of a double definition, a source whose letters are removed —
+    has no letters to disagree with its value, and flagging it said every double
+    definition was unaccounted for (user-reported 2026-08-18: "Got plastered?" =
+    RENDERED). Same guard _transform_note has always had."""
     from core import piece_transform
+    if not piece_transform.letters_only(got):
+        return ""                                # places nothing here — nothing to explain
     if piece_transform.letters_only(value) == piece_transform.letters_only(got):
         return ""
     return ' <span class="wfw-unex">not accounted for</span>'
@@ -1188,11 +1263,79 @@ def _assembly_expr(parse, answer_letters):
     return render(1, n)
 
 
+def _letters_of(text):
+    return "".join(c for c in (text or "").upper() if c.isalpha())
+
+
+def _named_shift_proof(parse):
+    """(order, values, joined, answer, letterA, letterB) when a NAMED letter shift
+    really does account for this whole assembly — the pieces joined in clue order,
+    with the two named letters exchanged, spelling the answer EXACTLY. None
+    otherwise. This is the arithmetic; every caller relies on it rather than
+    trusting that a clue mentioning an exchange has one."""
+    if not _has_named_shift(parse):
+        return None
+    letters = _shift_named_letters(parse)          # the letters the clue NAMES
+    if len(letters) != 2:
+        return None
+    order = sorted(range(len(parse.sources)),
+                   key=lambda si: _first_index(parse.sources[si].clue_atom_ids))
+    vals = [(parse.sources[si].value or "").upper() for si in order]
+    if not all(vals):
+        return None
+    joined = "".join(c for v in vals for c in v if c.isalpha())
+    answer = "".join(c for c in (parse.answer_text or "").upper() if c.isalpha())
+    if sorted(joined) != sorted(answer):
+        return None
+    a, b = letters
+    i, j = joined.find(a), joined.find(b)
+    if i < 0 or j < 0:
+        return None
+    swapped = list(joined)
+    swapped[i], swapped[j] = swapped[j], swapped[i]
+    if "".join(swapped) != answer:                 # the exchange must SPELL the answer
+        return None
+    return order, vals, joined, answer, a, b
+
+
+def _named_shift_line(parse, src_fg):
+    """The assembly line for a NAMED letter shift, or None.
+
+    A named shift ("tense exchanges with Romeo") operates on the WHOLE assembly,
+    not on one piece: the T comes from `met` and the R from `Curio`, and they
+    trade places across the join. Read per-piece, each piece's letters look
+    scattered, and _assembly_expr describes the interleaving as two pieces
+    containing each other — MET around (RCUIO -IO) + RCUIO around (MET -ME),
+    which is nonsense (user-reported 2026-08-18).
+
+    So: join the pieces IN CLUE ORDER, apply the exchange the clue names, and
+    print that. PROVEN, never asserted — the joined letters must actually become
+    the answer under the named exchange, or this returns None and the ordinary
+    renderer runs. A card may not claim an assembly that does not spell the
+    answer."""
+    proof = _named_shift_proof(parse)
+    if proof is None:
+        return None
+    order, vals, joined, answer, a, b = proof
+    chain = ' <span class="wfw-plus">+</span> '.join(
+        '<strong class="wfw-val" style="color:%s">%s</strong>' % (_src_colour(si), escape(v))
+        for si, v in zip(order, vals))
+    return ('%s <span class="wfw-arrow">&rarr;</span> '
+            '<strong class="wfw-val">%s</strong> '
+            '<span class="wfw-emuted">%s&harr;%s exchanged</span> '
+            '<span class="wfw-arrow">&rarr;</span> '
+            '<strong class="wfw-val">%s</strong>'
+            % (chain, escape(joined), escape(a), escape(b), escape(answer)))
+
+
 @renders("anagram_container", "container_charade", "charade_deletion", "anagram_charade",
          "container_deletion", "reversal_charade", "reversal_container", "container_outer_charade",
          "container_inner_deletion", "container_inner_alternation", "charade_multi_deletion",
          "manual")
 def _render_assembly(parse, ctx, src_fg, src_fill):
+    named = _named_shift_line(parse, src_fg)      # the exchange happens AFTER the join
+    if named:
+        return _build_line(named) + _grid(_all_rows(parse, src_fg, src_fill))
     expr = _assembly_expr(parse, parse.answer_letters())
     if expr:
         line = '%s %s' % (expr, _arrow_ans(parse))
@@ -1274,6 +1417,9 @@ CARD_CSS = """
               border-radius:6px; background:#fef3c7; color:#92600a;
               border:1px solid #fcd34d; font-size:.72rem; font-weight:700;
               text-transform:uppercase; letter-spacing:.04em; }
+  .wfw-comment { background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px;
+                 padding:.65rem .85rem; margin:0 0 1rem; line-height:1.55;
+                 font-size:.98rem; color:#0f172a; }   /* the reviewer's own explanation */
   .wfw-banner { margin-top:1rem; border-radius:10px; padding:.65rem .85rem;
                 font-size:.92rem; line-height:1.45; }
   .wfw-banner-prov { background:#fffbeb; border:1px solid #fcd34d; color:#92600a; }

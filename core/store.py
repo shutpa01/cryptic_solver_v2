@@ -95,6 +95,19 @@ CREATE TABLE IF NOT EXISTS wfw_frozen (
                                    --   DOWNGRADE it (never reverts to fail on a later run);
                                    --   only admin unforce clears it. Separate table so it
                                    --   survives save_parse's delete+reinsert of wfw_solve.
+CREATE TABLE IF NOT EXISTS wfw_word_split (
+    clue_id     INTEGER NOT NULL,  -- per-clue HUMAN SPLIT of a run-together clue word into
+    token_index INTEGER NOT NULL,  --   parts that take their OWN roles: "fightback" =
+    offset      INTEGER NOT NULL,  --   fight (synonym WAR) + back (reversal indicator).
+    PRIMARY KEY (clue_id, token_index, offset)
+);                                 --   token_index is the word's position in the clue's token
+                                   --   list; offset is the character in that word where a new
+                                   --   part BEGINS (fightback -> 5). One row per cut, so a word
+                                   --   can be split more than once. Stored because every
+                                   --   assignment refers to words by INDEX: re-deriving the
+                                   --   split would renumber the words and corrupt a saved
+                                   --   reading. Hyphens split without a row (that rule is in
+                                   --   the text itself); this is for words written solid.
 CREATE TABLE IF NOT EXISTS wfw_hs_assignments (
     clue_id INTEGER PRIMARY KEY,   -- the hand-solver's FULL assignment list (JSON), saved on
     payload TEXT                   --   each Assign AND on Resolve so a failed solve never
@@ -422,6 +435,40 @@ def clear_clue_filler(conn, clue_id, word=None):
     else:
         conn.execute("DELETE FROM wfw_filler WHERE clue_id = ? AND word = ?",
                      (clue_id, (word or "").strip().lower()))
+    conn.commit()
+
+
+def get_word_splits(conn, clue_id):
+    """This clue's human word splits as {token_index: [offset, ...]} — the points where a
+    solid clue word is broken into parts that take their own roles ("fightback" -> fight +
+    back). Every surface that numbers the clue's words (the /hs grid AND the commit gate)
+    must apply the SAME splits, or a saved assignment's word indices no longer line up."""
+    ensure_schema(conn)
+    out = {}
+    for ti, off in conn.execute(
+            "SELECT token_index, offset FROM wfw_word_split WHERE clue_id = ? "
+            "ORDER BY token_index, offset", (clue_id,)):
+        out.setdefault(ti, []).append(off)
+    return out
+
+
+def add_word_split(conn, clue_id, token_index, offset):
+    """Split this clue's word `token_index` at `offset` (the character the SECOND part
+    starts at). Idempotent."""
+    ensure_schema(conn)
+    conn.execute("INSERT OR IGNORE INTO wfw_word_split (clue_id, token_index, offset) "
+                 "VALUES (?, ?, ?)", (clue_id, int(token_index), int(offset)))
+    conn.commit()
+
+
+def clear_word_split(conn, clue_id, token_index=None):
+    """Undo one word's splits, or every split on this clue when token_index is None."""
+    ensure_schema(conn)
+    if token_index is None:
+        conn.execute("DELETE FROM wfw_word_split WHERE clue_id = ?", (clue_id,))
+    else:
+        conn.execute("DELETE FROM wfw_word_split WHERE clue_id = ? AND token_index = ?",
+                     (clue_id, int(token_index)))
     conn.commit()
 
 

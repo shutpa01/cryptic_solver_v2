@@ -516,8 +516,11 @@ def add_indicator(word, wordplay_type, subtype=None):
     # /first_end are cyclic edge rotations; move_left/move_right relocate a named letter and
     # are label-only (no solving duty) — the same as the rest of letter_shift, which no engine
     # mechanically applies.
+    # "named" is the exchange: the clue NAMES the letters that move ("tense exchanges with
+    # Romeo" — T and R trade places in MET CURIO). The letters are named by other words, so
+    # the direction is not a fixed rotation; the piece's recorded swap says which they are.
     if wp == "letter_shift":
-        _LS_SUBS = ("last_front", "first_end", "move_left", "move_right")
+        _LS_SUBS = ("last_front", "first_end", "move_left", "move_right", "named")
         if not sub:
             return ("A letter-shift indicator needs a sub-type (which way it moves): "
                     "one of %s." % ", ".join(_LS_SUBS))

@@ -82,6 +82,22 @@ blank and note it in the report instead. Never write a reading you are not
 confident is the setter's.
 
 ## Special cases
+- A HIDDEN clue (and hidden-reversed) is ONE piece, never one per clue word.
+  Give role 'letters' the idx list of EVERY word the run crosses, value = the
+  HIDDEN RUN ITSELF (the answer letters, not the host words), pos = every answer
+  tile, and NO `xf`. The host letters either side are not deleted by anything —
+  they are simply not in the run, and the card lights the run inside them
+  (core/wfw_card._manual_hidden_line, which needs the value to sit strictly
+  INSIDE one piece's own letters). So "Some Mormons ignore Catholic dignitary"
+  = MONSIGNOR files as {"idx": [1, 2], "role": "letters", "value": "MONSIGNOR",
+  "pos": [1..9]} plus the hidden indicator and the definition.
+  NEVER file each host word as its own piece with cuts trimming it down to its
+  contribution. The rule below about recording a change applies to a piece whose
+  own value is altered on its way to the tiles; a hidden run is not altered, it
+  is located. Split filings pass the gate and still read as nonsense on the card
+  (user-reported 2026-08-19: all four of that night's hidden clues, e.g. TELEGRAPH
+  31322 29a ENTENTE rendered "BETWEEN −BETWE + TEN + TEAMS −AMS", and TIMES 29625
+  20a DRAWN rendered "RED −RE + RAW + NOW −OW", with the hidden run unlit).
 - A whole-clue CRYPTIC DEFINITION is not an /hs assignment job: leave it blank
   and list it in the report — the user files it with the "Cryptic definition"
   button on /hs (route /hscd, built 2026-07-10).

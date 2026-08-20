@@ -126,11 +126,23 @@ def _render_cordelia_deploy():
                     local_path = PROJECT_ROOT / local_dir
                     if not local_path.exists():
                         continue
-                    # Ensure remote directory exists
-                    subprocess.run(
-                        ["ssh", CORDELIA_DROPLET, f"mkdir -p {CORDELIA_REMOTE}/{remote_dir}"],
-                        capture_output=True, timeout=10,
-                    )
+                    # Ensure remote directory exists. Each entry in CORDELIA_CODE_DIRS opens
+                    # its OWN ssh connection (~2s each), and this call used to have a 10s
+                    # budget, no BatchMode and no try/except — so ONE slow connection raised
+                    # TimeoutExpired, hit the catch-all in render() and killed the whole
+                    # deploy with "Command [...] timed out after 10 seconds" (2026-08-19: it
+                    # fell over on web/static, the FIFTH directory, after four had uploaded
+                    # fine in the same run — so auth and the host key were never the problem).
+                    # BatchMode stops ssh sitting on a prompt it can never be answered, and a
+                    # slow mkdir is no longer fatal: the scp below reports any real failure.
+                    try:
+                        subprocess.run(
+                            ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
+                             CORDELIA_DROPLET, f"mkdir -p {CORDELIA_REMOTE}/{remote_dir}"],
+                            capture_output=True, timeout=45,
+                        )
+                    except subprocess.TimeoutExpired:
+                        pass
                     if pattern is None:
                         # Upload entire directory
                         try:

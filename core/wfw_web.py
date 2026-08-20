@@ -88,6 +88,7 @@ _SUBTYPE_LABELS = {
     ("letter_shift", "first_end"):  "move first letter to end",
     ("letter_shift", "move_left"):  "move letter left",
     ("letter_shift", "move_right"): "move letter right",
+    ("letter_shift", "named"):      "named letters (exchange, e.g. T for R)",
     ("charade_positional", "after"):  "piece goes AFTER (behind) its neighbour",
     ("charade_positional", "before"): "piece goes BEFORE (ahead of) its neighbour",
     ("alternation", ""): "— no sub-type needed —",
@@ -115,7 +116,7 @@ def _build_ind_subtypes():
     out["deletion"] = d
     out["letter_shift"] = [(c, _SUBTYPE_LABELS[("letter_shift", c)])
                            for c in ("last_front", "first_end",
-                                     "move_left", "move_right")]
+                                     "move_left", "move_right", "named")]
     out["charade_positional"] = [(c, _SUBTYPE_LABELS[("charade_positional", c)])
                                  for c in ("after", "before")]
     out["alternation"] = [("", _SUBTYPE_LABELS[("alternation", "")])]
@@ -869,8 +870,15 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
         if ctx is None:
             ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
+        # The reviewer's comment, so this card matches the public one exactly (a reverse
+        # anagram's explanation lives in the comment — see core.wfw_card.stored_card).
+        _c3 = store.connect()
+        try:
+            _cmt = store.get_note(_c3, clue_id)
+        finally:
+            _c3.close()
         card = (screen(ctx, parse) if screen else
-                wfw_render.render_parse(parse, ctx=ctx,
+                wfw_render.render_parse(parse, ctx=ctx, comment=_cmt,
                                         clue_line_html=_manual_hidden_line(ctx, parse)))
 
     forced_banner = ""
@@ -1388,29 +1396,53 @@ _MECH_LABEL = {"synonym": "synonym", "abbreviation": "abbreviation",
 
 
 import collections as _collections
-_HSUnit = _collections.namedtuple("_HSUnit", ["text", "atom_ids", "is_symbol"])
-_HSUnit.__new__.__defaults__ = (False,)   # word units omit it; punctuation sets True
+_HSUnit = _collections.namedtuple("_HSUnit", ["text", "atom_ids", "is_symbol",
+                                              "token_index", "offset"])
+_HSUnit.__new__.__defaults__ = (False, None, 0)   # word units omit them; punctuation sets True
 
 
-def _hs_word_units(ctx):
-    """Clue WORDS for the hand solver, with HYPHENATED words SPLIT into their parts:
-    'line-up' -> 'line' + 'up', so each part can take its own role (line=synonym, up=indicator).
-    A word token's atom_ids align 1:1 with its text characters, so each part keeps its own atoms
-    (the hyphen atom itself is dropped — it carries no letter)."""
+def _hs_word_units(ctx, splits=None):
+    """Clue WORDS for the hand solver, split into the parts that can each take their own role.
+
+    Two kinds of split, and both must be applied HERE, because this function is the ONE place
+    the clue's words are numbered — the /hs grid and the commit gate both read it, and every
+    saved assignment refers to words by that number.
+
+    - HYPHENS, always: 'line-up' -> 'line' + 'up'. The rule is in the text itself, so it needs
+      nothing stored (the hyphen atom is dropped — it carries no letter).
+    - A HUMAN SPLIT of a word written solid, from `splits` ({token_index: [offset, ...]},
+      core.store.get_word_splits): 'fightback' -> 'fight' + 'back', so fight can be the synonym
+      WAR and back the reversal indicator. Nothing in the text marks that break, so it is
+      stored per clue and passed in — never guessed at from the word.
+
+    A word token's atom_ids align 1:1 with its characters, so every part keeps its own atoms.
+    """
+    splits = splits or {}
     units = []
     for t in ctx.clue_tokens:
         if t.kind != "word":
             continue
         text, aids = t.text, list(t.atom_ids)
-        if "-" in text and len(aids) == len(text):
+        cuts = set()
+        if len(aids) == len(text):        # atoms line up with characters -> parts are safe
+            cuts = {o for o in splits.get(t.index, ()) if 0 < int(o) < len(text)}
+        if (cuts or "-" in text) and len(aids) == len(text):
             start = 0
-            for i in range(len(text) + 1):
-                if i == len(text) or text[i] == "-":
+            for i in range(len(text)):
+                if text[i] == "-":                       # boundary that EATS the hyphen
                     if i > start:
-                        units.append(_HSUnit(text[start:i], tuple(aids[start:i])))
+                        units.append(_HSUnit(text[start:i], tuple(aids[start:i]),
+                                             False, t.index, start))
                     start = i + 1
+                elif i in cuts and i > start:            # boundary that keeps every character
+                    units.append(_HSUnit(text[start:i], tuple(aids[start:i]),
+                                         False, t.index, start))
+                    start = i
+            if len(text) > start:
+                units.append(_HSUnit(text[start:], tuple(aids[start:]),
+                                     False, t.index, start))
         else:
-            units.append(_HSUnit(text, tuple(aids)))
+            units.append(_HSUnit(text, tuple(aids), False, t.index, 0))
     # NON-WORD atoms (punctuation / symbols) appended AFTER the words, so word indices
     # never shift — saved word-only assignments stay aligned. They become SELECTABLE so a
     # clue whose DEFINITION (or indicator) is punctuation can be tagged — "…" = ELLIPSIS, a
@@ -1418,11 +1450,11 @@ def _hs_word_units(ctx):
     # untagged never blocks a commit (user 2026-07-15: "able but not compelled").
     for t in ctx.clue_tokens:
         if t.kind != "word" and t.atom_ids:
-            units.append(_HSUnit(t.text, tuple(t.atom_ids), True))
+            units.append(_HSUnit(t.text, tuple(t.atom_ids), True, t.index, 0))
     return units
 
 
-def _word_roles(ctx, parse, filler_set, split_hyphens=False):
+def _word_roles(ctx, parse, filler_set, split_hyphens=False, splits=None):
     """Map each clue WORD to the role the stored parse gives it. Returns a list of dicts
     {idx, text, role, label, value} in clue order, where `role` is the colour category
     (definition/piece/indicator/link/filler/none), `label` is what to show, and `value`
@@ -1454,7 +1486,7 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
                 amap[aid] = (a.role, note, "")
     out, wi = [], 0
     fil = {(x or "").strip().lower() for x in (filler_set or ())}
-    units = (_hs_word_units(ctx) if split_hyphens else
+    units = (_hs_word_units(ctx, splits) if split_hyphens else
              [_HSUnit(t.text, tuple(t.atom_ids)) for t in ctx.clue_tokens if t.kind == "word"])
     for u in units:
         role, label, value = "none", "—", ""
@@ -1466,7 +1498,9 @@ def _word_roles(ctx, parse, filler_set, split_hyphens=False):
             role, label = "filler", "filler"
         out.append({"idx": wi, "text": u.text, "role": role,
                     "label": label, "value": value,
-                    "is_symbol": getattr(u, "is_symbol", False)})
+                    "is_symbol": getattr(u, "is_symbol", False),
+                    "token_index": getattr(u, "token_index", None),
+                    "offset": getattr(u, "offset", 0)})
         wi += 1
     return out
 
@@ -2339,7 +2373,7 @@ function initGrid(rootId, DATA){
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
- var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',synbyexample:'#0891b2',none:'#94a3b8'};
+ var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',shifted:'#c2410c',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',synbyexample:'#0891b2',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
  function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram'||r==='spoonerism'||r==='homophone';} // lands on tiles
  // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
@@ -2401,12 +2435,36 @@ function initGrid(rootId, DATA){
    if(typeof at!=='number'||at<0||!run||v.substr(at,run.length)!==run)return null;
    v=v.slice(0,at)+v.slice(at+run.length);}
   if(!v)return null;                                            // a piece must place something
+  if(xf.swap){var si=xf.swap.i,sj=xf.swap.j;                     // two letters trade places
+   if(typeof si!=='number'||typeof sj!=='number'||si>=v.length||sj>=v.length)return null;
+   var ba=v.split('');var tmp=ba[si];ba[si]=ba[sj];ba[sj]=tmp;v=ba.join('');}
+  if(xf.move){var mf=xf.move.from,mt=xf.move.to;                 // ONE letter relocates and
+   if(typeof mf!=='number'||typeof mt!=='number'||mf>=v.length)return null;  // the rest close up
+   var mb=v.split('');var mc=mb.splice(mf,1)[0];
+   if(mt>mb.length)return null;
+   mb.splice(mt,0,mc);v=mb.join('');}
   if(xf.shift==='last_front')v=v.slice(-1)+v.slice(0,-1);
   else if(xf.shift==='first_end')v=v.slice(1)+v.slice(0,1);
   if(xf.rev)v=v.split('').reverse().join('');
   return v;}
- function xfShort(xf){if(!xf)return '';var b=[];
+ // The letters as they stand when the swap is applied (i.e. after the cuts), so the record's
+ // POSITIONS can be read back to the user as LETTERS.
+ function xfAtSwap(value,xf){var v=foldLetters(value),cuts=(xf&&xf.cuts)||[];
+  for(var i=0;i<cuts.length;i++){var run=cuts[i].letters||'',at=cuts[i].at;
+   if(typeof at!=='number'||at<0||at>v.length)return v;
+   v=v.slice(0,at)+v.slice(at+run.length);}
+  return v;}
+ function xfShort(xf,value){if(!xf)return '';var b=[];
   (xf.cuts||[]).forEach(function(c){b.push('&minus;'+c.letters);});
+  var sv=xfAtSwap(value,xf);                                     // letters as they stand now
+  if(xf.swap){var si=xf.swap.i,sj=xf.swap.j;
+   if(si<sv.length&&sj<sv.length){b.push(sv[si]+'&harr;'+sv[sj]+' exchanged');
+    var sb=sv.split('');var st=sb[si];sb[si]=sb[sj];sb[sj]=st;sv=sb.join('');}
+   else b.push('two letters exchanged');}
+  if(xf.move){var mf=xf.move.from,mt=xf.move.to;
+   if(mf<sv.length){b.push(sv[mf]+' moved '+((mt===0)?'to the front':
+     ((mt>=sv.length-1)?'to the end':((mt<mf)?'left':'right'))));}
+   else b.push('one letter moved');}
   if(xf.shift)b.push(xf.shift==='last_front'?'last&rarr;front':'first&rarr;end');
   if(xf.rev)b.push('reversed');return b.join(' ');}
  function cutSpots(v,cut){var out=[],i=v.indexOf(cut);while(i>=0){out.push(i);i=v.indexOf(cut,i+1);}return out;}
@@ -2418,8 +2476,38 @@ function initGrid(rootId, DATA){
     settle, and so is anything no record explains — better an Assign that says it cannot
     name the change than a solve that files one nobody chose. When no cut is typed only an
     END deletion is considered (behead / curtail): an interior cut has to be named. */
- function xfPrio(xf){var ops=(xf.cuts?xf.cuts.length:0)+(xf.rev?1:0)+(xf.shift?1:0);
-  return ops*100+(xf.shift?10:0)+(xf.rev?1:0);}
+ // Fewest operations wins; among equals a plain reading beats a named-letter one, and an
+ // EXCHANGE beats a MOVE (on adjacent letters the two are identical, and "these two changed
+ // places" is the more specific claim). Without that ordering AB->BA would tie three ways
+ // and be refused.
+ function xfPrio(xf){var ops=(xf.cuts?xf.cuts.length:0)+(xf.rev?1:0)+(xf.shift?1:0)
+   +(xf.swap?1:0)+(xf.move?1:0);
+  return ops*100+(xf.move?30:0)+(xf.swap?20:0)+(xf.shift?10:0)+(xf.rev?1:0);}
+ /* The one exchange that turns `a` into `b`, or null. Pure arithmetic, not a search: two
+    letters trading places differ in EXACTLY two positions, and each must hold the other's
+    letter. Anything else is not a swap, and a value that needs several pairs moved is an
+    anagram wearing a disguise. */
+ function swapFor(a,b){if(!a||!b||a.length!==b.length)return null;
+  var d=[];for(var i=0;i<a.length;i++){if(a[i]!==b[i]){d.push(i);if(d.length>2)return null;}}
+  if(d.length!==2)return null;
+  if(a[d[0]]!==b[d[1]]||a[d[1]]!==b[d[0]])return null;
+  return {i:d[0],j:d[1]};}
+ /* The one RELOCATION that turns `a` into `b`, or null. Lift each letter in turn and put it
+    back everywhere else; keep it only if EXACTLY ONE (from,to) reproduces `b`, so a value
+    with repeated letters (where several lifts would look alike) is refused rather than
+    guessed. Same discipline as the tie rule below. */
+ function moveFor(a,b){if(!a||!b||a.length!==b.length)return null;
+  var found=null;
+  for(var f=0;f<a.length;f++){
+   var rest=a.slice(0,f)+a.slice(f+1), ch=a[f];
+   for(var t=0;t<=rest.length;t++){
+    if(t===f)continue;                                          // back where it came from
+    if(rest.slice(0,t)+ch+rest.slice(t)!==b)continue;
+    if(found)return null;                                       // more than one reading
+    found={from:f,to:t};}}
+  return found;}
+ function unShift(t,shift){if(shift==='last_front')return t.slice(1)+t.slice(0,1);   // undo it
+  if(shift==='first_end')return t.slice(-1)+t.slice(0,-1);return t;}                 //   to see
  function xfFor(value,cut,tiles){
   var v=foldLetters(value),cutsets=[],i;
   cut=foldLetters(cut);
@@ -2431,13 +2519,25 @@ function initGrid(rootId, DATA){
   var opts=[{rev:false,shift:null},{rev:true,shift:null},
             {rev:false,shift:'last_front'},{rev:false,shift:'first_end'}];
   var best=null,bestP=1e9,tied=false;
+  function consider(xf){if(xfApply(v,xf)!==tiles)return;        // NEVER trust a candidate: it
+   var p=xfPrio(xf);                                            //   must spell the tiles
+   if(p<bestP){best=xf;bestP=p;tied=false;}
+   else if(p===bestP&&best&&JSON.stringify(xf)!==JSON.stringify(best))tied=true;}
   for(var s=0;s<cutsets.length;s++){
    for(var o=0;o<opts.length;o++){
-    var xf={cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift};
-    if(xfApply(v,xf)!==tiles)continue;
-    var p=xfPrio(xf);
-    if(p<bestP){best=xf;bestP=p;tied=false;}
-    else if(p===bestP&&best&&JSON.stringify(xf)!==JSON.stringify(best))tied=true;}}
+    consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift});
+    // Nothing plain explains it? Wind the tiles BACK through the reversal and the shift to
+    // see what the letters had to look like straight after the cuts, and read the exchange
+    // off the difference. Ranked below every plain record, so this can only ever answer
+    // where the old code returned null and refused the Assign.
+    var post=xfApply(v,{cuts:cutsets[s]});
+    if(!post)continue;
+    var back=opts[o].rev?tiles.split('').reverse().join(''):tiles;
+    back=unShift(back,opts[o].shift);
+    var sw=swapFor(post,back);
+    if(sw)consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift,swap:sw});
+    var mv=moveFor(post,back);                                  // a NAMED LETTER that relocates
+    if(mv)consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift,move:mv});}}
   return tied?null:best;}
  function isOrdered(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement';}
  function drawCutPrev(){if(!cutPrev)return;var r=roleSel.value;
@@ -2473,8 +2573,8 @@ function initGrid(rootId, DATA){
    if(all.length){
     rc.innerHTML=all.map(function(a){var k=assignments.indexOf(a);var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
      return '<b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.isub?('/'+a.isub):'')+(a.rule?('/'+a.rule):'')+'</b>';}).join(' + ');
-    var ap=null;for(var q=0;q<all.length;q++){if(isPiece(all[q].role)||all[q].role==='deletion'){ap=all[q];break;}}
-    bc.innerHTML=ap?(isPiece(ap.role)?((ap.value||'')+(ap.xf?(' <span style="color:#b45309">'+xfShort(ap.xf)+'</span>'):(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):''))+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
+    var ap=null;for(var q=0;q<all.length;q++){if(isPiece(all[q].role)||all[q].role==='deletion'||all[q].role==='shifted'){ap=all[q];break;}}
+    bc.innerHTML=ap?((ap.role==='shifted')?('<span style="color:#c2410c">'+(ap.value||'')+' moves</span>'):isPiece(ap.role)?((ap.value||'')+(ap.xf?(' <span style="color:#b45309">'+xfShort(ap.xf,ap.value)+'</span>'):(ap.cut?(' <span style="color:#b45309">&minus;'+ap.cut+'</span>'):''))+(ap.pos&&ap.pos.length?(' <span style="color:#64748b">@'+ap.pos.slice().sort(function(x,y){return x-y;}).join(',')+'</span>'):'')):('<span style="color:#b45309">&minus;'+(ap.value||'')+'</span>')):'';
     tr.style.background='#f8fafc';
    }else{var c=DATA.current[i]||{};
     rc.innerHTML='<span style="color:#94a3b8">'+(c.label||'—')+'</span>';
@@ -2486,7 +2586,7 @@ function initGrid(rootId, DATA){
  function drawList(){
   listDiv.innerHTML=assignments.map(function(a,k){
    var col=isPiece(a.role)?pcCol(k):(ROLECOL[a.role]||'#334155');
-   var v=isPiece(a.role)?(' = '+a.value+(a.xf?(' '+xfShort(a.xf)):(a.cut?(' &minus;'+a.cut):''))+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):(a.role==='deletion'?(' &minus;'+(a.value||'')):''));
+   var v=isPiece(a.role)?(' = '+a.value+(a.xf?(' '+xfShort(a.xf,a.value)):(a.cut?(' &minus;'+a.cut):''))+(a.pos&&a.pos.length?(' @'+a.pos.slice().sort(function(x,y){return x-y;}).join(',')):'')):((a.role==='indicator')?(' ('+a.itype+(a.isub?('/'+a.isub):'')+')'):((a.role==='deletion'||a.role==='shifted')?((a.role==='shifted'?' = ':' &minus;')+(a.value||'')):''));
    return '<span class="g-tag" style="border-color:'+col+'"><b style="color:'+col+'">'+(a.role==='definition'&&a.dkind==='dbe'?'definition by example':(a.role==='synbyexample'?'synonym by example':a.role))+(a.rule?('/'+a.rule):'')+'</b> '+phraseOf(a.idx)+v+' <a href="#" data-k="'+k+'" class="g-rm">×</a></span>';
   }).join('');
   Array.prototype.slice.call(listDiv.querySelectorAll('.g-rm')).forEach(function(x){x.onclick=function(e){e.preventDefault();assignments.splice(+x.dataset.k,1);drawRows();drawList();drawTiles();saveAssignments();};});
@@ -2503,7 +2603,7 @@ function initGrid(rootId, DATA){
   roleFields();
   if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
   if(a.role==='definition'&&dkind)dkind.value=a.dkind||'def';
-  if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='selection'||a.role==='spoonerism')addInp.value=a.value||'';
+  if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='shifted'||a.role==='selection'||a.role==='spoonerism')addInp.value=a.value||'';
   if(cutEl)cutEl.value=a.cut||'';
   selPos=(a.pos||[]).slice();
   updateBar();
@@ -2532,12 +2632,12 @@ function initGrid(rootId, DATA){
   if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
   if(selrule)selrule.style.display=(r==='selection')?'':'none'; // the selection rule picker
   fillSub();                                                    // data-driven sub-type dropdown
-  candWrap.style.display=((isPiece(r)&&r!=='anagram'&&r!=='homophone')||r==='deletion')?'':'none'; // deletion = type; homophone = tiles
+  candWrap.style.display=((isPiece(r)&&r!=='anagram'&&r!=='homophone')||r==='deletion'||r==='shifted')?'':'none'; // deletion/shifted = type; homophone = tiles
   if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='selection')?'derived from the word by the rule':((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value'))));
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?'derived from the word by the rule':((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value')))));
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
@@ -2585,6 +2685,11 @@ function initGrid(rootId, DATA){
     if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
     a.cut=cut;}}
   if(r==='letters'||r==='replacement'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
+  if(r==='letters'&&a.value){          // a literal is the WORD'S letters, in the WORD'S order:
+   var own=fodderLetters(idx),got=foldLetters(a.value);   // typing them re-ordered to match the
+   if(own&&got!==own&&got.split('').sort().join('')===own.split('').sort().join('')){ // tiles makes
+    note('a literal piece is the word\\u2019s own letters in its own order — type '+own+   // the piece
+     ', not '+got+'. If they land somewhere else, click the tiles they reach.');return;}}  // lie
   if(r==='selection'){var sfl=fodderLetters(idx),srl=selrule?selrule.value:'';
    var scands=selCandsApos(idx,srl);
    if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
@@ -2594,6 +2699,11 @@ function initGrid(rootId, DATA){
   if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
+  // A word that NAMES a letter which MOVES (tense -> T, Romeo -> R, exchanged by "exchanges").
+  // No tiles: the letter is already on the board inside the piece that was shifted — this word
+  // says WHICH letter moved, it does not supply one. Same shape as the named deletion above.
+  if(r==='shifted'){var sv2=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+   if(!sv2){note('type the letter this word names, e.g. tense = T');return;}a.value=sv2;}
   if(r==='spoonerism'){var spv=(addInp.value||'').trim().toUpperCase();   // vetted sound pair:
    if(!spv){note('type the FULL source phrase (e.g. THE DEAR YACHT)');return;}a.value=spv;
    if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // covers the whole answer
@@ -2624,7 +2734,7 @@ function initGrid(rootId, DATA){
     var xf=xfFor(a.value,(a.cut||''),tls);
     if(!xf){note(a.value+(a.cut?(' −'+a.cut):'')+' does not make '+tls+
       ' — check the tiles, or name the letters to delete in the cut box. A piece may be '+
-      'cut, shifted or reversed, but WHICH it was has to be recorded.');return;}
+      'cut, exchanged, shifted or reversed, but WHICH it was has to be recorded.');return;}
     a.xf=xf;}
    if(r==='anagram'){                                           // fodder must CONTAIN the tiles;
     var ts=msort(a.pos.map(function(p){return DATA.answer[p-1];}).join(''));  // surplus = a deletion
@@ -2727,18 +2837,24 @@ function initGrid(rootId, DATA){
     setTimeout(function(){window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
   }).catch(function(){cmsg.textContent='CD failed (network)';cmsg.style.color='#dc2626';});});
- /* INVALID needs a comment, set in ONE action: show the reason box only for INVALID and
-    block the submit (with an error) if it's empty — the server enforces the same rule. */
+ /* INVALID and REVERSE ANAGRAM each need a comment, set in ONE action: show the comment box
+    for those two only and block the submit (with an error) if it's empty — the server
+    enforces the same rule. A reverse anagram also carries the grid's assignments, so the
+    definition ticked on screen is the one kept. */
  var sSel=root.querySelector('#g-status-sel');
  var sForm=root.querySelector('#g-status-form');
- var sRea=root.querySelector('#g-invalid-reason');
+ var sRea=root.querySelector('#g-status-reason');
  var sErr=root.querySelector('#g-status-err');
- function syncReason(){if(sRea)sRea.style.display=(sSel&&sSel.value==='invalid')?'block':'none';if(sErr)sErr.textContent='';}
+ var sPay=root.querySelector('#g-status-payload');
+ function needsComment(v){return v==='invalid'||v==='reverse_anagram';}
+ function syncReason(){if(sRea)sRea.style.display=(sSel&&needsComment(sSel.value))?'block':'none';if(sErr)sErr.textContent='';}
  if(sSel)sSel.addEventListener('change',syncReason);
  if(sForm)sForm.addEventListener('submit',function(e){
-  if(sSel&&sSel.value==='invalid'){
+  if(sPay)sPay.value=(sSel&&sSel.value==='reverse_anagram')?JSON.stringify(assignments):'';
+  if(sSel&&needsComment(sSel.value)){
    var ta=sRea?sRea.querySelector('textarea'):null;
-   if(!ta||!ta.value.trim()){e.preventDefault();if(sErr)sErr.textContent='INVALID needs a comment — add a reason first.';if(ta)ta.focus();}
+   var lab=(sSel.value==='invalid')?'INVALID':'REVERSE ANAGRAM';
+   if(!ta||!ta.value.trim()){e.preventDefault();if(sErr)sErr.textContent=lab+' needs a comment — add one first.';if(ta)ta.focus();}
   }
  });
  /* An assignment saved BEFORE pieces recorded their transform (2026-08-17) carries a
@@ -2755,6 +2871,23 @@ function initGrid(rootId, DATA){
   if(foldLetters(a.value)===tls)return;                         // landed unchanged: nothing to record
   var xf=xfFor(a.value,(a.cut||''),tls);
   if(xf)a.xf=xf;
+ });
+ /* SPLIT A WORD: the form posts the TICKED word's index with the typed first part. Exactly
+    one word, and it must not already carry assignments elsewhere in the list — the server
+    re-maps saved work by atoms, but the split word's own role would end up on both halves,
+    so say what will happen rather than surprise them. */
+ var splitForm=root.querySelector('#g-splitform');
+ if(splitForm)splitForm.addEventListener('submit',function(e){
+  var idx=checkedIdx(), msg=root.querySelector('#g-splitmsg');
+  if(idx.length!==1){e.preventDefault();
+   if(msg){msg.style.color='#dc2626';msg.textContent='tick exactly one word to split';}return;}
+  var part=(root.querySelector('#g-splitpart').value||'').trim();
+  var word=DATA.words[idx[0]]||'';
+  if(!part||part.length>=word.length||word.slice(0,part.length).toLowerCase()!==part.toLowerCase()){
+   e.preventDefault();
+   if(msg){msg.style.color='#dc2626';
+    msg.textContent='“'+part+'” does not start “'+word+'” — type its first part';}return;}
+  root.querySelector('#g-splitidx').value=idx[0];
  });
  drawRows();drawList();drawTiles();updateBar();roleFields();
 }
@@ -2910,10 +3043,12 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
         filler = store.get_clue_filler(conn, clue_id)
         saved = store.get_hs_assignments(conn, clue_id)   # restore prior assignments
         note = store.get_note(conn, clue_id)              # restore the user note
+        splits = store.get_word_splits(conn, clue_id)     # human splits of solid words
     finally:
         conn.close()
-    rows = _word_roles(ctx, parse, filler, split_hyphens=True)  # [{idx,text,role,label,value}];
-                                                  # hyphenated words split so each part gets a role
+    rows = _word_roles(ctx, parse, filler, split_hyphens=True, splits=splits)
+                                                  # [{idx,text,role,label,value}]; hyphenated
+                                                  # AND human-split words each get their own row
     back = back_raw or str(clue_id)
     try:
         saved_list = json.loads(saved) if saved else []
@@ -2953,8 +3088,11 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
 
     if parse is not None:
         screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
+        # `note` is passed as the comment so this card is IDENTICAL to the one the public
+        # page renders (core.wfw_card.stored_card does the same): a reverse anagram carries
+        # its explanation in the comment, and the author must see exactly what the reader will.
         card = (screen(ctx, parse) if screen else
-                wfw_render.render_parse(parse, ctx=ctx,
+                wfw_render.render_parse(parse, ctx=ctx, comment=note,
                                         clue_line_html=_manual_hidden_line(ctx, parse)))
     else:
         card = '<p>Not solved yet — assign roles and Resolve.</p>'
@@ -2967,6 +3105,21 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
     ctx_hidden = ('<input type="hidden" name="src" value="%s">'
                   '<input type="hidden" name="pnum" value="%s">'
                   % (escape(psrc or "", quote=True), ppnum or ""))
+    # An "undo" per split word, so a mis-typed split is one click to reverse.
+    split_undo = ""
+    if splits:
+        _tok = {t.index: t.text for t in ctx.clue_tokens}
+        split_undo = "".join(
+            '<form method="post" action="/hssplit" style="display:inline;margin-left:.5rem">'
+            '<input type="hidden" name="only" value="%d">'
+            '<input type="hidden" name="from" value="%s">%s'
+            '<input type="hidden" name="undo" value="%d">'
+            '<button type="submit" style="background:none;border:none;color:#2563eb;'
+            'cursor:pointer;font-size:.85rem;padding:0;text-decoration:underline">'
+            'join &ldquo;%s&rdquo; back up</button></form>'
+            % (clue_id, escape(back, quote=True), ctx_hidden, ti,
+               escape(_tok.get(ti, "word")))
+            for ti in sorted(splits))
     strip_html = ""
     if psrc and ppnum:
         strip_html = _hs_puzzle_context(clue_id, psrc, ppnum, back)
@@ -2990,11 +3143,17 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
                     % (_hsarrow(prev_id, "&larr; prev clue"), pos + 1, len(clutch_ids),
                        _hsarrow(next_id, "next clue &rarr;")))
     cur_status = parse.status if parse is not None else ""
+    # A filed REVERSE ANAGRAM is a PASS, but showing "PASS" would hide WHICH kind it is
+    # and lose the comment box on a revisit. Select the clue type instead.
+    if parse is not None and (parse.operation or "") == "reverse_anagram":
+        cur_status = "reverse_anagram"
     status_opts = "".join(
         '<option value="%s"%s>%s</option>'
         % (v, " selected" if v == cur_status else "", lab)
         for v, lab in (("pass", "PASS"), ("pending", "PENDING"), ("fail", "FAIL"),
-                       ("invalid", "INVALID (missing indicator/operation)")))
+                       ("invalid", "INVALID (missing indicator/operation)"),
+                       ("reverse_anagram",
+                        "REVERSE ANAGRAM (the answer is the wordplay)")))
     ans_tiles = "".join(
         '<span class="g-atile" data-pos="%d" style="display:inline-flex;align-items:center;'
         'justify-content:center;min-width:1.7rem;height:2.1rem;margin:.12rem;border:2px solid '
@@ -3053,6 +3212,7 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="selection">selection (letters from word)</option>'
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
+         '<option value="shifted">letter shift (named letter)</option>'
          '<option value="spoonerism">spoonerism (source phrase)</option>'
          '<option value="homophone">homophone (sounds like)</option>'
          '<option value="indicator">indicator</option>'
@@ -3089,6 +3249,24 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<span id="g-msg" style="color:#dc2626;font-size:.85rem"></span>',
          '</div>',
          '<div id="g-list" class="g-list"></div>',
+         # SPLIT A SOLID WORD (user request 2026-08-17): "fightback" is one word doing two
+         # jobs — fight = WAR, back = the reversal. Type the first part; the break can only
+         # fall between two of that word's own letters. A page action, not an assignment:
+         # it POSTs, stores, and reloads with the word as two rows.
+         '<div style="margin:.6rem 0;padding:.5rem;border:1px solid #e2e8f0;'
+         'border-radius:6px;background:#fafafa">'
+         '<form method="post" action="/hssplit" id="g-splitform" style="display:inline">'
+         '<input type="hidden" name="only" value="%d">'
+         '<input type="hidden" name="from" value="%s">%s'
+         '<input type="hidden" name="idx" id="g-splitidx">'
+         '<b>Split a word</b> <span style="color:#64748b;font-size:.85rem">'
+         '(one word doing two jobs &mdash; fightback = fight + back)</span><br>'
+         'Tick the word, then type its first part '
+         '<input name="part" id="g-splitpart" size="14" placeholder="e.g. fight"> '
+         '<button type="submit" id="g-splitgo">Split</button> '
+         '<span id="g-splitmsg" style="color:#64748b;font-size:.85rem"></span>'
+         '</form>%s</div>'
+         % (clue_id, escape(back, quote=True), ctx_hidden, split_undo),
          '<div style="margin:.6rem 0;padding:.5rem;border:1px solid #e2e8f0;'
          'border-radius:6px;background:#fafafa">'
          '<b>Delete a DB entry</b> <span style="color:#64748b;font-size:.85rem">'
@@ -3163,18 +3341,25 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'border-radius:8px;padding:.3rem .75rem;font-weight:700;cursor:pointer">'
          'Set status</button>',
          '<span style="font-size:.78rem;color:#94a3b8">INVALID = unsolvable as written; '
-         'the mark is frozen so it sticks.</span>',
+         'REVERSE ANAGRAM = the answer, read as wordplay, makes a phrase in the clue. '
+         'The mark is frozen so it sticks.</span>',
          '<span id="g-status-err" style="font-size:.85rem;color:#dc2626;font-weight:700">'
          '</span>',
-         # INVALID reason — required, and saved WITH the status in this one submit (the
-         # server refuses INVALID with no comment). Shown only when INVALID is selected.
-         '<div id="g-invalid-reason" style="display:%s;width:100%%;margin-top:.15rem">'
-         % ("block" if cur_status == "invalid" else "none"),
-         '<textarea name="note" rows="2" placeholder="Required for INVALID: why can this '
-         'clue not be solved as written?" style="width:100%%;max-width:46rem;box-sizing:'
-         'border-box;border:1px solid #cbd5e1;border-radius:8px;padding:.4rem;'
+         # The comment — required for INVALID and for REVERSE ANAGRAM, and saved WITH the
+         # status in this one submit (the server refuses either with no comment). Shown
+         # only when one of those two is selected. For a reverse anagram the comment is
+         # the clue's PUBLIC explanation, so the placeholder says so.
+         '<div id="g-status-reason" style="display:%s;width:100%%;margin-top:.15rem">'
+         % ("block" if cur_status in ("invalid", "reverse_anagram") else "none"),
+         '<textarea name="note" rows="2" placeholder="Required. INVALID: why can this clue '
+         'not be solved as written? REVERSE ANAGRAM: how the answer produces the clue\'s '
+         'phrase — this is what the reader sees." style="width:100%%;max-width:46rem;'
+         'box-sizing:border-box;border:1px solid #cbd5e1;border-radius:8px;padding:.4rem;'
          'font-family:inherit;font-size:.95rem">%s</textarea>' % escape(note),
          '</div>',
+         # The grid's live assignments, so filing a REVERSE ANAGRAM can keep the definition
+         # the user has just ticked (filled by the JS on submit; empty for every other verdict).
+         '<input type="hidden" name="payload" id="g-status-payload" value="">',
          '</form>',
          '<form method="post" action="/hsnote" style="margin:.5rem 0">',
          '<input type="hidden" name="only" value="%d">' % clue_id,
@@ -3794,6 +3979,115 @@ def hsnote_route():
     return _hs_redirect(only, "Note saved." if note else "Note cleared.", back)
 
 
+def _remap_assignments(saved_json, ctx, splits_before, splits_after):
+    """Move a saved assignment list from one word numbering to another, BY ATOMS.
+
+    Splitting a word inserts a row, so every later word index shifts and a saved reading
+    would silently point at the wrong words. The atoms don't move, so each assignment's
+    words are re-found by the characters they covered. A role that covered the whole word
+    now covers BOTH parts — which is the honest starting point (the user split it precisely
+    to give the halves different jobs, and edits them next). Returns the new JSON."""
+    import json
+    try:
+        assigns = json.loads(saved_json) if saved_json else []
+    except (ValueError, TypeError):
+        return saved_json
+    if not assigns:
+        return saved_json
+    old_units = _hs_word_units(ctx, splits_before)
+    new_units = _hs_word_units(ctx, splits_after)
+    for a in assigns:
+        if not isinstance(a, dict):
+            continue
+        atoms = set()
+        for i in (a.get("idx") or []):
+            try:
+                i = int(i)
+            except (TypeError, ValueError):
+                continue
+            if 0 <= i < len(old_units):
+                atoms.update(old_units[i].atom_ids)
+        if not atoms:
+            continue
+        a["idx"] = [j for j, u in enumerate(new_units) if atoms.intersection(u.atom_ids)]
+    return json.dumps(assigns)
+
+
+@app.route("/hssplit", methods=["POST"])
+def hssplit_route():
+    """Split ONE clue word into parts that take their own roles: "fightback" -> "fight"
+    (synonym WAR) + "back" (reversal indicator). The user types the FIRST part; the split
+    point is where that part ends, so it can only ever fall between two of the word's own
+    letters. Stored per clue (core.store.add_word_split) because the /hs grid and the commit
+    gate both number the clue's words, and a split that is not stored would renumber them.
+    Any saved assignments are re-mapped by atoms so existing work survives."""
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _hs_redirect(only, "No clue.", back)
+    clue_text, answer, _src, _pnum, direction, enumeration, _cnum = row
+    ctx = build_wfw_atom_context(clue_text, enum_space(answer, enumeration),
+                                 direction=direction)
+    conn = store.connect()
+    try:
+        splits = store.get_word_splits(conn, cid)
+    finally:
+        conn.close()
+    units = _hs_word_units(ctx, splits)
+
+    if (request.form.get("undo") or "").strip():
+        try:
+            ti = int(request.form.get("undo"))
+        except ValueError:
+            return _hs_redirect(only, "Bad word.", back)
+        after = {k: v for k, v in splits.items() if k != ti}
+        conn = store.connect()
+        try:
+            saved = store.get_hs_assignments(conn, cid)
+            store.clear_word_split(conn, cid, ti)
+            if saved:
+                store.set_hs_assignments(
+                    conn, cid, _remap_assignments(saved, ctx, splits, after))
+        finally:
+            conn.close()
+        return _hs_redirect(only, "Word joined up again.", back)
+
+    part = (request.form.get("part") or "").strip()
+    try:
+        idx = int(request.form.get("idx"))
+    except (TypeError, ValueError):
+        return _hs_redirect(only, "Tick exactly one word to split.", back)
+    if not (0 <= idx < len(units)) or units[idx].is_symbol:
+        return _hs_redirect(only, "Tick exactly one word to split.", back)
+    u = units[idx]
+    if not part:
+        return _hs_redirect(only, "Type the first part (e.g. fight).", back)
+    if len(part) >= len(u.text) or u.text[:len(part)].lower() != part.lower():
+        return _hs_redirect(
+            only, "%r does not start %r — type the first part of the word, e.g. fight "
+            "for fightback." % (part, u.text), back)
+    ti, off = u.token_index, (u.offset or 0) + len(part)
+    if ti is None:
+        return _hs_redirect(only, "That word cannot be split.", back)
+    after = {k: list(v) for k, v in splits.items()}
+    after.setdefault(ti, []).append(off)
+    conn = store.connect()
+    try:
+        saved = store.get_hs_assignments(conn, cid)
+        store.add_word_split(conn, cid, ti, off)
+        if saved:
+            store.set_hs_assignments(
+                conn, cid, _remap_assignments(saved, ctx, splits, after))
+    finally:
+        conn.close()
+    return _hs_redirect(only, "Split into %s + %s — give each part its own role."
+                        % (u.text[:len(part)], u.text[len(part):]), back)
+
+
 def _note_block(clue_id, raw_list, editor=True):
     """The user-facing comment for a clue. `editor=False` (the view-only clue page) shows
     ONLY the saved comment — editing lives in the hand-solver (same wfw_notes store).
@@ -3838,9 +4132,14 @@ def hsstatus_route():
     back = (request.form.get("from") or only).strip()
     status = (request.form.get("status") or "").strip()
     note = (request.form.get("note") or "").strip()
-    if not only.isdigit() or status not in ("pass", "pending", "fail", "invalid"):
+    if not only.isdigit() or status not in ("pass", "pending", "fail", "invalid",
+                                            "reverse_anagram"):
         return _hs_redirect(only, "No clue/status.", back)
     cid = int(only)
+    # REVERSE ANAGRAM is not a verdict but a CLUE TYPE filed from the same control (it lands
+    # as a PASS) — it writes its own parse, so it takes a different path from here.
+    if status == "reverse_anagram":
+        return _file_reverse_anagram(cid, note, request.form.get("payload") or "", back)
     # INVALID must carry a comment explaining why the clue can't be solved as written — and
     # it is set + saved in this one action. Refuse (status unchanged) if no comment.
     if status == "invalid" and not note:
@@ -3867,6 +4166,91 @@ def hsstatus_route():
     _capture_signature_review(cid, status)   # log pending-only sig reviews (as /setstatus)
     return _hs_redirect(only, "Status set to %s (frozen so it sticks)." % status.upper(),
                         back)
+
+
+def _file_reverse_anagram(cid, note, payload, back):
+    """REVERSE ANAGRAM (user design 2026-08-20) — the answer is needed to obtain the answer.
+
+    Read as WORDPLAY, the answer produces a phrase written in the clue: TELEGRAPH 31323 23a
+    'Bar cryptic indication of "huts"' = SHUT OUT, because SHUT anagrammed ("out") gives
+    HUTS. No clue word supplies an answer letter, so there is nothing for the engines or the
+    grid to assemble and no piece chain to render.
+
+    Filed in ONE action, exactly like INVALID: pick REVERSE ANAGRAM, write the comment that
+    explains the mechanism, Set status. Unlike INVALID the clue is SOUND — it is stored as a
+    PASS with operation='reverse_anagram', so it serves publicly like any other pass and no
+    serving query changes. The comment IS the public explanation and the clue-type badge
+    names the mechanism, so no banner is shown (user decision).
+
+    The clue still ENDS WITH A DEFINITION — the definition ticked on the grid, or the one
+    already stored — and EVERY other role is dropped: save_parse rewrites the pieces and
+    links, and the grid's saved assignment is reduced to the definition alone so a later
+    rebuild cannot resurrect the discarded reading."""
+    import json
+    if not note:
+        return _hs_redirect(cid, "REVERSE ANAGRAM needs a comment — status not changed. "
+                                 "Explain how the answer, read as wordplay, produces the "
+                                 "clue's phrase.", back)
+    row = _load_clue(cid)
+    if row is None:
+        return _hs_redirect(cid, "No clue.", back)
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    conn = store.connect()
+    try:
+        splits = store.get_word_splits(conn, cid)   # the SAME word numbering the grid showed
+        stored = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    wt = _hs_word_units(ctx, splits)
+    from core.wfw_model import Source, Parse
+    definition, keep = None, []
+    try:
+        assigns = json.loads(payload) if payload else []
+    except Exception:
+        assigns = []
+    for a in assigns:
+        if not isinstance(a, dict) or (a.get("role") or "").strip() != "definition":
+            continue
+        try:
+            idx = sorted(int(i) for i in a.get("idx", []) if 0 <= int(i) < len(wt))
+        except Exception:
+            idx = []
+        if not idx:
+            continue
+        definition = Source(
+            clue_atom_ids=tuple(aid for i in idx for aid in wt[i].atom_ids),
+            text=" ".join(wt[i].text for i in idx), value=_raw_letters(answer),
+            mechanism=("definition_by_example"
+                       if (a.get("dkind") or "").strip() == "dbe" else "definition"),
+            source="manual")
+        keep = [a]
+        break
+    if definition is None and stored is not None and stored.definition is not None:
+        definition = stored.definition          # the definition already on the clue
+    if definition is None:
+        return _hs_redirect(cid, "Not filed — no definition. A reverse anagram still ends "
+                                 "with one: tick the definition word(s), Assign, then set "
+                                 "the status.", back)
+    parse = Parse(clue_text=clue_text, answer_text=answer, sources=[], links=[],
+                  annotations=[], definition=definition, operation="reverse_anagram",
+                  solved_by="manual", status="pass")
+    conn = store.connect()
+    try:
+        # ctx is passed so wfw_solve.atoms is stored: the public overlay renders from those
+        # atoms and shows nothing without them.
+        store.save_parse(conn, cid, parse, ctx)   # replaces every stored piece and link
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)               # the human's verdict must stick
+        store.set_note(conn, cid, note)           # the comment, saved in the same action
+        store.set_hs_assignments(conn, cid, json.dumps(keep) if keep else "")
+        conn.commit()
+    finally:
+        conn.close()
+    _capture_signature_review(cid, "pass")        # log pending-only sig reviews, as /hsstatus
+    return _hs_redirect(cid, "Filed as a REVERSE ANAGRAM — PASS (frozen). Definition %r "
+                             "kept; every other role removed." % definition.text, back)
 
 
 @app.route("/hscd", methods=["POST"])
@@ -4907,6 +5291,44 @@ def _promote_double_definition(parse, db_adds):
             db_adds[i] = ("definition", add[1], add[2])
 
 
+def _named_shift_accounts(assigns, ans_letters, wt):
+    """True when a NAMED letter shift accounts for this whole reading.
+
+    The test is arithmetic, not trust: join the letter-placing pieces IN CLUE
+    ORDER, exchange the two letters the clue NAMES (the 'shifted' tags), and the
+    result must be the answer EXACTLY. If it is not, this returns False and every
+    piece faces the ordinary per-piece gate — a reading is never waved through
+    because it mentions an exchange."""
+    named = [a for a in assigns if (a.get("role") or "") == "shifted"]
+    has_ind = any((a.get("role") or "") == "indicator"
+                  and (a.get("itype") or "").split(":")[0] == "letter_shift"
+                  and (a.get("isub") or "") == "named" for a in assigns)
+    if not has_ind or len(named) != 2:
+        return False
+    letters = [(_raw_letters(a.get("value") or "")) for a in named]
+    if not all(len(x) == 1 for x in letters):
+        return False
+
+    def first_word(a):
+        idx = [i for i in (a.get("idx") or []) if 0 <= i < len(wt)]
+        return min(idx) if idx else 10 ** 6
+
+    pieces = sorted((a for a in assigns
+                     if (a.get("role") or "") in ("letters", "synonym", "substitution",
+                                                  "replacement", "selection")),
+                    key=first_word)
+    joined = "".join(_raw_letters(a.get("value") or "") for a in pieces)
+    if not joined or sorted(joined) != sorted(ans_letters):
+        return False
+    a1, a2 = letters
+    i, j = joined.find(a1), joined.find(a2)
+    if i < 0 or j < 0:
+        return False
+    b = list(joined)
+    b[i], b[j] = b[j], b[i]
+    return "".join(b) == ans_letters
+
+
 def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     """Build + VALIDATE a manual Parse from /hs grid assignments. THE single source
     of truth for manual-reading validation (tile coverage, word coverage, fodder
@@ -4932,8 +5354,22 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     clue_text, answer, src, pnum, direction, enumeration, cnum = row
     answer = enum_space(answer, enumeration)
     ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
-    wt = _hs_word_units(ctx)                       # hyphenated words split (line-up -> line + up)
-                                                   # so payload word-indices align with the /hs grid
+    _conn = store.connect()                        # the SAME word numbering the /hs grid showed:
+    try:                                           # hyphens always, plus this clue's human splits
+        _splits = store.get_word_splits(_conn, cid)   # (fightback -> fight + back). Read here or a
+    finally:                                       # split reading's word indices would not line up
+        _conn.close()
+    wt = _hs_word_units(ctx, _splits)
+    # A NAMED letter shift operates on the WHOLE assembly, not on one piece: in
+    # "Romeo's friend met Curio after tense exchanges with Romeo" the T comes from
+    # `met` and the R from `Curio`, and they trade places ACROSS the join. Each piece
+    # is then correct but its letters land scattered, so the per-piece transform gate
+    # below would refuse a true reading. Work out ONCE, before the loop, whether such
+    # a shift accounts for the whole assembly — PROVEN by arithmetic, never assumed —
+    # and let it excuse the per-piece check when it does. (user-reported 2026-08-18:
+    # filing met and Curio as the separate pieces they are produced the nonsense
+    # "MET around (RCUIO -IO) + RCUIO around (MET -ME)".)
+    _named_ok = _named_shift_accounts(assigns, _raw_letters(answer), wt)
     ans_letters = _raw_letters(answer)
     N = len(ans_letters)
 
@@ -4982,6 +5418,27 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 value = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
             if role == "anagram" and not value:            # fodder = the ticked clue words' letters
                 value = _raw_letters(phrase)      # folds diacritics, as the atom layer does
+            # A LITERAL piece never RE-ORDERS its word's letters. Typing them shuffled to
+            # match where they land ("Curio" as RCUIO) makes the piece assert something
+            # false — Curio does not mean RCUIO — and every later reader works from the
+            # value, so the card then prints nonsense. Refuse it and say what to type
+            # instead.
+            # This is a rule about ORDER ONLY, not about WHICH letters a literal names.
+            # A shorter value is a deletion (the cut box), a different value is a synonym,
+            # and a piece spanning a HIDDEN run names THE RUN — one piece across the host
+            # words, never one piece per word cut down to its share. Read as a rule about
+            # which letters, it breaks every hidden clue: the nightly prefill read it that
+            # way on its first run after this guard landed and filed all four of
+            # 2026-08-19's hidden clues as per-word pieces with cuts, so TELEGRAPH 31322
+            # 29a ENTENTE rendered "BETWEEN -BETWE + TEN + TEAMS -AMS" with the run unlit.
+            if role == "letters" and value and _raw_letters(phrase):
+                _own = _raw_letters(phrase)
+                if value != _own and sorted(value) == sorted(_own):
+                    return {"ok": False, "msg": "%r is a literal piece, so its letters keep "
+                            "their own order — type %s, not %s. If the letters land somewhere "
+                            "else (an exchange, a reversal), place them on the tiles they "
+                            "reach; the value still spells the word."
+                            % (phrase, _own, value)}
             if role == "selection":                        # derived letters — validate vs the rule
                 rule = (a.get("rule") or "").strip()       # so a selection can never be free-typed
                 cands = _selection_candidates(phrase, rule)
@@ -5003,7 +5460,13 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 # Now the recorded transform must reproduce the tiles or the piece is refused.
                 got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
                 xform = piece_transform.coerce(a.get("xf"))
-                if not piece_transform.places(value, xform, got):
+                # A PROVEN named shift already accounts for this piece's letters at
+                # assembly level (see _named_shift_accounts) — its own letters are
+                # right, they simply land displaced by the exchange. Only the piece's
+                # letters must still be the ones it owns.
+                if _named_ok and sorted(got) == sorted(_raw_letters(value)):
+                    pass
+                elif not piece_transform.places(value, xform, got):
                     from collections import Counter
                     missing = Counter(got) - Counter(c for c in value if c.isalpha())
                     if missing:
@@ -5301,6 +5764,18 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 value = _raw_letters(phrase)      # folds diacritics, as the atom layer does
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="deletion",
                                            note="deleted letters: %s" % value, source="manual"))
+        elif role == "shifted":        # a word that NAMES a letter which MOVES within a piece
+            # ("tense" -> T, "Romeo" -> R, traded by "exchanges"). It places NO tiles: the
+            # letter is already on the board inside the shifted piece, whose recorded swap
+            # says which letters moved. This word only says WHICH — it supplies nothing. Same
+            # letterless shape as the named deletion above, so word coverage passes and no
+            # answer letter is double-counted.
+            value = (a.get("value") or "").strip().upper()
+            if not value:
+                return {"ok": False, "msg": "%r is tagged as a named letter-shift but names "
+                        "no letter — type the letter it names (e.g. tense = T)." % phrase}
+            annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="shifted",
+                                           note="letter moved: %s" % value, source="manual"))
         elif role in ("link", "filler", "synbyexample"):
             # All three are accounted-but-letterless: the word gets a role="link" annotation
             # so "every word must have a role" passes. The NOTE carries the accurate label —

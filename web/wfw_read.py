@@ -45,6 +45,7 @@ _OP_LABEL = {
     "alternation": "Alternation",
     "palindrome": "Palindrome",
     "spoonerism": "Spoonerism",
+    "reverse_anagram": "Reverse anagram",
 }
 
 # Mechanism words recognised inside compound engine operation names
@@ -123,10 +124,20 @@ def _load(clue_id):
             links = db.execute(
                 "SELECT answer_pos, source_index, transform FROM wfw_link "
                 "WHERE clue_id = ? ORDER BY answer_pos", (clue_id,)).fetchall()
+            # The reviewer's comment. A REVERSE ANAGRAM has no chain of pieces to
+            # summarise — the answer read as wordplay produces a phrase in the clue —
+            # so the comment IS its explanation and the overlay must have it. Read for
+            # every parse (one small keyed lookup) so the summary can use it directly.
+            try:
+                _note = db.execute("SELECT note FROM wfw_notes WHERE clue_id = ?",
+                                   (clue_id,)).fetchone()
+            except sqlite3.OperationalError:
+                _note = None          # no notes table here: a parse must still load
             parse = {
                 "operation": row["operation"] or "",
                 "solved_by": row["solved_by"] or "",
                 "answer_text": row["answer_text"] or "",
+                "comment": ((_note["note"] or "").strip() if _note else ""),
                 "definitions": [p for p in map(dict, pieces)
                                 if p["role"] == "definition"],
                 "sources": sorted(
@@ -135,6 +146,11 @@ def _load(clue_id):
                     key=lambda p: p["ord"]),
                 "indicators": [p for p in map(dict, pieces)
                                if p["role"] == "indicator"],
+                # A word that NAMES a letter which moves ("tense" -> T, traded by
+                # "exchanges"). It places no tiles, so it is not a source — but it IS
+                # part of the explanation and must not vanish from the reader's page.
+                "shifted": [p for p in map(dict, pieces)
+                            if p["role"] == "shifted"],
                 "links": [dict(l) for l in links],
             }
     except sqlite3.OperationalError:
@@ -185,7 +201,7 @@ def _definition(parse):
 # (&lit; a hidden word is never a charade). Mirrors core/wfw_render._ATOMIC_OPS.
 _ATOMIC_OPS = frozenset((
     "dd", "double_definition", "cd", "andlit", "continuation",
-    "hidden", "hidden_reversed"))
+    "hidden", "hidden_reversed", "reverse_anagram"))
 
 
 def _note_mech(note):
@@ -235,13 +251,21 @@ def _note_mechs(indicators):
 # Ops whose extra sources are NOT charade pieces, so a charade must NOT be inferred
 # when one is present (a false mechanism is worse than an incomplete one):
 #  - gather ops assemble several source WORDS into one gestalt (anagram of a phrase,
-#    acrostic of consecutive words, alternate letters of a run, a spoonerism /
-#    homophone of a two-word phrase);
+#    acrostic of consecutive words, alternate letters of a run, a spoonerism of a
+#    two-word phrase);
 #  - substitution / replacement swap one source's letters into another, they don't
 #    sit side by side.
-# Mirrors core/wfw_render._CHARADE_SUPPRESS.
+# HOMOPHONE is NOT here (user-reported 2026-08-20, EYEBALLING guardian 30090 11a =
+# EYE ["vote in favour", sounds like AYE] + BALLING ["outcry", sounds like BAWLING]).
+# A homophone piece is a WHOLE PIECE that sounds like something else, so two of them —
+# or one beside a synonym — sit side by side exactly as charade parts do; suppressing
+# the charade labelled the clue "Homophone" and a reader taking the clue-type hint was
+# misled about how the answer is built. Each sound belongs to ONE source (its own
+# 'sounds like' transform), so the join count cannot invent a charade out of one sound:
+# measured over all 6,590 stored solves, 37 labels gain the charade and every one has
+# genuinely separate pieces. Mirrors core/wfw_render._CHARADE_SUPPRESS.
 _CHARADE_SUPPRESS = frozenset((
-    "anagram", "acrostic", "alternation", "spoonerism", "homophone",
+    "anagram", "acrostic", "alternation", "spoonerism",
     "hidden", "palindrome", "cycling", "substitution", "replacement"))
 
 
@@ -333,6 +357,7 @@ _LETTER_SHIFT_DETAIL = {
     "first_end": "move first letter to end",
     "move_left": "move letter left",
     "move_right": "move letter right",
+    "named": "the named letters change places",
 }
 
 
@@ -350,6 +375,12 @@ def _letter_shift_note(indicators):
 def _summary(parse):
     op = parse["operation"]
     answer = parse["answer_text"].upper()
+    if op == "reverse_anagram":
+        # The answer is needed to obtain the answer: read as wordplay it produces a
+        # phrase in the clue. There is no piece assembly to print, so the reviewer's
+        # comment IS the explanation — shown as written, with no banner (the clue is
+        # sound and the clue-type label already names it). User decision 2026-08-20.
+        return parse.get("comment") or None
     if op == "cd":
         return "Cryptic definition — the whole clue is a playful definition of %s." % answer
     if op in ("dd", "double_definition"):
@@ -359,6 +390,9 @@ def _summary(parse):
                 " and ".join('"%s"' % t for t in d.split(" / ")), answer)
         return "Double definition — two meanings of %s." % answer
 
+    named = _named_shift_summary(parse)   # exchange ACROSS the join, not within a piece
+    if named:
+        return named
     segments = _segments(parse)
     if not segments:
         return None
@@ -371,6 +405,57 @@ def _summary(parse):
     if op == "andlit":
         line += " (and the whole clue defines it — &lit)"
     return line
+
+
+def _named_shift_proof(parse):
+    """(values-in-clue-order, joined, answer, letterA, letterB) when a NAMED letter
+    shift accounts for the whole assembly, else None. Mirrors
+    core/wfw_render._named_shift_proof — house rule: no core import, keep in step.
+
+    The shift crosses the pieces (the T from "met", the R from "Curio"), so it is
+    proved on the JOIN, not on any one piece: join the values in clue order,
+    exchange the two named letters, and the result must be the answer exactly."""
+    if not any("/named" in (i["note"] or "").lower()
+               and (i["note"] or "").lower().startswith(
+                   ("letter_shift", "letter-shift", "letter shift"))
+               for i in parse["indicators"]):
+        return None
+    named = sorted(parse.get("shifted") or [], key=lambda p: _clue_pos(p["atom_ids"]))
+    letters = []
+    for p in named:
+        note = p["note"] or ""
+        v = note.split(":", 1)[1].strip().upper() if ":" in note else ""
+        if len(v) == 1:
+            letters.append(v)
+    if len(letters) != 2:
+        return None
+    vals = [(s["value"] or "").upper()
+            for s in sorted(parse["sources"], key=lambda s: s.get("clue_pos", _UNPLACED))]
+    if not all(vals):
+        return None
+    joined = "".join(c for v in vals for c in v if c.isalpha())
+    answer = "".join(c for c in parse["answer_text"].upper() if c.isalpha())
+    if sorted(joined) != sorted(answer):
+        return None
+    a, b = letters
+    i, j = joined.find(a), joined.find(b)
+    if i < 0 or j < 0:
+        return None
+    sw = list(joined)
+    sw[i], sw[j] = sw[j], sw[i]
+    if "".join(sw) != answer:
+        return None
+    return vals, joined, answer, a, b
+
+
+def _named_shift_summary(parse):
+    """The one-line summary for a proven named shift, or None."""
+    proof = _named_shift_proof(parse)
+    if proof is None:
+        return None
+    vals, joined, answer, a, b = proof
+    return "%s → %s with %s and %s exchanged → %s" % (
+        " + ".join(vals), joined, a, b, answer)
 
 
 def _segments(parse):
@@ -495,6 +580,15 @@ def _anagram_desc(value, placed, has_ana, has_rev):
     return "anagram less %s" % removed if removed else "anagram"
 
 
+# Mechanisms that ACCOUNT FOR THEIR OWN LETTERS, so a difference between the value and
+# the letters placed is the mechanism doing its job, not something unexplained: an
+# anagram re-orders, a spoonerism and a homophone are sound (no per-letter provenance),
+# a hidden run can sit reversed inside its host, a selection takes what its rule takes.
+_SELF_EXPLAINING = frozenset((
+    "anagram_fodder", "spoonerism", "homophone", "hidden", "hidden_reversed",
+    "selection", "first_letter", "last_letter", "outer", "alternate", "acrostic"))
+
+
 def _describe(s, placed, transforms, has_ana=False, has_rev=False):
     """One piece as 'text→VALUE [anagram|reversed] [less X]' — mechanical, no prose."""
     if s is None:
@@ -552,10 +646,15 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
         missing = _removed(value, cmp_placed)
         if missing:
             base += " less %s" % missing
-        else:
+        elif mech not in _SELF_EXPLAINING:
             # Nothing recorded, and no single change explains the letters. Say so:
             # printing the bare value asserts it landed as written, which is how the
             # card came to spell LEMONETTE. (Mirrors the card's "not accounted for".)
+            # NOT for a piece whose MECHANISM already says what happened to its
+            # letters — an anagram's letters are re-ordered BY DEFINITION, a
+            # spoonerism and a homophone are sound, a hidden run may be reversed, a
+            # selection takes what its rule takes. Labelling those called 1,100
+            # perfectly good rows unaccounted for (user-reported 2026-08-18).
             base += " (not accounted for)"
     return base
 
@@ -588,9 +687,31 @@ def _xf_load(stored):
         if run:
             cuts.append({"letters": run, "at": at})
     shift = t.get("shift") if t.get("shift") in ("last_front", "first_end") else None
-    if not cuts and not t.get("rev") and not shift:
+    sw = t.get("swap")                        # two letters exchanged, by position
+    if isinstance(sw, dict):
+        try:
+            _i, _j = int(sw.get("i")), int(sw.get("j"))
+        except (TypeError, ValueError):
+            sw = None
+        else:
+            sw = None if (_i < 0 or _j < 0 or _i == _j) else {"i": min(_i, _j),
+                                                              "j": max(_i, _j)}
+    else:
+        sw = None
+    mv = t.get("move")                        # ONE letter lifted out and re-inserted
+    if isinstance(mv, dict):
+        try:
+            _f, _t = int(mv.get("from")), int(mv.get("to"))
+        except (TypeError, ValueError):
+            mv = None
+        else:
+            mv = None if (_f < 0 or _t < 0 or _f == _t) else {"from": _f, "to": _t}
+    else:
+        mv = None
+    if not cuts and not t.get("rev") and not shift and not sw and not mv:
         return {}
-    return {"cuts": cuts, "rev": bool(t.get("rev")), "shift": shift}
+    return {"cuts": cuts, "rev": bool(t.get("rev")), "shift": shift, "swap": sw,
+            "move": mv}
 
 
 def _xf_apply(value, t):
@@ -608,6 +729,27 @@ def _xf_apply(value, t):
         v = v[:at] + v[at + len(run):]
     if not v:
         return None
+    sw = t.get("swap")
+    if sw:
+        i, j = sw.get("i"), sw.get("j")
+        if not isinstance(i, int) or not isinstance(j, int):
+            return None
+        if i >= len(v) or j >= len(v):
+            return None
+        b = list(v)
+        b[i], b[j] = b[j], b[i]
+        v = "".join(b)
+    mv = t.get("move")
+    if mv:
+        f, to = mv.get("from"), mv.get("to")
+        if not isinstance(f, int) or not isinstance(to, int) or f >= len(v):
+            return None
+        b = list(v)
+        ch = b.pop(f)
+        if to > len(b):
+            return None
+        b.insert(to, ch)
+        v = "".join(b)
     if t.get("shift") == "last_front":
         v = v[-1] + v[:-1]
     elif t.get("shift") == "first_end":
@@ -625,8 +767,30 @@ def _xf_words(value, t):
     """The recorded transform in the hint line's own vocabulary ('less R reversed').
     Mirrors core/piece_transform.short, worded to match the rest of _describe."""
     bits = []
+    v = _xf_letters(value)
     for c in t.get("cuts") or ():
         bits.append("less %s" % c["letters"])
+        at, run = c["at"], c["letters"]       # walk the cuts so a swap after them can name
+        if 0 <= at <= len(v):                 #   the letters it exchanged, not the positions
+            v = v[:at] + v[at + len(run):]
+    sw = t.get("swap")
+    if sw:
+        i, j = sw.get("i"), sw.get("j")
+        if 0 <= i < len(v) and 0 <= j < len(v):
+            bits.append("with %s and %s exchanged" % (v[i], v[j]))
+            b = list(v); b[i], b[j] = b[j], b[i]; v = "".join(b)
+        else:
+            bits.append("with two letters exchanged")
+    mv = t.get("move")
+    if mv:
+        f, to = mv.get("from"), mv.get("to")
+        if 0 <= f < len(v):
+            bits.append("with %s moved %s" % (
+                v[f], "to the front" if to == 0 else
+                      "to the end" if to >= len(v) - 1 else
+                      ("left" if to < f else "right")))
+        else:
+            bits.append("with one letter moved")
     if t.get("shift"):
         bits.append(_XF_SHIFT_WORDS[t["shift"]])
     if t.get("rev"):
@@ -773,6 +937,7 @@ _PLAIN_ROLE = ("#475569", "#f1f5f9")
 ROLE_COLOURS = {
     "definition": _PLAIN_ROLE,
     "indicator": _PLAIN_ROLE,
+    "shifted": _PLAIN_ROLE,
     "link": _PLAIN_ROLE,
 }
 
@@ -826,7 +991,7 @@ def load_breakdown(clue_id):
     # atom -> (role, source_index); precedence source > definition > indicator >
     # link (an &lit uses the same words twice — the wordplay colour wins).
     atom_role = {}
-    for want in ("source", "definition", "indicator", "link"):
+    for want in ("source", "definition", "indicator", "shifted", "link"):
         for p in pieces:
             if p["role"] != want:
                 continue
@@ -837,16 +1002,37 @@ def load_breakdown(clue_id):
             for aid in aids:
                 atom_role.setdefault(aid, (p["role"], p["ord"]))
 
+    # One entry per RUN of characters sharing a role, not one per word: a clue word
+    # written solid can do two jobs ("fightback" = fight, the synonym WAR + back, the
+    # reversal indicator — split in the hand-solver, 2026-08-17), and taking the whole
+    # word's role from its first roled atom would colour "back" as the synonym and never
+    # show the reversal at all. A word with one role still yields exactly one entry, as
+    # before. Falls back to the whole token when the atoms don't line up 1:1 with the
+    # characters (nothing to split it on).
     clue_tokens = []
     for t in atoms.get("clue_tokens", []):
-        role, si = None, None
-        for aid in t.get("atom_ids", []):
-            if aid in atom_role:
-                role, si = atom_role[aid]
-                break
-        clue_tokens.append({"text": t.get("text", ""),
-                            "kind": t.get("kind", "word"),
-                            "role": role, "source_index": si})
+        text, aids = t.get("text", ""), t.get("atom_ids", []) or []
+        kind = t.get("kind", "word")
+        if len(aids) != len(text) or not text:
+            role, si = None, None
+            for aid in aids:
+                if aid in atom_role:
+                    role, si = atom_role[aid]
+                    break
+            clue_tokens.append({"text": text, "kind": kind, "role": role,
+                                "source_index": si, "cont": False})
+            continue
+        start, cur = 0, atom_role.get(aids[0], (None, None))
+        for i in range(1, len(text) + 1):
+            nxt = atom_role.get(aids[i], (None, None)) if i < len(text) else None
+            if i == len(text) or nxt != cur:
+                # `cont` = this part CONTINUES the previous one inside the same clue
+                # word, so a renderer spacing the list out must not put a gap here:
+                # "fight" + "back" is one word on the page, two roles underneath.
+                clue_tokens.append({"text": text[start:i], "kind": kind,
+                                    "role": cur[0], "source_index": cur[1],
+                                    "cont": start > 0})
+                start, cur = i, nxt
 
     # answer tiles: letters coloured by the source that placed them
     letters = "".join(c for c in parse["answer_text"].upper() if c.isalpha())
@@ -874,6 +1060,9 @@ def load_breakdown(clue_id):
     # buried the definition at the top and the first-word indicator at the
     # bottom). Matches the inline card renderer (core/wfw_render).
     ans_up = parse["answer_text"].upper()
+    _found, _ = _note_mechs(parse["indicators"])
+    _has_ana, _has_rev = "anagram" in _found, "reversal" in _found
+    _named_proof = _named_shift_proof(parse)
     scored = []   # (clue_pos, row)
     for d in parse["definitions"]:
         fg, fill = ROLE_COLOURS["definition"]
@@ -888,7 +1077,18 @@ def load_breakdown(clue_id):
                                  "detail": '"%s" → %s' % (s["text"], ans_up)}))
             continue
         fg, fill = source_colour(s["ord"])
-        detail = _describe(s, placed_all.get(s["ord"], ""), trans.get(s["ord"], []))
+        # The SAME anagram/reversal context the one-line summary passes (_segments):
+        # without it an anagram piece read as a plain value whose letters "don't match",
+        # which after 2026-08-17 printed "(not accounted for)" on every anagram row.
+        detail = _describe(s, placed_all.get(s["ord"], ""), trans.get(s["ord"], []),
+                           _has_ana, _has_rev)
+        # A PROVEN named shift accounts for this piece at ASSEMBLY level — its own
+        # letters are right, they land displaced because two letters traded places
+        # across the join. Mirrors the card (core/wfw_render._source_row).
+        if _named_proof is not None:
+            _got = _xf_letters(placed_all.get(s["ord"], ""))
+            if sorted(_got) == sorted(_xf_letters(s["value"])) and _got != _xf_letters(s["value"]):
+                detail = "%s→%s moved by the exchange" % (s["text"], (s["value"] or "").upper())
         row = {"pill": _MECH_LABEL.get(s["mechanism"],
                                        (s["mechanism"] or "Piece").title()),
                "fg": fg, "fill": fill, "detail": detail or ""}
@@ -909,6 +1109,17 @@ def load_breakdown(clue_id):
                        {"pill": "Indicator", "fg": fg, "fill": fill,
                         "detail": '"%s"%s' % (ind["text"],
                                               (" — " + ind["note"]) if ind["note"] else "")}))
+    for p in pieces:
+        if p["role"] == "shifted":
+            # "tense" → T moves. Letterless: the letter is already on the board inside
+            # the piece that was shifted; this row says WHICH letter moved. Mirrors the
+            # admin card's "Letter moved" row (core/wfw_render._annotation_row).
+            fg, fill = ROLE_COLOURS["shifted"]
+            _moved = (p["note"] or "").split(":", 1)[-1].strip()
+            scored.append((_clue_pos(p["atom_ids"]),
+                           {"pill": "Letter moved", "fg": fg, "fill": fill,
+                            "detail": '"%s"%s' % (p["text"],
+                                                  (" → " + _moved) if _moved else "")}))
     for p in pieces:
         if p["role"] == "link":
             fg, fill = ROLE_COLOURS["link"]

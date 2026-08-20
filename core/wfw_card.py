@@ -77,15 +77,18 @@ SCREENS = {"hidden": hidden_screen.render, "acrostic": acrostic_screen.render,
            "spoonerism": spoonerism_screen.render}
 
 
-def render_stored_parse(parse, ctx=None):
+def render_stored_parse(parse, ctx=None, comment=""):
     """The card HTML for an already-loaded Parse — the ONE dispatch used by the
-    solver's clue page, /hs, and the public site."""
+    solver's clue page, /hs, and the public site.
+
+    `comment` is the clue's reviewer note. Only a REVERSE ANAGRAM renders it (the
+    comment IS that clue type's explanation); every other type ignores it."""
     if ctx is None:
         ctx = build_wfw_atom_context(parse.clue_text, parse.answer_text)
     screen = SCREENS.get(parse.operation) or SCREENS.get(parse.solved_by)
     if screen:
         return screen(ctx, parse)
-    return wfw_render.render_parse(parse, ctx=ctx,
+    return wfw_render.render_parse(parse, ctx=ctx, comment=comment,
                                    clue_line_html=_manual_hidden_line(ctx, parse))
 
 
@@ -99,10 +102,14 @@ def stored_card(clue_id, db_path=None):
     conn = store.connect(db_path)
     try:
         parse = store.load_parse(conn, clue_id)
+        # The reviewer's comment. A reverse anagram carries its explanation there and
+        # nowhere else, so the card must have it; read it here, where the connection is
+        # already open, rather than mirroring the lookup in each caller.
+        comment = store.get_note(conn, clue_id) or ""
     finally:
         conn.close()
     if parse is None or (getattr(parse, "status", "") or "") != "pass":
         return None
     if not (parse.sources or parse.definition):
         return None
-    return render_stored_parse(parse)
+    return render_stored_parse(parse, comment=comment)
