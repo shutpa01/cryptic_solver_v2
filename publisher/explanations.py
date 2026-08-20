@@ -133,9 +133,47 @@ def steps_for(clues_db, clue_id):
         "clue_type": (breakdown["label"] if breakdown else None)
                      or (_clue_type(solve, clue) if passed else None),
         "answer": (clue["answer"] or "").upper() or None,
-        "explanation": breakdown,
+        # The site's own card, as HTML. The widget draws no explanation of its
+        # own any more — see card_html().
+        "explanation": card_html(clue_id) if passed else None,
         "enumeration": clue["enumeration"] or None,
     }
+
+
+def card_html(clue_id):
+    """The site's OWN rendered WFW card for this clue, or None.
+
+    This is the whole point: not a second renderer that resembles the card, but
+    the card — `core.wfw_card.stored_card` via `web.serving.get_card`, the very
+    call the live clue page makes, including its strip of the internal review
+    chips (PASS / engine / provisional). Whatever the site shows, the widget
+    shows, and it cannot drift.
+
+    It replaces a hand-kept parallel that drifted three times in one day
+    (2026-08-20): deletion rows dropped, the homophone partner never printed,
+    a replacement letter labelled "unclued" while its clue words were thrown
+    away. Each was invisible until a reader noticed. See
+    `web/wfw_read.load_breakdown`, which now survives only for the clue-type
+    label and is still guarded by `web/test_wfw_overlay_contract.py`.
+
+    Returns None when the clue has no served card, which is the same condition
+    that gives the clue no public page.
+    """
+    try:
+        from web.serving import get_card
+        return get_card(clue_id)
+    except Exception:                       # noqa: BLE001 — a missing card is not an error
+        return None
+
+
+def card_stylesheet():
+    """The card's embeddable stylesheet — no page-shell rules, by its own
+    contract (`web.serving.card_css`). Served once with the widget shell."""
+    try:
+        from web.serving import card_css
+        return card_css()
+    except Exception:                       # noqa: BLE001
+        return ""
 
 
 def _breakdown(clue_id):

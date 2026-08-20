@@ -7,6 +7,9 @@
 <title>{{ model.title or 'Crossword' }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/engine.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/shells/telegraph.css') }}">
+{# The site's card stylesheet, for the full explanation — which IS the site's
+   card, not a copy of it. Carries no page-shell rules by its own contract. #}
+<style>{{ card_css | safe }}</style>
 </head>
 <body class="tg">
 

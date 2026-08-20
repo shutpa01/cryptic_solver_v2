@@ -390,6 +390,16 @@ def _summary(parse):
                 " and ".join('"%s"' % t for t in d.split(" / ")), answer)
         return "Double definition — two meanings of %s." % answer
 
+    if op == "homophone" and parse["sources"]:
+        # Mirror the WFW page's own homophone line, word for word
+        # (`core/wfw_render._render_homophone`): "tracks" sounds like → ROOTS.
+        # The generic segment path cannot express this one: a homophone piece's
+        # VALUE IS the answer, so joining pieces and then arrowing to the answer
+        # said the same thing twice — "tracks→ROOTS → ROOTS" (clue 10086246,
+        # reported 2026-08-20). The partner (ROUTES) belongs on the piece's row,
+        # which is where the card puts it too.
+        return '"%s" sounds like → %s' % (parse["sources"][0]["text"], answer)
+
     named = _named_shift_summary(parse)   # exchange ACROSS the join, not within a piece
     if named:
         return named
@@ -601,6 +611,15 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
     if mech == "hidden":
         return "hidden in \"%s\"" % text
     if mech == "replacement_letter":
+        # The words that ASK for the new letter, when there are any: "with new
+        # leader" -> T. Printing the bare letter dropped them from the
+        # explanation and then called them unclued, which is the opposite of
+        # true — the card has always shown text → value here
+        # (`core/wfw_render._source_row`). "Unclued" is kept for the real case:
+        # a letter the puzzle supplies with no words of its own.
+        # (clue 10077940 TIGER, found by the overlay contract test 2026-08-20.)
+        if text:
+            return "%s→%s" % (text, value or placed)
         return "%s (new letter, unclued)" % (value or placed)
     if mech == "definition":
         return "\"%s\"" % text
@@ -939,6 +958,7 @@ ROLE_COLOURS = {
     "indicator": _PLAIN_ROLE,
     "shifted": _PLAIN_ROLE,
     "link": _PLAIN_ROLE,
+    "deletion": _PLAIN_ROLE,
 }
 
 # Friendly pill label per piece mechanism (data copied from the admin renderer's
@@ -1102,6 +1122,23 @@ def load_breakdown(clue_id):
             fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"], rule)
             if fod and txt and detail.startswith(txt + "→"):
                 row["detail_html"] = fod + escape(detail[len(txt):])
+        # A homophone piece sounds like something else, and that something is
+        # usually a SYNONYM of the clue word rather than the word itself:
+        # "tracks" does not sound like ROOTS — ROUTES does. The partner is
+        # recorded on the piece's links as 'sounds like "ROUTES"'. Without it
+        # the row reads "tracks→ROOTS", the sound step disappears, and the
+        # explanation asserts a homophone it never shows (clue 10086246,
+        # reported 2026-08-20). Mirrors the admin card, which has carried this
+        # aside all along (`core/wfw_render.py:661`).
+        if s["mechanism"] == "homophone":
+            _tr = next((t for t in trans.get(s["ord"], []) if t and '"' in t), None)
+            _snd = _tr.split('"')[1] if _tr else None
+            if _snd and _snd.lower() != (s["text"] or "").lower():
+                _via = ' — via "%s" (synonym)' % _snd
+                row["detail"] = (row["detail"] or "") + _via
+                if row.get("detail_html"):
+                    from html import escape as _esc
+                    row["detail_html"] += _esc(_via)
         scored.append((pos, row))
     for ind in parse["indicators"]:
         fg, fill = ROLE_COLOURS["indicator"]
@@ -1120,6 +1157,30 @@ def load_breakdown(clue_id):
                            {"pill": "Letter moved", "fg": fg, "fill": fill,
                             "detail": '"%s"%s' % (p["text"],
                                                   (" → " + _moved) if _moved else "")}))
+    for p in pieces:
+        if p["role"] in ("deletion", "deleted"):
+            # The word that SUPPLIES removed letters ("good" → G). Letterless: the
+            # letters are gone from the answer, and this row is the only thing that
+            # says which clue word asked for their removal. Without it the summary
+            # reads "…STREETING less ING" with ING arriving from nowhere and the
+            # words "in" and "good" appearing in the clue with no role at all
+            # (clue 10086254, reported 2026-08-20).
+            #
+            # Mirrors the admin card, which has had this row all along
+            # (`core/wfw_render.py`, role == "deletion") — the same note formats,
+            # "x→Y" or "deleted letters: Y".
+            fg, fill = ROLE_COLOURS["deletion"]
+            _note = p["note"] or ""
+            if "→" in _note:
+                _gone = _note.split("→")[-1].strip()
+            elif _note.lower().startswith("deleted letters:"):
+                _gone = _note.split(":", 1)[1].strip()
+            else:
+                _gone = ""
+            scored.append((_clue_pos(p["atom_ids"]),
+                           {"pill": "Deleted", "fg": fg, "fill": fill,
+                            "detail": '"%s"%s' % (p["text"],
+                                                  (" → " + _gone) if _gone else "")}))
     for p in pieces:
         if p["role"] == "link":
             fg, fill = ROLE_COLOURS["link"]

@@ -132,22 +132,22 @@
 
   /* --- selection ---------------------------------------------------- */
 
+  /* Picking an entry lands on its FIRST square, even when a crossing has
+   * already filled that square. It used to land on the first EMPTY square,
+   * which put the cursor at position 2 on any entry whose opener was already
+   * crossed — and a component sent in from the tools then went in one square
+   * late, because components are placed at the cursor (see `ToolsView.fill`).
+   * Stepping over filled squares belongs to typing (`advance`, and the
+   * skipFilled option), not to choosing a clue. */
   Engine.prototype.select = function (id, cellIndex) {
     var entry = this.resolve(id);
     if (!entry || !entry.len) return;
     this.activeId = entry.id;
     this.dir = entry.dir;
-    var index = cellIndex == null ? this.firstUnfilledIndex(entry) : cellIndex;
+    var index = cellIndex == null ? 0 : cellIndex;
     var cell = entry.cells[Math.max(0, Math.min(index, entry.len - 1))];
     this.cursor = { r: cell[0], c: cell[1] };
     this._announce();
-  };
-
-  Engine.prototype.firstUnfilledIndex = function (entry) {
-    for (var i = 0; i < entry.cells.length; i++) {
-      if (!this.letters[key(entry.cells[i][0], entry.cells[i][1])]) return i;
-    }
-    return 0;
   };
 
   /* Clicking a square selects the entry running in the current direction.
@@ -389,8 +389,24 @@
     this.emit('progress', this.progress());
   };
 
+  /* True when this square may not be changed from where the solver is working.
+   * Typing the letter that is already there is not a change, so a solver can
+   * still type straight through a crossing their word agrees with — which is
+   * the common case, and the site allows it for the same reason. */
+  Engine.prototype._blocked = function (r, c, letter) {
+    var k = key(r, c);
+    if (letter && this.letters[k] === letter.toUpperCase()) return false;
+    return this.lockedAt(r, c, this.activeId);
+  };
+
   Engine.prototype.type = function (ch) {
     if (!this.cursor) return;
+    // Refuse the keystroke, but still move on: the solver typing a word that
+    // disagrees with a finished crossing should see the finished letter stand.
+    if (this._blocked(this.cursor.r, this.cursor.c, ch)) {
+      this.advance(1);
+      return;
+    }
     this.setLetter(this.cursor.r, this.cursor.c, ch);
     this.advance(1);
   };
@@ -399,11 +415,15 @@
     if (!this.cursor) return;
     var k = key(this.cursor.r, this.cursor.c);
     if (this.letters[k]) {
-      this.setLetter(this.cursor.r, this.cursor.c, '');
+      if (!this._blocked(this.cursor.r, this.cursor.c)) {
+        this.setLetter(this.cursor.r, this.cursor.c, '');
+      }
       return;
     }
     this.advance(-1, true);
-    if (this.cursor) this.setLetter(this.cursor.r, this.cursor.c, '');
+    if (this.cursor && !this._blocked(this.cursor.r, this.cursor.c)) {
+      this.setLetter(this.cursor.r, this.cursor.c, '');
+    }
   };
 
   /* Move along the current entry. `raw` ignores the skip-filled option, so
@@ -466,7 +486,9 @@
     switch (k) {
       case 'Backspace': this.backspace(); return true;
       case 'Delete':
-        if (this.cursor) this.setLetter(this.cursor.r, this.cursor.c, '');
+        if (this.cursor && !this._blocked(this.cursor.r, this.cursor.c)) {
+          this.setLetter(this.cursor.r, this.cursor.c, '');
+        }
         return true;
       case 'ArrowUp': this.moveCursor(-1, 0); return true;
       case 'ArrowDown': this.moveCursor(1, 0); return true;
@@ -517,6 +539,33 @@
     return crossings > 0 && filled === crossings;
   };
 
+  /* A square is LOCKED against the entry you are working on when another entry
+   * running through it is COMPLETE. That letter is a finished clue's answer,
+   * not a loose guess, and work on the clue crossing it must not quietly
+   * destroy it.
+   *
+   * This is the site's rule in the shape a letter-by-letter grid can take it.
+   * There a solver commits a whole answer with Add to grid, and an answer that
+   * contradicts a crossing is refused outright — "The letter at position N must
+   * be X — does your answer fit?" (`web/static/js/puzzle2.js:865`). The comment
+   * beside it carries the reasoning: a solver's crossings come from their own
+   * committed answers, so a conflict is a real catch. Note what the site does
+   * NOT do — it never consults the solution. Completeness is the trigger, not
+   * correctness, so a confidently wrong answer protects its letters exactly as
+   * a right one does, and the contradiction surfaces where it belongs.
+   *
+   * Nothing is locked for good: clear the finished clue and these squares are
+   * ordinary again, because that entry is no longer complete.
+   */
+  Engine.prototype.lockedAt = function (r, c, workingOn) {
+    var k = key(r, c);
+    if (!this.letters[k]) return false;      // an empty square locks nothing
+    var self = this;
+    return (this.through[k] || []).some(function (id) {
+      return id !== workingOn && self.isFull(id);
+    });
+  };
+
   Engine.prototype.progress = function () {
     var total = 0;
     var filled = 0;
@@ -544,9 +593,15 @@
     } catch (e) { this.letters = {}; }
   };
 
-  /* Erase just this entry's letters. Crossing squares go with it — they belong
-   * to this entry too, and leaving them would make "clear" a half-measure the
-   * solver then has to finish by hand. */
+  /* Erase this entry's letters. Crossing squares go with it — they belong to
+   * this entry too, and leaving them would make "clear" a half-measure the
+   * solver then has to finish by hand.
+   *
+   * The exception is a square held by a COMPLETE crossing entry. Clearing this
+   * clue is not a verdict on that one, and taking a finished answer apart from
+   * next door is the very thing `lockedAt` exists to stop. To be rid of such a
+   * square, clear the entry that finished it: this one is then no longer
+   * complete, and its letters go back to being ordinary. */
   Engine.prototype.clearEntry = function (id) {
     var entry = this.resolve(id || this.activeId);
     if (!entry || !entry.cells.length) return;
@@ -555,6 +610,7 @@
     entry.cells.forEach(function (rc) {
       var k = key(rc[0], rc[1]);
       if (self.letters[k] === undefined && !self.wrong[k]) return;
+      if (self.lockedAt(rc[0], rc[1], entry.id)) return;
       delete self.letters[k];
       delete self.wrong[k];
       cleared.push(k);
@@ -1473,9 +1529,21 @@
       }
     }
 
+    // A word that contradicts a finished crossing is refused whole, and told
+    // which letter it has to honour — the site's own wording and its own
+    // reasoning (`web/static/js/puzzle2.js:868`). Placing the part that fits
+    // and dropping the rest would leave the solver with a word they never
+    // chose sitting in the grid.
     var map = {};
     for (var i = 0; i < letters.length; i++) {
       var cell = entry.cells[start + i];
+      if (this.engine.lockedAt(cell[0], cell[1], entry.id)) {
+        var held = this.engine.letters[key(cell[0], cell[1])];
+        if (held !== letters[i]) {
+          return 'The letter at position ' + (start + i + 1) + ' must be ' +
+            held + ' — does ' + word + ' fit?';
+        }
+      }
       map[key(cell[0], cell[1])] = letters[i];
     }
     this.engine.applyLetters(map);
@@ -1663,6 +1731,29 @@
         box.appendChild(el('h4', 'cg-tool-head', data.word));
         var any = false;
 
+        /* ROLES FIRST, then what the word can mean. This is the site's own
+         * order — `web/templates/partials/helper_results.html` prints the
+         * indicators ("show first, this is the gold"), then what the word
+         * abbreviates to, and only then "Could mean". A role list is short and
+         * rare and it changes how the whole clue reads; buried under a long
+         * column of synonyms it is never seen at all.
+         *
+         * "Abbreviations" is every non-synonym substitution the wordplay table
+         * holds for the word, not abbreviations alone: Roman numerals, compass
+         * points, NATO letters, foreign words, writer's -> IM. */
+        if ((data.indicators || []).length) {
+          any = true;
+          box.appendChild(el('h4', 'cg-tool-head', 'Can indicate'));
+          box.appendChild(el('p', 'cg-tool-values', data.indicators.map(function (i) {
+            return i.subtype ? i.type + ' (' + i.subtype + ')' : i.type;
+          }).join(' · ')));
+        }
+        if ((data.abbreviations || []).length) {
+          any = true;
+          box.appendChild(el('h4', 'cg-tool-head', 'Abbreviations'));
+          box.appendChild(el('p', 'cg-tool-values', data.abbreviations.join(' · ')));
+        }
+
         // Everything that is not LONGER than the entry is clickable. One that
         // matches the length is the answer and fills the entry; a shorter one
         // is a component and goes in at the cursor. Only lengths that cannot
@@ -1689,18 +1780,7 @@
           box.appendChild(line);
         });
 
-        if ((data.indicators || []).length) {
-          any = true;
-          box.appendChild(el('h4', 'cg-tool-head', 'Can indicate'));
-          box.appendChild(el('p', 'cg-tool-values', data.indicators.map(function (i) {
-            return i.subtype ? i.type + ' (' + i.subtype + ')' : i.type;
-          }).join(' · ')));
-        }
-        if ((data.abbreviations || []).length) {
-          any = true;
-          box.appendChild(el('h4', 'cg-tool-head', 'Abbreviations'));
-          box.appendChild(el('p', 'cg-tool-values', data.abbreviations.join(' · ')));
-        }
+        // Homophones stay under the meanings, as they do on the site.
         if ((data.homophones || []).length) {
           any = true;
           box.appendChild(el('h4', 'cg-tool-head', 'Sounds like'));
@@ -1758,58 +1838,13 @@
 
   // --- hints and explanations ------------------------------------------
 
-  /* The WFW breakdown, drawn the way the site draws it: a clue-type pill, the
-   * answer as tiles coloured by the piece that placed each letter, the one-line
-   * assembly, then word-by-word rows in clue order. The colours arrive already
-   * resolved so this stays a dumb renderer.
-   *
-   * Row detail may carry `html` — the fodder-letter highlighting, generated by
-   * our own renderer with everything else escaped where it is built. It is not
-   * user input and not publisher input. */
-  function renderBreakdown(breakdown, container) {
-    if (!breakdown) return;
-
-    if (breakdown.label) {
-      container.appendChild(el('span', 'cg-wfw-type', breakdown.label));
-    }
-
-    if ((breakdown.tiles || []).length) {
-      var tiles = el('div', 'cg-wfw-tiles');
-      breakdown.tiles.forEach(function (tile) {
-        if (tile.sep) {
-          tiles.appendChild(el('span', 'cg-wfw-gap'));
-          return;
-        }
-        var node = el('span', 'cg-wfw-tile', tile.char);
-        if (tile.fg) {
-          node.style.color = tile.fg;
-          node.style.borderColor = tile.fg;
-          node.style.background = tile.fill || 'transparent';
-        }
-        tiles.appendChild(node);
-      });
-      container.appendChild(tiles);
-    }
-
-    if (breakdown.summary) {
-      container.appendChild(el('p', 'cg-wfw-summary', breakdown.summary));
-    }
-
-    (breakdown.rows || []).forEach(function (row) {
-      var line = el('div', 'cg-wfw-row');
-      var pill = el('span', 'cg-wfw-pill', row.pill);
-      if (row.fg) {
-        pill.style.color = row.fg;
-        pill.style.background = row.fill || 'transparent';
-      }
-      var detail = el('span', 'cg-wfw-detail');
-      if (row.html) detail.innerHTML = row.html;
-      else detail.textContent = row.text || '';
-      line.appendChild(pill);
-      line.appendChild(detail);
-      container.appendChild(line);
-    });
-  }
+  /* The widget's own breakdown renderer USED TO LIVE HERE — a clue-type pill,
+   * answer tiles, the assembly line and word-by-word rows, drawn "the way the
+   * site draws it". Drawn the same way is not the same thing as the same, and
+   * it drifted from the card three times in one day (2026-08-20). It is gone:
+   * the full explanation is now the site's rendered card, served as HTML by
+   * publisher/explanations.card_html and appended in runHint. Do not bring a
+   * second renderer back. */
 
   var HINT_STEPS = [
     { id: 'definition', label: 'Definition' },
@@ -1864,12 +1899,62 @@
           block.appendChild(el('p', 'cg-tool-note',
             data.unavailable || 'Not available for this clue.'));
         } else if (step.id === 'explanation') {
-          renderBreakdown(data.value, block);
+          // The SITE'S OWN card, rendered by the site's own renderer and sent
+          // as HTML (publisher/explanations.card_html). The widget used to
+          // rebuild the breakdown from data with its own markup, which is how
+          // it came to disagree with the card three times in one day. There is
+          // now one renderer, so there is nothing left to disagree about.
+          //
+          // Trusted HTML: our code, our template, our escaping — the same
+          // string the live clue page serves, with the review chips stripped
+          // server-side. It carries no script and no input.
+          var card = el('div', 'cg-wfw-card');
+          card.innerHTML = data.value;
+          block.appendChild(card);
+        } else if (step.id === 'answer') {
+          block.appendChild(self.answerControl(entry, data.value));
         } else {
           block.appendChild(el('p', 'cg-hint-value', data.value));
         }
         box.appendChild(block);
       }).catch(function () { self._failed(box); });
+  };
+
+  /* The Answer rung is a CONTROL, not a caption. A solver who asks for the
+   * answer has stopped solving; making them copy it back in square by square
+   * is a chore with no puzzle left in it. One click places it.
+   *
+   * It writes through `applyLetters` — the same path the top-bar Reveal uses,
+   * and deliberately NOT `fill`, so the completed-crossing lock does not stand
+   * in its way. That lock exists to stop a guess quietly destroying a finished
+   * answer. This is the published answer: if it disagrees with a crossing then
+   * the crossing is what is wrong, and the solver should see it corrected.
+   *
+   * A FORMAT CHANGE, not a replication. The site prints this answer as plain
+   * bold text (`web/templates/partials/hint_step.html`) because its solve mode
+   * commits a whole answer through its own Add to grid control. This grid is
+   * typed into square by square and has no such control, so clicking the word
+   * itself is the same gesture in the shape this format allows.
+   */
+  ToolsView.prototype.answerControl = function (entry, value) {
+    var letters = String(value).replace(/[^A-Za-z]/g, '').toUpperCase();
+    // Anything that is not exactly this entry's length stays a caption. It is
+    // not ours to trim or pad an answer to make it fit.
+    if (!entry || !entry.cells || letters.length !== entry.len) {
+      return el('p', 'cg-hint-value', value);
+    }
+    var self = this;
+    var button = el('button', 'cg-word-hit', value);
+    button.title = 'Put it in the grid';
+    button.addEventListener('click', function () {
+      var map = {};
+      for (var i = 0; i < letters.length; i++) {
+        var cell = entry.cells[i];
+        map[key(cell[0], cell[1])] = letters[i];
+      }
+      self.engine.applyLetters(map);
+    });
+    return button;
   };
 
   /* ------------------------------------------------------------------ */

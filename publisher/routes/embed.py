@@ -9,6 +9,7 @@ from publisher.auth import (
     csp_frame_ancestors, framing_origin, get_key_config, mint_token,
     origin_allowed,
 )
+from publisher import explanations
 from publisher.puzzles import PuzzleNotFound, build_model, summarise
 
 bp = Blueprint("embed", __name__)
@@ -57,6 +58,12 @@ def embed(source, number):
         source=source,
         number=number,
         renew_after=int(current_app.config["TOKEN_MAX_AGE"] * 0.6),
+        # The card's own stylesheet, inlined with the shell. The full
+        # explanation is now the site's rendered card verbatim
+        # (publisher/explanations.card_html), so it needs the styles the site
+        # gives it. Its contract is that it carries no page-shell rules, so it
+        # cannot reach anything outside the card.
+        card_css=explanations.card_stylesheet(),
     ))
     response.headers["Content-Security-Policy"] = csp_frame_ancestors(config)
     # No caching: the HTML carries a short-lived token, and a cached copy would

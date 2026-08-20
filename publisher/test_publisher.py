@@ -449,27 +449,45 @@ class PublisherTests(unittest.TestCase):
             self.post("/api/hints", {"entry": "d1", "step": "everything"},
                       token).status_code, 400)
 
-    def test_full_explanation_is_the_site_wfw_breakdown(self):
-        """Not a reinvented prose format — the same shape the site's overlay
-        draws: a clue-type label, answer tiles coloured by the piece that
-        placed each letter, the one-line assembly, and rows in clue order."""
+    def test_full_explanation_is_the_site_card_itself(self):
+        """Not a copy of the site's card — the card.
+
+        The widget used to rebuild the breakdown from data with its own markup,
+        and drifted from the card three times in one day (2026-08-20). It now
+        serves what `web.serving.get_card` returns, so "the same" is a fact
+        about the code rather than a promise about two renderers. The proof is
+        byte equality with the site's own call.
+        """
         token, _, _ = self.embed(EXPLAINED)
         value = self.post("/api/hints", {"entry": "d1", "step": "explanation"},
                           token).json["value"]
 
-        self.assertEqual(value["label"], "Container + acrostic")
-        self.assertEqual("".join(t.get("char", "") for t in value["tiles"]), "MESCAL")
-        self.assertIn("MESCAL", value["summary"])
+        self.assertIsInstance(value, str)
+        self.assertIn('class="wfw-card"', value)
+        self.assertIn("MESCAL", value)
 
-        # Letters carry the colour of the piece that placed them, and the
-        # container source differs from the acrostic ones.
-        colours = [t.get("fg") for t in value["tiles"] if t.get("char")]
-        self.assertEqual(len(set(colours)), 3)
+        from publisher.explanations import load_clue_index
+        clue_id = load_clue_index(self.app.config["CLUES_DB"],
+                                  "telegraph", "31268")["d1"]
+        with self.app.test_request_context("/"):
+            from web.serving import get_card
+            self.assertEqual(value, get_card(clue_id))
 
-        pills = [r["pill"] for r in value["rows"]]
-        self.assertEqual(pills[0], "Definition")
-        self.assertIn("Indicator", pills)
-        self.assertIn("Synonym", pills)
+    def test_the_card_carries_no_review_furniture(self):
+        """The public card, not the review surface: no PASS badge, no solving
+        engine tag, no provisional chip. Stripped by the site before it is
+        served, so the widget inherits the strip rather than repeating it."""
+        token, _, _ = self.embed(EXPLAINED)
+        value = self.post("/api/hints", {"entry": "d1", "step": "explanation"},
+                          token).json["value"]
+        for chip in ("wfw-verdict", "wfw-engine", "wfw-prov"):
+            self.assertNotIn(chip, value)
+
+    def test_the_card_stylesheet_ships_with_the_shell(self):
+        """The card arrives as the site's markup, so it needs the site's card
+        CSS or it renders as unstyled text in the widget."""
+        _token, _renew, page = self.embed(EXPLAINED)
+        self.assertIn(".wfw-card", page)
 
     def test_clue_type_names_every_mechanism(self):
         """The detailed clue type is the part that is new to the world; a flat
