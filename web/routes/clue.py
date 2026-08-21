@@ -64,6 +64,55 @@ def generate_clue_slug(clue_text, answer=None, clue_id=None):
     return f"{clue_id}-{text}"
 
 
+def _puzzle_neighbours(clue):
+    """The previous and next SERVED clue in this clue's OWN puzzle.
+
+    The reader arrives here from the puzzle page's Explanation link (one clue,
+    one new tab) and asked to be able to step through a puzzle's explanations
+    without going back each time (user, 2026-08-21). So the walk follows the
+    puzzle's own reading order — across then down, by clue number — which is the
+    SAME order the puzzle page lists them in (web/models.get_puzzle_clues).
+
+    A clue that is not served is stepped OVER, never linked: its page answers 410,
+    and no internal link may point at one (web/serving.is_served is the one truth
+    for that, so it is the test used here). No wrap-around — the first and last
+    clue simply have one arrow.
+
+    Returns (prev, next); each is {slug, label, clue_text} or None."""
+    from web.serving import is_served, SERVED_SOURCES   # imported as clue_page does
+    if not clue["puzzle_number"] or clue["source"] not in SERVED_SOURCES:
+        return None, None
+    rows = get_db().execute(
+        """SELECT id, clue_number, direction, clue_text
+           FROM clues
+           WHERE source = ? AND puzzle_number = ?
+           ORDER BY
+               CASE direction WHEN 'across' THEN 0 WHEN 'down' THEN 1 ELSE 2 END,
+               CAST(clue_number AS INTEGER)""",
+        (clue["source"], str(clue["puzzle_number"])),
+    ).fetchall()
+    ids = [r["id"] for r in rows]
+    if clue["id"] not in ids:
+        return None, None
+    here = ids.index(clue["id"])
+
+    def walk(step):
+        j = here + step
+        while 0 <= j < len(rows):
+            r = rows[j]
+            if is_served(clue["source"], r["id"]):
+                slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
+                if slug:
+                    return {"slug": slug,
+                            "label": "%s%s" % (r["clue_number"],
+                                               (r["direction"] or "")[:1]),
+                            "clue_text": r["clue_text"]}
+            j += step
+        return None
+
+    return walk(-1), walk(1)
+
+
 def parse_clue_slug(slug):
     """Extract clue ID from slug.
 
@@ -1123,9 +1172,15 @@ def clue_page(slug):
         "indicator",
     ])
 
+    # Step through this puzzle's explanations one clue at a time, in the puzzle's
+    # own reading order (user, 2026-08-21).
+    prev_clue, next_clue = _puzzle_neighbours(clue)
+
     response = make_response(render_template(
         "clue.html",
         clue=clue_dict,
+        prev_clue=prev_clue,
+        next_clue=next_clue,
         wfw_card=wfw_card,
         wfw_card_css=card_css(),
         other_appearances=other_appearances,

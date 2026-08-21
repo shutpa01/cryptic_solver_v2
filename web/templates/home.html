@@ -52,7 +52,10 @@
             <div class="text-3xl flex-shrink-0">&#128269;</div>
             <div>
                 <div class="text-base font-bold text-gray-800 group-hover:text-indigo-600 transition">Solve</div>
-                <div class="text-sm text-gray-400 leading-snug">Your favourite puzzles, explained. Telegraph, Times, Guardian, Independent.</div>
+                {# The served publications and only those (web/serving.SERVED_SOURCES):
+                   the Independent is no longer served, so naming it promised a puzzle
+                   the visitor cannot reach (user, 2026-08-21). #}
+                <div class="text-sm text-gray-400 leading-snug">Your favourite puzzles, explained. Telegraph, Times, Guardian.</div>
             </div>
         </a>
 
