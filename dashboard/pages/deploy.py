@@ -102,6 +102,19 @@ def _render_cordelia_deploy():
     with col1:
         deploy_db = st.checkbox("Deploy databases", value=True, key="co_deploy_db")
         deploy_code = st.checkbox("Deploy code", value=False, key="co_deploy_code")
+        # Off by default: a deploy is about the site, and filming adds minutes.
+        # Tick it on the deploy that puts a new puzzle live.
+        upload_video = st.checkbox("Upload puzzle video to YouTube", value=False,
+                                   key="co_upload_video",
+                                   help="Films the newly-live puzzle's clue pages and "
+                                        "uploads with per-clue chapters. Once per "
+                                        "puzzle — a ledger stops repeats. Needs the "
+                                        "databases to be deploying.")
+        video_privacy = st.selectbox(
+            "Video privacy", ["private", "unlisted", "public"], index=0,
+            key="co_video_privacy", disabled=not upload_video,
+            help="Private until you have watched it. Nothing here should make the "
+                 "channel public by accident.")
     with col2:
         if deploy_db:
             clues_size = CLUES_DB.stat().st_size / 1024 / 1024
@@ -378,6 +391,46 @@ def _render_cordelia_deploy():
                                   summary or "done"))
                 except Exception as e:
                     steps.append(("IndexNow notify", False, str(e)))
+
+        # Step 5: YouTube — film the newly-live puzzle and upload it. Same gate as
+        # IndexNow and for the same reason: the DB going up IS the moment a puzzle
+        # becomes live, and a puzzle is only ever live once every clue has passed
+        # review (web/serving.py:143-171), so there is no way to film an unreviewed
+        # one. Like IndexNow it NEVER fails the deploy — the site is already up, and
+        # a video is not worth taking a deploy down for.
+        #
+        # Its own ledger (logs/youtube_state.db) makes it once-per-puzzle, and its
+        # age guard stops a deploy working backwards through the 51 unfilmed archive
+        # puzzles. Privacy is whatever the checkbox below says; PRIVATE by default,
+        # because a deploy should not be what makes the channel public.
+        #
+        # The budget is minutes, not seconds: it captures ~30 clue pages in headless
+        # Chrome, encodes with ffmpeg, then uploads. 20 minutes is generous cover.
+        if deploy_db and not failed and upload_video:
+            with st.spinner("Filming and uploading the puzzle to YouTube..."):
+                try:
+                    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+                    result = subprocess.run(
+                        [py, str(PROJECT_ROOT / "scripts" / "youtube_upload.py"),
+                         "--privacy", video_privacy],
+                        capture_output=True, text=True, timeout=1200,
+                        encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
+                    )
+                    lines = [ln for ln in (result.stdout or "").strip().splitlines()
+                             if ln.strip()]
+                    # The URL line if there is one, else whatever it last said —
+                    # "Nothing to upload" is a legitimate, successful outcome.
+                    url = next((ln for ln in lines if "youtube.com/watch" in ln), None)
+                    summary = url or (lines[-1] if lines
+                                      else (result.stderr or "").strip()[:200])
+                    steps.append(("YouTube upload", result.returncode == 0,
+                                  summary or "done"))
+                except subprocess.TimeoutExpired:
+                    steps.append(("YouTube upload", False,
+                                  "Timed out after 20 minutes (not recorded — retries "
+                                  "next deploy)."))
+                except Exception as e:
+                    steps.append(("YouTube upload", False, str(e)))
 
         # Show results
         for label, ok, msg in steps:
