@@ -23,7 +23,20 @@ them; they were conflated once already.
 | Scope justification | **DRAFTED — §3 below** | needs the §2 decision first |
 | Demo video | **NOT DONE — shot list in §4** | can now be recorded; the pipeline works |
 
-Two things to verify in the Cloud console before submitting, both common rejections:
+**FOUND WRONG 2026-08-22, on the Branding page** (console.cloud.google.com/auth/branding?project=cordelia-493208).
+Both link fields pointed at the homepage:
+
+- *Application privacy policy link* was `https://justcordelia.com/` — must be
+  `https://justcordelia.com/privacy`, the same URL the footer links to
+  (`base.html:897`). Google requires the consent screen and the homepage to link the
+  identical URL, so the homepage-root value fails outright. Live check: `/privacy`
+  returns 200.
+- *Application terms of service link* was `https://justcordelia.com/` — the site has
+  no terms page (`/terms` returns 404; no route, no template). CLEAR the field.
+  Terms of service is optional; an empty field is fine, a link that leads somewhere
+  that is not terms reads as a misconfigured app.
+
+Three things to verify in the Cloud console before submitting, all common rejections:
 
 1. **App name must match the homepage branding.** The consent screen's app name has
    to be the same product as `justcordelia.com` presents. If the project is still
@@ -136,6 +149,28 @@ Google requires: the end-to-end flow including the OAuth grant; the same app and
 branding as submitted; the **complete** consent screen showing the **exact** scopes
 requested; consent screen in English; and a demonstration of the functionality those
 scopes are used for.
+
+**REVOKE THE OLD GRANT FIRST — this wasted a take on 2026-08-22.** Deleting
+`impressions/youtube_token.json` (what `youtube_auth.py --force` does) removes the
+token from THIS MACHINE but leaves the grant standing on the Google account. Google
+then shows an incremental-consent screen — "cordelia wants ADDITIONAL access", listing
+only the scopes that are new, with no tick boxes — and a screen showing one of the two
+scopes fails the requirement that the consent screen show the exact scopes requested.
+
+Fix: at myaccount.google.com/permissions, signed in as justcordelia.com@gmail.com,
+open cordelia and choose "Delete all". Only then run `--force`. It removes this app's
+access and nothing else — the channel, the uploaded videos and the shuterpaul Search
+Console credential are all untouched.
+
+**RECORDED 2026-08-22.** The take uploaded telegraph 31322 as `PwHZIqA-OiE` (private),
+and the re-minted token carries exactly `youtube.upload` + `youtube.readonly`. Build
+the video BEFORE recording, off camera, so the take is not ten minutes of ffmpeg:
+`youtube_upload.py --source telegraph --backfill --build --dry-run` builds and stops
+short of uploading.
+
+Also observed on the consent screen, not chased: a note reading "Learn why you're not
+seeing links to cordelia's Privacy Policy or Terms of Service". Believed to be because
+the app is unverified — i.e. the thing being applied for. Not established.
 
 Record one continuous screen capture, no cuts, no narration needed:
 
