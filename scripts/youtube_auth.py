@@ -31,11 +31,23 @@ ROOT = Path(__file__).resolve().parent.parent
 CREDS_FILE = ROOT / "impressions" / "credentials.json"
 TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 
-# youtube.upload inserts the video; youtube covers thumbnails, playlists and
-# reading our own channel back to prove which channel the token controls.
+# EXACTLY what the code calls, and no more. youtube.upload inserts the video
+# (youtube_upload.py:273); youtube.readonly reads our own channel back to prove which
+# channel the token controls (:74). The full `youtube` scope was requested until
+# 2026-08-22 and nothing ever used it.
+#
+# This is a VERIFICATION requirement, not tidiness. Google's OAuth review states that
+# "if the requested scope(s) goes beyond the usage needed, you will be directed to
+# request a narrower scope" (support.google.com/cloud/answer/13464321), and a round
+# trip through review costs days. Before widening this, read
+# documents/YOUTUBE_OAUTH_VERIFICATION_SUBMISSION.md §2 — the cost of a wider scope is
+# paid at review, not here.
+#
+# The consequence to know: videos.update is NOT covered. Editing an already-uploaded
+# video's title or description is a Studio job, by hand.
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
-    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.readonly",
 ]
 
 

@@ -63,9 +63,12 @@ OUT_ROOT = ROOT / "logs" / "youtube"
 LEDGER_DB = ROOT / "logs" / "youtube_state.db"
 TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 
+# Must stay identical to youtube_auth.py:36 — the token is minted there and loaded
+# here, and a mismatch is a confusing runtime failure rather than a clear one. See
+# that file for why these two and not the full `youtube` scope.
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
-    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/youtube.readonly",
 ]
 
 CATEGORY_EDUCATION = "27"
