@@ -46,7 +46,12 @@ _OP_LABEL = {
     "palindrome": "Palindrome",
     "spoonerism": "Spoonerism",
     "reverse_anagram": "Reverse anagram",
+    "double_homophone": "Double homophone",
 }
+
+# Clue types whose comment IS the explanation. Mirrors core/wfw_render._COMMENT_LED_OPS
+# and core/wfw_web._TYPE_VERDICTS — kept by hand, no core import (see the module note).
+_COMMENT_LED_OPS = frozenset(("reverse_anagram", "double_homophone"))
 
 # Mechanism words recognised inside compound engine operation names
 # (anagram_charade, container_inner_deletion, ...) and inside the indicator notes
@@ -201,7 +206,7 @@ def _definition(parse):
 # (&lit; a hidden word is never a charade). Mirrors core/wfw_render._ATOMIC_OPS.
 _ATOMIC_OPS = frozenset((
     "dd", "double_definition", "cd", "andlit", "continuation",
-    "hidden", "hidden_reversed", "reverse_anagram"))
+    "hidden", "hidden_reversed", "reverse_anagram", "double_homophone"))
 
 
 def _note_mech(note):
@@ -375,11 +380,13 @@ def _letter_shift_note(indicators):
 def _summary(parse):
     op = parse["operation"]
     answer = parse["answer_text"].upper()
-    if op == "reverse_anagram":
-        # The answer is needed to obtain the answer: read as wordplay it produces a
-        # phrase in the clue. There is no piece assembly to print, so the reviewer's
-        # comment IS the explanation — shown as written, with no banner (the clue is
-        # sound and the clue-type label already names it). User decision 2026-08-20.
+    if op in _COMMENT_LED_OPS:
+        # A CLUE TYPE with no piece assembly to print — a reverse anagram (the answer,
+        # read as wordplay, produces a phrase in the clue) or a double homophone (two
+        # sound-alike routes to the same answer, so each claims every letter and the grid
+        # cannot hold both). The reviewer's comment IS the explanation, shown as written,
+        # with no banner: the clue is sound and the clue-type label already names it.
+        # User decision 2026-08-20.
         return parse.get("comment") or None
     if op == "cd":
         return "Cryptic definition — the whole clue is a playful definition of %s." % answer

@@ -2846,14 +2846,19 @@ function initGrid(rootId, DATA){
  var sRea=root.querySelector('#g-status-reason');
  var sErr=root.querySelector('#g-status-err');
  var sPay=root.querySelector('#g-status-payload');
- function needsComment(v){return v==='invalid'||v==='reverse_anagram';}
+ // CLUE TYPES filed from the verdict control — sound clues no engine can express, landing
+ // as a PASS with their own operation. They send the grid payload so the definition ticked
+ // on screen is the one kept. Keep in step with _TYPE_VERDICTS on the Python side.
+ function isClueType(v){return v==='reverse_anagram'||v==='double_homophone';}
+ function needsComment(v){return v==='invalid'||isClueType(v);}
+ function typeLabel(v){return v==='invalid'?'INVALID':(v==='double_homophone'?'DOUBLE HOMOPHONE':'REVERSE ANAGRAM');}
  function syncReason(){if(sRea)sRea.style.display=(sSel&&needsComment(sSel.value))?'block':'none';if(sErr)sErr.textContent='';}
  if(sSel)sSel.addEventListener('change',syncReason);
  if(sForm)sForm.addEventListener('submit',function(e){
-  if(sPay)sPay.value=(sSel&&sSel.value==='reverse_anagram')?JSON.stringify(assignments):'';
+  if(sPay)sPay.value=(sSel&&isClueType(sSel.value))?JSON.stringify(assignments):'';
   if(sSel&&needsComment(sSel.value)){
    var ta=sRea?sRea.querySelector('textarea'):null;
-   var lab=(sSel.value==='invalid')?'INVALID':'REVERSE ANAGRAM';
+   var lab=typeLabel(sSel.value);
    if(!ta||!ta.value.trim()){e.preventDefault();if(sErr)sErr.textContent=lab+' needs a comment — add one first.';if(ta)ta.focus();}
   }
  });
@@ -3143,17 +3148,19 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
                     % (_hsarrow(prev_id, "&larr; prev clue"), pos + 1, len(clutch_ids),
                        _hsarrow(next_id, "next clue &rarr;")))
     cur_status = parse.status if parse is not None else ""
-    # A filed REVERSE ANAGRAM is a PASS, but showing "PASS" would hide WHICH kind it is
-    # and lose the comment box on a revisit. Select the clue type instead.
-    if parse is not None and (parse.operation or "") == "reverse_anagram":
-        cur_status = "reverse_anagram"
+    # A filed CLUE TYPE is a PASS, but showing "PASS" would hide WHICH kind it is and lose
+    # the comment box on a revisit. Select the clue type instead.
+    if parse is not None and (parse.operation or "") in _TYPE_VERDICTS:
+        cur_status = parse.operation
     status_opts = "".join(
         '<option value="%s"%s>%s</option>'
         % (v, " selected" if v == cur_status else "", lab)
         for v, lab in (("pass", "PASS"), ("pending", "PENDING"), ("fail", "FAIL"),
                        ("invalid", "INVALID (missing indicator/operation)"),
                        ("reverse_anagram",
-                        "REVERSE ANAGRAM (the answer is the wordplay)")))
+                        "REVERSE ANAGRAM (the answer is the wordplay)"),
+                       ("double_homophone",
+                        "DOUBLE HOMOPHONE (two sound-alikes, same answer)")))
     ans_tiles = "".join(
         '<span class="g-atile" data-pos="%d" style="display:inline-flex;align-items:center;'
         'justify-content:center;min-width:1.7rem;height:2.1rem;margin:.12rem;border:2px solid '
@@ -3345,15 +3352,16 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'The mark is frozen so it sticks.</span>',
          '<span id="g-status-err" style="font-size:.85rem;color:#dc2626;font-weight:700">'
          '</span>',
-         # The comment — required for INVALID and for REVERSE ANAGRAM, and saved WITH the
-         # status in this one submit (the server refuses either with no comment). Shown
-         # only when one of those two is selected. For a reverse anagram the comment is
-         # the clue's PUBLIC explanation, so the placeholder says so.
+         # The comment — required for INVALID and for every CLUE TYPE, saved WITH the
+         # status in this one submit (the server refuses any of them with no comment).
+         # Shown only when one of those is selected. For a clue type the comment is the
+         # clue's PUBLIC explanation, so the placeholder says so.
          '<div id="g-status-reason" style="display:%s;width:100%%;margin-top:.15rem">'
-         % ("block" if cur_status in ("invalid", "reverse_anagram") else "none"),
+         % ("block" if cur_status in ("invalid",) + tuple(_TYPE_VERDICTS) else "none"),
          '<textarea name="note" rows="2" placeholder="Required. INVALID: why can this clue '
          'not be solved as written? REVERSE ANAGRAM: how the answer produces the clue\'s '
-         'phrase — this is what the reader sees." style="width:100%%;max-width:46rem;'
+         'phrase. DOUBLE HOMOPHONE: both sound-alike routes to the answer — this is what '
+         'the reader sees." style="width:100%%;max-width:46rem;'
          'box-sizing:border-box;border:1px solid #cbd5e1;border-radius:8px;padding:.4rem;'
          'font-family:inherit;font-size:.95rem">%s</textarea>' % escape(note),
          '</div>',
@@ -4132,14 +4140,15 @@ def hsstatus_route():
     back = (request.form.get("from") or only).strip()
     status = (request.form.get("status") or "").strip()
     note = (request.form.get("note") or "").strip()
-    if not only.isdigit() or status not in ("pass", "pending", "fail", "invalid",
-                                            "reverse_anagram"):
+    if not only.isdigit() or status not in ("pass", "pending", "fail",
+                                            "invalid") + tuple(_TYPE_VERDICTS):
         return _hs_redirect(only, "No clue/status.", back)
     cid = int(only)
-    # REVERSE ANAGRAM is not a verdict but a CLUE TYPE filed from the same control (it lands
+    # A CLUE TYPE is not a verdict but a kind of clue filed from the same control (it lands
     # as a PASS) — it writes its own parse, so it takes a different path from here.
-    if status == "reverse_anagram":
-        return _file_reverse_anagram(cid, note, request.form.get("payload") or "", back)
+    if status in _TYPE_VERDICTS:
+        return _file_clue_type(cid, status, note,
+                               request.form.get("payload") or "", back)
     # INVALID must carry a comment explaining why the clue can't be solved as written — and
     # it is set + saved in this one action. Refuse (status unchanged) if no comment.
     if status == "invalid" and not note:
@@ -4168,29 +4177,54 @@ def hsstatus_route():
                         back)
 
 
-def _file_reverse_anagram(cid, note, payload, back):
-    """REVERSE ANAGRAM (user design 2026-08-20) — the answer is needed to obtain the answer.
+# CLUE TYPES filed from the /hs verdict control.
+#
+# Each is a SOUND clue that no engine and no grid assembly can express, so it is filed in
+# one action exactly like INVALID: pick the type, write the comment that explains the
+# mechanism, Set status. Unlike INVALID the clue is sound, so it is stored as a PASS with
+# its own operation — it serves publicly like any other pass and no serving query changes.
+# The comment IS the public explanation and the clue-type badge names the mechanism, so no
+# banner is shown (user decision 2026-08-20).
+#
+# Every one of them KEEPS A DEFINITION (user rule, general not per-clue).
+#
+#   reverse_anagram  — the answer, read as wordplay, produces a phrase written in the clue.
+#                      TELEGRAPH 31323 23a 'Bar cryptic indication of "huts"' = SHUT OUT:
+#                      SHUT anagrammed ("out") gives HUTS. No clue word places a letter.
+#   double_homophone — two sound-alike routes reach the SAME answer, as alternatives.
+#                      GUARDIAN 4166 10a 'Item that sounds like prune - or another fruit'
+#                      = PAIR: prune -> PARE, another fruit -> PEAR, both homophones of
+#                      PAIR. Each route claims every letter, and a tile belongs to exactly
+#                      one piece (the gate in the homophone branch of _hsassign), so the
+#                      grid cannot hold both.
+#
+# Adding one here is most of the work: the JS isClueType(), the option list, the comment
+# placeholder, _TYPE_LABEL in core/wfw_render.py and _OP_LABEL in web/wfw_read.py are the
+# rest.
+_TYPE_VERDICTS = {
+    "reverse_anagram": (
+        "REVERSE ANAGRAM",
+        "Explain how the answer, read as wordplay, produces the clue's phrase.",
+        "A reverse anagram still ends with one"),
+    "double_homophone": (
+        "DOUBLE HOMOPHONE",
+        "Explain both sound-alike routes to the answer.",
+        "A double homophone still ends with one"),
+}
 
-    Read as WORDPLAY, the answer produces a phrase written in the clue: TELEGRAPH 31323 23a
-    'Bar cryptic indication of "huts"' = SHUT OUT, because SHUT anagrammed ("out") gives
-    HUTS. No clue word supplies an answer letter, so there is nothing for the engines or the
-    grid to assemble and no piece chain to render.
 
-    Filed in ONE action, exactly like INVALID: pick REVERSE ANAGRAM, write the comment that
-    explains the mechanism, Set status. Unlike INVALID the clue is SOUND — it is stored as a
-    PASS with operation='reverse_anagram', so it serves publicly like any other pass and no
-    serving query changes. The comment IS the public explanation and the clue-type badge
-    names the mechanism, so no banner is shown (user decision).
+def _file_clue_type(cid, op, note, payload, back):
+    """File one of _TYPE_VERDICTS — see that docstring for what these are and why.
 
     The clue still ENDS WITH A DEFINITION — the definition ticked on the grid, or the one
     already stored — and EVERY other role is dropped: save_parse rewrites the pieces and
     links, and the grid's saved assignment is reduced to the definition alone so a later
     rebuild cannot resurrect the discarded reading."""
     import json
+    label, why_comment, def_hint = _TYPE_VERDICTS[op]
     if not note:
-        return _hs_redirect(cid, "REVERSE ANAGRAM needs a comment — status not changed. "
-                                 "Explain how the answer, read as wordplay, produces the "
-                                 "clue's phrase.", back)
+        return _hs_redirect(cid, "%s needs a comment — status not changed. %s"
+                                 % (label, why_comment), back)
     row = _load_clue(cid)
     if row is None:
         return _hs_redirect(cid, "No clue.", back)
@@ -4230,11 +4264,10 @@ def _file_reverse_anagram(cid, note, payload, back):
     if definition is None and stored is not None and stored.definition is not None:
         definition = stored.definition          # the definition already on the clue
     if definition is None:
-        return _hs_redirect(cid, "Not filed — no definition. A reverse anagram still ends "
-                                 "with one: tick the definition word(s), Assign, then set "
-                                 "the status.", back)
+        return _hs_redirect(cid, "Not filed — no definition. %s: tick the definition "
+                                 "word(s), Assign, then set the status." % def_hint, back)
     parse = Parse(clue_text=clue_text, answer_text=answer, sources=[], links=[],
-                  annotations=[], definition=definition, operation="reverse_anagram",
+                  annotations=[], definition=definition, operation=op,
                   solved_by="manual", status="pass")
     conn = store.connect()
     try:
@@ -4249,8 +4282,8 @@ def _file_reverse_anagram(cid, note, payload, back):
     finally:
         conn.close()
     _capture_signature_review(cid, "pass")        # log pending-only sig reviews, as /hsstatus
-    return _hs_redirect(cid, "Filed as a REVERSE ANAGRAM — PASS (frozen). Definition %r "
-                             "kept; every other role removed." % definition.text, back)
+    return _hs_redirect(cid, "Filed as a %s — PASS (frozen). Definition %r kept; every "
+                             "other role removed." % (label, definition.text), back)
 
 
 @app.route("/hscd", methods=["POST"])

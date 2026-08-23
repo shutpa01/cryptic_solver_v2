@@ -52,7 +52,14 @@ _TYPE_LABEL = {
     "acrostic": "Acrostic",
     "homophone": "Homophone",
     "reverse_anagram": "Reverse anagram",
+    "double_homophone": "Double homophone",
 }
+
+# CLUE TYPES whose reviewer comment IS the explanation: there is no piece assembly to
+# print, so the comment leads the breakdown and the definition row follows it. No banner —
+# the clue is sound and the clue-type badge already names it (user, 2026-08-20).
+# Mirrors the same set in core/wfw_web._TYPE_VERDICTS and web/wfw_read.
+_COMMENT_LED_OPS = frozenset(("reverse_anagram", "double_homophone"))
 
 # Mechanism words recognised inside an engine operation name ("anagram_container")
 # or a manual solve's indicator notes. Mirrors web/wfw_read._MECH_WORDS — keep in
@@ -76,7 +83,7 @@ _MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
 # web/wfw_read._ATOMIC_OPS.
 _ATOMIC_OPS = frozenset((
     "dd", "double_definition", "cd", "andlit", "continuation",
-    "hidden", "hidden_reversed", "reverse_anagram"))
+    "hidden", "hidden_reversed", "reverse_anagram", "double_homophone"))
 
 # Ops whose extra sources are NOT charade pieces, so a charade must NOT be inferred
 # when one is present (gather ops fold several words into one gestalt; substitution
@@ -330,7 +337,7 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""
         # the mechanism and leads the breakdown. The definition row still follows it (every
         # clue ends with a definition). No banner: the clue is sound, and the clue-type
         # badge already names it (user, 2026-08-20).
-        if (parse.operation or "") == "reverse_anagram" and (comment or "").strip():
+        if (parse.operation or "") in _COMMENT_LED_OPS and (comment or "").strip():
             breakdown = ('<div class="wfw-comment">%s</div>'
                          % escape(comment.strip()).replace("\n", "<br>")) + breakdown
 
