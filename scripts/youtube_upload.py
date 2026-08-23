@@ -117,7 +117,8 @@ def record(conn, source, number, video_id, title, privacy):
 
 def next_puzzle(source, done, max_age_days):
     """The most recent fully-served puzzle of `source` not yet uploaded, published
-    within `max_age_days` of the newest served puzzle.
+    within `max_age_days` of TODAY. Pass max_age_days=None to lift the guard
+    entirely (--backfill).
 
     Uses the app's own serving truth, so a puzzle can never be filmed before every
     one of its clues has passed review (web/serving.py:143-171).
@@ -126,14 +127,21 @@ def next_puzzle(source, done, max_age_days):
     most recent puzzle not yet in the ledger" walks backwards through the whole
     served archive — a second run uploaded the previous day's puzzle unbidden. On
     a deploy hook that is a silent quota drain at 1600 units an upload against a
-    10,000/day project ceiling. The guard is measured against the newest SERVED
-    puzzle rather than today's date, so a deploy after a quiet weekend still
-    finds the right puzzle instead of finding nothing.
+    10,000/day project ceiling.
 
-    Pass max_age_days=0 to lift it (--backfill) when working the archive
-    deliberately, watching the quota.
+    IT IS MEASURED AGAINST TODAY, AND THAT IS THE WHOLE POINT (fixed 2026-08-23).
+    It used to be measured against each source's own newest SERVED puzzle, on the
+    reasoning that a deploy after a quiet weekend should still find something. That
+    reasoning was wrong, and it cost real quota: a deploy of Sunday's Telegraph also
+    filmed Times 29627 (published the 21st) and Guardian 30090 (the 20th), because
+    relative to each of THOSE papers' own newest served puzzle they looked recent.
+    The user's verdict was blunt and correct — nobody wants a days-old puzzle, and
+    the step exists to film what was just published, not to go hunting the archive.
+
+    Finding NOTHING is the right answer when nothing was published today. A backlog
+    is filmed deliberately with --backfill, never as a side effect of a deploy.
     """
-    from datetime import date
+    from datetime import date, timedelta
     from web import create_app
     app = create_app("development")
     with app.app_context():
@@ -149,11 +157,11 @@ def next_puzzle(source, done, max_age_days):
         if not served_rows:
             return None
         newest = max((r["pub"] or "") for r in served_rows)
+        # None lifts the guard (--backfill). 0 means today only — and 0 must NOT
+        # be treated as "no guard", which is what the old truthiness test did.
         cutoff = None
-        if max_age_days:
-            y, m, d = (int(x) for x in newest.split("-"))
-            cutoff = (date(y, m, d) - __import__("datetime")
-                      .timedelta(days=max_age_days)).isoformat()
+        if max_age_days is not None:
+            cutoff = (date.today() - timedelta(days=max_age_days)).isoformat()
         skipped_old = 0
         for r in served_rows:
             num = str(r["puzzle_number"])
@@ -171,8 +179,9 @@ def next_puzzle(source, done, max_age_days):
             # Never silent: say what the guard held back, so a backlog is a
             # visible decision rather than something that quietly never happens.
             print("%d older %s puzzle(s) are served and unfilmed, held back by the "
-                  "%d-day age guard (newest served: %s). Use --backfill to include them."
-                  % (skipped_old, source, max_age_days, newest))
+                  "%d-day age guard (cutoff %s, newest served %s). This is the guard "
+                  "working: use --backfill to film them deliberately."
+                  % (skipped_old, source, max_age_days, cutoff, newest))
     return None
 
 
@@ -300,10 +309,12 @@ def main():
                     help="run capture + assemble before uploading")
     ap.add_argument("--dry-run", action="store_true",
                     help="show the title, chapters and file; upload nothing")
-    ap.add_argument("--max-age-days", type=int, default=1,
-                    help="only consider puzzles published within N days of the newest "
-                         "served one (default 1). Stops a deploy hook working "
-                         "backwards through the archive.")
+    ap.add_argument("--max-age-days", type=int, default=0,
+                    help="only consider puzzles published within N days of TODAY. "
+                         "Default 0 = today's puzzles only, which is what a deploy "
+                         "wants: film what was just published, never go hunting the "
+                         "archive. Nothing published today means nothing is filmed, "
+                         "and that is the correct outcome.")
     ap.add_argument("--force", action="store_true",
                     help="upload even though the ledger says this puzzle is done — "
                          "for a rebuilt video. YouTube cannot replace a video's "
@@ -355,8 +366,10 @@ def run_one(args):
         puzzle = {"number": args.puzzle, "pub": row["pub"] if row else None,
                   "type_slug": slug, "type_label": label}
     else:
+        # None, not 0 — 0 now means "today only", so --backfill must pass None to
+        # lift the guard. Passing 0 here was the old bug in miniature.
         puzzle = next_puzzle(args.source, done,
-                             0 if args.backfill else args.max_age_days)
+                             None if args.backfill else args.max_age_days)
         if puzzle is None:
             print("Nothing to upload for %s." % args.source)
             return 0
