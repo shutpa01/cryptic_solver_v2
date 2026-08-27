@@ -116,6 +116,141 @@ def match_variants(text):
     return out
 
 
+def lookup_keys(text):
+    """Every normalised key the SOLVER would try for this clue word.
+
+    TWO layers, because the engine applies two and asking with either alone is
+    the narrower question that started all this:
+
+    * OUTER — `match_variants` above, the engine_registry pass: regular
+      inflections and contraction/possessive expansions.
+    * INNER — `signature_solver.db.RefDB._word_variants`, which every RefDB /
+      LiveDB getter applies again to whatever it is handed: strip a possessive
+      's, strip a simple plural (never a "ss" ending).
+
+    Reproduced rather than imported because this package imports nothing from
+    `web/` and RefDB loads every reference table into memory on construction —
+    far too heavy for a panel lookup. It is nine lines and it must not drift;
+    the test suite pins it against the real thing.
+    """
+    keys = []
+    for variant in match_variants(text):
+        w = normalise_key(variant)
+        if not w:
+            continue
+        for form in _refdb_forms(variant, w):
+            if form and form not in keys:
+                keys.append(form)
+    return keys
+
+
+def _refdb_forms(original, normalised):
+    """RefDB._word_variants, verbatim in behaviour: the key, minus a possessive
+    's, minus a simple plural."""
+    out = [normalised]
+    w = normalised
+    if w.endswith("s") and len(w) >= 3:
+        orig = (original or "").lower().strip()
+        if orig.endswith("'s") or orig.endswith("’s") or orig.endswith("s'"):
+            out.append(w[:-1])
+    if len(w) >= 4 and w.endswith("s") and not w.endswith("ss") and w[:-1] not in out:
+        out.append(w[:-1])
+    return out
+
+
+def meaning_values(db, word):
+    """Every value the SOLVER can reach from this clue word, as UPPER strings.
+
+    Mirrors `core/live_db.py:62` (LiveDB.get_synonyms), which is what the engines
+    actually consult, in three respects the plain norm_word lookup misses:
+
+    1. VARIANTS — the word's inflections and contraction/possessive forms, so
+       "Gang's" reaches POSSES and "gardens" reaches PARK.
+    2. THE REVERSE DIRECTION — synonyms_pairs is not stored symmetrically, so a
+       pair may exist only as value -> key. "duck's" -> O is reachable only by
+       matching the VALUE column and returning the key.
+    3. api_mw_mesh EXCLUDED — the ~796k uncurated Merriam-Webster "words related
+       to X" rows the solver stopped using on 2026-07-23 (user). Showing a
+       solver a value our own engine refuses to use is the generic-dictionary
+       padding this module's docstring promises never to do: "trust" offered 29
+       such values and "rotter" 23, among them BASTARD and BUGGER.
+
+    A tool that cannot show what the explanation asserts is a tool bug, never an
+    absent fact — the same rule `indicator_roles` keeps for roles.
+    """
+    # SLASH-ARTIFACT GUARD, as the engine keeps it: a scraped definition like
+    # 'Good/penalty' normalises to 'good penalty' and would otherwise match that
+    # contiguous phrase and mint a definition that was never written.
+    multiword = " " in (word or "").strip()
+    out, seen = [], set()
+
+    def take(value):
+        v = (value or "").strip().upper()
+        if v and v not in seen:
+            seen.add(v)
+            out.append(v)
+
+    keys = lookup_keys(word)
+
+    for key in keys:                                   # forward: key -> value
+        for r in db.execute(
+                "SELECT synonym FROM synonyms_pairs WHERE norm_word = ? "
+                "AND (source IS NULL OR source <> 'api_mw_mesh')", (key,)):
+            take(r["synonym"])
+        for r in db.execute(
+                "SELECT answer, definition FROM definition_answers_augmented "
+                "WHERE norm_def = ?", (key,)):
+            if multiword and r["definition"] and "/" in r["definition"]:
+                continue
+            take(r["answer"])
+    for key in keys:                                   # reverse: value -> key
+        for r in db.execute(
+                "SELECT word FROM synonyms_pairs WHERE synonym = ? COLLATE NOCASE "
+                "AND (source IS NULL OR source <> 'api_mw_mesh')", (key,)):
+            take(r["word"])
+        for r in db.execute(
+                "SELECT definition FROM definition_answers_augmented "
+                "WHERE answer = ? COLLATE NOCASE", (key,)):
+            take(r["definition"])
+    return out
+
+
+def abbreviation_values(db, word):
+    """The abbreviations and symbols the SOLVER can take this word for.
+
+    Mirrors `core/live_db.py:126` (LiveDB.get_abbreviations): the same keys as
+    everything else, and — ONLY when the forward pass finds nothing — the
+    reverse match on the substitution column, which is how "women's" reaches W.
+    The reverse pass stays conditional exactly as the engine keeps it; running
+    it unconditionally would flood a common word with every indicator that
+    happens to share its letters.
+
+    DBE marker rows are left in, unlike the engine, which filters
+    category='dbe'. That is a separate question from this change and has not
+    been decided.
+    """
+    out, seen = [], set()
+
+    def take(value):
+        v = (value or "").strip()
+        if v and v.upper() not in seen:
+            seen.add(v.upper())
+            out.append(v)
+
+    keys = lookup_keys(word)
+    for key in keys:
+        for r in db.execute(
+                "SELECT DISTINCT substitution FROM wordplay WHERE norm_ind = ?", (key,)):
+            take(r["substitution"])
+    if not out:
+        for key in keys:
+            for r in db.execute(
+                    "SELECT DISTINCT indicator FROM wordplay "
+                    "WHERE substitution = ? COLLATE NOCASE", (key,)):
+                take(r["indicator"])
+    return out
+
+
 def indicator_roles(db, word, word_lower):
     """What this clue word can DO, across the forms the engine would try.
 
@@ -175,32 +310,18 @@ def lookup(ref_db, word, letters=None, entry_length=None):
 
     db = _connect(ref_db)
     try:
+        # The values the SOLVER can reach, not just those keyed to the word as
+        # typed — see meaning_values. Length is measured the way the old SQL
+        # measured it (spaces removed), so the grouping is unchanged.
+        values = meaning_values(db, word)
+
         if letters:
-            rows = db.execute(
-                """SELECT DISTINCT val FROM (
-                       SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                       WHERE norm_word = ? AND LENGTH(REPLACE(synonym,' ','')) = ?
-                       UNION
-                       SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                       WHERE norm_def = ? AND LENGTH(REPLACE(answer,' ','')) = ?
-                   ) ORDER BY val LIMIT ?""",
-                (word_lower, letters, word_lower, letters, RESULT_CAP),
-            ).fetchall()
-            meanings = [{"length": letters, "words": [r["val"] for r in rows], "more": 0}]
+            hit = sorted({v for v in values if len(v.replace(" ", "")) == letters})
+            meanings = [{"length": letters, "words": hit[:RESULT_CAP], "more": 0}]
         else:
-            rows = db.execute(
-                """SELECT DISTINCT val, LENGTH(REPLACE(val,' ','')) AS len FROM (
-                       SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                       WHERE norm_word = ?
-                       UNION
-                       SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                       WHERE norm_def = ?
-                   ) ORDER BY LENGTH(REPLACE(val,' ','')), val""",
-                (word_lower, word_lower),
-            ).fetchall()
             by_length = {}
-            for r in rows:
-                by_length.setdefault(r["len"], []).append(r["val"])
+            for v in values:
+                by_length.setdefault(len(v.replace(" ", "")), []).append(v)
             meanings = []
             for length in sorted(by_length):
                 words = sorted(by_length[length])
@@ -214,16 +335,13 @@ def lookup(ref_db, word, letters=None, entry_length=None):
 
         indicators = indicator_roles(db, word, word_lower)
 
-        abbreviation_sql = ("SELECT DISTINCT substitution FROM wordplay "
-                            "WHERE norm_ind = ?")
+        abbreviations = abbreviation_values(db, word)
         if letters:
-            abbreviations = [r["substitution"] for r in db.execute(
-                abbreviation_sql + " AND LENGTH(substitution) = ? "
-                "ORDER BY substitution LIMIT 15", (word_lower, letters)).fetchall()]
+            abbreviations = [a for a in abbreviations if len(a) == letters]
+            abbreviations.sort()
         else:
-            abbreviations = [r["substitution"] for r in db.execute(
-                abbreviation_sql + " ORDER BY LENGTH(substitution), substitution "
-                "LIMIT 15", (word_lower,)).fetchall()]
+            abbreviations.sort(key=lambda a: (len(a), a))
+        abbreviations = abbreviations[:15]
 
         homophone_sql = ("SELECT DISTINCT homophone FROM homophones "
                          "WHERE norm_word = ?")

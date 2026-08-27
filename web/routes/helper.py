@@ -58,6 +58,133 @@ def _match_variants(text):
     return out
 
 
+def _refdb_forms(original, normalised):
+    """`signature_solver.db.RefDB._word_variants`, verbatim in behaviour: the
+    key, minus a possessive 's, minus a simple plural (never a "ss" ending)."""
+    out = [normalised]
+    w = normalised
+    if w.endswith("s") and len(w) >= 3:
+        orig = (original or "").lower().strip()
+        if orig.endswith("'s") or orig.endswith("’s") or orig.endswith("s'"):
+            out.append(w[:-1])
+    if len(w) >= 4 and w.endswith("s") and not w.endswith("ss") and w[:-1] not in out:
+        out.append(w[:-1])
+    return out
+
+
+def _lookup_keys(text):
+    """Every normalised key the SOLVER would try for this clue word.
+
+    TWO layers, because the engine applies two, and asking with either one
+    alone is the narrower question that hid these facts in the first place:
+
+    * OUTER — `_match_variants` above (core/engine_registry.py:23): regular
+      inflections plus contraction/possessive expansions.
+    * INNER — RefDB._word_variants, which every RefDB / LiveDB getter applies
+      AGAIN to whatever it is handed (core/live_db.py:73 hands it each variant).
+
+    Reproduced rather than imported because constructing a RefDB loads every
+    reference table into memory — far too heavy for one panel lookup.
+    """
+    keys = []
+    for variant in _match_variants(text):
+        w = _normalize_key(variant)
+        if not w:
+            continue
+        for form in _refdb_forms(variant, w):
+            if form and form not in keys:
+                keys.append(form)
+    return keys
+
+
+def _abbreviation_values(db, word):
+    """The abbreviations and symbols the SOLVER can take this word for.
+
+    Mirrors `core/live_db.py:126`: the same keys, and — ONLY when the forward
+    pass finds nothing — the reverse match on the substitution column, which is
+    how "women's" reaches W. Kept conditional exactly as the engine keeps it;
+    unconditional, it would flood a common word with every indicator sharing
+    its letters. DBE marker rows are left in, unlike the engine, which filters
+    category='dbe'; that is a separate question and has not been decided.
+    """
+    out, seen = [], set()
+
+    def take(value):
+        v = (value or "").strip()
+        if v and v.upper() not in seen:
+            seen.add(v.upper())
+            out.append(v)
+
+    keys = _lookup_keys(word)
+    for key in keys:
+        for row in db.execute(
+                "SELECT DISTINCT substitution FROM wordplay WHERE norm_ind = ?", (key,)):
+            take(row["substitution"])
+    if not out:
+        for key in keys:
+            for row in db.execute(
+                    "SELECT DISTINCT indicator FROM wordplay "
+                    "WHERE substitution = ? COLLATE NOCASE", (key,)):
+                take(row["indicator"])
+    return out
+
+
+def _meaning_values(db, word):
+    """Every value the SOLVER can reach from this clue word, as UPPER strings.
+
+    Reproduces `core/live_db.py:62` (LiveDB.get_synonyms) — what the engines
+    actually consult — in the three respects a plain norm_word lookup misses:
+
+    1. VARIANTS, as _match_variants builds them, so "Gang's" reaches POSSES and
+       "gardens" reaches PARK.
+    2. THE REVERSE DIRECTION. synonyms_pairs is not stored symmetrically, so a
+       pair can exist only as value -> key; "duck's" -> O is reachable only by
+       matching the VALUE column and returning the key.
+    3. api_mw_mesh EXCLUDED, exactly as the solver excludes it (2026-07-23,
+       user): ~796k uncurated Merriam-Webster "words related to X" rows. This
+       panel was offering the solver 29 such values for "trust" and 23 for
+       "rotter" — values our own engine refuses to use.
+
+    Same rule as _indicator_rows above: a lookup that cannot find what the
+    solver used is a lookup bug, never an absent fact.
+    """
+    # SLASH-ARTIFACT GUARD, as the engine keeps it: 'Good/penalty' normalises to
+    # 'good penalty' and would otherwise match that contiguous phrase and mint a
+    # definition nobody wrote.
+    multiword = " " in (word or "").strip()
+    out, seen = [], set()
+
+    def take(value):
+        v = (value or "").strip().upper()
+        if v and v not in seen:
+            seen.add(v)
+            out.append(v)
+
+    keys = _lookup_keys(word)
+
+    for key in keys:                                   # forward: key -> value
+        for row in db.execute(
+                "SELECT synonym FROM synonyms_pairs WHERE norm_word = ? "
+                "AND (source IS NULL OR source <> 'api_mw_mesh')", (key,)):
+            take(row["synonym"])
+        for row in db.execute(
+                "SELECT answer, definition FROM definition_answers_augmented "
+                "WHERE norm_def = ?", (key,)):
+            if multiword and row["definition"] and "/" in row["definition"]:
+                continue
+            take(row["answer"])
+    for key in keys:                                   # reverse: value -> key
+        for row in db.execute(
+                "SELECT word FROM synonyms_pairs WHERE synonym = ? COLLATE NOCASE "
+                "AND (source IS NULL OR source <> 'api_mw_mesh')", (key,)):
+            take(row["word"])
+        for row in db.execute(
+                "SELECT definition FROM definition_answers_augmented "
+                "WHERE answer = ? COLLATE NOCASE", (key,)):
+            take(row["definition"])
+    return out
+
+
 def _indicator_rows(db, word):
     """Indicator roles for a word, across the forms the engine would try.
 
@@ -225,20 +352,15 @@ def lookup():
     word_lower = _normalize_key(word)
     db = _get_ref_db()
 
-    # 1. "Could mean" — combined synonyms + definition answers, deduplicated
+    # 1. "Could mean" — the values the SOLVER can reach from this word, not only
+    #    those keyed to the word as typed (see _meaning_values). Lengths are
+    #    measured the way the old SQL measured them, spaces removed, so every
+    #    grouping and filter below behaves exactly as before.
+    values = _meaning_values(db, word)
+
     if enum_pattern:
         # Exact enumeration filter: only synonyms whose word lengths match the pattern
         total_letters = sum(enum_pattern)
-        synonyms = db.execute(
-            """SELECT DISTINCT val FROM (
-                   SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE norm_word = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
-                   UNION
-                   SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE norm_def = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
-               ) ORDER BY val""",
-            (word_lower, total_letters, word_lower, total_letters),
-        ).fetchall()
 
         def _matches_enum(val, pattern):
             """Check if a synonym's word lengths match the enumeration pattern."""
@@ -247,42 +369,20 @@ def lookup():
                 return False
             return all(len(p) == expected for p, expected in zip(parts, pattern))
 
-        meanings_list = []
-        for r in synonyms:
-            val = r["val"]
-            if _matches_enum(val, enum_pattern):
-                meanings_list.append(val)
-        meanings_list.sort()
+        meanings_list = sorted(
+            {v for v in values
+             if len(v.replace(" ", "")) == total_letters and _matches_enum(v, enum_pattern)})
     elif letters:
-        synonyms = db.execute(
-            """SELECT DISTINCT val FROM (
-                   SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE norm_word = ? AND LENGTH(REPLACE(synonym, ' ', '')) = ?
-                   UNION
-                   SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE norm_def = ? AND LENGTH(REPLACE(answer, ' ', '')) = ?
-               ) ORDER BY val LIMIT 15""",
-            (word_lower, letters, word_lower, letters),
-        ).fetchall()
-        meanings_list = [r["val"] for r in synonyms]
+        meanings_list = sorted(
+            {v for v in values if len(v.replace(" ", "")) == letters})[:15]
     else:
-        synonyms = db.execute(
-            """SELECT DISTINCT val, LENGTH(REPLACE(val, ' ', '')) as len FROM (
-                   SELECT UPPER(synonym) AS val FROM synonyms_pairs
-                   WHERE norm_word = ?
-                   UNION
-                   SELECT UPPER(answer) AS val FROM definition_answers_augmented
-                   WHERE norm_def = ?
-               ) ORDER BY LENGTH(REPLACE(val, ' ', '')), val""",
-            (word_lower, word_lower),
-        ).fetchall()
         # Group by length, top 5 per group, alphabetical
         by_len = {}
-        for r in synonyms:
-            l = r["len"]
+        for v in values:
+            l = len(v.replace(" ", ""))
             if l not in by_len:
                 by_len[l] = []
-            by_len[l].append(r["val"])
+            by_len[l].append(v)
         meanings_list = []
         for l in sorted(by_len):
             all_words = sorted(by_len[l])
@@ -295,23 +395,14 @@ def lookup():
     #    is using cannot be missing here (see _indicator_rows).
     indicators = _indicator_rows(db, word)
 
-    # 3. Abbreviations — by length then alphabetical
+    # 3. Abbreviations — by length then alphabetical, across the same keys the
+    #    engine tries and with its conditional reverse pass (see
+    #    _abbreviation_values), so "women's" can reach W.
+    abbreviations = _abbreviation_values(db, word)
     if letters:
-        abbreviations = db.execute(
-            """SELECT DISTINCT substitution FROM wordplay
-               WHERE norm_ind = ? AND LENGTH(substitution) = ?
-               ORDER BY substitution
-               LIMIT 10""",
-            (word_lower, letters),
-        ).fetchall()
+        abbreviations = sorted(a for a in abbreviations if len(a) == letters)[:10]
     else:
-        abbreviations = db.execute(
-            """SELECT DISTINCT substitution FROM wordplay
-               WHERE norm_ind = ?
-               ORDER BY LENGTH(substitution), substitution
-               LIMIT 15""",
-            (word_lower,),
-        ).fetchall()
+        abbreviations = sorted(abbreviations, key=lambda a: (len(a), a))[:15]
 
     # 4. Homophones — alphabetical
     if letters:
@@ -356,7 +447,7 @@ def lookup():
              "form": matched}
             for r, matched in indicators
         ],
-        abbreviations=[r["substitution"] for r in abbreviations],
+        abbreviations=abbreviations,          # already plain strings, ordered
         homophones=[r["homophone"] for r in homophones],
         enum_total=enum_total,
         enum_display=enum_display,
