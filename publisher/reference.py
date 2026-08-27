@@ -69,12 +69,82 @@ def signature(word):
 
 
 def _variants(word_lower):
-    """The word plus the plural and possessive forms worth also trying."""
+    """The word plus the plural and possessive forms worth also trying.
+
+    Used by the SYNONYM tool only. Weaker than `match_variants` below on
+    purpose for now: widening what a typed word can mean is a separate question
+    from what a clue word can DO, and it has not been measured. See the note on
+    `indicator_roles`.
+    """
     out = [word_lower]
     if len(word_lower) >= 4 and word_lower.endswith("s") and not word_lower.endswith("ss"):
         out.append(word_lower[:-1])
     if word_lower.endswith("'s"):
         out.append(word_lower[:-2])
+    return out
+
+
+def match_variants(text):
+    """Every form to try against the reference tables, original first.
+
+    The SOLVER matches a clue word against its regular inflections and its
+    contraction/possessive forms — `core/engine_registry.py:185` unions the
+    indicator types over `_match_variants`. Asking a narrower question here
+    makes the panel silent about a role the card is showing: 2026-08-25,
+    "maintain" is the container indicator in Telegraph 31323 1 across while the
+    table holds only "maintains" and "maintaining".
+
+    `core.inflect` and `core.contractions` are IMPORTED, not copied like
+    `normalise_key` above. Both are leaf modules with no imports of their own,
+    and the rule this package keeps is that it imports nothing from `web/`.
+    Copying inflection rules that must agree with the engine's, exactly, is how
+    this hole would reopen quietly.
+    """
+    from core import contractions, inflect
+
+    text = (text or "").replace("’", "'").replace("‘", "'")
+    out = []
+
+    def add(candidate):
+        for variant in inflect.phrase_variants(candidate):
+            if variant not in out:
+                out.append(variant)
+
+    add(text)
+    for form in contractions.forms(text):
+        add(form)
+    return out
+
+
+def indicator_roles(db, word, word_lower):
+    """What this clue word can DO, across the forms the engine would try.
+
+    Variant order, the word as written first, each role tagged with the form
+    that matched. `form` is empty when it is the word itself; when it is not,
+    the panel says so rather than implying a row that does not exist.
+    """
+    out, seen = [], set()
+    for variant in match_variants(word):
+        key = normalise_key(variant)
+        if not key:
+            continue
+        for r in db.execute(
+            "SELECT word, wordplay_type, subtype FROM indicators "
+            "WHERE norm_word = ? ORDER BY wordplay_type", (key,),
+        ).fetchall():
+            ident = (r["wordplay_type"], r["subtype"])
+            if ident in seen:
+                continue
+            seen.add(ident)
+            out.append({
+                "type": (r["wordplay_type"] or "").replace("_", " ").title(),
+                "subtype": (r["subtype"] or "").replace("_", " ")
+                           if r["subtype"] and r["subtype"] != "general" else "",
+                # The ROW'S OWN word, not the variant we generated to find it:
+                # stripping the "s" off "Parisian's" gives the stem "parisian'",
+                # which is how the engine gets there but is not a word to show.
+                "form": "" if key == word_lower else (r["word"] or variant),
+            })
     return out
 
 
@@ -142,18 +212,7 @@ def lookup(ref_db, word, letters=None, entry_length=None):
                     "fits": length == entry_length,
                 })
 
-        indicators = [
-            {
-                "type": (r["wordplay_type"] or "").replace("_", " ").title(),
-                "subtype": (r["subtype"] or "").replace("_", " ")
-                           if r["subtype"] and r["subtype"] != "general" else "",
-            }
-            for r in db.execute(
-                "SELECT wordplay_type, subtype FROM indicators "
-                "WHERE norm_word = ? ORDER BY wordplay_type",
-                (word_lower,),
-            ).fetchall()
-        ]
+        indicators = indicator_roles(db, word, word_lower)
 
         abbreviation_sql = ("SELECT DISTINCT substitution FROM wordplay "
                             "WHERE norm_ind = ?")

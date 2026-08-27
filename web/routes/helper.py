@@ -23,6 +23,73 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 # these endpoints must too, or they cannot find what the solver just used.
 from signature_solver.db import _normalize_key
 
+# ...and keyed for lookup is not the whole of it. The SOLVER matches a clue word
+# against its regular inflections and its contraction/possessive forms
+# (core/engine_registry.py:185 `indicator_types` unions the types over
+# `_match_variants`). An exact-key lookup here asks a narrower question than the
+# engine asked, so the panel can be silent about a role the parse is using:
+# 2026-08-25, "maintain" in "Trust rotter to maintain right payment method" is
+# a container indicator in the card, while the table holds only "maintains" and
+# "maintaining". Same class of fault as the LOWER(word) miss above — a lookup
+# that cannot find what the solver used is a lookup bug, never an absent fact.
+from core import contractions, inflect
+
+
+def _match_variants(text):
+    """Every form to try against the reference tables, original first.
+
+    Reproduces `core/engine_registry.py:23` — regular inflections of each word,
+    plus contraction/possessive base and expansions, each inflected in turn.
+    Imported from the same two leaf modules the engine uses rather than copied,
+    so the two cannot drift; drifting here would silently reopen exactly the
+    hole this closes.
+    """
+    text = (text or "").replace("’", "'").replace("‘", "'")
+    out = []
+
+    def add(candidate):
+        for variant in inflect.phrase_variants(candidate):
+            if variant not in out:
+                out.append(variant)
+
+    add(text)
+    for form in contractions.forms(text):
+        add(form)
+    return out
+
+
+def _indicator_rows(db, word):
+    """Indicator roles for a word, across the forms the engine would try.
+
+    Returns rows in variant order — the word as written first — each tagged
+    with the form that actually matched, so a role found through an inflection
+    can say so instead of appearing to be a fact about the word as typed. A
+    duplicate (type, subtype) reached by two variants is kept once, on the
+    earliest form.
+    """
+    out, seen = [], set()
+    base = _normalize_key(word)
+    for variant in _match_variants(word):
+        key = _normalize_key(variant)
+        if not key:
+            continue
+        for row in db.execute(
+            "SELECT word, wordplay_type, subtype, confidence FROM indicators "
+            "WHERE norm_word = ? ORDER BY wordplay_type",
+            (key,),
+        ).fetchall():
+            ident = (row["wordplay_type"], row["subtype"])
+            if ident in seen:
+                continue
+            seen.add(ident)
+            # The ROW'S OWN word, not the variant we generated to find it.
+            # Stripping the "s" off "Parisian's" produces the stem "parisian'",
+            # which is how the engine gets there but is not a word anyone should
+            # be shown. What is true is the entry that exists.
+            out.append((row, "" if key == base else (row["word"] or variant)))
+    return out
+
+
 # Stop words to ignore when searching for similar clues
 _STOP_WORDS = frozenset(
     "a an the in on of to for and or but is it its by at with from as "
@@ -223,13 +290,10 @@ def lookup():
             more = len(all_words) - 5 if len(all_words) > 5 else 0
             meanings_list.append({"length": l, "words": shown, "more": more})
 
-    # 2. Indicators — alphabetical by type, include subtype
-    indicators = db.execute(
-        """SELECT wordplay_type, subtype, confidence FROM indicators
-           WHERE norm_word = ?
-           ORDER BY wordplay_type""",
-        (word_lower,),
-    ).fetchall()
+    # 2. Indicators — alphabetical by type, include subtype. Across the same
+    #    inflections and contraction forms the engine tries, so a role the parse
+    #    is using cannot be missing here (see _indicator_rows).
+    indicators = _indicator_rows(db, word)
 
     # 3. Abbreviations — by length then alphabetical
     if letters:
@@ -285,8 +349,12 @@ def lookup():
         enum_filtered=enum_pattern is not None,
         indicators=[
             {"type": r["wordplay_type"].replace("_", " ").title(),
-             "subtype": (r["subtype"] or "").replace("_", " ") if r["subtype"] and r["subtype"] not in ("general", "") else ""}
-            for r in indicators
+             "subtype": (r["subtype"] or "").replace("_", " ") if r["subtype"] and r["subtype"] not in ("general", "") else "",
+             # The entry that matched, named only when it is not the word as
+             # typed. "Container as maintains" is the honest line; printing it
+             # bare would claim a row for "maintain" that does not exist.
+             "form": matched}
+            for r, matched in indicators
         ],
         abbreviations=[r["substitution"] for r in abbreviations],
         homophones=[r["homophone"] for r in homophones],

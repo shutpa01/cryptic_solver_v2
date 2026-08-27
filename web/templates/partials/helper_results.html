@@ -30,7 +30,10 @@
         <span class="font-medium text-amber-700">Could be an indicator for:</span>
         {% for ind in indicators %}
         <span class="inline-block bg-amber-100 text-amber-800 rounded px-1.5 py-0.5 text-xs mr-1">
-            {{ ind.type }}{% if ind.subtype %} <span class="text-amber-600">({{ ind.subtype }})</span>{% endif %}
+            {{ ind.type }}{% if ind.subtype %} <span class="text-amber-600">({{ ind.subtype }})</span>{% endif %}{#
+            The role was found through an inflection of the clue word, which is
+            how the solver found it too. Name the form rather than let the chip
+            imply a row for the word as written. #}{% if ind.form %} <span class="text-amber-600">as {{ ind.form }}</span>{% endif %}
         </span>
         {% endfor %}
     </div>

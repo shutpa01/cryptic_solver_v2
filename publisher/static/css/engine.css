@@ -560,3 +560,114 @@
 }
 
 .cg-tool-clear:hover { color: var(--cg-ink, #1b1b1b); border-color: #9aa3ad; }
+
+/* --- reading sheet ---------------------------------------------------
+ * The full explanation over the whole widget, with one way back.
+ *
+ * The site gives that step a whole viewport — it is a link to the clue's own
+ * page, in a new tab (`web/templates/puzzle.html:246`). An embedded widget has
+ * no tab to open, so it covers itself, wearing the chrome the site puts on its
+ * own full-screen overlay (`puzzle.html:331-335`): a title bar, an ✕.
+ *
+ * Fixed to the viewport, which inside the iframe is the widget. Nothing here
+ * knows which shell is underneath; the accent and rule come from whichever set
+ * them.
+ */
+
+/* Not `inset: 0`. A fixed box is laid against the LAYOUT viewport, and a phone
+ * moves the VISIBLE one out from under it — iOS scrolls the visual viewport
+ * when the keyboard comes up or the address bar slides, and the panel's top
+ * edge, ✕ and all, ends up just above what you can see. `Sheet` pins the four
+ * numbers to `window.visualViewport` while it is open; these are the values for
+ * a browser that has no such object, and the starting point before it does.
+ * `dvh` covers the other half — the browser chrome eating the foot. */
+.cg-sheet {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.cg-sheet[hidden] { display: none; }
+
+.cg-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  padding-top: calc(0.5rem + env(safe-area-inset-top));
+  background: var(--cg-accent, #0a3d62);
+  color: #fff;
+}
+
+.cg-sheet-title { font: 700 0.9rem var(--cg-ui-font); letter-spacing: 0.02em; }
+
+.cg-sheet-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 1.3rem;
+  line-height: 1;
+  /* A tap target, not a glyph: 2.75rem square is the smallest that a thumb
+   * hits first time on a phone. */
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  cursor: pointer;
+}
+
+.cg-sheet-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0 0.9rem;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* One reading column, 48rem, centred — which is where the card sits on the
+ * site: its page's `<main class="max-w-3xl mx-auto">` (web/templates/base.html:111).
+ * Full-bleed on a desktop pulls the role pill and its words to opposite ends
+ * of the screen. "The whole space" is a phone problem; this is the same fix the
+ * site already made. */
+.cg-sheet .cg-wfw-card,
+.cg-sheet-back { max-width: 48rem; margin-left: auto; margin-right: auto; }
+
+.cg-sheet-foot {
+  padding: 0.6rem 0.9rem;
+  padding-bottom: calc(0.6rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--cg-rule, #d8d5cf);
+  background: #fff;
+}
+
+/* Full width and at the foot, where a thumb rests. The ✕ is for the reader who
+ * looks to the corner first; this is for the one who does not. */
+.cg-sheet-back {
+  display: block;
+  width: 100%;
+  padding: 0.65rem;
+  border: 1px solid var(--cg-rule, #d8d5cf);
+  border-radius: 4px;
+  background: #f4f2ee;
+  font: 600 0.9rem var(--cg-ui-font);
+  color: inherit;
+  cursor: pointer;
+}
+
+.cg-sheet-back:hover { border-color: #9aa3ad; }
+
+/* On a phone the card's own generous padding is the last thing between the
+ * explanation and the edge of the screen. The CARD is untouched — this changes
+ * only the space around it, which is what the sheet is for. */
+@media (max-width: 600px) {
+  .cg-sheet-body { padding: 0 0.5rem; }
+  .cg-sheet .wfw-card {
+    padding: 1rem 0.85rem;
+    margin: 0.7rem 0;
+  }
+}

@@ -830,6 +830,10 @@
     // and a solver who then types at a grid that ignores them thinks the
     // puzzle has broken. Anything typed into a genuine control is left alone.
     document.addEventListener('keydown', function (event) {
+      // A sheet over the puzzle owns the keyboard. Letters running into squares
+      // the solver cannot see while they read is exactly the kind of damage the
+      // completed-crossing lock exists to prevent.
+      if (document.body.classList.contains('cg-sheet-open')) return;
       var target = event.target;
       if (target !== self.input && target.closest &&
           target.closest('input, textarea, select, button, [contenteditable]')) {
@@ -1744,8 +1748,13 @@
         if ((data.indicators || []).length) {
           any = true;
           box.appendChild(el('h4', 'cg-tool-head', 'Can indicate'));
+          // `form` is the inflection the role was actually found under — the
+          // same widening the engine does when it licenses an indicator
+          // (publisher/reference.indicator_roles). Naming it keeps the line
+          // honest: the table holds "maintains", not "maintain".
           box.appendChild(el('p', 'cg-tool-values', data.indicators.map(function (i) {
-            return i.subtype ? i.type + ' (' + i.subtype + ')' : i.type;
+            var text = i.subtype ? i.type + ' (' + i.subtype + ')' : i.type;
+            return i.form ? text + ' as ' + i.form : text;
           }).join(' · ')));
         }
         if ((data.abbreviations || []).length) {
@@ -1853,6 +1862,129 @@
     { id: 'explanation', label: 'Full explanation' }
   ];
 
+  /* Sheet — a reading panel over the whole widget, with one way out.
+   *
+   * A FORMAT CHANGE, and the format the site chose first. On the live site the
+   * Full explanation step is not a rung in the ladder: it is an anchor to the
+   * clue's own page, opened in a new tab (`web/templates/puzzle.html:246`), so
+   * the breakdown has always had a whole viewport to itself. A widget inside an
+   * iframe cannot open a tab, so it covers itself instead — with the chrome the
+   * site puts on its own full-screen overlay: a title bar, an ✕, and nothing
+   * else to press (`puzzle.html:331-335`).
+   *
+   * It attaches to `document.body` because it belongs to no shell region — it
+   * is over all of them. Everything visual is still the stylesheet's, so the
+   * one-engine-three-shells rule holds.
+   */
+  function Sheet() {
+    var self = this;
+    this.node = el('div', 'cg-sheet');
+    this.node.hidden = true;
+
+    var head = el('div', 'cg-sheet-head');
+    this.titleNode = el('span', 'cg-sheet-title');
+    var close = el('button', 'cg-sheet-close', '✕');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Back to the puzzle');
+    close.addEventListener('click', function () { self.close(); });
+    head.appendChild(this.titleNode);
+    head.appendChild(close);
+
+    this.body = el('div', 'cg-sheet-body cg-scroll');
+
+    var foot = el('div', 'cg-sheet-foot');
+    var back = el('button', 'cg-sheet-back', 'Back to the puzzle');
+    back.type = 'button';
+    back.addEventListener('click', function () { self.close(); });
+    foot.appendChild(back);
+
+    this.node.appendChild(head);
+    this.node.appendChild(this.body);
+    this.node.appendChild(foot);
+    document.body.appendChild(this.node);
+
+    // Escape closes, at the CAPTURE phase: the grid takes keys at the document
+    // too, and whatever it would have done with the key is not what is wanted
+    // while a panel is covering it.
+    document.addEventListener('keydown', function (event) {
+      if (self.node.hidden || event.key !== 'Escape') return;
+      event.preventDefault();
+      event.stopPropagation();
+      self.close();
+    }, true);
+
+    this._pin = function () { self.pin(); };
+  }
+
+  /* Pin the panel to the VISIBLE viewport, not the layout one.
+   *
+   * A `position: fixed` box is laid against the layout viewport, and a phone
+   * moves the visible one out from under it: iOS scrolls the visual viewport
+   * when the keyboard is up or the address bar slides, leaving a full-screen
+   * panel's top edge — its ✕ — just above what the eye can see. The layout
+   * viewport is also the taller of the two while browser chrome is showing,
+   * which is what puts a foot control off the bottom.
+   *
+   * `visualViewport` is the only thing that reports either. Where it does not
+   * exist the stylesheet's own 100dvh box stands, which is no worse than
+   * before.
+   */
+  Sheet.prototype.pin = function () {
+    var vv = window.visualViewport;
+    if (!vv) return;
+    var style = this.node.style;
+    style.top = vv.offsetTop + 'px';
+    style.left = vv.offsetLeft + 'px';
+    style.width = vv.width + 'px';
+    style.height = vv.height + 'px';
+  };
+
+  Sheet.prototype.unpin = function () {
+    var style = this.node.style;
+    style.top = style.left = style.width = style.height = '';
+  };
+
+  Sheet.prototype.isOpen = function () { return !this.node.hidden; };
+
+  Sheet.prototype.open = function (title, node) {
+    this.titleNode.textContent = title || '';
+    this.body.innerHTML = '';
+    if (node) this.body.appendChild(node);
+    this.body.scrollTop = 0;
+    this.node.hidden = false;
+    // The body class is what stops the grid underneath from eating keystrokes
+    // (`GridView.bind`). Reading is not typing.
+    document.body.classList.add('cg-sheet-open');
+    // And drop the on-screen keyboard. It was raised for the grid, and half a
+    // phone screen of keyboard over a page of reading is the awkwardness this
+    // panel exists to remove.
+    if (document.activeElement && document.activeElement.blur) {
+      document.activeElement.blur();
+    }
+    // Then follow the visible viewport for as long as it is open. The keyboard
+    // does not always go the instant it is blurred, and the address bar comes
+    // and goes on its own; both move the panel if it is not told.
+    this.pin();
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', this._pin);
+      window.visualViewport.addEventListener('scroll', this._pin);
+    }
+  };
+
+  /* Focus is deliberately NOT handed back to the grid. Returning to the puzzle
+   * should not raise the keyboard on its own; a tap on a square does that, and
+   * that tap is the solver saying they are ready to type again. */
+  Sheet.prototype.close = function () {
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener('resize', this._pin);
+      window.visualViewport.removeEventListener('scroll', this._pin);
+    }
+    this.unpin();
+    this.node.hidden = true;
+    this.body.innerHTML = '';
+    document.body.classList.remove('cg-sheet-open');
+  };
+
   ToolsView.prototype.buildHints = function () {
     var self = this;
     var entry = this.engine.current();
@@ -1893,24 +2025,20 @@
     this.api.post('/api/hints', { entry: entry.id, step: step.id })
       .then(function (data) {
         button.classList.add('is-used');
+        // The full explanation is not a rung in the ladder. It is a page of
+        // reading — a clue-type pill, answer tiles, the assembly line and a row
+        // per clue word — and the tools column is a column: on a phone it is
+        // the width of the screen minus the panel's padding, and every row
+        // wraps. It takes the whole widget instead. See Sheet.
+        if (step.id === 'explanation' && data.value != null) {
+          self.showExplanation(entry, data.value);
+          return;
+        }
         var block = el('div', 'cg-hint-block');
         block.appendChild(el('h4', 'cg-tool-head', step.label));
         if (data.value == null) {
           block.appendChild(el('p', 'cg-tool-note',
             data.unavailable || 'Not available for this clue.'));
-        } else if (step.id === 'explanation') {
-          // The SITE'S OWN card, rendered by the site's own renderer and sent
-          // as HTML (publisher/explanations.card_html). The widget used to
-          // rebuild the breakdown from data with its own markup, which is how
-          // it came to disagree with the card three times in one day. There is
-          // now one renderer, so there is nothing left to disagree about.
-          //
-          // Trusted HTML: our code, our template, our escaping — the same
-          // string the live clue page serves, with the review chips stripped
-          // server-side. It carries no script and no input.
-          var card = el('div', 'cg-wfw-card');
-          card.innerHTML = data.value;
-          block.appendChild(card);
         } else if (step.id === 'answer') {
           block.appendChild(self.answerControl(entry, data.value));
         } else {
@@ -1918,6 +2046,27 @@
         }
         box.appendChild(block);
       }).catch(function () { self._failed(box); });
+  };
+
+  /* One sheet per tools panel, built the first time it is asked for.
+   *
+   * The card inside is the SITE'S OWN, rendered by the site's own renderer and
+   * sent as HTML (publisher/explanations.card_html). The widget used to rebuild
+   * the breakdown from data with its own markup, which is how it came to
+   * disagree with the card three times in one day. There is now one renderer,
+   * so there is nothing left to disagree about — and this panel changes where
+   * the card is shown, never what it says.
+   *
+   * Trusted HTML: our code, our template, our escaping — the same string the
+   * live clue page serves, with the review chips stripped server-side. It
+   * carries no script and no input.
+   */
+  ToolsView.prototype.showExplanation = function (entry, html) {
+    if (!this._sheet) this._sheet = new Sheet();
+    var card = el('div', 'cg-wfw-card');
+    card.innerHTML = html;
+    var title = entry.number + ' ' + (entry.dir === ACROSS ? 'Across' : 'Down');
+    this._sheet.open(title, card);
   };
 
   /* The Answer rung is a CONTROL, not a caption. A solver who asks for the
@@ -1967,6 +2116,7 @@
     ClueBarView: ClueBarView,
     MatchCount: MatchCount,
     ToolsView: ToolsView,
+    Sheet: Sheet,
     TABS: TABS,
     ACROSS: ACROSS,
     DOWN: DOWN,
