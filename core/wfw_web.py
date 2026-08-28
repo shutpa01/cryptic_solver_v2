@@ -2390,7 +2390,16 @@ function initGrid(rootId, DATA){
    case 'remove_outer':return n>=3?[la.slice(1,n-1).join('')]:[];
    case 'remove_middle':return n<3?[]:(n%2?[la.slice(0,(n-1)/2).join('')+la.slice((n+1)/2).join('')]:[la.slice(0,n/2-1).join('')+la.slice(n/2+1).join('')]);
   }return [];}
+ // A NAMED selection has no derivable candidates — the setter names the positions ("fourth
+ // of exhibits", "second and third in Gleneagles"), so the human TYPES the letters and this
+ // checks they are letters the word actually has, in the order it has them. Mirrors the
+ // server's _named_selection_ok; an order-preserving subsequence, not a contiguous run.
+ function namedOk(letters,v){letters=letters||'';v=v||'';if(!v||!letters)return false;
+  var i=0;for(var k=0;k<letters.length;k++){if(i<v.length&&letters[k]===v[i])i++;}return i===v.length;}
  function fillSelCands(){if(roleSel.value!=='selection')return;var ci=checkedIdx();var fl=fodderLetters(ci);
+  if(selrule.value==='named'){        // nothing to offer: type the letters, don't pick them
+   candSel.innerHTML='<option value="">'+(fl?('(type the letters of '+fl+' the clue names)'):'(tick word(s) first)')+'</option>';
+   return;}                           // and do NOT overwrite what the user has typed
   var cands=fl?selCandsApos(ci,selrule.value):[];
   candSel.innerHTML=cands.length?cands.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('')
    :'<option value="">(tick word(s) first / word too short)</option>';
@@ -2637,7 +2646,7 @@ function initGrid(rootId, DATA){
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?'derived from the word by the rule':((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value')))));
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?((selrule&&selrule.value==='named')?'the letter(s) the clue names, e.g. I':'derived from the word by the rule'):((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value')))));
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
@@ -2672,7 +2681,7 @@ function initGrid(rootId, DATA){
  tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();if(roleSel.value==='selection')fillSelCands();if(roleSel.value==='indicator')fetchTypes();drawCutPrev();}});
  roleSel.addEventListener('change',roleFields);
  itype.addEventListener('change',roleFields);
- if(selrule)selrule.addEventListener('change',fillSelCands);
+ if(selrule)selrule.addEventListener('change',roleFields);  // roleFields refreshes the candidates AND the placeholder, which differs for 'named'
  var msgEl=root.querySelector('#g-msg');
  function note(t){if(msgEl){msgEl.style.color='#dc2626';msgEl.textContent=t||'';}}
  function assignNow(){
@@ -2691,11 +2700,17 @@ function initGrid(rootId, DATA){
     note('a literal piece is the word\\u2019s own letters in its own order — type '+own+   // the piece
      ', not '+got+'. If they land somewhere else, click the tiles they reach.');return;}}  // lie
   if(r==='selection'){var sfl=fodderLetters(idx),srl=selrule?selrule.value:'';
+   if(srl==='named'){                 // human names the positions — typed, then checked
+    var nv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+    if(!nv){note('type the letter(s) the clue names, e.g. fourth of exhibits = I');return;}
+    if(!namedOk(sfl,nv)){note(nv+' is not in '+sfl+' in that order — name letters the word actually has, reading left to right');return;}
+    a.value=nv;a.rule=srl;}
+   else{
    var scands=selCandsApos(idx,srl);
    if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
    var sv=((addInp.value||'').trim()||candSel.value||scands[0]||'').toUpperCase();
    if(scands.indexOf(sv)<0){note(sv+' is not the '+srl+' selection of '+sfl+' (must be '+scands.join(' or ')+')');return;}
-   a.value=sv;a.rule=srl;}
+   a.value=sv;a.rule=srl;}}
   if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
@@ -3239,7 +3254,8 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="remove_first">all but first (behead)</option>'
          '<option value="remove_last">all but last (curtail)</option>'
          '<option value="remove_outer">inner letters (ends off)</option>'
-         '<option value="remove_middle">all but middle (heartless)</option></select>',
+         '<option value="remove_middle">all but middle (heartless)</option>'
+         '<option value="named">named letter(s) — you type them</option></select>',
          '<select id="g-dkind" style="display:none" title="A plain definition, or a '
          'definition by example (DBE) — where the clue defines the answer via an example '
          '(e.g. “flower” for a river). Same in every respect but the label.">'
@@ -3733,6 +3749,99 @@ def _selection_candidates(phrase, rule):
         except Exception:
             pass
     return out
+
+
+def _named_selection_ok(phrase, value):
+    """A NAMED selection — "fourth of exhibits" -> I, "second and third in Gleneagles" -> LE.
+
+    The setter NAMES the positions, so there is nothing for a rule to derive: the
+    combinations cannot be enumerated without fabricating. core.selection_indicators
+    SUBTYPE_RULE deliberately maps ("selection", "named") to None for exactly that reason,
+    and that stays true — no engine gains this. What was missing was the other half of
+    that decision: the human could record the INDICATOR and had no way to record the
+    FODDER, so a clue like TELEGRAPH 31327 7d (INITIATE) could not be filed at all.
+
+    The human names the letters; this checks they are letters the word ACTUALLY HAS, in
+    the order it has them. That is a real constraint, not a rubber stamp — it refuses a
+    letter the word does not contain, and refuses naming them out of order (the same rule
+    a literal piece obeys, see the ORDER guard in _build_manual_parse). Combined with the
+    tile gate, which already demands the piece spell the tiles it lands on, a named
+    selection cannot invent a letter source.
+
+    Order-preserving subsequence, NOT a contiguous run: "second and fourth" is a
+    legitimate naming and lands non-adjacent letters.
+    """
+    letters, v = _raw_letters(phrase), _raw_letters(value)
+    if not v or not letters:
+        return False
+    i = 0
+    for c in letters:
+        if i < len(v) and c == v[i]:
+            i += 1
+    return i == len(v)
+
+
+def _placing_assignments(assigns):
+    """[(assignment, sorted tile positions)] for every assignment that places tiles."""
+    out = []
+    for a in assigns:
+        if not isinstance(a, dict):
+            continue
+        ps = sorted(int(p) for p in (a.get("pos") or [])
+                    if str(p).lstrip("-").isdigit())
+        if ps:
+            out.append((a, ps))
+    return out
+
+
+def _literal_run_ok(target, assigns):
+    """A LITERAL piece's tiles must be a RUN, or a wrap around something nested wholly
+    inside it. False when its span is broken by a piece that also pokes outside.
+
+    A literal asserts "these letters appear, in this order, as they stand". Contiguity is
+    the whole content of that claim, and NOTHING tested it: `pos` is sorted before the
+    spelling check below, so tiles 1,4,5,9 of WATERSIDE spell WERE in ascending order and
+    passed. TIMES 29633 27a (10087934) was filed by the prefill as three pieces —
+    as=AS on [2,6], were=WERE on [1,4,5,9] — when "as it were" is ONE anagram fodder
+    (+ D from delta = ASITWERED, which is WATERSIDE). User: "a literal must LITERALLY
+    appear in the word, whereas here they are scattered."
+
+    A flat contiguity rule would be WRONG, and two broader rules were measured and
+    discarded before this one:
+      - "literals must be contiguous" refuses S(CABBIES)T (10077234) and R(AMBLE)S
+        (10077223), both sound wraps;
+      - "piece spans must not cross" refuses 325 clues, ~310 of them ordinary multi-word
+        anagram fodder ("One far off?" = NO FEAR interleaves ONE and FAR by design).
+    So the test is NESTING, and only for a literal: fodder scatters by definition and is
+    never judged here, and a proven named shift bypasses this at the call site.
+    Measured over every stored solve: catches exactly the two bad prefills, clears all
+    thirteen legitimate scattered-piece readings.
+    """
+    places = _placing_assignments(assigns)
+    own = next((ps for a, ps in places if a is target), None)
+    if not own:
+        return True
+    lo, hi = own[0], own[-1]
+    if own == list(range(lo, hi + 1)):
+        return True                                  # a plain run
+    inside = set(own)
+    for p in range(lo, hi + 1):
+        if p in inside:
+            continue
+        holder = next((ps for a, ps in places if a is not target and p in ps), None)
+        if holder is None:
+            return False                             # a gap nothing accounts for
+        if not (lo < holder[0] and holder[-1] < hi):
+            return False                             # crosses, so it is not a wrap
+    return True
+
+
+def _selection_ok(phrase, rule, value):
+    """Is this selection piece's value legitimate? THE one answer, used by both the
+    commit gate and /hsresolve's report, so the two can never disagree about a rule."""
+    if (rule or "").strip() == "named":
+        return _named_selection_ok(phrase, value)
+    return bool(value) and value in _selection_candidates(phrase, rule)
 
 
 def _cand_from_assignments(assigns, n_total, answer=""):
@@ -4425,7 +4534,7 @@ def hsresolve_route():
             elif role == "selection":             # SELECTION piece — per-clue only, NO DB write
                 val = (a.get("value") or "").strip().upper()
                 rule = (a.get("rule") or "").strip()
-                if val and val in _selection_candidates(phrase, rule):
+                if _selection_ok(phrase, rule, val):
                     applied.append("%r=%s (selection/%s)" % (phrase, val, rule))
                 elif val:
                     applied.append("%r=%s (selection/%s — NOT what the rule derives, ignored)"
@@ -5472,13 +5581,42 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                             "else (an exchange, a reversal), place them on the tiles they "
                             "reach; the value still spells the word."
                             % (phrase, _own, value)}
+            # A literal claims its letters appear AS THEY STAND, so they must land as a run
+            # (or wrap something nested inside). See _literal_run_ok for the two broader
+            # rules that were measured and rejected. A proven named shift is exempt: its
+            # pieces are right and land displaced by the exchange, which is recorded.
+            if role == "letters" and not _named_ok and not _literal_run_ok(a, assigns):
+                _got = "".join(ans_letters[p - 1] for p in pos if 1 <= p <= N)
+                return {"ok": False, "msg": "%r = %r is tagged a literal, but its letters "
+                        "are scattered across tiles %s — a literal appears as it stands, in "
+                        "one run. Scattered letters mean the piece belongs to something that "
+                        "rearranges: tick the WHOLE fodder phrase as one anagram piece "
+                        "instead of tagging its words separately."
+                        % (phrase, value or _got, ", ".join(str(p) for p in pos))}
             if role == "selection":                        # derived letters — validate vs the rule
                 rule = (a.get("rule") or "").strip()       # so a selection can never be free-typed
-                cands = _selection_candidates(phrase, rule)
-                if not value or value not in cands:
-                    return {"ok": False, "msg": "Selection %r (%s) = %r is not what the "
-                            "rule derives (%s)." % (phrase, rule or "no rule", value,
-                            " / ".join(cands) if cands else "nothing — word too short")}
+                if rule == "named":
+                    # NAMED positions: the human types the letters (nothing to derive — see
+                    # _named_selection_ok). Refused on the AI path: a reading that may TYPE a
+                    # letter-source is precisely what the honesty gate exists to stop, and
+                    # unlike a synonym there is no reference DB to check it against, so there
+                    # is no provisional middle ground. The human is the authority here.
+                    if verify_db:
+                        return {"ok": False, "msg": "A named selection (%r = %r) may only be "
+                                "filed by hand — an AI reading cannot name letters, because "
+                                "nothing derives them. Leave the piece for the human."
+                                % (phrase, value)}
+                    if not _named_selection_ok(phrase, value):
+                        return {"ok": False, "msg": "Named selection %r = %r — %s does not "
+                                "contain those letters in that order. Name letters the word "
+                                "actually has, reading left to right."
+                                % (phrase, value, _raw_letters(phrase) or "the word")}
+                else:
+                    cands = _selection_candidates(phrase, rule)
+                    if not value or value not in cands:
+                        return {"ok": False, "msg": "Selection %r (%s) = %r is not what the "
+                                "rule derives (%s)." % (phrase, rule or "no rule", value,
+                                " / ".join(cands) if cands else "nothing — word too short")}
             if not pos:
                 return {"ok": False, "msg": "The piece %r has no answer tiles — click "
                         "the answer letters it makes, then Assign." % phrase}
@@ -5551,10 +5689,27 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                             "you clicked (%s) — missing %s." % (value, got,
                             "".join(sorted(short.elements())))}
                 if got == value:                           # unrearranged = NOT an anagram (user rule
-                    return {"ok": False,                   # 2026-07-12): it is a charade literal
-                            "msg": "%r is not an anagram — its letters land on the tiles "
-                            "in their original order (%s). An anagram must rearrange; "
-                            "tag this piece 'letters' (literal) instead." % (phrase, got)}
+                    # 2026-07-12): it is a charade literal — BUT ONLY IF THE TILES ARE A RUN.
+                    # This message's ADVICE is the prefill's spec (the gate's wording teaches
+                    # the reading), and when the tiles are scattered "tag it literal" is the
+                    # exact instruction that produced the broken WATERSIDE filing: "as" alone
+                    # does land as A then S across tiles 2 and 6, so the author is told to
+                    # call a scattered piece a literal. Scattered tiles mean the fodder has
+                    # been split too finely, so say THAT instead.
+                    _run = list(pos) == list(range(pos[0], pos[0] + len(pos)))
+                    if _run:
+                        return {"ok": False,
+                                "msg": "%r is not an anagram — its letters land on the tiles "
+                                "in their original order (%s). An anagram must rearrange; "
+                                "tag this piece 'letters' (literal) instead." % (phrase, got)}
+                    return {"ok": False,
+                            "msg": "%r is not an anagram on its own — its letters land in "
+                            "their original order (%s), and scattered across tiles %s. That "
+                            "scattering is the rest of the fodder interleaving with it: tick "
+                            "the WHOLE fodder phrase as ONE anagram piece and click every "
+                            "tile it fills. Do NOT tag it a literal — a literal appears as it "
+                            "stands, in one run."
+                            % (phrase, got, ", ".join(str(p) for p in pos))}
             si = len(sources)
             # record the piece's REAL mechanism so the render shows the right label (letters ->
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
