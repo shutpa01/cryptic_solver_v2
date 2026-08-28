@@ -269,8 +269,17 @@ def _note_mechs(indicators):
 # 'sounds like' transform), so the join count cannot invent a charade out of one sound:
 # measured over all 6,590 stored solves, 37 labels gain the charade and every one has
 # genuinely separate pieces. Mirrors core/wfw_render._CHARADE_SUPPRESS.
+# ANAGRAM IS NOT HERE EITHER (user-reported 2026-08-25, POTATO BLIGHT telegraph 31323
+# 14a = TOPBOAT anagrammed by "at sea" + dawn=LIGHT, which read "Anagram"). Same fault as
+# the homophone one above and the same reasoning: a multi-word anagram's fodder is stored
+# as ONE source ("top boat" -> TOPBOAT), so it contributes ONE placed piece and cannot
+# inflate the join count. The gestalt argument above is about several clue WORDS, not
+# several PIECES, and the two were conflated. Measured over all 5,298 stored passes: 577
+# labels gain the charade and EVERY ONE has 2+ placed sources — zero false charades.
+# Still suppressed and NOT measured: acrostic, alternation, spoonerism, hidden,
+# palindrome, cycling, substitution, replacement. Measure before removing any of them.
 _CHARADE_SUPPRESS = frozenset((
-    "anagram", "acrostic", "alternation", "spoonerism",
+    "acrostic", "alternation", "spoonerism",
     "hidden", "palindrome", "cycling", "substitution", "replacement"))
 
 
