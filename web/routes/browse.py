@@ -33,8 +33,18 @@ def _public_sources():
 
 @bp.route("/")
 def home():
-    """Home page — browse by source and type."""
-    return render_template("home.html", sources=_public_sources())
+    """Home page — browse by source and type.
+
+    Also carries the day's Telegraph clues (web/home_clues.py): clue TEXT on the
+    one page Google has already chosen to index, since a new url has never won
+    that decision. Returns [] and the block hides if nothing is served.
+    """
+    from web.home_clues import get_home_clues, home_puzzles
+    today_clues = get_home_clues()
+    return render_template("home.html",
+                           sources=_public_sources(),
+                           today_clues=today_clues,
+                           today_puzzles=home_puzzles(today_clues))
 
 
 @bp.route("/puzzles")
