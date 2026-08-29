@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{# ARCHIVE CLUE PAGE — the answer, and nothing else (user decision 2026-08-29).
+
+   WHY IT EXISTS: Google's list of this site is the pre-July corpus, nearly all
+   of which we withdrew — 42 of its 44 clue-page fetches in 15 days hit a 410
+   (origin logs, 15 days to 29 Aug). Reopening those URLs spends crawl we
+   already have rather than crawl we would have to earn. The gate and the full
+   reasoning are in web/serving.archive_answer.
+
+   WHAT IT MUST NEVER DO: render an explanation. No definition, no wordplay
+   type, no scraped blog text, no parsed explanation. The clue, the answer, and
+   an honest line about what this page is.
+
+   AND IT DOES NOT SAY "YET" (user, 2026-08-29): we are not going to solve the
+   legacy corpus, so a page implying it is coming would be a lie. It says what
+   is true — the archive gives you the answer, Cordelia works through today's.
+
+   The puzzle this clue came from is NOT served, so nothing here links to it;
+   a link to a 410 is the one thing the serving rule forbids. #}
+
+{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — crossword clue answer{% endblock %}
+{% block meta %}
+<meta name="description" content="Answer to the crossword clue &quot;{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}&quot; from {{ clue.source | source_name }}{% if clue.puzzle_number %} #{{ clue.puzzle_number }}{% endif %}.">
+<meta name="robots" content="index,follow">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+
+    <h1 class="text-xl font-semibold text-gray-900 leading-relaxed">
+        {{ clue.clue_text | clickable_words(clue.id) }}{% if clue.enumeration %} <span class="text-gray-500 font-normal">({{ clue.enumeration }})</span>{% endif %}
+    </h1>
+    <div id="wordhelp-{{ clue.id }}" class="mt-1 lookup-host"></div>
+
+    <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-gray-500">
+        <span class="font-medium text-gray-700">{{ clue.source | source_name }}</span>
+        {% if clue.puzzle_number %}<span>#{{ clue.puzzle_number }}</span>{% endif %}
+        {% if clue.clue_number and clue.direction %}
+        <span class="text-gray-300">|</span>
+        <span>{{ clue.clue_number }} {{ clue.direction | title }}</span>
+        {% endif %}
+        {% if clue.publication_date %}
+        <span class="text-gray-300">|</span>
+        <span>{{ clue.publication_date }}</span>
+        {% endif %}
+    </div>
+
+    {# The answer, plainly. Someone who searched this clue came for it, so it is
+       not hidden behind a reveal. #}
+    <div class="mt-5">
+        <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Answer</div>
+        <div class="flex flex-wrap gap-1.5">
+            {% for ch in (answer | format_answer(clue.enumeration)) %}
+                {% if ch == ' ' %}<span class="w-3"></span>
+                {% elif ch == '-' %}<span class="self-center text-gray-400 font-bold px-0.5">&ndash;</span>
+                {% else %}<span class="w-9 h-9 flex items-center justify-center rounded-md border-2 border-indigo-200 bg-indigo-50 text-indigo-800 text-lg font-bold">{{ ch | upper }}</span>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {# The honest line. Not an apology, and no promise we will not keep. #}
+    <p class="mt-6 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+        This one's from the archive, so I'm just giving you the answer &mdash;
+        I don't work these older puzzles out. The ones I take apart clue by clue
+        are <a href="/puzzles" class="text-indigo-600 font-semibold hover:text-indigo-800">today's puzzles</a>,
+        where you get the definition, the wordplay and how the answer is built.
+    </p>
+</div>
+
+{# The reason the page is worth landing on: the tools come with it. #}
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <h2 class="text-base font-bold text-gray-800 mb-1">Stuck on the rest of the puzzle?</h2>
+    <p class="text-sm text-gray-500 mb-4">
+        Click any word in the clue above and I'll tell you what it can mean, or what it
+        might be doing. Click two words side by side for a phrase. And these search
+        500,000 real published answers &mdash; no dictionary fluff, no made-up words.
+    </p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <a href="/tools/anagram" class="group flex items-center gap-3 rounded-xl border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-md transition">
+            <span class="text-2xl">&#128260;</span>
+            <span>
+                <span class="block text-sm font-bold text-gray-800 group-hover:text-indigo-600 transition">Anagram Solver</span>
+                <span class="block text-xs text-gray-400">Jumbled letters, unscrambled</span>
+            </span>
+        </a>
+        <a href="/tools/pattern" class="group flex items-center gap-3 rounded-xl border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-md transition">
+            <span class="text-2xl">&#128269;</span>
+            <span>
+                <span class="block text-sm font-bold text-gray-800 group-hover:text-indigo-600 transition">Pattern Matcher</span>
+                <span class="block text-xs text-gray-400">Know some letters? I'll fit the rest</span>
+            </span>
+        </a>
+        <a href="/tools/synonym" class="group flex items-center gap-3 rounded-xl border border-gray-100 px-4 py-3 hover:border-indigo-300 hover:shadow-md transition">
+            <span class="text-2xl">&#128218;</span>
+            <span>
+                <span class="block text-sm font-bold text-gray-800 group-hover:text-indigo-600 transition">Synonym Finder</span>
+                <span class="block text-xs text-gray-400">The meanings setters use</span>
+            </span>
+        </a>
+    </div>
+</div>
+
+{# Word lookup. Same behaviour as the served clue page (clue.html): click a word,
+   click an adjacent one to build a phrase, click the same word again to clear.
+   Deliberately duplicated rather than shared, so nothing on the served page had
+   to change to ship this. #}
+<script>
+var _selectedWords = [];
+function wordHelp(span) {
+    var idx = parseInt(span.dataset.idx);
+    var clean = span.dataset.clean;
+    var plain = span.dataset.plain || clean;
+    var clueId = span.dataset.clue;
+    var target = 'wordhelp-' + clueId;
+
+    if (_selectedWords.length === 1 && _selectedWords[0].idx === idx) {
+        _clearSelection();
+        document.getElementById(target).innerHTML = '';
+        return;
+    }
+    if (_selectedWords.length > 0) {
+        var idxs = _selectedWords.map(function(w) { return w.idx; });
+        var minIdx = Math.min.apply(null, idxs);
+        var maxIdx = Math.max.apply(null, idxs);
+        if (idx !== minIdx - 1 && idx !== maxIdx + 1) _clearSelection();
+    }
+    _selectedWords.push({el: span, idx: idx, clean: clean, plain: plain});
+    span.classList.add('bg-indigo-200', 'rounded');
+    _selectedWords.sort(function(a, b) { return a.idx - b.idx; });
+    var phrase = _selectedWords.map(function(w) { return w.plain || w.clean; }).join(' ');
+    htmx.ajax('GET', '/helper/lookup?word=' + encodeURIComponent(phrase) + '&ht=' + _ht,
+              {target: '#' + target, swap: 'innerHTML'});
+}
+function _clearSelection() {
+    _selectedWords.forEach(function(w) { w.el.classList.remove('bg-indigo-200', 'rounded'); });
+    _selectedWords = [];
+}
+</script>
+{% endblock %}

@@ -140,6 +140,63 @@ def is_served(source, clue_id):
     return get_card(clue_id) is not None
 
 
+# ---------------------------------------------------------------------------
+# ARCHIVE PAGES — the answer, and nothing else (user decision 2026-08-29)
+# ---------------------------------------------------------------------------
+# MEASURED that day, origin logs, 15 days: of 44 Googlebot fetches of /clue/*,
+# 42 returned 410 and 2 returned 200. Google's list of this site is the corpus
+# it learned BEFORE the July relaunch, nearly all of which we then withdrew, and
+# GSC reports our crawl purpose as 100% Refresh / <1% Discovery. So the crawl we
+# get is spent knocking on doors we bricked up, while the live pages — which sit
+# in no sitemap Google has read since 6 August — are never visited at all.
+#
+# The user's decision: reopen those URLs with the ANSWER ONLY. It uses crawl we
+# already have instead of crawl we would have to earn, it costs nothing per page
+# because the answers are already in the database, and thin is demonstrably not
+# what excludes us — Danword ranks on the same clues with the answer and less
+# (see web/related.py). Each page is also a doorway to the tools and to today's
+# puzzle, which is the point: someone lands on a 2019 clue and meets a working
+# solver.
+#
+# WHAT IT MUST NOT DO. No explanation of any kind — not the scraped blog text,
+# not the 183k parsed explanations, not a definition, not a wordplay type. The
+# page says the puzzle is from the archive and that Cordelia works through the
+# current ones. It does not say "yet": we are not going to solve these, and
+# implying otherwise would be a lie (user, 2026-08-29).
+#
+# THE SITEMAP IS NOT TOUCHED. `is_served` above is the sitemap's truth and stays
+# exactly as it was, so nothing submitted to Google changes and there is no
+# fourth swing in sitemap size. Google reaches these URLs from its own memory of
+# the site, not from a file we publish.
+
+# The sources the PRE-JULY sitemap carried — the set Google actually holds.
+# Mirrors SITEMAP_SOURCES in web/routes/seo.py; the archive can only reopen a
+# door Google already knows about.
+ARCHIVE_SOURCES = ('telegraph', 'times', 'dailymail', 'guardian', 'independent')
+
+def archive_answer(clue):
+    """The answer to show on an archive page, or None if this clue gets no page.
+
+    Called ONLY after the served check has failed, so a clue with a real parse
+    always renders the full card and never falls back to this.
+
+    NO DATE WINDOW (user, 2026-08-29). An earlier draft held anything published
+    in the last 21 days back, to keep an embargoed prize puzzle out. The user's
+    rule is simpler and covers strictly more: no answer, no page. An embargoed
+    puzzle has no answer to show, so it is excluded by the answer test itself —
+    a date guard adds nothing except an arbitrary line that withholds pages we
+    could serve. (And it protected nothing in practice: today's prize puzzle
+    31331 already serves its answers in full, with the wordplay.)
+    """
+    if clue is None:
+        return None
+    if (clue["source"] or "") not in ARCHIVE_SOURCES:
+        return None
+    if not (clue["clue_text"] or "").strip():
+        return None
+    return (clue["answer"] or "").strip() or None
+
+
 def puzzle_is_served(source, puzzle_number):
     """True when EVERY clue of a puzzle is served — the puzzle-level display
     rule (user 2026-07-15): clues serve one by one; a PUZZLE is displayed only

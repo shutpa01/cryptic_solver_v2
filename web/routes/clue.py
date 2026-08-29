@@ -337,6 +337,14 @@ def clue_page(slug):
     wfw_card = (get_card(clue_id)
                 if clue["source"] in SERVED_SOURCES else None)
     if wfw_card is None:
+        # ARCHIVE PAGE (user decision 2026-08-29) — an old clue Google already
+        # crawls gets its answer back, and nothing else. See web/serving.py for
+        # why: 42 of Googlebot's 44 clue-page fetches in 15 days hit a 410. No
+        # explanation is rendered and the sitemap is untouched.
+        from web.serving import archive_answer
+        answer = archive_answer(clue)
+        if answer:
+            return render_template("clue_archive.html", clue=clue, answer=answer)
         abort(410)
 
     # Find other appearances of the same clue text + answer — link ONLY to pages
