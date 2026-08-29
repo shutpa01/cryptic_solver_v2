@@ -757,12 +757,32 @@ def _annotation_row(parse, a):
 
 
 def _all_rows(parse, src_fg, src_fill):
-    """Every row (sources + definition + annotations), unsorted: [(sort_i, html), ...]."""
+    """Every row (sources + definition + annotations), unsorted: [(sort_i, html), ...].
+
+    ONE WORD, ONE ROW. An indicator that governs several pieces is recorded once
+    per piece, so WISTERIA ("Climber regularly waits at sea, wind rising") stored
+    "regularly" three times — against waits->WIS, at->T and sea->E — and the card
+    printed the identical "Selection indicator: regularly" row three times over
+    (user, 2026-08-29). The reader learns nothing from the repeats: one word did
+    one job. Rows identical in BOTH clue position and rendered html are therefore
+    collapsed to the first. Nothing else can collide — same position plus same
+    html means the same clue word annotated the same way — so a genuinely
+    different role, sub-type or value still gets its own row.
+
+    Display only. The pieces keep their per-piece indicator record, which is what
+    the assembly and the letter highlighting read.
+    """
     rows = [_source_row(parse, si, src_fg, src_fill) for si in range(len(parse.sources))]
     d = _definition_row(parse)
     if d:
         rows.append(d)
-    rows += [_annotation_row(parse, a) for a in parse.annotations]
+    seen = set()
+    for a in parse.annotations:
+        row = _annotation_row(parse, a)
+        if row in seen:
+            continue
+        seen.add(row)
+        rows.append(row)
     return rows
 
 
