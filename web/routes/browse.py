@@ -115,9 +115,16 @@ def search():
     ).fetchall()
 
     from web.routes.clue import generate_clue_slug
+    from web.serving import archive_answer
     results = []
     for r in rows:
-        if not (is_admin or is_served(r["source"], r["id"])):
+        # A result may be a fully solved clue OR an archive page (the answer
+        # alone — web/serving.archive_answer). Both are real pages, so both
+        # belong in search; the rule remains that we never link to a 410.
+        # Before this, someone typing a clue we hold the answer to got "no
+        # results" while Google was being offered the very same page (user,
+        # 2026-08-29).
+        if not (is_admin or is_served(r["source"], r["id"]) or archive_answer(r)):
             continue
         slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
         results.append({**dict(r), "slug": slug})
@@ -189,9 +196,11 @@ def search_suggest():
     ).fetchall()
 
     from web.routes.clue import generate_clue_slug
+    from web.serving import archive_answer
     results = []
     for r in rows:
-        if not (is_admin or is_served(r["source"], r["id"])):
+        # Same rule as /search above: solved clue or archive page, never a 410.
+        if not (is_admin or is_served(r["source"], r["id"]) or archive_answer(r)):
             continue
         slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
         if slug:
