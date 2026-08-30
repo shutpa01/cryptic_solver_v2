@@ -1,0 +1,1 @@
+The app is a personal tool with one user: me, the owner of the YouTube channel it uploads to. No test-user credentials are needed - the demo video shows the whole flow, from the consent screen through to a completed upload appearing on the channel. cordelia-493208 is the only project involved.

@@ -1,0 +1,64 @@
+WHAT TO PASTE INTO GOOGLE'S VERIFICATION FORM
+=============================================
+
+There is ONE justification box covering both permissions, headed
+"How will the scopes be used?", plus a separate box for the video link.
+
+
+-------------------------------------------------------------------
+1. VIDEO LINK  (the box reading "Not provided")
+-------------------------------------------------------------------
+
+https://www.youtube.com/watch?v=ErHQddjTcdg
+
+
+-------------------------------------------------------------------
+2. JUSTIFICATION  (the box reading "Enter justification here")
+   Paste everything below the line.
+-------------------------------------------------------------------
+
+Cordelia (justcordelia.com) publishes explanations of cryptic crossword clues. The
+application assembles a short video walkthrough of each day's puzzle and uploads it to
+a single YouTube channel that I own and operate (UCPUPMydfeAAC7lFTPOMfRFw).
+
+It is not a consumer product and has no end users other than me. It never requests
+authorization from visitors to the website; no visitor signs in to anything. It
+authorizes against one Google account - my own - and acts only on that account's own
+channel.
+
+How each scope is used:
+
+youtube.upload - the application calls videos.insert to upload the video file it has
+just assembled, together with the title, description and tags for it. Uploading is the
+application's core and only purpose.
+
+youtube.readonly - the application calls channels.list with mine=true at setup time,
+and reads only the channel's id and title, to confirm the credential is attached to the
+intended channel before anything is uploaded. Without it the application cannot tell
+which channel it has been authorized against, and a misdirected credential would
+publish to the wrong channel silently.
+
+Why more limited scopes are not sufficient:
+
+There is no narrower scope than youtube.upload that permits uploading a video, and no
+narrower scope than youtube.readonly that permits reading back which channel a
+credential controls. These two were chosen deliberately in place of the broader
+"youtube" scope, which this application previously requested and never used, and which
+has now been removed. The application does not call videos.update or any other write
+method beyond the upload itself.
+
+No other Google user data is accessed. Nothing is read from any other user's account,
+nothing is sold or transferred to third parties, and nothing is used for advertising or
+for training AI models. The credential is stored only on my own machine and can be
+revoked at any time. This is stated publicly at https://justcordelia.com/privacy.
+
+
+-------------------------------------------------------------------
+3. ONLY IF SOMETHING ASKS ABOUT THE HOME PAGE / LOGIN FINDING
+-------------------------------------------------------------------
+
+The home page at https://justcordelia.com is public and requires no login. There is no
+sign-in anywhere on the site and no account system. An automated fetch receives a
+Cloudflare bot-protection interstitial ("Just a moment..."), which is what the
+automated check saw. Opening the page in a browser shows the site itself, with the
+privacy policy linked in the footer.

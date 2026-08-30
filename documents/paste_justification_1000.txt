@@ -1,0 +1,9 @@
+Cordelia (justcordelia.com) explains cryptic crossword clues. It assembles a short video walkthrough of each day's puzzle and uploads it to one YouTube channel I own (UCPUPMydfeAAC7lFTPOMfRFw). It has no users but me; no site visitor signs in, and it acts only on my own channel.
+
+youtube.upload - calls videos.insert to upload the assembled file with its title, description and tags. Uploading is the app's only purpose.
+
+youtube.readonly - calls channels.list with mine=true at setup, reading only the channel id and title, to confirm the credential points at the intended channel. Without it the app cannot tell which channel it controls.
+
+No narrower scope permits uploading a video, or reading back which channel a credential controls. Both replace the broader "youtube" scope, which the app requested before, never used, and removed. No other write method is called.
+
+No other Google data is accessed, sold, transferred, or used for ads or AI training. See https://justcordelia.com/privacy

@@ -1,0 +1,5 @@
+The home page at https://justcordelia.com is public and has no login. There is no sign-in anywhere on the site and no account system at all - visitors read crossword explanations without ever signing in.
+
+An automated fetch of that page receives a Cloudflare bot-protection interstitial titled "Just a moment...", returned as HTTP 403 with the response header Cf-Mitigated: challenge. That interstitial is what the automated check saw. It is not a login page and there is nothing behind it to log in to.
+
+Opening https://justcordelia.com in any browser passes the Cloudflare check transparently and loads the site itself, which describes the app and links the privacy policy in the footer at https://justcordelia.com/privacy.
