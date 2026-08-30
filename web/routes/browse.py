@@ -49,6 +49,13 @@ def about():
     return render_template("about.html")
 
 
+@bp.route("/privacy")
+def privacy():
+    """Privacy policy. Required as a public, linked page on the verified domain
+    for Google's OAuth verification of the YouTube upload scopes."""
+    return render_template("privacy.html")
+
+
 @bp.route("/search")
 def search():
     """Search clues by text or puzzle number."""
