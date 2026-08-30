@@ -91,7 +91,9 @@
       "WebFetch(domain:www.duckduckgo.com)",
       "WebFetch(domain:duckduckgo.com)",
       "WebFetch(domain:theplanettools.ai)",
-      "WebFetch(domain:coderush.io)"
+      "WebFetch(domain:coderush.io)",
+      "WebFetch(domain:docs.supademo.com)",
+      "WebFetch(domain:supademo.com)"
     ]
   },
   "hooks": {
