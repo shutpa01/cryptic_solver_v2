@@ -33,8 +33,9 @@ TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 
 # EXACTLY what the code calls, and no more. youtube.upload inserts the video
 # (youtube_upload.py:273); youtube.readonly reads our own channel back to prove which
-# channel the token controls (:74). The full `youtube` scope was requested until
-# 2026-08-22 and nothing ever used it.
+# channel the token controls (:74); yt-analytics.readonly reads this channel's OWN
+# traffic-source and view reports (scripts/youtube_stats.py). The full `youtube` scope
+# was requested until 2026-08-22 and nothing ever used it.
 #
 # This is a VERIFICATION requirement, not tidiness. Google's OAuth review states that
 # "if the requested scope(s) goes beyond the usage needed, you will be directed to
@@ -43,11 +44,20 @@ TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 # documents/YOUTUBE_OAUTH_VERIFICATION_SUBMISSION.md §2 — the cost of a wider scope is
 # paid at review, not here.
 #
-# The consequence to know: videos.update is NOT covered. Editing an already-uploaded
-# video's title or description is a Studio job, by hand.
+# yt-analytics.readonly was added 2026-08-29 to answer a question Studio could not be
+# reached to answer: WHY two videos hold 137 of the channel's 179 views. It is read-only
+# and reports on our own channel. NOTE the review caveat above was flagged to the user
+# and accepted; if a re-consent is refused, this is the first thing to revert.
+#
+# The consequence to know: videos.update is still NOT covered. Editing an
+# already-uploaded video's title or description remains a Studio job, by hand.
+#
+# KEEP IN SYNC with scripts/youtube_upload.py — it defines its own copy and loads the
+# same token file with it.
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 
 

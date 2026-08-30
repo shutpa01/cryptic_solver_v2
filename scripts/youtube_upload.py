@@ -58,6 +58,10 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
 
+# The site's own puzzle naming, so a video and its puzzle page target the same
+# strings. See puzzle_reference() for why that matters.
+from web.routes.clue_seo import puzzle_seo_name
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "logs" / "youtube"
 LEDGER_DB = ROOT / "logs" / "youtube_state.db"
@@ -69,6 +73,9 @@ TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
+    # Not used by this script. Present because it loads the SAME token file, and the
+    # list must match scripts/youtube_auth.py or the stored credential looks wrong.
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
 ]
 
 CATEGORY_EDUCATION = "27"
@@ -199,18 +206,43 @@ def build_video(source, number):
 
 # --- title and description ----------------------------------------------------------
 
+def puzzle_reference(source, puzzle):
+    """"Telegraph Cryptic Crossword 31330 (DT 31330)" — the site's own naming.
+
+    The names and the abbreviation come from `_PUZZLE_SEO_NAMES`
+    (web/routes/clue_seo.py:372), which is what justcordelia.com already puts in
+    its puzzle-page <title>. There is no second map here on purpose: two maps
+    drift, and then the video and the page target different strings for the same
+    puzzle.
+
+    Why the abbreviation has to appear at all — measured 2026-08-29 against
+    Google's own suggestion engine, which is where this demand lives:
+
+        dt 313      -> dt 31301, 31307, 31305, 31308, 31300, 31302, 31303,
+                       31310, 31304, 31306
+        toughie 37  -> toughie 3728, 3700, 3717, 3720, 3702, 3716, 3708, ...
+        everyman 41 -> everyman 4153, 4160, 4159, 4154, 4152, 4156, ...
+        times 296   -> times 29610, 29604, 29609, 29603, 29607, ...
+
+    The same prefixes at YouTube return nothing at all, so this title is aimed
+    at Google, not at YouTube search. "DT" previously lived only in tags_for,
+    and Google has not read a keywords meta tag since 2009 — so the exact string
+    a solver types appeared nowhere that could count.
+    """
+    type_slug = puzzle["type_slug"]
+    name, abbr = puzzle_seo_name(source, type_slug, puzzle["type_label"])
+    n = puzzle["number"]
+    if abbr:
+        return "%s %s (%s %s)" % (name, n, abbr, n)
+    return "%s %s" % (name, n)
+
+
 def title_for(source, puzzle):
     """Puzzle number early and exact — the searches this exists to catch are
     "telegraph cryptic 31324" and "DT 31324", not anything about wordplay."""
-    paper = SOURCE_NAMES.get(source, source.title())
-    kind = {"cryptic": "Cryptic Crossword",
-            "prize": "Prize Cryptic Crossword",
-            "prize-toughie": "Prize Toughie",
-            "sunday": "Sunday Crossword",
-            "everyman": "Everyman Crossword"}.get(puzzle["type_slug"], "Crossword")
-    t = "%s %s %s — Every Clue Explained" % (paper, kind, puzzle["number"])
+    t = "%s — Every Clue Explained" % puzzle_reference(source, puzzle)
     if len(t) > TITLE_MAX:
-        t = "%s %s %s — Explained" % (paper, kind, puzzle["number"])
+        t = "%s — Explained" % puzzle_reference(source, puzzle)
     return t[:TITLE_MAX]
 
 
@@ -225,8 +257,9 @@ def tags_for(source, puzzle):
         "cryptic crossword explained",
         "cryptic crossword help",
     ]
-    if source == "telegraph":
-        tags += ["dt %s" % n, "dt cryptic %s" % n]
+    _, abbr = puzzle_seo_name(source, puzzle["type_slug"], puzzle["type_label"])
+    if abbr:
+        tags += ["%s %s" % (abbr.lower(), n), "%s cryptic %s" % (abbr.lower(), n)]
     return tags[:20]
 
 
@@ -238,11 +271,12 @@ def description_for(cap_dir, source, puzzle, title):
     ~30 independently indexable targets. They carry the clue text, never the answer.
     """
     chapters = (cap_dir / "chapters.txt").read_text(encoding="utf-8").rstrip("\n")
-    paper = SOURCE_NAMES.get(source, source.title())
+    # Same reference as the title, so the abbreviation form is in the description
+    # too — where Google reads it, unlike the keywords tag.
     body = [
-        "Every clue of %s %s %s explained — the definition, the wordplay broken "
-        "into pieces, and how those pieces build the answer."
-        % (paper, puzzle["type_label"], puzzle["number"]),
+        "Every clue of %s explained — the definition, the wordplay broken into "
+        "pieces, and how those pieces build the answer."
+        % puzzle_reference(source, puzzle),
         "",
         "Published %s." % puzzle["pub"],
         "",
