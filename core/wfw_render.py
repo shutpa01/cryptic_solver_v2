@@ -880,9 +880,30 @@ def _render_charade(parse, ctx, src_fg, src_fill):
 
 @renders("anagram")
 def _render_anagram(parse, ctx, src_fg, src_fill):
-    """anagram of FODDER [- removed letters] -> ANSWER, then the detailed rows."""
+    """anagram of FODDER [- removed letters] -> ANSWER, then the detailed rows.
+
+    EVERY PIECE THE ANAGRAM EATS APPEARS IN THE LINE. The fodder used to be
+    "sources whose mechanism is anagram_fodder", which silently dropped any
+    piece that reaches the anagram by another route — an abbreviation, a first
+    or last letter, a synonym. WYOMING ("Leader of government on the right, I
+    own my rogue state") read "anagram of I OWN MY -> WYOMING": six letters
+    producing seven, with the G from "Leader of government" nowhere in the
+    summary, though its own row was there below (user, 2026-08-30).
+
+    The links are the authority, not the mechanism label: a source whose letters
+    land in the answer under an `anagram` link IS fodder, whatever produced its
+    value. 47 of 439 stored anagram passes were understating themselves this way.
+
+    Clue order, per the display convention — verified not to reorder any
+    existing line (source order already matched clue order in all 439).
+    """
     from collections import Counter
-    fodder = [(s.value or "").upper() for s in parse.sources if s.mechanism == "anagram_fodder"]
+    eaten = {l.source_index for l in (parse.links or [])
+             if (l.operation or "") == "anagram"}
+    fodder_si = [si for si, s in enumerate(parse.sources)
+                 if s.mechanism == "anagram_fodder" or si in eaten]
+    fodder_si.sort(key=lambda si: _first_index(parse.sources[si].clue_atom_ids))
+    fodder = [(parse.sources[si].value or "").upper() for si in fodder_si]
     pool = "".join(fodder)                              # letters only — for the - removed math
     removed = Counter(pool) - Counter(parse.answer_letters())
     # display the fodder words spaced (IN ON WAGER), not run together (INONWAGER)
