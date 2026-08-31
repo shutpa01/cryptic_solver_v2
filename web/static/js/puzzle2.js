@@ -826,7 +826,14 @@ function _scrollToClueEl(el, num, otherDir) {
             _scrollToClueEl(other, num, null);
         };
         el.querySelector('.flex-1') && el.querySelector('.flex-1').appendChild(link);
-        setTimeout(function() { if (link.parentNode) link.remove(); }, 5000);
+        // In SOLVE mode the link stays put. A numbered square belongs to two clues and
+        // this is the only route from one to the other; taking it away after five seconds
+        // left a solver who looked at the grid, then back at the clue, with no way across.
+        // Outside solve mode it is a passing hint, so it still fades. It is removed on
+        // click (above) and wiped at the top of the next call, so it never accumulates.
+        if (!_solveMode) {
+            setTimeout(function() { if (link.parentNode) link.remove(); }, 5000);
+        }
     }
     if (_solveMode) {
         // Close everything and just scroll — don't auto-focus input
@@ -891,6 +898,44 @@ function solveAddToGrid(input) {
     showSolveGrid();
     // Queue enrichment from explanation pieces
     fetch('/admin/queue-enrichment/' + clueId, {method: 'POST'}).catch(function(){});
+}
+
+// INSERT ANSWER — the novice's floor. Nobody should ever be sat in front of a blank
+// grid with nothing to go on: one click puts a real answer in and its letters become
+// crossings for everything through it. The answer is already in the DOM
+// (puzzle.html `data-answer` on .clue-card, the same source solveCheck reads), so this
+// costs no request.
+//
+// It deliberately does NOT say "Correct!" — it wasn't solved, it was taken, and
+// claiming otherwise is the one thing Cordelia doesn't do. It reuses solveAddToGrid
+// rather than reimplementing the save/grid/progress/crossings sequence, so there is
+// still one path that places an answer.
+function solveInsertAnswer(btn) {
+    var input = btn.closest('.solve-input').querySelector('.solve-answer');
+    var card = input.closest('.clue-card');
+    var answer = (card && card.dataset.answer) || '';
+    var result = input.parentElement.querySelector('.solve-result');
+    if (!answer) {
+        if (result) {
+            result.className = 'solve-result text-xs text-amber-600';
+            result.textContent = 'No answer available for this clue';
+        }
+        return;
+    }
+    input.disabled = false;
+    input.value = answer;
+    solveAddToGrid(input);
+    // solveAddToGrid bails out on a crossing conflict and leaves its own message
+    // saying which letter clashes. Only relabel when it actually placed the answer.
+    if (result && result.textContent === 'Added to grid') {
+        result.className = 'solve-result text-xs text-indigo-600 font-medium';
+        result.textContent = 'Answer inserted';
+        // Show this clue's hint row, as solveCheck does on a correct answer — having
+        // the answer is the beginning of the job, not the end of it. The explanation
+        // is the thing worth having.
+        var explainEl = document.getElementById('explain-' + input.dataset.clueId);
+        if (explainEl) { explainEl.classList.remove('solve-hidden'); explainEl.style.display = ''; }
+    }
 }
 
 function _getSolvedIds() {
