@@ -29,6 +29,28 @@ _ALPHA = string.ascii_uppercase
 _MECH_PRI = {"literal": 0, "raw": 0, "abbreviation": 1, "synonym": 2}
 _OP_ORDER = ["behead", "curtail", "outer", "heartless"]
 
+# The indicator types a LEFTOVER word may carry in THIS operation. The gate used to be
+# "is it an indicator of anything at all", which let a word typed for an unrelated
+# mechanism be waved through and then relabelled to account for it: in "Delight chaps with
+# conclusion of art therapy" (10088605, DT 31333 28a) the word "art" — typed only as
+# an ANAGRAM indicator, and the word that should have supplied the final T — was accepted
+# as charade glue and printed as a "charade indicator", a label no DB row supports. The
+# clue passed with the right letters and the wrong derivation.
+#
+# User rule, 2026-09-01: an indicator has to be USED in the solve, and the only words that
+# may go unaccounted are approved link words. A deletion-location word (typed
+# selection/parts/acrostic) is accounted separately by is_loc, because it names which
+# letters the deletion removes.
+_GLUE_TYPES = {"charade", "charade_positional", "deletion"}
+
+
+def _typed(indicator_types, text):
+    """The DB indicator types of `text`, lowercased; empty on any lookup failure."""
+    try:
+        return {str(t).lower() for t in (indicator_types(text) or set())}
+    except Exception:
+        return set()
+
 
 def solve_charade_deletion(ctx, defines, lookup_all, is_link, indicator_types,
                            deletion_subtypes, templates=None, define_fallback=None,
@@ -127,9 +149,15 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         return bool(loc_ops(k))
 
     def is_glue(k):
-        # a leftover word is acceptable as charade glue if it is a link or ANY indicator
-        # (the charade-assembly / deletion words), never a bare content word.
-        return bool((is_link and is_link(words[k].text)) or types(k))
+        # a leftover word is acceptable as charade glue if it is a link, a deletion-location
+        # word (it names which letters the deletion takes), or an indicator whose DB type
+        # belongs to THIS operation. Never a bare content word, and — the fix for 10088605 —
+        # never a word typed only for some other mechanism. See _GLUE_TYPES.
+        if is_link and is_link(words[k].text):
+            return True
+        if is_loc(k):
+            return True
+        return bool({str(t).lower() for t in types(k)} & _GLUE_TYPES)
 
     if not any(is_del(k) for k in range(n)):
         return None                              # GATE: a deletion indicator is required
@@ -254,11 +282,10 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
     from core.engine_common import contiguous_groups
     for run in contiguous_groups(sorted(gaps)):
         phrase = " ".join(words[g].text for g in run)
-        try:
-            phrase_typed = bool(indicator_types(phrase))
-        except Exception:
-            phrase_typed = False
-        if (is_link and is_link(phrase)) or phrase_typed:
+        # Same rule as is_glue, at phrase level: the joined run must be a link or carry a
+        # type belonging to THIS operation. "any type at all" was the second door "art"
+        # walked through — a one-word run reaches here before is_glue is ever consulted.
+        if (is_link and is_link(phrase)) or (_typed(indicator_types, phrase) & _GLUE_TYPES):
             continue
         if all(is_glue(g) for g in run):
             continue
@@ -310,6 +337,12 @@ def _finalize(ctx, answer, split, words, pieces, gaps, is_del, is_glue, is_link,
         elif is_link and is_link(words[g].text):
             note, role = "link word", "link"
         else:
+            # Only a word the DB actually types for this operation may be CALLED a charade
+            # indicator. Anything else is unaccounted, and inventing a label to absorb it is
+            # exactly what produced the false pass on 10088605 — so refuse the parse instead
+            # of printing a claim no row supports.
+            if not (_typed(indicator_types, words[g].text) & _GLUE_TYPES):
+                return None
             note, role = "charade indicator", "indicator"
         annotations.append(Annotation(clue_atom_ids=words[g].atom_ids,
                                       text=words[g].text, role=role, note=note))
