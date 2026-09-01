@@ -189,8 +189,13 @@ def puzzle(source, puzzle_type, puzzle_number):
     # link to a single clue (fault fixed twice before; see wfw_web.py hs_route).
     wfw_clutch = ",".join(str(c["id"]) for c in all_clues_list)
 
+    # Which clue (if any) is already marked for today's reel, so the button
+    # renders in the right state rather than always looking unpicked.
+    from core.reel_pick import get_pick
+
     response = make_response(render_template(
         "puzzle.html",
+        reel_pick=get_pick(),
         wfw_clutch=wfw_clutch,
         source=source,
         puzzle_type=puzzle_type,

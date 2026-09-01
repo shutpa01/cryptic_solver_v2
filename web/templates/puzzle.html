@@ -305,6 +305,18 @@
            target="_blank"
            class="text-xs px-2.5 py-1 rounded border border-sky-300 text-sky-700 hover:bg-sky-50 font-medium no-underline"
            title="View the WFW parse (whole puzzle, this clue)">WFW &#8599;</a>
+        {# Pick this clue for today's reel. Chosen HERE because review is the one
+           moment the whole day's puzzles are being read clue by clue. It records
+           the choice and nothing else — the reel is built and posted later, when
+           the uploads are done and its "live today" claim is true. #}
+        <button type="button"
+                data-reel-pick="{{ clue.id }}"
+                onclick="reelPick(this)"
+                class="text-xs px-2.5 py-1 rounded border font-medium cursor-pointer
+                       {% if reel_pick == clue.id %}border-amber-500 bg-amber-100 text-amber-900{% else %}border-amber-400 text-amber-700 hover:bg-amber-50{% endif %}"
+                title="Use this clue for today's reel">
+            {% if reel_pick == clue.id %}&#9679; Reel{% else %}Reel{% endif %}
+        </button>
         {% endif %}
     </div>
     {# Reveal area — HTMX swaps content here #}
@@ -405,6 +417,24 @@
 </div>
 
 <script>
+// Pick / un-pick the clue today's reel is built from. Deliberately tiny: it
+// records a choice and repaints one button. Pressing the chosen one again
+// clears it, so a mis-click is undone the same way it was made.
+function reelPick(btn) {
+    const id = btn.getAttribute('data-reel-pick');
+    fetch('/admin/reel-pick/' + id, {method: 'POST'})
+        .then(r => r.json())
+        .then(d => {
+            document.querySelectorAll('[data-reel-pick]').forEach(b => {
+                const on = String(d.picked) === b.getAttribute('data-reel-pick');
+                b.className = 'text-xs px-2.5 py-1 rounded border font-medium cursor-pointer '
+                    + (on ? 'border-amber-500 bg-amber-100 text-amber-900'
+                          : 'border-amber-400 text-amber-700 hover:bg-amber-50');
+                b.innerHTML = on ? '&#9679; Reel' : 'Reel';
+            });
+        })
+        .catch(() => alert('Could not record the pick.'));
+}
 window.PUZZLE_CONFIG = {
     source: '{{ source }}',
     puzzleType: '{{ puzzle_type }}',

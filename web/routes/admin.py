@@ -26,6 +26,25 @@ def _require_admin():
         abort(403)
 
 
+@bp.route("/reel-pick/<int:clue_id>", methods=["POST"])
+def reel_pick(clue_id):
+    """Mark this clue as the one today's reel is built from.
+
+    Chosen during review, which is the only moment anyone is reading every clue
+    with the day's puzzles in front of them. Writes nothing but a small file
+    (core/reel_pick.py) and builds nothing — the reel is made later, when the
+    day's uploads are done and the claim it makes is actually true.
+    """
+    _require_admin()
+    from core.reel_pick import get_pick, set_pick, clear_pick
+    if get_pick() == clue_id:          # pressing it again un-picks
+        clear_pick()
+        chosen = None
+    else:
+        chosen = set_pick(clue_id)
+    return {"ok": True, "picked": chosen}
+
+
 @bp.route("/logout")
 def logout():
     """Clear admin session and redirect back."""
