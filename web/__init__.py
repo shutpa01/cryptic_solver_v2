@@ -275,6 +275,40 @@ def create_app(config_name=None):
         from web.routes.helper import generate_helper_token
         return {"helper_token": generate_helper_token()}
 
+    @app.context_processor
+    def inject_analytics_flag():
+        """Whether to emit the Google Analytics and Clarity tags at all.
+
+        Two exclusions, both decided SERVER-SIDE so the excluded visit sends
+        nothing — no beacon is fired and then filtered, it is never fired:
+
+        1. Anything that is not production. The dev servers replay the same
+           pages on the same machine all day; that is not audience behaviour.
+        2. Our own address (Config.ANALYTICS_EXCLUDED_IPS).
+
+        The address is matched against remote_addr, CF-Connecting-IP AND every
+        hop in X-Forwarded-For, NOT remote_addr alone. ProxyFix reads back
+        exactly PROXY_HOPS entries, so if the chain in front ever changes
+        length it silently resolves to the wrong hop — and a silent failure
+        here means we are back in the reports without noticing. Reading the
+        whole chain cannot fail that way. The cost is that a visitor could
+        forge the header to suppress their own tracking, which costs us one
+        row of data and nothing else.
+
+        This governs new visits only — it cannot remove what Analytics has
+        already recorded, and it stops working if our address changes.
+        """
+        if not app.config.get("ANALYTICS_ENABLED"):
+            return {"analytics_on": False}
+        excluded = set(app.config.get("ANALYTICS_EXCLUDED_IPS") or ())
+        if not excluded:
+            return {"analytics_on": True}
+        seen = {request.remote_addr or "",
+                (request.headers.get("CF-Connecting-IP") or "").strip()}
+        seen.update(hop.strip() for hop in
+                    (request.headers.get("X-Forwarded-For") or "").split(","))
+        return {"analytics_on": not (seen & excluded)}
+
     @app.after_request
     def add_no_cache(response):
         """Prevent browser caching of HTML pages and JS files."""

@@ -36,6 +36,22 @@ class Config:
     # Kill switch for per-IP rate limits (web/rate_limit.py).
     # Set False in an emergency to disable without a code change.
     RATE_LIMIT_ENABLED = True
+    # ANALYTICS. The Google Analytics and Microsoft Clarity tags are emitted
+    # only when this is True, so an excluded visit sends NOTHING — no beacon
+    # leaves the browser at all, rather than being filtered after arrival.
+    #
+    # OWN TRAFFIC. Our own use is not audience behaviour, and a handful of
+    # sessions a day from one address distorts a small site's numbers badly.
+    # Comma-separated; the env var REPLACES this list, it does not add to it.
+    # The address is the one ProxyFix resolves from X-Forwarded-For, i.e. the
+    # real client behind Cloudflare and nginx (PROXY_HOPS below).
+    ANALYTICS_EXCLUDED_IPS = [
+        ip.strip() for ip in os.environ.get(
+            "ANALYTICS_EXCLUDED_IPS", "86.149.89.193").split(",") if ip.strip()
+    ]
+    # Master switch, off everywhere except production — so the dev servers on
+    # :5001 and the /solver mount never register a hit at all.
+    ANALYTICS_ENABLED = False
     # Trust proxy hops for X-Forwarded-For when reading the client IP.
     # Production chain (2026-04-25 onwards): Cloudflare → nginx → Flask = 2 hops.
     # Each proxy appends one IP to X-Forwarded-For; ProxyFix reads back the
@@ -59,10 +75,13 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    # Inherited ANALYTICS_ENABLED = False. The dev server must never appear in
+    # the reports: it is the same pages, on the same machine, all day.
 
 
 class ProductionConfig(Config):
     DEBUG = False
+    ANALYTICS_ENABLED = True
 
 
 config_by_name = {

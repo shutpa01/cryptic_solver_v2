@@ -18,6 +18,11 @@
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <link rel="canonical" href="{% block canonical %}https://justcordelia.com{{ request.path }}{% endblock %}">
+    {# Analytics tags are emitted only when `analytics_on` (web/__init__.py,
+       inject_analytics_flag): never off production, and never from our own
+       address. Omitting the tag is the point — a visit that is excluded loads
+       no tracker at all, so there is no beacon to filter afterwards. #}
+    {% if analytics_on %}
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -45,6 +50,7 @@
     gtag('js', new Date());
     gtag('config', 'G-HVVRMJSEPZ');
     </script>
+    {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet">
