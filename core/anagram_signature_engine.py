@@ -284,7 +284,18 @@ def _fodder_anchored(ctx, answer, words, postags, defines, is_link, indicator_ty
         return is_anagram_indicator(words[k].text, indicator_types)
 
     def peel(idxs):
-        """Drop OUTER function words (links); keep the inner content core."""
+        """Drop OUTER function words (links); keep the inner content core.
+
+        NEVER peel a span that already defines the answer as written. Peeling first and
+        asking afterwards threw away a confirmed edge definition: in "On fire editing
+        novel" = IGNITED (10088752, Times 29636 3d) find_definitions offered "On fire",
+        DB-confirmed, and this function stripped "On" off as a link because it is a link
+        word, kept "fire" — which also defines IGNITED — and the clue passed with the
+        definition orphaned from the word that belongs to it. A link word may not be
+        taken out of a definition that stands without taking it out.
+        """
+        if idxs and defines(" ".join(words[k].text for k in idxs), answer):
+            return list(idxs), []
         lo, hi, links = 0, len(idxs) - 1, []
         while lo <= hi and is_fn(idxs[lo]):
             links.append(idxs[lo]); lo += 1
