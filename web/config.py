@@ -45,9 +45,14 @@ class Config:
     # Comma-separated; the env var REPLACES this list, it does not add to it.
     # The address is the one ProxyFix resolves from X-Forwarded-For, i.e. the
     # real client behind Cloudflare and nginx (PROXY_HOPS below).
+    # 86.149.89.193 — home line.
+    # 151.245.80.159 — the personal VPN, added 2026-09-02 for travelling: the
+    #   underlying address changes from place to place, but everything routed
+    #   through the VPN leaves from this one, so excluding it covers the trip.
     ANALYTICS_EXCLUDED_IPS = [
         ip.strip() for ip in os.environ.get(
-            "ANALYTICS_EXCLUDED_IPS", "86.149.89.193").split(",") if ip.strip()
+            "ANALYTICS_EXCLUDED_IPS",
+            "86.149.89.193,151.245.80.159").split(",") if ip.strip()
     ]
     # Master switch, off everywhere except production — so the dev servers on
     # :5001 and the /solver mount never register a hit at all.
