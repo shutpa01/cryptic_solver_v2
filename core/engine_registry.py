@@ -1058,7 +1058,8 @@ def solve(ctx, wiring, source=None, puzzle_number=None, clue_id=None,
     pcid = solve_container_inner_deletion(
         ctx, wiring["defines"], wiring["lookup_all"], wiring["is_link"],
         wiring["indicator_types"], wiring["deletion_subtypes"],
-        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"))
+        define_fallback=wiring.get("define_fallback"), is_dbe=wiring.get("is_dbe"),
+        selection_rules=wiring.get("selection_rules"))
     if pcid is not None and pcid.status in ("pass", "pending"):
         return _finish(pcid, "container_inner_deletion", ctx, wiring, source, puzzle_number, clue_id)
 

@@ -76,6 +76,38 @@ def _typed_run(words, n, wptypes, indicator_types, exclude):
     return best
 
 
+def _direct_selection_spans(words, run, rules):
+    """The spans the clue run's OWN letters yield under each selection rule in `rules`.
+
+    Guards the convoluted-route fault (10089000, Times 29637 7d, "Master essentially
+    coerces spare guards" = LEARN). "essentially" is typed BOTH deletion/ends and
+    selection/middle. This engine only knows synonyms — `_run_values` never offers the
+    clue word's own letters — so it read "coerces" as its DB synonym ARM and used the
+    deletion sense to cut ARM's outer letters down to R. Right letter, invented route:
+    the clue says the essential letter of COERCES, which is R directly.
+
+    This engine CANNOT express that reading (a middle-letter pick is a selection, not one
+    of its positional deletions — outer-deleting COERCES gives OERCE). So when the direct
+    reading exists it must ABSTAIN and leave the clue to a selection-capable engine,
+    rather than emit the only parse it happens to be able to build.
+    """
+    from core.selection import SPAN_RULES
+    letters = [ch for k in range(run[0], run[1])
+               for ch in (words[k].text or "").upper() if ch.isalpha()]
+    out = set()
+    for rule in rules or ():
+        fn = SPAN_RULES.get(rule)
+        if fn is None:
+            continue
+        try:
+            for cand in fn(letters) or []:
+                if cand:
+                    out.add("".join(cand))
+        except Exception:
+            continue
+    return out
+
+
 def _del_ops(phrase, deletion_subtypes):
     """The positional deletion ops a deletion indicator licenses, from its DB sub-types via
     SUBTYPE_OP. A generic/unnamed removal widens to the common positional ops (curtail,
@@ -97,7 +129,8 @@ def _del_ops(phrase, deletion_subtypes):
 
 
 def solve_container_inner_deletion(ctx, defines, lookup_all, is_link, indicator_types,
-                                   deletion_subtypes, define_fallback=None, is_dbe=None):
+                                   deletion_subtypes, define_fallback=None, is_dbe=None,
+                                   selection_rules=None):
     """Outer DB value wrapped around a positionally-deleted inner value. Returns ONLY a clean
     PASS, else None (abstain)."""
     from core.definition_engine import find_definitions
@@ -116,7 +149,7 @@ def solve_container_inner_deletion(ctx, defines, lookup_all, is_link, indicator_
         if n < 4:                       # outer + inner + container ind + deletion ind, min
             continue
         parse = _try_split(ctx, answer, split, words, lookup_all, is_link,
-                           indicator_types, deletion_subtypes)
+                           indicator_types, deletion_subtypes, selection_rules)
         if parse is None:
             continue
         if parse.status == "pass":
@@ -126,7 +159,7 @@ def solve_container_inner_deletion(ctx, defines, lookup_all, is_link, indicator_
 
 
 def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
-               deletion_subtypes):
+               deletion_subtypes, selection_rules=None):
     n, N = len(words), len(answer)
     con_run = _typed_run(words, n, {"container", "insertion"}, indicator_types, set())
     if con_run is None:
@@ -138,6 +171,12 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
     ops = _del_ops(" ".join(words[k].text for k in del_run), deletion_subtypes)
     if not ops:
         return None
+    # the SELECTION senses the same indicator carries, if any (see _direct_selection_spans)
+    try:
+        del_phrase = " ".join(words[k].text for k in del_run)
+        sel_rules = set(selection_rules(del_phrase) or ()) if selection_rules else set()
+    except Exception:
+        sel_rules = set()
 
     runs = [(a, b) for a in range(n) for b in range(a + 1, min(a + MAX_RUN, n) + 1)
             if not (set(range(a, b)) & ind)]
@@ -167,6 +206,13 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
                 for irun in runs:
                     if set(range(*irun)) & set(range(*orun)):
                         continue                       # inner run disjoint from outer run
+                    # ABSTAIN on the convoluted route: if the same indicator ALSO carries a
+                    # selection sense, and this inner run's OWN letters give exactly this
+                    # inner span under it, then the clue's direct reading works and a
+                    # synonym-then-delete route is not what the setter wrote. See
+                    # _direct_selection_spans.
+                    if sel_rules and inner in _direct_selection_spans(words, irun, sel_rules):
+                        continue
                     for V, vmech in values(irun):
                         if len(V) <= L:
                             continue                   # a real deletion shortens V to len L
