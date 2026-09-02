@@ -1384,6 +1384,17 @@ _FORCE_IND_OPTIONS = (
     ("charade_positional:after", "positional — after"),
     ("charade_positional:before", "positional — before"),
     ("palindrome", "palindrome"), ("spoonerism", "spoonerism"),
+    # NAMED — the human types what the indicator does, because the fixed list
+    # cannot cover cryptic English. The case that forced it (2026-09-02,
+    # GUARDIAN 30101 22a, BEETLE = BE + ET + LE): "in Le Mans" tells you to read
+    # BOTH "and" and "the" in French. There is no type for that, and one
+    # indicator governing two pieces has no other home.
+    #
+    # It is sound for the same reason everything here is: soundness is
+    # RECONSTRUCTION-BASED. An indicator places no letters — it licenses an
+    # operation — so a type the machine does not recognise cannot weaken the
+    # letter arithmetic. The pieces still have to make the answer exactly.
+    ("named", "named — type what it does"),
 )
 _FORCE_IND_TYPES = frozenset(v for v, _ in _FORCE_IND_OPTIONS)
 
@@ -2368,7 +2379,7 @@ function initGrid(rootId, DATA){
  var assignments=(DATA.assignments||[]);
  var tbody=root.querySelector('#g-tbody');
  var bar=root.querySelector('#g-bar'), selLbl=root.querySelector('#g-sel');
- var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub');
+ var roleSel=root.querySelector('#g-role'), itype=root.querySelector('#g-itype'), isub=root.querySelector('#g-isub'), inamed=root.querySelector('#g-inamed');
  var dkind=root.querySelector('#g-dkind'), selrule=root.querySelector('#g-selrule');
  var candWrap=root.querySelector('#g-cand'), candSel=root.querySelector('#g-candsel'), addInp=root.querySelector('#g-add'), delEl=root.querySelector('#g-del');
  var cutWrap=root.querySelector('#g-cutwrap'), cutEl=root.querySelector('#g-cut'), cutPrev=root.querySelector('#g-cutprev');
@@ -2608,6 +2619,9 @@ function initGrid(rootId, DATA){
   Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk')).forEach(function(c){c.checked=(a.idx.indexOf(+c.value)>=0);});
   roleSel.value=a.role;
   if(a.role==='indicator'&&a.itype)itype.value=a.itype;
+  // Re-opening a NAMED indicator must bring its typed name back, or editing any
+  // other field would silently blank it.
+  if(a.role==='indicator'&&a.itype==='named'&&inamed)inamed.value=(a.isub||'');
   if(a.role==='selection'&&selrule&&a.rule)selrule.value=a.rule;
   roleFields();
   if(a.role==='indicator'&&a.isub&&isub)isub.value=a.isub;
@@ -2630,7 +2644,13 @@ function initGrid(rootId, DATA){
  // Repopulate the sub-type dropdown from the selected indicator type (data-driven, from
  // DATA.subtypes) so deletion / selection / letter_shift each show THEIR sub-types. Types with
  // no sub-types (reversal, anagram, ...) hide it. Keeps a matching value selected if possible.
- function fillSub(){var subs=(DATA.subtypes||{})[itype.value]||null;
+ function fillSub(){
+  // NAMED takes a typed name instead of a sub-type dropdown — the two are
+  // mutually exclusive, so exactly one of them is ever on screen.
+  var named=(roleSel.value==='indicator'&&itype.value==='named');
+  if(inamed)inamed.style.display=named?'':'none';
+  if(named){isub.style.display='none';return;}
+  var subs=(DATA.subtypes||{})[itype.value]||null;
   if(!subs){isub.style.display='none';isub.innerHTML='';return;}
   var cur=isub.value;
   isub.innerHTML=subs.map(function(s){return '<option value="'+s[0]+'">'+s[1]+'</option>';}).join('');
@@ -2725,7 +2745,12 @@ function initGrid(rootId, DATA){
   if(r==='homophone'){if(!selPos.length){note('type the word it SOUNDS LIKE in the add box (e.g. sole) — leave blank only if the clue word itself is that word — then tick the clue word(s), click the answer tiles, and Assign');return;}
    a.spoken=((addInp.value||'').trim());                                                      // the actual sound-alike word (SOLE); blank => clue word is it
    a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; the gate checks spoken~span is a sanctioned homophone
-  if(r==='indicator'){a.itype=itype.value;a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
+  if(r==='indicator'){a.itype=itype.value;
+   // NAMED carries the typed name as its sub-type — no new field on the wire,
+   // and it round-trips through storage like every other sub-type.
+   if(itype.value==='named'){a.isub=((inamed&&inamed.value)||'').trim();
+    if(!a.isub){note('name what the indicator does (e.g. French) before Assign');return;}}
+   else a.isub=((DATA.subtypes||{})[itype.value])?isub.value:'';}
   if(r==='definition'&&dkind)a.dkind=dkind.value;               // 'def' | 'dbe' (label only)
   if(isPiece(r)){
    var placeVal=(survivor!==null)?survivor:a.value;             // what actually lands on the tiles
@@ -3244,6 +3269,14 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="none">none (clear)</option></select>',
          '<select id="g-itype" style="display:none">%s</select>' % itype_opts,
          '<select id="g-isub" style="display:none">%s</select>' % isub_opts,
+         # NAMED indicator: the fixed list cannot cover cryptic English, so the
+         # human types what this one does ("French", "read as Roman numerals").
+         # A free text box rather than another dropdown, because the whole point
+         # is the cases nobody has enumerated.
+         '<input id="g-inamed" style="display:none" size="18" '
+         'placeholder="what it does, e.g. French" '
+         'title="Name what this indicator tells you to do. The letters still '
+         'have to make the answer exactly — naming it does not excuse it.">',
          '<select id="g-selrule" style="display:none" title="Which letters the selection '
          'takes from the ticked word(s) — mirrors the engine rules (core.selection).">'
          '<option value="first">first letter</option>'
@@ -5932,6 +5965,14 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # rejection fails the build. The human /hs commit (verify_db=False) is unchanged —
             # the human is the authority and their indicator harvests as before.
             _isource = "manual"
+            # NAMED is a HUMAN judgement and only a human may make it. An AI
+            # reading that could invent its own indicator type could name its way
+            # out of any clue it could not parse, which is precisely the
+            # fabrication the honesty gate exists to stop.
+            if verify_db and _raw_it == "named":
+                return {"ok": False, "msg": "A named indicator is a human judgement — "
+                        "an AI reading cannot invent an indicator type. Tag %r with a "
+                        "real type, or solve this clue by hand." % phrase}
             if verify_db and _raw_it:
                 if admin_db.has_indicator(phrase, _raw_it):
                     _isource = "db"
@@ -5941,10 +5982,31 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 else:
                     _isource = "pending"
                     _pending.queue_indicator(phrase, ans_letters, clue_text, _raw_it, src, pnum)
+            # NAMED: the human typed what this indicator does, because no fixed
+            # type fits. The NAME becomes the note, so the card reads "French
+            # indicator" rather than "named/French indicator". It carries no
+            # mechanism word, so it cannot leak into the clue-type badge
+            # (_manual_type_label scans notes for those) — the badge keeps
+            # meaning exactly what it meant before.
+            if _raw_it == "named":
+                if not isb:
+                    return {"ok": False, "msg": "A named indicator needs its name — say "
+                            "what %r tells you to do (e.g. French)." % phrase}
+                # "named/French indicator" — the SAME type/subtype shape every other
+                # indicator note uses. Written as a bare "French indicator" first,
+                # which both renderers then failed to recognise and showed as a
+                # plain "Indicator", losing the name entirely (2026-09-02).
+                note = "named/%s indicator" % isb
+            else:
+                note = "%s%s indicator" % (it, ("/" + isb) if isb else "")
             annotations.append(Annotation(clue_atom_ids=atoms, text=phrase, role="indicator",
-                                           note="%s%s indicator" % (it, ("/" + isb) if isb else ""),
-                                           source=_isource))
-            if _raw_it and _isource != "pending":     # reusable -> harvest (backed/human only;
+                                           note=note, source=_isource))
+            # A NAMED indicator is NEVER harvested to the shared indicators table.
+            # Its type is free text the engines do not know, so a row typed
+            # 'named' would be unusable to every solver and would put a
+            # human-invented type into reference data. It stays what it is: this
+            # human's reading of this clue.
+            if _raw_it and _raw_it != "named" and _isource != "pending":
                 db_adds.append(("indicator", phrase, _raw_it, isb or None))   # a pending indicator is not harvested
         elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
             value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram

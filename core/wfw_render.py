@@ -285,8 +285,27 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""
     # user 2026-07-12: the clue page is now the prefill REVIEW surface, so the
     # badge must read "ANAGRAM", not "MANUAL".
     _op = parse.operation or ""
-    if (getattr(parse, "status", "") or "") == "invalid":
+    _status = (getattr(parse, "status", "") or "")
+    # A FAILED parse HAS NO CLUE TYPE, and the badge is omitted entirely.
+    #
+    # An engine that fails still leaves its own name in `operation` as
+    # fail-evidence — the anagram engine's "no anagram signature matched this
+    # clue" leaves operation='anagram'. Badging that asserts a clue type nobody
+    # established, and it survives: GUARDIAN 30101 19d is "See 8", a
+    # continuation stub with no wordplay at all, and it badged ANAGRAM
+    # (2026-09-02). A type we could not derive must be absent, not guessed.
+    # ...and neither has a parse with NOTHING IN IT. A shared-enumeration stub
+    # ("See 8", GUARDIAN 30101 19d) has no sources and no definition: there is
+    # no wordplay to name, whatever its status, so any badge is a leftover from
+    # an engine that tried and failed. Derived from the parse, not guessed.
+    # INVALID IS TESTED FIRST and keeps "unsound". A rejected reading is a
+    # verdict about the reading, and it must not be silently swallowed by the
+    # empty-parse rule below.
+    _empty = not getattr(parse, "sources", None) and not getattr(parse, "definition", None)
+    if _status == "invalid":
         type_label = "unsound"          # do not badge the rejected reading's clue-type
+    elif _status == "fail" or _empty:
+        type_label = ""
     elif _op == "manual":
         type_label = _manual_type_label(parse)
     else:
@@ -295,12 +314,20 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""
     # Always show the SPECIFIC solving engine (parse.solved_by) so it is clear at a glance
     # which engine produced the parse — no DB query, no stack-trace hunting.
     eng_tag = ""
-    if engine:
+    # ...but NOT on an empty parse. `solved_by` there names the engine that
+    # FAILED on it, and a faint pill reading "anagram" beside a stub is read as
+    # a clue type by anyone looking at the card — which is exactly what it must
+    # not say. No parse, no engine credit.
+    if engine and not _empty:
         eng_tag = '<span class="wfw-engine" title="solving engine">%s</span>' % escape(engine)
-    header = (
-        '<div class="wfw-head">'
-        '<span class="wfw-type"><span class="wfw-dot"></span>%s</span>%s%s</div>'
-        % (escape(type_label.upper()), eng_tag, _verdict_badge(parse)))
+    # No label => no badge. An empty pill would still show the dot and the
+    # colour, which reads as a type the viewer cannot make out rather than as
+    # the absence of one.
+    type_html = ("" if not type_label else
+                 '<span class="wfw-type"><span class="wfw-dot"></span>%s</span>'
+                 % escape(type_label.upper()))
+    header = ('<div class="wfw-head">%s%s%s</div>'
+              % (type_html, eng_tag, _verdict_badge(parse)))
 
     # --- clue line ---
     enum = parse.enumeration()
@@ -339,6 +366,14 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""
     if (getattr(parse, "status", "") or "") == "invalid":
         breakdown = ('<div class="wfw-row"><em>Marked INVALID — the stored wordplay is '
                      'unsound, so it is not shown. See the comment for why.</em></div>')
+    elif _empty:
+        # NOTHING IN THE PARSE => NOTHING TO LAY OUT. The operation renderers are
+        # dispatched on `parse.operation`, which on a stub still holds the name of
+        # whichever engine last failed on it — so "See 15" was dispatched to the
+        # ANAGRAM renderer and produced the line "anagram of  -> RECORD", with
+        # empty fodder (user, 2026-09-02). A shared-enumeration stub has no
+        # wordplay; the tiles and the verdict say everything there is to say.
+        breakdown = ""
     else:
         renderer = _TYPE_RENDERERS.get(parse.operation or "", _render_generic_breakdown)
         breakdown = renderer(parse, ctx, src_fg, src_fill)
@@ -449,6 +484,13 @@ def _indicator_label(note):
         # piece sits relative to its neighbour, not a bare "Indicator".
         sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
         return "Positional indicator", _SUBTYPE_DETAIL["charade_positional"].get(sub, sub)
+    if n.startswith("named/"):
+        # "named/French indicator" — the human typed what this one does, because
+        # no fixed type fits (GUARDIAN 30101 22a: "in Le Mans" = read the next
+        # words in French).
+        # MIRROR: web/wfw_read.py has the matching branch — keep them in step.
+        sub = note.split("/", 1)[1].replace("indicator", "").strip()
+        return (sub[:1].upper() + sub[1:] + " indicator") if sub else "Indicator", ""
     for t in _IND_TYPES:
         if t in n:
             disp = "Container" if t == "insertion" else t.capitalize()
@@ -456,6 +498,17 @@ def _indicator_label(note):
             # SHOW the sub-type, friendly-mapped, so it is not a bare "Selection indicator".
             sub = n.split("/", 1)[1].replace("indicator", "").strip() if "/" in n else ""
             return disp + " indicator", _SUBTYPE_DETAIL.get(t, {}).get(sub, sub)
+    # A note this function does not recognise USED TO BE DISCARDED, and the row
+    # rendered as a bare "Indicator" — so a human-named type vanished from the
+    # card with no sign it had ever been there (2026-09-02, "French Translation
+    # indicator" on GUARDIAN 30101 22a). If the note names something and calls
+    # itself an indicator, SHOW IT: whatever the author wrote is more
+    # informative than the word "Indicator" on its own, and this also repairs
+    # rows stored before the named type existed.
+    if n.endswith("indicator"):
+        named = note[: -len("indicator")].strip().strip("/")
+        if named:
+            return named[:1].upper() + named[1:] + " indicator", ""
     return "Indicator", ""
 
 

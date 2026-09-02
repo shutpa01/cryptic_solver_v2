@@ -1158,10 +1158,18 @@ def load_breakdown(clue_id):
         scored.append((pos, row))
     for ind in parse["indicators"]:
         fg, fill = ROLE_COLOURS["indicator"]
+        _note = ind["note"] or ""
+        # A NAMED indicator is stored "named/French indicator" — the same
+        # type/subtype shape as every other note. "named/" is internal
+        # bookkeeping and must not reach a reader, who should simply see
+        # "French indicator".
+        # MIRROR: core/wfw_render._indicator_label has the matching branch.
+        if _note.lower().startswith("named/"):
+            _note = _note.split("/", 1)[1].strip()
         scored.append((_clue_pos(ind.get("atom_ids")),
                        {"pill": "Indicator", "fg": fg, "fill": fill,
                         "detail": '"%s"%s' % (ind["text"],
-                                              (" — " + ind["note"]) if ind["note"] else "")}))
+                                              (" — " + _note) if _note else "")}))
     for p in pieces:
         if p["role"] == "shifted":
             # "tense" → T moves. Letterless: the letter is already on the board inside
