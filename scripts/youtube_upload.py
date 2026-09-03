@@ -80,6 +80,9 @@ SCOPES = [
 
 CATEGORY_EDUCATION = "27"
 TITLE_MAX = 100          # YouTube's limit; a longer title is rejected outright
+DESC_MAX = 4900          # YouTube's cap is 5000; the margin is for the emoji-free
+                         # ASCII assumption and for a title line YouTube may prepend
+SITE = "https://justcordelia.com"
 
 SOURCE_NAMES = {"telegraph": "Telegraph", "times": "Times", "guardian": "Guardian"}
 
@@ -263,30 +266,87 @@ def tags_for(source, puzzle):
     return tags[:20]
 
 
-def description_for(cap_dir, source, puzzle, title):
-    """The assembled description, with the per-clue chapters appended.
+def puzzle_url(source, puzzle):
+    """The puzzle page on the site — /<source>/<type_slug>/<number>, the shape
+    web/routes/browse.py serves and the section pages link to."""
+    return "%s/%s/%s/%s" % (SITE, source, puzzle["type_slug"], puzzle["number"])
 
-    Chapters are the reason this is worth doing: YouTube surfaces them as
-    separate 'key moments' entries in Google video results, so one upload becomes
-    ~30 independently indexable targets. They carry the clue text, never the answer.
+
+def clue_links(cap_dir):
+    """One "23a — https://…/clue/<slug>" line per clue, in clue order.
+
+    The slug comes from the capture manifest, which took it from the site itself,
+    so there is no second slug builder to drift from web/routes/clue.py:286.
+    Returns [] if the manifest is missing or unreadable — a link block is a bonus,
+    never a reason to fail an upload.
+    """
+    try:
+        man = json.loads((cap_dir / "manifest.json").read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    out = []
+    for f in man.get("frames", []):
+        slug = f.get("slug")
+        if not slug:
+            continue
+        d = (f.get("direction") or "")[:1] or ""
+        out.append("%s%s %s/clue/%s" % (f.get("number", ""), d, SITE, slug))
+    return out
+
+
+def description_for(cap_dir, source, puzzle, title):
+    """The assembled description: intro, the puzzle link, the chapters, then a link
+    per clue.
+
+    Chapters are why this is worth doing: YouTube surfaces them as separate 'key
+    moments' entries in Google video results. They carry the clue text, never the
+    answer.
+
+    THE LINKS ARE FOR DISCOVERY, and the honest limit is worth stating where the code
+    is: YouTube marks description links nofollow and wraps them in a redirect, so no
+    ranking equity passes. What they do is put ~30 same-day URLs on a page Google
+    crawls within the hour, while the site's own Discovery crawl sits under 1%
+    (Crawl Stats, 2026-09-03). They also give a viewer who found the video one click
+    to the clue instead of "go and search", which is what the bare brand mention this
+    replaces asked of them.
+
+    ORDER MATTERS. Chapters must survive intact or YouTube renders NO chapters at
+    all, so the clue links go LAST and are the only thing trimmed. Lines are added
+    whole — the old blunt [:4900] would have cut a URL in half, which is exactly the
+    silent-wrong-output failure this pipeline keeps producing.
     """
     chapters = (cap_dir / "chapters.txt").read_text(encoding="utf-8").rstrip("\n")
     # Same reference as the title, so the abbreviation form is in the description
     # too — where Google reads it, unlike the keywords tag.
-    body = [
+    head = [
         "Every clue of %s explained — the definition, the wordplay broken into "
         "pieces, and how those pieces build the answer."
         % puzzle_reference(source, puzzle),
         "",
         "Published %s." % puzzle["pub"],
         "",
-        "Still solving? Search justcordelia.com — every clue explained, plus a "
-        "pattern finder, anagram solver and thesaurus built in.",
+        # Above the "…more" fold, so a viewer sees it without expanding.
+        "All the answers, explained: %s" % puzzle_url(source, puzzle),
+        "",
+        "Every clue explained, plus a pattern finder, anagram solver and thesaurus:"
+        " %s" % SITE,
         "",
         "Chapters:",
         chapters,
     ]
-    return "\n".join(body)[:4900]      # YouTube's cap is 5000
+    text = "\n".join(head)
+    links = clue_links(cap_dir)
+    if links:
+        block = ["", "Every clue on the site:"]
+        for ln in links:
+            candidate = "\n".join([text] + block + [ln])
+            if len(candidate) > DESC_MAX:
+                break                       # whole lines only; never a half URL
+            block.append(ln)
+        if len(block) > 2:                  # at least one link survived the budget
+            text = "\n".join([text] + block)
+    assert len(text) <= DESC_MAX, "description %d > %d" % (len(text), DESC_MAX)
+    return text
 
 
 # --- upload -------------------------------------------------------------------------
