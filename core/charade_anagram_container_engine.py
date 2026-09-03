@@ -127,8 +127,12 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         M = len(span)
         for p in range(M):
             for L in range(1, M - p + 1):
-                if p == 0 and p + L == M:
-                    continue                         # outer must be non-empty
+                if not (p > 0 and p + L < M):
+                    # TRUE CONTAINER: within the span, the outer must STRADDLE the
+                    # inner. An inner at either end of the span is a charade, and the
+                    # container indicator would do no work. Same test as
+                    # container_acrostic_engine.py:53.
+                    continue
                 inner = span[p:p + L]
                 outer = span[:p] + span[p + L:]
                 if not outer:
@@ -169,8 +173,8 @@ def _try_split(ctx, answer, split, words, lookup_all, is_link, indicator_types,
         # value via first/last SELECTION of a single word (Germany's "leader" -> G)
         for p in range(M):
             for L in range(1, M - p + 1):
-                if p == 0 and p + L == M:
-                    continue
+                if not (p > 0 and p + L < M):
+                    continue                         # true container, as above
                 inner = span[p:p + L]
                 outer = span[:p] + span[p + L:]
                 if not outer:
