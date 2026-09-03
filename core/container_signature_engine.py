@@ -75,7 +75,11 @@ def _verify_insertion(run_a, run_b, vals_a, vals_b, answer):
                 Li = len(IN)
                 if Lo < 1 or Li < 1 or Lo + Li != N:
                     continue
-                for p in range(0, Lo + 1):          # split point within the outer
+                # TRUE CONTAINER: the split must fall INSIDE the outer, so the outer
+                # straddles the inner on both sides. p==0 or p==Lo puts the inner at an
+                # end — a charade, with the container indicator badged onto a parse
+                # where it does no work (ENCOUNTER = EN + COUNTER, "Parisian" idle).
+                for p in range(1, Lo):              # split point within the outer
                     inner = answer[p:p + Li]
                     outer = answer[:p] + answer[p + Li:]
                     if inner == IN and outer == OUT:
