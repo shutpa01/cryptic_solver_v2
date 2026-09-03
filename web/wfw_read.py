@@ -867,19 +867,41 @@ def _alpha_idx(t):
 _SEL_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
 
 
-def _sel_rule(indicators):
-    """The selection sub-rule (first/last/...) from the clue's selection indicator, or None.
-    The generic 'selection' mechanism doesn't carry the rule on the source piece — the
-    human's assignment stores it on the indicator note (e.g. 'selection/last indicator') —
-    so read it there rather than re-guessing which of a repeated letter to take."""
+def _sel_rule(indicators, source=None):
+    """The selection sub-rule (first/last/...) licensing `source`, or None.
+
+    The generic 'selection' mechanism doesn't carry the rule on the source piece — it is
+    stored on the INDICATOR note ('selection/last indicator') — so read it there rather
+    than re-guessing which of a repeated letter to take.
+
+    PER PIECE, not per clue (mirrors core/wfw_render._selection_rule; house rule: NO core
+    import). A clue may carry two selection indicators naming DIFFERENT rules, and the one
+    governing a piece is the one standing next to it in the clue:
+
+        "Blue Ivy Carter initially supports Beyonce's latest nonsense" = EROTIC
+         Ivy/Carter -> 'initially' (first)      Beyonce's -> 'latest' (last)
+
+    One rule for the whole clue lit B[e]yonce's instead of Beyonc[e]'s (10089267). With a
+    single indicator, or no position to compare, behaviour is unchanged.
+    """
+    cands = []
     for ind in (indicators or []):
         note = (ind.get("note") or "").lower()
         if "selection" not in note:
             continue
         for sub in _SEL_RULE_SUBS:
             if sub in note:
-                return sub
-    return None
+                cands.append((_clue_pos(ind.get("atom_ids")), sub))
+                break
+    if not cands:
+        return None
+    if len(cands) == 1 or source is None:
+        return cands[0][1]
+    sp = _clue_pos(source.get("atom_ids"))
+    scored = [c for c in cands if c[0] is not None]
+    if sp is None or not scored:
+        return cands[0][1]
+    return min(scored, key=lambda c: abs(c[0] - sp))[1]
 
 
 def _greedy_sub(text, want, from_right):
@@ -1134,7 +1156,7 @@ def load_breakdown(clue_id):
         if s["mechanism"] in _SELECTION_MECHS and detail:
             from html import escape
             txt = (s["text"] or "").strip()
-            rule = _sel_rule(parse["indicators"]) if s["mechanism"] == "selection" else None
+            rule = _sel_rule(parse["indicators"], s) if s["mechanism"] == "selection" else None
             fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"], rule)
             if fod and txt and detail.startswith(txt + "→"):
                 row["detail_html"] = fod + escape(detail[len(txt):])

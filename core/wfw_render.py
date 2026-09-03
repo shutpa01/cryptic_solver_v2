@@ -600,11 +600,35 @@ def _cand_greedy_right(text, want):
 _SELECTION_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
 
 
-def _selection_rule(parse):
-    """The selection sub-rule (first/last/outer/middle/alternate) declared by the clue's
-    selection indicator, or None. The generic 'selection' mechanism doesn't carry the rule
-    on the source piece — the human's assignment stores it on the indicator (e.g. note
-    'selection/last indicator'), so read it there rather than re-guessing which letters."""
+def _atom_pos(atom_ids):
+    """Mean character index of an atom-id list ('clue_char_0041' -> 41), or None.
+    Lets a piece be matched to the indicator standing next to it in the clue."""
+    idx = []
+    for a in atom_ids or ():
+        tail = str(a).rsplit("_", 1)[-1]
+        if tail.isdigit():
+            idx.append(int(tail))
+    return (sum(idx) / len(idx)) if idx else None
+
+
+def _selection_rule(parse, source=None):
+    """The selection sub-rule (first/last/outer/middle/alternate) licensing `source`.
+
+    The generic 'selection' mechanism doesn't carry the rule on the source piece — it is
+    stored on the INDICATOR (note 'selection/last indicator') — so read it there rather
+    than re-guessing which letters.
+
+    PER PIECE, not per clue. A clue may carry two selection indicators naming DIFFERENT
+    rules, and the rule that governs a piece is the one standing next to it:
+
+        "Blue Ivy Carter initially supports Beyonce's latest nonsense" = EROTIC
+         Ivy/Carter -> 'initially' (first)      Beyonce's -> 'latest' (last)
+
+    Returning one rule for the whole clue lit B[e]yonce's instead of Beyonc[e]'s
+    (10089267). With one indicator, or no position to compare, behaviour is unchanged:
+    the first declared rule.
+    """
+    cands = []
     for a in getattr(parse, "annotations", []):
         if getattr(a, "role", "") != "indicator":
             continue
@@ -613,8 +637,19 @@ def _selection_rule(parse):
             continue
         for sub in _SELECTION_RULE_SUBS:
             if sub in n:
-                return sub
-    return None
+                cands.append((_atom_pos(getattr(a, "clue_atom_ids", ())), sub))
+                break
+    if not cands:
+        return None
+    if len(cands) == 1 or source is None:
+        return cands[0][1]
+    sp = _atom_pos(getattr(source, "clue_atom_ids", ()))
+    if sp is None:
+        return cands[0][1]
+    scored = [c for c in cands if c[0] is not None]
+    if not scored:
+        return cands[0][1]
+    return min(scored, key=lambda c: abs(c[0] - sp))[1]
 
 
 def _selection_picks(text, value, mechanism, rule=None):
@@ -693,7 +728,7 @@ def _source_row(parse, si, src_fg, src_fill):
     # read it from the assignment rather than re-guessing which of a repeated letter to take.
     fodder = None
     if s.mechanism in _SELECTION_MECHS:
-        rule = _selection_rule(parse) if s.mechanism == "selection" else None
+        rule = _selection_rule(parse, s) if s.mechanism == "selection" else None
         fodder = _selection_fodder_html(s.text, s.value, s.mechanism, rule)
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
