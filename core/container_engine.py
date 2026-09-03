@@ -61,8 +61,12 @@ def _assemble(answer, words, postags, lookup_all, is_link, indicator_types):
     # Enumerate the insertion: inner = answer[p:p+L], outer = answer[:p]+answer[p+L:].
     for p in range(0, N):
         for L in range(1, N - p + 1):
-            if p == 0 and p + L == N:
-                continue                              # outer must be non-empty
+            if not (p > 0 and p + L < N):
+                # TRUE CONTAINER: the outer must STRADDLE the inner — outer letters on
+                # both sides. An inner at either end is a charade, and the container
+                # indicator would be badged onto a parse where it does no work.
+                # Same test as container_acrostic_engine.py:53.
+                continue
             inner = answer[p:p + L]
             outer = answer[:p] + answer[p + L:]
             if not outer:
