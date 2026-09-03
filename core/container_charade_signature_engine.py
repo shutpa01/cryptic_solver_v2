@@ -75,8 +75,12 @@ def _container_spans(words, run_a, run_b, lookup_all, N, answer):
     for s in range(N):
         for L in range(2, N - s + 1):
             span = answer[s:s + L]
-            for p in range(0, L):                  # outer chars before the inner
-                for Li in range(1, L - p + 1):     # inner length
+            # TRUE CONTAINER: outer letters on BOTH sides of the inner, so p>=1 and the
+            # inner must end before the span does. An inner at either end of the span is
+            # a charade, and the container indicator would be badged onto a parse where
+            # it does no work. Same test as container_acrostic_engine.py:53.
+            for p in range(1, L):                  # outer chars before the inner
+                for Li in range(1, L - p):        # inner length (outer letters after too)
                     IN = span[p:p + Li]
                     OUT = span[:p] + span[p + Li:]
                     if not OUT or not IN:
