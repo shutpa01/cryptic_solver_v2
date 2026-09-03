@@ -71,13 +71,18 @@ def _verify_insertion(words, ana_run, val_run, answer, lookup_all, value_cands=N
             if Lv < 1 or Lv + Lf != N:
                 continue
             # Arrangement A: value is the OUTER, anagram is the INNER (length Lf).
-            for p in range(0, Lv + 1):
+            # TRUE CONTAINER: p>0 and p+Lf<N, so the outer value straddles the inner
+            # on BOTH sides. p==0 or p==Lv puts the anagram at an end — a charade, with
+            # the container indicator badged onto a parse where it does no work.
+            for p in range(1, Lv):
                 inner = answer[p:p + Lf]
                 outer = answer[:p] + answer[p + Lf:]
                 if outer == V and sorted(inner) == fsorted:
                     return (True, p, Lf, V, inner)
             # Arrangement B: value is the INNER (length Lv), anagram is the OUTER.
-            for p in range(0, Lf + 1):
+            # same rule with the roles swapped: the anagram is the outer, so it must
+            # straddle the value on both sides.
+            for p in range(1, Lf):
                 inner = answer[p:p + Lv]
                 outer = answer[:p] + answer[p + Lv:]
                 if inner == V and sorted(outer) == fsorted:
