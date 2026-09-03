@@ -53,7 +53,11 @@ def _verify_rev_insertion(vals_a, vals_b, answer):
                 Li = len(IN_r)
                 if Lo < 1 or Li < 1 or Lo + Li != N:
                     continue
-                for p in range(0, Lo + 1):         # split point within the outer
+                # TRUE CONTAINER: the split must fall INSIDE the outer, so the outer
+                # straddles the reversed inner on both sides. p==0 or p==Lo puts the
+                # inner at an end — a reversal charade, with the container indicator
+                # badged onto a parse where it does no work.
+                for p in range(1, Lo):             # split point within the outer
                     inner = answer[p:p + Li]
                     outer = answer[:p] + answer[p + Li:]
                     if inner == IN_r and outer == OUT:
