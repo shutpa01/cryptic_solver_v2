@@ -404,33 +404,55 @@ def _render_cordelia_deploy():
         # puzzles. Privacy is whatever the checkbox below says; PRIVATE by default,
         # because a deploy should not be what makes the channel public.
         #
-        # The budget is minutes, not seconds: it captures ~30 clue pages in headless
-        # Chrome, encodes with ffmpeg, then uploads. 20 minutes is generous cover.
+        # The budget is minutes, not seconds: each paper captures ~30 clue pages in
+        # headless Chrome, encodes with ffmpeg, then uploads.
+        #
+        # ONE INVOCATION PER SOURCE, each with its own timeout. It used to be a single
+        # call — youtube_upload.py's own --sources default sweeps telegraph, times and
+        # guardian in sequence — under one 20-minute cap covering all three. Three full
+        # film-and-upload cycles do not fit in 20 minutes, so the cap fell mid-run and,
+        # because guardian is last, guardian was ALWAYS the casualty: on 2026-09-03 its
+        # video.mp4 finished encoding at 07:35:50, about 21 minutes in, and the process
+        # was killed before the upload call. Two rows in the ledger, three videos built.
+        #
+        # Per source, a timeout can only ever cost the paper it happened to, and a slow
+        # Telegraph cannot eat Guardian's budget. Each source is independent: one that
+        # times out or errors must not stop the rest, exactly as youtube_upload.py's own
+        # loop contains a per-source failure.
+        #
+        # Recovery is cheap and does NOT re-film: the script only builds when the video
+        # is missing (scripts/youtube_upload.py:430), so a killed upload just needs
+        #   python scripts\youtube_upload.py --source guardian --privacy public
         if deploy_db and not failed and upload_video:
-            with st.spinner("Filming and uploading the puzzle to YouTube..."):
-                try:
-                    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
-                    result = subprocess.run(
-                        [py, str(PROJECT_ROOT / "scripts" / "youtube_upload.py"),
-                         "--privacy", video_privacy],
-                        capture_output=True, text=True, timeout=1200,
-                        encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
-                    )
-                    lines = [ln for ln in (result.stdout or "").strip().splitlines()
-                             if ln.strip()]
-                    # The URL line if there is one, else whatever it last said —
-                    # "Nothing to upload" is a legitimate, successful outcome.
-                    url = next((ln for ln in lines if "youtube.com/watch" in ln), None)
-                    summary = url or (lines[-1] if lines
-                                      else (result.stderr or "").strip()[:200])
-                    steps.append(("YouTube upload", result.returncode == 0,
-                                  summary or "done"))
-                except subprocess.TimeoutExpired:
-                    steps.append(("YouTube upload", False,
-                                  "Timed out after 20 minutes (not recorded — retries "
-                                  "next deploy)."))
-                except Exception as e:
-                    steps.append(("YouTube upload", False, str(e)))
+            py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+            for src in ("telegraph", "times", "guardian"):
+                label = "YouTube upload (%s)" % src
+                with st.spinner("Filming and uploading %s to YouTube..." % src):
+                    try:
+                        result = subprocess.run(
+                            [py, str(PROJECT_ROOT / "scripts" / "youtube_upload.py"),
+                             "--source", src, "--privacy", video_privacy],
+                            capture_output=True, text=True, timeout=1200,
+                            encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
+                        )
+                        lines = [ln for ln in (result.stdout or "").strip().splitlines()
+                                 if ln.strip()]
+                        # The URL line if there is one, else whatever it last said —
+                        # "Nothing to upload" is a legitimate, successful outcome.
+                        url = next((ln for ln in lines
+                                    if "youtube.com/watch" in ln), None)
+                        summary = url or (lines[-1] if lines
+                                          else (result.stderr or "").strip()[:200])
+                        steps.append((label, result.returncode == 0,
+                                      summary or "done"))
+                    except subprocess.TimeoutExpired:
+                        steps.append((label, False,
+                                      "Timed out after 20 minutes (not recorded — "
+                                      "retries next deploy; the built video is kept, "
+                                      "so a manual --source %s re-uploads without "
+                                      "re-filming)." % src))
+                    except Exception as e:
+                        steps.append((label, False, str(e)))
 
         # Show results
         for label, ok, msg in steps:
