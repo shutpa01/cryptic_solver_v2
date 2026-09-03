@@ -226,11 +226,17 @@ def _assemble(ctx, answer, split, words, lookup_all, is_link, indicator_types,
             LI = len(I)
             for p in range(0, LI):
                 for L in range(1, LI - p + 1):
-                    if p == 0 and p + L == LI:
-                        continue                  # outer must be non-empty
-                    inner, outer = I[p:p + L], I[:p] + I[p + L:]
-                    if not outer:
+                    if not (p > 0 and p + L < LI):
+                        # TRUE CONTAINER: the outer must STRADDLE the inner — outer letters
+                        # on both sides. With the inner at either end nothing is inside
+                        # anything: that is a charade, and the container indicator would be
+                        # badged onto a parse where it does no work. (Same test as
+                        # container_acrostic_engine.py:53.) The old test only rejected an
+                        # inner covering the whole string, which let "Biased newspaper
+                        # rejecting small fine" = UNFAIR pass as GUN(-G) + FAIR with
+                        # "newspaper" badged a container indicator and idle.
                         continue
+                    inner, outer = I[p:p + L], I[:p] + I[p + L:]
                     for (ia, ib) in runs:
                         if _can_make(words, ia, ib, inner, vals, memo) is None:
                             continue
