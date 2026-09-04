@@ -278,6 +278,58 @@ def build_frame(ff, src, banner, dst, w, h, banner_h, margin, cw, ch, gap):
          "-filter_complex", vf, "-frames:v", "1", str(dst)])
 
 
+# Spoken over the opening title card, in Cordelia's voice, on every video.
+#
+# ADDITIVE, never at the video's expense — the user's correction, 2026-09-04: an
+# earlier draft opened "a video can only give you the answers", which sells the site
+# by running down the thing the viewer is already watching. The site is offered as
+# MORE, not as the better option. It names the domain first and last, because that is
+# the one thing the listener has to retain, and the banner on screen says the same
+# words.
+INTRO_SCRIPT = (
+    "Everything you'll see here is on justcordelia.com — and as well as the "
+    "explanations you'll find a grid solver with an anagram solver, pattern matcher "
+    "and thesaurus built in, plus a hint on any clue while you're still solving. "
+    "That's justcordelia.com, and nowhere else."
+)
+# A breath at the end so the card does not cut the instant she stops speaking.
+INTRO_TAIL = 1.0
+
+
+def narrate_intro(cap, off=False):
+    """Synthesise INTRO_SCRIPT to intro_voice.wav; return (path, seconds).
+
+    Returns (None, 0.0) when voice is off OR when synthesis fails for any reason.
+    A failed ElevenLabs call must NEVER cost the day's video: the build falls back
+    to the silent track it has always used and says so. The deploy step films three
+    papers unattended, and a missing key or a 402 is not worth losing a video for.
+
+    `synthesise` is imported lazily because scripts/reel_build.py imports ffmpeg_bin
+    and run FROM THIS MODULE — a module-level import here would be circular.
+    """
+    if off:
+        print("Voice off — silent intro.")
+        return None, 0.0
+    dst = cap / "intro_voice.wav"
+    try:
+        from scripts.reel_build import synthesise      # lazy: see docstring
+        synthesise(INTRO_SCRIPT, dst)
+        probe = subprocess.run(
+            [ffmpeg_bin("ffprobe"), "-v", "error", "-show_entries",
+             "format=duration", "-of", "csv=p=0", str(dst)],
+            capture_output=True, text=True)
+        secs = float(probe.stdout.strip())
+    except SystemExit as e:            # synthesise() exits on a missing key or a 4xx
+        print("Voice unavailable (%s) — falling back to a silent intro." % e)
+        return None, 0.0
+    except Exception as e:
+        print("Voice failed (%s: %s) — falling back to a silent intro."
+              % (type(e).__name__, e))
+        return None, 0.0
+    print("Narration: %.2fs" % secs)
+    return dst, secs
+
+
 SOURCE_NAMES = {"telegraph": "Telegraph", "times": "Times", "guardian": "Guardian"}
 KIND_WORDS = {"cryptic": "Cryptic Crossword",
               "prize": "Prize Cryptic Crossword",
@@ -334,7 +386,11 @@ def main():
                          "~16 Mbps.")
     ap.add_argument("--intro", type=float, default=float(MIN_SECONDS),
                     help="seconds on the opening title card (minimum %d, since it "
-                         "is the chapter that must start at 0:00)" % MIN_SECONDS)
+                         "is the chapter that must start at 0:00). The narration "
+                         "lengthens this when she speaks for longer." % MIN_SECONDS)
+    ap.add_argument("--voice-off", action="store_true",
+                    help="build without the spoken intro (costs nothing at "
+                         "ElevenLabs; the video keeps its silent track)")
     args = ap.parse_args()
 
     if args.seconds < MIN_SECONDS:
@@ -379,6 +435,13 @@ def main():
                            pretty_date(man["publication_date"])),
                 cw, intro_h, intro_src)
 
+    # The narration decides how long the title card holds. Chapter timestamps are
+    # accumulated from the same `t` this feeds, so lengthening the intro shifts every
+    # later chapter automatically — which is why the voice goes OVER the existing
+    # opening card rather than being prepended as a segment in front of it.
+    voice, voice_secs = narrate_intro(cap, args.voice_off)
+    intro_secs = max(args.intro, voice_secs + INTRO_TAIL if voice else args.intro)
+
     print("Building %d frames at %dx%d..." % (len(frames) + 1, w, h))
     concat_lines, chapters, t = [], [], 0.0
 
@@ -387,10 +450,10 @@ def main():
     # cold clue.
     intro_frame = cap / "frame_00.png"
     build_frame(ff, intro_src, banner, intro_frame, w, h, banner_h, margin, cw, ch, gap)
-    concat_lines.append("file '%s'\nduration %s" % (intro_frame.name, args.intro))
+    concat_lines.append("file '%s'\nduration %s" % (intro_frame.name, intro_secs))
     chapters.append("%s %s %s — every clue explained"
                     % (timestamp(t), label, man["puzzle_number"]))
-    t += args.intro
+    t += intro_secs
 
     for i, f in enumerate(frames, 1):
         dst = cap / ("frame_%02d.png" % i)
@@ -407,11 +470,18 @@ def main():
 
     video = cap / "video.mp4"
     print("Encoding %s (%s)..." % (video.name, timestamp(t)))
+    # The audio is either Cordelia's intro padded out with silence, or — when the
+    # voice is off or failed — the silent track this has always used. `apad` runs the
+    # silence on for ever and -t below cuts it, exactly as the infinite anullsrc was
+    # cut; NOT -shortest, which with a concat of stills ends the file at the first
+    # image (youtube_short.py, 2026-08-21).
+    audio_in = (["-i", str(voice), "-filter_complex", "[1:a]apad[a]",
+                 "-map", "0:v", "-map", "[a]"]
+                if voice else
+                ["-f", "lavfi", "-i",
+                 "anullsrc=channel_layout=stereo:sample_rate=44100"])
     run([ff, "-y", "-loglevel", "error",
-         "-f", "concat", "-safe", "0", "-i", str(listing),
-         # A silent track: YouTube accepts video without audio, but every player
-         # and processing step behaves predictably with one present.
-         "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+         "-f", "concat", "-safe", "0", "-i", str(listing)] + audio_in + [
          # The concat demuxer ignores the final entry's duration, so the last
          # image is repeated (above) to make it appear at all — which then holds
          # it for a second helping. -t cuts at the total the chapters were
