@@ -259,6 +259,24 @@ def main():
         run_claude("nightly_diagnosis.md", "Step 3: post-publish diagnosis")
         run_claude("nightly_prefill.md", "Step 4: prefill")
 
+    # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
+    # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only
+    # approved ones, so this cannot put words in Cordelia's mouth — it just means the
+    # review is a glance at publish time instead of writing copy under pressure
+    # (user, 2026-09-07). Never fatal: a missed draft costs a plainer sentence.
+    log("")
+    log("Step 5: draft double-definition usage phrases (for your approval)...")
+    try:
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "draft_senses.py")],
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=900, cwd=str(ROOT))
+        for line in (r.stdout or "").strip().splitlines()[-12:]:
+            log(f"  {line}")
+        if r.returncode != 0:
+            log(f"  draft_senses failed (exit {r.returncode}) — not fatal")
+    except Exception as e:
+        log(f"  draft_senses ERROR: {e} — not fatal")
+
     log("")
     log("=" * 60)
     log("NIGHTLY RUN COMPLETE")

@@ -52,6 +52,108 @@ def _clue_row(clue_id):
         con.close()
 
 
+SENSES = PROJECT_ROOT / "logs" / "senses.json"
+YT = PROJECT_ROOT / "logs" / "youtube"
+
+
+def _embed(video, caption=""):
+    """A 9:16 video in a phone-shaped frame. st.video forces a landscape box, so a
+    vertical film comes out as a postage stamp in a letterbox — see the note below."""
+    import base64
+    b64 = base64.b64encode(video.read_bytes()).decode()
+    st.markdown(
+        '<video controls style="width:340px;height:604px;background:#000;'
+        'border-radius:14px;display:block;margin:0 auto">'
+        '<source src="data:video/mp4;base64,%s" type="video/mp4"></video>' % b64,
+        unsafe_allow_html=True)
+    if caption:
+        st.caption(caption)
+
+
+def _short_section(pick, row, pub, today):
+    """The narrated YouTube Short, built from the SAME pick as the reel.
+
+    Everything that could stall you at publish time happens here BEFORE the build:
+    whether the clue can be narrated at all, and — for a double definition — whether the
+    usage phrases have been approved. Rejecting is just picking another clue, because
+    nothing is built until the button is pressed (user, 2026-09-07: "we do not have time
+    to do rework when we are publishing").
+    """
+    import json
+
+    st.divider()
+    st.subheader("YouTube Short")
+
+    # The eligibility answer is cached per pick: the check loads the Flask app, and
+    # re-running it on every Streamlit rerun would make the page crawl.
+    ck = st.session_state.get("short_check_%s" % pick)
+    if ck is None:
+        with st.spinner("Can this clue be narrated?"):
+            rc, out = _run(["scripts.short_build", "--check", "--clue-id", str(pick)],
+                           timeout=300)
+        ck = (rc, (out or "").strip())
+        st.session_state["short_check_%s" % pick] = ck
+    rc, out = ck
+    if rc != 0:
+        st.error("This clue cannot be narrated — %s"
+                 % out.replace("NO  — ", "") or "unknown reason")
+        st.caption("Pick a different clue. Nothing has been built, so there is nothing "
+                   "to undo.")
+        return
+    st.success(out or "Narratable.")
+
+    # A double definition needs its usage phrases APPROVED or the narration falls back
+    # to "tolerate gives you STICK, criticism gives you STICK", which teaches nothing.
+    try:
+        senses = json.loads(SENSES.read_text(encoding="utf-8"))
+    except Exception:
+        senses = {}
+    pending = {k: v for k, v in senses.items()
+               if isinstance(v, dict) and not v.get("approved")
+               and v.get("clue_id") == pick}
+    if pending:
+        st.warning("This clue's usage phrases have not been approved. Until they are, "
+                   "the narration leaves them out.")
+        edited = {}
+        for k, v in sorted(pending.items()):
+            edited[k] = st.text_input(k, value=v.get("phrase", ""), key="sense_%s" % k)
+        if st.button("Approve these phrases"):
+            for k, phrase in edited.items():
+                senses[k] = {**senses[k], "phrase": phrase.strip(), "approved": True}
+            SENSES.write_text(json.dumps(senses, indent=2, ensure_ascii=False),
+                              encoding="utf-8")
+            st.success("Approved.")
+            st.rerun()
+
+    cap_dir = YT / ("%s-%s" % (row["source"], row["puzzle_number"]))
+    short = cap_dir / "short_narrated.mp4"
+
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("Build the short", type="primary", disabled=(pub != today)):
+            with st.spinner("Narrating, calling ElevenLabs, capturing, assembling…"):
+                rc, out = _run(["scripts.short_build", "--clue-id", str(pick)],
+                               timeout=1800)
+            (st.success if rc == 0 else st.error)(
+                "Built." if rc == 0 else "Build failed.")
+            st.code(out or "(no output)")
+    with c2:
+        if st.button("Build silent (no voice, free)", key="short_silent",
+                     disabled=(pub != today)):
+            with st.spinner("Building the pictures only…"):
+                rc, out = _run(["scripts.short_build", "--clue-id", str(pick),
+                                "--voice-off"], timeout=1800)
+            (st.success if rc == 0 else st.error)(
+                "Built (silent)." if rc == 0 else "Build failed.")
+            st.code(out or "(no output)")
+
+    if short.exists():
+        _embed(short, "%.1f MB — upload by hand. Publishing is not automated."
+               % (short.stat().st_size / 1e6))
+    else:
+        st.caption("No short built for this clue yet.")
+
+
 def render():
     st.header("Reel")
 
@@ -108,6 +210,8 @@ def render():
             (st.success if rc == 0 else st.error)(
                 "Built (silent)." if rc == 0 else "Build failed.")
             st.code(out or "(no output)")
+
+    _short_section(pick, row, pub, today)
 
     if not video.exists():
         st.caption("No reel built for this clue yet.")

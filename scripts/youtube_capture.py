@@ -149,10 +149,15 @@ def clue_list(app, source, puzzle):
     return out, skipped, pub, type_slug, type_label
 
 
-def make_driver(scale):
+def make_driver(scale, window="1400,1200"):
+    """`window` is the CSS viewport. The default is the landscape video's and must not
+    change. The vertical Short passes a NARROW one: a panel laid out at 1400 is a thin
+    wide band, and squeezing that into a 1080x1920 frame leaves 85% of a phone screen
+    empty with the clue in tiny type. Laid out narrow, the same panel wraps and fills
+    the frame (user, 2026-09-07: "just the clue displaying in tiny text")."""
     opts = Options()
     opts.add_argument("--headless=new")
-    opts.add_argument("--window-size=1400,1200")
+    opts.add_argument("--window-size=%s" % window)
     opts.add_argument("--hide-scrollbars")
     # Renders at `scale`x so the panel has real pixels to spare when it is scaled
     # into a 1080p frame. At 1x the captured panel is ~740px wide and upscaling

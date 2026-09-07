@@ -133,14 +133,31 @@ _INDICATOR_PHRASE = {
     "repetition": "%s tells us to use a piece twice.",
 }
 
+# How each paper is SAID. scripts/reel_build.PAPER is the written form ("Telegraph");
+# aloud it is "the Daily Telegraph". Kept here rather than changing the reel's map,
+# which appears on screen.
+_SPOKEN_PAPER = {"telegraph": "Daily Telegraph", "times": "Times",
+                 "guardian": "Guardian", "independent": "Independent",
+                 "dailymail": "Daily Mail"}
+
+# Kept SHORT on purpose: a Short is capped at 60 seconds and every second spent here is
+# a second not spent on the answer card, which is the thing viewers need time to read
+# (user, 2026-09-07). The first draft of this ran four seconds longer and pushed the
+# whole thing over the cap.
 INTRO_DIFFERENCE = (
-    "Now, we do this differently from everyone else who explains a single clue. "
-    "They start with the clue and hunt for the answer. We start with the answer and "
-    "work backwards, so you can see exactly how the setter built it."
+    "We do this differently. Everyone else starts with the clue and hunts for the "
+    "answer. We start with the answer and work backwards."
 )
 
-OUTRO = ("If any step of that is unclear, put it in the comments and I'll answer you "
-         "there.")
+# THE PLUG. The whole point of the channel is to send people to the site (user,
+# 2026-09-07), and the first draft of this script never mentioned it once. Kept to a
+# single sentence: it competes with the answer card for a sixty-second budget, and the
+# address is on screen throughout anyway. SITE is reel_build's constant, not a second
+# copy — the reels and the shorts must not name the site differently.
+SITE = "justcordelia.com"
+
+OUTRO = ("Every clue in today's puzzle is explained at %s. And if any step of that is "
+         "unclear, put it in the comments and I'll answer you there." % SITE)
 
 
 # --- helpers -------------------------------------------------------------------------
@@ -240,7 +257,91 @@ def _container_indicator(parse):
     return None
 
 
+def _container_pairs(parse, wordplay):
+    """Which piece sits inside which, read off the tile positions.
+
+    Working this out lets the narration say "OM goes inside ANTS" at the point the
+    listener needs it, instead of labelling a piece "split" before there is anything to
+    put in the gap and then naming the container indicator at the end as a bare label.
+    A listener cannot re-read a sentence, so order is the whole point.
+
+    Two shapes, both read off the tiles:
+      * ONE SPLIT PIECE — ANTS holding OM, its own letters interrupted;
+      * TWO FLANKING PIECES — S and I with CAMP between them, which is what SCAMPI is.
+        This one has no split piece at all, so looking only for interrupted letters
+        missed it and the narration fell back to a bare label.
+
+    Returns [(inner_value, outer_description)].
+    """
+    out = []
+    for outer in wordplay:
+        opos = _positions(parse, outer["ord"])
+        if not _is_split(opos):
+            continue
+        gap = [p for p in range(opos[0], opos[-1] + 1) if p not in opos]
+        for inner in wordplay:
+            if inner is outer:
+                continue
+            ipos = _positions(parse, inner["ord"])
+            if ipos and all(p in gap for p in ipos):
+                out.append(((inner["value"] or "").strip().upper(),
+                            (outer["value"] or "").strip().upper()))
+    if out:
+        return out
+
+    # No split piece: look for an inner immediately flanked by two others.
+    for inner in wordplay:
+        ipos = _positions(parse, inner["ord"])
+        if not ipos or _is_split(ipos):
+            continue
+        before = [s for s in wordplay
+                  if s is not inner and _positions(parse, s["ord"])
+                  and _positions(parse, s["ord"])[-1] == ipos[0] - 1]
+        after = [s for s in wordplay
+                 if s is not inner and _positions(parse, s["ord"])
+                 and _positions(parse, s["ord"])[0] == ipos[-1] + 1]
+        if before and after:
+            out.append(((inner["value"] or "").strip().upper(),
+                        "%s and %s" % ((before[0]["value"] or "").strip().upper(),
+                                       (after[0]["value"] or "").strip().upper())))
+    return out
+
+
 # --- the narration -------------------------------------------------------------------
+
+SENSES = Path(__file__).resolve().parent.parent / "logs" / "senses.json"
+
+
+def _senses():
+    """Usage phrases for a definition sense: {"STICK|tolerate": "I couldn't stick it..."}.
+
+    A FILE, not a table — the same call reel_pick makes, and for the same reason: this is
+    editorial copy, not reference data. Written once, reviewable, reused for ever.
+
+    These phrases are NOT in any of our data — nothing we hold records how a word is used
+    in a sentence — so they are drafted by the LLM and then LIVE IN THIS FILE where a human
+    can read and correct them. They are never generated at build time and read out unseen:
+    a wrong usage, spoken in Cordelia's voice as fact, is exactly the failure this project
+    cannot afford. An entry that is not here is simply not spoken.
+
+    An entry is {"phrase": ..., "approved": true|false}. ONLY approved phrases are
+    returned: a draft nobody has read must never reach the voice, and the narrator's
+    fallback (the plain line) is the safe thing to say when there is nothing approved.
+    A bare string is treated as approved — that is the hand-written shape.
+    """
+    try:
+        import json
+        raw = json.loads(SENSES.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    out = {}
+    for k, v in (raw or {}).items():
+        if isinstance(v, str):
+            out[k] = v
+        elif isinstance(v, dict) and v.get("approved") and v.get("phrase"):
+            out[k] = v["phrase"]
+    return out
+
 
 def dd_script(parse, answer):
     """The body for a double (or triple) definition, or (None, reason).
@@ -270,8 +371,16 @@ def dd_script(parse, answer):
 
     lines = ["This one's a %s — there's no wordplay to unpick here, just %s sitting "
              "side by side." % (kind, many)]
+    store = _senses()
     for h in halves:
-        lines.append("“%s” gives you %s." % (h, a))
+        # Without a usage phrase this reads "tolerate gives you STICK, criticism gives
+        # you STICK" — A = A twice, which tells a listener nothing about why the two
+        # senses are different (user, 2026-09-07). The phrase is what does the work.
+        use = store.get("%s|%s" % (a, h.lower()))
+        if use:
+            lines.append("“%s” gives you %s — as in, %s." % (h, a, use.rstrip(". ")))
+        else:
+            lines.append("“%s” gives you %s." % (h, a))
     lines.append("Same %s letters, %s completely different senses. That's the whole "
                  "trick, and it's why these are often the most satisfying clues in the "
                  "puzzle." % (count, len(halves) == 2 and "two" or "three"))
@@ -378,7 +487,11 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
         return None, ["no wordplay pieces recorded"]
 
     lines = []
-    lines.append("Today's clue of the day is from %s." % paper_label)
+    # SPOKEN, the puzzle number is read out digit-like and sounds robotic (user,
+    # 2026-09-07), and it earns nothing: a listener does not need the serial number of
+    # today's paper. Name the PAPER only. The number stays in the written title and the
+    # description, where it is what people search for.
+    lines.append("Our clue of the day is from today's %s." % paper_label)
     lines.append("")
     lines.append("Here it is: %s%s"
                  % (clue_text.rstrip(". "), (" — %s" % enumeration) if enumeration else ""))
@@ -416,6 +529,7 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
         groups[mech].append(src)
 
     used_inds = set()
+    pairs = _container_pairs(parse, wordplay)
     body = []
     for mech in order:
         sentence, why = group_sentence(parse, mech, groups[mech], used_inds)
@@ -424,9 +538,12 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
             continue
         if not sentence:
             continue
-        # A split piece does NOT sit in the answer as one run — it opens up and something
-        # goes inside. Read as a plain list it would be a lie.
-        if any(_is_split(_positions(parse, p["ord"])) for p in groups[mech]):
+        # A split piece is NOT annotated here any more: saying "that one is split" before
+        # the listener has met the piece that fills the gap is the wrong order. The
+        # insertion is stated once, below, naming both pieces — but only if we can work
+        # out which goes inside which. If we cannot, the note goes back on the piece,
+        # because silence would let the assembly read as a straight left-to-right join.
+        if not pairs and any(_is_split(_positions(parse, p["ord"])) for p in groups[mech]):
             sentence += (" That one is split — it opens up and another piece goes "
                          "inside it.")
         body.append(sentence)
@@ -435,6 +552,19 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
         return None, problems
     lines.extend(body)
     lines.append("")
+
+    # The insertion, said as an INSTRUCTION naming both pieces rather than as a label on
+    # the indicator ("Drink is the container indicator"). This is the moment the listener
+    # can picture, and it belongs after both pieces have been introduced.
+    cont = _container_indicator(parse)
+    for iv, ov in pairs:
+        word = "between" if " and " in ov else "inside"
+        if cont:
+            lines.append("%s tells us %s goes %s %s."
+                         % ((cont["text"] or "").strip().capitalize(), iv, word, ov))
+            used_inds.add(id(cont))
+        else:
+            lines.append("%s goes %s %s." % (iv, word, ov))
 
     # EVERY indicator the clue records gets said. One that no piece claimed was simply
     # dropped before, so AGNOSTIC lost both "part of" (hidden) and "on reflection"
@@ -475,23 +605,9 @@ def one(clue_id, verbose=True, only_fails=False):
             print("REFUSED  %-24s %-10s  no stored parse" % (head, clue_id))
         return False
 
-    # The PAPER's name, not the puzzle type: "Cryptic" alone is not a publication.
-    # Reuse the uploader's map rather than writing a second one — its own docstring
-    # says two maps drift and then the video and the page name the puzzle differently.
-    slug, type_label = classify_puzzle(row["source"], row["puzzle_number"],
-                                       row["publication_date"])
-    try:
-        import importlib.util as _iu
-        _s = _iu.spec_from_file_location(
-            "_yu", str(Path(__file__).resolve().parent / "youtube_upload.py"))
-        _yu = _iu.module_from_spec(_s)
-        _s.loader.exec_module(_yu)
-        label = _yu.puzzle_reference(row["source"],
-                                     {"number": row["puzzle_number"],
-                                      "type_slug": slug, "type_label": type_label,
-                                      "pub": row["publication_date"]})
-    except Exception:
-        label = "%s %s" % (row["source"].title(), type_label or "")
+    # The SPOKEN name of the paper. The reel's own map, not a second one — and the
+    # Telegraph is "the Daily Telegraph" out loud, which is what a listener calls it.
+    label = _SPOKEN_PAPER.get(row["source"], (row["source"] or "").title())
     script, problems = narrate(parse, row["clue_text"], row["answer"] or "",
                                row["enumeration"] or "", label or row["source"].title())
     if script is None:

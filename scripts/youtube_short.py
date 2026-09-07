@@ -72,7 +72,9 @@ def pick_clue(frames, label):
 
 def capture_pair(source, clue, out_dir):
     """Teaser and reveal frames for one clue, from the same page load."""
-    d = make_driver("3")
+    # NARROW viewport: a Short is a phone screen, so lay the panel out at phone width
+    # and it fills the frame at full size instead of being shrunk into a strip.
+    d = make_driver("3", window="620,1400")
     try:
         with Server() as srv:
             d.get("%s/clue/%s" % (srv.base, clue["slug"]))
@@ -150,22 +152,21 @@ def main():
     vertical_frame(ff, teaser_png, banner, cap / "short_f1.png")
     vertical_frame(ff, reveal_png, banner, cap / "short_f2.png")
 
-    listing = cap / "short_concat.txt"
-    listing.write_text(
-        "file 'short_f1.png'\nduration %s\n"
-        "file 'short_f2.png'\nduration %s\n"
-        "file 'short_f2.png'\n" % (args.teaser, args.reveal))
-
     out = cap / "short.mp4"
     total = args.teaser + args.reveal
+    # NOT the concat demuxer. It was writing a video stream that stopped at the FIRST
+    # image's duration — with --teaser 27.26 --reveal 27.54 the container said 54.8s but
+    # the VIDEO stream was 27.33s, so the reveal never appeared and the narration played
+    # over a dead picture (user, 2026-09-07: "no sound and just the clue displaying").
+    # -t cannot extend a video that has already ended. Two looped image inputs, each
+    # bounded by its own -t and joined by the concat FILTER, are deterministic.
     run([ff, "-y", "-loglevel", "error",
-         "-f", "concat", "-safe", "0", "-i", str(listing),
-         "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-         # -t alone bounds the output. NOT -shortest: with a concat of stills it
-         # ends the output at the FIRST image's duration (proved 2026-08-21 — a
-         # 20s Short came out 6.03s, exactly the teaser). The silent audio is
-         # infinite, so -t is what has to stop it.
-         "-t", "%.3f" % total,
+         "-loop", "1", "-t", "%.3f" % args.teaser, "-i", str(cap / "short_f1.png"),
+         "-loop", "1", "-t", "%.3f" % args.reveal, "-i", str(cap / "short_f2.png"),
+         "-f", "lavfi", "-t", "%.3f" % total,
+         "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+         "-filter_complex", "[0:v][1:v]concat=n=2:v=1:a=0[v]",
+         "-map", "[v]", "-map", "2:a",
          "-fps_mode", "cfr", "-r", "30",
          "-c:v", "libx264", "-preset", "slow", "-crf", "16",
          "-pix_fmt", "yuv420p", "-movflags", "+faststart",
