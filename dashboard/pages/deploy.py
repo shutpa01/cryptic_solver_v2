@@ -375,14 +375,26 @@ def _render_cordelia_deploy():
             with st.spinner("Notifying IndexNow (Bing) of new URLs..."):
                 try:
                     py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
-                    # Streams one GET per URL (~1.5s each), so runtime scales with URL count.
-                    # --max-seconds keeps the script inside the subprocess budget by deferring
-                    # any overflow to the next deploy (each puzzle atomic, nothing re-sent);
-                    # the 300s ceiling matches the other network steps and leaves ample margin.
+                    # Announces the puzzle page AND every clue page. The long tail is the
+                    # whole point: Bing indexes a clue page inside its ~1-day demand window
+                    # and ranked those pages at ~position 3 — it was the only channel that
+                    # ever converted. (2026-08-17..09-07 ran --puzzle-pages-only, added while
+                    # Bing was suppressed and the long tail looked worthless. Bing lifted that
+                    # suppression on 09-07; the flag still exists but is deliberately not used.)
+                    #
+                    # BUDGET, measured 2026-09-07 — two costs, not one:
+                    #   * ~85s BEFORE any send, building the URL list (collect_puzzle_urls
+                    #     walks every served clue). Fixed cost; grows with the DB.
+                    #   * ~1.5s per URL streamed. A weekday is ~91 URLs (~135s); Sunday's
+                    #     four puzzles are ~120 (~180s).
+                    # So Sunday is ~265s of real work. --max-seconds must stay well under
+                    # (timeout - 85) so the GRACEFUL deferral fires before the hard kill:
+                    # 420 + 85 + one puzzle's overrun (~50s) = ~555s, inside the 600s ceiling.
+                    # Deferral is not a failure — each puzzle is atomic and retries intact.
                     result = subprocess.run(
                         [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
-                         "--max-seconds", "200", "--puzzle-pages-only"],
-                        capture_output=True, text=True, timeout=300,
+                         "--max-seconds", "420"],
+                        capture_output=True, text=True, timeout=600,
                         encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
                     )
                     lines = (result.stdout or "").strip().splitlines()
