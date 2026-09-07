@@ -2849,7 +2849,6 @@ function initGrid(rootId, DATA){
  if(grs)grs.addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
-  var al=root.querySelector('#g-andlit');if(al&&al.checked)fd.append('andlit','1');
   cmsg.textContent='committing…';cmsg.style.color='#64748b';
   fetch('/hsmanualcommit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
    if(o.ok){cmsg.textContent='✓ '+o.msg;cmsg.style.color='#16a34a';
@@ -2877,6 +2876,20 @@ function initGrid(rootId, DATA){
     setTimeout(function(){window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
   }).catch(function(){cmsg.textContent='CD failed (network)';cmsg.style.color='#dc2626';});});
+ /* &LIT — the same shape as the CD button above, and deliberately so (user 2026-09-07):
+    one click files the whole clue as an all-in-one. Nothing on the grid is read. */
+ var gal=root.querySelector('#g-andlit');
+ if(gal)gal.addEventListener('click',function(){
+  var fd=new FormData();fd.append('only',DATA.cid);
+  cmsg.textContent='filing &lit…';cmsg.style.color='#64748b';
+  fetch('/hsandlit',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){
+   if(o.ok){cmsg.textContent='✓ '+o.msg;cmsg.style.color='#16a34a';
+    var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
+    if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
+    u+='&notice='+encodeURIComponent(o.msg);
+    setTimeout(function(){window.location.href=u;},700);}
+   else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
+  }).catch(function(){cmsg.textContent='&lit failed (network)';cmsg.style.color='#dc2626';});});
  /* INVALID and REVERSE ANAGRAM each need a comment, set in ONE action: show the comment box
     for those two only and block the submit (with an error) if it's empty — the server
     enforces the same rule. A reverse anagram also carries the grid's assignments, so the
@@ -3351,12 +3364,15 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          # clue is Commit (manual). Resolve & solve / Save pieces / Re-run are gone from the
          # UI (routes kept); signature + engine work happens POST-publish from the frozen
          # manual solves.
-         '<label style="font-weight:600;font-size:.9rem;cursor:pointer" '
-         'title="All-in-one (&amp;lit): the whole clue is BOTH the wordplay AND the definition '
-         '(the same words used twice). Tag the wordplay as usual and tick this; the whole clue is '
-         'taken as the definition, so you need no separate definition word. Verdict stays PENDING '
-         'for your confirmation, like a cryptic definition.">'
-         '<input type="checkbox" id="g-andlit"> &amp;lit (all-in-one)</label>',
+         # &LIT IS A BUTTON, EXACTLY LIKE THE CD ONE (user 2026-09-07): an &lit has no
+         # separate wordplay to tag — the whole clue is the definition and that is the whole
+         # filing. No pieces, no tiles, no colour coding, no explanation. The old checkbox
+         # asked for the wordplay to be tagged first, which was the wrong model.
+         '<button type="button" id="g-andlit" style="margin-left:.6rem;background:#fff;'
+         'color:#b45309;border:1px solid #b45309;border-radius:8px;padding:.35rem .8rem;'
+         'font-weight:700;cursor:pointer" title="All-in-one (&amp;lit): the WHOLE clue is the '
+         'definition — no pieces, no tiles needed. Files the clue as an &amp;lit and PASSES it '
+         '(frozen) in one click.">&amp;lit (all-in-one)</button>',
          '<button type="button" id="g-cd" style="margin-left:.6rem;background:#fff;'
          'color:#b45309;border:1px solid #b45309;border-radius:8px;padding:.35rem .8rem;'
          'font-weight:700;cursor:pointer" title="Cryptic definition: the WHOLE clue is the '
@@ -4501,6 +4517,68 @@ def hscd_route():
     return _json({"ok": False,
                   "msg": "Did not land as a CD (got %s). The whole-clue definition was "
                          "still added to the DB (%s)." % (got, addmsg)})
+
+
+@app.route("/hsandlit", methods=["POST"])
+def hsandlit_route():
+    """&LIT (ALL-IN-ONE) BUTTON (/hs) — the same shape as /hscd above, by user instruction
+    (2026-09-07): "there is not any wordplay in &lit ... we tag the definition, click &lit as
+    a button and it marks it as such without any other explanation or colour coding".
+
+    So: the WHOLE clue is the definition, nothing is read off the word grid, no pieces, no
+    tiles, no colour coding. One click files it and PASSES it (frozen), exactly as the CD
+    button does — the click IS the human confirmation.
+
+    Difference from /hscd, deliberate: a CD has to go round the cascade because the verdict
+    comes from the last-resort CD ENGINE, which matches on a whole-clue definition stored in
+    the reference DB. There is no &lit engine, so this files the parse directly and does NOT
+    write the clue text into the reference DB as a definition (that harvest is what made the
+    old prefill workaround produce wrong data). `andlit` is already in wfw_render._ATOMIC_OPS,
+    so the card renders the curated "All-in-one (&lit)" label with no wordplay breakdown."""
+    from core.wfw_model import Source, Parse
+    only = (request.form.get("only") or "").strip()
+    if not only.isdigit():
+        return _json({"ok": False, "msg": "No clue."})
+    cid = int(only)
+    row = _load_clue(cid)
+    if row is None:
+        return _json({"ok": False, "msg": "No clue."})
+    clue_text, answer, src, pnum, direction, enumeration, cnum = row
+    answer = enum_space(answer, enumeration)
+    conn = store.connect()
+    try:
+        sp = store.load_parse(conn, cid)
+        if (sp is not None and getattr(sp, "solved_by", "") == "manual"
+                and store.is_frozen(conn, cid)):
+            return _json({"ok": False,
+                          "msg": "Frozen manual solve — Uncommit before filing an &lit."})
+    finally:
+        conn.close()
+    ctx = build_wfw_atom_context(clue_text, answer, direction=direction)
+    # WORD atoms only (not the spaces/punctuation between them) — the same set the old
+    # andlit branch of _build_manual_parse built its whole-clue definition from.
+    all_atoms = tuple(aid for t in ctx.clue_tokens if t.kind == "word" for aid in t.atom_ids)
+    definition = Source(clue_atom_ids=all_atoms, text=clue_text,
+                        value=_raw_letters(answer), mechanism="definition", source="manual")
+    parse = Parse(clue_text=clue_text, answer_text=answer, sources=[], links=[],
+                  annotations=[], definition=definition, operation="andlit",
+                  solved_by="manual", status="pass")
+    conn = store.connect()
+    try:
+        # A stale word-grid assignment would let _resolve_from_assignment (authoritative
+        # since 2026-07-17) rebuild from it later and delete this parse — same trap the CD
+        # route documents. Clear it. Lift the freeze so a previous engine pass cannot block
+        # the write; it is re-frozen as a PASS immediately below.
+        store.set_hs_assignments(conn, cid, "")
+        store.clear_frozen(conn, cid)
+        store.save_parse(conn, cid, parse, ctx)
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    _capture_signature_review(cid, "pass")
+    return _json({"ok": True, "msg": "Filed as an all-in-one (&lit) — PASS (frozen)."})
 
 
 @app.route("/hsresolve", methods=["POST"])
