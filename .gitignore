@@ -127,4 +127,10 @@ core/_*
 
 # WFW preview HTML dumps (one-off render snapshots)
 /wfw_*.html
-logs/
+# logs/* not logs/ — git never looks inside an excluded DIRECTORY, so the exception
+# below is only reachable if the entries are excluded rather than the directory itself.
+logs/*
+# ...except the approved usage phrases. Everything else under logs/ is output that can
+# be regenerated; this is hand-approved editorial copy that cannot, and it is reused for
+# ever, so losing it would mean writing it again. Tracked deliberately.
+!logs/senses.json

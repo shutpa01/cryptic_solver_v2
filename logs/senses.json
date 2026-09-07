@@ -1,0 +1,24 @@
+{
+  "STICK|tolerate": "I couldn't stick it any longer",
+  "STICK|criticism": "he got a lot of stick from his mates",
+  "EARPIECES|parts of blowers": {
+    "phrase": "Old telephones had heavy Bakelite earpieces",
+    "approved": true,
+    "clue_id": 10090050
+  },
+  "EARPIECES|hammers and anvils etc": {
+    "phrase": "the hammer and anvil are literally pieces of the ear",
+    "approved": true,
+    "clue_id": 10090050
+  },
+  "HOLDINGCOMPANY|top business": {
+    "phrase": "The bank's holding company owns several subsidiaries",
+    "approved": true,
+    "clue_id": 10090048
+  },
+  "HOLDINGCOMPANY|accommodating guests": {
+    "phrase": "Sorry, can't chat — we're holding company tonight",
+    "approved": true,
+    "clue_id": 10090048
+  }
+}
