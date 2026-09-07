@@ -1384,6 +1384,12 @@ _FORCE_IND_OPTIONS = (
     ("charade_positional:after", "positional — after"),
     ("charade_positional:before", "positional — before"),
     ("palindrome", "palindrome"), ("spoonerism", "spoonerism"),
+    # REPETITION ("repeatedly", "again", "once more", "encore", "over again"...). The TYPE is
+    # fixed here; the VOCABULARY is not — which words carry it is a reference-data question,
+    # matched by lookup like every other type, so a new one is a data entry and never a code
+    # change. Usually the same word also carries the `repeat` piece role, which records the
+    # indicator itself; this entry is for the case where the two are different words.
+    ("repetition", "repetition"),
     # NAMED — the human types what the indicator does, because the fixed list
     # cannot cover cryptic English. The case that forced it (2026-09-02,
     # GUARDIAN 30101 22a, BEETLE = BE + ET + LE): "in Le Mans" tells you to read
@@ -1403,7 +1409,8 @@ _FORCE_IND_TYPES = frozenset(v for v, _ in _FORCE_IND_OPTIONS)
 _MECH_LABEL = {"synonym": "synonym", "abbreviation": "abbreviation",
                "first_letter": "first letter", "last_letter": "last letter",
                "selection": "selection", "anagram_fodder": "anagram fodder",
-               "raw": "literal", "homophone": "homophone"}
+               "raw": "literal", "homophone": "homophone",
+               "repetition": "repeat"}
 
 
 import collections as _collections
@@ -2431,6 +2438,25 @@ function initGrid(rootId, DATA){
   var segs=raw.split(/['’]/).map(foldLetters).filter(function(s){return s;});
   if(segs.length>1){segs.forEach(function(s){selCands(s,rule).forEach(function(c){if(out.indexOf(c)<0)out.push(c);});});}
   return out;}                             // so "last of CHOIR'S" offers R (before ') as well as S
+ /* REPEAT (user 2026-09-07). You click the tiles the COPY lands on; the source is FOUND,
+    never typed — every already-owned run with those same letters is a candidate. Defined
+    over TILES, so it does not care what kind of piece put the letters there. Clicking the
+    source tiles directly is not an option: on this grid a click on an owned tile RELEASES
+    its piece, and that already works. */
+ function repeatSources(rp,want){
+  var out=[],ans=DATA.answer,n=ans.length;
+  for(var s=1;s+want.length-1<=n;s++){
+   var ps=[],ok=true;
+   for(var k=0;k<want.length;k++){var p=s+k;
+    if(posOwner(p)<0||rp.indexOf(p)>=0){ok=false;break;}   // must be owned, and not the copy
+    ps.push(p);}
+   if(ok&&ps.map(function(p){return ans[p-1];}).join('')===want)out.push(ps);}
+  return out;}
+ function fillRepeatCands(rc){if(!candSel)return;candSel.innerHTML='';
+  rc.forEach(function(ps){var o=document.createElement('option');o.value=ps.join('-');
+   o.textContent='tiles '+ps.join(',')+' ('+ps.map(function(p){return DATA.answer[p-1];}).join('')+')';
+   candSel.appendChild(o);});
+  candSel.style.display='';if(candWrap)candWrap.style.display='';}
  function msort(s){return (s||'').split('').sort().join('');}
  function msub(a,b){var arr=(a||'').split(''),ok=true;(b||'').split('').forEach(function(c){var i=arr.indexOf(c);if(i>=0)arr.splice(i,1);else ok=false;});return {ok:ok,rem:arr.sort().join('')};}
  var PAL=['#fca5a5','#fcd34d','#86efac','#93c5fd','#c4b5fd','#f9a8d4','#a5f3fc','#fdba74','#d9f99d','#f5d0fe','#fda4af','#bef264'];
@@ -2745,6 +2771,22 @@ function initGrid(rootId, DATA){
   if(r==='homophone'){if(!selPos.length){note('type the word it SOUNDS LIKE in the add box (e.g. sole) — leave blank only if the clue word itself is that word — then tick the clue word(s), click the answer tiles, and Assign');return;}
    a.spoken=((addInp.value||'').trim());                                                      // the actual sound-alike word (SOLE); blank => clue word is it
    a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; the gate checks spoken~span is a sanctioned homophone
+  if(r==='repeat'){
+   var rp=selPos.slice().sort(function(x,y){return x-y;});
+   if(!rp.length){note('click the answer tiles the COPY lands on, then Assign');return;}
+   var want=rp.map(function(p){return DATA.answer[p-1];}).join('');
+   var rc=repeatSources(rp,want);
+   if(!rc.length){note('nothing already placed on the board reads '+want+
+    ' — place the piece it copies first, then repeat it');return;}
+   var pick=rc[0];
+   if(rc.length>1){                       // ambiguous: the human picks, the tool never guesses
+    var chosen=(candSel&&candSel.value)||'',hit=null;
+    for(var q=0;q<rc.length;q++){if(rc[q].join('-')===chosen)hit=rc[q];}
+    if(!hit){fillRepeatCands(rc);
+     note(rc.length+' runs on the board read '+want+' — choose which one it copies, then Assign again');
+     return;}
+    pick=hit;}
+   a.src=pick;a.pos=rp;a.value=want;}
   if(r==='indicator'){a.itype=itype.value;
    // NAMED carries the typed name as its sub-type — no new field on the wire,
    // and it round-trips through storage like every other sub-type.
@@ -3273,6 +3315,7 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<option value="anagram">anagram fodder</option>'
          '<option value="deletion">deletion (letters removed)</option>'
          '<option value="shifted">letter shift (named letter)</option>'
+         '<option value="repeat">repeat (copy of tiles already placed)</option>'
          '<option value="spoonerism">spoonerism (source phrase)</option>'
          '<option value="homophone">homophone (sounds like)</option>'
          '<option value="indicator">indicator</option>'
@@ -5644,6 +5687,10 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
         return " ".join(wt[i].text for i in idx if 0 <= i < len(wt))
 
     sources, links, definition, annotations, covered = [], [], None, [], {}
+    # REPEAT assignments are collected here and resolved AFTER the loop: a repeat points at
+    # tiles ANOTHER piece owns, and the grid may send the assignments in any order, so the
+    # source tiles are not necessarily covered yet when the repeat itself comes past.
+    _repeats = []
     definition2 = None            # a SECOND definition tag -> a double definition (two defs, no wordplay)
     db_adds = []   # reusable pieces to save to the reference DB AFTER a successful commit
     # A manual HOMOPHONE piece is justified by a homophone INDICATOR in the clue (user rule
@@ -6086,6 +6133,14 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             # human's reading of this clue.
             if _raw_it and _raw_it != "named" and _isource != "pending":
                 db_adds.append(("indicator", phrase, _raw_it, isb or None))   # a pending indicator is not harvested
+        elif role == "repeat":
+            # A REPEAT ("repeatedly", "again", "once more"): the tiles it places are a COPY of
+            # tiles another piece already owns. It is deliberately defined over TILES, not over
+            # the piece that made them — by the time a repeat happens the letters are just
+            # letters on the board, so a synonym, a substitution, a selection, a hidden run or
+            # three pieces butted together are all handled by this one branch. Checked below,
+            # once every other piece is placed.
+            _repeats.append((a, idx, phrase, atoms))
         elif role == "deletion":               # a word whose letters are REMOVED (named deletion) —
             value = (a.get("value") or "").strip().upper()   # e.g. "a" -> A dropped before an anagram
             if not value:
@@ -6155,6 +6210,56 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                     "Every clue word must be a definition half, a link, or filler."
                     % ", ".join("“%s”" % w for w in unaccounted)}
         return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds, "n_sources": 2}
+
+    # ---- REPEATS, resolved now that every ordinary piece is placed --------------------
+    # The honesty of a repeat rests on three things, all checked here: the tiles it copies
+    # FROM must already belong to a real piece (you cannot copy out of thin air), those tiles
+    # must not themselves be a copy (no copies of copies), and the letters must match exactly.
+    # Nothing is derived — the copy's source tiles were recorded when it was assigned.
+    _repeat_tiles = set()
+    for (_a, _idx, _phrase, _atoms) in _repeats:
+        try:
+            _pos = sorted(int(p) for p in (_a.get("pos") or [])
+                          if str(p).lstrip("-").isdigit())
+            _spos = sorted(int(p) for p in (_a.get("src") or [])
+                           if str(p).lstrip("-").isdigit())
+        except Exception:
+            _pos, _spos = [], []
+        if not _pos:
+            return {"ok": False, "msg": "“%s” repeats something, but no answer tiles were "
+                    "clicked for the copy." % _phrase}
+        if len(_spos) != len(_pos):
+            return {"ok": False, "msg": "“%s” copies %d tile(s) onto %d — a copy is the same "
+                    "length as the thing it copies." % (_phrase, len(_spos), len(_pos))}
+        if set(_spos) & set(_pos):
+            return {"ok": False, "msg": "“%s” cannot copy a tile onto itself." % _phrase}
+        for p in _spos:
+            if p not in covered:
+                return {"ok": False, "msg": "“%s” copies answer tile %d, which no piece owns "
+                        "yet — place the piece it copies first." % (_phrase, p)}
+            if p in _repeat_tiles:
+                return {"ok": False, "msg": "“%s” copies answer tile %d, which is itself a "
+                        "copy — a repeat must copy real letters." % (_phrase, p)}
+        _srcl = "".join(ans_letters[p - 1] for p in _spos if 1 <= p <= N)
+        _got = "".join(ans_letters[p - 1] for p in _pos if 1 <= p <= N)
+        if not _got or _got != _srcl:
+            return {"ok": False, "msg": "“%s” would copy %s onto %s — a repeat is the same "
+                    "letters." % (_phrase, _srcl or "(nothing)", _got or "(nothing)")}
+        si = len(sources)
+        sources.append(Source(clue_atom_ids=_atoms, text=_phrase, value=_got,
+                              mechanism="repetition", source="manual"))
+        # The word that says "do it again" IS the repetition indicator, so record that too —
+        # one action, and the card names the word's job as it does for every other operation.
+        annotations.append(Annotation(clue_atom_ids=_atoms, text=_phrase, role="indicator",
+                                      note="repetition indicator", source="manual"))
+        for p in _pos:
+            if p in covered:
+                return {"ok": False, "msg": "Answer tile %d is claimed by two pieces — each "
+                        "tile belongs to exactly one piece." % p}
+            covered[p] = si
+            _repeat_tiles.add(p)
+            links.append(Link(answer_pos=p, source_index=si, operation="manual",
+                              transform=None))
 
     if not sources:
         return {"ok": False, "msg": "Place at least one piece on the answer tiles "

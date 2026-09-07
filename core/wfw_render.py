@@ -67,7 +67,7 @@ _COMMENT_LED_OPS = frozenset(("reverse_anagram", "double_homophone"))
 _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
                "charade", "homophone", "alternation", "selection",
                "palindrome", "spoonerism", "acrostic", "replacement",
-               "cycling", "substitution")
+               "cycling", "substitution", "repetition")
 
 # Canonical reading order for a composite clue type — outer operation first,
 # inner transforms last. We name EVERY mechanism a clue uses (the full clue-type
@@ -76,7 +76,7 @@ _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
 _MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
                "selection", "hidden", "acrostic", "alternation", "homophone",
                "spoonerism", "palindrome", "cycling", "letter_shift",
-               "substitution", "replacement")
+               "substitution", "replacement", "repetition")
 
 # Ops whose curated label is authoritative and must NOT be enriched (no enumerable
 # wordplay, or enrichment would drop a defining designation). Mirrors
@@ -733,6 +733,15 @@ def _source_row(parse, si, src_fg, src_fill):
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
                % (fodder if fodder else escape(s.text), escape(s.value)))
+    if s.mechanism == "repetition":
+        # A REPEAT copies letters another piece already placed. The arrow row above would
+        # read "Twice -> DO", which asserts that the word MEANS DO; it does not, it says do
+        # it again. Say that, and stop — the letter-accounting below has nothing to add,
+        # because a copy is by definition the same letters. Mirrors web/wfw_read._describe.
+        content = ('%s <span class="wfw-emuted">repeats</span> '
+                   '<strong class="wfw-val">%s</strong>'
+                   % (escape(s.text), escape(s.value)))
+        return _row(_first_index(s.clue_atom_ids), label, style, content)
     # Show HOW the piece's letters reached the answer (reversed / minus a deleted run), so a
     # piece that supplies IS but lands as SI reads "is -> IS reversed" here too — not a bare IS
     # whose order isn't in the answer. Matches the assembly build line (same _transform_note).

@@ -59,7 +59,7 @@ _COMMENT_LED_OPS = frozenset(("reverse_anagram", "double_homophone"))
 _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
                "charade", "homophone", "alternation", "selection",
                "palindrome", "spoonerism", "acrostic", "replacement",
-               "cycling", "substitution")
+               "cycling", "substitution", "repetition")
 
 # Canonical reading order for a composite clue type — outer operation first,
 # inner transforms last. We name EVERY mechanism a clue uses (the full clue-type
@@ -68,7 +68,7 @@ _MECH_WORDS = ("anagram", "hidden", "container", "reversal", "deletion",
 _MECH_ORDER = ("container", "charade", "anagram", "reversal", "deletion",
                "selection", "hidden", "acrostic", "alternation", "homophone",
                "spoonerism", "palindrome", "cycling", "letter_shift",
-               "substitution", "replacement")
+               "substitution", "replacement", "repetition")
 
 _UNPLACED = 10 ** 9   # clue position for a piece with no locatable atoms — sorts last
 
@@ -626,6 +626,13 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
 
     if mech == "hidden":
         return "hidden in \"%s\"" % text
+    if mech == "repetition":
+        # A REPEAT places a COPY of letters another piece already put on the board. The
+        # generic "text→VALUE" shape would print 'Twice→DO', asserting that "Twice" MEANS
+        # DO. It does not — it says do it again. Say what actually happened instead.
+        # Mirrors core/wfw_render._source_row's repetition row.
+        return ('"%s" repeats %s' % (text, value or placed)) if text \
+            else "%s repeated" % (value or placed)
     if mech == "replacement_letter":
         # The words that ASK for the new letter, when there are any: "with new
         # leader" -> T. Printing the bare letter dropped them from the

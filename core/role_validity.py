@@ -30,6 +30,7 @@ _NOTE_TYPES = (
     ("hidden", {"hidden"}),
     ("alternation", {"alternation", "alternating"}),
     ("alternat", {"alternation", "alternating"}),
+    ("repetition", {"repetition"}),
 )
 
 
