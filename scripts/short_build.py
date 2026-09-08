@@ -125,7 +125,14 @@ def build(clue_id, voice_off=False):
     if r.returncode != 0:
         sys.exit("frame build failed")
 
-    out = cap / "short_narrated.mp4"
+    # NAMED BY CLUE. There is one capture directory per PUZZLE, so a fixed filename is
+    # overwritten by whichever clue was built last — and the dry run of short_post then
+    # showed 4 Across's title above 15 Down's film. A wrong video under a right title is
+    # exactly the kind of silent mismatch that only surfaces after it is published.
+    out = cap / ("short_%d.mp4" % clue_id)
+    desc_src, desc_dst = cap / "short_description.txt", cap / ("short_%d.txt" % clue_id)
+    if desc_src.exists():
+        desc_dst.write_text(desc_src.read_text(encoding="utf-8"), encoding="utf-8")
     if voice_off:
         (cap / "short.mp4").replace(out)
         print(out)

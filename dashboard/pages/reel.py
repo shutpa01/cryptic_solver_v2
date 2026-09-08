@@ -147,11 +147,29 @@ def _short_section(pick, row, pub, today):
                 "Built (silent)." if rc == 0 else "Build failed.")
             st.code(out or "(no output)")
 
-    if short.exists():
-        _embed(short, "%.1f MB — upload by hand. Publishing is not automated."
-               % (short.stat().st_size / 1e6))
-    else:
+    if not short.exists():
         st.caption("No short built for this clue yet.")
+        return
+
+    _embed(short, "%.1f MB" % (short.stat().st_size / 1e6))
+
+    # POSTING. "Manual" means the user presses the button, NOT that they carry the file
+    # into YouTube Studio themselves (user, 2026-09-08 — the hand-off is where the first
+    # attempt was lost). Same shape as POST TO INSTAGRAM below: dry run, then a confirm,
+    # then one button, and it is the last thing in this section.
+    st.divider()
+    if st.button("Dry run — show the title and description, post nothing",
+                 key="short_dry"):
+        rc, out = _run(["scripts.short_post", "--clue-id", str(pick), "--dry-run"],
+                       timeout=300)
+        st.code(out or "(no output)")
+    confirm = st.checkbox("I have watched it and it is right", key="short_confirm")
+    if st.button("POST TO YOUTUBE", type="primary", disabled=not confirm,
+                 key="short_post"):
+        with st.spinner("Uploading to YouTube…"):
+            rc, out = _run(["scripts.short_post", "--clue-id", str(pick)], timeout=1800)
+        (st.success if rc == 0 else st.error)("Posted." if rc == 0 else "Post failed.")
+        st.code(out or "(no output)")
 
 
 def render():
