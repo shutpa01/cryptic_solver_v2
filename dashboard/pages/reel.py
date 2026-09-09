@@ -126,7 +126,12 @@ def _short_section(pick, row, pub, today):
             st.rerun()
 
     cap_dir = YT / ("%s-%s" % (row["source"], row["puzzle_number"]))
-    short = cap_dir / "short_narrated.mp4"
+    # NAMED BY CLUE, matching what the builder writes (scripts/short_build.py) and what
+    # the poster reads (scripts/short_post.py). One capture directory serves the whole
+    # puzzle, so the old fixed "short_narrated.mp4" was a different clue's film as soon
+    # as a second one was built — and after the rename it stopped existing at all, so
+    # this preview said "no short built" while the file sat next to it (2026-09-09).
+    short = cap_dir / ("short_%d.mp4" % pick)
 
     c1, c2 = st.columns(2)
     with c1:
