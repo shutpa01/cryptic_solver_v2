@@ -271,7 +271,14 @@ def _container_pairs(parse, wordplay):
         This one has no split piece at all, so looking only for interrupted letters
         missed it and the narration fell back to a bare label.
 
-    Returns [(inner_value, outer_description)].
+    ONE GAP IS ONE INSERTION, however many pieces fill it (2026-09-09). A container
+    whose inner is a charade — DEPONENT, where P and ONE together sit in DENT's gap —
+    used to return a pair PER PIECE, so the narration said "To include tells us P goes
+    inside DENT" and then "To include tells us ONE goes inside DENT". Two independent
+    insertions, neither of which produces the answer, and the indicator said twice. The
+    gap's contents are therefore joined in ANSWER order and returned as one pair.
+
+    Returns [(inner_description, outer_description)].
     """
     out = []
     for outer in wordplay:
@@ -279,13 +286,17 @@ def _container_pairs(parse, wordplay):
         if not _is_split(opos):
             continue
         gap = [p for p in range(opos[0], opos[-1] + 1) if p not in opos]
+        inners = []
         for inner in wordplay:
             if inner is outer:
                 continue
             ipos = _positions(parse, inner["ord"])
             if ipos and all(p in gap for p in ipos):
-                out.append(((inner["value"] or "").strip().upper(),
-                            (outer["value"] or "").strip().upper()))
+                inners.append((ipos[0], (inner["value"] or "").strip().upper()))
+        if inners:
+            inners.sort()
+            out.append((_join([v for _, v in inners]),
+                        (outer["value"] or "").strip().upper()))
     if out:
         return out
 
@@ -474,6 +485,71 @@ def group_sentence(parse, mech, pieces, used_inds=None):
     return None, "mechanism %r has no narration rule" % mech
 
 
+_VOWELS = set("AEIOUY")
+
+
+def _say_token(tok):
+    """One SHOUTED token -> how a voice should be handed it (2026-09-09).
+
+    Text-to-speech reads an all-capital word as an acronym and spells it out, so
+    "The answer is BERMUDA" came back as B-E-R-M-U-D-A. Worse, a line carrying
+    capitals destabilises around them — the user could not hear "THE" cleanly in a
+    test line either. The narration is FULL of capitals, because on the page they
+    are how a fragment is shown to be letters rather than a word.
+
+    On the page they stay. Only the SPOKEN copy is changed, and by one rule:
+
+      * a single letter is left alone — "P" is already read as the letter P;
+      * a token with no vowel in it is not a sayable word, so it is spelled with
+        hyphens: NT -> "N-T", TV -> "T-V";
+      * anything else is a pronounceable string and is title-cased, so DENT is
+        said as "Dent" and BERMUD as "Bermud".
+    """
+    if len(tok) <= 1:
+        return tok
+    if not (set(tok) & _VOWELS):
+        # Only the letters are spelled: NT -> "N-T". An apostrophe in a vowelless
+        # token would otherwise be read out as a hyphenated character of its own.
+        return "-".join(c for c in tok if c.isalpha())
+    return tok.capitalize()
+
+
+def _spoken_answer(answer, enumeration):
+    """The answer as a person says it, unpacked with the enumeration.
+
+    Answers are stored solid — KONTIKI, COMMONCOLD — so without this the voice is
+    handed one long capitalised run and makes nothing of it. The enumeration is
+    the word shape we already hold: (3-4) rebuilds "Kon-Tiki", (6,4) "Common Cold".
+    A mismatch between the two is left alone rather than sliced wrongly.
+    """
+    letters = "".join(c for c in (answer or "") if c.isalpha())
+    if not letters:
+        return answer or ""
+    sizes = [int(n) for n in re.findall(r"\d+", enumeration or "")]
+    seps = re.findall(r"[-,\s]", enumeration or "")
+    if not sizes or sum(sizes) != len(letters):
+        return _say_token(letters.upper())
+    parts, i = [], 0
+    for n in sizes:
+        parts.append(letters[i:i + n].capitalize())
+        i += n
+    out = parts[0]
+    for j, part in enumerate(parts[1:]):
+        out += ("-" if j < len(seps) and seps[j] == "-" else " ") + part
+    return out
+
+
+def _spoken(script):
+    """Apply _say_token to every shouted run left in a finished script.
+
+    The apostrophe is part of the run. Matching plain letters only split GREEN'S
+    into GREEN and a stranded S, which came back as "Green'S" — and a voice reads
+    that trailing capital as the letter ess.
+    """
+    return re.sub(u"[A-Z]{2,}(?:['’][A-Z]+)*",
+                  lambda m: _say_token(m.group(0)), script)
+
+
 def narrate(parse, clue_text, answer, enumeration, paper_label):
     """The full spoken script, or (None, [reasons]) when the clue must be held back."""
     problems = []
@@ -486,6 +562,7 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
     if not wordplay and not is_dd:
         return None, ["no wordplay pieces recorded"]
 
+    spoken_answer = _spoken_answer(answer, enumeration)
     lines = []
     # SPOKEN, the puzzle number is read out digit-like and sounds robotic (user,
     # 2026-09-07), and it earns nothing: a listener does not need the serial number of
@@ -498,7 +575,7 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
     lines.append("")
     lines.append(INTRO_DIFFERENCE)
     lines.append("")
-    lines.append("The answer is %s." % answer.upper())
+    lines.append("The answer is %s." % spoken_answer)
     lines.append("")
 
     if is_dd:
@@ -510,7 +587,7 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
         lines.append(body)
         lines.append("")
         lines.append(OUTRO)
-        return "\n".join(lines), []
+        return _spoken("\n".join(lines)), []
 
     definition = wfw_read._definition(parse)
     if definition:
@@ -559,12 +636,14 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
     cont = _container_indicator(parse)
     for iv, ov in pairs:
         word = "between" if " and " in ov else "inside"
+        # "P and ONE GO inside DENT", not "goes" — a joined inner is plural.
+        verb = "go" if " and " in iv else "goes"
         if cont:
-            lines.append("%s tells us %s goes %s %s."
-                         % ((cont["text"] or "").strip().capitalize(), iv, word, ov))
+            lines.append("%s tells us %s %s %s %s."
+                         % ((cont["text"] or "").strip().capitalize(), iv, verb, word, ov))
             used_inds.add(id(cont))
         else:
-            lines.append("%s goes %s %s." % (iv, word, ov))
+            lines.append("%s %s %s %s." % (iv, verb, word, ov))
 
     # EVERY indicator the clue records gets said. One that no piece claimed was simply
     # dropped before, so AGNOSTIC lost both "part of" (hidden) and "on reflection"
@@ -579,10 +658,10 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
             lines.append(phrase % word.capitalize())
 
     lines.append("")
-    lines.append("Put it together and you get %s." % answer.upper())
+    lines.append("Put it together and you get %s." % spoken_answer)
     lines.append("")
     lines.append(OUTRO)
-    return "\n".join(lines), []
+    return _spoken("\n".join(lines)), []
 
 
 # --- driver --------------------------------------------------------------------------
