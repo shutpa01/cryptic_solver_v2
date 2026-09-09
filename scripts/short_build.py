@@ -102,9 +102,12 @@ def build(clue_id, voice_off=False):
         secs = [max(4.0, len(b.split()) / 2.6) for b in blocks]
         print("voice off — timings estimated from the word count")
     else:
-        for name, text in zip(("short_a", "short_b"), blocks):
-            rb.synthesise(text, cap / (name + ".wav"))
-        secs = [_seconds(cap / "short_a.wav"), _seconds(cap / "short_b.wav")]
+        # ONE TAKE. Two generations were two cold starts and never matched each
+        # other; the boundary now comes from the alignment, not from cutting the
+        # recording in two. See reel_build.synthesise_marked.
+        _, at, total = rb.synthesise_marked(script, cap / "short_voice.wav", SPLIT_AT)
+        secs = [at, total - at]
+        print("one take: %.2fs, answer card turns at %.2fs" % (total, at))
 
     speech = sum(secs)
     hold = min(HOLD_MAX, CAP - speech)
@@ -138,11 +141,8 @@ def build(clue_id, voice_off=False):
         print(out)
         return out
 
-    lst = cap / "short_audio.txt"
-    lst.write_text("file 'short_a.wav'\nfile 'short_b.wav'\n")
+    # No concat step any more: synthesise_marked wrote short_voice.wav whole.
     voice = cap / "short_voice.wav"
-    ya.run([ff, "-y", "-loglevel", "error", "-f", "concat", "-safe", "0",
-            "-i", str(lst), "-c", "copy", str(voice)])
     held = cap / "short_voice_held.wav"
     # Pad the silence onto the AUDIO so both streams end together; a video longer than
     # its audio is what makes a player look like it has stopped early.

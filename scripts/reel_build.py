@@ -60,6 +60,30 @@ BG = "0xF1F5F9"
 # voices through the API, not taken from a directory. Overridable by env.
 VOICE_ID = os.environ.get("ELEVENLABS_VOICE_ID", "nDJIICjR9zfJExIFeSCN")
 
+# THE MODEL IS ENGLISH-ONLY, AND THAT IS THE POINT (2026-09-09).
+#
+# This was eleven_multilingual_v2 and Emmaline came out AUSTRALIAN — a whole
+# 53-second Short in the wrong accent. It is not the wrong voice: ElevenLabs' own
+# reference sample of this id is correct, and the account holds no other custom
+# voice. A multilingual model renders an English line through weights trained
+# across many accents, so the accent is something it chooses per generation, and
+# it kept choosing wrong. The same text at identical settings came back 10.03s
+# once and 12.54s minutes later — the same instability, measurable.
+#
+# Stability is NOT the lever. 0.15 drifted; raising it to 0.4 made it worse and
+# also lengthened the narration by 7s, pushing a Short to the 59.8s cap.
+#
+# eleven_turbo_v2 (English-only) fixed the accent but MISPRONOUNCED words — it
+# said "bermooda" for Bermuda. eleven_turbo_v2_5 says it correctly AND held the
+# British accent across a full teaser, checked by ear on the same passage that
+# had gone wrong. It is multilingual like the model we abandoned, so the accent
+# is the thing to listen for if this is ever changed again.
+#
+# eleven_monolingual_v1 is retired and the API now rejects it. If a single word
+# is ever mispronounced, the fix is a phoneme tag — supported on the turbo models
+# but NOT on eleven_multilingual_v2 — rather than another model swap.
+MODEL_ID = os.environ.get("ELEVENLABS_MODEL_ID", "eleven_turbo_v2_5")
+
 # THE VOICE SETTINGS ARE FETCHED FROM THE ACCOUNT ON EVERY BUILD, never written
 # here.
 #
@@ -194,10 +218,8 @@ def build_script(clue, type_label, n_puzzles):
     return opening, body
 
 
-def synthesise(text, dst):
-    """ElevenLabs -> wav. WAV, not mp3: the audio goes straight into ffmpeg and
-    out as the AAC the platforms specify, so an mp3 in the middle would be a
-    generation of loss for nothing (and 192kbps mp3 needs the Creator tier)."""
+def _voice_call(dst_note=""):
+    """Key, headers and the account's tuning — shared by both synthesis paths."""
     import requests
     key = elevenlabs_key()
     if not key:
@@ -217,25 +239,88 @@ def synthesise(text, dst):
         sys.exit("Could not read the voice settings (%s): %s. Refusing to speak "
                  "with untuned defaults." % (s.status_code, s.text[:200]))
     settings = s.json()
-    print("voice %s settings from your account: %s"
-          % (VOICE_ID, json.dumps(settings)))
+    # The MODEL is printed too: when the accent went wrong on 2026-09-09 the build
+    # log recorded the settings but not which model spoke, and that was the answer.
+    print("voice %s on %s%s, settings from your account: %s"
+          % (VOICE_ID, MODEL_ID, dst_note, json.dumps(settings)))
+    return hdr, settings
 
-    r = requests.post(
-        "https://api.elevenlabs.io/v1/text-to-speech/%s" % VOICE_ID,
-        params={"output_format": "pcm_24000"},
-        headers={**hdr, "Content-Type": "application/json"},
-        json={"text": text, "model_id": "eleven_multilingual_v2",
-              "voice_settings": settings},
-        timeout=120)
-    if r.status_code != 200:
-        sys.exit("ElevenLabs %s: %s" % (r.status_code, r.text[:300]))
+
+def _pcm_to_wav(pcm_bytes, dst):
+    """The one audio conversion both paths use: raw 24k mono PCM -> 48k stereo wav."""
     raw = dst.with_suffix(".pcm")
-    raw.write_bytes(r.content)
+    raw.write_bytes(pcm_bytes)
     run([ffmpeg_bin("ffmpeg"), "-y", "-loglevel", "error",
          "-f", "s16le", "-ar", "24000", "-ac", "1", "-i", str(raw),
          "-ar", "48000", "-ac", "2", str(dst)])
     raw.unlink(missing_ok=True)
     return dst
+
+
+def synthesise_marked(text, dst, mark):
+    """ONE take of the whole script, plus the second at which `mark` is spoken.
+
+    WHY THIS EXISTS (2026-09-09). The Short used to be synthesised as two separate
+    generations so the build could time the teaser against the answer card. Two
+    generations are two cold starts, and they never match: the user heard her
+    "completely different in the two sections", and one 9.9s opening came out in
+    the wrong accent entirely while the 43s body settled correctly. Splitting the
+    PERFORMANCE to get a timing is the wrong trade — the timing is available from
+    the alignment the API will return for a single take.
+
+    So: one generation, and the boundary is read off character-level timestamps
+    rather than manufactured by cutting the recording in half.
+
+    Returns (dst, seconds_at_mark, total_seconds).
+    """
+    import base64
+    import requests
+    hdr, settings = _voice_call(" (one take, timestamped)")
+    r = requests.post(
+        "https://api.elevenlabs.io/v1/text-to-speech/%s/with-timestamps" % VOICE_ID,
+        params={"output_format": "pcm_24000"},
+        headers={**hdr, "Content-Type": "application/json"},
+        json={"text": text, "model_id": MODEL_ID, "voice_settings": settings},
+        timeout=180)
+    if r.status_code != 200:
+        sys.exit("ElevenLabs %s: %s" % (r.status_code, r.text[:300]))
+    payload = r.json()
+    _pcm_to_wav(base64.b64decode(payload["audio_base64"]), dst)
+
+    # `alignment` tracks the TEXT AS SENT; `normalized_alignment` tracks the model's
+    # own expansion of it, where "3-4" becomes "three to four" and the offsets no
+    # longer line up with our string. The mark is looked up in the former.
+    al = payload.get("alignment") or {}
+    chars = al.get("characters") or []
+    starts = al.get("character_start_times_seconds") or []
+    ends = al.get("character_end_times_seconds") or []
+    if not chars or len(chars) != len(starts) or not ends:
+        sys.exit("ElevenLabs returned no usable alignment for the one-take "
+                 "narration — refusing to guess where the answer card should turn.")
+    i = "".join(chars).find(mark)
+    if i < 0:
+        sys.exit("The split marker %r is not in the spoken text, so the teaser "
+                 "length cannot be read off. Refusing to guess." % mark)
+    return dst, float(starts[i]), float(ends[-1])
+
+
+def synthesise(text, dst):
+    """ElevenLabs -> wav. WAV, not mp3: the audio goes straight into ffmpeg and
+    out as the AAC the platforms specify, so an mp3 in the middle would be a
+    generation of loss for nothing (and 192kbps mp3 needs the Creator tier)."""
+    import requests
+    hdr, settings = _voice_call()
+
+    r = requests.post(
+        "https://api.elevenlabs.io/v1/text-to-speech/%s" % VOICE_ID,
+        params={"output_format": "pcm_24000"},
+        headers={**hdr, "Content-Type": "application/json"},
+        json={"text": text, "model_id": MODEL_ID,
+              "voice_settings": settings},
+        timeout=120)
+    if r.status_code != 200:
+        sys.exit("ElevenLabs %s: %s" % (r.status_code, r.text[:300]))
+    return _pcm_to_wav(r.content, dst)
 
 
 def render_opener(live, out_png):
