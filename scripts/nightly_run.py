@@ -248,16 +248,24 @@ def main():
         else:
             run_cascade(target_date)
 
-    # Steps 3+4: headless Claude. Diagnosis FIRST (yesterday's committed manual
+    # Steps 3+4+4b: headless Claude. Diagnosis FIRST (yesterday's committed manual
     # solves -> pending-only signatures + engine worklist), then prefill
-    # (today's FAIL/PENDING clues -> hand-solver readings for the morning walk).
+    # (today's FAIL/PENDING clues -> hand-solver readings for the morning walk),
+    # then a READ of today's engine passes.
+    #
+    # PASS REVIEW RUNS LAST, AFTER PREFILL, deliberately. A demoted clue keeps the
+    # parse the engine claimed, so the morning walk shows what was said and why it
+    # was held. Run before prefill, a demotion would put the clue in prefill's
+    # fail/pending work list and its reading would replace the evidence.
     if args.skip_claude:
-        log("Steps 3+4: Claude diagnosis + prefill: SKIPPED (--skip-claude)")
+        log("Steps 3+4+4b: Claude diagnosis + prefill + pass review: SKIPPED (--skip-claude)")
     elif args.dry_run:
-        log("[DRY RUN] Would run claude -p nightly_diagnosis.md, then nightly_prefill.md")
+        log("[DRY RUN] Would run claude -p nightly_diagnosis.md, nightly_prefill.md, "
+            "nightly_pass_review.md")
     else:
         run_claude("nightly_diagnosis.md", "Step 3: post-publish diagnosis")
         run_claude("nightly_prefill.md", "Step 4: prefill")
+        run_claude("nightly_pass_review.md", "Step 4b: review today's engine passes")
 
     # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
     # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only
