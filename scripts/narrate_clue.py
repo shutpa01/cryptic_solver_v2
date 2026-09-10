@@ -507,6 +507,11 @@ def _say_token(tok):
     """
     if len(tok) <= 1:
         return tok
+    # NOT keyed on mechanism="abbreviation": tried on 2026-09-10 so US would be
+    # spelled, and it spelled "1 gives us ONE" as "O-N-E". An abbreviation is not
+    # reliably letters-rather-than-a-word, and the vowel test below already catches
+    # the vowelless ones. If a piece value like US ever reaches the voice, fix it
+    # then, with the case in hand.
     if not (set(tok) & _VOWELS):
         # Only the letters are spelled: NT -> "N-T". An apostrophe in a vowelless
         # token would otherwise be read out as a hyphenated character of its own.
@@ -539,15 +544,36 @@ def _spoken_answer(answer, enumeration):
     return out
 
 
+# The SETTER'S OWN WORDS, which are never rewritten: the clue as printed, and any
+# definition quoted from it. Everything else in the script is ours.
+_VERBATIM = re.compile(u"(“[^”]*”|\"[^\"]*\"|Here it is:.*)")
+
+
+def _shout_sub(text):
+    return re.sub(u"[A-Z]{2,}(?:['’][A-Z]+)*",
+                  lambda m: _say_token(m.group(0)), text)
+
+
 def _spoken(script):
-    """Apply _say_token to every shouted run left in a finished script.
+    """Apply _say_token to every shouted run WE wrote, and to nothing else.
 
     The apostrophe is part of the run. Matching plain letters only split GREEN'S
     into GREEN and a stranded S, which came back as "Green'S" — and a voice reads
     that trailing capital as the letter ess.
+
+    THE CLUE IS NOT OURS TO REWRITE (2026-09-10). The first version ran over the
+    whole script, so "US author" — the setter's words, read out verbatim — became
+    "Us author" and she said the pronoun. The clue line and any quoted definition
+    are now protected: a capital there is the setter's, and a voice already reads
+    US correctly when it is left alone.
     """
-    return re.sub(u"[A-Z]{2,}(?:['’][A-Z]+)*",
-                  lambda m: _say_token(m.group(0)), script)
+    out, pos = [], 0
+    for m in _VERBATIM.finditer(script):
+        out.append(_shout_sub(script[pos:m.start()]))
+        out.append(m.group(0))
+        pos = m.end()
+    out.append(_shout_sub(script[pos:]))
+    return "".join(out)
 
 
 def narrate(parse, clue_text, answer, enumeration, paper_label):
