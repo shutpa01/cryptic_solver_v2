@@ -544,27 +544,40 @@ def _segments(parse):
     for si, placed, _ in runs:
         placed_all[si] = placed_all.get(si, "") + placed
 
-    # a single source split into two runs with exactly one segment between them
-    # reads as a container: OUTER around INNER
-    if (len(merged) == 3 and merged[0][0] == "src" and merged[2][0] == "src"
-            and merged[0][1] == merged[2][1]):
-        outer = _describe(srcs.get(merged[0][1]),
-                          placed_all[merged[0][1]], merged[0][3], has_ana, has_rev)
-        if merged[1][0] == "ana":
-            inner = "anagram of " + " ".join('"%s"' % t for t in merged[1][1])
-            inner_pos = merged[1][3]
+    # A source split into two runs with exactly ONE segment between them reads as a
+    # container: OUTER around INNER.
+    #
+    # ANYWHERE IN THE ASSEMBLY (2026-09-10). This used to require the container to be
+    # the WHOLE clue (len(merged) == 3). With any other piece present — BENJAMIN SPOCK
+    # is BEN + SOCK-around-P — the merge was skipped, and the outer's second run fell
+    # through to the "split source seen again" branch below, which prints its bare
+    # letters. The line then read "...→JAM IN SOCK + OCK", listing a fragment as though
+    # it were a piece of its own. 1,014 stored clues rendered that way.
+    i = 0
+    while i + 2 < len(merged):
+        a, mid, b = merged[i], merged[i + 1], merged[i + 2]
+        if not (a[0] == "src" and b[0] == "src" and a[1] == b[1]):
+            i += 1
+            continue
+        outer = _describe(srcs.get(a[1]), placed_all[a[1]], a[3], has_ana, has_rev)
+        if mid[0] == "ana":
+            inner = "anagram of " + " ".join('"%s"' % t for t in mid[1])
+            inner_pos = mid[3]
         else:
-            inner = _describe(srcs.get(merged[1][1]),
-                              placed_all.get(merged[1][1], merged[1][2]),
-                              merged[1][3], has_ana, has_rev)
-            inner_pos = cpos(merged[1][1])
-        if outer and inner:
-            return [(min(cpos(merged[0][1]), inner_pos),
-                     outer + " around " + inner)]
-        return None
+            inner = _describe(srcs.get(mid[1]), placed_all.get(mid[1], mid[2]),
+                              mid[3], has_ana, has_rev)
+            inner_pos = cpos(mid[1])
+        if not (outer and inner):
+            return None
+        merged[i:i + 3] = [("cont", outer + " around " + inner,
+                            min(cpos(a[1]), inner_pos))]
+        i += 1
 
     out, described, ana_done = [], set(), set()
     for m in merged:
+        if m[0] == "cont":          # already read as "OUTER around INNER" above
+            out.append((m[2], m[1]))
+            continue
         if m[0] == "ana":
             sis = frozenset(t for t in m[1])
             if sis and sis <= ana_done:   # split anagram group seen again: letters
@@ -649,6 +662,14 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
 
     if not value:
         value = placed
+    # LETTERS FOR COMPARING, THE VALUE AS WRITTEN FOR SHOWING (2026-09-10).
+    # A multi-word value carries spaces — 'JAM IN SOCK', 'NO VAT', 'CAREERS OFF' —
+    # and only its LETTERS land on the board. Comparing the raw string against the
+    # placed letters made every space look like a deleted character, so 64 live clue
+    # pages read "without tax→NO VAT less  ", claiming a deletion that never happened.
+    # The spaces are punctuation, not letters; they belong in the display and nowhere
+    # else. `value` stays as written for `base`; `vcmp` is what the letter tests see.
+    vcmp = "".join(c for c in value if c.isalpha())
     # THE RECORD FIRST (2026-08-17): when the piece stores what happened to its value,
     # say that — no letter-guessing at all. Checked against the letters it claims to
     # place, so a record that disagrees with the tiles is ignored rather than shown.
@@ -659,14 +680,14 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
         return "%s %s" % (base, _xf_words(value, xf))
     # an anagram indicator governs a re-ordered piece: show 'anagram' (not the reversal/
     # deletion the letters would otherwise be read as), matching the card.
-    ana = _anagram_desc(value, placed, has_ana, has_rev)
+    ana = _anagram_desc(vcmp, placed, has_ana, has_rev)
     if ana:
         base = ("%s→%s" % (text, value)) if text and value != text.upper() else (value or text)
         return "%s %s" % (base, ana)
     # A manual solve stores no transform — but a piece whose placed letters are
     # exactly its value reversed IS a reversal, knowable from the letters alone.
-    if (not reversed_ and len(value) > 1 and placed
-            and placed == value[::-1] and placed != value):
+    if (not reversed_ and len(vcmp) > 1 and placed
+            and placed == vcmp[::-1] and placed != vcmp):
         reversed_ = True
     # Reversal COMBINED with a deletion: the placed letters are NOT a forward
     # sub-selection of the value, but the REVERSED placed letters ARE (value
@@ -674,9 +695,9 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
     # the summary detects neither the reversal nor the deletion and silently maps
     # the 5-letter value onto 4 tiles, dropping the removed letter. (clue 10081158
     # OMELETTE: fruit=LEMON reversed less N.)
-    if (not reversed_ and len(value) > 1 and placed and placed != value
-            and _removed(value, placed) is None
-            and _removed(value, placed[::-1]) is not None):
+    if (not reversed_ and len(vcmp) > 1 and placed and placed != vcmp
+            and _removed(vcmp, placed) is None
+            and _removed(vcmp, placed[::-1]) is not None):
         reversed_ = True
     base = ("%s→%s" % (text, value)) if text and value != text.upper() \
         else (value or text)
@@ -684,8 +705,8 @@ def _describe(s, placed, transforms, has_ana=False, has_rev=False):
         base += " reversed"
     # deletion shown honestly: the placed letters are the value minus something
     cmp_placed = placed[::-1] if reversed_ else placed
-    if value and cmp_placed and cmp_placed != value:
-        missing = _removed(value, cmp_placed)
+    if vcmp and cmp_placed and cmp_placed != vcmp:
+        missing = _removed(vcmp, cmp_placed)
         if missing:
             base += " less %s" % missing
         elif mech not in _SELF_EXPLAINING:
