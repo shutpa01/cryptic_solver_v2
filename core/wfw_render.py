@@ -563,6 +563,35 @@ def _cand_outer(text):
     return sorted(set([a[0], a[-1]])) if a else []
 
 
+def _apostrophe_parts(text):
+    """Alpha-index runs a span rule may be applied to: the WHOLE word first, then each
+    apostrophe-separated part when there is more than one.
+
+    MIRRORS core.selection._letter_sets, which already does this on the derivation side:
+    an apostrophe divides a word for selection (COLLEAGUE'S -> COLLEAGUE | S) and the
+    setter selects from the BASE word. Whole run first, so every candidate that existed
+    before is still produced and still tried first.
+    """
+    parts, cur = [], []
+    for i, ch in enumerate(text):
+        if ch in "'’ʼ":
+            if cur:
+                parts.append(cur)
+                cur = []
+        elif ch.isalpha():
+            cur.append(i)
+    if cur:
+        parts.append(cur)
+    return parts if len(parts) > 1 else []
+
+
+def _mask_to(text, keep):
+    """`text` with every character outside `keep` blanked — indices stay aligned, so a
+    candidate generator run over it returns positions in the ORIGINAL text."""
+    keep = set(keep)
+    return "".join(ch if i in keep else " " for i, ch in enumerate(text))
+
+
 def _cand_alt(text, start):
     return _alpha_indices(text)[start::2]
 
@@ -690,6 +719,18 @@ def _selection_picks(text, value, mechanism, rule=None):
         picks = ok(gen(text))
         if picks:
             return picks
+    # THE RULE, RE-RUN ON THE BASE WORD. "colleague's tips" = CE: over the whole token the
+    # outer letters are C and the possessive S, which cannot match CE, and the highlight
+    # then fell through to the greedy scan below and lit the FIRST e ("coll[e]ague")
+    # instead of the last (user, 2026-09-11, clue 10090845). The derivation already splits
+    # on the apostrophe (core.selection._letter_sets); this is the render side of the same
+    # rule. Still exact-match only, so it can offer more to discard, never fabricate.
+    for part in _apostrophe_parts(text):
+        masked = _mask_to(text, part)
+        for gen in order:
+            picks = ok(gen(masked))
+            if picks:
+                return picks
     # Universal last resort — a valid subsequence from whichever end the rule prefers.
     if eff == "last":
         return ok(_cand_greedy_right(text, want)) or ok(_cand_greedy(text, want))
