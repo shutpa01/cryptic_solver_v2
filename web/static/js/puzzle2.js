@@ -422,8 +422,11 @@ document.body.addEventListener('htmx:afterSwap', function(e) {
 var _solveMode = false;
 
 function toggleSolveMode() {
-    // Block solve mode if no grid is available
-    if (!_solveMode && !_cfg.hasGrid) {
+    // Block solve mode if no grid is available — EXCEPT on a one-clue puzzle,
+    // which needs no grid: the grid is only there for crossings and the grid
+    // display, and a single clue has neither. (Custom clues, 2026-09-10: the
+    // answer box IS solve mode, so blocking it left the clue unsolvable.)
+    if (!_solveMode && !_cfg.hasGrid && !_cfg.soloClue) {
         var btn = document.getElementById('solve-toggle');
         var orig = btn.textContent;
         btn.textContent = 'No grid available for this puzzle';
@@ -487,9 +490,12 @@ function _enterSolveMode() {
     document.querySelectorAll('.linked-ref').forEach(function(el) {
         el.classList.add('hidden');
     });
-    // Show progress and grid button
+    // Show progress and grid button. With no grid there is nothing to go to,
+    // so the grid button stays hidden — everything else is unchanged.
     document.getElementById('solve-progress').classList.remove('hidden');
-    document.getElementById('solve-grid-btn').classList.remove('hidden');
+    if (_cfg.hasGrid) {
+        document.getElementById('solve-grid-btn').classList.remove('hidden');
+    }
     var saveBtn = document.getElementById('solve-save-btn');
     if (saveBtn) saveBtn.classList.remove('hidden');
     // Admin: pre-populate solve state with existing DB answers so crossings
@@ -500,9 +506,13 @@ function _enterSolveMode() {
     // Restore saved answers and crossings
     _restoreSolveState();
     _updateProgress();
-    _restoreCachedCrossings() || _fetchCrossings();
-    // Auto-show grid — it persists throughout solve mode
-    showSolveGrid();
+    // Crossings and the grid are grid-only. On a gridless (one-clue) puzzle
+    // both would be requests for a grid that does not exist.
+    if (_cfg.hasGrid) {
+        _restoreCachedCrossings() || _fetchCrossings();
+        // Auto-show grid — it persists throughout solve mode
+        showSolveGrid();
+    }
 }
 
 function _exitSolveMode() {
@@ -1319,7 +1329,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (state[k].correct) { hasProgress = true; break; }
         }
     }
-    if (_cfg.hasGrid && (explicitSolve || (wasActive && hasProgress))) {
+    if ((_cfg.hasGrid || _cfg.soloClue) && (explicitSolve || (wasActive && hasProgress))) {
         toggleSolveMode();
     } else {
         localStorage.removeItem(_solveKey + '_active');

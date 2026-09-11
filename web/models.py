@@ -99,6 +99,11 @@ BROWSE_SOURCES = [
     ("independent", "cryptic", "Independent Cryptic"),
     ("dailymail", "cryptic", "Daily Mail Cryptic"),
     ("cordelia", "daily-mashup", "Cordelia's Daily Mash-up"),
+    # Clues written by other people (Reddit clue-writing threads) that Cordelia
+    # answers. Not a publication and never public: 'custom' is absent from
+    # web.serving.SERVED_BROWSE and SERVED_SOURCES, so only an admin session
+    # sees the card, the list, or any clue in it (user, 2026-09-10).
+    ("custom", "clues", "Custom"),
 ]
 
 # Label lookup for display
@@ -114,6 +119,7 @@ TYPE_LABELS = {
     ("dailymail", "cryptic"): "Cryptic",
     ("cordelia", "tutorial"): "Tutorial",
     ("cordelia", "daily-mashup"): "Daily Mash-up",
+    ("custom", "clues"): "Custom",
 }
 
 
@@ -194,6 +200,15 @@ def classify_puzzle(source, puzzle_number, publication_date=None):
             return "tutorial", "Tutorial"
         if num >= 1001:
             return "daily-mashup", "Daily Mash-up"
+        return None, None
+
+    elif source == "custom":
+        # One pasted clue = one puzzle_number, allocated in sequence from 1.
+        # The number is plumbing (it is what lets the existing per-puzzle
+        # Cascade / Prefill / hand-solver run unchanged); the Custom section
+        # itself is a flat list of clues, not a list of puzzles.
+        if num >= 1:
+            return "clues", "Custom"
         return None, None
 
     return None, None
@@ -284,6 +299,31 @@ def _puzzle_filter_sql(source, type_slug):
             [source],
         )
     return None, None
+
+
+def get_custom_clues():
+    """Every CUSTOM clue, newest first, with its WFW verdict — the whole Custom
+    section (user, 2026-09-10: "one list ordered by date newest first").
+
+    Custom clues are not a publication and are not grouped into puzzles for
+    display: each is filed as its own one-clue puzzle purely so the existing
+    per-puzzle Cascade / Prefill / hand-solver machinery runs on it unchanged
+    (see core/custom_clues.py). The list is what the user walks.
+
+    No serving filter and no pagination: `custom` is in neither SERVED_SOURCES
+    nor SERVED_BROWSE, so nothing here is ever public, and the caller has
+    already required an admin session.
+    """
+    return get_db().execute(
+        """SELECT c.id, c.puzzle_number, c.publication_date, c.clue_text,
+                  c.enumeration, c.answer,
+                  s.status, s.solved_by,
+                  n.note AS note
+           FROM clues c
+           LEFT JOIN wfw_solve s ON s.clue_id = c.id
+           LEFT JOIN wfw_notes  n ON n.clue_id = c.id
+           WHERE c.source = 'custom'
+           ORDER BY c.publication_date DESC, c.id DESC""").fetchall()
 
 
 def get_puzzle_list(source, type_slug, page=1):

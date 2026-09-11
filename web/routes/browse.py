@@ -5,7 +5,8 @@ import re
 from flask import Blueprint, render_template, request, abort, jsonify, g
 
 from web.db import get_db
-from web.models import BROWSE_SOURCES, TYPE_LABELS, _is_valid_type, get_puzzle_list, classify_puzzle
+from web.models import (BROWSE_SOURCES, TYPE_LABELS, _is_valid_type,
+                        get_puzzle_list, get_custom_clues, classify_puzzle)
 
 bp = Blueprint("browse", __name__)
 
@@ -14,6 +15,7 @@ SEARCH_SOURCES = ('telegraph', 'times', 'dailymail', 'guardian', 'independent')
 _SOURCE_NAMES = {
     "telegraph": "Telegraph", "times": "Times", "dailymail": "Daily Mail",
     "guardian": "Guardian", "independent": "Independent", "cordelia": "Cordelia",
+    "custom": "Custom",
 }
 
 
@@ -227,6 +229,21 @@ def puzzle_list(source, puzzle_type):
     """Paginated puzzle list for a source/type combination."""
     if not _is_valid_type(source, puzzle_type):
         abort(404)
+
+    # CUSTOM is not a publication (user, 2026-09-10): clues written by other
+    # people, pasted one at a time, shown as ONE list ordered newest first —
+    # not a list of puzzles. Admin only: `custom` is absent from SERVED_BROWSE
+    # so the card never appears for the public, and this 404 makes guessing the
+    # URL no better than not knowing it.
+    if source == "custom":
+        if not g.get("is_admin"):
+            abort(404)
+        from flask import current_app
+        return render_template(
+            "custom_list.html",
+            clues=get_custom_clues(),
+            solver_base=current_app.config.get("WFW_ADMIN_BASE", "/solver"),
+        )
 
     page = request.args.get("page", 1, type=int)
     if page < 1:

@@ -166,6 +166,16 @@ def puzzle(source, puzzle_type, puzzle_number):
         from scraper.danword.danword_lookup import find_puzzle_json
         has_grid = find_puzzle_json(source, puzzle_number) is not None
 
+    # A ONE-CLUE puzzle: solve mode works on it with no grid, because the only
+    # things solve mode needs a grid FOR are crossings and the grid display, and
+    # a single clue has neither and wants neither (user, 2026-09-10, of the
+    # custom Reddit clues: "all the solving tools at my disposal, but just for a
+    # single clue, there is no grid"). Without this the Solve button refused with
+    # "No grid available for this puzzle" and the answer box never appeared.
+    # Keyed on the CLUE COUNT, not the source: no newspaper puzzle has one clue,
+    # so no existing puzzle's behaviour can change.
+    solo_clue = len(all_clues_list) == 1
+
     # Structured data + SEO title/heading/description. The title targets the
     # search forms people actually type ("times cryptic crossword 29596",
     # "DT 31205"); the heading is the keyword-rich H1.
@@ -206,6 +216,7 @@ def puzzle(source, puzzle_type, puzzle_number):
         down=down,
         is_prize=is_prize,
         has_grid=has_grid,
+        solo_clue=solo_clue,
         source_puzzle_url=source_puzzle_url,
         grid_conflicts=grid_conflicts,
         tutorial_prefill=tutorial_prefill,

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block helper_widget %}{% endblock %}
-{% set puzzle_heading = "Cordelia's Daily Mash-up" if source == 'cordelia' and puzzle_type == 'daily-mashup' else source | source_name ~ ' ' ~ type_label %}
+{% set puzzle_heading = "Cordelia's Daily Mash-up" if source == 'cordelia' and puzzle_type == 'daily-mashup'
+                        else 'Custom clue' if source == 'custom'
+                        else source | source_name ~ ' ' ~ type_label %}
 
 {% block title %}{{ seo_title }}{% endblock %}
 
@@ -97,11 +99,13 @@
             Hide all hints
         </button>
         {% if g.is_admin %}
+        {% if has_grid %}
         <button id="admin-grid-toggle"
                 onclick="toggleGrid(this, '/{{ source }}/{{ puzzle_type }}/{{ puzzle_number }}/grid')"
                 class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">
             Show grid
         </button>
+        {% endif %}
         {# Re-verify all is GONE (phase 3) — puzzle work happens in the hand-solver. #}
         <a href="{{ config.WFW_ADMIN_BASE }}/hs?src={{ source }}&pnum={{ puzzle_number }}"
            target="_blank"
@@ -213,12 +217,16 @@
                        onkeydown="if(event.key==='Enter'){event.preventDefault();solveCheck(this)}">
                 <button onclick="solveCheckOrDelete(this)"
                         class="solve-check-btn text-xs px-2.5 py-1 rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Check</button>
+                {% if has_grid %}
                 <button onclick="solveAddToGrid(this.closest('.solve-input').querySelector('.solve-answer'))"
                         class="text-xs px-2.5 py-1 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">Add to grid</button>
+                {% endif %}
                 <button onclick="openToolsOverlay('{{ clue.id }}')"
                         class="text-xs px-2.5 py-1 rounded border border-indigo-400 text-indigo-700 hover:bg-indigo-50 font-medium cursor-pointer">Tools</button>
+                {% if has_grid %}
                 <button onclick="document.getElementById('grid-area').scrollIntoView({behavior:'instant',block:'start'})"
                         class="text-xs px-2.5 py-1 rounded border border-gray-300 text-gray-500 hover:bg-gray-50 font-medium cursor-pointer">Go to grid</button>
+                {% endif %}
                 {% if clue.answer %}
                 <button onclick="solveInsertAnswer(this)"
                         title="Puts this answer straight in — its letters become crossings for the clues through it"
@@ -359,7 +367,9 @@
                class="flex-1 text-sm font-mono tracking-wider border border-gray-300 rounded px-2 py-1.5 uppercase focus:outline-none focus:ring-2 focus:ring-emerald-300"
                placeholder="answer" autocomplete="off">
         <button onclick="toolsOverlayCheck()" class="text-xs px-3 py-1.5 rounded bg-emerald-600 text-white hover:bg-emerald-700 font-medium cursor-pointer">Check</button>
+        {% if has_grid %}
         <button onclick="toolsOverlayAddToGrid()" class="text-xs px-3 py-1.5 rounded border border-indigo-300 text-indigo-600 hover:bg-indigo-50 font-medium cursor-pointer">Add to grid</button>
+        {% endif %}
         <span id="tools-overlay-result" class="text-xs"></span>
     </div>
     <div class="flex gap-1 px-4 pt-3 pb-1">
@@ -442,6 +452,7 @@ window.PUZZLE_CONFIG = {
     isPrize: {{ 'true' if is_prize else 'false' }},
     isAdmin: {{ 'true' if g.is_admin else 'false' }},
     hasGrid: {{ 'true' if has_grid else 'false' }},
+    soloClue: {{ 'true' if solo_clue else 'false' }},
     publicationDate: '{{ publication_date or '' }}',
     typeLabel: '{{ type_label }}',
     sourceName: '{{ source | source_name }}'

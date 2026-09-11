@@ -379,6 +379,10 @@ _PUZZLE_SEO_NAMES = {
     ("guardian", "everyman"):       ("Everyman Crossword", None),
     ("independent", "cryptic"):     ("Independent Cryptic Crossword", None),
     ("dailymail", "cryptic"):       ("Daily Mail Cryptic Crossword", None),
+    # Custom = one clue someone else wrote, admin-only and never indexed. Named
+    # only so the page does not head itself "Custom Custom Crossword" from the
+    # source+label fallback below.
+    ("custom", "clues"):            ("Custom clue", None),
 }
 
 
