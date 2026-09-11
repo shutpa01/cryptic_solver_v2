@@ -327,6 +327,7 @@ def create_app(config_name=None):
     from web.routes.seo import bp as seo_bp
     from web.routes.learn import bp as learn_bp
     from web.routes.tools import bp as tools_bp
+    from web.routes.share import bp as share_bp
 
     app.register_blueprint(browse_bp)
     app.register_blueprint(puzzle_bp)
@@ -337,6 +338,7 @@ def create_app(config_name=None):
     app.register_blueprint(seo_bp)
     app.register_blueprint(learn_bp)
     app.register_blueprint(tools_bp)
+    app.register_blueprint(share_bp)
 
     # ONE APP (live-site plumbing phase 5): serve the WFW admin solver under
     # /solver/*, gated by this app's admin session. Lazy import — the heavy
