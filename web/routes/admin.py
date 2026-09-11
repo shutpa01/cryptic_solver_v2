@@ -1179,7 +1179,17 @@ def save_all_answers():
     if clue_ids:
         placeholders = ",".join("?" * len(clue_ids))
         rows = db.execute(
-            f"SELECT id, clue_number, direction, clue_text, answer, source, puzzle_number FROM clues WHERE id IN ({placeholders})",
+            # `enumeration` is REQUIRED here: the length check further down reads
+            # ci["enumeration"], and while it was missing from this SELECT that
+            # check silently never ran — a wrong-length answer was written and
+            # `skipped` could never leave 0, so the "N skipped — check lengths"
+            # message in saveAllToDb was unreachable. The client-side check in
+            # puzzle2.js solveCheck warns but STILL stores the answer
+            # (_saveSolveAnswer on both length branches), and saveAllToDb posts
+            # everything stored — so this is the only thing standing between a
+            # warned-about short answer and clues.answer. (Found 2026-09-10.)
+            f"SELECT id, clue_number, direction, clue_text, answer, enumeration, "
+            f"source, puzzle_number FROM clues WHERE id IN ({placeholders})",
             clue_ids,
         ).fetchall()
         for r in rows:
