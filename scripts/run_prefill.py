@@ -37,6 +37,19 @@ CLAUDE_MODEL = "claude-fable-5"
 PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_prefill.md"
 LOG_DIR = ROOT / "logs"
 
+# This script's own stdout is a LOG FILE, never a console, so Python picks the
+# locale encoding (cp1252) for it. Claude's summary routinely contains an arrow
+# or an em dash, and echoing one killed the run AFTER the readings were already
+# filed — so the log never reached "prefill complete" and the puzzle page's
+# status box sat polling until it timed out and reported that no prefill was
+# running, on a run that had in fact worked. Silent since at least 2026-08-30
+# (guardian 4167, times 5232); found 2026-09-10.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):      # already-wrapped or closed stream
+        pass
+
 
 def log(msg):
     print("[%s] %s" % (time.strftime("%H:%M:%S"), msg), flush=True)
@@ -49,6 +62,18 @@ def build_prompt(source=None, pnum=None, date=None, report_name=None):
     if source and pnum:
         scope = ("- Scope: %s puzzle %s ONLY (on-demand run from the puzzle "
                  "page), NOT \"today\"." % (source, pnum))
+        # The prompt below opens "today's SERVING-PAPER puzzles". A source
+        # outside telegraph/times/guardian contradicts that wording, so say
+        # plainly that the named source is the scope — otherwise a headless
+        # run can read the body and skip the puzzle it was asked to do.
+        # `custom` is the user's Reddit clue-writing threads (2026-09-10);
+        # a clue there is an ordinary cryptic clue and is read as one.
+        if source not in ("telegraph", "times", "guardian"):
+            scope += ("\n- The source above is the scope even though it is not "
+                      "a serving paper: ignore the \"serving papers\" wording "
+                      "below. Every OTHER rule — the validation gate, the "
+                      "prefill-discipline rules, PENDING only, never a verdict "
+                      "— applies exactly as written.")
     else:
         scope = ("- Scope: publication_date %s, serving papers "
                  "(telegraph/times/guardian), NOT \"today\"." % date)

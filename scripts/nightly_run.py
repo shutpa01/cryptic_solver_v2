@@ -8,11 +8,15 @@ Flow:
      by the user in the morning, never scraped).
   2. WFW cascade on today's SERVING papers (telegraph/times/guardian):
      every new clue WITH an answer through the engines, zero AI calls.
-  3. Headless Claude — post-publish DIAGNOSIS of the frozen manual solves
-     the user committed yesterday (pending-only signatures + engine
-     worklist; prompt: scripts/prompts/nightly_diagnosis.md).
-  4. Headless Claude — PREFILL today's FAIL/PENDING clues into the
+  3. Headless Claude — PREFILL today's FAIL/PENDING clues into the
      hand-solver grid (prompt: scripts/prompts/nightly_prefill.md).
+  3b. Headless Claude — REVIEW today's engine passes, pass->pending only
+     (prompt: scripts/prompts/nightly_pass_review.md).
+
+The post-publish DIAGNOSIS is deliberately NOT here — it is on demand from
+the dashboard (scripts/run_diagnosis.py). It improves future puzzles, so
+nothing in the morning waits on it, and overnight it was taking 37% of the
+run's tokens (user, 2026-09-11).
 Morning: the user walks each puzzle in /solver/hs (Commit/Uncommit only)
 and publishes. Nothing waits for blogs; nothing is invoked by hand.
 
@@ -248,24 +252,30 @@ def main():
         else:
             run_cascade(target_date)
 
-    # Steps 3+4+4b: headless Claude. Diagnosis FIRST (yesterday's committed manual
-    # solves -> pending-only signatures + engine worklist), then prefill
-    # (today's FAIL/PENDING clues -> hand-solver readings for the morning walk),
-    # then a READ of today's engine passes.
+    # Steps 3+3b: headless Claude. Prefill (today's FAIL/PENDING clues ->
+    # hand-solver readings for the morning walk), then a READ of today's engine
+    # passes.
     #
     # PASS REVIEW RUNS LAST, AFTER PREFILL, deliberately. A demoted clue keeps the
     # parse the engine claimed, so the morning walk shows what was said and why it
     # was held. Run before prefill, a demotion would put the clue in prefill's
     # fail/pending work list and its reading would replace the evidence.
+    #
+    # POST-PUBLISH DIAGNOSIS IS NO LONGER RUN HERE (user, 2026-09-11). Measured on
+    # the 09-11 run it was 8.24M of the night's 22.0M cache-read tokens — 37% — and
+    # nothing before lunchtime depends on it: it improves FUTURE puzzles, while
+    # prefill and pass review are what the morning actually needs. Spending the
+    # overnight budget on it left too little for the early-morning work. It is now
+    # on demand from the dashboard (Diagnosis page -> scripts/run_diagnosis.py),
+    # which is where the publish-first process always said it belonged: "step 4,
+    # post-publish, in non-critical time".
     if args.skip_claude:
-        log("Steps 3+4+4b: Claude diagnosis + prefill + pass review: SKIPPED (--skip-claude)")
+        log("Steps 3+3b: Claude prefill + pass review: SKIPPED (--skip-claude)")
     elif args.dry_run:
-        log("[DRY RUN] Would run claude -p nightly_diagnosis.md, nightly_prefill.md, "
-            "nightly_pass_review.md")
+        log("[DRY RUN] Would run claude -p nightly_prefill.md, nightly_pass_review.md")
     else:
-        run_claude("nightly_diagnosis.md", "Step 3: post-publish diagnosis")
-        run_claude("nightly_prefill.md", "Step 4: prefill")
-        run_claude("nightly_pass_review.md", "Step 4b: review today's engine passes")
+        run_claude("nightly_prefill.md", "Step 3: prefill")
+        run_claude("nightly_pass_review.md", "Step 3b: review today's engine passes")
 
     # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
     # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only
