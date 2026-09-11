@@ -918,7 +918,8 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
             + _note_block(clue_id, raw_list, editor=False)
             + enrich_block
             + _prefill_confirm_block(clue_id, parse, raw_list)
-            + _handsolver_link(clue_id, raw_list))
+            + _handsolver_link(clue_id, raw_list)
+            + _reddit_copy_block(clue_id, parse))
 
 
 def _clue_controls(clue_id, raw_list, status):
@@ -2393,6 +2394,12 @@ function initGrid(rootId, DATA){
  var listDiv=root.querySelector('#g-list'), payload=root.querySelector('#g-payload');
  var ROLECOL={definition:'#0f766e',synonym:'#1d4ed8',substitution:'#0e7490',letters:'#0891b2',selection:'#b45309',anagram:'#0369a1',deletion:'#b45309',shifted:'#c2410c',spoonerism:'#be185d',indicator:'#7c3aed',link:'#64748b',filler:'#9333ea',synbyexample:'#0891b2',none:'#94a3b8'};
  function isValued(r){return r==='synonym'||r==='substitution';}          // types/picks a value
+ /* Roles whose value may LOSE letters before it lands. A literal is cuttable too (user,
+    2026-09-10): "How long I'm in the hotel, lost?" = TIME needs THE minus the H that
+    "hotel" names, giving TE around I'M. While the − delete box was shown for derivative
+    pieces only, a literal had to place every one of its letters and that reading could
+    not be entered at all. */
+ function isCuttable(r){return isValued(r)||r==='letters';}
  function isPiece(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement'||r==='selection'||r==='anagram'||r==='spoonerism'||r==='homophone';} // lands on tiles
  // The engine's selection rules (core.selection.SPAN_RULES) mirrored on plain letters, so the
  // value is DERIVED from the ticked word(s) — never free-typed — and cannot fabricate.
@@ -2596,7 +2603,7 @@ function initGrid(rootId, DATA){
    cutPrev.innerHTML=res.ok?('<span style="color:#b45309">'+fl+' &minus;'+acut+' &rarr; <b>'+(res.rem||'(empty)')+'</b> ('+res.rem.length+' letters to place)</span>')
     :('<span style="color:#dc2626">'+acut+' has a letter not in '+fl+'</span>');
    return;}
-  if(!isValued(r)){cutPrev.innerHTML='';return;}
+  if(!isCuttable(r)){cutPrev.innerHTML='';return;}   // a literal previews its cut too
   var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();var cut=(cutEl&&cutEl.value||'').trim().toUpperCase();
   if(!v||!cut){cutPrev.innerHTML='';return;}
   var surv=applyCut(v,cut);
@@ -2690,8 +2697,8 @@ function initGrid(rootId, DATA){
   candWrap.style.display=((isPiece(r)&&r!=='anagram'&&r!=='homophone')||r==='deletion'||r==='shifted')?'':'none'; // deletion/shifted = type; homophone = tiles
   if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
-  if(cutWrap)cutWrap.style.display=(isValued(r)||r==='anagram')?'':'none'; // delete letters from a
-  if(!isValued(r)&&r!=='anagram'&&cutEl)cutEl.value='';          // derivative, or from anagram fodder
+  if(cutWrap)cutWrap.style.display=(isCuttable(r)||r==='anagram')?'':'none'; // delete letters from a
+  if(!isCuttable(r)&&r!=='anagram'&&cutEl)cutEl.value='';   // piece value, or from anagram fodder
   if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?((selrule&&selrule.value==='named')?'the letter(s) the clue names, e.g. I':'derived from the word by the rule'):((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value')))));
   drawCutPrev();
   if(isValued(r))fetchCands();
@@ -2740,6 +2747,14 @@ function initGrid(rootId, DATA){
     if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
     a.cut=cut;}}
   if(r==='letters'||r==='replacement'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
+  if(r==='letters'){                   // a LITERAL MAY BE CUT — the same three checks the
+   var lcut=(cutEl&&cutEl.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');  // derivative
+   if(lcut){                                                          // pieces already get.
+    if(!a.value){note('type the literal in full (e.g. THE) before naming the letters to delete');return;}
+    survivor=applyCut(a.value,lcut);
+    if(survivor===null){note('“'+lcut+'” is not a run of '+a.value);return;}
+    if(!survivor.length){note('cannot delete the whole value ('+a.value+')');return;}
+    a.cut=lcut;}}
   if(r==='letters'&&a.value){          // a literal is the WORD'S letters, in the WORD'S order:
    var own=fodderLetters(idx),got=foldLetters(a.value);   // typing them re-ordered to match the
    if(own&&got!==own&&got.split('').sort().join('')===own.split('').sort().join('')){ // tiles makes
@@ -3281,7 +3296,10 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<b>synonym</b>: type the value then click the answer tiles it makes. If a letter is '
          'deleted from the derivative (e.g. speech=ORATION, &ldquo;scrapping introduction&rdquo; '
          'removes O), type the deleted run in <b>&minus; delete</b> and the survivor places itself. '
-         '<b>letters</b> (literal): just click the answer tiles it makes. '
+         '<b>letters</b> (literal): just click the answer tiles it makes. If a letter '
+         'is deleted from it (e.g. the hotel = THE with the H that &ldquo;hotel&rdquo; '
+         'names lost), type the word in full, put the deleted run in &minus; '
+         '<b>delete</b>, and click the tiles the survivor reaches. '
          '<b>anagram fodder</b>: tick the fodder word(s) &mdash; its value is their letters (shown '
          'in the preview) &mdash; then click the answer tiles they rearrange into (any order); tag '
          'the anagram word separately as an <b>indicator</b> (type anagram). If the fodder is '
@@ -6689,6 +6707,58 @@ def _handsolver_link(clue_id, raw_list):
             'border-color:#0d9488;margin:.4rem 0" '
             'title="Open the hand-solver for this clue">'
             '&#9776; Hand-solver</a>' % (clue_id, _frm))
+
+
+def _reddit_copy_block(clue_id, parse):
+    """Copy this card as a Reddit comment (user, 2026-09-10: the clue-writing
+    forums take no screenshots, so the card has to travel as text).
+
+    Shown only on a PASS parse — the markdown is built from the confirmed
+    reading (web/reddit_md.py over web.wfw_read.load_breakdown), so there is
+    nothing to copy until the clue is Confirmed, and offering the button before
+    then would only produce a refusal.
+
+    NOTE THE URL. /redditmd is a SITE route with no /admin prefix on purpose:
+    web/solver_mount.py rewrites any quoted root-absolute URL whose first path
+    segment is one of THIS app's url_map segments, and `admin` is one of them —
+    "/admin/..." here would be rewritten to "/solver/admin/..." and 404.
+    """
+    if parse is None or (getattr(parse, "status", "") or "") != "pass":
+        return ""
+    return (
+        '<div style="margin:.4rem 0">'
+        '<button type="button" onclick="wfwCopyReddit(%d, this)" '
+        'class="wfw-reload" style="background:#7c3aed;border-color:#7c3aed;'
+        'cursor:pointer" title="Copy this card as a Reddit comment '
+        '(Markdown, answer behind a spoiler tag)">&#128203; Copy for Reddit'
+        '</button>'
+        '<span id="wfw-rd-msg-%d" style="margin-left:.5rem;font-size:.85rem;'
+        'color:#64748b"></span>'
+        '<textarea id="wfw-rd-%d" readonly hidden style="width:100%%;height:11rem;'
+        'margin-top:.4rem;font-family:ui-monospace,Consolas,monospace;'
+        'font-size:.82rem;padding:.5rem;border:1px solid #cbd5e1;'
+        'border-radius:8px"></textarea>'
+        '</div>'
+        '<script>'
+        'function wfwCopyReddit(id, btn){'
+        ' var msg=document.getElementById("wfw-rd-msg-"+id);'
+        ' var box=document.getElementById("wfw-rd-"+id);'
+        ' msg.textContent="…";'
+        ' fetch("/redditmd/"+id).then(function(r){'
+        '   return r.text().then(function(t){return {ok:r.ok, text:t};});'
+        ' }).then(function(res){'
+        '   box.value=res.text; box.hidden=false;'
+        '   if(!res.ok){ msg.textContent=""; return; }'
+        # The textarea is shown either way: if the clipboard is unavailable
+        # (or the user denies it) the markdown is still there to select.
+        '   if(navigator.clipboard && navigator.clipboard.writeText){'
+        '     navigator.clipboard.writeText(res.text).then(function(){'
+        '       msg.textContent="Copied — paste into Reddit.";'
+        '     }, function(){ box.select(); msg.textContent="Select and copy:"; });'
+        '   } else { box.select(); msg.textContent="Select and copy:"; }'
+        ' }).catch(function(){ msg.textContent="Could not build the markdown."; });'
+        '}'
+        '</script>' % (clue_id, clue_id, clue_id))
 
 
 def _reload_clue_button(clue_id, raw_list):
