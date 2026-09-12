@@ -2782,7 +2782,7 @@ function initGrid(rootId, DATA){
    if(!sv2){note('type the letter this word names, e.g. tense = T');return;}a.value=sv2;}
   if(r==='spoonerism'){var spv=(addInp.value||'').trim().toUpperCase();   // vetted sound pair:
    if(!spv){note('type the FULL source phrase (e.g. THE DEAR YACHT)');return;}a.value=spv;
-   if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // covers the whole answer
+   if(!selPos.length){var allp=[];for(var pi=1;pi<=DATA.answer.length;pi++){if(posOwner(pi)<0)allp.push(pi);}selPos=allp;}} // none clicked = the whole answer; clicked = a partial spoonerism
   if(r==='homophone'){if(!selPos.length){note('type the word it SOUNDS LIKE in the add box (e.g. sole) — leave blank only if the clue word itself is that word — then tick the clue word(s), click the answer tiles, and Assign');return;}
    a.spoken=((addInp.value||'').trim());                                                      // the actual sound-alike word (SOLE); blank => clue word is it
    a.value=selPos.slice().sort(function(x,y){return x-y;}).map(function(p){return DATA.answer[p-1];}).join('');} // value = the placed span; the gate checks spoken~span is a sanctioned homophone
@@ -3308,8 +3308,10 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'pick <b>deletion</b> &mdash; no tiles. (Or type the letter directly in <b>&minus; delete</b> '
          'on the fodder.) '
          '<b>spoonerism</b>: tick the source word(s), type the FULL source phrase (e.g. '
-         'THE DEAR YACHT) &mdash; Assign files the pair to the spoonerisms table and the piece '
-         'covers the whole answer; tag the Spooner word as an <b>indicator</b> (type spoonerism). '
+         'THE DEAR YACHT) and click the answer tiles it sounds like (none clicked = the whole '
+         'answer) &mdash; it may be one piece of a charade (Spooner&rsquo;s TIFF FEE = FIFTY in '
+         'FIFTY PERCENT). Assign files the pair to the spoonerisms table; tag the Spooner word '
+         'as an <b>indicator</b> (type spoonerism). '
          '<b>homophone</b>: tick the word(s) that sound like part (or all) of the answer, click '
          'the answer tiles they sound like, then Assign &mdash; the placed span is checked '
          'against the sounds-like dictionary + homophones table (add a missing pair in '
@@ -5467,7 +5469,17 @@ def _reusable_db_adds(wt, ans_letters, assigns):
         elif role == "definition":
             db_adds.append(("definition", phrase, ans_letters))
         elif role == "spoonerism" and value:
-            db_adds.append(("spoonerism", value, ans_letters))
+            # The pair is (source phrase -> the letters ITS tiles carry): the whole answer, or
+            # one charade piece's span (TIFF FEE -> FIFTY of FIFTY PERCENT). Filing it against
+            # the whole answer would harvest a junk pair. Mirrors _build_manual_parse.
+            try:
+                sp_pos = sorted(int(p) for p in (a.get("pos") or [])
+                                if 1 <= int(p) <= len(ans_letters))
+            except Exception:
+                sp_pos = []
+            db_adds.append(("spoonerism", value,
+                            "".join(ans_letters[p - 1] for p in sp_pos) if sp_pos
+                            else ans_letters))
         elif role == "indicator":
             it = (a.get("itype") or "").split(":")[0]
             if it:
@@ -5946,21 +5958,28 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                                   transform=tr))
         elif role == "spoonerism":
             # A vetted sound pair (spoonerisms table): the source phrase transposes to sound
-            # like the WHOLE answer, so the piece covers every tile — sound has no per-letter
-            # provenance (same footing as the spoonerism engine). The pair must already be in
-            # the table (Assign files it), so the human vet — not letter arithmetic — is the
-            # justification the gate checks.
+            # like the letters on the tiles the piece claims. Usually that is the WHOLE answer
+            # (THE DEAR YACHT -> THE YEAR DOT), but it may be only PART of it — one piece of a
+            # charade (FIFTY PERCENT = Spooner's TIFF FEE -> FIFTY, + PER + CENT; user rule
+            # 2026-09-12: a partial spoonerism is valid so long as everything assembles). Same
+            # footing as a homophone piece: sound has no per-letter provenance, so the piece
+            # claims its span as a unit and the pair is checked against exactly that span. The
+            # pair must already be in the table (Assign files it), so the human vet — not
+            # letter arithmetic — is the justification the gate checks. That every tile is
+            # covered is checked below, once, for every piece alike.
             value = (a.get("value") or "").strip().upper()
             if not value:
                 return {"ok": False, "msg": "The spoonerism piece needs its source phrase "
                         "(e.g. THE DEAR YACHT) — type it, then Assign."}
             pos = sorted(int(p) for p in (a.get("pos") or [])
                          if str(p).lstrip("-").isdigit())
-            if pos != list(range(1, N + 1)):
-                return {"ok": False, "msg": "A spoonerism covers the WHOLE answer — its "
-                        "piece must claim every tile (it has no per-letter sources)."}
+            if not pos or any(p < 1 or p > N for p in pos):
+                return {"ok": False, "msg": "The spoonerism piece %r has no answer tiles — "
+                        "click the answer letters it sounds like (every tile when it is the "
+                        "whole answer), then Assign." % phrase}
+            target = "".join(ans_letters[p - 1] for p in pos)
             spoon_source = "db"
-            if not admin_db.has_spoonerism(value, ans_letters):
+            if not admin_db.has_spoonerism(value, target):
                 if verify_db:
                     # AI/PREFILL path: the pair is not vetted yet, so accept it PROVISIONALLY
                     # (source='pending', the 'provisional' badge) exactly like an unsanctioned
@@ -5975,11 +5994,11 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 else:
                     return {"ok": False, "msg": "The pair %s → %s is not in the spoonerisms "
                             "table yet — Assign the piece first (Assign files the pair)."
-                            % (value, answer.upper())}
+                            % (value, answer.upper() if target == ans_letters else target)}
             si = len(sources)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism="spoonerism", source=spoon_source))
-            db_adds.append(("spoonerism", value, ans_letters))
+            db_adds.append(("spoonerism", value, target))
             for p in pos:
                 if p in covered:
                     return {"ok": False, "msg": "Answer tile %d is claimed by two "
@@ -6199,13 +6218,20 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     # A spoonerism indicator's note carries the pair so the card renders the full
     # "SOURCE → ANSWER" detail (wfw_render._indicator_label already parses the
     # "spoonerism:" prefix — the same shape the spoonerism engine emits).
+    # The pair's target is the letters the piece's OWN tiles carry: the whole answer (shown
+    # with its spacing, as before) or, for a partial spoonerism, just its span (FIFTY).
     _spoon = next((s for s in sources if s.mechanism == "spoonerism"), None)
     if _spoon is not None:
+        _ssi = next(i for i, s in enumerate(sources) if s is _spoon)
+        _starget = "".join(ans_letters[l.answer_pos - 1]
+                           for l in sorted(links, key=lambda l: l.answer_pos)
+                           if l.source_index == _ssi)
+        _starget = answer.upper() if _starget == ans_letters else _starget
         for i, ann in enumerate(annotations):
             if ann.role == "indicator" and ann.note.startswith("spoonerism"):
                 annotations[i] = Annotation(
                     clue_atom_ids=ann.clue_atom_ids, text=ann.text, role="indicator",
-                    note="spoonerism: %s → %s" % (_spoon.value, answer.upper()),
+                    note="spoonerism: %s → %s" % (_spoon.value, _starget),
                     source="manual")
 
     if definition2 is not None:

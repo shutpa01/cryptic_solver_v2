@@ -104,11 +104,16 @@ _ATOMIC_OPS = frozenset((
 # inflate the join count. The gestalt argument was about several clue WORDS, not several
 # PIECES, and the two were conflated. Measured over all 5,298 stored passes: 577 labels
 # gain the charade and EVERY ONE has 2+ placed sources — zero false charades.
-# Still suppressed and NOT measured: acrostic, alternation, spoonerism, hidden,
+# SPOONERISM IS NOT HERE EITHER (user rule 2026-09-12: a spoonerism may be ONE piece of a
+# charade, FIFTY PERCENT = Spooner's TIFF FEE -> FIFTY + PER + CENT). Its source phrase is
+# stored as ONE source, like a homophone's, so it places ONE piece and cannot inflate the
+# join count. Measured 2026-09-12 over all 24 stored spoonerism passes: every one has
+# exactly 1 placed source, so none gains a charade — zero labels change.
+# Still suppressed and NOT measured: acrostic, alternation, hidden,
 # palindrome, cycling, substitution, replacement. Whether the same conflation hides a
 # charade in those is an open question — measure before removing any of them.
 _CHARADE_SUPPRESS = frozenset((
-    "acrostic", "alternation", "spoonerism",
+    "acrostic", "alternation",
     "hidden", "palindrome", "cycling", "substitution", "replacement"))
 
 
@@ -1413,6 +1418,12 @@ def _piece_label(parse, si, positions, answer_letters):
         if removed:                                       # anagram (10 fodder letters -> 9 tiles)
             return col + ' <span class="wfw-emuted">anagram &minus;%s</span>' % escape(removed)
         return col + ' <span class="wfw-emuted">anagram</span>'
+    if s.mechanism == "spoonerism":
+        # A SOUND pair: its value (THE DEAR YACHT) never letter-matches the tiles (THE YEAR
+        # DOT) — the Spooner swap is what gets there, so say so. Letter-accounting it read
+        # "not accounted for" on every spoonerism card (24/24 stored, 2026-09-12). Same
+        # exemption as the piece row above and web/wfw_read._describe.
+        return col + ' <span class="wfw-emuted">spoonerism</span>'
     rec = _recorded_note(s, got)                    # what the piece RECORDS (never derived)
     if rec is not None:
         return col + rec

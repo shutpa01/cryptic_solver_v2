@@ -276,10 +276,14 @@ def _note_mechs(indicators):
 # inflate the join count. The gestalt argument above is about several clue WORDS, not
 # several PIECES, and the two were conflated. Measured over all 5,298 stored passes: 577
 # labels gain the charade and EVERY ONE has 2+ placed sources — zero false charades.
-# Still suppressed and NOT measured: acrostic, alternation, spoonerism, hidden,
+# SPOONERISM IS NOT HERE EITHER (user rule 2026-09-12: a spoonerism may be ONE piece of a
+# charade, FIFTY PERCENT = Spooner's TIFF FEE -> FIFTY + PER + CENT). One source, one
+# placed piece, like a homophone. Measured 2026-09-12 over all 24 stored spoonerism
+# passes: every one has exactly 1 placed source — zero labels change.
+# Still suppressed and NOT measured: acrostic, alternation, hidden,
 # palindrome, cycling, substitution, replacement. Measure before removing any of them.
 _CHARADE_SUPPRESS = frozenset((
-    "acrostic", "alternation", "spoonerism",
+    "acrostic", "alternation",
     "hidden", "palindrome", "cycling", "substitution", "replacement"))
 
 

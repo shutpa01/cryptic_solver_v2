@@ -103,8 +103,12 @@ confident is the setter's.
   button on /hs (route /hscd, built 2026-07-10).
 - A SPOONERISM: assign it as ONE piece — role 'spoonerism', value = the SOURCE
   PHRASE (the two clue-word synonyms joined, e.g. corporation->BELLY +
-  trousers->JEANS = "BELLY JEANS"), and that single piece claims EVERY answer tile
-  (sound has no per-letter provenance). Tag the Spooner word(s) ("altered by
+  trousers->JEANS = "BELLY JEANS"). That single piece claims the answer tiles it
+  SOUNDS LIKE, as one unit (sound has no per-letter provenance): every tile when
+  the swap gives the whole answer, or just its span when the spoonerism is one
+  piece of a charade — FIFTY PERCENT = Spooner's argument->TIFF + cost->FEE =
+  "TIFF FEE" -> FIFTY on tiles 1-5, plus each->PER + penny->CENT as ordinary
+  synonym pieces on tiles 6-12. Tag the Spooner word(s) ("altered by
   Spooner", "according to Spooner") as the INDICATOR (itype spoonerism). If the
   pair is not yet in the spoonerisms table it files PROVISIONALLY (like an
   unsanctioned homophone) — the user's Confirm vets it and passes it, so you CAN
