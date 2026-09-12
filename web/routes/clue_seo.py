@@ -6,49 +6,133 @@ import re
 from flask import current_app
 
 
+MAX_META_DESCRIPTION = 160
+
+# Never shorten the clue text below this — past it the snippet stops
+# matching what the searcher typed.
+_MIN_CLUE_CHARS = 40
+
+# Publication display names. `source.title()` alone gives "Dailymail".
+# Matches web/routes/browse.py and web/routes/seo.py.
+_SOURCE_DISPLAY = {
+    "dailymail": "Daily Mail",
+    "telegraph-toughie": "Telegraph Toughie",
+    "telegraph": "Telegraph",
+    "times": "Times",
+    "guardian": "Guardian",
+    "independent": "Independent",
+}
+
+# Short wordplay names for the meta description. Deliberately terser than
+# _WORDPLAY_LABELS (which carries parentheticals like "a charade (building
+# blocks)") because every character here competes with the clue text.
+_WORDPLAY_SHORT = {
+    "anagram": "anagram",
+    "charade": "charade",
+    "container": "container",
+    "hidden": "hidden-word",
+    "reversal": "reversal",
+    "double_definition": "double-definition",
+    "cryptic_definition": "cryptic-definition",
+    "homophone": "homophone",
+    "deletion": "deletion",
+    "substitution": "substitution",
+    "spoonerism": "spoonerism",
+    "initial_letters": "initial-letters",
+    "alternation": "alternating-letters",
+}
+
+
+def _source_display(source):
+    """Human-readable publication name for a source slug."""
+    source = (source or "").strip()
+    if not source:
+        return ""
+    return _SOURCE_DISPLAY.get(source.lower(), source.replace("-", " ").title())
+
+
+def _truncate_words(text, limit):
+    """Cut text to at most `limit` chars on a word boundary, with an ellipsis.
+
+    Never leaves a half-word. The previous blunt `desc[:157] + "..."` was
+    producing snippets that ended "...and how every word builds the
+    explanat..." — the one word the snippet exists to say.
+    """
+    if len(text) <= limit:
+        return text
+    cut = text[:limit - 1].rstrip()
+    space = cut.rfind(" ")
+    if space > limit // 2:
+        cut = cut[:space]
+    return cut.rstrip(" ,;:-—") + "…"
+
+
 def generate_meta_description(clue):
     """Build a dynamic meta description for a clue page.
 
-    Aims for 150-160 chars. Includes clue text, source, and a hint at
-    what the user will find (definition, wordplay type, or just "answer").
+    Shape: `"CLUE (enum)" from Source Type #N — answer plus a full
+    explanation of ...`
+
+    The explanation is the differentiator, so it is named in every variant
+    and it is never the part that gets cut. When the line is over budget we
+    degrade in this order: drop the puzzle type label, shorten the clue
+    text, drop the origin entirely. The offer clause stays whole.
 
     Args:
         clue: dict with clue_text, enumeration, source, puzzle_number,
               type_label, definition, wordplay_type, answer.
     """
-    clue_text = clue.get("clue_text", "")
-    enum = clue.get("enumeration", "")
-    source = (clue.get("source") or "").title()
+    clue_text = (clue.get("clue_text") or "").strip()
+    enum = clue.get("enumeration") or ""
+    source = _source_display(clue.get("source"))
     type_label = clue.get("type_label") or ""
-    puzzle_number = clue.get("puzzle_number", "")
+    puzzle_number = clue.get("puzzle_number") or ""
     definition = clue.get("definition")
     wordplay_type = clue.get("wordplay_type")
 
-    # Core: clue text with enumeration
-    core = clue_text
-    if enum:
-        core += f" ({enum})"
+    # Clue text as it reads in the paper.
+    core = clue_text + (f" ({enum})" if enum else "")
 
-    # Origin line
-    origin = f"{source}"
-    if type_label:
-        origin += f" {type_label}"
-    origin += f" #{puzzle_number}"
-
-    # What we can offer
+    # What the page actually gives you. Naming the wordplay type when we
+    # know it also keeps descriptions distinct across clue pages.
     if definition and wordplay_type:
-        offer = "Step-by-step hints: definition, wordplay type, full explanation, and answer."
+        wp = _WORDPLAY_SHORT.get(wordplay_type, str(wordplay_type).replace("_", "-"))
+        offer = (
+            "answer plus a full explanation of the definition and the "
+            f"{wp} wordplay."
+        )
     elif definition:
-        offer = "Hints available: definition and answer."
+        offer = "answer plus a full explanation of the definition and the wordplay."
     else:
-        offer = "Answer and hints for this cryptic crossword clue."
+        offer = "answer plus a full explanation of how the wordplay works, word by word."
 
-    desc = f'Cryptic crossword clue: "{core}" from {origin}. {offer}'
+    def _origin(with_type):
+        bits = [source] + ([type_label] if with_type and type_label else [])
+        text = " ".join(b for b in bits if b)
+        if puzzle_number:
+            text = f"{text} #{puzzle_number}".strip()
+        return text
 
-    # Truncate to ~160 chars if needed
-    if len(desc) > 160:
-        desc = desc[:157] + "..."
+    def _assemble(core_text, origin):
+        lead = f'"{core_text}"' if core_text else ""
+        if origin:
+            lead = f"{lead} from {origin}".strip() if lead else origin
+        if not lead:
+            return offer[0].upper() + offer[1:]
+        return f"{lead} — {offer}"
 
+    for candidate in (_assemble(core, _origin(True)), _assemble(core, _origin(False))):
+        if len(candidate) <= MAX_META_DESCRIPTION:
+            return candidate
+
+    # Only the clue text is still elastic; shorten that, not the offer.
+    over = len(_assemble(core, _origin(False))) - MAX_META_DESCRIPTION
+    short_core = _truncate_words(core, max(len(core) - over, _MIN_CLUE_CHARS))
+    desc = _assemble(short_core, _origin(False))
+    if len(desc) > MAX_META_DESCRIPTION:
+        desc = _assemble(short_core, "")
+    if len(desc) > MAX_META_DESCRIPTION:
+        desc = _truncate_words(desc, MAX_META_DESCRIPTION)
     return desc
 
 
