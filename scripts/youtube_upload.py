@@ -210,7 +210,10 @@ def build_video(source, number):
 # --- title and description ----------------------------------------------------------
 
 def puzzle_reference(source, puzzle):
-    """"Telegraph Cryptic Crossword 31330 (DT 31330)" — the site's own naming.
+    """"DT 31330 — Telegraph Cryptic 31330" — the site's own naming.
+
+    The abbreviation LEADS. It is the string solvers type (measured below), so it
+    goes first — it used to sit last, in brackets, on the site and here alike.
 
     The names and the abbreviation come from `_PUZZLE_SEO_NAMES`
     (web/routes/clue_seo.py:372), which is what justcordelia.com already puts in
@@ -236,16 +239,16 @@ def puzzle_reference(source, puzzle):
     name, abbr = puzzle_seo_name(source, type_slug, puzzle["type_label"])
     n = puzzle["number"]
     if abbr:
-        return "%s %s (%s %s)" % (name, n, abbr, n)
+        return "%s %s — %s %s" % (abbr, n, name.removesuffix(" Crossword"), n)
     return "%s %s" % (name, n)
 
 
 def title_for(source, puzzle):
     """Puzzle number early and exact — the searches this exists to catch are
     "telegraph cryptic 31324" and "DT 31324", not anything about wordplay."""
-    t = "%s — Every Clue Explained" % puzzle_reference(source, puzzle)
+    t = "%s: Every Clue Explained" % puzzle_reference(source, puzzle)
     if len(t) > TITLE_MAX:
-        t = "%s — Explained" % puzzle_reference(source, puzzle)
+        t = "%s: Explained" % puzzle_reference(source, puzzle)
     return t[:TITLE_MAX]
 
 
@@ -319,7 +322,7 @@ def description_for(cap_dir, source, puzzle, title):
     # Same reference as the title, so the abbreviation form is in the description
     # too — where Google reads it, unlike the keywords tag.
     head = [
-        "Every clue of %s explained — the definition, the wordplay broken into "
+        "%s: every clue explained — the definition, the wordplay broken into "
         "pieces, and how those pieces build the answer."
         % puzzle_reference(source, puzzle),
         "",

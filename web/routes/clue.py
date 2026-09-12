@@ -1119,8 +1119,13 @@ def clue_page(slug):
         })
 
     # SEO data
-    meta_description = generate_meta_description(clue_dict)
-    faq_schema = generate_faq_schema(clue_dict, steps)
+    # The page exists only for a PASS card or a commented INVALID card; the
+    # description names which (stored_card's own rule: status == 'pass').
+    _wfw_status = db.execute(
+        "SELECT status FROM wfw_solve WHERE clue_id = ?", (clue_id,)).fetchone()
+    explained = bool(_wfw_status and _wfw_status["status"] == "pass")
+    meta_description = generate_meta_description(clue_dict, explained=explained)
+    faq_schema = generate_faq_schema(clue_dict, steps, explained=explained)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
     # Legacy word-roles JSON-LD retired with the legacy render (week-only, no
     # legacy): the served breakdown is the WFW parse, rendered in the page HTML.

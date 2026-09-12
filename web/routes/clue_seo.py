@@ -6,28 +6,28 @@ import re
 from flask import current_app
 
 
-def generate_meta_description(clue):
-    """Build a dynamic meta description for a clue page.
+def generate_meta_description(clue, explained):
+    """Build the meta description for a clue page.
 
-    Aims for 150-160 chars. Includes clue text, source, and a hint at
-    what the user will find (definition, wordplay type, or just "answer").
+    A clue page is served for exactly two cards (web/serving.get_card): a PASS
+    parse, which is the full word-by-word explanation, or a reviewer INVALID
+    verdict with a comment, which is the answer plus why the clue is unsound.
+    The offer names what that card is. It is keyed on the served card, never on
+    the legacy clues.definition / clues.wordplay_type columns, which the WFW
+    system does not fill (a pass with both empty was described as "hints").
+
+    Aims for <= 160 chars. When the clue is long, the clue text is shortened,
+    not the offer — the offer is what sets the page apart.
 
     Args:
-        clue: dict with clue_text, enumeration, source, puzzle_number,
-              type_label, definition, wordplay_type, answer.
+        clue: dict with clue_text, enumeration, source, puzzle_number, type_label.
+        explained: True when the served card is a PASS parse.
     """
     clue_text = clue.get("clue_text", "")
     enum = clue.get("enumeration", "")
     source = (clue.get("source") or "").title()
     type_label = clue.get("type_label") or ""
     puzzle_number = clue.get("puzzle_number", "")
-    definition = clue.get("definition")
-    wordplay_type = clue.get("wordplay_type")
-
-    # Core: clue text with enumeration
-    core = clue_text
-    if enum:
-        core += f" ({enum})"
 
     # Origin line
     origin = f"{source}"
@@ -35,24 +35,28 @@ def generate_meta_description(clue):
         origin += f" {type_label}"
     origin += f" #{puzzle_number}"
 
-    # What we can offer
-    if definition and wordplay_type:
-        offer = "Step-by-step hints: definition, wordplay type, full explanation, and answer."
-    elif definition:
-        offer = "Hints available: definition and answer."
+    # What the served card is
+    if explained:
+        offer = ("Answer and a full word-by-word explanation: "
+                 "what every word in the clue does, and why.")
     else:
-        offer = "Answer and hints for this cryptic crossword clue."
+        offer = "Answer, and why this clue doesn't work by the standard cryptic rules."
 
-    desc = f'Cryptic crossword clue: "{core}" from {origin}. {offer}'
+    enum_part = f" ({enum})" if enum else ""
+    tail = f"{enum_part}\" — {origin}. {offer}"
 
-    # Truncate to ~160 chars if needed
-    if len(desc) > 160:
-        desc = desc[:157] + "..."
+    # Shorten the clue text, never the offer, to stay within ~160 chars
+    room = 160 - len(tail) - 1
+    if len(clue_text) > room:
+        cut = clue_text[:max(room - 1, 0)]
+        if " " in cut:
+            cut = cut.rsplit(" ", 1)[0]  # whole words only
+        clue_text = cut.rstrip(" ,;:-") + "…"
 
-    return desc
+    return f'"{clue_text}{tail}'
 
 
-def generate_faq_schema(clue, steps):
+def generate_faq_schema(clue, steps, explained):
     """Build FAQPage JSON-LD schema for a clue.
 
     Each available hint step becomes a question/answer pair.
@@ -62,6 +66,7 @@ def generate_faq_schema(clue, steps):
         clue: dict with clue_text, enumeration, answer, definition,
               wordplay_type, and explanation content.
         steps: list of step dicts from get_hint_steps.
+        explained: True when the served card is a PASS parse (else INVALID).
 
     Returns:
         JSON string ready for a <script type="application/ld+json"> tag.
@@ -96,15 +101,21 @@ def generate_faq_schema(clue, steps):
     # answer in JSON-LD. Use this to cut off scrapers harvesting our parses
     # without removing the answer Google needs for "{clue} crossword answer"
     # queries.
+    # What the served card is (see generate_meta_description): a PASS parse is the
+    # full word-by-word explanation; an INVALID card is the answer plus why the
+    # clue is unsound. Never "hints" — that is what the competition sells.
+    if explained:
+        more = ("Visit the page for the full word-by-word explanation: "
+                "what every word in the clue does, and why.")
+    else:
+        more = "Visit the page to see why this clue doesn't work by the standard cryptic rules."
+
     strip_def = bool(current_app.config.get("STRIP_DEFINITION_FROM_JSONLD", False))
     if strip_def:
         meaning_parts = []
         if answer:
             meaning_parts.append(f"The answer is {answer}.")
-        meaning_parts.append(
-            "Visit the page for the full step-by-step explanation, "
-            "including which word in the clue serves as the definition."
-        )
+        meaning_parts.append(more)
         meaning_text = " ".join(meaning_parts)
     elif (is_high or is_medium) and (definition or wordplay_type):
         meaning_parts = []
@@ -115,11 +126,13 @@ def generate_faq_schema(clue, steps):
             meaning_parts.append(f"The wordplay uses {wp_label}.")
         if answer:
             meaning_parts.append(f"The answer is {answer}.")
-        meaning_parts.append("Visit the page for the full step-by-step explanation.")
+        meaning_parts.append(more)
         meaning_text = " ".join(meaning_parts)
     else:
-        # LOW/FAIL/PENDING — teaser only
-        meaning_text = "This cryptic clue uses wordplay to arrive at the answer. Visit the page for progressive hints — definition, wordplay type, and a full step-by-step explanation."
+        # No legacy definition/type (every WFW-only clue) — teaser only
+        lead = ("This cryptic clue uses wordplay to arrive at the answer. " if explained
+                else "")
+        meaning_text = lead + more
 
     faq_entries.append({
         "@type": "Question",
@@ -397,17 +410,23 @@ def puzzle_seo_name(source, puzzle_type, type_label):
 
 
 def generate_puzzle_title(source, puzzle_type, type_label, puzzle_number):
-    """SEO <title> for a puzzle page — targets '<publication> cryptic crossword
-    <number>' and, where it exists, the abbreviation form ('DT 31205')."""
+    """SEO <title> for a puzzle page. Where an abbreviation exists it LEADS
+    ('DT 31205 — Telegraph Cryptic 31205: …'): it is the phrase solvers type,
+    so it goes first, not in trailing brackets. The offer is the explanation,
+    never "hints" — hints are what the competition sells."""
     name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
     if abbr:
-        return f"{name} {puzzle_number} ({abbr} {puzzle_number}) — Answers & Hints"
-    return f"{name} {puzzle_number} — Answers & Hints"
+        short = name.removesuffix(" Crossword")
+        return f"{abbr} {puzzle_number} — {short} {puzzle_number}: Answers & Explanations"
+    return f"{name} {puzzle_number} — Answers & Explanations"
 
 
 def generate_puzzle_heading(source, puzzle_type, type_label, puzzle_number):
-    """Keyword-rich H1 for a puzzle page (no answers/hints suffix)."""
-    name, _ = puzzle_seo_name(source, puzzle_type, type_label)
+    """Keyword-rich H1 for a puzzle page — the abbreviation form leads where one
+    exists ('DT 31205 — Telegraph Cryptic Crossword')."""
+    name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
+    if abbr:
+        return f"{abbr} {puzzle_number} — {name}"
     return f"{name} {puzzle_number}"
 
 
@@ -416,8 +435,8 @@ def generate_puzzle_meta_description(source, puzzle_type, type_label,
     """SEO meta description for a puzzle page."""
     name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
     ref = f"{abbr} {puzzle_number} — {name}" if abbr else f"{name} {puzzle_number}"
-    desc = (f"Answers, hints and step-by-step wordplay explanations for every clue "
-            f"in {ref}.")
+    desc = (f"Answers and full word-by-word explanations for the clues in {ref}: "
+            f"what every word does, and why.")
     if publication_date:
         desc += f" Published {publication_date}."
     return desc
@@ -427,8 +446,10 @@ def generate_puzzle_faq_schema(source, type_label, puzzle_number, clue_count,
                                publication_date, puzzle_type=None):
     """FAQPage JSON-LD for a puzzle page."""
     if puzzle_type is not None:
-        name, _ = puzzle_seo_name(source, puzzle_type, type_label)
-        puzzle_display = f"{name} {puzzle_number}"
+        name, abbr = puzzle_seo_name(source, puzzle_type, type_label)
+        # The abbreviation form leads where one exists — it is what solvers type.
+        puzzle_display = (f"{abbr} {puzzle_number} ({name})" if abbr
+                          else f"{name} {puzzle_number}")
     else:
         source_display = source.title().replace("Dailymail", "Daily Mail")
         puzzle_display = f"{source_display} {type_label} #{puzzle_number}"
@@ -436,7 +457,8 @@ def generate_puzzle_faq_schema(source, type_label, puzzle_number, clue_count,
     entries = []
 
     # Q1: What are the answers?
-    a1 = f"Cordelia has answers, hints, and step-by-step explanations for all {clue_count} clues in {puzzle_display}."
+    a1 = (f"Cordelia has the answers to all {clue_count} clues in {puzzle_display}, "
+          f"with full word-by-word explanations: what every word does, and why.")
     if publication_date:
         a1 += f" Published {publication_date}."
     entries.append({
