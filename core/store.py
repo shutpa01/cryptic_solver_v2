@@ -316,6 +316,17 @@ def set_status(conn, clue_id, status):
     conn.commit()
 
 
+def set_piece_source(conn, clue_id, role, ord_, source):
+    """Change ONE stored piece's provenance — 'pending' (provisional) -> 'db' once the piece
+    is approved — leaving every other column untouched. Re-saving the whole parse instead
+    would need its atom context, and without it the public overlay renders nothing.
+    Returns the number of rows changed. (Commit handled by the caller.)"""
+    ensure_schema(conn)
+    return conn.execute(
+        "UPDATE wfw_piece SET source = ? WHERE clue_id = ? AND role = ? AND ord = ?",
+        (source, clue_id, role, ord_)).rowcount
+
+
 def set_manual_definition(conn, clue_id, text, answer):
     """Set a DISPLAY-ONLY definition (no reference-DB write, no checks) — for &lit
     clues where the whole clue is both the definition and the wordplay. Updates the

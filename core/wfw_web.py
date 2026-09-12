@@ -414,6 +414,8 @@ def enrich():
     # stayed blocked forever (clue 10082098, 2026-07-30). Match success prefixes instead.
     if pid and msg.startswith(("Added", "Already", "Approved")):
         admin_db.delete_pending(pid)               # accepted / already present -> leave queue
+        if only.isdigit():
+            _refresh_provisional_flags(int(only))  # the piece it backs is no longer provisional
     # Fold the approved piece into the cached wiring incrementally (see /admin) — no
     # full rebuild / 643k-row rescan.
     apply_add_to_wiring(request.form)
@@ -474,14 +476,24 @@ def setstatus():
     only = (request.form.get("only") or "").strip()
     status = (request.form.get("status") or "").strip()
     msg = "No clue/status."
-    if only and status in ("pass", "pending", "fail", "invalid"):
-        conn = store.connect()
-        try:
-            store.set_status(conn, int(only), status)
-        finally:
-            conn.close()
-        _capture_signature_review(int(only), status)   # log pending-only sig reviews
-        msg = "Status of clue %s set to %s." % (only, status)
+    if only.isdigit() and status in ("pass", "pending", "fail", "invalid"):
+        # Setting PASS approves every provisional piece first (user rule 2026-09-12); if
+        # any cannot be filed the verdict is left unchanged.
+        approved, failed = (_approve_stored_provisional(int(only)) if status == "pass"
+                            else ([], []))
+        if failed:
+            msg = ("Clue %s NOT set to pass — could not approve: %s."
+                   % (only, "; ".join(failed)))
+        else:
+            conn = store.connect()
+            try:
+                store.set_status(conn, int(only), status)
+            finally:
+                conn.close()
+            _capture_signature_review(int(only), status)   # log pending-only sig reviews
+            msg = "Status of clue %s set to %s." % (only, status)
+            if approved:
+                msg += " Approved: %s." % "; ".join(approved)
     notice = '<div class="wfw-notice">%s</div>' % escape(msg)
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
@@ -4376,6 +4388,14 @@ def hsstatus_route():
         return _hs_redirect(only, "INVALID needs a comment — status not changed. Add a "
                                   "reason explaining why the clue can't be solved as written.",
                             back)
+    # Setting PASS approves every provisional piece first (user rule 2026-09-12: a pass must
+    # not carry an unapproved piece). If any cannot be filed, the verdict is left unchanged.
+    _approved = []
+    if status == "pass":
+        _approved, _failed = _approve_stored_provisional(cid)
+        if _failed:
+            return _hs_redirect(only, "Not set to PASS — could not approve: %s."
+                                % "; ".join(_failed), back)
     conn = store.connect()
     try:
         if store.load_parse(conn, cid) is None:
@@ -4394,7 +4414,9 @@ def hsstatus_route():
     finally:
         conn.close()
     _capture_signature_review(cid, status)   # log pending-only sig reviews (as /setstatus)
-    return _hs_redirect(only, "Status set to %s (frozen so it sticks)." % status.upper(),
+    return _hs_redirect(only, "Status set to %s (frozen so it sticks).%s"
+                        % (status.upper(),
+                           (" Approved: %s." % "; ".join(_approved)) if _approved else ""),
                         back)
 
 
@@ -5510,11 +5532,20 @@ def _apply_db_adds(db_adds):
                 # vetted sound pair (source phrase -> answer); no wiring fold — only the
                 # manual commit gate consumes the table, not the engines
                 m = admin_db.add_spoonerism(item[1], item[2])
+            elif kind == "homophone":
+                # a sound-alike pair (spoken word, the letters it sounds like) — the human
+                # approved it by committing / confirming / setting PASS (user rule 2026-09-12)
+                m = admin_db.add_homophone(item[1], item[2])
             else:
                 continue
         except Exception as e:
             m = "error adding %r: %s" % (item[1], e)
         m = str(m)
+        if m.startswith(("Added", "Already")) and kind == "homophone":
+            # The pair is in the table now, so any queued copy of it is settled. Dropped on
+            # the PAIR, not the clue: a queued homophone row stores the sound span in its
+            # `answer` column (SEY, not SEYCHELLES), so pending_for_clue never finds it.
+            _drop_queued("", item)
         if m.startswith("Added"):
             added.append(m)
             if kind == "synonym":
@@ -5526,6 +5557,9 @@ def _apply_db_adds(db_adds):
                 apply_add_to_wiring({"kind": "indicator", "word": item[1], "type": item[2]})
             elif kind == "substitution":
                 need_reload = True     # substitutions load as abbreviations at build
+            elif kind == "homophone":
+                apply_add_to_wiring({"kind": "homophone", "word": item[1],
+                                     "homophone": item[2]})
         elif m.startswith("Already"):
             present.append(m)
         else:
@@ -5533,6 +5567,198 @@ def _apply_db_adds(db_adds):
     if need_reload:
         reload_wiring()               # substitutions need a rebuild to go live
     return added, present, rejected
+
+
+# ---- PROVISIONAL PIECES — a PASS must not carry one (user rule 2026-09-12) ------------------
+# A provisional piece (source='pending') is one the reference DB does not back yet. The user's
+# rule: to be a PASS, every piece must be APPROVED. Before this, three routes produced a pass
+# that still carried one — Confirm let homophones/spoonerisms through, Set-status PASS checked
+# nothing, and a hand commit left a typed homophone provisional — and NOTHING ever cleared the
+# flag once the pair was later approved (97 live passes carried 122 such pieces). Now:
+#   * a hand commit, Confirm and Set-status PASS each APPROVE the provisional pieces (file
+#     them to the reference DB, drop their queue rows, mark them 'db') — the human's action is
+#     the approval; if any cannot be filed, nothing is flipped and the action is refused;
+#   * approving a queue row re-checks the clue's provisional pieces against the DB and clears
+#     every one the DB now backs (_refresh_provisional_flags).
+
+_QUEUE_TYPE = {"synonym": "synonym", "substitution": "substitution",
+               "definition": "definition", "indicator": "indicator",
+               "homophone": "homophone"}
+
+
+def _spoken_of(parse, si):
+    """The spoken word a homophone source sounds like, as recorded on its links
+    ('sounds like "SAY"'), or ""."""
+    for l in parse.links:
+        t = l.transform or ""
+        if l.source_index == si and t.startswith('sounds like "') and t.endswith('"'):
+            return t[len('sounds like "'):-1]
+    return ""
+
+
+def _span_of(parse, si):
+    """The answer letters source `si` places, in answer order."""
+    al = _raw_letters(parse.answer_text)
+    return "".join(al[l.answer_pos - 1]
+                   for l in sorted(parse.links, key=lambda l: l.answer_pos)
+                   if l.source_index == si and 1 <= l.answer_pos <= len(al))
+
+
+def _provisional_pieces(parse):
+    """Every provisional piece of `parse`: [(role, ord, piece, add, label)]. `add` is the
+    _apply_db_adds item that files it (None when the piece has no reference table — then it
+    cannot be approved). role/ord are exactly how store.save_parse stores the piece."""
+    out = []
+    ans = _raw_letters(parse.answer_text)
+    for i, s in enumerate(parse.sources):
+        if (s.source or "") != "pending":
+            continue
+        m = s.mechanism or ""
+        if m == "synonym":
+            add = ("synonym", s.text, s.value)
+        elif m == "abbreviation":
+            add = ("substitution", s.text, s.value)
+        elif m in ("definition", "definition_by_example"):       # a double-definition half
+            add = ("definition", s.text, ans)
+        elif m == "homophone":
+            add = ("homophone", _spoken_of(parse, i) or s.text, s.value)
+        elif m == "spoonerism":
+            add = ("spoonerism", s.value, _span_of(parse, i))
+        else:
+            add = None
+        out.append(("source", i, s, add, "%s → %s (%s)" % (s.text, s.value, m or "piece")))
+    d = parse.definition
+    if d is not None and (d.source or "") == "pending":
+        out.append(("definition", 0, d, ("definition", d.text, ans),
+                    "%s (definition)" % d.text))
+    for i, a in enumerate(parse.annotations):
+        if (a.source or "") != "pending":
+            continue
+        add = None
+        if a.role == "indicator":
+            n = (a.note or "").strip()
+            n = n.split(":", 1)[0]                          # "spoonerism: X -> Y"
+            if n.endswith(" indicator"):
+                n = n[:-len(" indicator")]
+            it, _, sub = n.partition("/")
+            if it and it not in ("named", "wordplay", "repetition"):
+                add = ("indicator", a.text, it, sub or None)
+        out.append((a.role, i, a, add, "%s (%s)" % (a.text, a.note or a.role)))
+    return out
+
+
+def _is_backed(add):
+    """True when the reference DB already backs this piece — the SAME checks the honesty
+    gates in _build_manual_parse use, so 'backed' means what it means everywhere else."""
+    kind = add[0]
+    if kind in ("synonym", "substitution"):
+        return admin_db.db_derives(add[1], add[2])
+    if kind == "definition":
+        return admin_db.is_definition(add[1], add[2])
+    if kind == "homophone":
+        return admin_db.has_homophone(add[1], add[2])
+    if kind == "spoonerism":
+        return admin_db.has_spoonerism(add[1], add[2])
+    if kind == "indicator":
+        return admin_db.has_indicator(add[1], add[2])
+    return False
+
+
+def _drop_queued(clue_text, add):
+    """Drop the queued enrichment row(s) an approved piece settles. Matched on the piece's
+    own keys (type + word + letters); per clue, except a homophone, whose queue is deduped on
+    the pair across clues. Returns rows dropped."""
+    qtype = _QUEUE_TYPE.get(add[0])
+    if qtype is None:
+        return 0
+    sql = "DELETE FROM pending_enrichments WHERE type = ? AND lower(trim(word)) = ?"
+    args = [qtype, (add[1] or "").strip().lower()]
+    if qtype in ("synonym", "substitution", "homophone"):
+        sql += " AND upper(trim(letters)) = ?"
+        args.append("".join(c for c in (add[2] or "").upper() if c.isalpha()))
+    elif qtype == "indicator":
+        sql += " AND lower(trim(letters)) = ?"
+        args.append((add[2] or "").strip().lower())
+    if qtype != "homophone":
+        sql += " AND clue_text = ?"
+        args.append(clue_text or "")
+    conn = admin_db._mconn()
+    try:
+        n = conn.execute(sql, args).rowcount
+        conn.commit()
+        return n
+    finally:
+        conn.close()
+
+
+def _approve_provisional(parse):
+    """APPROVE every provisional piece of `parse`: file it to the reference DB (unless the DB
+    already backs it), drop its queue row, and mark it source='db' IN PLACE. ALL OR NOTHING:
+    if any piece cannot be filed, no piece is marked and the failures are returned, so the
+    caller refuses the pass. Returns (approved [(role, ord, label)], failed [label])."""
+    items = _provisional_pieces(parse)
+    failed = ["%s — no reference table to approve it into" % lab
+              for (_r, _o, _p, add, lab) in items if add is None]
+    if failed:
+        return [], failed
+    done = []
+    for role, ord_, piece, add, lab in items:
+        if not _is_backed(add):
+            added, present, rejected = _apply_db_adds([add])
+            if not (added or present):
+                failed.append("%s — %s" % (lab, "; ".join(rejected) or "not saved"))
+                continue
+        _drop_queued(parse.clue_text, add)
+        done.append((role, ord_, piece, lab))
+    if failed:
+        return [], failed
+    for _r, _o, piece, _l in done:
+        piece.source = "db"
+    return [(r, o, l) for r, o, _p, l in done], []
+
+
+def _approve_stored_provisional(clue_id):
+    """Set-status PASS: approve every provisional piece of the clue's STORED reading and flip
+    each stored piece to 'db' (atoms untouched). Returns (approved labels, failed labels);
+    on any failure nothing is flipped."""
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+    finally:
+        conn.close()
+    if parse is None:
+        return [], []
+    done, failed = _approve_provisional(parse)
+    if failed:
+        return [], failed
+    conn = store.connect()
+    try:
+        for role, ord_, _lab in done:
+            store.set_piece_source(conn, clue_id, role, ord_, "db")
+        conn.commit()
+    finally:
+        conn.close()
+    return [lab for _r, _o, lab in done], []
+
+
+def _refresh_provisional_flags(clue_id):
+    """Clear the provisional flag on every stored piece of this clue the reference DB NOW
+    backs (called after a queue Approve). Writes nothing to the reference DB. Returns the
+    labels cleared."""
+    conn = store.connect()
+    try:
+        parse = store.load_parse(conn, clue_id)
+        if parse is None:
+            return []
+        cleared = []
+        for role, ord_, _p, add, lab in _provisional_pieces(parse):
+            if add is not None and _is_backed(add):
+                store.set_piece_source(conn, clue_id, role, ord_, "db")
+                cleared.append(lab)
+        conn.commit()
+        return cleared
+    finally:
+        conn.close()
 
 
 @app.route("/hssavepieces", methods=["POST"])
@@ -6038,13 +6264,20 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                     return {"ok": False, "msg": "%r does not itself sound like %s — type the "
                             "word it SOUNDS LIKE (e.g. sole) in the add box before Assign."
                             % (phrase, value)}
-                # A pair the human NAMED but the table has not sanctioned: queue it TENTATIVE
-                # and accept the piece PROVISIONALLY (source='pending' -> the 'provisional'
-                # badge + banner). It is sanctioned only when the human Approves the pair in
-                # the enrichment queue (user rule 2026-07-17: homophones are infinite, so gate
-                # on approval, not pre-population) — the solve is not blocked mid-assign.
-                admin_db.queue_homophone(spoken_given, value, clue_text, src, pnum)
-                hom_source = "pending"
+                if verify_db:
+                    # AI READING (prefill / rebuild / Confirm's re-validation): a pair the
+                    # table has not sanctioned is queued TENTATIVE and the piece is
+                    # PROVISIONAL (source='pending'); the reading stays pending until a human
+                    # approves it (user rule 2026-07-17: homophones are infinite, so gate on
+                    # approval, not pre-population). Confirm then approves it.
+                    admin_db.queue_homophone(spoken_given, value, clue_text, src, pnum)
+                    hom_source = "pending"
+                else:
+                    # YOUR hand commit: naming the pair and committing IS the approval (user
+                    # rule 2026-09-12) — it is filed to the homophones table once the commit
+                    # succeeds, like your synonyms, and the piece is approved. It used to be
+                    # queued and left provisional on a PASS, which nothing ever cleared.
+                    db_adds.append(("homophone", spoken_given, value))
             si = len(sources)
             sources.append(Source(clue_atom_ids=atoms, text=phrase, value=value,
                                   mechanism="homophone", source=hom_source))
@@ -6474,6 +6707,12 @@ def _confirm_prefill(cid):
                 "the DB, then Confirm passes) or reject it in the review queue first."
                 % (n, "" if n == 1 else "s", "; ".join(descs),
                    "" if n == 1 else "s"))
+    # What is left provisional now is a homophone or spoonerism pair. Clicking Confirm IS the
+    # approval of those (user rule 2026-09-12): file them and mark them approved, so the pass
+    # never carries a provisional piece. If one cannot be filed, Confirm is refused.
+    _conf_ok, _conf_failed = _approve_provisional(built["parse"])
+    if _conf_failed:
+        return "Confirm refused — could not approve: %s." % "; ".join(_conf_failed)
     conn = store.connect()
     try:
         store.save_parse(conn, cid, built["parse"], built["ctx"])
@@ -6483,6 +6722,8 @@ def _confirm_prefill(cid):
         conn.close()
     added, present, rejected = _apply_db_adds(built["db_adds"])
     msg = "Confirmed — now your frozen manual solve."
+    if _conf_ok:
+        msg += " Approved: %s." % "; ".join(lab for _r, _o, lab in _conf_ok)
     if added:
         msg += " Saved to reference DB: %d new (%s)." % (
             len(added), "; ".join(a.split(": ", 1)[-1] for a in added))
@@ -6582,6 +6823,7 @@ def approveall_route():
             approved += 1
         else:
             failed.append("%s (%s)" % (word, add_msg))
+    _refresh_provisional_flags(cid)         # clear what the DB now backs (a stored pass too)
     confirm_msg = _confirm_prefill(cid)     # re-validate, freeze, harvest
     msg = "Approved %d enrichment%s." % (approved, "" if approved == 1 else "s")
     if failed:
