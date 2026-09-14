@@ -475,8 +475,28 @@ def group_sentence(parse, mech, pieces, used_inds=None):
                 % (iword.capitalize() if ind else "The clue", _join(values))), None
 
     if mech == "homophone":
-        return ("%s sounds like %s." % (_join([w.upper() for w in words]),
-                                        _join(values))), None
+        # SAY THE PAIR (user, 2026-09-13). NORMALISE 10091436: "tells untruths" is
+        # LIES, which sounds like LISE. The old line, "Tells untruths sounds like Lise",
+        # was untrue (the clue words MEAN lies; it is LIES that sounds like LISE) and the
+        # listener got only the letters, which the voice reads "li-seh". Now: "Tells
+        # untruths gives us Lise, which sounds like lies" — the letters, then the
+        # counterpart that explains them, as the page's own row does ('via "LIES"'). The
+        # counterpart is recorded on the piece's links ('sounds like "LIES"'), read
+        # exactly as web/wfw_read does. It is written in LOWER CASE so the voice reads a
+        # plain word: capitalised mid-sentence ("Lies") it can be taken for a name.
+        # Where the clue word is itself the sound (you -> U) there is no counterpart.
+        out = []
+        for p, w, v in zip(pieces, words, values):
+            tr = next((l["transform"] for l in parse["links"]
+                       if l["source_index"] == p["ord"] and l.get("transform")
+                       and '"' in l["transform"]), None)
+            snd = tr.split('"')[1].strip().lower() if tr else ""
+            if snd and snd != w.lower() and snd != v.lower():
+                out.append("%s gives us %s, which sounds like %s."
+                           % (w.capitalize(), v, snd))
+            else:
+                out.append("%s sounds like %s." % (w.upper(), v))
+        return " ".join(out), None
 
     if mech == "spoonerism":
         return ("Swap the opening sounds of %s and you get %s."
