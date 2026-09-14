@@ -88,13 +88,7 @@
         </span>
         {% if clue.clue_number and clue.direction %}
         <span class="text-gray-300">|</span>
-        <span class="cursor-pointer hover:text-teal-600"
-              data-clue="{{ clue.clue_text | e }}"
-              data-enum="{{ clue.enumeration or '' }}"
-              data-label="{{ clue.clue_number }} {{ clue.direction | title }}"
-              data-clue-id="{{ clue.id }}"
-              onclick="similarFromClue(this.dataset.clue, this.dataset.enum, this.dataset.label, this.dataset.clueId)"
-              title="Search for similar clues">{{ clue.clue_number }} {{ clue.direction | title }}</span>
+        <span>{{ clue.clue_number }} {{ clue.direction | title }}</span>
         {% endif %}
         {% if clue.publication_date %}
         <span class="text-gray-300">|</span>

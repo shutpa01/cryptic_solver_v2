@@ -73,7 +73,9 @@
         // Make HTMX swap 429 (rate limit) responses into the target so the
         // user sees the friendly fragment instead of a silent click. Other
         // 4xx/5xx responses keep their default error behaviour.
-        document.body.addEventListener('htmx:beforeSwap', function(evt) {
+        // Bound on document, not document.body: this runs in <head>, where
+        // body is still null. HTMX events bubble up to document.
+        document.addEventListener('htmx:beforeSwap', function(evt) {
             if (evt.detail.xhr && evt.detail.xhr.status === 429) {
                 evt.detail.shouldSwap = true;
                 evt.detail.isError = false;
@@ -456,15 +458,13 @@
         if (clueId && typeof _lastFocusedClueId !== 'undefined') _lastFocusedClueId = clueId;
         var enumInput = document.getElementById('pattern-enum');
         if (enumInput && enumeration) enumInput.value = enumeration;
+        if (!document.getElementById('solver-results')) return;  // No solver panel on this page
         solverTab('similar');
-        document.getElementById('similar-hint').textContent = 'Searching...';
         var url = '/helper/similar?q=' + encodeURIComponent(clueText) + '&ht=' + _ht;
         if (enumeration) url += '&enum=' + encodeURIComponent(enumeration);
         if (clueLabel) url += '&label=' + encodeURIComponent(clueLabel);
         if (clueId) url += '&clue_id=' + encodeURIComponent(clueId);
-        htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'}).then(function() {
-            document.getElementById('similar-hint').textContent = 'Click a clue number to search again';
-        });
+        htmx.ajax('GET', url, {target: '#solver-results', swap: 'innerHTML'});
     }
 
     function anagramFromWord(word) {
