@@ -19,9 +19,9 @@
    The puzzle this clue came from is NOT served, so nothing here links to it;
    a link to a 410 is the one thing the serving rule forbids. #}
 
-{% block title %}{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %} — crossword clue answer{% endblock %}
+{% block title %}Answer: {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% endblock %}
 {% block meta %}
-<meta name="description" content="Answer to the crossword clue &quot;{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}&quot; from {{ clue.source | source_name }}{% if clue.puzzle_number %} #{{ clue.puzzle_number }}{% endif %}.">
+<meta name="description" content="Answer to &quot;{{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}&quot; from {{ clue.source | source_name }}{% if clue.puzzle_number %} #{{ clue.puzzle_number }}{% endif %}.">
 <meta name="robots" content="index,follow">
 {% endblock %}
 

@@ -136,7 +136,7 @@ def generate_faq_schema(clue, steps, explained):
 
     faq_entries.append({
         "@type": "Question",
-        "name": f'What does the cryptic crossword clue "{clue_display}" mean?',
+        "name": f'What does "{clue_display}" mean?',
         "acceptedAnswer": {
             "@type": "Answer",
             "text": meaning_text,

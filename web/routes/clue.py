@@ -1126,8 +1126,9 @@ def clue_page(slug):
     explained = bool(_wfw_status and _wfw_status["status"] == "pass")
     # The title is the link a searcher chooses from, so it names the explanation
     # — the thing only this site has — not the bare answer every site offers.
-    title_offer = ("explained word by word" if explained
-                   else "answer, and why it doesn't work")
+    # It LEADS the title: Bing cuts titles at ~64 characters, which hid a trailing
+    # offer on most clues (measured 2026-09-14).
+    title_offer = "Explained" if explained else "Answer, and why it fails"
     meta_description = generate_meta_description(clue_dict, explained=explained)
     faq_schema = generate_faq_schema(clue_dict, steps, explained=explained)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
