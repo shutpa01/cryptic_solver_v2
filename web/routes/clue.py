@@ -1124,6 +1124,10 @@ def clue_page(slug):
     _wfw_status = db.execute(
         "SELECT status FROM wfw_solve WHERE clue_id = ?", (clue_id,)).fetchone()
     explained = bool(_wfw_status and _wfw_status["status"] == "pass")
+    # The title is the link a searcher chooses from, so it names the explanation
+    # — the thing only this site has — not the bare answer every site offers.
+    title_offer = ("explained word by word" if explained
+                   else "answer, and why it doesn't work")
     meta_description = generate_meta_description(clue_dict, explained=explained)
     faq_schema = generate_faq_schema(clue_dict, steps, explained=explained)
     breadcrumb_schema = generate_breadcrumb_schema(clue_dict)
@@ -1199,6 +1203,7 @@ def clue_page(slug):
         other_appearances=other_appearances,
         source_puzzle_url=source_puzzle_url,
         meta_description=meta_description,
+        title_offer=title_offer,
         faq_schema=faq_schema,
         breadcrumb_schema=breadcrumb_schema,
         word_roles_schema=word_roles_schema,
