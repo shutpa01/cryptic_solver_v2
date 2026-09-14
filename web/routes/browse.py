@@ -58,6 +58,12 @@ def privacy():
     return render_template("privacy.html")
 
 
+@bp.route("/terms")
+def terms():
+    """Terms of use, including the prohibition on scraping."""
+    return render_template("terms.html")
+
+
 @bp.route("/search")
 def search():
     """Search clues by text or puzzle number."""
