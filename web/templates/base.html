@@ -18,6 +18,9 @@
     {% endblock %}
     {% block structured_data %}{% endblock %}
     <link rel="canonical" href="{% block canonical %}https://justcordelia.com{{ request.path }}{% endblock %}">
+    {# The icon search engines show beside a result — Cordelia, as in the header.
+       /favicon.ico serves the same image for clients that never read this tag. #}
+    <link rel="icon" href="/static/cordelia.jpg" type="image/jpeg">
     {# Analytics tags are emitted only when `analytics_on` (web/__init__.py,
        inject_analytics_flag): never off production, and never from our own
        address. Omitting the tag is the point — a visit that is excluded loads

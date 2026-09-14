@@ -6,6 +6,39 @@ import re
 from flask import current_app
 
 
+# Bing cuts a result title after ~64 characters (measured 2026-09-14).
+TITLE_VISIBLE_CHARS = 64
+
+
+def generate_title(clue, explained):
+    """Build the clue-page title: the searcher's clue first, then the offer.
+
+    The clue and enumeration lead, so the searcher sees at once that this is
+    their clue (Bing bolds the words that match the query). The rest of the
+    visible title sells what only this page has — the explanation. The offer
+    is the longest rung of a ladder that still fits before Bing's cut; when
+    none fits, the shortest follows the clue anyway. The clue is never
+    shortened.
+
+    Args:
+        clue: dict with clue_text, enumeration.
+        explained: True when the served card is a PASS parse.
+    """
+    enum = clue.get("enumeration", "")
+    head = clue.get("clue_text", "") + (f" ({enum})" if enum else "")
+    if explained:
+        ladder = (" — full explanation, with the answer",
+                  " — full explanation",
+                  " — explained")
+    else:
+        ladder = (" — answer, and why it fails",
+                  " — why it fails")
+    for offer in ladder:
+        if len(head) + len(offer) <= TITLE_VISIBLE_CHARS:
+            return head + offer
+    return head + ladder[-1]
+
+
 def generate_meta_description(clue, explained):
     """Build the meta description for a clue page.
 
@@ -16,8 +49,9 @@ def generate_meta_description(clue, explained):
     the legacy clues.definition / clues.wordplay_type columns, which the WFW
     system does not fill (a pass with both empty was described as "hints").
 
-    Aims for <= 160 chars. When the clue is long, the clue text is shortened,
-    not the offer — the offer is what sets the page apart.
+    Order is what the searcher needs: the clue and enumeration first (is this
+    my clue?), the offer straight after, the puzzle last. Aims for <= 160
+    chars; when over, the puzzle is dropped — never the clue, never the offer.
 
     Args:
         clue: dict with clue_text, enumeration, source, puzzle_number, type_label.
@@ -37,23 +71,15 @@ def generate_meta_description(clue, explained):
 
     # What the served card is
     if explained:
-        offer = ("Answer and a full word-by-word explanation: "
-                 "what every word in the clue does, and why.")
+        offer = "full explanation: what each word does, why, and the answer."
     else:
-        offer = "Answer, and why this clue doesn't work by the standard cryptic rules."
+        offer = "the answer, and why this clue breaks the cryptic rules."
 
     enum_part = f" ({enum})" if enum else ""
-    tail = f"{enum_part}\" — {origin}. {offer}"
+    head = f'"{clue_text}{enum_part}" — {offer}'
 
-    # Shorten the clue text, never the offer, to stay within ~160 chars
-    room = 160 - len(tail) - 1
-    if len(clue_text) > room:
-        cut = clue_text[:max(room - 1, 0)]
-        if " " in cut:
-            cut = cut.rsplit(" ", 1)[0]  # whole words only
-        clue_text = cut.rstrip(" ,;:-") + "…"
-
-    return f'"{clue_text}{tail}'
+    full = f"{head} {origin}."
+    return full if len(full) <= 160 else head
 
 
 def generate_faq_schema(clue, steps, explained):

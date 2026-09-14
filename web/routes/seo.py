@@ -6,7 +6,7 @@ import threading
 import time
 from datetime import date, timedelta
 
-from flask import Blueprint, Response, abort, request, current_app
+from flask import Blueprint, Response, abort, request, current_app, send_from_directory
 
 from web.db import get_db
 from web.indexnow import KEY as INDEXNOW_KEY
@@ -73,6 +73,16 @@ def robots_txt():
         f"Sitemap: {CANONICAL_HOST}/sitemap.xml\n"
     )
     return Response(body, mimetype="text/plain")
+
+
+@bp.route("/favicon.ico")
+def favicon():
+    """The site icon at the address browsers and search engines try by default.
+
+    Same image as the header avatar and the <link rel="icon"> in base.html.
+    Without it a search result shows a blank globe (404 here, 2026-09-14)."""
+    return send_from_directory(current_app.static_folder, "cordelia.jpg",
+                               mimetype="image/jpeg")
 
 
 @bp.route("/" + INDEXNOW_KEY + ".txt")

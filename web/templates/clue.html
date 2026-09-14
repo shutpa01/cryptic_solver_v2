@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}{{ title_offer | default('Answer') }}: {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block meta %}
 <meta name="description" content="{{ meta_description }}">
-<meta property="og:title" content="{{ title_offer | default('Answer') }}: {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
+<meta property="og:title" content="{{ page_title }}">
 <meta property="og:description" content="{{ meta_description }}">
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://justcordelia.com/static/cordelia.jpg">
 <meta property="og:url" content="https://justcordelia.com{{ request.path }}">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="{{ title_offer | default('Answer') }}: {{ clue.clue_text }}{% if clue.enumeration %} ({{ clue.enumeration }}){% endif %}">
+<meta name="twitter:title" content="{{ page_title }}">
 <meta name="twitter:description" content="{{ meta_description }}">
 <meta name="twitter:image" content="https://justcordelia.com/static/cordelia.jpg">
 {% endblock %}
