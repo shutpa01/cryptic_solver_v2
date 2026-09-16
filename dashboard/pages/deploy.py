@@ -404,6 +404,38 @@ def _render_cordelia_deploy():
                 except Exception as e:
                     steps.append(("IndexNow notify", False, str(e)))
 
+        # Step 4b: the EVERGREEN pages — home, /puzzles, the tools, the learn zone. They are
+        # not part of any puzzle, so Step 4's walk has never announced them: Bing had /tools
+        # as "Discovered but not crawled" from 08 May to at least 16 Sep 2026.
+        #
+        # A SEPARATE invocation, deliberately, for two reasons:
+        #   * BUDGET. Step 4 spends ~85s building the puzzle URL list before it sends one
+        #     URL. --evergreen returns before create_app() and pays none of that, so these
+        #     27 URLs cost ~40s (~1.5s each) of their own rather than eating the 420s cap.
+        #   * GATE. Step 4 is DB-only because a code deploy serves no new clue pages — but a
+        #     code deploy CAN change the tools and learn pages, so this runs after any deploy
+        #     that did not fail. Sending the same 27 URLs on every deploy would be exactly the
+        #     resend churn the per-puzzle ledger exists to prevent, so the script keeps its own
+        #     once-a-day row (source='_evergreen'); a second deploy the same day prints
+        #     "ALREADY announced today", sends nothing and exits 0.
+        # Like Step 4 it NEVER fails the deploy — the site is already up.
+        if not failed:
+            with st.spinner("Notifying IndexNow (Bing) of the evergreen pages..."):
+                try:
+                    py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
+                    result = subprocess.run(
+                        [py, str(PROJECT_ROOT / "scripts" / "indexnow_notify.py"),
+                         "--evergreen"],
+                        capture_output=True, text=True, timeout=180,
+                        encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
+                    )
+                    lines = (result.stdout or "").strip().splitlines()
+                    summary = lines[-1] if lines else (result.stderr or "").strip()[:200]
+                    steps.append(("IndexNow evergreen", result.returncode == 0,
+                                  summary or "done"))
+                except Exception as e:
+                    steps.append(("IndexNow evergreen", False, str(e)))
+
         # Step 5: YouTube — film the newly-live puzzle and upload it. Same gate as
         # IndexNow and for the same reason: the DB going up IS the moment a puzzle
         # becomes live, and a puzzle is only ever live once every clue has passed
