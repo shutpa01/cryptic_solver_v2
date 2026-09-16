@@ -73,9 +73,16 @@ TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
-    # Not used by this script. Present because it loads the SAME token file, and the
-    # list must match scripts/youtube_auth.py or the stored credential looks wrong.
+    # Neither of these is used by THIS script. They are present because it loads the
+    # SAME token file, and the list must match scripts/youtube_auth.py or the stored
+    # credential looks wrong. yt-analytics belongs to youtube_stats.py; force-ssl
+    # belongs to youtube_retitle.py, which fixes titles this script has already sent.
+    #
+    # THIS LIST IS DECLARATIVE. It says what a token must be MINTED with
+    # (youtube_auth.mint). It is never passed when loading one — see service() for
+    # what that costs.
     "https://www.googleapis.com/auth/yt-analytics.readonly",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
 ]
 
 CATEGORY_EDUCATION = "27"
@@ -379,7 +386,15 @@ def description_for(cap_dir, source, puzzle, title):
 def service():
     if not TOKEN_FILE.exists():
         sys.exit("No token at %s — run scripts/youtube_auth.py first." % TOKEN_FILE)
-    creds = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
+    # NO SCOPES ARGUMENT. Passing a scope list SETS it on the credential instead of
+    # checking it, and the refresh then asks Google for whatever was passed — so a
+    # scope added to the constant but not yet consented to kills the refresh with
+    # "invalid_scope: Bad Request". That is not hypothetical: it happened on
+    # 2026-09-16, the moment force-ssl was added to SCOPES above, and it would have
+    # taken out the 04:00 deploy upload rather than anything anyone was watching.
+    # Omitting the argument loads the scopes the token actually carries, so uploads
+    # keep working while the constant grows ahead of the stored credential.
+    creds = Credentials.from_authorized_user_file(str(TOKEN_FILE))
     if creds.expired and creds.refresh_token:
         creds.refresh(Request())
         TOKEN_FILE.write_text(creds.to_json())

@@ -49,8 +49,27 @@ TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 # and reports on our own channel. NOTE the review caveat above was flagged to the user
 # and accepted; if a re-consent is refused, this is the first thing to revert.
 #
-# The consequence to know: videos.update is still NOT covered. Editing an
-# already-uploaded video's title or description remains a Studio job, by hand.
+# youtube.force-ssl was added 2026-09-16 for scripts/youtube_retitle.py. Of the three
+# scopes Google accepts for videos.update — youtube, youtube.force-ssl and
+# youtubepartner — this is the narrowest that does not also hand over content-owner
+# powers we will never use.
+#
+# WHY IT IS NEEDED AT ALL, since this was misjudged once and cost a cycle: changing
+# youtube_upload.title_for reaches nothing already uploaded. A title is an argument to
+# videos.insert (youtube_upload.py:404), not a property this code owns — once the
+# insert returns, YouTube holds that string and never asks us again. Correcting a live
+# title needs videos.update, a different method, and until this scope existed that was
+# a Studio job by hand.
+#
+# THE COST, stated plainly against the review caveat above: this widens the requested
+# surface from read-plus-upload to read-write on the channel, and the app still has to
+# go through verification (documents/YOUTUBE_OAUTH_VERIFICATION_SUBMISSION.md §2). It
+# is justified by a script that uses it; if verification is refused over it, drop this
+# line and the retitle script with it, not the analytics scope.
+#
+# ADDING A SCOPE DOES NOT UPGRADE THE STORED TOKEN. The credential carries the scopes
+# it was minted with, so this constant changing does nothing on its own:
+#     python scripts/youtube_auth.py --force      # sign in as the CHANNEL account
 #
 # KEEP IN SYNC with scripts/youtube_upload.py — it defines its own copy and loads the
 # same token file with it.
@@ -58,14 +77,26 @@ SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.readonly",
     "https://www.googleapis.com/auth/yt-analytics.readonly",
+    "https://www.googleapis.com/auth/youtube.force-ssl",
 ]
 
 
 def load_token():
-    """The stored credential, refreshed if it has expired. None if absent."""
+    """The stored credential, refreshed if it has expired. None if absent.
+
+    NO SCOPES ARGUMENT, deliberately. from_authorized_user_file SETS the scope list it
+    is given rather than verifying it, and the refresh then requests exactly that list.
+    Ask for a scope the stored token never consented to and Google refuses the refresh
+    outright with "invalid_scope: Bad Request" — which is what adding force-ssl to
+    SCOPES did on 2026-09-16. Loading without the argument uses the scopes the token
+    really has, so widening SCOPES stays a request for the NEXT mint and never breaks
+    the credential already in hand.
+
+    SCOPES belongs to mint() below, which is the only place it can take effect.
+    """
     if not TOKEN_FILE.exists():
         return None
-    creds = Credentials.from_authorized_user_file(str(TOKEN_FILE), SCOPES)
+    creds = Credentials.from_authorized_user_file(str(TOKEN_FILE))
     if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
         TOKEN_FILE.write_text(creds.to_json())
