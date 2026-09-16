@@ -245,10 +245,32 @@ def puzzle_reference(source, puzzle):
 
 def title_for(source, puzzle):
     """Puzzle number early and exact — the searches this exists to catch are
-    "telegraph cryptic 31324" and "DT 31324", not anything about wordplay."""
-    t = "%s: Every Clue Explained" % puzzle_reference(source, puzzle)
+    "telegraph cryptic 31324" and "DT 31324", not anything about wordplay —
+    then the two things that decide whether a human clicks: what it is, and
+    what it costs them.
+
+    Positioned 2026-09-16 against Cracking The Cryptic, whose Times cryptic
+    masterclass runs over an hour and takes thousands of views. Their title
+    carries a DATE and no puzzle number: with ~670k subscribers they do not
+    depend on search. We do, so the number keeps its place at the front for
+    the Google-suggest demand measured in puzzle_reference(), and "Masterclass"
+    and the six minutes are aimed at the person reading the result.
+
+    "Crossword" is dropped from the reference HERE ONLY. It is redundant beside
+    "Cryptic" and it is the cheapest word to spend on the hook. puzzle_reference()
+    itself is left alone deliberately: the description and the site's own puzzle
+    <title> go on matching each other, and two namings that drift is exactly the
+    failure that function's docstring exists to prevent.
+
+    Six minutes is a FLAT claim, not a measurement. These run about six minutes
+    (12s a clue against a ~30-clue puzzle) and the point being made is against an
+    hour, so rounding a 6.6-minute video up to "7" would be a precision nobody
+    asked for and a different number on every video.
+    """
+    ref = puzzle_reference(source, puzzle).replace(" Crossword ", " ")
+    t = "%s Masterclass: Every Clue Explained in 6 Minutes" % ref
     if len(t) > TITLE_MAX:
-        t = "%s: Explained" % puzzle_reference(source, puzzle)
+        t = "%s Masterclass: Explained in 6 Minutes" % ref
     return t[:TITLE_MAX]
 
 
