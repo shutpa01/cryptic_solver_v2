@@ -21,6 +21,19 @@ then records the puzzle. Sent exactly once, ever.
     python scripts/indexnow_notify.py --seed-all         # mark EVERY served puzzle as sent
     python scripts/indexnow_notify.py --force            # allow a big send with an empty ledger
     python scripts/indexnow_notify.py --puzzle-pages-only # announce ONLY the 3-4 puzzle pages
+    python scripts/indexnow_notify.py --evergreen         # announce ONLY the evergreen pages
+
+THE EVERGREEN PAGES (--evergreen)
+---------------------------------
+The puzzle/clue ledger above deliberately never re-announces a URL, which is right for a
+clue page: it is written once and never changes. The evergreen pages are the opposite —
+home, /puzzles, the tools and the learn zone are always live, and Bing measured on
+2026-09-16 as "Discovered but not crawled" (/tools discovered 08 May 2026, never crawled).
+They were never in any announcement because collect_puzzle_urls only walks puzzles.
+--evergreen announces just those pages, at most ONCE A DAY (ledger row source='_evergreen',
+puzzle_number=YYYY-MM-DD), and never touches the puzzle ledger. It is a separate run, NOT
+part of a normal deploy: the deploy's IndexNow budget is already tight (~85s to build the
+puzzle URL list, ~1.5s per URL) and these ~27 URLs would add ~40s to it.
 
 ONE-TIME MIGRATION: Bing already has the existing pages, so seed the ledger first with
 everything already sent, then a normal run only announces genuinely new puzzles. Seeding
@@ -32,6 +45,7 @@ import argparse
 import sqlite3
 import sys
 import time
+from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))   # repo root on sys.path
@@ -130,6 +144,54 @@ def collect_puzzle_urls(db, include_clue_pages=True):
     return out
 
 
+# --- the evergreen pages: always live, never announced by the puzzle walk --------------
+
+def collect_evergreen_urls():
+    """Home, the puzzle index, the tools and the learn zone.
+
+    Built from the SAME source of truth the sitemap uses — served_learn_paths() and the
+    tools list in web/routes/seo.py:341 — so this can never announce a URL that 404s.
+    """
+    from web.routes.learn import served_learn_paths
+
+    paths = ["/", "/puzzles", "/tools", "/tools/anagram", "/tools/pattern", "/tools/synonym"]
+    paths += served_learn_paths()
+    return [BASE + p for p in dict.fromkeys(paths)]
+
+
+def send_evergreen(args):
+    """Announce the evergreen pages, at most once a day. Returns a process exit code.
+
+    Deliberately does NOT build the app or walk the puzzles: the ~85s URL-list build is the
+    deploy's cost, and this run has no need of it.
+    """
+    urls = collect_evergreen_urls()
+    today = date.today().isoformat()
+    conn = _ledger_conn()
+    already = ("_evergreen", today) in _ledger_sent(conn)
+
+    print("IndexNow evergreen: %d URL(s)%s."
+          % (len(urls), " — ALREADY announced today" if already else ""))
+    for u in urls:
+        print("   " + u)
+
+    if args.dry_run:
+        print("[dry-run] nothing submitted; ledger unchanged.")
+        return 0
+    if already and not args.force:
+        print("Nothing sent — the evergreen pages were already announced today. "
+              "Use --force to announce them again.")
+        return 0
+
+    status, body = indexnow.submit(urls, timeout=10)
+    if status in (200, 202):
+        _ledger_record(conn, "_evergreen", today, time.strftime("%Y-%m-%d %H:%M:%S"))
+        print("Done: %d evergreen URL(s) announced (%s)." % (len(urls), body))
+        return 0
+    print("FAILED: HTTP %s %s — not recorded, safe to re-run." % (status, body))
+    return 1
+
+
 def main():
     ap = argparse.ArgumentParser(description="Notify IndexNow of served puzzle URLs (once each)")
     ap.add_argument("--dry-run", action="store_true",
@@ -152,7 +214,17 @@ def main():
                     help="stop starting new puzzles after N seconds of sending and defer the "
                          "rest to the next run (0 = no limit). Keeps a deploy inside its "
                          "subprocess budget; each puzzle stays atomic so nothing is re-sent.")
+    ap.add_argument("--evergreen", action="store_true",
+                    help="announce ONLY the evergreen pages (home, /puzzles, the tools, the "
+                         "learn zone) and nothing else. At most once a day; the puzzle ledger "
+                         "is untouched. Combine with --dry-run to see the list, --force to "
+                         "announce again on the same day.")
     args = ap.parse_args()
+
+    # Evergreen is its own errand: return before create_app() so it never pays the ~85s
+    # cost of building the puzzle URL list.
+    if args.evergreen:
+        return send_evergreen(args)
 
     app = create_app("development")
     with app.app_context():
