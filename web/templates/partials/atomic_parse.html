@@ -115,6 +115,13 @@
                     {{ block.input_value }} &rarr; {{ block.value }}
                     {% endif %}
                 </span>
+                {% elif block.picked_letter %}
+                {# Single-letter pick: mark the letter inside the source word
+                   so "injection -> N" reads as i[N]jection. Interim — marks
+                   the first occurrence, not the true position. #}
+                <span class="mt-1 text-sm font-extrabold text-slate-950">
+                    {{ block.pick_prefix }}<span class="border-y border-sky-500 bg-sky-100 px-0.5 text-sky-950">{{ block.picked_letter }}</span>{{ block.pick_suffix }} &rarr; {{ block.value }}
+                </span>
                 {% elif block.value %}
                 <span class="mt-1 text-sm font-extrabold text-slate-950">{{ block.value }}</span>
                 {% elif block.kind == 'LINK_BLOCK' %}

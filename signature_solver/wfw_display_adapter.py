@@ -739,6 +739,11 @@ def _display_from_unified_proof(attempt_row, proof):
             parse_block.get("input_value") or "",
             block.get("value") or "",
         )
+        # Deletion already marks part of the word; don't mark twice.
+        pick_bits = {} if display_bits else _letter_pick_display_bits(
+            block.get("text") or parse_block.get("text") or "",
+            block.get("value") or "",
+        )
         blocks.append({
             "block_id": block.get("block_id") or "wfw_piece_%02d" % idx,
             "kind": "SOURCE_BLOCK",
@@ -749,6 +754,9 @@ def _display_from_unified_proof(attempt_row, proof):
             "kept_prefix": display_bits.get("kept_prefix", ""),
             "deleted_text": display_bits.get("deleted_text", ""),
             "kept_suffix": display_bits.get("kept_suffix", ""),
+            "pick_prefix": pick_bits.get("pick_prefix", ""),
+            "picked_letter": pick_bits.get("picked_letter", ""),
+            "pick_suffix": pick_bits.get("pick_suffix", ""),
             "span": (
                 parse_block.get("span")
                 or _span_from_token_ids(clue_tokens, block.get("source_token_ids"))
@@ -1035,6 +1043,40 @@ def _unified_operation_detail(token_parse, transformations):
 
 def _clean_id(value):
     return re.sub(r"[^A-Za-z0-9_]+", "_", value or "").strip("_")
+
+
+def _letter_pick_display_bits(text, output_value):
+    """Split `text` around the single letter a piece contributes.
+
+    For a clue like "Sister taking seconds to insert subcutaneous
+    injection (3)" the pieces each give one letter (N, U, N) and the
+    page currently shows only the letter, not where in the word it came
+    from. This marks the letter inside the word so "injection -> N"
+    renders as i[N]jection.
+
+    INTERIM BEHAVIOUR: marks the FIRST occurrence of the letter. That is
+    right for "insert" -> N and "injection" -> N (both second letters),
+    but it does not know the real position, so a last-letter pick out of
+    a word whose letter repeats earlier will mark the wrong one. Deriving
+    the true index from the positional indicator is the proper fix and is
+    tracked separately.
+
+    Returns {} when there is nothing sensible to mark, so callers can
+    treat an empty dict as "no highlight".
+    """
+    if not text or not output_value:
+        return {}
+    letter = _clean_letters(output_value)
+    if len(letter) != 1:
+        return {}
+    idx = text.upper().find(letter)
+    if idx < 0:
+        return {}
+    return {
+        "pick_prefix": text[:idx],
+        "picked_letter": text[idx],
+        "pick_suffix": text[idx + 1:],
+    }
 
 
 def _deletion_display_bits(input_value, output_value):
