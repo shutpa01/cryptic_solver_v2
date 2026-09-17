@@ -126,8 +126,13 @@ def _load(clue_id):
                 "SELECT role, ord, text, value, mechanism, note, atom_ids" + _xf +
                 " FROM wfw_piece WHERE clue_id = ? ORDER BY ord",
                 (clue_id,)).fetchall()
+            # clue_atom_id = WHICH clue character produced this answer letter (the §5.5
+            # per-letter provenance). Needed so a letter-selection piece can light the
+            # letter the solve RECORDED instead of one re-guessed here. Unlike
+            # wfw_piece.transform it needs no column guard: wfw_link has carried it since
+            # the table was created (core/store.py SCHEMA), so every deployed DB has it.
             links = db.execute(
-                "SELECT answer_pos, source_index, transform FROM wfw_link "
+                "SELECT answer_pos, source_index, clue_atom_id, transform FROM wfw_link "
                 "WHERE clue_id = ? ORDER BY answer_pos", (clue_id,)).fetchall()
             # The reviewer's comment. A REVERSE ANAGRAM has no chain of pieces to
             # summarise — the answer read as wordplay produces a phrase in the clue —
@@ -896,7 +901,11 @@ def _alpha_idx(t):
     return [i for i, ch in enumerate(t) if ch.isalpha()]
 
 
-_SEL_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
+# "named" mirrors core/wfw_render._SELECTION_RULE_SUBS (house rule: NO core import). Without
+# it a named selection resolves to no rule and falls into the guess-everything order in
+# _sel_cands, where `finals` lights the LAST matching letter — injectio[N] instead of
+# i[N]jection on clue 10092261 (user, 2026-09-17).
+_SEL_RULE_SUBS = ("first", "last", "outer", "middle", "alternate", "named")
 
 
 def _sel_rule(indicators, source=None):
@@ -953,6 +962,36 @@ def _greedy_sub(text, want, from_right):
     return picks if wi == len(want) else None
 
 
+def _sel_apos_parts(text):
+    """Alpha-index runs a span rule may be applied to: the WHOLE word first, then each
+    apostrophe-separated part when there is more than one.
+
+    An apostrophe divides a word for selection (COLLEAGUE'S -> COLLEAGUE | S) and the
+    setter selects from the BASE word. Mirrors core/wfw_render._apostrophe_parts, which
+    mirrors core.selection._letter_sets on the derivation side (house rule: NO core
+    import). Returns [] when there is nothing to split, so the caller does no extra work.
+    """
+    parts, cur = [], []
+    for i, ch in enumerate(text):
+        if ch in "'’ʼ":
+            if cur:
+                parts.append(cur)
+                cur = []
+        elif ch.isalpha():
+            cur.append(i)
+    if cur:
+        parts.append(cur)
+    return parts if len(parts) > 1 else []
+
+
+def _sel_mask(text, keep):
+    """`text` with every character outside `keep` blanked — indices stay aligned, so a
+    candidate generator run over it returns positions in the ORIGINAL text.
+    Mirrors core/wfw_render._mask_to."""
+    keep = set(keep)
+    return "".join(ch if i in keep else " " for i, ch in enumerate(text))
+
+
 def _sel_cands(text, mech, n, rule=None):
     """Candidate index-lists to try, in priority order for the effective selection rule.
     `rule` (from the indicator) wins for the generic 'selection' mechanism; the named
@@ -974,23 +1013,94 @@ def _sel_cands(text, mech, n, rule=None):
     by_rule = {
         "first": [initials], "last": [finals], "outer": [outer],
         "alternate": [alt0, alt1], "middle": [middle],
+        # NAMED: no derivable pattern — the human typed the letters, and the gate requires
+        # them to be an order-preserving subsequence of the word. Offer nothing here so
+        # _sel_fodder_html falls to _greedy_sub left-to-right, which IS that rule. Mirrors
+        # core/wfw_render._selection_picks.
+        "named": [],
     }
     return by_rule.get(eff, [initials, finals, alt0, alt1, outer, middle])
 
 
-def _sel_fodder_html(text, value, mech, rule=None):
+def _sel_offsets(text, atom_ids_json):
+    """{atom_id: character offset in `text`} for a piece's own atoms, or {}.
+
+    A word unit's atom ids line up 1:1 with its characters, and a multi-word piece joins
+    those words with a space that owns no atom — so the atoms run in order across every
+    NON-SPACE character of the piece's text. Counts disagreeing means the piece was not
+    built that way: return nothing rather than a mapping that could be off by one.
+    Mirrors core/wfw_render._atom_offsets (house rule: NO core import).
+    """
+    try:
+        ids = json.loads(atom_ids_json or "[]")
+    except (ValueError, TypeError):
+        return {}
+    spots = [i for i, ch in enumerate(text) if not ch.isspace()]
+    if not ids or len(spots) != len(ids):
+        return {}
+    return dict(zip(ids, spots))
+
+
+def _sel_recorded(links, ord_, text, value, atom_ids_json):
+    """The fodder offsets this solve RECORDED for a selection piece, or None.
+
+    Every answer letter says which clue character produced it (wfw_link.clue_atom_id).
+    A NAMED selection has no rule to re-derive — "Sister taking seconds to insert
+    subcutaneous injection" = NUN names the second letter, and nothing in the stored
+    rule separates i[N]jection from injectio[N] — so the record is the only honest
+    source. VERIFIED before use, exactly as the derived candidates are: the offsets must
+    spell the value, or the record is ignored and the derivation stands.
+    Mirrors core/wfw_render._recorded_picks (house rule: NO core import).
+    """
+    ids = {l.get("clue_atom_id") for l in (links or [])
+           if l.get("source_index") == ord_ and l.get("clue_atom_id")}
+    if not ids:
+        return None
+    off = _sel_offsets(text, atom_ids_json)
+    if not off:
+        return None
+    picks = sorted(off[a] for a in ids if a in off)
+    if len(picks) != len(ids):
+        return None                         # a letter recorded outside this piece's span
+    want = [c.upper() for c in (value or "") if c.isalpha()]
+    if [text[i].upper() for i in picks] != want:
+        return None
+    return picks
+
+
+def _sel_fodder_html(text, value, mech, rule=None, picks=None):
     """The fodder with selected letters highlighted (inline styles), or None when the
-    selection can't be reproduced (caller then shows the plain fodder text)."""
+    selection can't be reproduced (caller then shows the plain fodder text).
+
+    `picks` is the RECORDED answer (see _sel_recorded) and wins outright when present;
+    deriving is the fallback for rows written before anything recorded it."""
     from html import escape
     want = [c.upper() for c in (value or "") if c.isalpha()]
     if not text or not want:
         return None
-    picks = None
-    for cand in _sel_cands(text, mech, len(want), rule):
-        if [text[i].upper() for i in cand] == want:
-            picks = cand
-            break
-    if picks is None:                       # subsequence from the end the rule prefers
+    if not picks:
+        for cand in _sel_cands(text, mech, len(want), rule):
+            if [text[i].upper() for i in cand] == want:
+                picks = cand
+                break
+    if not picks:
+        # THE RULE, RE-RUN ON THE BASE WORD. "colleague's tips" = CE: over the whole token
+        # the outer letters are C and the possessive S, which cannot match CE, so it fell
+        # through to the greedy scan below and lit the FIRST e — coll[e]ague's instead of
+        # colleagu[e]'s (clue 10090845, user 2026-09-11). The CARD gained this fix on
+        # 09-11; this hand-mirrored copy did not, so the two surfaces disagreed on exactly
+        # that piece (measured 2026-09-17: 1 disagreement in 1,470 stored selection
+        # pieces, this one). Exact-match only, so it can offer more candidates to discard
+        # and never fabricate. Mirrors core/wfw_render._selection_picks.
+        for part in _sel_apos_parts(text):
+            masked = _sel_mask(text, part)
+            for cand in _sel_cands(masked, mech, len(want), rule):
+                if cand and [text[i].upper() for i in cand] == want:
+                    picks = cand
+                    break
+            if picks:
+                break
+    if not picks:                           # subsequence from the end the rule prefers
         eff = rule or ("last" if mech == "last_letter" else None)
         picks = (_greedy_sub(text, want, eff == "last")
                  or _greedy_sub(text, want, eff != "last"))
@@ -1189,7 +1299,13 @@ def load_breakdown(clue_id):
             from html import escape
             txt = (s["text"] or "").strip()
             rule = _sel_rule(parse["indicators"], s) if s["mechanism"] == "selection" else None
-            fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"], rule)
+            # The RECORD first — which clue character each letter came from, if the solve
+            # said — and only then the rule-derived guess. Offsets are read against `txt`,
+            # the same string the highlight is built over.
+            _rec = _sel_recorded(parse["links"], s["ord"], txt, s.get("value"),
+                                 s.get("atom_ids"))
+            fod = _sel_fodder_html(txt, (s["value"] or "").strip(), s["mechanism"], rule,
+                                   _rec)
             if fod and txt and detail.startswith(txt + "→"):
                 row["detail_html"] = fod + escape(detail[len(txt):])
         # A homophone piece sounds like something else, and that something is

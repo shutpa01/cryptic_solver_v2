@@ -631,7 +631,12 @@ def _cand_greedy_right(text, want):
     return sorted(picks) if wi < 0 else []
 
 
-_SELECTION_RULE_SUBS = ("first", "last", "outer", "middle", "alternate")
+# "named" is here so a named selection RESOLVES to a rule instead of returning None and
+# falling into the guess-everything order below, where _cand_finals runs second and lights
+# the LAST matching letter. "Sister taking seconds to insert subcutaneous injection" = NUN
+# (10092261): injection's N is the SECOND letter, but the final letter is also N, so the
+# card lit injectio[N] (user, 2026-09-17).
+_SELECTION_RULE_SUBS = ("first", "last", "outer", "middle", "alternate", "named")
 
 
 def _atom_pos(atom_ids):
@@ -715,6 +720,15 @@ def _selection_picks(text, value, mechanism, rule=None):
         "outer":     [_cand_outer],
         "alternate": [lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1)],
         "middle":    [lambda t: _cand_middle(t, n), lambda t: _cand_greedy(t, want)],
+        # A NAMED selection has no derivable pattern — the setter names the positions
+        # ("fourth of exhibits", "taking seconds") and the human TYPES the letters, which
+        # core.wfw_web._named_selection_ok requires to be an order-preserving subsequence
+        # of the word. So offer NO pattern and let the last resort below apply exactly that
+        # rule, left to right. Trying initials/finals/alternate/outer first is what lit the
+        # wrong N. This is the honest reading of what is stored, not the real fix: nothing
+        # records WHICH letters were taken, so a clue naming a late position
+        # ("penultimate") would still land early. Recording them on the piece is the fix.
+        "named":     [],
     }.get(eff, [
         _cand_initials, _cand_finals,
         lambda t: _cand_alt(t, 0), lambda t: _cand_alt(t, 1),
@@ -742,10 +756,64 @@ def _selection_picks(text, value, mechanism, rule=None):
     return ok(_cand_greedy(text, want)) or ok(_cand_greedy_right(text, want))
 
 
-def _selection_fodder_html(text, value, mechanism, rule=None):
+def _atom_offsets(text, atom_ids):
+    """{atom_id: character offset in `text`} for a piece's own atoms, or {}.
+
+    A word unit's atom ids line up 1:1 with its characters (core.wfw_web._hs_word_units),
+    and a multi-word piece joins those words with a space that owns no atom — so the
+    atoms run in order across every NON-SPACE character of the piece's text. When the
+    counts don't agree the piece was not built that way: return nothing rather than a
+    mapping that could be off by one, because a confidently wrong letter is worse than
+    an honestly derived one.
+    """
+    spots = [i for i, ch in enumerate(text) if not ch.isspace()]
+    ids = list(atom_ids or ())
+    if not ids or len(spots) != len(ids):
+        return {}
+    return dict(zip(ids, spots))
+
+
+def _recorded_picks(parse, si, source):
+    """The fodder offsets this solve RECORDED for a selection piece, or None.
+
+    Every answer letter already says which clue character produced it —
+    Link.clue_atom_id, the §5.5 per-letter provenance (core/wfw_model.py). The engines
+    fill it in for selection pieces (charade_container_selection_engine, acrostic,
+    alternation) and the /hs grid now records the human's pick for a NAMED selection.
+    Reading it is the whole point: a named selection has NO rule to re-derive — "Sister
+    taking seconds to insert subcutaneous injection" = NUN names the second letter, and
+    nothing in the stored rule distinguishes i[N]jection from injectio[N], so the
+    renderer guessed and lit the wrong one (10092261, user 2026-09-17).
+
+    VERIFIED before use, exactly as every derived candidate is: the recorded offsets
+    must spell the value. A record that doesn't is ignored and the derivation stands —
+    a highlight may never contradict the piece it illustrates.
+    """
+    ids = [l.clue_atom_id for l in (parse.links or [])
+           if getattr(l, "source_index", None) == si and l.clue_atom_id]
+    if not ids:
+        return None
+    off = _atom_offsets(source.text or "", getattr(source, "clue_atom_ids", ()))
+    if not off:
+        return None
+    uniq = set(ids)
+    picks = sorted(off[a] for a in uniq if a in off)
+    if len(picks) != len(uniq):
+        return None                       # a letter recorded outside this piece's own span
+    text = source.text or ""
+    want = [c.upper() for c in (source.value or "") if c.isalpha()]
+    if [text[i].upper() for i in picks] != want:
+        return None
+    return picks
+
+
+def _selection_fodder_html(text, value, mechanism, rule=None, picks=None):
     """The fodder text with selected letters highlighted and the rest dimmed, or None
-    when the selection can't be reproduced (caller then shows the plain fodder)."""
-    picks = _selection_picks(text, value, mechanism, rule)
+    when the selection can't be reproduced (caller then shows the plain fodder).
+
+    `picks` is the RECORDED answer (see _recorded_picks) and wins outright when present;
+    deriving is the fallback for the rows written before anything recorded it."""
+    picks = picks or _selection_picks(text, value, mechanism, rule)
     if not picks:
         return None
     pick = set(picks)
@@ -775,7 +843,10 @@ def _source_row(parse, si, src_fg, src_fill):
     fodder = None
     if s.mechanism in _SELECTION_MECHS:
         rule = _selection_rule(parse, s) if s.mechanism == "selection" else None
-        fodder = _selection_fodder_html(s.text, s.value, s.mechanism, rule)
+        # The RECORD first — which clue character each letter came from, if the solve
+        # said — and only then the rule-derived guess.
+        fodder = _selection_fodder_html(s.text, s.value, s.mechanism, rule,
+                                        _recorded_picks(parse, si, s))
     content = ('%s <span class="wfw-arrow">&rarr;</span> '
                '<strong class="wfw-val">%s</strong>'
                % (fodder if fodder else escape(s.text), escape(s.value)))

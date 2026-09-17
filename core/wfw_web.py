@@ -2433,6 +2433,62 @@ function initGrid(rootId, DATA){
  // server's _named_selection_ok; an order-preserving subsequence, not a contiguous run.
  function namedOk(letters,v){letters=letters||'';v=v||'';if(!v||!letters)return false;
   var i=0;for(var k=0;k<letters.length;k++){if(i<v.length&&letters[k]===v[i])i++;}return i===v.length;}
+ /* HOW MANY ways can `v` be read out of `phrase` in order? namedOk answers "at least
+    one"; this answers "more than one", which is the whole question a pick settles. Two
+    ways means the record cannot be recovered from the rule afterwards — "taking seconds"
+    on `injection` is satisfied by the N at 1 AND the N at 8, and the renderer guessed
+    (10092261). Counted over the RAW phrase so the offsets it implies are the ones the
+    server maps to atoms, and capped: only 1 vs many matters. */
+ function selWays(phrase,v){var a=[];for(var i=0;i<(phrase||'').length;i++){var c=foldLetters(phrase[i]);if(c)a.push(c);}
+  var dp=[1];for(var k=0;k<v.length;k++)dp.push(0);
+  for(var m=0;m<a.length;m++){for(var j=v.length;j>0;j--){if(v[j-1]===a[m])dp[j]=Math.min(dp[j]+dp[j-1],3);}}
+  return dp[v.length];}
+ function selValue(){return (addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');}
+ /* A NAMED selection is the ONLY kind nothing derives, so it is the only one that ever
+    asks — first/last/outer/middle/alternate all fix their own positions by construction
+    (user, 2026-09-17). For a named one the atomised word appears AS SOON AS the word is
+    ticked, NOT held back until a letter is typed: clicking the letters IS how you say
+    which ones the clue names, and the value follows from the clicks. Making the picker
+    wait on the typed value meant choosing 'named' showed the plain old box and the
+    atomisation seemed to have vanished (user, 2026-09-17). Typing still works; whichever
+    you do, the two stay in step. */
+ function selPickOn(){
+  return roleSel.value==='selection'&&selrule&&selrule.value==='named'
+   &&checkedIdx().length>0;}
+ /* The atomised word: one clickable tile per character, so the human says WHICH
+    occurrence the clue names. A multi-letter value needs one pick per letter ("leading
+    couple of Northampton" -> NO: N at 0 and 10, O at 1 and 9). Built as DOM nodes, not
+    markup, so a clue word can never be read as HTML. */
+ function drawSelPick(){
+  if(!selPickEl)return;
+  selPickEl.innerHTML='';
+  if(!selPickOn()){selPickEl.style.display='none';return;}
+  var ph=phraseOf(checkedIdx()),v=selValue();
+  var many=v&&selWays(ph,v)>1;
+  var lab=document.createElement('span');lab.style.color='#b45309';
+  // Name the ambiguity when there IS one — "which N?" is a sharper question than
+  // "click the letters" once the human has said N.
+  lab.textContent=many
+   ?(v+' is in this word more than once — click which letter'+(v.length>1?'s':'')+': ')
+   :'click the letter(s) the clue names: ';
+  selPickEl.appendChild(lab);
+  for(var i=0;i<ph.length;i++){(function(i){
+   var ch=ph[i],sp=document.createElement('span');sp.textContent=ch;
+   if(!/[a-z]/i.test(ch)){sp.style.opacity='.45';selPickEl.appendChild(sp);return;}
+   var on=selPicks.indexOf(i)>=0;
+   sp.style.cssText='display:inline-block;min-width:1.15rem;text-align:center;margin:0 1px;'+
+    'padding:1px 3px;border-radius:4px;cursor:pointer;font-family:monospace;'+
+    'border:1px solid '+(on?'#f59e0b':'#cbd5e1')+';font-weight:'+(on?'800':'400')+';'+
+    'background:'+(on?'#fde68a':'#fff')+';color:'+(on?'#7a4f00':'#0f172a');
+   sp.addEventListener('click',function(){
+    var k=selPicks.indexOf(i);if(k>=0)selPicks.splice(k,1);else selPicks.push(i);
+    // The CLICKS are the value: reading the picked letters left to right is exactly the
+    // order-preserving subsequence the gate demands, so no typing is needed.
+    var ordered=selPicks.slice().sort(function(x,y){return x-y;});
+    addInp.value=ordered.map(function(o){return foldLetters(ph[o]||'');}).join('');
+    drawSelPick();});
+   selPickEl.appendChild(sp);})(i);}
+  selPickEl.style.display='';}
  function fillSelCands(){if(roleSel.value!=='selection')return;var ci=checkedIdx();var fl=fodderLetters(ci);
   if(selrule.value==='named'){        // nothing to offer: type the letters, don't pick them
    candSel.innerHTML='<option value="">'+(fl?('(type the letters of '+fl+' the clue names)'):'(tick word(s) first)')+'</option>';
@@ -2482,6 +2538,8 @@ function initGrid(rootId, DATA){
  var atiles=Array.prototype.slice.call(root.querySelectorAll('.g-atile'));
  var cmsg=root.querySelector('#g-cmsg');
  var selPos=[];
+ var selPickEl=root.querySelector('#g-selpick');
+ var selPicks=[];        // character offsets into the ticked PHRASE (not the answer tiles)
  function pcCol(k){return PAL[k%PAL.length];}
  function posOwner(p){for(var k=0;k<assignments.length;k++){var a=assignments[k];if(a.pos&&a.pos.indexOf(p)>=0)return k;}return -1;}
  function locateValue(v){v=(v||'').toUpperCase();if(!v)return null;var ans=DATA.answer,hits=[];for(var s=0;s+v.length<=ans.length;s++){if(ans.substr(s,v.length)===v){var ps=[],ok=true;for(var j=0;j<v.length;j++){var p=s+j+1;if(posOwner(p)>=0){ok=false;break;}ps.push(p);}if(ok)hits.push(ps);}}return hits.length===1?hits[0]:null;}
@@ -2674,8 +2732,9 @@ function initGrid(rootId, DATA){
   if(isValued(a.role)||a.role==='letters'||a.role==='replacement'||a.role==='deletion'||a.role==='shifted'||a.role==='selection'||a.role==='spoonerism')addInp.value=a.value||'';
   if(cutEl)cutEl.value=a.cut||'';
   selPos=(a.pos||[]).slice();
+  selPicks=(a.sel||[]).slice();          // a released named selection keeps its picked letter(s)
   updateBar();
-  drawCutPrev();drawRows();drawList();drawTiles();saveAssignments();
+  drawCutPrev();drawSelPick();drawRows();drawList();drawTiles();saveAssignments();
   note('released — adjust tiles / value, then Assign');
  }
  function updateBar(){var idx=checkedIdx();if(idx.length){bar.style.display='';selLbl.textContent=phraseOf(idx);}else{bar.style.display='none';}}
@@ -2715,6 +2774,7 @@ function initGrid(rootId, DATA){
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
+  drawSelPick();                                 // hides itself unless a NAMED selection is ambiguous
   if(r==='indicator')fetchTypes();               // show current DB typings + prune links
   if(r==='indicator'&&itype.value==='deletion')inferSub();
  }
@@ -2743,10 +2803,23 @@ function initGrid(rootId, DATA){
     Array.prototype.slice.call(delEl.querySelectorAll('.g-delx')).forEach(function(x){x.onclick=function(e){e.preventDefault();delRow(phr,x.dataset.v,x.dataset.k);};});}
   }).catch(function(){candSel.innerHTML='<option value="">(lookup failed — add below)</option>';});
  }
- tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();if(roleSel.value==='selection')fillSelCands();if(roleSel.value==='indicator')fetchTypes();drawCutPrev();}});
+ tbody.addEventListener('change',function(e){if(e.target.classList&&e.target.classList.contains('g-chk')){updateBar();if(isValued(roleSel.value))fetchCands();if(roleSel.value==='selection')fillSelCands();if(roleSel.value==='indicator')fetchTypes();drawCutPrev();selPicks=[];drawSelPick();}});
  roleSel.addEventListener('change',roleFields);
  itype.addEventListener('change',roleFields);
- if(selrule)selrule.addEventListener('change',roleFields);  // roleFields refreshes the candidates AND the placeholder, which differs for 'named'
+ /* A selection's value belongs to ITS RULE, so changing the rule drops the old rule's
+    answer. Without this the derived value SURVIVED the switch: picking 'first' on
+    `injection` auto-fills I, and switching to 'named' left that I in the box — so the
+    picker asked "which I?", disambiguating a letter the first-letter rule had already
+    settled, while N (the letter the clue actually names) was never mentioned at all
+    (user, 2026-09-17). Clearing costs nothing for the derivable rules: fillSelCands
+    refills the box from the candidates a moment later. For 'named' it correctly leaves
+    it empty, so the placeholder asks for the letter(s) the clue names.
+    releasePiece is unaffected — it sets selrule.value WITHOUT dispatching change, and
+    restores the stored value after roleFields() has run. */
+ if(selrule)selrule.addEventListener('change',function(){
+  if(addInp)addInp.value='';
+  selPicks=[];                  // the picks belonged to the value just cleared
+  roleFields();});              // refreshes the candidates AND the placeholder, which differs for 'named'
  var msgEl=root.querySelector('#g-msg');
  function note(t){if(msgEl){msgEl.style.color='#dc2626';msgEl.textContent=t||'';}}
  function assignNow(){
@@ -2777,7 +2850,25 @@ function initGrid(rootId, DATA){
     var nv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
     if(!nv){note('type the letter(s) the clue names, e.g. fourth of exhibits = I');return;}
     if(!namedOk(sfl,nv)){note(nv+' is not in '+sfl+' in that order — name letters the word actually has, reading left to right');return;}
-    a.value=nv;a.rule=srl;}
+    a.value=nv;a.rule=srl;
+    /* WHICH letters? Nothing derives a named selection's positions, so if they are not
+       recorded here they cannot be recovered later and the card guesses — injectio[N]
+       for i[N]jection (10092261). The offsets index the RAW phrase; the server maps them
+       to clue atoms and stores one per answer tile (_selection_atom_ids).
+       Picks are recorded WHENEVER they spell the value, not only when the word is
+       ambiguous: the human clicked those exact letters, and a record of what they chose
+       beats re-deriving it later even when today's derivation happens to agree. A pick is
+       DEMANDED only when the value really does read more than one way — otherwise typing
+       the letters alone still assigns, exactly as it always has. */
+    var nph=phraseOf(idx);
+    var nps=selPicks.slice().sort(function(x,y){return x-y;});
+    var ngot=nps.map(function(o){return foldLetters(nph[o]||'');}).join('');
+    if(nps.length&&ngot===nv){a.sel=nps;}
+    else if(selWays(nph,nv)>1){
+     drawSelPick();
+     note(nv+' appears in “'+nph+'” in more than one place — click the letter'+
+      (nv.length>1?'s':'')+' the clue names (shown below the box), then Assign');
+     return;}}
    else{
    var scands=selCandsApos(idx,srl);
    if(!scands.length){note('the ticked word(s) ('+sfl+') are too short for the "'+srl+'" rule');return;}
@@ -2870,7 +2961,7 @@ function initGrid(rootId, DATA){
    if(r==='definition')return x.role!=='definition';                     // def replaces defs only
    return x.role==='definition';                                         // wordplay keeps defs
   });
-  assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];note('');drawCutPrev();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
+  assignments.push(a);addInp.value='';if(cutEl)cutEl.value='';selPos=[];selPicks=[];note('');drawCutPrev();drawSelPick();drawRows();drawList();drawTiles();clearChecks();saveAssignments();
  }
  root.querySelector('#g-assign').addEventListener('click',assignNow);
  /* Standalone DB-delete flow (user design 2026-07-14): type a word + partner, search every
@@ -2910,6 +3001,9 @@ function initGrid(rootId, DATA){
   [hWord,hVal].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addHom();}});});}
  if(cutEl)cutEl.addEventListener('input',drawCutPrev);
  if(addInp)addInp.addEventListener('input',drawCutPrev);
+ // The picker depends on the letters TYPED, so it has to follow the box: typing the N of
+ // a named selection is what makes "which N?" a question worth asking.
+ if(addInp)addInp.addEventListener('input',drawSelPick);
  // picking a synonym from the dropdown fills its value; then click the answer tiles + Assign.
  // With a deletion typed, DON'T auto-assign (let the user place the survivor first).
  candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}
@@ -3389,6 +3483,16 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'the derivative (e.g. speech=ORATION, scrapping introduction removes O -> RATION)">'
          '<span id="g-cutprev" style="margin-left:.35rem;font-size:.85rem"></span></span> '
          '<span id="g-del" style="margin-left:.4rem;font-size:.85rem;color:#b45309"></span></span>',
+         # WHICH letter did the clue name? Shown ONLY for a NAMED selection whose typed
+         # value could come from more than one place in the ticked word ("taking seconds"
+         # on `injection`: the N at 1 and the N at 8). Every derivable rule — first, last,
+         # outer, middle, alternate — fixes the position by construction and gets NO
+         # picker, so the common case keeps its single click (user, 2026-09-17: "if we
+         # know the letter ie first, last, middle then we select first, last or middle,
+         # it is only when we select the indicator named letters"). Measured over the
+         # 1,505 stored selection pieces, this appears on ~5 of them.
+         '<span id="g-selpick" style="display:none;margin-left:.4rem;font-size:.9rem">'
+         '</span>',
          '<button type="button" id="g-assign" class="g-assign">Assign</button>',
          '<span id="g-msg" style="color:#dc2626;font-size:.85rem"></span>',
          '</div>',
@@ -3966,6 +4070,45 @@ def _selection_ok(phrase, rule, value):
     if (rule or "").strip() == "named":
         return _named_selection_ok(phrase, value)
     return bool(value) and value in _selection_candidates(phrase, rule)
+
+
+def _selection_atom_ids(phrase, atoms, value, sel):
+    """The clue atom ids the human PICKED for a selection piece, in order, or None.
+
+    `sel` is the list of character offsets into `phrase` clicked on the grid. A NAMED
+    selection names positions no rule can derive ("taking seconds", "fourth of
+    exhibits"), so WHICH occurrence of a repeated letter was meant is knowable only if
+    the human says so. This turns that answer into the per-letter provenance the model
+    already has a field for — wfw_model.Link.clue_atom_id, "the exact clue character"
+    — so both renderers read the record instead of re-deriving it. Until this existed
+    "Sister taking seconds to insert subcutaneous injection" = NUN lit injectio[N]
+    instead of i[N]jection (10092261, user 2026-09-17), and no amount of cleverness at
+    render time could have known better.
+
+    REFUSES (returns None, so the renderers fall back to deriving exactly as before)
+    rather than record a half-truth: the offsets must spell the value exactly and in
+    order, and the piece's atoms must line up 1:1 with its non-space characters. A
+    confidently lit wrong letter is worse than an honest guess.
+    """
+    try:
+        offs = sorted({int(o) for o in (sel or [])})
+    except (TypeError, ValueError):
+        return None
+    want = [c.upper() for c in (value or "") if c.isalpha()]
+    if not offs or len(offs) != len(want):
+        return None
+    if any(o < 0 or o >= len(phrase) for o in offs):
+        return None
+    if [phrase[o].upper() for o in offs] != want:
+        return None
+    # The words' atoms run in order across every non-space character of the phrase
+    # (a joining space owns no atom). Mirrors core/wfw_render._atom_offsets.
+    spots = [i for i, ch in enumerate(phrase) if not ch.isspace()]
+    if len(spots) != len(atoms):
+        return None
+    where = dict(zip(spots, atoms))
+    ids = [where.get(o) for o in offs]
+    return ids if all(ids) else None
 
 
 def _cand_from_assignments(assigns, n_total, answer=""):
@@ -6175,12 +6318,23 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             elif piece_src == "db" and role == "substitution" and value:  # abbr/symbol -> wordplay
                 db_adds.append(("substitution", phrase, value))
             tr = "anagram_of" if role == "anagram" else None
-            for p in pos:
+            # A NAMED selection's PICKED letters become the model's own per-letter
+            # provenance: each answer tile records the exact clue character it came from,
+            # paired in order (letters land in the order they were taken). Recorded only
+            # when the counts agree — a cut selection names more letters than it places,
+            # and a pairing that cannot be justified is not a record, so the renderers
+            # derive in that case exactly as they did before.
+            sel_ids = (_selection_atom_ids(phrase, atoms, value, a.get("sel"))
+                       if role == "selection" else None)
+            if sel_ids and len(sel_ids) != len(pos):
+                sel_ids = None
+            for _k, p in enumerate(pos):
                 if p in covered:
                     return {"ok": False, "msg": "Answer tile %d is claimed by two "
                             "pieces — each tile belongs to exactly one piece." % p}
                 covered[p] = si
                 links.append(Link(answer_pos=p, source_index=si, operation="manual",
+                                  clue_atom_id=(sel_ids[_k] if sel_ids else None),
                                   transform=tr))
         elif role == "spoonerism":
             # A vetted sound pair (spoonerisms table): the source phrase transposes to sound
