@@ -391,7 +391,8 @@ def get_puzzle_list(source, type_slug, page=1):
         """SELECT c.puzzle_number,
                   MAX(c.publication_date) AS publication_date,
                   COUNT(*) AS clue_count,
-                  SUM(CASE WHEN c.answer IS NOT NULL AND c.answer != '' THEN 1 ELSE 0 END) AS with_answer,
+                  SUM(CASE WHEN (c.answer IS NOT NULL AND c.answer != '')
+                            OR TRIM(c.clue_text) GLOB 'See [0-9]*' THEN 1 ELSE 0 END) AS with_answer,
                   SUM(CASE WHEN (c.definition IS NOT NULL AND c.definition != '')
                             OR w.clue_id IS NOT NULL THEN 1 ELSE 0 END) AS with_def,
                   SUM(CASE WHEN se.confidence >= 0.7
