@@ -1,7 +1,10 @@
 """Deploy — push the latest code and databases to the Cordelia droplet."""
 
+import os
 import sqlite3
 import subprocess
+import time
+from datetime import datetime
 from pathlib import Path
 
 import streamlit as st
@@ -9,6 +12,98 @@ import streamlit as st
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
 GIT_BASH = r'C:\Program Files\Git\bin\bash.exe'
+
+
+YT_LOG_DIR = PROJECT_ROOT / "logs"
+YT_LATEST = YT_LOG_DIR / "youtube_job_latest.txt"
+YT_DONE = "=== job finished"          # sentinel written by scripts/youtube_deploy_job.py
+
+
+def _yt_launch(privacy):
+    """Start the YouTube job DETACHED and return the log file it writes.
+
+    Detached, because work owned by the page dies with the page. On 2026-09-20 a
+    deploy filmed and uploaded Telegraph and Times and then produced nothing at
+    all for Guardian — no capture directory, no error — while the same command by
+    hand worked first time. Anything that ends the page run takes the unfinished
+    papers with it, and the user is left with a missing video and no explanation.
+
+    So the page only STARTS this and then reads its log. Closing the browser is
+    now free: the job keeps filming and uploading, and the log is the record.
+    """
+    YT_LOG_DIR.mkdir(parents=True, exist_ok=True)
+    log = YT_LOG_DIR / ("youtube_job_%s.log"
+                        % datetime.now().strftime("%Y%m%d_%H%M%S"))
+    fh = open(log, "w", encoding="utf-8")
+    flags = 0
+    if os.name == "nt":
+        # DETACHED_PROCESS: no console tied to Streamlit's. CREATE_NEW_PROCESS_GROUP:
+        # a Ctrl-C in the parent's group never reaches it.
+        flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
+    subprocess.Popen(
+        [str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"), "-u",
+         str(PROJECT_ROOT / "scripts" / "youtube_deploy_job.py"),
+         "--privacy", privacy],
+        stdout=fh, stderr=subprocess.STDOUT, cwd=str(PROJECT_ROOT),
+        creationflags=flags, close_fds=True)
+    YT_LATEST.write_text(str(log), encoding="utf-8")
+    return log
+
+
+def _yt_read(log_path):
+    """(lines, finished) for a job log. finished is the sentinel, not a guess."""
+    try:
+        text = Path(log_path).read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return [], False
+    lines = [ln for ln in text.splitlines() if ln.strip()]
+    return lines, any(ln.startswith(YT_DONE) for ln in lines)
+
+
+def _yt_tail(log_path, placeholder, follow_for=2400, tail=12):
+    """Watch a running job's log in place until it finishes or `follow_for` is up.
+
+    Leaving this early costs nothing — the job is detached, and reopening the page
+    picks the log up again. That is the whole point of the split.
+    """
+    deadline = time.time() + follow_for
+    while time.time() < deadline:
+        lines, finished = _yt_read(log_path)
+        placeholder.code("\n".join(lines[-tail:]) or "(starting…)")
+        if finished:
+            return lines, True
+        time.sleep(2)
+    lines, finished = _yt_read(log_path)
+    return lines, finished
+
+
+def _render_yt_job_status():
+    """What the last YouTube job did, every time this page opens.
+
+    The job outlives the page, so the page must be able to pick it back up. Without
+    this, closing the browser would trade one blindness (a silent spinner) for
+    another (a job you can no longer see).
+    """
+    try:
+        log_path = Path(YT_LATEST.read_text(encoding="utf-8").strip())
+    except OSError:
+        return
+    lines, finished = _yt_read(log_path)
+    if not lines:
+        return
+    uploads = [ln for ln in lines if "youtube.com/watch" in ln]
+    when = log_path.stem.replace("youtube_job_", "")
+    if finished:
+        st.info("Last YouTube job (%s): finished, %d video(s) uploaded."
+                % (when, len(uploads)))
+    else:
+        st.warning("YouTube job (%s) is STILL RUNNING — %d video(s) so far. "
+                   "Last line: %s" % (when, len(uploads), lines[-1][:120]))
+    with st.expander("YouTube job log (%s)" % log_path.name):
+        st.code("\n".join(lines[-40:]))
+        if not finished and st.button("Watch it live", key="yt_watch"):
+            live = st.empty()
+            _yt_tail(log_path, live)
 
 
 def _rsync(local_path, remote_path, timeout=300):
@@ -97,6 +192,7 @@ CORDELIA_EXTRA_FILES = [
 def _render_cordelia_deploy():
     """Deploy databases and/or code to the Cordelia droplet."""
     st.caption("Deploy to justcordelia.com — upload databases, code, or both.")
+    _render_yt_job_status()
 
     col1, col2 = st.columns(2)
     with col1:
@@ -468,35 +564,26 @@ def _render_cordelia_deploy():
         # is missing (scripts/youtube_upload.py:430), so a killed upload just needs
         #   python scripts\youtube_upload.py --source guardian --privacy public
         if deploy_db and not failed and upload_video:
-            py = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
-            for src in ("telegraph", "times", "guardian"):
-                label = "YouTube upload (%s)" % src
-                with st.spinner("Filming and uploading %s to YouTube..." % src):
-                    try:
-                        result = subprocess.run(
-                            [py, str(PROJECT_ROOT / "scripts" / "youtube_upload.py"),
-                             "--source", src, "--privacy", video_privacy],
-                            capture_output=True, text=True, timeout=1200,
-                            encoding="utf-8", errors="replace", cwd=str(PROJECT_ROOT),
-                        )
-                        lines = [ln for ln in (result.stdout or "").strip().splitlines()
-                                 if ln.strip()]
-                        # The URL line if there is one, else whatever it last said —
-                        # "Nothing to upload" is a legitimate, successful outcome.
-                        url = next((ln for ln in lines
-                                    if "youtube.com/watch" in ln), None)
-                        summary = url or (lines[-1] if lines
-                                          else (result.stderr or "").strip()[:200])
-                        steps.append((label, result.returncode == 0,
-                                      summary or "done"))
-                    except subprocess.TimeoutExpired:
-                        steps.append((label, False,
-                                      "Timed out after 20 minutes (not recorded — "
-                                      "retries next deploy; the built video is kept, "
-                                      "so a manual --source %s re-uploads without "
-                                      "re-filming)." % src))
-                    except Exception as e:
-                        steps.append((label, False, str(e)))
+            log_path = _yt_launch(video_privacy)
+            st.caption("YouTube: filming and uploading every paper's puzzles for "
+                       "today. This runs on its own — closing this page will NOT "
+                       "stop it, and reopening the Deploy page shows it again.")
+            live = st.empty()
+            lines, finished = _yt_tail(log_path, live)
+            live.empty()
+            with st.expander("YouTube job — full log (%s)" % log_path.name):
+                st.code("\n".join(lines) or "(no output yet)")
+            uploads = [ln for ln in lines if "youtube.com/watch" in ln]
+            for ln in uploads:
+                steps.append(("YouTube upload", True, ln))
+            if not finished:
+                steps.append(("YouTube job", True,
+                              "still running — reopen this page to watch it "
+                              "(log: %s)" % log_path.name))
+            elif not uploads:
+                steps.append(("YouTube job", True,
+                              lines[-2] if len(lines) > 1 else "nothing to upload"))
+
 
         # Show results
         for label, ok, msg in steps:

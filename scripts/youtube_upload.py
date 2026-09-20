@@ -65,6 +65,13 @@ from web.routes.clue_seo import puzzle_seo_name
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "logs" / "youtube"
 LEDGER_DB = ROOT / "logs" / "youtube_state.db"
+
+# How many videos one source may upload in a single run. A paper publishing two
+# puzzles in a day is normal (Sunday: Prize Toughie + Prize Cryptic); a paper
+# publishing four is not, and an upload costs 1600 of the 10,000 daily quota
+# units, so this stops a runaway sweep from spending the day's quota on one
+# paper. What it holds back is still served and unfilmed — --backfill takes it.
+PER_SOURCE_CAP = 3
 TOKEN_FILE = ROOT / "impressions" / "youtube_token.json"
 
 # Must stay identical to youtube_auth.py:36 — the token is minted there and loaded
@@ -468,22 +475,56 @@ def main():
         for i, src in enumerate(srcs):
             print("\n=== %s (%d of %d) ===" % (src, i + 1, len(srcs)))
             args.source = src
-            try:
-                rc |= run_one(args)
-            except SystemExit as e:
-                print("%s FAILED: %s" % (src, e))
-                rc = 1
-            except Exception as e:
-                print("%s FAILED: %s" % (src, e))
-                rc = 1
+            rc |= run_source(args)
         return rc
     args.source = args.source or "telegraph"
-    return run_one(args)
+    return run_source(args)
+
+
+def run_source(args):
+    """Every puzzle this source published today, not only the first.
+
+    A paper can publish TWO puzzles in a day: Sunday 2026-09-20 brought Telegraph
+    Prize Toughie 243 and Prize Cryptic 3387. Taking one per run filmed 243 and
+    left 3387 behind, and the next day the age guard (today only) put it out of
+    reach of every normal run — so the second puzzle was never filmed unless
+    somebody happened to press Deploy twice. Draining the source is the fix; a
+    second press was a workaround.
+
+    run_one reports what it did on args._outcome, because its return code cannot:
+    it returns 0 both for "uploaded" and for "nothing to upload". A dry run also
+    keeps going (that is how you see the whole day's list without spending quota),
+    with run_one adding each puzzle it has already described to args._skip.
+
+    A failure stops THIS source and is reported, exactly as before — the sweep in
+    main() carries on to the next paper.
+    """
+    rc = 0
+    args._skip = set()
+    for _ in range(PER_SOURCE_CAP):
+        args._outcome = "nothing"
+        try:
+            rc |= run_one(args)
+        except SystemExit as e:
+            print("%s FAILED: %s" % (args.source, e))
+            return 1
+        except Exception as e:
+            print("%s FAILED: %s" % (args.source, e))
+            return 1
+        if args._outcome not in ("uploaded", "dry"):
+            return rc
+    print("%s: stopping at %d videos in one run (quota guard) — anything left is "
+          "still served and unfilmed, so --backfill can take it."
+          % (args.source, PER_SOURCE_CAP))
+    return rc
 
 
 def run_one(args):
     conn = ledger()
-    done = already_done(conn)
+    # _skip holds what a dry run has already described this sweep — the ledger
+    # cannot, because a dry run records nothing. Without it a dry sweep would
+    # name the same puzzle until the cap.
+    done = already_done(conn) | getattr(args, "_skip", set())
 
     if args.puzzle:
         from web import create_app
@@ -506,6 +547,7 @@ def run_one(args):
                              None if args.backfill else args.max_age_days)
         if puzzle is None:
             print("Nothing to upload for %s." % args.source)
+            args._outcome = "nothing"
             return 0
 
     key = (args.source, str(puzzle["number"]))
@@ -515,6 +557,7 @@ def run_one(args):
         done = done - {key}
     if key in done and not args.dry_run:
         print("%s %s already uploaded — nothing to do." % key)
+        args._outcome = "already"
         return 0
 
     cap_dir = OUT_ROOT / ("%s-%s" % (args.source, puzzle["number"]))
@@ -526,6 +569,8 @@ def run_one(args):
               % (args.source, puzzle["number"], puzzle["type_label"], puzzle["pub"]))
         print("title:   %s" % title_for(args.source, puzzle))
         print("[dry-run] no video built yet; would run capture + assemble first.")
+        args._outcome = "dry"
+        args._skip.add(key)
         return 0
     if args.build or not video.exists():
         build_video(args.source, puzzle["number"])
@@ -551,6 +596,8 @@ def run_one(args):
 
     if args.dry_run:
         print("\n[dry-run] nothing uploaded, ledger unchanged.")
+        args._outcome = "dry"
+        args._skip.add(key)
         return 0
 
     yt = service()
@@ -572,6 +619,7 @@ def run_one(args):
     record(conn, args.source, puzzle["number"], vid, title, args.privacy)
     print("\nuploaded: https://www.youtube.com/watch?v=%s  (%s)" % (vid, args.privacy))
     print("recorded in ledger — this puzzle will not be uploaded again.")
+    args._outcome = "uploaded"
     return 0
 
 
