@@ -4721,12 +4721,36 @@ def hscd_route():
         conn.close()
     addmsg = admin_db.add_definition(whole, answer)
     apply_add_to_wiring({"kind": "definition", "definition": whole, "answer": answer})
-    _resolve_one(cid)
-    conn = store.connect()
-    try:
-        cp = store.load_parse(conn, cid)
-    finally:
-        conn.close()
+    # DECLARING A CD OVERRULES THE ENGINES — it does not compete with them.
+    #
+    # This used to call _resolve_one and hope the cascade reached its last-resort CD
+    # engine (engine_registry.py:1409). It cannot, whenever any engine can build a
+    # reading, and pinning the whole clue does NOT stop that: a definition SPLIT must
+    # leave at least one wordplay word, so a whole-clue pin matches no split,
+    # find_definitions returns nothing, and the NO-DEFINITION FLOOR
+    # (definition_engine.py:123-131) then offers every edge window as an unconfirmed
+    # definition. An engine builds on one of those and wins before the CD engine runs.
+    #
+    # GUARDIAN 30117 27a DAYTIME, "Light period of work, generally" (2026-09-21): the
+    # floor handed the charade engine "work generally", it paired that with Light->DAY
+    # and period->TIME, and the button answered "did not land as a CD" every time.
+    # User's rule: "if I set it as a CD everything else is overruled."
+    #
+    # So ask the CD engine directly, with this clue's pinned wiring, and persist that.
+    # Same authority as _resolve_from_assignment, which has outranked the cascade since
+    # 2026-07-17: what the human declares is not a candidate to be voted on.
+    from core.cryptic_definition_engine import solve_cryptic_definition
+    from core import clue_overrides
+    w = clue_overrides.apply_forced_overrides(batch_wiring(), cid)
+    cp = solve_cryptic_definition(ctx, w["defines"], comment=w.get("cd_comment"))
+    if cp is not None:
+        cp.solved_by = "cd"
+        conn = store.connect()
+        try:
+            store.save_parse(conn, cid, cp, ctx)
+            conn.commit()
+        finally:
+            conn.close()
     if cp is not None and cp.operation == "cd" and cp.status == "pending":
         # The user clicking the Cryptic-definition button IS the human confirmation — so
         # pass + freeze it in the same action (was: left PENDING, forcing a second
@@ -6267,6 +6291,67 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                             "tile it fills. Do NOT tag it a literal — a literal appears as it "
                             "stands, in one run."
                             % (phrase, got, ", ".join(str(p) for p in pos))}
+            # MULTI-WORD ANAGRAM FODDER: ONE PIECE PER FODDER WORD, never one flat piece.
+            #
+            # Colour is the whole point of the word-for-word record — a clue word and the
+            # answer letters it makes share one colour — so lumping "GP I need care" into a
+            # single piece paints eleven of PREDECEASING's twelve tiles the same blue and
+            # says nothing about which word made what (user, 2026-09-17, GUARDIAN 30114 12a).
+            # A colouring that stops at the breakdown and never reaches the tiles would be
+            # pointless; this reaches both, because the tiles are coloured by the piece each
+            # link names.
+            #
+            # The anagram ENGINE has always done this (core.anagram_engine._build: "one
+            # Source per fodder word ... every answer letter is assigned to a fodder word
+            # that supplied it"), so engine-solved anagrams were already right and only the
+            # readings filed through THIS gate were flat — the nightly prefill's, the ones
+            # promoted by Confirm, and hand commits alike. The assignment walk below is
+            # deliberately the engine's own: take each answer letter from the first fodder
+            # word still holding it spare. Same rule, same result, no second opinion.
+            #
+            # How you TICK is unchanged — the whole fodder phrase is still tagged in one go,
+            # and the refusals that insist on that ("tick the WHOLE fodder phrase as ONE
+            # anagram piece") still stand. The split happens at filing, after every check
+            # above has passed on the phrase as a whole.
+            # ...but ONLY when the ticked words' OWN letters account for the value. A
+            # cross-reference tags surface words whose letters are not the fodder at all:
+            # "modelling togs with 5 Down" (10080697) ticks togs / 5 / Down for the value
+            # TOGSEGRET, where EGRET is the ANSWER to 5 Down. Splitting there hands tiles to
+            # a word that cannot supply their letters — measured: 3 such tiles. When the
+            # words do not add up to the value, the piece stays whole exactly as before, and
+            # the single colour is the honest answer: nothing says which word made what.
+            _own = "".join(_raw_letters(wt[i].text) for i in idx if 0 <= i < len(wt))
+            if (role == "anagram" and len(idx) > 1
+                    and sorted(_own) == sorted(_raw_letters(value))):
+                from collections import Counter as _FodderCount
+                _units = [wt[i] for i in idx if 0 <= i < len(wt)]
+                _spare, _first = [], len(sources)
+                for _u in _units:
+                    _letters = _raw_letters(_u.text)
+                    _spare.append([len(sources), _FodderCount(_letters)])
+                    sources.append(Source(clue_atom_ids=tuple(_u.atom_ids), text=_u.text,
+                                          value=_letters, mechanism="anagram_fodder",
+                                          source="db"))
+                for p in pos:
+                    if p in covered:
+                        return {"ok": False, "msg": "Answer tile %d is claimed by two "
+                                "pieces — each tile belongs to exactly one piece." % p}
+                    _ch = ans_letters[p - 1] if 1 <= p <= N else ""
+                    _owner = None
+                    for _entry in _spare:
+                        if _entry[1].get(_ch, 0) > 0:
+                            _entry[1][_ch] -= 1
+                            _owner = _entry[0]
+                            break
+                    # Every tile was proved to come from the pooled fodder above, so this
+                    # only fires if a letter is claimed twice; give it to the first word
+                    # rather than drop the link and leave a tile with no colour at all.
+                    if _owner is None:
+                        _owner = _first
+                    covered[p] = _owner
+                    links.append(Link(answer_pos=p, source_index=_owner,
+                                      operation="manual", transform="anagram_of"))
+                continue
             si = len(sources)
             # record the piece's REAL mechanism so the render shows the right label (letters ->
             # "Literal", substitution -> "Substitution", anagram -> "anagram", synonym -> "synonym")
