@@ -127,7 +127,47 @@ confident is the setter's.
   root or any package directory.
 - Never overwrite existing user state (file_pending_prefill refuses this —
   do not work around it).
-- Never re-run clues for score. No server restarts.
+- Never re-run clues for score. No server restarts — EXCEPT the one deploy
+  described under "Publish each puzzle as you finish it" below, which is the
+  only command you may run that touches the live site.
 - Finish by writing a short plain-English summary to
   `logs/prefill_YYYY-MM-DD.md`: per puzzle, how many clues prefilled / skipped
   (with reasons) / left blank for the user.
+
+## Publish each puzzle as you finish it (user, 2026-09-17)
+
+The papers release at 00:00 BST and this run now starts at 00:05, so a puzzle
+can be live within the hour instead of waiting for the morning. Do NOT wait
+until every paper is done — the slowest must not hold up the others.
+
+**The moment you have finished the last in-scope clue of ONE puzzle**, before
+you start the next puzzle, run exactly:
+
+    python scripts/auto_deploy.py --source <source> --puzzle <puzzle_number> --label "<source> <puzzle_number> prefill done"
+
+That uploads the database, restarts the service, health-checks it and warms the
+sitemap, so the puzzle's solved clue pages are LIVE within the hour instead of
+waiting for morning. It deploys DATABASES ONLY — never code.
+
+**It tells Bing nothing, deliberately (2026-09-21).** It used to announce the
+puzzle's served clue pages here. Measured two mornings running, that announce
+summoned bingbot within 13-40 seconds, it followed a clue page's breadcrumb to
+the puzzle page, and the puzzle page was still 410 — a puzzle page serves only
+once EVERY clue is served. 410 means "gone, permanently", and bingbot did not
+come back: DT 31350 and DT prize 3387 were each absent from Bing all day.
+The whole puzzle is announced by `scripts/indexnow_notify.py` once it is
+complete, page and clue URLs together.
+
+**So do NOT announce anything yourself** — not `scripts/announce_clues.py`, not
+`indexnow_notify.py`, not by hand. Being live early is the win here; being
+announced early is what cost us the page.
+
+What this publishes is only what the serving gate already allows: engine PASS
+parses and reviewer INVALIDs with a comment. Your own prefill readings are
+`status='pending'` by construction and do NOT serve, so deploying cannot put an
+unreviewed reading of yours in front of a reader.
+
+If it exits non-zero, note that in your report and CARRY ON with the next
+puzzle — a failed deploy leaves the previous database serving, which is stale
+but not broken. Never retry it more than once, and never run it with any other
+arguments.
