@@ -206,11 +206,16 @@ def _render_cordelia_deploy():
                                         "uploads with per-clue chapters. Once per "
                                         "puzzle — a ledger stops repeats. Needs the "
                                         "databases to be deploying.")
+        # PUBLIC by default (user, 2026-09-21). The old default was private, from when
+        # the channel was new and an unattended first run must not make it live. It has
+        # been public for weeks and every upload was being switched by hand, so private
+        # was no longer a safeguard — just a step to forget. The ticked checkbox above
+        # is the deliberate act; this says what it does when ticked.
         video_privacy = st.selectbox(
-            "Video privacy", ["private", "unlisted", "public"], index=0,
+            "Video privacy", ["public", "unlisted", "private"], index=0,
             key="co_video_privacy", disabled=not upload_video,
-            help="Private until you have watched it. Nothing here should make the "
-                 "channel public by accident.")
+            help="Public by default — that is what these films are for. Choose private "
+                 "if you want to watch one before anybody else can.")
     with col2:
         if deploy_db:
             clues_size = CLUES_DB.stat().st_size / 1024 / 1024
