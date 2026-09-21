@@ -28,6 +28,7 @@ whatever the user last chose interactively, and an unattended job must not follo
 
 import argparse
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -102,10 +103,27 @@ def draft(answer, clue, halves):
     """{half: phrase} from the LLM, or {} when it cannot be parsed. Never raises."""
     prompt = PROMPT.format(answer=answer.upper(), clue=clue, n=len(halves),
                            halves=" and ".join('"%s"' % h for h in halves))
+    # Strip any inherited ANTHROPIC_API_KEY so claude bills the SUBSCRIPTION, never
+    # prepaid API credits — the same guard as nightly_run.py:178-182 and
+    # run_prefill.py, added after the 2026-07-13 incident and missed here because
+    # this script was written later.
+    #
+    # This file loads the key without meaning to: dd_clues() imports `web`, and
+    # web/config.py:15 load_dotenv()s the project .env, which holds the key for the
+    # code that legitimately uses it (core/ai_definition.py and friends). From then
+    # on it sits in THIS process's environment, subprocess hands the environment to
+    # claude.exe, and claude.exe prefers an API key over the Max login. Measured
+    # 2026-09-21: on the night the OAuth session expired, Steps 3 and 3b (which
+    # strip the key) failed to authenticate while this step ran happily and drafted
+    # 34 phrases on claude-fable-5 — it was on the credits, and the user's balance
+    # was gone by morning. NEVER remove the key from .env; strip it here.
+    claude_env = os.environ.copy()
+    claude_env.pop("ANTHROPIC_API_KEY", None)
     try:
         r = subprocess.run([str(CLAUDE), "-p", prompt, "--model", CLAUDE_MODEL],
                            capture_output=True, text=True, timeout=180,
-                           encoding="utf-8", errors="replace", stdin=subprocess.DEVNULL)
+                           encoding="utf-8", errors="replace", stdin=subprocess.DEVNULL,
+                           env=claude_env)
     except Exception as e:
         print("  LLM call failed: %s" % e)
         return {}
