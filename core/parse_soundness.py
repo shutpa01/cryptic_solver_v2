@@ -40,6 +40,17 @@ parse prose to reconstruct arithmetic — four attempts at doing so from the out
 produced wrong answers. Such a piece is reported as INDETERMINATE, never as a
 violation and never as clean. Indeterminate is a data-model gap to close (the drop
 belongs in `transform`), not a solve to fail.
+
+2026-09-22 — HALF OF THAT GAP IS NOW CLOSED, and the module is WIRED IN.
+`fodder_violations` catches the fault this whole file was written for and could not
+see: letters lost on the way IN to the fodder, before any link exists to compare
+against. Anagram fodder now records that cut in `transform`, read WORD -> VALUE
+(anagram_deletion_engine._build), and engine_registry._finish downgrades a PASS with
+an unrecorded cut to a REVIEW pending. Only that rule bites. Measured over all 7,777
+stored passes first: fodder_violations 12 hits, all genuine; letter_violations' own
+"letters from nowhere" list 20 hits, ALL SOUND (a homophone's and a spoonerism's
+letters differ from their value by design), so it stays report-only until that is
+fixed. Measure, then bite — the rule still holds.
 """
 
 import collections
@@ -58,7 +69,11 @@ def _placed(src):
     indeterminate rather than guessing."""
     value = getattr(src, "value", "") or ""
     xf = getattr(src, "transform", "") or ""
-    if not xf:
+    # ANAGRAM FODDER reads its transform the other way round: WORD -> VALUE, the cut
+    # made before the anagram scatters the letters (see fodder_violations). Its VALUE
+    # is already what it lays on the tiles, so applying the cut again would delete a
+    # letter twice.
+    if not xf or getattr(src, "mechanism", "") == "anagram_fodder":
         return value
     try:
         out = piece_transform.apply(value, json.loads(xf) if isinstance(xf, str) else xf)
@@ -136,6 +151,62 @@ def letter_violations(parse):
     return bad, unknown
 
 
+def fodder_violations(parse):
+    """Anagram fodder whose VALUE is its own WORD minus letters, with nothing anywhere
+    recording the cut. Returns a list of strings.
+
+    THE HOLE THIS CLOSES (user, 2026-09-22). letter_violations compares a piece's value
+    against the answer letters it is LINKED to, so it can only see letters lost on the
+    way OUT of the value. Fodder loses them on the way IN: an engine shortens the word
+    and files the short value, and from then on RUL covers R, U, L perfectly and every
+    check is clean. Times 29654 17d ("Civil case rule shortly to be reformed" = SECULAR)
+    was served as a PASS reading `rule -> RUL` with the E named nowhere at all.
+
+    Fodder is the one mechanism whose value IS its word's own letters, so word-against-
+    value is a fair comparison here and nowhere else (a synonym's value has nothing to
+    do with its word's letters). The cut is recorded in the piece's `transform`, read
+    WORD -> VALUE — see anagram_deletion_engine._build.
+
+    Two things are deliberately NOT faults here:
+      * a value holding letters its word has not — that is a substitution filed as
+        fodder, a different fault, and letter_violations judges what it places;
+      * a trailing possessive "'s" the value drops ("Lionel's" -> LIONEL). The
+        apostrophe-s is a word of its own in the clue (it reads as `is`/`has`), and the
+        piece text merely spans it. No letter of the fodder went missing."""
+    from core.wordplay import raw
+
+    out = []
+    for src in list(getattr(parse, "sources", None) or []):
+        if getattr(src, "mechanism", "") != "anagram_fodder":
+            continue
+        text = getattr(src, "text", "") or ""
+        word, value = raw(text), raw(getattr(src, "value", "") or "")
+        if not word or not value:
+            continue
+        lost = _letters(word) - _letters(value)
+        if not lost or (_letters(value) - _letters(word)):
+            continue
+        if text.rstrip().lower().endswith(("'s", "’s")) \
+                and lost == collections.Counter("S"):
+            continue                              # the possessive, not a cut — see above
+        xf = getattr(src, "transform", "") or ""
+        if xf:
+            try:
+                got = piece_transform.apply(
+                    word, json.loads(xf) if isinstance(xf, str) else xf)
+            except Exception:
+                got = None
+            if got is not None and _letters(got) == _letters(value):
+                continue                          # the cut is RECORDED: nothing hidden
+            out.append("%r: fodder %s records a cut that does not make %s"
+                       % (text, word, value))
+            continue
+        out.append("%r: fodder %s is used as %s — %s is dropped with nothing recording "
+                   "the cut" % (text, word, value,
+                                "".join(sorted(lost.elements()))))
+    return out
+
+
 def unaccounted_words(parse, ctx):
     """Clue words carrying no role at all. Every word must be a piece, the definition,
     an indicator or a link — nothing may be left silently on the floor."""
@@ -166,6 +237,7 @@ def violations(parse, ctx=None):
     out = []
     bad_letters, _ = letter_violations(parse)
     out.extend(bad_letters)
+    out.extend(fodder_violations(parse))
     if ctx is not None:
         missing = unaccounted_words(parse, ctx)
         if missing:

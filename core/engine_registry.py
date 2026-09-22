@@ -1705,6 +1705,32 @@ def _finish(parse, name, ctx, wiring, source, puzzle_number, clue_id):
                 "matched a NEW signature awaiting review — check this solve; if it is "
                 "right, set Status to PASS. The triage page's 'Regression-check pending "
                 "signatures' button promotes reviewed signatures for future puzzles"]
+    # LETTERS MUST NOT VANISH UNEXPLAINED (user, 2026-09-22). A clean PASS whose own
+    # record loses letters with nothing saying where they went is not a pass. Times
+    # 29654 17d was served green reading "rule -> RUL", the E named nowhere on the
+    # card and no check able to see it, because the engine shortened the word before
+    # filing it (core/parse_soundness.fodder_violations says how that hides).
+    #
+    # It DOWNGRADES, it does not fail: the answer is still claimed, the clue shows
+    # amber with the REVIEW tag and the reason, and a human confirms or corrects it —
+    # the same treatment a high-risk engine shape already gets (core/review_gate).
+    # Scoped to THIS rule on purpose. Measured first over all 7,777 stored passes:
+    # fodder_violations fires on 12, every one a real unexplained cut. The other
+    # rules in parse_soundness.violations() are not wired — letter_violations' own
+    # "letters from nowhere" list fires on 20 SOUND solves (a homophone's and a
+    # spoonerism's letters differ from their value by design), and a gate that has
+    # never been measured mass-fails good solves on its first night.
+    if parse is not None and parse.status == "pass":
+        try:
+            from core import parse_soundness
+            from core.review_gate import REVIEW_PREFIX
+            _faults = parse_soundness.fodder_violations(parse)
+        except Exception as _exc:                  # never let the check break a solve
+            _faults = []
+        if _faults:
+            parse.status = "pending"
+            parse.warnings = ["%s letters are unaccounted for — %s"
+                              % (REVIEW_PREFIX, "; ".join(_faults))] + list(parse.warnings)
     # FLOOR GUARD: a GUESSED definition (source='pending' — the no-definition floor edge
     # guess or the Haiku fallback) must NEVER be shown on a FAIL. On a fail the wordplay did
     # not reconstruct the answer, so a guessed edge is a "forced definition with no wordplay"

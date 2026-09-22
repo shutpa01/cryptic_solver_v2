@@ -829,6 +829,38 @@ def _selection_fodder_html(text, value, mechanism, rule=None, picks=None):
     return "".join(out)
 
 
+def _fold(text):
+    """A word's plain A-Z letters, accents folded — so 'purée' and PURE compare as the
+    same five letters and an accent never reads as a deleted one."""
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", (text or "").upper())
+                   if "A" <= c <= "Z")
+
+
+def _fodder_cut_note(text, value):
+    """'less E' for anagram fodder whose VALUE is its own word MINUS letters — the cut a
+    curtailing/deleting indicator makes BEFORE the anagram ("rule shortly" -> RUL).
+
+    The row already prints the word and the value side by side; until now it printed the
+    letter loss and said nothing about it, so Times 29654 17d was served as
+    "rule -> RUL" with the E never mentioned anywhere on the card (user, 2026-09-22).
+    Fodder is exempt from the letter accounting every other piece gets, because its
+    letters are scattered by definition — but the WORD-to-VALUE step is not a scatter,
+    it is a deletion, and it is the only place a reader can be told about it.
+
+    Only letters the word HAS and the value has NOT are named. A value carrying letters
+    its word never had is a substitution, not a cut; that is not this note's business."""
+    w, v = _fold(text), _fold(value)
+    if not w or not v:
+        return ""
+    from collections import Counter
+    lost = Counter(w) - Counter(v)
+    if not lost or (Counter(v) - Counter(w)):
+        return ""                                   # unchanged, or not a plain cut
+    return (' <span class="wfw-emuted">less %s</span>'
+            % escape("".join(sorted(lost.elements()))))
+
+
 # ---- reusable row builders (shared by every renderer) ----------------------------
 
 def _source_row(parse, si, src_fg, src_fill):
@@ -865,6 +897,8 @@ def _source_row(parse, si, src_fg, src_fill):
     # Spoonerism pieces are a SOUND pair — their value never letter-matches the tiles, and a
     # DEFINITION source (both halves of a double definition) places no letters at all: neither
     # has letters that could disagree with its value, so neither goes through this at all.
+    if s.mechanism == "anagram_fodder":
+        content += _fodder_cut_note(s.text, s.value)
     if s.mechanism not in ("anagram_fodder", "spoonerism",
                            "definition", "definition_by_example"):
         al = parse.answer_letters()

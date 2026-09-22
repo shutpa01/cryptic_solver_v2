@@ -537,8 +537,9 @@ def _segments(parse):
                 group_sis.add(runs[i][0])
                 all_placed += runs[i][1]
                 i += 1
-            # fodder texts in CLUE order (source ord), not answer-letter order
-            texts = [srcs[si]["text"] for si in sorted(group_sis)
+            # fodder texts in CLUE order (source ord), not answer-letter order,
+            # each naming the letters its word lost before the anagram (_fodder_text)
+            texts = [_fodder_text(srcs[si]) for si in sorted(group_sis)
                      if srcs[si]["text"]]
             gpos = min((cpos(si) for si in group_sis), default=_UNPLACED)
             merged.append(("ana", texts, all_placed, gpos))
@@ -570,7 +571,7 @@ def _segments(parse):
             continue
         outer = _describe(srcs.get(a[1]), placed_all[a[1]], a[3], has_ana, has_rev)
         if mid[0] == "ana":
-            inner = "anagram of " + " ".join('"%s"' % t for t in mid[1])
+            inner = "anagram of " + " ".join(mid[1])
             inner_pos = mid[3]
         else:
             inner = _describe(srcs.get(mid[1]), placed_all.get(mid[1], mid[2]),
@@ -593,7 +594,7 @@ def _segments(parse):
                 out.append((m[3], m[2]))
                 continue
             ana_done |= sis
-            out.append((m[3], "anagram of " + " ".join('"%s"' % t for t in m[1])))
+            out.append((m[3], "anagram of " + " ".join(m[1])))
             continue
         si, placed, trs = m[1], m[2], m[3]
         s = srcs.get(si)
@@ -606,6 +607,32 @@ def _segments(parse):
             return None
         out.append((cpos(si), d))
     return out
+
+
+def _fodder_text(s):
+    """One fodder word for the summary line: '"rule" less E' when its VALUE is the word
+    MINUS letters (the cut a curtailing indicator makes BEFORE the anagram), otherwise
+    just '"rule"'.
+
+    Without it the line printed the CLUE WORDS and claimed they anagram to the answer:
+    Times 29654 17d read 'anagram of "case" "rule" → SECULAR', which is eight letters
+    making seven, and nothing on either surface mentioned the dropped E (user,
+    2026-09-22). Letters the value has and the word has not are a substitution, not a
+    cut, and are not named here. Mirrors core/wfw_render._fodder_cut_note — house rule:
+    no core import, keep the two in step."""
+    import unicodedata
+    from collections import Counter
+
+    def fold(t):
+        return "".join(c for c in unicodedata.normalize("NFD", (t or "").upper())
+                       if "A" <= c <= "Z")
+    text = s["text"]
+    w, v = fold(text), fold(s.get("value"))
+    if w and v:
+        lost = Counter(w) - Counter(v)
+        if lost and not (Counter(v) - Counter(w)):
+            return '"%s" less %s' % (text, "".join(sorted(lost.elements())))
+    return '"%s"' % text
 
 
 def _anagram_desc(value, placed, has_ana, has_rev):

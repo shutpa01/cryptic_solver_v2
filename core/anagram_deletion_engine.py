@@ -23,6 +23,7 @@ the standalone substitution engines are untouched. Pure and DB-decoupled.
 
 from collections import Counter
 
+from core import piece_transform
 from core.wordplay import raw, is_anagram_indicator
 from core.wfw_model import Source, Link, Annotation, Parse
 
@@ -228,12 +229,22 @@ def _build(ctx, answer, split, words, bulk_idx, chosen, anag_run, del_run,
 
     sources, remaining = [], []
     for k in bulk_idx:
-        wl = raw(words[k].text)
+        full = raw(words[k].text)
+        wl, xf = full, ""
         if k == curtail_idx:
-            wl = wl[:-1]                            # last-letter curtailment
+            wl = full[:-1]                          # last-letter curtailment
+            # RECORD THE CUT (user, 2026-09-22). Filing the short value alone said
+            # nothing about the letter that went: Times 29654 17d was served as
+            # "rule -> RUL" with the E named nowhere, and no gate could see it
+            # because nothing was written down. On ANAGRAM FODDER the transform
+            # reads WORD -> VALUE — the cut happens before the anagram scatters the
+            # letters, so value-to-tiles (what it means on every other piece) cannot
+            # express it. core.parse_soundness checks it in exactly that direction.
+            xf = piece_transform.dumps(piece_transform.make(
+                cuts=[piece_transform.cut(full[-1], len(full) - 1)]))
         remaining.append([len(sources), Counter(wl)])
         sources.append(Source(clue_atom_ids=words[k].atom_ids, text=words[k].text,
-                              value=wl, mechanism="anagram_fodder"))
+                              value=wl, mechanism="anagram_fodder", transform=xf))
     for (k, val, mech) in chosen:
         remaining.append([len(sources), Counter(val)])
         sources.append(Source(clue_atom_ids=words[k].atom_ids, text=words[k].text,
