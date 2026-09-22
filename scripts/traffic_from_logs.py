@@ -30,6 +30,7 @@ Caveats it will not hide from you:
 from __future__ import annotations
 
 import argparse
+import csv
 import gzip
 import re
 import sys
@@ -202,6 +203,34 @@ def visitor_key(record: dict) -> tuple[str, str]:
     return (record["ip"], record["ua"])
 
 
+def write_csv(path: str, header: list[str], rows: list[list]) -> None:
+    """Write rows to a CSV file, or to stdout when path is '-'.
+
+    Every day in the window gets a row, including zero days — a gap in the
+    dates would quietly distort any growth rate calculated from the file.
+    """
+    if path == "-":
+        writer = csv.writer(sys.stdout)
+        writer.writerow(header)
+        writer.writerows(rows)
+        return
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle)
+        writer.writerow(header)
+        writer.writerows(rows)
+    print(f"  wrote {len(rows)} row(s) to {path}", file=sys.stderr)
+
+
+def day_range(start: datetime, end: datetime) -> list[str]:
+    """Every YYYY-MM-DD from start to end inclusive."""
+    days = []
+    cursor = start
+    while cursor <= end:
+        days.append(cursor.strftime("%Y-%m-%d"))
+        cursor += timedelta(days=1)
+    return days
+
+
 LOCAL_IP_RE = re.compile(
     r"^(?:127\.|10\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.|::1$|fc|fd)",
     re.I,
@@ -245,7 +274,23 @@ def main() -> int:
         "--include-admin", action="store_true",
         help="Count /admin requests as page views (excluded by default).",
     )
+    parser.add_argument(
+        "--csv", metavar="PATH",
+        help="Write daily totals as CSV (date,page_views,visitors). "
+             "Use - for stdout.",
+    )
+    parser.add_argument(
+        "--csv-by-source", metavar="PATH",
+        help="Write the per-source daily split as CSV "
+             "(date,source,page_views,visitors). Use - for stdout.",
+    )
     args = parser.parse_args()
+
+    # When a CSV goes to stdout, the human-readable report must not — a
+    # redirect like `--csv - > daily.csv` would otherwise write the
+    # preamble into the CSV file. Send the report to stderr instead.
+    csv_to_stdout = "-" in (args.csv, args.csv_by_source)
+    out = sys.stderr if csv_to_stdout else sys.stdout
 
     paths = resolve_logs(args.logs)
     if not paths:
@@ -292,30 +337,52 @@ def main() -> int:
         source_visitors[day][source].add(visitor_key(record))
 
     label = "BOT" if args.bots else "HUMAN"
-    print(f"{label} traffic from {len(paths)} log file(s)")
+    print(f"{label} traffic from {len(paths)} log file(s)", file=out)
     for path in paths:
-        print(f"  {path}")
+        print(f"  {path}", file=out)
     print(
         f"  parsed {stats['parsed']:,} of {stats['lines']:,} lines"
-        + (f", {stats['unparsed']:,} unrecognised" if stats["unparsed"] else "")
+        + (f", {stats['unparsed']:,} unrecognised" if stats["unparsed"] else ""),
+        file=out,
     )
     if offsets:
-        print(f"  log timezone offset(s): {', '.join(sorted(offsets))}")
-    print()
+        print(f"  log timezone offset(s): {', '.join(sorted(offsets))}", file=out)
+    print(file=out)
+
+    # CSV first, so an empty window still produces a complete zero-filled
+    # file rather than nothing.
+    all_days = day_range(cutoff, datetime.now(timezone.utc))
+    if args.csv:
+        write_csv(
+            args.csv,
+            ["date", "page_views", "visitors"],
+            [[d, views_by_day.get(d, 0), len(visitors_by_day.get(d, ()))]
+             for d in all_days],
+        )
+    if args.csv_by_source:
+        names = sorted({s for day in source_by_day.values() for s in day})
+        write_csv(
+            args.csv_by_source,
+            ["date", "source", "page_views", "visitors"],
+            [[d, name,
+              source_by_day.get(d, {}).get(name, 0),
+              len(source_visitors.get(d, {}).get(name, ()))]
+             for d in all_days for name in names],
+        )
 
     if not views_by_day:
-        print(f"No {label.lower()} page views in the last {args.days} day(s).")
+        print(f"No {label.lower()} page views in the last {args.days} day(s).", file=out)
         return 0
 
-    print(f"{'Date':<12}{'Page views':>12}{'Visitors':>11}")
-    print("-" * 35)
+    print(f"{'Date':<12}{'Page views':>12}{'Visitors':>11}", file=out)
+    print("-" * 35, file=out)
     for day in sorted(views_by_day):
-        print(f"{day:<12}{views_by_day[day]:>12,}{len(visitors_by_day[day]):>11,}")
-    print("-" * 35)
+        print(f"{day:<12}{views_by_day[day]:>12,}{len(visitors_by_day[day]):>11,}", file=out)
+    print("-" * 35, file=out)
     total_visitors = len(set().union(*visitors_by_day.values()))
-    print(f"{'Total':<12}{sum(views_by_day.values()):>12,}{total_visitors:>11,}")
-    print("  (visitors are not additive across days — the total is deduplicated)")
-    print()
+    print(f"{'Total':<12}{sum(views_by_day.values()):>12,}{total_visitors:>11,}", file=out)
+    print("  (visitors are not additive across days — the total is deduplicated)", file=out)
+    print(file=out)
 
     # A single IP dominating means the proxy's own address is being logged
     # instead of the real client, which makes visitor counts meaningless.
@@ -335,26 +402,27 @@ def main() -> int:
 
     if args.by_source:
         latest = max(views_by_day)
-        print(f"Sources for {latest}")
-        print(f"{'Source':<18}{'Page views':>12}{'Visitors':>11}")
-        print("-" * 41)
+        print(f"Sources for {latest}", file=out)
+        print(f"{'Source':<18}{'Page views':>12}{'Visitors':>11}", file=out)
+        print("-" * 41, file=out)
         for source, count in source_by_day[latest].most_common():
             visitors = len(source_visitors[latest][source])
-            print(f"{source:<18}{count:>12,}{visitors:>11,}")
-        print()
+            print(f"{source:<18}{count:>12,}{visitors:>11,}", file=out)
+        print(file=out)
 
     if args.top_pages > 0:
-        print(f"Top {args.top_pages} pages over the window")
+        print(f"Top {args.top_pages} pages over the window", file=out)
         width = max((len(p) for p, _ in pages.most_common(args.top_pages)), default=4)
         width = min(width, 70)
         for path, count in pages.most_common(args.top_pages):
-            print(f"  {count:>6,}  {path[:width]}")
-        print()
+            print(f"  {count:>6,}  {path[:width]}", file=out)
+        print(file=out)
 
     other = stats["bot_requests"] if not args.bots else stats["human_requests"]
     other_label = "bot" if not args.bots else "human"
     print(f"Also in window: {other:,} {other_label} requests (use "
-          f"{'--bots' if not args.bots else 'no --bots'} to see them).")
+          f"{'--bots' if not args.bots else 'no --bots'} to see them).",
+          file=out)
     return 0
 
 
