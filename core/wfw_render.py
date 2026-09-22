@@ -181,6 +181,14 @@ def _order_mechs(found):
 
 
 def _placed_pieces(parse):
+    # DO NOT collapse a multi-word anagram's fodder pieces here. Tried 2026-09-17 to stop
+    # the badge reading "Container + charade + anagram + selection" once fodder is filed
+    # one piece per word, and it was wrong twice: it contradicts the 2026-08-25 decision
+    # above (anagram is deliberately NOT charade-suppressed, user-reported on POTATO
+    # BLIGHT), and measured against the live site it moved 381 of 7,328 served clues AWAY
+    # from the site's own label and fixed none. Engine-built anagrams have ALWAYS had one
+    # fodder piece per word, so the card and the site have long agreed on labelling those
+    # "Charade + anagram"; manual filings now simply join them.
     return len({l.source_index for l in (parse.links or [])})
 
 
@@ -270,12 +278,30 @@ def render_parse(parse, ctx=None, clue_line_html=None, coloured=True, comment=""
       clue — so the comment IS the explanation and is rendered above the
       definition. Ignored for every other clue type.
     """
-    if coloured:
+    # INVALID OVERRULES THE STORED ROLES EVERYWHERE ON THE CARD, not just in the
+    # breakdown. Suppressing the breakdown alone left the rejected reading on show in
+    # the two places that are read fastest: the answer tiles still wore the rejected
+    # piece's colour, and a type-specific clue line still lit the words it had claimed.
+    # TIMES 29653 14a TURNROUND, "Sudden change that may be seen in modern Rutland"
+    # (2026-09-21): the card said the wordplay "is not shown" while T-U-R-N sat there
+    # in charade blue from change->TURN — the very assignment the reviewer rejected.
+    # User's rule: "when I set something as INVALID all previous role assignments must
+    # be overruled and not displayed."
+    #
+    # Neutralising the palette here covers the whole card in one place, because every
+    # coloured element downstream reads these maps — rather than the 2026-09-02 mistake
+    # of removing the offending thing one surface at a time.
+    _invalid = (getattr(parse, "status", "") or "") == "invalid"
+    if _invalid:
+        clue_line_html = None            # drop a type-specific line that lights words
+    if coloured and not _invalid:
         src_fg = {i: _colour(i)[0] for i in range(len(parse.sources))}
         src_fill = {i: _colour(i)[1] for i in range(len(parse.sources))}
         tile_fg = src_fg
         tile_border = {i: _colour(i)[0] for i in range(len(parse.sources))}
         tile_fill = src_fill
+    elif _invalid:
+        src_fg = src_fill = tile_fg = tile_border = tile_fill = {}
     else:
         src_fg = {i: "#ffffff" for i in range(len(parse.sources))}
         src_fill = {i: HIDDEN_FG for i in range(len(parse.sources))}
@@ -1154,8 +1180,16 @@ def _render_anagram(parse, ctx, src_fg, src_fill):
     fodder = [(parse.sources[si].value or "").upper() for si in fodder_si]
     pool = "".join(fodder)                              # letters only — for the - removed math
     removed = Counter(pool) - Counter(parse.answer_letters())
-    # display the fodder words spaced (IN ON WAGER), not run together (INONWAGER)
-    summ = 'anagram of <strong class="wfw-val">%s</strong>' % escape(" ".join(fodder))
+    # display the fodder words spaced (IN ON WAGER), not run together (INONWAGER), and
+    # EACH IN ITS OWN PIECE'S COLOUR — the same colour its letters wear on the answer
+    # tiles. One colour for the whole fodder said nothing about which word made what
+    # (user, 2026-09-17). Falls back to the plain pill when a piece has no colour (an
+    # uncoloured screen, e.g. hidden).
+    summ = 'anagram of ' + " ".join(
+        '<strong class="wfw-val"%s>%s</strong>'
+        % ((' style="color:%s"' % src_fg[si]) if src_fg.get(si) else "",
+           escape((parse.sources[si].value or "").upper()))
+        for si in fodder_si)
     if pool and sum(removed.values()):
         removed_str = "".join(sorted(removed.elements()))
         reduced = list(pool)
@@ -1544,12 +1578,46 @@ def _src_colour(si):
 def _assembly_expr(parse, answer_letters):
     """An HTML expression for the assembly (pieces joined by + / nested with 'around'), or
     None when the links do not cover every answer letter (then the caller falls back)."""
+    # ONE ANAGRAM'S FODDER IS ONE TERM IN THE BUILD. Its letters are scattered by
+    # definition, so fodder filed as one piece per word (separate for COLOUR, not for the
+    # build) interleaves all through the answer. The walk below reads any piece whose
+    # tiles are not contiguous as a container "around" whatever sits in the gap — right
+    # for a charade or a container, nonsense for fodder: the four words of "GP I need
+    # care" produced "GP anagram around (CARE anagram around (NEED anagram -N) + S + I
+    # anagram + NEED anagram around (CARE anagram -R + S + I anagram))", naming words
+    # twice and inventing deletions (user, 2026-09-17). Collapse them to a single term.
+    fodder = {si for si, s in enumerate(parse.sources or [])
+              if getattr(s, "mechanism", "") == "anagram_fodder"}
+    group = min(fodder) if len(fodder) > 1 else None
     seq = {}
     for l in parse.links:
-        seq[l.answer_pos] = l.source_index
+        si = l.source_index
+        seq[l.answer_pos] = group if (group is not None and si in fodder) else si
     n = len(answer_letters)
     if any(p not in seq for p in range(1, n + 1)):
         return None
+
+    def _fodder_term():
+        """Every fodder word of the one anagram, each in ITS OWN COLOUR — the same colour
+        its letters wear on the answer tiles — as a single term."""
+        from collections import Counter
+        order = sorted(fodder,
+                       key=lambda si: _first_index(parse.sources[si].clue_atom_ids))
+        vals = " ".join(
+            '<strong class="wfw-val" style="color:%s">%s</strong>'
+            % (_src_colour(si), escape((parse.sources[si].value or "").upper()))
+            for si in order)
+        out = '%s <span class="wfw-emuted">anagram</span>' % vals
+        # Surplus fodder letters are a deletion before the anagram — counted over the
+        # WHOLE pool, once, not per word (per word it invented a cut for each).
+        pool = Counter("".join((parse.sources[si].value or "").upper() for si in order))
+        got = Counter(answer_letters[p - 1] for p in seq
+                      if seq[p] == group and 1 <= p <= len(answer_letters))
+        removed = pool - got
+        if sum(removed.values()):
+            out += (' <span class="wfw-emuted">&minus;%s</span>'
+                    % escape("".join(sorted(removed.elements()))))
+        return out
 
     def render(lo, hi, depth=0):
         if depth > 8:
@@ -1559,8 +1627,10 @@ def _assembly_expr(parse, answer_letters):
             si = seq[i]
             sip = [p for p in range(lo, hi + 1) if seq[p] == si]
             start, end = sip[0], sip[-1]
+            label = (_fodder_term() if (group is not None and si == group)
+                     else _piece_label(parse, si, sip, answer_letters))
             if end - start + 1 == len(sip):              # contiguous -> a plain piece
-                parts.append(_piece_label(parse, si, sip, answer_letters))
+                parts.append(label)
                 i = end + 1
             else:                                        # split -> a container around the gap
                 inner = [p for p in range(start, end + 1) if seq[p] != si]
@@ -1568,7 +1638,7 @@ def _assembly_expr(parse, answer_letters):
                 if sub is None:
                     return None
                 parts.append('%s <span class="wfw-around">around</span> (%s)'
-                             % (_piece_label(parse, si, sip, answer_letters), sub))
+                             % (label, sub))
                 i = end + 1
         return ' <span class="wfw-plus">+</span> '.join(parts)
 

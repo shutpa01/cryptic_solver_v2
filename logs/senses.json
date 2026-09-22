@@ -20,5 +20,450 @@
     "phrase": "Sorry, can't chat — we're holding company tonight",
     "approved": true,
     "clue_id": 10090048
+  },
+  "NICKS|prison's": {
+    "phrase": "The nick's visiting hours start at two",
+    "approved": false,
+    "clue_id": 10090115
+  },
+  "NICKS|thieves": {
+    "phrase": "He nicks biscuits from the office kitchen",
+    "approved": false,
+    "clue_id": 10090115
+  },
+  "IMPLEMENT|complete": {
+    "phrase": "We must implement the new policy fully",
+    "approved": false,
+    "clue_id": 10090606
+  },
+  "IMPLEMENT|tool": {
+    "phrase": "The rake is a handy garden implement",
+    "approved": false,
+    "clue_id": 10090606
+  },
+  "MEANS|money": {
+    "phrase": "She married a man of independent means",
+    "approved": false,
+    "clue_id": 10090764
+  },
+  "MEANS|matters": {
+    "phrase": "Your support means a great deal to me",
+    "approved": false,
+    "clue_id": 10090764
+  },
+  "SLOUGH|shed": {
+    "phrase": "Snakes slough off their skin every year",
+    "approved": false,
+    "clue_id": 10090769
+  },
+  "SLOUGH|berkshire town": {
+    "phrase": "He commutes into Slough every weekday morning",
+    "approved": false,
+    "clue_id": 10090769
+  },
+  "SHIRTY|ticked off": {
+    "phrase": "He got quite shirty when I complained",
+    "approved": false,
+    "clue_id": 10090776
+  },
+  "SHIRTY|as top": {
+    "phrase": "That dress looks a bit shirty to me",
+    "approved": false,
+    "clue_id": 10090776
+  },
+  "ABLESEAMAN|crafty individual": {
+    "phrase": "Our able seaman handled the craft expertly",
+    "approved": false,
+    "clue_id": 10090749
+  },
+  "ABLESEAMAN|likely to go far in the main": {
+    "phrase": "The able seaman sailed far across open seas",
+    "approved": false,
+    "clue_id": 10090749
+  },
+  "THEKINGANDI|selfie with his majesty": {
+    "phrase": "That's the King and I at Balmoral",
+    "approved": false,
+    "clue_id": 10090752
+  },
+  "SPARERIB|cut": {
+    "phrase": "Order me a sparerib from the takeaway",
+    "approved": false,
+    "clue_id": 10091023
+  },
+  "RIDDLE|mystery": {
+    "phrase": "His disappearance remains a complete riddle to police",
+    "approved": false,
+    "clue_id": 10091024
+  },
+  "RIDDLE|hole": {
+    "phrase": "Woodworm had riddled the old oak beam",
+    "approved": false,
+    "clue_id": 10091024
+  },
+  "AYE-AYE|expression of assent": {
+    "phrase": "Aye-aye, captain, we'll cast off right away",
+    "approved": false,
+    "clue_id": 10090858
+  },
+  "AYE-AYE|rare primate": {
+    "phrase": "We spotted an aye-aye in Madagascar's forests",
+    "approved": false,
+    "clue_id": 10090858
+  },
+  "POINTUP|stress": {
+    "phrase": "The report serves to point up the risks",
+    "approved": false,
+    "clue_id": 10090991
+  },
+  "POINTUP|having the narrowest of leads": {
+    "phrase": "We're a point up with ten minutes left",
+    "approved": false,
+    "clue_id": 10090991
+  },
+  "RESPECT|particular": {
+    "phrase": "The plan is flawed in one respect",
+    "approved": false,
+    "clue_id": 10091653
+  },
+  "RESPECT|thoughtfulness": {
+    "phrase": "Show some respect for your elders, please",
+    "approved": false,
+    "clue_id": 10091653
+  },
+  "ASS|fool": {
+    "phrase": "Don't be such an ass about it",
+    "approved": false,
+    "clue_id": 10092287
+  },
+  "ASS|that american sits on": {
+    "phrase": "He fell flat on his ass again",
+    "approved": false,
+    "clue_id": 10092287
+  },
+  "UPINARMS|how and where rampant beasts might be": {
+    "phrase": "The rampant lion rears up in arms",
+    "approved": false,
+    "clue_id": 10092271
+  },
+  "UPINARMS|indignant": {
+    "phrase": "Locals are up in arms about the closure",
+    "approved": false,
+    "clue_id": 10092271
+  },
+  "GENESIS|book": {
+    "phrase": "The vicar read from Genesis this morning",
+    "approved": false,
+    "clue_id": 10092277
+  },
+  "GENESIS|pioneering prog rock band": {
+    "phrase": "I saw Genesis play live in the eighties",
+    "approved": false,
+    "clue_id": 10092277
+  },
+  "INSTANT|minimal time": {
+    "phrase": "The pain was gone in an instant",
+    "approved": false,
+    "clue_id": 10092520
+  },
+  "INSTANT|correspondingly reduced for businessperson’s date": {
+    "phrase": "Further to yours of the tenth instant",
+    "approved": false,
+    "clue_id": 10092520
+  },
+  "ASIDES|parts of records": {
+    "phrase": "All the A-sides from their old singles",
+    "approved": false,
+    "clue_id": 10092533
+  },
+  "COLE|another one accompanied by string trio": {
+    "phrase": "Old King Cole called for his fiddlers three",
+    "approved": false,
+    "clue_id": 10092537
+  },
+  "TRAIN|form of transport": {
+    "phrase": "We caught the early train to London",
+    "approved": false,
+    "clue_id": 10092540
+  },
+  "TRAIN|coach": {
+    "phrase": "She'll train the new recruits next week",
+    "approved": false,
+    "clue_id": 10092540
+  },
+  "DOMINO|piece to play": {
+    "phrase": "He laid his last domino on the table",
+    "approved": false,
+    "clue_id": 10092543
+  },
+  "CLUB|baton": {
+    "phrase": "The policeman raised his club to strike",
+    "approved": false,
+    "clue_id": 10092546
+  },
+  "CLUB|that may be used for musical performances": {
+    "phrase": "The jazz club hosts live bands every Friday",
+    "approved": false,
+    "clue_id": 10092546
+  },
+  "FOOLSCAP|paper": {
+    "phrase": "He scribbled his notes on foolscap sheets",
+    "approved": false,
+    "clue_id": 10092344
+  },
+  "FOOLSCAP|hat for a dunce": {
+    "phrase": "The teacher made him wear the foolscap",
+    "approved": false,
+    "clue_id": 10092344
+  },
+  "SCALES|notes orders": {
+    "phrase": "She practised her scales on the piano",
+    "approved": false,
+    "clue_id": 10092346
+  },
+  "SCALES|could be something fishy": {
+    "phrase": "He scraped the scales off the fish",
+    "approved": false,
+    "clue_id": 10092346
+  },
+  "TELL|give an account of": {
+    "phrase": "Sit down and tell me everything that happened",
+    "approved": false,
+    "clue_id": 10092502
+  },
+  "TELL|folk hero": {
+    "phrase": "Robin Hood and William Tell are famous folk heroes",
+    "approved": false,
+    "clue_id": 10092502
+  },
+  "GORE|staple feature of horror": {
+    "phrase": "That horror film was absolutely dripping with gore",
+    "approved": false,
+    "clue_id": 10092716
+  },
+  "GORE|writer vidal": {
+    "phrase": "I've been reading Gore Vidal's essays lately",
+    "approved": false,
+    "clue_id": 10092716
+  },
+  "BONNIE|singer tyler": {
+    "phrase": "Bonnie Tyler sang Total Eclipse of the Heart",
+    "approved": false,
+    "clue_id": 10092740
+  },
+  "BONNIE|pretty": {
+    "phrase": "What a bonnie wee lass she is",
+    "approved": false,
+    "clue_id": 10092740
+  },
+  "ARCH|cunning": {
+    "phrase": "She gave him an arch little smile",
+    "approved": false,
+    "clue_id": 10093121
+  },
+  "ARCH|bow": {
+    "phrase": "We walked under the old stone arch",
+    "approved": false,
+    "clue_id": 10093121
+  },
+  "YOURSTRULY|everyman": {
+    "phrase": "And who paid for it all? Yours truly",
+    "approved": false,
+    "clue_id": 10093124
+  },
+  "YOURSTRULY|this means i'm about to say goodbye": {
+    "phrase": "She ended her letter with yours truly",
+    "approved": false,
+    "clue_id": 10093124
+  },
+  "AUTOGRAPHS|handles": {
+    "phrase": "Fans queued hoping to get the players' autographs",
+    "approved": false,
+    "clue_id": 10093135
+  },
+  "AUTOGRAPHS|made by your own fair hand": {
+    "phrase": "The museum displays autographs penned in Dickens's own hand",
+    "approved": false,
+    "clue_id": 10093135
+  },
+  "DOUP|redecorate": {
+    "phrase": "We'll do up the kitchen next spring",
+    "approved": false,
+    "clue_id": 10093140
+  },
+  "DOUP|beehive": {
+    "phrase": "She wore her 'do up for the wedding",
+    "approved": false,
+    "clue_id": 10093140
+  },
+  "RAYS|skates": {
+    "phrase": "Rays glided gracefully across the aquarium floor",
+    "approved": false,
+    "clue_id": 10093141
+  },
+  "RAYS|beams": {
+    "phrase": "We caught the last rays of sunshine",
+    "approved": false,
+    "clue_id": 10093141
+  },
+  "BLISTER|bubble": {
+    "phrase": "These new shoes gave me a blister",
+    "approved": false,
+    "clue_id": 10093146
+  },
+  "BLISTER|not one most sought after by media": {
+    "phrase": "He's a proper little blister, that boy",
+    "approved": false,
+    "clue_id": 10093146
+  },
+  "LIVEWIRE|bright spark": {
+    "phrase": "She's a real live wire at parties",
+    "approved": false,
+    "clue_id": 10092987
+  },
+  "LIVEWIRE|brown electrical cord": {
+    "phrase": "The live wire is the brown one",
+    "approved": false,
+    "clue_id": 10092987
+  },
+  "POST|after": {
+    "phrase": "He gave a quick post-match interview afterwards",
+    "approved": false,
+    "clue_id": 10092992
+  },
+  "POST|work": {
+    "phrase": "She applied for a teaching post abroad",
+    "approved": false,
+    "clue_id": 10092992
+  },
+  "LEGIT|proper": {
+    "phrase": "Don't worry, the offer is completely legit",
+    "approved": false,
+    "clue_id": 10093001
+  },
+  "LEGIT|run": {
+    "phrase": "Quick, leg it before the bus goes",
+    "approved": false,
+    "clue_id": 10093001
+  },
+  "WATERGATE|sluice": {
+    "phrase": "The lock keeper opened the watergate to drain the canal",
+    "approved": false,
+    "clue_id": 10093004
+  },
+  "WATERGATE|that dropped tricky dicky in the soup": {
+    "phrase": "Watergate finally forced Nixon to resign in disgrace",
+    "approved": false,
+    "clue_id": 10093004
+  },
+  "BREAD|rolls": {
+    "phrase": "Fresh bread from the baker's this morning",
+    "approved": false,
+    "clue_id": 10093008
+  },
+  "BREAD|cash": {
+    "phrase": "He's only in it for the bread",
+    "approved": false,
+    "clue_id": 10093008
+  },
+  "DIVERS|some": {
+    "phrase": "He gave divers reasons for his absence",
+    "approved": false,
+    "clue_id": 10093181
+  },
+  "DIVERS|people taking plunge": {
+    "phrase": "The divers leapt from the highest board",
+    "approved": false,
+    "clue_id": 10093181
+  },
+  "SCREEN|vet show": {
+    "phrase": "They screen all visitors before letting them in",
+    "approved": false,
+    "clue_id": 10093203
+  },
+  "SCREEN|on television": {
+    "phrase": "She seems much taller on screen than in person",
+    "approved": false,
+    "clue_id": 10093203
+  },
+  "WEAR|river": {
+    "phrase": "Sunderland stands on the banks of the Wear",
+    "approved": false,
+    "clue_id": 10093204
+  },
+  "WEAR|erosion": {
+    "phrase": "Check the tyres for signs of wear",
+    "approved": false,
+    "clue_id": 10093204
+  },
+  "DIVINE|lovely": {
+    "phrase": "That chocolate cake you made was divine",
+    "approved": false,
+    "clue_id": 10093099
+  },
+  "DIVINE|guess": {
+    "phrase": "I couldn't divine what she really meant",
+    "approved": false,
+    "clue_id": 10093099
+  },
+  "FLARES|trousers": {
+    "phrase": "He wore flares back in the seventies",
+    "approved": false,
+    "clue_id": 10093111
+  },
+  "FLARES|blazers used in emergencies": {
+    "phrase": "The stranded sailors set off distress flares",
+    "approved": false,
+    "clue_id": 10093111
+  },
+  "INTHEFIRINGLINE|at the front with gunners": {
+    "phrase": "The troops stood in the firing line",
+    "approved": false,
+    "clue_id": 10093113
+  },
+  "INTHEFIRINGLINE|vulnerable to attack": {
+    "phrase": "The minister is in the firing line again",
+    "approved": false,
+    "clue_id": 10093113
+  },
+  "BUFF|polish": {
+    "phrase": "Buff the brass until it really shines",
+    "approved": false,
+    "clue_id": 10093611
+  },
+  "BUFF|expert": {
+    "phrase": "My dad's a real history buff",
+    "approved": false,
+    "clue_id": 10093611
+  },
+  "NOOFFENCE|excuse me asking": {
+    "phrase": "No offence, but that tie is awful",
+    "approved": false,
+    "clue_id": 10093467
+  },
+  "NOOFFENCE|why wasn’t that a penalty": {
+    "phrase": "The referee saw no offence in that tackle",
+    "approved": false,
+    "clue_id": 10093467
+  },
+  "SPITITOUT|hurry up and tell me": {
+    "phrase": "Come on, spit it out, we're waiting!",
+    "approved": false,
+    "clue_id": 10093474
+  },
+  "SPITITOUT|what to do with what tastes rotten": {
+    "phrase": "That fish is off, spit it out!",
+    "approved": false,
+    "clue_id": 10093474
+  },
+  "PRISON|sent down here": {
+    "phrase": "He was sent down to prison for fraud",
+    "approved": false,
+    "clue_id": 10093479
+  },
+  "PRISON|cooler": {
+    "phrase": "Ten years in prison, stuck in the cooler",
+    "approved": false,
+    "clue_id": 10093479
   }
 }

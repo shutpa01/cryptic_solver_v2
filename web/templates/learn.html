@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}How to Solve Cryptic Crosswords: A Beginner's Guide{% endblock %}
+{# The query is "learn cryptic crosswords" — measured 2026-09-18, the phrase appeared
+   NOWHERE on this page, not in the title, the h1 or the body. Only the URL said
+   "learn", and a word in the URL is a weak signal on its own. "How to solve" keeps
+   its own place in the title and moves into the subhead below. Budget is 69 chars
+   before Bing truncates (bing_title_cut_measured_57); this is 57. #}
+{% block title %}Learn Cryptic Crosswords: How to Solve Them, Step by Step{% endblock %}
 
 {% block meta %}
-{% set meta_desc = "Think cryptic crosswords are impossible? Cordelia thought so too. Learn how they work — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools." %}
+{% set meta_desc = "Learn cryptic crosswords from scratch. Cordelia thought they were impossible too — they're no harder than a regular crossword once you know the trick. Free visual breakdowns and practice tools." %}
 <meta name="description" content="{{ meta_desc }}">
 <meta property="og:title" content="{{ self.title() }}">
 <meta property="og:description" content="{{ meta_desc }}">
@@ -36,8 +41,8 @@
 <div class="mb-8 flex items-start gap-4">
     <img src="/static/cordelia.jpg" alt="Cordelia" class="w-20 h-20 rounded-full object-cover object-top shrink-0 shadow-md border-2 border-indigo-200">
     <div>
-        <h1 class="text-2xl font-brand font-bold text-gray-900">How to Solve Cryptic Crosswords</h1>
-        <p class="text-sm text-indigo-500 mb-2 italic">Learn with Cordelia — not your average solver</p>
+        <h1 class="text-2xl font-brand font-bold text-gray-900">Learn Cryptic Crosswords</h1>
+        <p class="text-sm text-indigo-500 mb-2 italic">How to solve them, with Cordelia — not your average solver</p>
         <p class="text-gray-600 leading-relaxed">I used to think cryptic crosswords were for other people. Impenetrable. A secret club I'd never join. Then someone showed me the trick — and I realised I'd been overthinking it the whole time.</p>
     </div>
 </div>

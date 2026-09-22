@@ -93,7 +93,11 @@
       "WebFetch(domain:theplanettools.ai)",
       "WebFetch(domain:coderush.io)",
       "WebFetch(domain:docs.supademo.com)",
-      "WebFetch(domain:supademo.com)"
+      "WebFetch(domain:supademo.com)",
+      "WebFetch(domain:pixelmovers.co)",
+      "WebFetch(domain:minutecryptic.com)",
+      "WebFetch(domain:developers.facebook.com)",
+      "WebFetch(domain:elevenlabs.io)"
     ]
   },
   "hooks": {

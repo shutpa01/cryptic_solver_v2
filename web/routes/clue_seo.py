@@ -6,19 +6,38 @@ import re
 from flask import current_app
 
 
-# Bing cuts a result title after ~64 characters (measured 2026-09-14).
-TITLE_VISIBLE_CHARS = 64
+# Bing showed a 69-character rival title WHOLE on the SERP for "Troubled medico
+# cares about a fattening drink?" (measured 2026-09-17) - three of them, in the
+# top three places: "<clue> (3-5,4) Crossword Clue". 69 is therefore known to be
+# displayable, and it is the budget we spend. Our own 66-character title came
+# back as 53 characters plus " ..." on that same page; the one thing it had that
+# no rival title had was an em dash separator, so the separator is gone (see
+# generate_title) and our selling word is SHORTER than the rivals' "Crossword
+# Clue" - 10 characters against 15.
+TITLE_VISIBLE_CHARS = 69
 
 
 def generate_title(clue, explained):
     """Build the clue-page title: the searcher's clue first, then the offer.
 
     The clue and enumeration lead, so the searcher sees at once that this is
-    their clue (Bing bolds the words that match the query). The rest of the
-    visible title sells what only this page has — the explanation. The offer
-    is the longest rung of a ladder that still fits before Bing's cut; when
-    none fits, the shortest follows the clue anyway. The clue is never
-    shortened.
+    their clue (Bing bolds the words that match the query). The offer follows
+    IN THE SAME LINE, because that is the whole point of the row: every rival
+    result fits "<clue> (<enum>) Crossword Clue" into 69 characters and Bing
+    shows all 69. Ours says Explained where theirs says Crossword Clue, and
+    Explained is five characters shorter, so we fit what they fit and sell
+    something they cannot.
+
+    No em dash. Every rival title that displayed whole used a plain space; the
+    one title on that page that Bing chopped early was ours, and the separator
+    was the one thing that distinguished it. A separator also costs two
+    characters that buy nothing.
+
+    The offer is the longest rung of a ladder that still fits. The clue and
+    enumeration are never shortened, and the offer is only dropped when even
+    the shortest rung would push the line past the budget and break the
+    enumeration open - which Bing renders as "(3-5,4 ...", the thing that
+    makes us look broken next to results that are not.
 
     Args:
         clue: dict with clue_text, enumeration.
@@ -27,16 +46,17 @@ def generate_title(clue, explained):
     enum = clue.get("enumeration", "")
     head = clue.get("clue_text", "") + (f" ({enum})" if enum else "")
     if explained:
-        ladder = (" — full explanation, with the answer",
-                  " — full explanation",
-                  " — explained")
+        ladder = (" Explained: every word, and the answer",
+                  " Explained, with the answer",
+                  " Explained")
     else:
-        ladder = (" — answer, and why it fails",
-                  " — why it fails")
+        ladder = (" The answer, and why this clue fails",
+                  " Why this clue fails",
+                  " Why it fails")
     for offer in ladder:
         if len(head) + len(offer) <= TITLE_VISIBLE_CHARS:
             return head + offer
-    return head + ladder[-1]
+    return head
 
 
 def generate_meta_description(clue, explained):

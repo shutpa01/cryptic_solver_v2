@@ -1,6 +1,7 @@
 """Deploy — push the latest code and databases to the Cordelia droplet."""
 
 import os
+import re
 import sqlite3
 import subprocess
 import time
@@ -60,21 +61,113 @@ def _yt_read(log_path):
     return lines, any(ln.startswith(YT_DONE) for ln in lines)
 
 
-def _yt_tail(log_path, placeholder, follow_for=2400, tail=12):
-    """Watch a running job's log in place until it finishes or `follow_for` is up.
+def _yt_progress(lines):
+    """Turn a job log into a few lines that SAY WHAT IS HAPPENING.
+
+    Showing the raw tail was worse than the spinner it replaced (user, 2026-09-21:
+    "it just shows this nonsense message 30 frame(s) + manifest.json -> C:\\...").
+    The log is 90% web-server noise — the capture serves the site in-process, so
+    every clue page it screenshots prints a GET line — and the moments that matter
+    (uploaded, now on the next paper) scroll past inside it. The last line of a log
+    is rarely the most interesting thing in it.
+
+    So the log keeps everything, and this reports the state per paper instead. Read
+    off marker lines the scripts already print; unknown lines are ignored rather
+    than guessed at.
+    """
+    state, order = {}, []
+    src = None
+    for ln in lines:
+        s = ln.strip()
+        m = re.match(r"^=== (telegraph|times|guardian) \((\d+) of (\d+)\) ===$", s)
+        if m:
+            src = m.group(1)
+            if src not in state:
+                order.append(src)
+            state[src] = {"what": "starting", "url": None, "puzzle": None}
+            continue
+        # THE FILM LINE NAMES ITS OWN SOURCE, and that is what we key off — not the
+        # header. The headers are printed by youtube_upload itself while the capture and
+        # encode output comes from its CHILDREN writing to the same pipe, so the two
+        # interleave: in the 2026-09-21 07:03 job the "=== times ===" header never
+        # appeared before the Times capture, and keying off the header alone labelled
+        # the Times film "Telegraph 29653". A line that says which paper it is beats a
+        # line that said so earlier.
+        m = re.match(r"^(telegraph|times|guardian) #(\S+).*?(\d+) clue pages$", s)
+        if m:
+            src = m.group(1)
+            if src not in state:
+                order.append(src)
+                state[src] = {"what": "starting", "url": None, "puzzle": None}
+            st = state[src]
+            st["puzzle"] = m.group(2)
+            st["what"] = "filming %s clue pages" % m.group(3)
+            continue
+        if src is None:
+            continue
+        st = state[src]
+        if s.startswith("Narration:"):
+            st["what"] = "recording Cordelia's narration"
+        elif s.startswith("Building ") and " frames at " in s:
+            st["what"] = "building the frames"
+        elif s.startswith("Encoding "):
+            st["what"] = "encoding the video (%s)" % s.split("(")[-1].rstrip(").")
+        elif s == "Uploading...":
+            st["what"] = "uploading to YouTube"
+        elif re.match(r"^\d+%$", s):
+            st["what"] = "uploading to YouTube — %s" % s
+        elif s.startswith("uploaded: "):
+            st["url"] = s.split()[1]
+            st["what"] = "uploaded"
+        elif s.startswith("Nothing to upload"):
+            if st["what"] in ("starting", "uploaded"):
+                st["what"] = st["what"] if st["url"] else "nothing new to film"
+    out = []
+    for s in order:
+        st = state[s]
+        name = s.title() + (" %s" % st["puzzle"] if st["puzzle"] else "")
+        if st["url"]:
+            out.append("%s — uploaded  %s" % (name, st["url"]))
+        else:
+            out.append("%s — %s" % (name, st["what"]))
+    return out
+
+
+def _yt_tail(log_path, placeholder, follow_for=2400):
+    """Watch a running job in place until it finishes or `follow_for` is up.
 
     Leaving this early costs nothing — the job is detached, and reopening the page
     picks the log up again. That is the whole point of the split.
+
+    ALWAYS SAYS SOMETHING, including while nothing is printed. An encode runs for
+    minutes in total silence, and a screen frozen on its last line is indistinguishable
+    from a job that has died — which is the fault the live view was meant to cure, not
+    reproduce (user: "it provides some information as to what it is doing at all
+    times"). So each refresh also shows how long the current step has been running and
+    how long the log has been quiet.
     """
     deadline = time.time() + follow_for
-    while time.time() < deadline:
+    started = time.time()
+    while True:
         lines, finished = _yt_read(log_path)
-        placeholder.code("\n".join(lines[-tail:]) or "(starting…)")
+        try:
+            quiet = int(time.time() - Path(log_path).stat().st_mtime)
+        except OSError:
+            quiet = 0
+        rows = _yt_progress(lines) or ["starting…"]
+        foot = "running %s · last output %s ago" % (_mmss(time.time() - started),
+                                                    _mmss(quiet))
+        placeholder.code("\n".join(rows) + "\n\n" + foot)
         if finished:
             return lines, True
+        if time.time() >= deadline:
+            return lines, False
         time.sleep(2)
-    lines, finished = _yt_read(log_path)
-    return lines, finished
+
+
+def _mmss(seconds):
+    seconds = max(0, int(seconds))
+    return "%dm %02ds" % (seconds // 60, seconds % 60) if seconds >= 60 else "%ds" % seconds
 
 
 def _render_yt_job_status():
