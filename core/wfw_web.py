@@ -2543,9 +2543,45 @@ function initGrid(rootId, DATA){
  function pcCol(k){return PAL[k%PAL.length];}
  function posOwner(p){for(var k=0;k<assignments.length;k++){var a=assignments[k];if(a.pos&&a.pos.indexOf(p)>=0)return k;}return -1;}
  function locateValue(v){v=(v||'').toUpperCase();if(!v)return null;var ans=DATA.answer,hits=[];for(var s=0;s+v.length<=ans.length;s++){if(ans.substr(s,v.length)===v){var ps=[],ok=true;for(var j=0;j<v.length;j++){var p=s+j+1;if(posOwner(p)>=0){ok=false;break;}ps.push(p);}if(ok)hits.push(ps);}}return hits.length===1?hits[0]:null;}
- // Remove the FIRST contiguous run `cut` from a derivative `v` -> the SURVIVING letters that land on
- // the answer (e.g. ORATION - O = RATION). Returns null when `cut` is not a contiguous run of `v`.
- function applyCut(v,cut){v=(v||'').toUpperCase();cut=(cut||'').toUpperCase();if(!cut)return v;var i=v.indexOf(cut);return i<0?null:(v.slice(0,i)+v.slice(i+cut.length));}
+ /* Every way the typed `cut` can come off a derivative `v`, as cut RECORDS (the letters AND
+    where they were taken from — core/piece_transform.py's vocabulary, which is what finally
+    stores this). A contiguous run is the ordinary case (ORATION -O = RATION) and every spot
+    it occupies is offered. TWO RUNS OFF THE ENDS are the other thing a clue asks for in one
+    breath — "test is without beginning or end": LIVES -LS = IVE — and they may be typed as
+    they read in the value (LS) or separated (L,S). Contiguous readings come first, so a cut
+    that reads both ways keeps the single-cut record it has always had. */
+ function cutSets(v,cut){
+  v=foldLetters(v);
+  var parts=(cut||'').toUpperCase().split(/[^A-Z]+/).filter(function(s){return s;});
+  var out=[],i;
+  if(parts.length>1){                        // separated runs: each taken off in turn, left to right
+   var seq=[],rest=v;
+   for(i=0;i<parts.length;i++){var at=rest.indexOf(parts[i]);
+    if(at<0)return [];
+    seq.push({letters:parts[i],at:at});
+    rest=rest.slice(0,at)+rest.slice(at+parts[i].length);}
+   return [seq];}
+  var one=parts[0]||'';
+  if(!one)return [[]];
+  var spots=cutSpots(v,one);
+  for(i=0;i<spots.length;i++)out.push([{letters:one,at:spots[i]}]);
+  for(i=1;i<one.length;i++){                 // one word, both ends: LS = L off the front, S off the back
+   var h=one.slice(0,i),t=one.slice(i);
+   if(v.slice(0,h.length)===h&&v.slice(v.length-t.length)===t&&h.length+t.length<=v.length)
+    out.push([{letters:h,at:0},{letters:t,at:v.length-h.length-t.length}]);}
+  return out;}
+ // The SURVIVING letters after one recorded set of cuts, or null when the set does not fit.
+ function applyCutSet(v,set){v=foldLetters(v);
+  for(var i=0;i<set.length;i++){var run=set[i].letters,at=set[i].at;
+   if(v.substr(at,run.length)!==run)return null;
+   v=v.slice(0,at)+v.slice(at+run.length);}
+  return v;}
+ // The letters of a derivative `v` that land on the answer once `cut` is taken off it, or
+ // null when the typed cut cannot come off `v` at all.
+ function applyCut(v,cut){if(!cut)return foldLetters(v);
+  var sets=cutSets(v,cut);
+  for(var i=0;i<sets.length;i++){var s=applyCutSet(v,sets[i]);if(s!==null)return s;}
+  return null;}
  /* ---- the piece TRANSFORM: RECORDED here, never worked out later (user rule 2026-08-17).
     Mirrors core/piece_transform.py, which re-checks it on commit — keep the two in step.
     A piece records the letters cut from its value AND WHERE each was taken from ("BALSA
@@ -2633,12 +2669,17 @@ function initGrid(rootId, DATA){
   if(shift==='first_end')return t.slice(-1)+t.slice(0,-1);return t;}                 //   to see
  function xfFor(value,cut,tiles){
   var v=foldLetters(value),cutsets=[],i;
-  cut=foldLetters(cut);
-  if(cut){var spots=cutSpots(v,cut);
-   for(i=0;i<spots.length;i++)cutsets.push([{letters:cut,at:spots[i]}]);
+  if(foldLetters(cut)){cutsets=cutSets(v,cut);   // the separators matter: L,S is two runs
   }else{cutsets.push([]);
    for(var k=1;k<v.length;k++){cutsets.push([{letters:v.slice(0,k),at:0}]);
-    cutsets.push([{letters:v.slice(v.length-k),at:v.length-k}]);}}
+    cutsets.push([{letters:v.slice(v.length-k),at:v.length-k}]);}
+   /* BOTH ENDS at once — the beheading and the curtailment in one breath ("without
+      beginning or end": LIVES -> IVE). Two cuts always score worse than one in xfPrio,
+      so this can only answer where no single end cut explains the tiles; it never
+      rewrites a record that already reads. An interior cut still has to be named. */
+   for(var hh=1;hh<v.length;hh++)for(var tt=1;hh+tt<v.length;tt++)
+    cutsets.push([{letters:v.slice(0,hh),at:0},
+                  {letters:v.slice(v.length-tt),at:v.length-hh-tt}]);}
   var opts=[{rev:false,shift:null},{rev:true,shift:null},
             {rev:false,shift:'last_front'},{rev:false,shift:'first_end'}];
   var best=null,bestP=1e9,tied=false;
@@ -2677,7 +2718,7 @@ function initGrid(rootId, DATA){
   var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();var cut=(cutEl&&cutEl.value||'').trim().toUpperCase();
   if(!v||!cut){cutPrev.innerHTML='';return;}
   var surv=applyCut(v,cut);
-  cutPrev.innerHTML=(surv===null)?('<span style="color:#dc2626">'+cut+' not a run of '+v+'</span>')
+  cutPrev.innerHTML=(surv===null)?('<span style="color:#dc2626">'+cut+' does not come off '+v+' &mdash; name a run, or both ends (L,S)</span>')
    :('<span style="color:#b45309">'+v+' &minus;'+cut+' &rarr; <b>'+(surv||'(empty)')+'</b></span>');}
  function drawTiles(){atiles.forEach(function(t){var p=+t.dataset.pos;var o=posOwner(p);
   if(o>=0){t.style.background=pcCol(o);t.style.borderColor=pcCol(o);t.style.color='#0f172a';}
@@ -2828,16 +2869,16 @@ function initGrid(rootId, DATA){
   if(isValued(r)){var v=((addInp.value||'').trim()||candSel.value||'').toUpperCase();if(!v){note('type the value first');return;}a.value=v;
    var cut=(cutEl&&cutEl.value||'').trim().toUpperCase();       // delete a run from the derivative
    if(cut){survivor=applyCut(v,cut);
-    if(survivor===null){note('“'+cut+'” is not a run of '+v);return;}
+    if(survivor===null){note('“'+cut+'” does not come off '+v+' — name a run of it, or the two ends (e.g. L,S)');return;}
     if(!survivor.length){note('cannot delete the whole value ('+v+')');return;}
     a.cut=cut;}}
   if(r==='letters'||r==='replacement'){var lv=(addInp.value||'').trim().toUpperCase();if(lv)a.value=lv;}
   if(r==='letters'){                   // a LITERAL MAY BE CUT — the same three checks the
-   var lcut=(cutEl&&cutEl.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');  // derivative
+   var lcut=(cutEl&&cutEl.value||'').trim().toUpperCase();            // derivative
    if(lcut){                                                          // pieces already get.
     if(!a.value){note('type the literal in full (e.g. THE) before naming the letters to delete');return;}
     survivor=applyCut(a.value,lcut);
-    if(survivor===null){note('“'+lcut+'” is not a run of '+a.value);return;}
+    if(survivor===null){note('“'+lcut+'” does not come off '+a.value+' — name a run of it, or the two ends (e.g. L,S)');return;}
     if(!survivor.length){note('cannot delete the whole value ('+a.value+')');return;}
     a.cut=lcut;}}
   if(r==='letters'&&a.value){          // a literal is the WORD'S letters, in the WORD'S order:
@@ -3479,8 +3520,9 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          '<span id="g-cand" style="display:none">value: <select id="g-candsel"></select> '
          'or add <input id="g-add" placeholder="new value" size="12"> '
          '<span id="g-cutwrap" style="display:none;margin-left:.35rem">&minus; delete '
-         '<input id="g-cut" placeholder="e.g. O" size="5" title="Delete a run of letters from '
-         'the derivative (e.g. speech=ORATION, scrapping introduction removes O -> RATION)">'
+         '<input id="g-cut" placeholder="e.g. O" size="6" title="Delete letters from the '
+         'derivative: a run (speech=ORATION, scrapping introduction removes O -> RATION), '
+         'or BOTH ENDS at once — is=LIVES without beginning or end = IVE: type LS, or L,S">'
          '<span id="g-cutprev" style="margin-left:.35rem;font-size:.85rem"></span></span> '
          '<span id="g-del" style="margin-left:.4rem;font-size:.85rem;color:#b45309"></span></span>',
          # WHICH letter did the clue name? Shown ONLY for a NAMED selection whose typed
