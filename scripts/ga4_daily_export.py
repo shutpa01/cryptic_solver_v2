@@ -102,6 +102,33 @@ def period_totals(rows: list[dict], metric: str, size: int) -> list[tuple[str, s
     return list(reversed(blocks))
 
 
+def rolling_average(rows: list[dict], metric: str, window: int = 7) -> list[dict]:
+    """Trailing `window`-day mean of `metric`, one point per day.
+
+    The run rate: each point is the average of that day and the `window`-1
+    days before it. Days before a full window exists produce no point —
+    a partial average would start the line artificially low and read as
+    growth that never happened.
+
+    Returns [{"date": ..., "value": float}], oldest first.
+    """
+    if window < 1:
+        raise ValueError("window must be at least 1")
+    points = []
+    for index in range(window - 1, len(rows)):
+        chunk = rows[index - window + 1:index + 1]
+        total = sum(int(r[metric]) for r in chunk)
+        points.append({"date": rows[index]["date"], "value": total / window})
+    return points
+
+
+def clip_from(rows: list[dict], since: str | None) -> list[dict]:
+    """Drop rows before `since` (ISO date). No-op when since is None."""
+    if not since:
+        return rows
+    return [r for r in rows if r["date"] >= since]
+
+
 def growth_rate(previous: int, current: int) -> float | None:
     """Percentage change, or None when there's no baseline to divide by."""
     if previous == 0:
@@ -253,6 +280,11 @@ def main() -> int:
                              "excluded from the growth summary (default: 2).")
     parser.add_argument("--complete-only", action="store_true",
                         help="Also drop those provisional days from the CSV.")
+    parser.add_argument("--since", metavar="YYYY-MM-DD",
+                        help="Ignore data before this date (e.g. relaunch day).")
+    parser.add_argument("--rolling-window", type=int, default=7, metavar="N",
+                        help="Trailing average window in days; adds a "
+                             "rolling_N column. 0 disables (default: 7).")
     args = parser.parse_args()
 
     if not args.property_id:
@@ -268,10 +300,24 @@ def main() -> int:
         fetch_daily(client, args.property_id, start, end), start, end,
     )
 
+    rows = clip_from(rows, args.since)
     cutoff = max(args.provisional_days, 0)
     settled = rows[:-cutoff] if cutoff else rows
 
-    write_csv(args.csv, CSV_COLUMNS, settled if args.complete_only else rows)
+    out_rows = settled if args.complete_only else rows
+    columns = CSV_COLUMNS
+    if args.rolling_window > 0:
+        column = f"rolling_{args.rolling_window}"
+        columns = CSV_COLUMNS + (column,)
+        # Blank until a full window exists, so the line starts where the
+        # run rate actually becomes meaningful.
+        by_date = {p["date"]: p["value"] for p in
+                   rolling_average(out_rows, args.metric, args.rolling_window)}
+        for row in out_rows:
+            value = by_date.get(row["date"])
+            row[column] = "" if value is None else f"{value:.2f}"
+
+    write_csv(args.csv, columns, out_rows)
 
     if args.by_channel:
         write_csv(args.by_channel, CHANNEL_COLUMNS,
