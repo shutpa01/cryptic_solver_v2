@@ -129,6 +129,20 @@ def clip_from(rows: list[dict], since: str | None) -> list[dict]:
     return [r for r in rows if r["date"] >= since]
 
 
+def trim_leading_zeros(rows: list[dict], metric: str) -> list[dict]:
+    """Drop empty days at the start, before anything was being recorded.
+
+    A run of zeros before the site had traffic (or before tracking was
+    installed) drags the first window's average down, so the line opens
+    below the real rate and climbs — growth that is an artefact of the
+    start date. Zeros *after* data begins are real and are kept.
+    """
+    for index, row in enumerate(rows):
+        if int(row[metric]) > 0:
+            return rows[index:]
+    return []
+
+
 def growth_rate(previous: int, current: int) -> float | None:
     """Percentage change, or None when there's no baseline to divide by."""
     if previous == 0:
@@ -282,6 +296,9 @@ def main() -> int:
                         help="Also drop those provisional days from the CSV.")
     parser.add_argument("--since", metavar="YYYY-MM-DD",
                         help="Ignore data before this date (e.g. relaunch day).")
+    parser.add_argument("--from-first-data", action="store_true",
+                        help="Start at the first day with any data, dropping "
+                             "empty days before tracking began.")
     parser.add_argument("--rolling-window", type=int, default=7, metavar="N",
                         help="Trailing average window in days; adds a "
                              "rolling_N column. 0 disables (default: 7).")
@@ -301,6 +318,8 @@ def main() -> int:
     )
 
     rows = clip_from(rows, args.since)
+    if args.from_first_data:
+        rows = trim_leading_zeros(rows, args.metric)
     cutoff = max(args.provisional_days, 0)
     settled = rows[:-cutoff] if cutoff else rows
 

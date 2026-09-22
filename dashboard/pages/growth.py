@@ -13,7 +13,6 @@ redone in pandas here, so the chart and the CSV can't disagree.
 """
 
 import importlib.util
-from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -42,13 +41,13 @@ LOG_METRICS = {"visitors": "Active users", "page_views": "Page views"}
 
 
 @st.cache_resource
-def _load_rolling_average():
-    """Import rolling_average from scripts/ (no package, so load by path)."""
+def _growth_maths():
+    """Import the tested transforms from scripts/ (no package: load by path)."""
     path = PROJECT_ROOT / "scripts" / "ga4_daily_export.py"
     spec = importlib.util.spec_from_file_location("ga4_daily_export", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    return module.rolling_average
+    return module.rolling_average, module.trim_leading_zeros
 
 
 def _read_daily(path: Path) -> pd.DataFrame | None:
@@ -63,15 +62,20 @@ def _read_daily(path: Path) -> pd.DataFrame | None:
 
 
 def _run_rate(frame: pd.DataFrame, column: str, window: int,
-              since: str | None, label: str) -> pd.DataFrame:
-    """Trailing average as a tidy frame, via the tested pure function."""
+              label: str) -> pd.DataFrame:
+    """Trailing average as a tidy frame, via the tested pure functions.
+
+    Empty days before data starts are dropped first — otherwise the first
+    window averages in the silence and the line opens low, showing growth
+    that is only an artefact of where the series begins.
+    """
+    rolling, trim = _growth_maths()
     rows = frame.to_dict("records")
-    if since:
-        rows = [r for r in rows if r["date"] >= since]
     rows = [r for r in rows if column in r and pd.notna(r[column])]
+    rows = trim(rows, column)
     if not rows:
         return pd.DataFrame(columns=["date", "value", "series"])
-    points = _load_rolling_average()(rows, column, window)
+    points = rolling(rows, column, window)
     out = pd.DataFrame(points)
     if out.empty:
         return pd.DataFrame(columns=["date", "value", "series"])
@@ -79,7 +83,7 @@ def _run_rate(frame: pd.DataFrame, column: str, window: int,
     return out
 
 
-def _chart(data: pd.DataFrame, window: int, launch: str | None, multi: bool):
+def _chart(data: pd.DataFrame, window: int, multi: bool):
     """Line chart: 2px lines, recessive axes, crosshair tooltip, no legend
     for a single series (the title names it)."""
     import altair as alt
@@ -119,15 +123,7 @@ def _chart(data: pd.DataFrame, window: int, launch: str | None, multi: bool):
         x="date:T",
     ).transform_filter(hover)
 
-    layers = [crosshair, line, points]
-
-    if launch:
-        marker = alt.Chart(pd.DataFrame({"date": [launch]})).mark_rule(
-            color=AXIS_INK, strokeDash=[4, 4], strokeWidth=1,
-        ).encode(x="date:T")
-        layers.insert(0, marker)
-
-    return alt.layer(*layers).properties(height=340).configure_view(
+    return alt.layer(crosshair, line, points).properties(height=340).configure_view(
         strokeWidth=0,
     )
 
@@ -149,41 +145,28 @@ def render():
         )
         return
 
-    earliest = min(
-        f["date"].iloc[0] for f in (ga4, logs) if f is not None and not f.empty
-    )
-
-    controls = st.columns([2, 1, 2])
+    controls = st.columns([3, 1])
     with controls[0]:
         metric = st.selectbox("Metric", list(GA4_METRICS.values()), index=0)
     with controls[1]:
         window = st.number_input("Window (days)", min_value=2, max_value=90,
                                  value=7, step=1)
-    with controls[2]:
-        use_launch = st.checkbox("Start from relaunch date", value=False)
-        launch = None
-        if use_launch:
-            launch = st.date_input(
-                "Relaunch",
-                value=datetime.strptime(earliest, "%Y-%m-%d").date(),
-            ).isoformat()
 
     frames = []
     if ga4 is not None:
         column = next((k for k, v in GA4_METRICS.items() if v == metric), None)
         if column and column in ga4.columns:
-            frames.append(_run_rate(ga4, column, window, launch, "GA4"))
+            frames.append(_run_rate(ga4, column, window, "GA4"))
     if logs is not None:
         column = next((k for k, v in LOG_METRICS.items() if v == metric), None)
         if column and column in logs.columns:
-            frames.append(_run_rate(logs, column, window, launch, "Server logs"))
+            frames.append(_run_rate(logs, column, window, "Server logs"))
 
     frames = [f for f in frames if not f.empty]
     if not frames:
         st.warning(
             f"Not enough data for a {window}-day average yet — the line "
-            f"starts once {window} days exist"
-            + (" after the relaunch date." if launch else ".")
+            f"starts once {window} days exist from the first day with data."
         )
         return
 
@@ -203,11 +186,11 @@ def render():
         col.metric(f"{series['series'].iloc[0]} — {metric.lower()}/day",
                    f"{latest:,.1f}", delta)
 
-    st.altair_chart(_chart(data, window, launch, multi), use_container_width=True)
+    st.altair_chart(_chart(data, window, multi), use_container_width=True)
     st.caption(
         f"Each point is the mean of the {window} days ending that day. "
-        "The line begins where a full window first exists."
-        + (" Dashed rule marks the relaunch date." if launch else "")
+        "The line begins one window after the first day with data — "
+        "empty days before that are excluded."
     )
 
     with st.expander("Table view"):
