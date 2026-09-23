@@ -4385,7 +4385,61 @@ def hssave_route():
         bits.append(" · ".join(added))
     if rejected:
         bits.append("not saved: " + "; ".join(rejected))
+    reread = _reread_stored(cid, assigns)
+    if reread:
+        bits.append(reread)
     return _json({"ok": True, "msg": " — ".join(bits)})
+
+
+def _reread_stored(cid, assigns):
+    """AN ASSIGNMENT OVERRULES THE READING ALREADY STORED (user rule 2026-09-23).
+
+    A clue that is already SOLVED shows its stored reading on the card, on the public
+    page and in the word-role column. Re-tagging a word used to change none of them:
+    /hssave persisted the grid and nothing else, and the one control that rewrites the
+    reading is the Commit button — so a correction that missed Commit (the click never
+    landing is enough) left the OLD role serving for ever, with the grid and the card
+    silently disagreeing and no surface saying so.
+
+    GUARDIAN 30119 24a (2026-09-23): "panned" was re-tagged surface filler, the payload
+    saved it, and the card went on calling it an anagram indicator all day — the nightly
+    AI had tagged TWO anagram indicators (panned AND liberal) and a Confirm had frozen
+    that reading at 04:24. User: "When I set something it must overrule the previous
+    role." It does now.
+
+    So when the clue ALREADY has a stored reading, the assignment is applied to it here,
+    through the SAME gate the Commit button uses (_build_manual_parse, verify_db=False —
+    the human is the authority), and frozen as a manual pass. Nothing new is invented:
+    an UNSOLVED clue is left alone (Commit stays the one action that files a reading, as
+    the publish-first process says), and a reading that does not validate is REFUSED, the
+    stored one untouched — with the gate's own words returned, because a correction that
+    has not landed must never look as though it has. Returns a short message, or ''."""
+    if not assigns:                       # a cleared grid asserts nothing
+        return ""
+    conn = store.connect()
+    try:
+        stored = store.load_parse(conn, cid)
+    finally:
+        conn.close()
+    if stored is None:                    # unsolved: filing it is Commit's job, not Assign's
+        return ""
+    if getattr(stored, "status", "") == "invalid":
+        # INVALID is the reviewer's verdict that the clue's mechanism is unsound. It is not a
+        # role that an assignment corrects, and flipping it to a pass here would serve a clue
+        # the reviewer rejected. Leave it; /hsstatus is where a verdict changes.
+        return ""
+    built = _build_manual_parse(cid, assigns, verify_db=False)
+    if not built["ok"]:
+        return "reading NOT updated — %s" % built["msg"]
+    conn = store.connect()
+    try:
+        store.save_parse(conn, cid, built["parse"], built["ctx"])
+        store.set_status(conn, cid, "pass")
+        store.set_frozen(conn, cid)
+        conn.commit()
+    finally:
+        conn.close()
+    return "reading updated from your assignment (frozen)"
 
 
 @app.route("/hsnote", methods=["POST"])
