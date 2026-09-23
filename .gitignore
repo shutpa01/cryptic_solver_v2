@@ -134,3 +134,13 @@ logs/*
 # be regenerated; this is hand-approved editorial copy that cannot, and it is reused for
 # ever, so losing it would mean writing it again. Tracked deliberately.
 !logs/senses.json
+
+# Credentials. .env is already excluded above; a dated backup of it holds the
+# same secrets and is just as dangerous to commit.
+.env.bak*
+secrets/
+
+# Analytics caches. Written through on every successful fetch and rebuilt on
+# demand, so they are output, not source — and they would churn on every run.
+data/ga4_daily.csv
+data/logs_daily.csv
