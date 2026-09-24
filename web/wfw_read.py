@@ -347,11 +347,21 @@ def _wordplay_label(parse):
     return op.replace("_", " ").capitalize() if op else None
 
 
+def _is_word_division(value, answer_text):
+    """Word division: ONE clue word supplies a SPACED value that closes up into the
+    answer (installed -> PUT IN -> PUTIN). NOT a charade — a charade clues each half
+    separately (LEG "joint of lamb" + IT "just the thing") — and NOT a multiword answer
+    stored solid (TRIPLESEC, FAMILYTREE): the enumeration is what separates it from the
+    latter, so the answer must be a single word. Mirrors core/wfw_render._is_word_division."""
+    return len((value or "").split()) > 1 and len((answer_text or "").split()) == 1
+
+
 def _manual_label(parse):
     """Derive the clue type of a frozen manual solve, naming EVERY mechanism it
     uses — the same information the solver's badge would carry had an engine
     solved it. Mirrors core/wfw_render._manual_type_label."""
-    n = len([s for s in parse["sources"] if s["mechanism"] != "definition"])
+    srcs = [s for s in parse["sources"] if s["mechanism"] != "definition"]
+    n = len(srcs)
     placed = len({l["source_index"] for l in parse["links"]})
     found, container_joins = _note_mechs(parse["indicators"])
     if _has_charade(placed, container_joins, found):
@@ -361,6 +371,8 @@ def _manual_label(parse):
     if n >= 2:
         return "Charade"
     if n == 1:
+        if _is_word_division(srcs[0].get("value"), parse["answer_text"]):
+            return "Word division"
         m = parse["sources"][0]["mechanism"]
         return {"synonym": "Synonym", "abbreviation": "Abbreviation",
                 "hidden": "Hidden word"}.get(m, "Word building")

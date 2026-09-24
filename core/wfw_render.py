@@ -192,6 +192,15 @@ def _placed_pieces(parse):
     return len({l.source_index for l in (parse.links or [])})
 
 
+def _is_word_division(value, answer_text):
+    """Word division: ONE clue word supplies a SPACED value that closes up into the
+    answer (installed -> PUT IN -> PUTIN). NOT a charade — a charade clues each half
+    separately (LEG "joint of lamb" + IT "just the thing") — and NOT a multiword answer
+    stored solid (TRIPLESEC, FAMILYTREE): the enumeration is what separates it from the
+    latter, so the answer must be a single word. Mirrors web/wfw_read._is_word_division."""
+    return len((value or "").split()) > 1 and len((answer_text or "").split()) == 1
+
+
 def _manual_type_label(parse):
     """The clue type of a manual/prefill parse, naming EVERY mechanism it uses —
     mirrors web/wfw_read._manual_label so the clue page badge and the live-site
@@ -205,6 +214,8 @@ def _manual_type_label(parse):
     if len(srcs) >= 2:
         return "Charade"
     if len(srcs) == 1:
+        if _is_word_division(srcs[0].value, parse.answer_text):
+            return "Word division"
         return {"synonym": "Synonym", "abbreviation": "Abbreviation",
                 "hidden": "Hidden word"}.get(srcs[0].mechanism, "Word building")
     return "Word building"
