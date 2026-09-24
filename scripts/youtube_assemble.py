@@ -388,6 +388,11 @@ def main():
                     help="seconds on the opening title card (minimum %d, since it "
                          "is the chapter that must start at 0:00). The narration "
                          "lengthens this when she speaks for longer." % MIN_SECONDS)
+    ap.add_argument("--narrate", action="store_true",
+                    help="Cordelia reads the APPROVED PROSE for every clue, not "
+                         "just the intro. Each still then holds for as long as its "
+                         "own explanation takes; a clue with no tick stays silent "
+                         "and holds for --seconds. See scripts/narrate_prose.py.")
     ap.add_argument("--voice-off", action="store_true",
                     help="build without the spoken intro (costs nothing at "
                          "ElevenLabs; the video keeps its silent track)")
@@ -439,8 +444,24 @@ def main():
     # accumulated from the same `t` this feeds, so lengthening the intro shifts every
     # later chapter automatically — which is why the voice goes OVER the existing
     # opening card rather than being prepended as a segment in front of it.
-    voice, voice_secs = narrate_intro(cap, args.voice_off)
-    intro_secs = max(args.intro, voice_secs + INTRO_TAIL if voice else args.intro)
+    # WITH --narrate the whole puzzle is one take and the TIMELINE COMES FROM THE
+    # SPEECH: each still holds for as long as its own explanation, floored at the
+    # chapter minimum. Without it nothing below changes — the intro is spoken over
+    # the title card exactly as it always was.
+    track, seg_secs = None, None
+    if args.narrate and not args.voice_off:
+        # Lazy, for the same reason narrate_intro imports lazily: narrate_prose
+        # imports ffmpeg_bin/run/MIN_SECONDS FROM THIS MODULE.
+        from scripts.narrate_prose import build_track
+        track, seg_secs, report = build_track(cap, frames, INTRO_SCRIPT,
+                                              args.seconds, min_seconds=MIN_SECONDS)
+        for line in report:
+            print(line)
+    if track:
+        voice, intro_secs = None, seg_secs[0]
+    else:
+        voice, voice_secs = narrate_intro(cap, args.voice_off)
+        intro_secs = max(args.intro, voice_secs + INTRO_TAIL if voice else args.intro)
 
     print("Building %d frames at %dx%d..." % (len(frames) + 1, w, h))
     concat_lines, chapters, t = [], [], 0.0
@@ -460,9 +481,11 @@ def main():
         build_frame(ff, cap / f["frame"], banner, dst, w, h, banner_h, margin, cw, ch, gap)
         # The concat demuxer needs the LAST entry repeated without a duration,
         # or the final image is dropped from the output.
-        concat_lines.append("file '%s'\nduration %s" % (dst.name, args.seconds))
+        # --narrate: as long as HER EXPLANATION takes, not a fixed count.
+        secs = seg_secs[i] if seg_secs else args.seconds
+        concat_lines.append("file '%s'\nduration %s" % (dst.name, secs))
         chapters.append("%s %s" % (timestamp(t), chapter_title(f)))
-        t += args.seconds
+        t += secs
     concat_lines.append("file '%s'" % ("frame_%02d.png" % len(frames)))
 
     listing = cap / "concat.txt"
@@ -475,9 +498,9 @@ def main():
     # silence on for ever and -t below cuts it, exactly as the infinite anullsrc was
     # cut; NOT -shortest, which with a concat of stills ends the file at the first
     # image (youtube_short.py, 2026-08-21).
-    audio_in = (["-i", str(voice), "-filter_complex", "[1:a]apad[a]",
+    audio_in = (["-i", str(track or voice), "-filter_complex", "[1:a]apad[a]",
                  "-map", "0:v", "-map", "[a]"]
-                if voice else
+                if (track or voice) else
                 ["-f", "lavfi", "-i",
                  "anullsrc=channel_layout=stereo:sample_rate=44100"])
     run([ff, "-y", "-loglevel", "error",

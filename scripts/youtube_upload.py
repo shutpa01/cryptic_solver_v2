@@ -209,11 +209,20 @@ def next_puzzle(source, done, max_age_days):
     return None
 
 
-def build_video(source, number):
-    """Run capture then assemble for this puzzle."""
+def build_video(source, number, narrate=True):
+    """Run capture then assemble for this puzzle.
+
+    NARRATED BY DEFAULT. Cordelia reads the prose the user ticked on /hs, clue by
+    clue (scripts/narrate_prose.py). The default is on because the fallback is
+    today's video, not a worse one: a clue with no tick is simply silent, and a
+    puzzle with nothing ticked at all falls straight back to the spoken intro over
+    a silent body — which is exactly what this built before. --no-narrate is there
+    for a deliberately silent film, not as a safety net.
+    """
     py = sys.executable
+    assemble = ["--source", source, "--puzzle", number] + (["--narrate"] if narrate else [])
     for script, extra in (("youtube_capture.py", ["--source", source, "--puzzle", number]),
-                          ("youtube_assemble.py", ["--source", source, "--puzzle", number])):
+                          ("youtube_assemble.py", assemble)):
         print("--- %s ---" % script)
         r = subprocess.run([py, str(ROOT / "scripts" / script)] + extra,
                            cwd=str(ROOT), text=True, encoding="utf-8", errors="replace")
@@ -448,6 +457,11 @@ def main():
                     choices=["private", "unlisted", "public"])
     ap.add_argument("--build", action="store_true",
                     help="run capture + assemble before uploading")
+    ap.add_argument("--no-narrate", action="store_true",
+                    help="film SILENT — do not read the approved prose over the "
+                         "clues. The narration is on by default; an unticked clue "
+                         "is silent on its own, so this is only for a film you want "
+                         "silent throughout.")
     ap.add_argument("--dry-run", action="store_true",
                     help="show the title, chapters and file; upload nothing")
     ap.add_argument("--max-age-days", type=int, default=0,
@@ -573,7 +587,7 @@ def run_one(args):
         args._skip.add(key)
         return 0
     if args.build or not video.exists():
-        build_video(args.source, puzzle["number"])
+        build_video(args.source, puzzle["number"], narrate=not args.no_narrate)
     if not video.exists():
         sys.exit("No video at %s" % video)
 
