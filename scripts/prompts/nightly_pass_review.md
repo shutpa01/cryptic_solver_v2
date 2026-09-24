@@ -34,6 +34,41 @@ And one structural check: **does the wordplay derive the answer from something
 other than the answer?** `spas -> RESORTS`, then RE removed, then RE added back, is
 circular — it explains nothing.
 
+## WHEN A DEFINITION IS ASSERTED, CHECK FOR A WORD DIVISION
+
+On 2026-09-24, telegraph 31353 11a was passed as a double definition:
+
+    "Russian leader is installed"   PUTIN (5)
+      def  "Russian leader"
+      def  "installed"
+
+Nothing backs `installed -> PUTIN`; the DD solver simply asserted it. The real
+device is a WORD DIVISION — one clue word supplies a two-word value and the
+answer is that phrase with the space closed up: installed = PUT IN -> PUTIN.
+
+So when a pass rests on a definition you cannot find a source for, ask whether the
+answer splits into a phrase the clue word means:
+
+    python scripts/detect_word_division.py --days 1
+
+It is read-only and judges nothing. It prints every split of today's answers that
+the reference DB attests, with what the phrase means.
+
+🛑 **The detector firing is NOT a reason to demote.** Over 30 days it named seven
+clues and only three were word divisions; TAGLINE, ALFRESCO, LOGJAM and ABOARD are
+perfectly sound charades whose answers happen to split into real phrases. The
+demotion test is unchanged — name the claim that fails. A split that the tool marks
+`CIRCULAR` means the matching word is the clue's own definition, which is the
+signature of an ordinary charade, not of this device.
+
+What the detector is for is the SUGGESTION that goes beside the doubt. When you
+demote, give the user the answer and not only the misgiving:
+
+    demote_to_pending(conn, clue_id,
+        "installed -> PUTIN: no synonym or definition row backs it. PUTIN (5) "
+        "splits as PUT IN, an attested phrase meaning placed, inset, interpolate "
+        "— is 'installed' the wordplay rather than a second definition?")
+
 ## THIS NEEDS CRYPTIC KNOWLEDGE, NOT JUST ENGLISH
 
 `on -> LEG` looks exactly as wrong as `is -> pet`. It is correct: in cricket the on
