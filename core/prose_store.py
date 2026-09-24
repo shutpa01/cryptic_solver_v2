@@ -50,17 +50,36 @@ def get(clue_id, data=None):
     return rec if isinstance(rec, dict) else None
 
 
-def save_draft(clue_id, sentence, gloss, answer=""):
+def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     """File a NEW draft, unapproved. Refuses to touch a record already approved —
-    an overnight re-run must never undo the user's tick."""
+    an overnight re-run must never undo the user's tick.
+
+    `facts_hash` fingerprints the record the prose was written from, so a later
+    commit can tell whether the reading actually changed. See `facts_unchanged`.
+    """
     data = load()
     key = str(clue_id)
     if (data.get(key) or {}).get("approved"):
         return False
     data[key] = {"sentence": sentence, "gloss": gloss,
-                 "answer": (answer or "").upper(), "approved": False}
+                 "answer": (answer or "").upper(), "approved": False,
+                 "facts_hash": facts_hash}
     save(data)
     return True
+
+
+def facts_unchanged(clue_id, facts_hash, data=None):
+    """True when a draft exists and was written from EXACTLY these facts.
+
+    This is what makes drafting at the end of the nightly the cheap option. The
+    user accepts the vast majority of prefill readings unchanged, so by the time
+    they commit, the prose sitting in the box was written from the same record
+    they are committing — and re-drafting it would spend 8-11 seconds and a model
+    call to produce the same paragraph. Only a reading the user CHANGED has a
+    different fingerprint, and only that one is drafted again.
+    """
+    rec = get(clue_id, data)
+    return bool(rec and facts_hash and rec.get("facts_hash") == facts_hash)
 
 
 def set_approved(clue_id, approved, sentence=None, gloss=None):

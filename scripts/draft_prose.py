@@ -57,6 +57,7 @@ not follow that.
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -139,6 +140,17 @@ def facts(parse, clue_text, answer):
     return "\n".join(lines)
 
 
+def facts_hash(block):
+    """Fingerprint of the record the prose is written from.
+
+    Stored with the draft so a later commit can ask one question: is this the same
+    reading? The user accepts most prefills unchanged, so usually it is, and the
+    commit then skips the call entirely instead of spending 8-11 seconds
+    re-deriving the same paragraph.
+    """
+    return hashlib.sha1(block.encode("utf-8", "replace")).hexdigest()
+
+
 def recorded_values(parse):
     """Every value the record names, uppercased — what the prose must account for."""
     out = set()
@@ -179,7 +191,7 @@ def verify(text, parse, clue_text, answer):
     return True, ""
 
 
-def clues_in_scope(source=None, puzzle=None, day=None, clue=None):
+def clues_in_scope(source=None, puzzle=None, day=None, clue=None, pending=False):
     """[(clue_id, answer, clue_text, parse)] for every served clue with a parse.
 
     A clue with NO parse is skipped, not drafted: `wfw_read._load` returns a parse
@@ -208,9 +220,9 @@ def clues_in_scope(source=None, puzzle=None, day=None, clue=None):
                 "AND publication_date = COALESCE(?, date('now')) ORDER BY id" % ph,
                 (*SERVED_SOURCES, day)).fetchall()
         for r in rows:
-            parse = wfw_read._load(r["id"])
+            parse = wfw_read._load(r["id"], allow_pending=pending)
             if parse is None:
-                continue            # no pass to explain — prefill's business, not ours
+                continue            # nothing settled enough to describe
             found.append((r["id"], r["answer"] or "", r["clue_text"] or "", parse))
     return found
 
@@ -264,6 +276,9 @@ def main(argv=None):
     ap.add_argument("--clue", type=int,
                     help="one clue id — what the /hs Commit button fires")
     ap.add_argument("--list", action="store_true", help="show what awaits approval")
+    ap.add_argument("--pending", action="store_true",
+                    help="also draft PENDING prefill readings — what the nightly "
+                         "uses, so the prose is waiting beside them at 05:00")
     ap.add_argument("--dry-run", action="store_true",
                     help="print the facts block and call nothing")
     args = ap.parse_args(argv)
@@ -282,13 +297,28 @@ def main(argv=None):
                 print("  %-10s %s" % ("", v["gloss"]))
         return 0
 
-    clues = clues_in_scope(args.source, args.puzzle, args.day, args.clue)
-    todo = [c for c in clues if str(c[0]) not in data]
-    print("%d clue(s) with a parse in scope, %d not yet drafted." % (len(clues), len(todo)))
+    clues = clues_in_scope(args.source, args.puzzle, args.day, args.clue,
+                           pending=args.pending)
+    # A clue is drafted when it has NO draft, or when the reading has CHANGED since
+    # the draft was written. An unchanged reading is skipped even though the user
+    # has just committed it: the prose already in the box was written from exactly
+    # these facts, so re-deriving it would spend a call to produce the same
+    # paragraph. This is what makes drafting at the end of the nightly cheap — the
+    # user accepts most prefill readings unchanged, and those cost nothing at 05:00.
+    todo, blocks, hashes = [], [], {}
+    for cid, ans, clue, parse in clues:
+        block = facts(parse, clue, ans)
+        h = facts_hash(block)
+        if prose_store.facts_unchanged(cid, h, data):
+            continue
+        todo.append((cid, ans, clue, parse))
+        blocks.append(block)
+        hashes[cid] = h
+    print("%d clue(s) with a parse in scope, %d to draft." % (len(clues), len(todo)))
     if not todo:
+        print("Nothing changed — the prose already matches every reading.")
         return 0
 
-    blocks = [facts(p, clue, ans) for cid, ans, clue, p in todo]
     body = "\n\n".join("===%s\n%s" % (cid, b)
                        for (cid, _a, _c, _p), b in zip(todo, blocks))
     if args.dry_run:
@@ -315,7 +345,7 @@ def main(argv=None):
             continue
         # save_draft refuses to overwrite a record the user has already ticked, so a
         # re-run cannot undo an approval.
-        if prose_store.save_draft(cid, sentence, gloss, ans):
+        if prose_store.save_draft(cid, sentence, gloss, ans, hashes.get(cid, "")):
             filed += 1
             print("  %-10s %s" % (cid, sentence))
         else:

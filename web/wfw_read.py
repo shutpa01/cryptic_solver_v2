@@ -106,21 +106,36 @@ def _piece_columns(db):
     return cols
 
 
-def _load(clue_id):
+def _load(clue_id, allow_pending=False):
     """The clue's wfw parse as a plain dict, or None (no row / not a pass /
-    tables absent). Memoised per request."""
+    tables absent). Memoised per request.
+
+    `allow_pending` ALSO returns a prefill reading awaiting the user's review. It
+    defaults to False and every serving caller leaves it that way, because a
+    pending reading must never reach a page. The one caller that passes True is
+    the overnight prose drafter: the user accepts the vast majority of prefills
+    unchanged, so drafting from the pending reading means the prose is already
+    waiting beside it at 05:00 instead of a day late. Measured 2026-09-24 on
+    telegraph 31353 — prefill filed 15 readings and all 15 are the clues the user
+    then committed, the identical set.
+
+    The cache is keyed on the flag as well as the clue, so a pending read can
+    never be served out of the cache to a caller that asked for a pass.
+    """
     cache = getattr(g, "_wfw_cache", None)
     if cache is None:
         cache = g._wfw_cache = {}
-    if clue_id in cache:
-        return cache[clue_id]
+    ckey = (clue_id, allow_pending)
+    if ckey in cache:
+        return cache[ckey]
     parse = None
     try:
         db = get_db()
         row = db.execute(
             "SELECT operation, solved_by, status, answer_text "
             "FROM wfw_solve WHERE clue_id = ?", (clue_id,)).fetchone()
-        if row is not None and row["status"] == "pass":
+        _ok = ("pass", "pending") if allow_pending else ("pass",)
+        if row is not None and row["status"] in _ok:
             _xf = ", transform" if "transform" in _piece_columns(db) else ""
             pieces = db.execute(
                 "SELECT role, ord, text, value, mechanism, note, atom_ids" + _xf +
@@ -165,7 +180,7 @@ def _load(clue_id):
             }
     except sqlite3.OperationalError:
         parse = None            # wfw tables absent in this DB — old behaviour
-    cache[clue_id] = parse
+    cache[ckey] = parse
     return parse
 
 

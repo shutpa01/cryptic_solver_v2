@@ -295,6 +295,39 @@ def main():
     except Exception as e:
         log(f"  draft_senses ERROR: {e} — not fatal")
 
+    # Step 6: draft the clue pages' prose blocks. LAST, and with --pending, because
+    # by now prefill has filed its readings and the user accepts the vast majority of
+    # them unchanged (user, 2026-09-24) — so drafting from the PENDING reading means
+    # the prose is already sitting beside it at 05:00, in the same glance as the tick,
+    # instead of a day late. Measured on telegraph 31353: prefill filed 15 readings
+    # and all 15 are exactly the clues the user went on to commit.
+    #
+    # Only a reading the user CHANGES needs drafting again, and that happens by
+    # itself: each draft stores a fingerprint of the record it was written from, and
+    # the /hs Commit button re-drafts only when that fingerprint no longer matches.
+    #
+    # Filed UNAPPROVED, like the senses above, so this cannot put a word on a page or
+    # in Cordelia's mouth. Never fatal: a missed draft just means no prose block.
+    log("")
+    log("Step 6: draft clue-page prose, incl. pending prefills (for your approval)...")
+    # Deliberately NOT like Step 5, which runs for real under --dry-run. A dry run
+    # that spends model calls is not a dry run, and this step calls the CLI once per
+    # puzzle.
+    if args.dry_run:
+        log("  [DRY RUN] Would run draft_prose.py --pending")
+    else:
+        try:
+            r = subprocess.run(
+                [sys.executable, str(ROOT / "scripts" / "draft_prose.py"), "--pending"],
+                capture_output=True, text=True, encoding="utf-8",
+                errors="replace", timeout=1800, cwd=str(ROOT))
+            for line in (r.stdout or "").strip().splitlines()[-14:]:
+                log(f"  {line}")
+            if r.returncode != 0:
+                log(f"  draft_prose failed (exit {r.returncode}) — not fatal")
+        except Exception as e:
+            log(f"  draft_prose ERROR: {e} — not fatal")
+
     log("")
     log("=" * 60)
     log("NIGHTLY RUN COMPLETE")
