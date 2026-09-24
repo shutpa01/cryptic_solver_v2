@@ -311,6 +311,22 @@ def _order_mechs(found):
     return (" + ".join(ordered)).replace("_", " ").capitalize()
 
 
+def _homophone_sound(parse, source):
+    """The word actually PRONOUNCED as the answer — "EARN" for net -> ERNE — or None.
+
+    `core/homophone_engine._build` writes it onto every link of the piece as
+    'sounds like "EARN"', so the middle of the chain has always been recorded.
+    None means there is no middle to name: a DIRECT homophone, where the clue word
+    itself is what is pronounced, or a legacy row with nothing stored.
+    Mirrors core/wfw_render._homophone_sound.
+    """
+    tr = next((l["transform"] for l in parse["links"]
+               if l["source_index"] == source["ord"]
+               and l["transform"] and '"' in l["transform"]), None)
+    snd = tr.split('"')[1] if tr else None
+    return snd if snd and snd.lower() != (source["text"] or "").lower() else None
+
+
 def _wordplay_label(parse):
     op = parse["operation"]
     if op == "manual":
@@ -429,12 +445,23 @@ def _summary(parse):
 
     if op == "homophone" and parse["sources"]:
         # Mirror the WFW page's own homophone line, word for word
-        # (`core/wfw_render._render_homophone`): "tracks" sounds like → ROOTS.
+        # (`core/wfw_render._render_homophone`).
         # The generic segment path cannot express this one: a homophone piece's
         # VALUE IS the answer, so joining pieces and then arrowing to the answer
         # said the same thing twice — "tracks→ROOTS → ROOTS" (clue 10086246,
-        # reported 2026-08-20). The partner (ROUTES) belongs on the piece's row,
-        # which is where the card puts it too.
+        # reported 2026-08-20).
+        # NAME THE MIDDLE. This line used to print only the ends — '"net" sounds
+        # like → ERNE' — which is false: net does not sound like erne, EARN does.
+        # The middle has always been recorded (every link of the piece carries
+        # 'sounds like "EARN"') and the piece's ROW has always shown it; only this
+        # one-liner dropped it. That matters more than it looks, because this
+        # string is what the hint overlay shows and what the prose drafter is
+        # handed as fact — fed the short form, a model writes "'net', said aloud,
+        # gives the answer" and means it.
+        snd = _homophone_sound(parse, parse["sources"][0])
+        if snd:
+            return '"%s" means %s, which sounds like → %s' % (
+                parse["sources"][0]["text"], snd.upper(), answer)
         return '"%s" sounds like → %s' % (parse["sources"][0]["text"], answer)
 
     named = _named_shift_summary(parse)   # exchange ACROSS the join, not within a piece
@@ -1356,9 +1383,8 @@ def load_breakdown(clue_id):
         # reported 2026-08-20). Mirrors the admin card, which has carried this
         # aside all along (`core/wfw_render.py:661`).
         if s["mechanism"] == "homophone":
-            _tr = next((t for t in trans.get(s["ord"], []) if t and '"' in t), None)
-            _snd = _tr.split('"')[1] if _tr else None
-            if _snd and _snd.lower() != (s["text"] or "").lower():
+            _snd = _homophone_sound(parse, s)
+            if _snd:
                 _via = ' — via "%s" (synonym)' % _snd
                 row["detail"] = (row["detail"] or "") + _via
                 if row.get("detail_html"):

@@ -961,10 +961,8 @@ def _source_row(parse, si, src_fg, src_fill):
                       else (_transform_note(s.value, got, parse)
                             or _unexplained_note(s.value, got)))))
     if s.mechanism == "homophone":
-        tr = next((l.transform for l in parse.links
-                   if l.source_index == si and l.transform), None)
-        snd = tr.split('"')[1] if tr and '"' in tr else None
-        if snd and snd.lower() != s.text.lower():
+        snd = _homophone_sound(parse, si, s.text)
+        if snd:
             content += (' <span class="wfw-emuted">&mdash; via &ldquo;%s&rdquo;'
                         ' (synonym)</span>' % escape(snd))
     if getattr(s, "source", "db") == "pending":
@@ -1237,6 +1235,21 @@ def _ans(parse):
     return escape((parse.answer_text or "").upper())
 
 
+def _homophone_sound(parse, si, text):
+    """The word actually PRONOUNCED as the answer — "EARN" for net -> ERNE — or None.
+
+    `core/homophone_engine._build` writes it onto every link of the piece as
+    'sounds like "EARN"', so the middle of the chain has always been recorded; it
+    is only the reading of it that was missing in places. None means there is no
+    middle to name: a DIRECT homophone, where the clue word itself is what is
+    pronounced, or a legacy row with nothing stored. Mirrors web/wfw_read.
+    """
+    tr = next((l.transform for l in parse.links
+               if l.source_index == si and l.transform), None)
+    snd = tr.split('"')[1] if tr and '"' in tr else None
+    return snd if snd and snd.lower() != (text or "").lower() else None
+
+
 def _arrow_ans(parse):
     return ('<span class="wfw-arrow">&rarr;</span> <strong class="wfw-val">%s</strong>'
             % _ans(parse))
@@ -1440,11 +1453,24 @@ def _render_deletion(parse, ctx, src_fg, src_fill):
 
 @renders("homophone")
 def _render_homophone(parse, ctx, src_fg, src_fill):
-    """"host phrase" sounds like -> ANSWER."""
+    """"host phrase" means MIDDLE, which sounds like -> ANSWER.
+
+    NAMING THE MIDDLE IS THE POINT. A homophone is two steps — "net" means EARN,
+    and EARN sounds like ERNE — and the one-liner used to print only the ends:
+    '"net" sounds like -> ERNE'. That sentence is false; net does not sound like
+    erne. The rows below have always carried the aside ('via "EARN"'), so the
+    record was never at fault, but the headline asserted a homophone it did not
+    show, and it is the headline that gets read aloud and fed to the prose
+    drafter. A DIRECT homophone (the clue word itself is pronounced as the
+    answer) has no middle and keeps the short form. Mirrors web/wfw_read._summary.
+    """
     if parse.sources:
-        return _build_line('&ldquo;%s&rdquo; sounds like %s'
-                           % (escape(parse.sources[0].text), _arrow_ans(parse))) \
-            + _grid(_all_rows(parse, src_fg, src_fill))
+        snd = _homophone_sound(parse, 0, parse.sources[0].text)
+        lead = '&ldquo;%s&rdquo;' % escape(parse.sources[0].text)
+        inner = ('%s means <strong class="wfw-val">%s</strong>, which sounds like %s'
+                 % (lead, escape(snd.upper()), _arrow_ans(parse))) if snd else (
+                 '%s sounds like %s' % (lead, _arrow_ans(parse)))
+        return _build_line(inner) + _grid(_all_rows(parse, src_fg, src_fill))
     return _grid(_all_rows(parse, src_fg, src_fill))
 
 
