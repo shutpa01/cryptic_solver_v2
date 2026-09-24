@@ -179,15 +179,25 @@ def verify(text, parse, clue_text, answer):
     return True, ""
 
 
-def clues_in_scope(source=None, puzzle=None, day=None):
-    """[(clue_id, answer, clue_text, parse)] for every served clue with a parse."""
+def clues_in_scope(source=None, puzzle=None, day=None, clue=None):
+    """[(clue_id, answer, clue_text, parse)] for every served clue with a parse.
+
+    A clue with NO parse is skipped, not drafted: `wfw_read._load` returns a parse
+    only when the stored solve is a `pass`, so a pending prefill is invisible here.
+    That is the point — there is nothing truthful to say about a reading that has
+    not been settled.
+    """
     from web import create_app, wfw_read
     app = create_app("development")
     found = []
     with app.app_context():
         from web.db import get_db
         from web.serving import SERVED_SOURCES
-        if source and puzzle:
+        if clue:
+            rows = get_db().execute(
+                "SELECT id, answer, clue_text FROM clues WHERE id = ?",
+                (int(clue),)).fetchall()
+        elif source and puzzle:
             rows = get_db().execute(
                 "SELECT id, answer, clue_text FROM clues WHERE source = ? "
                 "AND puzzle_number = ? ORDER BY id", (source, str(puzzle))).fetchall()
@@ -251,6 +261,8 @@ def main(argv=None):
     ap.add_argument("--source")
     ap.add_argument("--puzzle")
     ap.add_argument("--day", help="publication date; default today")
+    ap.add_argument("--clue", type=int,
+                    help="one clue id — what the /hs Commit button fires")
     ap.add_argument("--list", action="store_true", help="show what awaits approval")
     ap.add_argument("--dry-run", action="store_true",
                     help="print the facts block and call nothing")
@@ -270,7 +282,7 @@ def main(argv=None):
                 print("  %-10s %s" % ("", v["gloss"]))
         return 0
 
-    clues = clues_in_scope(args.source, args.puzzle, args.day)
+    clues = clues_in_scope(args.source, args.puzzle, args.day, args.clue)
     todo = [c for c in clues if str(c[0]) not in data]
     print("%d clue(s) with a parse in scope, %d not yet drafted." % (len(clues), len(todo)))
     if not todo:

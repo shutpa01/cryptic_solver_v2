@@ -3675,6 +3675,48 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
     return "".join(p)
 
 
+def _queue_prose_draft(clue_id):
+    """Start drafting this clue's prose and RETURN IMMEDIATELY. Never raises.
+
+    SPEED IS THE WHOLE CONSTRAINT (user, 2026-09-24: "I cannot afford a long
+    delay"). MEASURED: a single-clue draft takes 8-11 seconds, which is far too
+    long to hold a commit open — so the commit does not wait for it. The child is
+    detached: it outlives this request, writes `logs/prose.json` when it is done,
+    and the text is in the box the next time the clue is drawn. By then the user
+    has read and filed the next clue, so in practice the prose is waiting before
+    it is wanted.
+
+    WHY ON COMMIT AND NOT AT 00:05. The nightly cannot draft the clues that matter
+    most: the ones the user hand-files are, by definition, the ones with no pass at
+    00:05 — 15 of 32 on telegraph 31353. Drafting when the reading is committed is
+    the only moment the facts exist AND the user is present to tick them.
+
+    A failure here must never cost the commit, which has already succeeded and been
+    written: every error is swallowed and the child's own output goes to
+    `logs/prose_draft.log` so a silent failure is still findable.
+    """
+    import subprocess
+    import sys
+    from pathlib import Path
+    try:
+        root = Path(__file__).resolve().parent.parent
+        script = root / "scripts" / "draft_prose.py"
+        if not script.exists():
+            return
+        log = root / "logs" / "prose_draft.log"
+        log.parent.mkdir(parents=True, exist_ok=True)
+        flags = 0
+        for name in ("CREATE_NO_WINDOW", "DETACHED_PROCESS"):
+            flags |= getattr(subprocess, name, 0)
+        with open(log, "a", encoding="utf-8") as fh:
+            subprocess.Popen([sys.executable, str(script), "--clue", str(clue_id)],
+                             cwd=str(root), stdin=subprocess.DEVNULL,
+                             stdout=fh, stderr=fh, close_fds=True,
+                             creationflags=flags)
+    except Exception:
+        pass          # the commit stands; prose is an addition to it, never a gate
+
+
 def _hs_prose_block(clue_id, back, ctx_hidden):
     """The overnight prose draft, with the tick that lets it be served.
 
@@ -7024,6 +7066,12 @@ def hsmanualcommit_route():
     finally:
         conn.close()
 
+    # The reading is now settled, so there are facts to write prose from. An &lit is
+    # filed PENDING, not pass, so there is still nothing truthful to say about it and
+    # it is left alone. Detached — the commit does not wait (see _queue_prose_draft).
+    if not andlit:
+        _queue_prose_draft(cid)
+
     # The commit SUCCEEDED — now save the reusable pieces to the reference DB, so a hand-solve
     # teaches the system: a synonym/definition/abbreviation/indicator supplied here helps future
     # clues instead of being trapped in this one frozen parse. Dedup is built into each adder,
@@ -7132,6 +7180,7 @@ def _confirm_prefill(cid):
         conn.commit()
     finally:
         conn.close()
+    _queue_prose_draft(cid)      # Confirm settles the reading too — same as Commit
     added, present, rejected = _apply_db_adds(built["db_adds"])
     msg = "Confirmed — now your frozen manual solve."
     if _conf_ok:
