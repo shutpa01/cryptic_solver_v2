@@ -68,6 +68,29 @@ def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     return True
 
 
+def save_refusal(clue_id, reason, facts_hash=""):
+    """Record that NO prose could honestly be written, and why.
+
+    A refusal is a RESULT, not a blank (user, 2026-09-24: a clue that simply showed
+    nothing was indistinguishable from the feature being broken). It is also the
+    signal most worth seeing, because the drafter refuses when the record does not
+    support the sentence — which is usually a fault in the READING, not the prose.
+
+    Carries `facts_hash` for the same reason a draft does: a reading that has not
+    changed should not spend another model call to be refused again. Never touches
+    an approved record, exactly as save_draft does not.
+    """
+    data = load()
+    key = str(clue_id)
+    if (data.get(key) or {}).get("approved"):
+        return False
+    data[key] = {"sentence": "", "gloss": "", "answer": "", "approved": False,
+                 "refused": (reason or "").strip() or "no reason given",
+                 "facts_hash": facts_hash}
+    save(data)
+    return True
+
+
 def facts_unchanged(clue_id, facts_hash, data=None):
     """True when a draft exists and was written from EXACTLY these facts.
 
@@ -110,6 +133,6 @@ def approved_text(clue_id, data=None):
     reach a page by any route.
     """
     rec = get(clue_id, data)
-    if not rec or not rec.get("approved"):
+    if not rec or not rec.get("approved") or rec.get("refused"):
         return None
     return (rec.get("sentence") or "", rec.get("gloss") or "")

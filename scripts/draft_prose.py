@@ -61,6 +61,7 @@ import hashlib
 import json
 import os
 import re
+from functools import lru_cache
 import subprocess
 import sys
 from pathlib import Path
@@ -169,6 +170,53 @@ def recorded_values(parse):
     return out
 
 
+def fold(text):
+    """Letters as the checker must read them: HTML entities resolved, accents
+    flattened, case preserved.
+
+    ACORUÑA and ADAM&#039;S APPLE are answers we hold with certainty, and neither
+    was recognisable before (measured 2026-09-24: 96 answers in the corpus).
+    """
+    import html as _html
+    import unicodedata
+    t = unicodedata.normalize("NFKD", _html.unescape(text or ""))
+    return "".join(c for c in t if not unicodedata.combining(c))
+
+
+@lru_cache(maxsize=4096)
+def _answer_pattern(letters):
+    """The answer's letters, with only punctuation allowed between them.
+
+    Cached: the standing test asks for one pattern per answer across 151,304 of
+    them, and compiling each time turned seconds into minutes.
+    """
+    sep = "[ .'‘’ʼ-]*"
+    return re.compile(r"\b" + sep.join(re.escape(c) for c in letters) + r"\b")
+
+
+def answer_blanked(text, answer):
+    """`text` with every rendering of the ANSWER removed, however it is spaced.
+
+    THE ANSWER IS THE ONE FACT HELD WITHOUT DOUBT, so it is COMPARED, never
+    inferred from a pattern. The old code left it to the capitals scan, which
+    reads runs of two-letter-or-longer words — so "A BIT MUCH" was seen as
+    "BIT MUCH", did not match the answer, and BIT was called an invention: a
+    good sentence refused on the one thing that cannot be wrong (user,
+    2026-09-24). 1,083 answers in the corpus contain a one-letter word.
+
+    Only a SEPARATOR may sit between the letters — space, hyphen, dot, or either
+    kind of apostrophe — so this accounts for the answer wherever it really
+    appears and never swallows unrelated text on the way. The curly apostrophe
+    and the dot are in the list because the corpus holds BLIND MAN'S BUFF with a
+    typographic quote and papua.new.guinea with dots; both are answers, and an
+    answer must always be recognisable.
+    """
+    letters = re.sub(r"[^A-Z]", "", fold(answer or "").upper())
+    if not letters:
+        return text
+    return _answer_pattern(letters).sub(" ", text)
+
+
 _CAPS = re.compile(r"\b[A-Z][A-Z'-]{1,}\b")
 # One or more capitalised words in a row, e.g. "ALES MAN" or "PATERNITY LEAVE".
 _CAPS_RUN = re.compile(r"\b[A-Z][A-Z'-]{1,}(?:\s+[A-Z][A-Z'-]{1,})*\b")
@@ -176,9 +224,10 @@ _CAPS_RUN = re.compile(r"\b[A-Z][A-Z'-]{1,}(?:\s+[A-Z][A-Z'-]{1,})*\b")
 
 def verify(text, parse, clue_text, answer):
     """(ok, reason). A draft that invents or drops a piece is REFUSED, never filed."""
+    text = fold(text)
     up = text.upper()
-    ans = (answer or "").upper()
-    values = recorded_values(parse)
+    ans = fold(answer or "").upper()
+    values = {fold(v).upper() for v in recorded_values(parse)}
     missing = [v for v in values if v.replace(" ", "") not in up.replace(" ", "")]
     if missing:
         return False, "does not account for %s" % ", ".join(sorted(missing))
@@ -205,7 +254,9 @@ def verify(text, parse, clue_text, answer):
     # tested joined first, and only if the run as a whole is unknown is each word
     # judged alone. An invention next to a real value therefore still fails: ROT TOR
     # joins to ROTTOR, which is nothing we hold, and TOR alone is nothing either.
-    for run in _CAPS_RUN.findall(text):
+    # The answer is accounted for FIRST and removed, so no quirk of spacing,
+    # hyphenation, accent or article can make it look invented.
+    for run in _CAPS_RUN.findall(answer_blanked(text, answer)):
         joined = re.sub(r"[^A-Z']", "", run.upper())
         if joined in flat:
             continue
@@ -310,7 +361,8 @@ def main(argv=None):
     data = prose_store.load()
     if args.list:
         pending = {k: v for k, v in data.items()
-                   if isinstance(v, dict) and not v.get("approved")}
+                   if isinstance(v, dict) and not v.get("approved")
+                   and not v.get("refused")}
         if not pending:
             print("Nothing awaiting approval.")
             return 0
@@ -359,11 +411,17 @@ def main(argv=None):
             continue
         sentence, gloss = pair
         if sentence.strip().upper().startswith("INSUFFICIENT"):
+            why = "the model declined — the facts do not explain the answer"
+            refusals.append((cid, why, sentence))
+            prose_store.save_refusal(cid, why, hashes.get(cid, ""))
             print("  %-10s model declined — facts do not explain the answer" % cid)
             continue
         ok, why = verify(sentence + " " + gloss, parse, clue, ans)
         if not ok:
             refusals.append((cid, why, sentence))
+            # FILED, not just printed. Otherwise the clue page shows nothing and the
+            # refusal — the most useful thing the drafter produces — is buried in a log.
+            prose_store.save_refusal(cid, why, hashes.get(cid, ""))
             print("  %-10s REFUSED: %s" % (cid, why))
             continue
         # save_draft refuses to overwrite a record the user has already ticked, so a

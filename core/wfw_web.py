@@ -926,9 +926,19 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
             and getattr(parse, "solved_by", "") == "prefill":
         ans_letters = _raw_letters(answer)
         enrich_block = _enrichment_block(clue_text, ans_letters, clue_id, raw_list)
+    # PROSE AT THE BOTTOM, WITH THE OTHER APPROVALS (user, 2026-09-24). It sat
+    # above the card at first, mirroring the public page — but this is a REVIEW
+    # screen, and the user reads down it once: the card, then everything that
+    # needs a decision together, with Confirm last. Above the card it meant
+    # looking top to bottom and back for every clue.
+    from urllib.parse import quote as _q          # module keeps this import local
+    prose_block = _hs_prose_block(
+        clue_id, raw_list, "",
+        return_to="/?id=%s#clue-%d" % (_q(raw_list, safe=""), clue_id))
     return (_cid_label(clue_id, src, pnum, cnum, direction) + forced_banner + card
             + _note_block(clue_id, raw_list, editor=False)
             + enrich_block
+            + prose_block
             + _prefill_confirm_block(clue_id, parse, raw_list)
             + _handsolver_link(clue_id, raw_list)
             + _reddit_copy_block(clue_id, parse))
@@ -3717,7 +3727,7 @@ def _queue_prose_draft(clue_id):
         pass          # the commit stands; prose is an addition to it, never a gate
 
 
-def _hs_prose_block(clue_id, back, ctx_hidden):
+def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
     """The overnight prose draft, with the tick that lets it be served.
 
     The draft is written at 00:05 against a parse the user has not yet approved
@@ -3730,11 +3740,28 @@ def _hs_prose_block(clue_id, back, ctx_hidden):
     pass — the user's objection that produced this whole shape was that publishing
     is not the moment to be writing copy. Empty (no markup at all) when nothing has
     been drafted for this clue, so a clue with no draft costs no screen space.
+
+    ON BOTH SURFACES, ONE DEFINITION (user, 2026-09-24). The clue page is where the
+    reading is Confirmed and it carries the very card the customer is served, so the
+    prose belongs there too — otherwise every clue costs a trip to /hs and back. The
+    SAME function renders it here and there, and the SAME route saves it; `return_to`
+    is the only difference, because the clue page must come back to itself.
     """
     from core import prose_store
     rec = prose_store.get(clue_id)
+    quiet = ('<div style="margin:.5rem 0;padding:.4rem .6rem;border:1px dashed #cbd5e1;'
+             'border-radius:8px;background:#f8fafc;font-size:.85rem;color:#64748b">'
+             '%s</div>')
     if not rec:
-        return ""
+        # NOT an empty string. A clue with no draft used to render nothing at all,
+        # which reads exactly like a broken feature (user, 2026-09-24, on 4a of
+        # telegraph 31287 — one of three clues in the puzzle without one).
+        return quiet % "No prose drafted for this clue."
+    if rec.get("refused"):
+        # The drafter could not write an honest sentence from this record. Say what
+        # it objected to: it is usually evidence about the READING.
+        return quiet % ('<strong style="color:#b45309">No prose &mdash; the drafter '
+                        'refused:</strong> %s' % escape(rec["refused"]))
     ok = bool(rec.get("approved"))
     box = ('width:100%;max-width:46rem;box-sizing:border-box;border:1px solid '
            '#cbd5e1;border-radius:8px;padding:.4rem;font-family:inherit;'
@@ -3745,6 +3772,8 @@ def _hs_prose_block(clue_id, back, ctx_hidden):
         % (("#0d9488", "#f0fdfa") if ok else ("#e2e8f0", "#f8fafc")),
         '<input type="hidden" name="only" value="%d">' % clue_id,
         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+        ('<input type="hidden" name="return_to" value="%s">'
+         % escape(return_to, quote=True)) if return_to else "",
         ctx_hidden,
         '<div style="font-size:.85rem;color:#64748b;margin-bottom:.2rem">'
         'Prose block %s</div>'
@@ -3790,6 +3819,13 @@ def hsprose_route():
     msg = ("Prose approved — it will be served." if approved and raw != "keep" else
            "Prose un-approved — the page falls back to the card." if raw == "0" else
            "Prose saved.")
+    # Posted from the CLUE PAGE: go back to it, anchored at this clue, rather than
+    # landing the user in /hs. Relative paths only — a value carrying a scheme, or a
+    # protocol-relative "//host", would be an open redirect. The block re-renders
+    # green, which is the confirmation; the clue page has no notice strip for `msg`.
+    ret = (request.form.get("return_to") or "").strip()
+    if ret.startswith("/") and not ret.startswith("//"):
+        return redirect(ret)
     return _hs_redirect(only, msg, back)
 
 
