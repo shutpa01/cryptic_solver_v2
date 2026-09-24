@@ -3668,10 +3668,87 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'border-radius:8px;padding:.3rem .75rem;font-weight:700;cursor:pointer;'
          'margin-top:.3rem">Save note</button></div>',
          '</form>',
+         _hs_prose_block(clue_id, back, ctx_hidden),
          '<div class="g-card">%s</div>' % card,
          '</div>',
          '<script>initGrid("%s", %s);</script>' % (rootid, json.dumps(data))]
     return "".join(p)
+
+
+def _hs_prose_block(clue_id, back, ctx_hidden):
+    """The overnight prose draft, with the tick that lets it be served.
+
+    The draft is written at 00:05 against a parse the user has not yet approved
+    (`core/prefill_commit.py:57` — a prefill is `pending`, never `pass`), so the
+    text arrives provisional by construction. This tick is the gate: nothing
+    reaches a clue page until it is ticked, and the box is editable so a nearly
+    right sentence is corrected in place rather than thrown away.
+
+    It sits beside the parse deliberately, so reading and prose are approved in one
+    pass — the user's objection that produced this whole shape was that publishing
+    is not the moment to be writing copy. Empty (no markup at all) when nothing has
+    been drafted for this clue, so a clue with no draft costs no screen space.
+    """
+    from core import prose_store
+    rec = prose_store.get(clue_id)
+    if not rec:
+        return ""
+    ok = bool(rec.get("approved"))
+    box = ('width:100%;max-width:46rem;box-sizing:border-box;border:1px solid '
+           '#cbd5e1;border-radius:8px;padding:.4rem;font-family:inherit;'
+           'font-size:.95rem')
+    return "".join([
+        '<form method="post" action="/hsprose" style="margin:.5rem 0;padding:.5rem;'
+        'border:1px solid %s;border-radius:10px;background:%s">'
+        % (("#0d9488", "#f0fdfa") if ok else ("#e2e8f0", "#f8fafc")),
+        '<input type="hidden" name="only" value="%d">' % clue_id,
+        '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
+        ctx_hidden,
+        '<div style="font-size:.85rem;color:#64748b;margin-bottom:.2rem">'
+        'Prose block %s</div>'
+        % ('<strong style="color:#0d9488">&#10003; approved &mdash; this is served'
+           '</strong>' if ok else
+           '<strong style="color:#b45309">draft &mdash; not served until ticked'
+           '</strong>'),
+        '<textarea name="sentence" rows="2" style="%s">%s</textarea>'
+        % (box, escape(rec.get("sentence") or "")),
+        '<textarea name="gloss" rows="2" style="%s;margin-top:.3rem">%s</textarea>'
+        % (box, escape(rec.get("gloss") or "")),
+        '<div style="margin-top:.3rem">',
+        '<button type="submit" name="approve" value="%s" style="background:%s;'
+        'color:#fff;border:none;border-radius:8px;padding:.3rem .75rem;'
+        'font-weight:700;cursor:pointer">%s</button>'
+        % (("0", "#b45309", "Un-approve") if ok else ("1", "#0d9488", "Approve")),
+        '<button type="submit" name="approve" value="keep" style="background:#fff;'
+        'color:#334155;border:1px solid #cbd5e1;border-radius:8px;'
+        'padding:.3rem .75rem;margin-left:.4rem;cursor:pointer">Save edits</button>',
+        '</div></form>'])
+
+
+@app.route("/hsprose", methods=["POST"])
+def hsprose_route():
+    """Tick, un-tick or edit the prose draft. Writes `logs/prose.json` only — no
+    solve, no clue DB write, no reference-DB write."""
+    from core import prose_store
+    only = (request.form.get("only") or "").strip()
+    back = (request.form.get("from") or only).strip()
+    if not only.isdigit():
+        return _hs_redirect(only, "No clue.", back)
+    raw = (request.form.get("approve") or "").strip()
+    sentence = request.form.get("sentence")
+    gloss = request.form.get("gloss")
+    rec = prose_store.get(only)
+    if not rec:
+        return _hs_redirect(only, "No prose drafted for this clue.", back)
+    # "keep" saves the user's edits WITHOUT changing the approved state, so fixing a
+    # typo on served text does not silently pull it off the page, and tidying a draft
+    # does not silently publish it.
+    approved = rec.get("approved") if raw == "keep" else (raw == "1")
+    prose_store.set_approved(only, approved, sentence, gloss)
+    msg = ("Prose approved — it will be served." if approved and raw != "keep" else
+           "Prose un-approved — the page falls back to the card." if raw == "0" else
+           "Prose saved.")
+    return _hs_redirect(only, msg, back)
 
 
 def _hs_redirect(only, msg="", back_raw=None):

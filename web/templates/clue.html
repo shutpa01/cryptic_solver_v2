@@ -130,6 +130,23 @@
       .wfw-card .wfw-clue:has(.wfw-lit) { display: block; }
       /* verdict/engine/prov chips are stripped server-side (web/serving.py) */
     </style>
+    {# THE PROSE BLOCK — the explanation in a sentence, above the card that proves
+       it. Shown only when the user has ticked the overnight draft on /hs; with no
+       tick this is absent and the page is exactly what it was. The same text is
+       what Cordelia narrates, which is why it is stored and shown as written
+       rather than reassembled here (user, 2026-09-24). #}
+    {% if prose %}
+    <div class="mt-4 rounded-xl border border-gray-200 bg-white p-4">
+      <p class="text-base leading-relaxed text-gray-800">{{ prose[0] }}</p>
+      {% if prose[1] %}
+      <p class="mt-2 text-sm leading-relaxed text-gray-600">
+        <span class="font-bold uppercase tracking-wide">{{ clue.answer }}</span>
+        &mdash; {{ prose[1] }}
+      </p>
+      {% endif %}
+    </div>
+    {% endif %}
+
     {{ wfw_card | safe }}
 
     {# Step through the puzzle's explanations without going back each time (user,

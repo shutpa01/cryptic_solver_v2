@@ -77,7 +77,8 @@ for _stream in (sys.stdout, sys.stderr):
     except (AttributeError, ValueError):
         pass
 
-PROSE = ROOT / "logs" / "prose.json"
+from core import prose_store                                      # noqa: E402
+
 CLAUDE = Path.home() / ".local" / "bin" / "claude.exe"
 CLAUDE_MODEL = "claude-fable-5"
 
@@ -105,18 +106,6 @@ SENTENCE: <one sentence>
 GLOSS: <short definition>
 
 """
-
-
-def load():
-    try:
-        return json.loads(PROSE.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-
-
-def save(data):
-    PROSE.parent.mkdir(parents=True, exist_ok=True)
-    PROSE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def facts(parse, clue_text, answer):
@@ -267,7 +256,7 @@ def main(argv=None):
                     help="print the facts block and call nothing")
     args = ap.parse_args(argv)
 
-    data = load()
+    data = prose_store.load()
     if args.list:
         pending = {k: v for k, v in data.items()
                    if isinstance(v, dict) and not v.get("approved")}
@@ -312,12 +301,13 @@ def main(argv=None):
             print("  %-10s REFUSED: %s" % (cid, why))
             print("             %s" % sentence)
             continue
-        data[str(cid)] = {"sentence": sentence, "gloss": gloss,
-                          "approved": False, "answer": ans.upper()}
-        filed += 1
-        print("  %-10s %s" % (cid, sentence))
-    if filed:
-        save(data)
+        # save_draft refuses to overwrite a record the user has already ticked, so a
+        # re-run cannot undo an approval.
+        if prose_store.save_draft(cid, sentence, gloss, ans):
+            filed += 1
+            print("  %-10s %s" % (cid, sentence))
+        else:
+            print("  %-10s already approved — left alone" % cid)
     print("\n%d filed unapproved, %d refused." % (filed, refused))
     return 0
 
