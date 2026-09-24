@@ -134,6 +134,14 @@ def facts(parse, clue_text, answer):
             if snd:
                 line += '  (pronounced as "%s")' % snd.upper()
         lines.append(line)
+    # Letters REMOVED. Without these the sum does not add up and an honest reader
+    # declines: FALSEALARM was handed "FALSE + an anagram of MALARIA" for a
+    # ten-letter answer and said INSUFFICIENT, correctly (2026-09-24). Three of that
+    # night's four declines were this, all on sound records.
+    for d in parse.get("deletions") or []:
+        gone = (d["value"] or "").strip().upper()
+        lines.append('  removed: "%s"%s' % ((d["text"] or "").strip(),
+                                            (" -> %s" % gone) if gone else ""))
     for i in parse["indicators"]:
         lines.append('  signal: "%s" means %s' % ((i["text"] or "").strip(),
                                                   (i["note"] or "?").strip()))
@@ -162,6 +170,8 @@ def recorded_values(parse):
 
 
 _CAPS = re.compile(r"\b[A-Z][A-Z'-]{1,}\b")
+# One or more capitalised words in a row, e.g. "ALES MAN" or "PATERNITY LEAVE".
+_CAPS_RUN = re.compile(r"\b[A-Z][A-Z'-]{1,}(?:\s+[A-Z][A-Z'-]{1,})*\b")
 
 
 def verify(text, parse, clue_text, answer):
@@ -184,10 +194,24 @@ def verify(text, parse, clue_text, answer):
                 allowed.add(snd.upper())
     allowed |= {w.upper() for w in re.split(r"[^A-Za-z']+", clue_text or "") if w}
     allowed |= {"SENTENCE", "GLOSS", "INSUFFICIENT", "A", "I"}
-    flat = {a.replace(" ", "") for a in allowed}
-    for tok in _CAPS.findall(text):
-        if tok not in allowed and tok.replace(" ", "") not in flat:
-            return False, "invents %s" % tok
+    flat = {a.replace(" ", "") for a in allowed if a}
+    # THE SPACE IS NOT A CLAIM. The record and the prose disagree about spacing in
+    # both directions, and neither disagreement is an invention:
+    #   * a VALUE can be two words   — `pub landlord -> "ALES MAN"` (SALESMAN);
+    #   * an ANSWER can be one word  — PATERNITYLEAVE, TESTTUBEBABY, CREDITCRUNCH,
+    #     which the prose naturally writes as "PATERNITY LEAVE".
+    # Tokenising either one refuses a faithful draft — measured 2026-09-24, that was
+    # most of the night's 12 refusals. So a RUN of consecutive capitalised words is
+    # tested joined first, and only if the run as a whole is unknown is each word
+    # judged alone. An invention next to a real value therefore still fails: ROT TOR
+    # joins to ROTTOR, which is nothing we hold, and TOR alone is nothing either.
+    for run in _CAPS_RUN.findall(text):
+        joined = re.sub(r"[^A-Z']", "", run.upper())
+        if joined in flat:
+            continue
+        for tok in _CAPS.findall(run):
+            if tok not in allowed and tok.replace(" ", "") not in flat:
+                return False, "invents %s" % tok
     return True, ""
 
 
@@ -327,7 +351,7 @@ def main(argv=None):
 
     got = parse_reply(ask(PROMPT_HEAD + body))
     print("%d clue(s) came back." % len(got))
-    filed = refused = 0
+    filed, refusals = 0, []
     for cid, ans, clue, parse in todo:
         pair = got.get(str(cid))
         if not pair:
@@ -339,9 +363,8 @@ def main(argv=None):
             continue
         ok, why = verify(sentence + " " + gloss, parse, clue, ans)
         if not ok:
-            refused += 1
+            refusals.append((cid, why, sentence))
             print("  %-10s REFUSED: %s" % (cid, why))
-            print("             %s" % sentence)
             continue
         # save_draft refuses to overwrite a record the user has already ticked, so a
         # re-run cannot undo an approval.
@@ -350,7 +373,16 @@ def main(argv=None):
             print("  %-10s %s" % (cid, sentence))
         else:
             print("  %-10s already approved — left alone" % cid)
-    print("\n%d filed unapproved, %d refused." % (filed, refused))
+    # The refusals repeated at the END, because they are the only part worth a
+    # human's attention and the nightly logs a TAIL of this output. Printed inline
+    # above they scroll away behind the drafts and the log keeps the least useful
+    # lines (measured 2026-09-24: 12 refusals, 11 lost from the night's log).
+    print("\n%d filed unapproved, %d refused." % (filed, len(refusals)))
+    if refusals:
+        print("REFUSED — no prose filed for these:")
+        for cid, why, sentence in refusals:
+            print("  %-10s %s" % (cid, why))
+            print("             %s" % sentence)
     return 0
 
 

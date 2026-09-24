@@ -176,6 +176,15 @@ def _load(clue_id, allow_pending=False):
                 # part of the explanation and must not vanish from the reader's page.
                 "shifted": [p for p in map(dict, pieces)
                             if p["role"] == "shifted"],
+                # Letters TAKEN OUT on the way to the answer ("without AI" ->
+                # deleted letters: AI). They place no tiles, so they are not
+                # sources, and nothing here read them until the prose drafter
+                # needed them: shown FALSE + an anagram of MALARIA for a 10-letter
+                # answer, a reader can only conclude the arithmetic is wrong and
+                # refuse to explain it, which is exactly what happened on
+                # 2026-09-24. Additive — every existing consumer ignores this key.
+                "deletions": [p for p in map(dict, pieces)
+                              if p["role"] == "deletion"],
                 "links": [dict(l) for l in links],
             }
     except sqlite3.OperationalError:

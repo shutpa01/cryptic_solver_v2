@@ -321,7 +321,10 @@ def main():
                 [sys.executable, str(ROOT / "scripts" / "draft_prose.py"), "--pending"],
                 capture_output=True, text=True, encoding="utf-8",
                 errors="replace", timeout=1800, cwd=str(ROOT))
-            for line in (r.stdout or "").strip().splitlines()[-14:]:
+            # Generous tail: draft_prose prints one line per clue and ENDS with the
+            # refusal summary, which is the only part worth reading in the morning.
+            # A 14-line tail lost 11 of 12 refusals on the first real run.
+            for line in (r.stdout or "").strip().splitlines()[-120:]:
                 log(f"  {line}")
             if r.returncode != 0:
                 log(f"  draft_prose failed (exit {r.returncode}) — not fatal")
