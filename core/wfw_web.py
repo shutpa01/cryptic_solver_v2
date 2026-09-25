@@ -3765,11 +3765,20 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
     ok = bool(rec.get("approved"))
     box = ('width:100%;max-width:46rem;box-sizing:border-box;border:1px solid '
            '#cbd5e1;border-radius:8px;padding:.4rem;font-family:inherit;'
-           'font-size:.95rem')
+           'font-size:.95rem;overflow:hidden;resize:vertical')
+    # SHOW THE WHOLE SENTENCE. Two fixed rows meant scrolling a one-line window
+    # (user, 2026-09-25), and the prose got longer the day it started explaining
+    # why each equivalence holds. `rows` sizes the box on arrival — the server
+    # cannot measure the browser, so it estimates from the text — and the oninput
+    # handler keeps it fitting as the text is edited.
+    def _rows(text):
+        return min(max(2 + len(text or "") // 78, 3), 14)
+    grow = ("this.style.height='auto';"
+            "this.style.height=(this.scrollHeight+2)+'px'")
     return "".join([
-        '<form method="post" action="/hsprose" style="margin:.5rem 0;padding:.5rem;'
-        'border:1px solid %s;border-radius:10px;background:%s">'
-        % (("#0d9488", "#f0fdfa") if ok else ("#e2e8f0", "#f8fafc")),
+        '<form id="prose-%d" method="post" action="/hsprose" style="margin:.5rem 0;'
+        'padding:.5rem;border:1px solid %s;border-radius:10px;background:%s">'
+        % (clue_id, *(("#0d9488", "#f0fdfa") if ok else ("#e2e8f0", "#f8fafc"))),
         '<input type="hidden" name="only" value="%d">' % clue_id,
         '<input type="hidden" name="from" value="%s">' % escape(back, quote=True),
         ('<input type="hidden" name="return_to" value="%s">'
@@ -3781,10 +3790,12 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
            '</strong>' if ok else
            '<strong style="color:#b45309">draft &mdash; not served until ticked'
            '</strong>'),
-        '<textarea name="sentence" rows="2" style="%s">%s</textarea>'
-        % (box, escape(rec.get("sentence") or "")),
-        '<textarea name="gloss" rows="2" style="%s;margin-top:.3rem">%s</textarea>'
-        % (box, escape(rec.get("gloss") or "")),
+        '<textarea name="sentence" rows="%d" oninput="%s" style="%s">%s</textarea>'
+        % (_rows(rec.get("sentence")), grow, box,
+           escape(rec.get("sentence") or "")),
+        '<textarea name="gloss" rows="%d" oninput="%s" style="%s;margin-top:.3rem">'
+        '%s</textarea>'
+        % (_rows(rec.get("gloss")), grow, box, escape(rec.get("gloss") or "")),
         '<div style="margin-top:.3rem">',
         '<button type="submit" name="approve" value="%s" style="background:%s;'
         'color:#fff;border:none;border-radius:8px;padding:.3rem .75rem;'
@@ -3793,7 +3804,18 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
         '<button type="submit" name="approve" value="keep" style="background:#fff;'
         'color:#334155;border:1px solid #cbd5e1;border-radius:8px;'
         'padding:.3rem .75rem;margin-left:.4rem;cursor:pointer">Save edits</button>',
-        '</div></form>'])
+        '</div></form>',
+        # THE SERVER CANNOT MEASURE THE BROWSER. `rows` above is only a fallback
+        # for the first paint; this is what actually makes the box fit — it reads
+        # the laid-out scrollHeight, so the whole sentence is visible with no
+        # scrollbar however it wraps. Run now for the text that is already there,
+        # again on load once the fonts have settled and the final width is known.
+        '<script>(function(){var f=document.getElementById("prose-%d");'
+        'if(!f)return;var fit=function(){Array.prototype.forEach.call('
+        'f.querySelectorAll("textarea"),function(t){t.style.height="auto";'
+        't.style.height=(t.scrollHeight+2)+"px";});};fit();'
+        'window.addEventListener("load",fit);'
+        'window.addEventListener("resize",fit);})();</script>' % clue_id])
 
 
 @app.route("/hsprose", methods=["POST"])
