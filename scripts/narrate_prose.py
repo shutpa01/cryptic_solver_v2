@@ -91,6 +91,37 @@ def _solve_status(conn, clue_id):
     return (row[0] or "").lower() if row else ""
 
 
+_ONES = ("", "one", "two", "three", "four", "five", "six", "seven", "eight",
+         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+         "sixteen", "seventeen", "eighteen", "nineteen")
+_TENS = ("", "", "twenty", "thirty", "forty", "fifty", "sixty")
+
+
+def _number_word(n):
+    """1 -> "one", 24 -> "twenty four". Grids do not go past the sixties."""
+    if n < 20:
+        return _ONES[n]
+    tens, ones = divmod(n, 10)
+    if tens >= len(_TENS):
+        return str(n)
+    return _TENS[tens] + (" " + _ONES[ones] if ones else "")
+
+
+def spoken_label(label):
+    """"1 Across" -> "One across" — ONE phrase, not a digit and then a word.
+
+    She read the numeral as its own token and left a beat before the direction,
+    which is not how a solver says it (user, 2026-09-25: "it is normally said as
+    an almost continuous word"). Spelling the number out and dropping the capital
+    on the direction removes the seam. Anything that is not <number> <direction>
+    is left exactly as it is.
+    """
+    parts = (label or "").strip().split()
+    if len(parts) == 2 and parts[0].isdigit() and parts[1].lower() in ("across", "down"):
+        return "%s %s" % (_number_word(int(parts[0])).capitalize(), parts[1].lower())
+    return label
+
+
 def clue_text_for(frame, conn, data):
     """What she says for ONE clue, or (None, reason).
 
@@ -101,7 +132,7 @@ def clue_text_for(frame, conn, data):
     cid = frame["clue_id"]
     label = (frame.get("label") or "").strip()
     clue = (frame.get("clue_text") or "").strip().rstrip(". ")
-    opening = u"%s. “%s”." % (label, clue)
+    opening = u"%s. “%s”." % (spoken_label(label), clue)
 
     approved = prose_store.approved_text(cid, data)
     if approved:

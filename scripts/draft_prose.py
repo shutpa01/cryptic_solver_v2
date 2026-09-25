@@ -109,10 +109,11 @@ RULES — these are absolute:
   The reader can already see the clue. Its wording is the thing that needs explaining, so repeating it explains nothing.
 * If the facts do not explain the answer, write SENTENCE: INSUFFICIENT and nothing \
 else for that clue. That is a correct answer, not a failure.
-* THIS TEXT IS READ ALOUD. Full stops are where she breathes, so write SHORT \nSENTENCES: one step each, and never more than two clauses joined by "and". A \nlong sentence strung together with commas is read as one stream of words, which \nis what made the first film unusable.
-    BAD:  KLINGON, the artificial language, drops ON, meaning in use, and the \nrest wraps around IP, short for intellectual property, giving KIPLING.
-    GOOD: KLINGON is an artificial language. It loses ON, which means in use. \nThe rest wraps around IP, short for intellectual property. That gives KIPLING.
-  No parentheses, no dashes in the middle of a sentence, no semicolons: none of \nthem can be heard. Plain British English.
+* THIS TEXT IS READ ALOUD, AND THE SENTENCE LENGTH IS THE WHOLE POINT. Full stops are where she breathes. NO SENTENCE MAY EXCEED 20 WORDS - count them before you write the next one. ONE STEP PER SENTENCE: each piece, each operation, each reason gets its own. Four or five short sentences is right; one long one is a failure however correct it is.
+  NEVER chain clauses with commas and finish on "giving X". End with a separate sentence: "That gives X."
+    BAD:  WRAPS is what cocoons means, since to cocoon something is to wrap it up, and it is written backwards with OR, the word for gold in heraldry, also reversed and placed inside it, giving SPARROW.
+    GOOD: Cocoons means WRAPS, since to cocoon something is to wrap it up. WRAPS is written backwards. OR is the heraldic word for gold, and it is reversed too. It sits inside. That gives SPARROW.
+  No parentheses, no dashes in the middle of a sentence, no semicolons: none of them can be heard. Plain British English.
 * Do not mention the grid, the setter, the puzzle or the solver.
 
 Output format, exactly, and nothing else:
