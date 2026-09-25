@@ -28,6 +28,12 @@ from web.db import get_db
 
 # Display vocabulary for wfw operations (data copied from the admin renderer's
 # _TYPE_LABEL in core/wfw_render.py — keep in sync by hand; no core import).
+# Verdicts filed as a CLUE TYPE rather than solved on the grid: no piece places a
+# letter, so the author's comment IS the explanation. Keep in step with
+# _TYPE_VERDICTS in core/wfw_web.py, which is where one is added.
+CLUE_TYPE_OPS = ("reverse_anagram", "double_homophone")
+
+
 _OP_LABEL = {
     "hidden": "Hidden word",
     "hidden_reversed": "Hidden word (reversed)",

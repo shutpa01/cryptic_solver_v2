@@ -57,6 +57,7 @@ not follow that.
 """
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import os
@@ -307,7 +308,6 @@ def verify(text, parse, clue_text, answer):
         # in `values` because it is what the piece loses, not what it contributes,
         # so it is allowed to be named but never required to be.
         allowed.update(cut_letters(p))
-        allowed.add(cut_residue(p))
     from web import wfw_read
     for p in parse["sources"]:
         if p["mechanism"] == "homophone":
@@ -329,13 +329,34 @@ def verify(text, parse, clue_text, answer):
     # joins to ROTTOR, which is nothing we hold, and TOR alone is nothing either.
     # The answer is accounted for FIRST and removed, so no quirk of spacing,
     # hyphenation, accent or article can make it look invented.
+    # THE RECORD'S LETTERS, IN ANY ARRANGEMENT. Wordplay is made of intermediate
+    # strings that the record never stores: CAVA with two letters exchanged is
+    # VACA, "IM DA" backwards is ADMI, GUEST less U is GEST, AUSTRIAN with A and L
+    # inside is AUSTRALIAN. Matching against a list of exact recorded values calls
+    # every one of them an invention, and no amount of special cases fixes that —
+    # it is the wrong test. What prose may NOT do is introduce letters from
+    # nowhere: WI for the Women's Institute when no W is in play. So the test is
+    # the letter POOL — everything the record holds, plus the answer — and a token
+    # passes when it can be spelt from it. The user's tick remains the only thing
+    # that puts prose on a page (2026-09-25).
+    pool = Counter()
+    for v in values | {ans}:
+        pool += Counter(re.sub(r"[^A-Z]", "", v.upper()))
+    for p in parse["sources"]:
+        for cut in cut_letters(p):
+            pool += Counter(re.sub(r"[^A-Z]", "", cut))
+
     for run in _CAPS_RUN.findall(answer_blanked(text, answer)):
         joined = re.sub(r"[^A-Z']", "", run.upper())
         if joined in flat:
             continue
         for tok in _CAPS.findall(run):
-            if tok not in allowed and tok.replace(" ", "") not in flat:
-                return False, "invents %s" % tok
+            if tok in allowed or tok.replace(" ", "") in flat:
+                continue
+            letters = Counter(re.sub(r"[^A-Z]", "", tok.upper()))
+            if letters and not (letters - pool):
+                continue
+            return False, "invents %s" % tok
     return True, ""
 
 
@@ -369,6 +390,13 @@ def clues_in_scope(source=None, puzzle=None, day=None, clue=None, pending=False)
                 (*SERVED_SOURCES, day)).fetchall()
         for r in rows:
             parse = wfw_read._load(r["id"], allow_pending=pending)
+            # A CLUE TYPE IS NOT DRAFTED. A reverse anagram or a double homophone is a
+            # pass with no piece placing a letter, so there is nothing to write a
+            # sentence from — the author's comment is the explanation, and both the card
+            # and the narration read it as written. Drafting here would either decline
+            # or invent, and would compete with what the author already wrote.
+            if parse is not None and (parse.get("operation") or "") in wfw_read.CLUE_TYPE_OPS:
+                continue
             if parse is None:
                 continue            # nothing settled enough to describe
             found.append((r["id"], r["answer"] or "", r["clue_text"] or "", parse))

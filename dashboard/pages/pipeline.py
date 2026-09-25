@@ -119,6 +119,7 @@ def _get_unpublished_wfw(cutoff_iso):
     rows = conn.execute("""
         SELECT c.id, c.source, c.puzzle_number, c.publication_date AS pub,
                CASE WHEN w.clue_id IS NOT NULL THEN 1 ELSE 0 END AS passed,
+               LOWER(COALESCE(w.operation, '')) AS operation,
                CASE WHEN wi.clue_id IS NOT NULL AND n.note IS NOT NULL
                          AND TRIM(n.note) != '' THEN 1 ELSE 0 END AS invalid_noted
         FROM clues c
@@ -130,6 +131,12 @@ def _get_unpublished_wfw(cutoff_iso):
     """, (cutoff_iso,)).fetchall()
     conn.close()
 
+    # A CLUE TYPE NEEDS NO PROSE. A reverse anagram or a double homophone passes with
+    # no piece placing a letter, so the author's comment is the explanation — the
+    # drafter skips it and the narration reads the note. Counting it as outstanding
+    # left a puzzle permanently short of prose it will never have (user, 2026-09-25:
+    # "pipeline blocks deploy because it expects prose").
+    from web.wfw_read import CLUE_TYPE_OPS
     drafts = prose_store.load()
     puzzles = {}
     for r in rows:
@@ -142,7 +149,8 @@ def _get_unpublished_wfw(cutoff_iso):
         agg["pub"] = max(agg["pub"], r["pub"] or "")
         if r["passed"] or r["invalid_noted"]:
             agg["served"] += 1
-        if r["invalid_noted"] or prose_store.approved_text(r["id"], drafts):
+        if (r["invalid_noted"] or r["operation"] in CLUE_TYPE_OPS
+                or prose_store.approved_text(r["id"], drafts)):
             agg["prose"] += 1
     # NOTHING BEFORE PROSE_FROM IS GATED ON PROSE. Those puzzles went live without
     # it and are dealt with. Counting them put 231 puzzles and 6,771 clues on this

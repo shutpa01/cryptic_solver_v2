@@ -122,6 +122,15 @@ def spoken_label(label):
     return label
 
 
+def _clue_type_op(conn, clue_id):
+    """The clue-type operation for this clue, or "" — see web.wfw_read.CLUE_TYPE_OPS."""
+    from web.wfw_read import CLUE_TYPE_OPS
+    row = conn.execute("SELECT operation FROM wfw_solve WHERE clue_id = ?",
+                       (clue_id,)).fetchone()
+    op = (row[0] or "").lower() if row else ""
+    return op if op in CLUE_TYPE_OPS else ""
+
+
 def clue_text_for(frame, conn, data):
     """What she says for ONE clue, or (None, reason).
 
@@ -142,12 +151,16 @@ def clue_text_for(frame, conn, data):
             return None, "approved but empty"
         return opening + SEP + body, ""
 
-    if _solve_status(conn, cid) == "invalid":
+    # A CLUE TYPE'S COMMENT IS ITS EXPLANATION, exactly as an INVALID's is. A reverse
+    # anagram lands as a PASS with its own operation and no piece places a letter, so
+    # there is nothing to build a sentence from and nothing to improve on: the author
+    # has already written what happens. She reads it as written (user, 2026-09-25).
+    if _solve_status(conn, cid) == "invalid" or _clue_type_op(conn, cid):
         note = store.get_note(conn, cid).strip()
         if note:
             # The user's own words, read as written. Not rephrased, not softened.
             return opening + SEP + note, ""
-        return None, "INVALID with no comment"
+        return None, "%s with no comment" % (_clue_type_op(conn, cid) or "INVALID")
 
     return None, "no approved prose"
 

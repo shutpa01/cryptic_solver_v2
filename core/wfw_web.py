@@ -2816,12 +2816,12 @@ function initGrid(rootId, DATA){
   if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
   if(selrule)selrule.style.display=(r==='selection')?'':'none'; // the selection rule picker
   fillSub();                                                    // data-driven sub-type dropdown
-  candWrap.style.display=((isPiece(r)&&r!=='anagram'&&r!=='homophone')||r==='deletion'||r==='shifted')?'':'none'; // deletion/shifted = type; homophone = tiles
+  candWrap.style.display=((isPiece(r)&&r!=='homophone')||r==='deletion'||r==='shifted')?'':'none'; // anagram: blank = the ticked words, typed = an INDIRECT anagram; homophone = tiles
   if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isCuttable(r)||r==='anagram')?'':'none'; // delete letters from a
   if(!isCuttable(r)&&r!=='anagram'&&cutEl)cutEl.value='';   // piece value, or from anagram fodder
-  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?((selrule&&selrule.value==='named')?'the letter(s) the clue names, e.g. I':'derived from the word by the rule'):((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':'new value')))));
+  if(addInp)addInp.placeholder=(r==='letters')?'exact letters, e.g. G':((r==='replacement')?'the new letter, e.g. T (blank = the tile letter)':((r==='deletion')?'removed letters, e.g. A (blank = its own letters)':((r==='shifted')?'the letter this word names, e.g. tense = T':((r==='selection')?((selrule&&selrule.value==='named')?'the letter(s) the clue names, e.g. I':'derived from the word by the rule'):((r==='spoonerism')?'source phrase, e.g. THE DEAR YACHT':((r==='anagram')?'blank = the ticked words; or a SYNONYM of them, e.g. sailor = TAR':'new value'))))));
   drawCutPrev();
   if(isValued(r))fetchCands();
   if(r==='selection')fillSelCands();
@@ -2926,7 +2926,11 @@ function initGrid(rootId, DATA){
    var sv=((addInp.value||'').trim()||candSel.value||scands[0]||'').toUpperCase();
    if(scands.indexOf(sv)<0){note(sv+' is not the '+srl+' selection of '+sfl+' (must be '+scands.join(' or ')+')');return;}
    a.value=sv;a.rule=srl;}}
-  if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}a.value=fl;}
+  if(r==='anagram'){var fl=fodderLetters(idx);if(!fl){note('tick the fodder word(s) first');return;}
+   // INDIRECT ANAGRAM: the fodder is a SYNONYM of the ticked word, not its letters —
+   // "sailor" shuffled as TAR. Blank keeps the old behaviour exactly.
+   var av=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'');
+   a.value=av||fl;}
   if(r==='deletion'){var dv=(addInp.value||'').trim().toUpperCase().replace(/[^A-Z]/g,'')||fodderLetters(idx);
    if(!dv){note('type the removed letters');return;}a.value=dv;}   // named deletion, no tiles
   // A word that NAMES a letter which MOVES (tense -> T, Romeo -> R, exchanged by "exchanges").
@@ -3457,8 +3461,10 @@ def _span_surface(clue_id, back_raw=None, psrc=None, ppnum=None):
          'is deleted from it (e.g. the hotel = THE with the H that &ldquo;hotel&rdquo; '
          'names lost), type the word in full, put the deleted run in &minus; '
          '<b>delete</b>, and click the tiles the survivor reaches. '
-         '<b>anagram fodder</b>: tick the fodder word(s) &mdash; its value is their letters (shown '
-         'in the preview) &mdash; then click the answer tiles they rearrange into (any order); tag '
+         '<b>anagram fodder</b>: tick the fodder word(s) &mdash; leave the value blank and it is '
+         'their letters (shown in the preview), or type a <b>synonym</b> of them for an '
+         'INDIRECT anagram (sailor &rarr; TAR, then shuffled), which is filed to the '
+         'synonym table on commit &mdash; then click the answer tiles they rearrange into (any order); tag '
          'the anagram word separately as an <b>indicator</b> (type anagram). If the fodder is '
          'LONGER than the answer, place it on the (fewer) tiles and account the removed letter with '
          'a <b>deletion</b> role: tick the word that supplies it (e.g. &ldquo;a&rdquo; &rarr; A) and '
@@ -5910,8 +5916,9 @@ def triageapply_route():
 def _reusable_db_adds(wt, ans_letters, assigns):
     """Extract the REUSABLE pieces from a grid assignment list — the SAME rules as the
     manual commit (synonym / substitution with a value; definition; indicator with a REAL
-    chosen type). Link / letters / anagram fodder / deletion / selection / filler are
-    per-clue and never saved. ONE place for the rules: /hssave (every Assign),
+    chosen type). Link / letters / deletion / selection / filler are per-clue and never saved,
+    and so is anagram fodder EXCEPT when it is indirect (a synonym of the ticked word,
+    which is reusable). ONE place for the rules: /hssave (every Assign),
     /hssavepieces (route kept) both use it."""
     db_adds = []
     for a in assigns:
@@ -5925,6 +5932,14 @@ def _reusable_db_adds(wt, ans_letters, assigns):
         phrase = " ".join(wt[i].text for i in idx)
         value = (a.get("value") or "").strip().upper()
         if role == "synonym" and value:
+            db_adds.append(("synonym", phrase, value))
+        elif (role == "anagram" and value
+              and sorted("".join(_raw_letters(wt[i].text) for i in idx))
+                  != sorted(_raw_letters(value))):
+            # INDIRECT ANAGRAM, the same rule as the manual commit: fodder that is not the
+            # ticked word's own letters means a synonym step happened, and that pair is
+            # reusable even though the fodder itself is not. Both harvest paths must agree
+            # or the pair is filed on one route and lost on the other.
             db_adds.append(("synonym", phrase, value))
         elif role == "substitution" and value:
             db_adds.append(("substitution", phrase, value))
@@ -6672,6 +6687,17 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                                   mechanism=mech, source=piece_src,
                                   transform=piece_transform.dumps(xform)))
             if piece_src == "db" and role == "synonym" and value:   # reusable -> DB after commit
+                db_adds.append(("synonym", phrase, value))
+            elif (piece_src == "db" and role == "anagram" and value
+                  and sorted(_own) != sorted(_raw_letters(value))):
+                # INDIRECT ANAGRAM. The fodder is not the ticked word's own letters, so a
+                # synonym step happened on the way: sailor -> TAR, then TAR shuffled. The
+                # piece can only record `sailor -> TAR [anagram_fodder]` (Source has no note
+                # field and the schema is not being touched), so the synonym itself is filed
+                # where every other reader can find it — the same reference table a synonym
+                # piece writes to. Without this the pair exists nowhere and the reading
+                # cannot be checked (user, 2026-09-25: "the synonym pair needs adding to db
+                # if not already").
                 db_adds.append(("synonym", phrase, value))
             elif piece_src == "db" and role == "substitution" and value:  # abbr/symbol -> wordplay
                 db_adds.append(("substitution", phrase, value))
