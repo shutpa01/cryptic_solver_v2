@@ -87,18 +87,32 @@ CLAUDE_MODEL = "claude-fable-5"
 PROMPT_HEAD = """You are writing the explanation paragraph for a cryptic crossword \
 answer page. Below are several clues from one puzzle. For EACH, write:
 
-SENTENCE: one sentence saying how the wordplay produces the answer.
+SENTENCE: how the wordplay produces the answer, AND why each equivalence \nholds. SHORT SENTENCES, all on ONE line.
 GLOSS: a short plain definition of the answer word itself, dictionary-style, \
 eight to fifteen words.
 
 RULES — these are absolute:
-* The FACTS block under each clue is the only thing you know. Do not add a step, \
-a synonym, an abbreviation or a mechanism that is not written there.
+* The FACTS block is the only source of the SOLUTION. Do not add a step, a synonym, an abbreviation, a letter or a mechanism that is not written there.
+* SAY WHY, NOT JUST THAT. An equivalence a solver has to know is the very thing that needs explaining, so give its reason in a few words. For that, and for the GLOSS, use ordinary knowledge: it explains the solution, it does not add to it.
+    BAD:  O is the abbreviation for duck, and X stands for by.
+    GOOD: O stands for duck, which in cricket is a score of nought, and X means by because it is the multiplication sign.
+    BAD:  RES is the abbreviation for sappers.
+    GOOD: RES is short for the Royal Engineers, the army's sappers.
+  If you do not know the reason, state the equivalence plainly and stop. NEVER invent one: a guessed derivation is worse than none.
 * Never name a word in capitals unless it appears in the FACTS block or the clue.
+* EXPLAIN THE MECHANISM. DO NOT REPEAT THE CLUE. Every signal line names an operation. Say what that operation DOES, in your own plain words, and then the letters it produces. Never borrow the clue's phrase for it.
+    BAD:  N, the close of Arabian, gives ...
+    GOOD: the last letter of Arabian is N ...
+    BAD:  AUSTRIAN, describing Schwarzenegger, is fed A ...
+    GOOD: AUSTRIAN, a word for Schwarzenegger, has A inside it ...
+  A last indicator means the last letter. A first indicator means the first letter. A container indicator means one piece sits INSIDE another, so say which goes inside which. A reversal means a word written backwards. A deletion means letters taken away, so say which letters go and what is left.
+  The reader can already see the clue. Its wording is the thing that needs explaining, so repeating it explains nothing.
 * If the facts do not explain the answer, write SENTENCE: INSUFFICIENT and nothing \
 else for that clue. That is a correct answer, not a failure.
-* This text is read ALOUD as well as printed. No parentheses, no dashes in the \
-middle of a sentence, no semicolons. Plain British English.
+* THIS TEXT IS READ ALOUD. Full stops are where she breathes, so write SHORT \nSENTENCES: one step each, and never more than two clauses joined by "and". A \nlong sentence strung together with commas is read as one stream of words, which \nis what made the first film unusable.
+    BAD:  KLINGON, the artificial language, drops ON, meaning in use, and the \nrest wraps around IP, short for intellectual property, giving KIPLING.
+    GOOD: KLINGON is an artificial language. It loses ON, which means in use. \nThe rest wraps around IP, short for intellectual property. That gives KIPLING.
+  No parentheses, no dashes in the middle of a sentence, no semicolons: none of \nthem can be heard. Plain British English.
 * Do not mention the grid, the setter, the puzzle or the solver.
 
 Output format, exactly, and nothing else:
@@ -134,6 +148,9 @@ def facts(parse, clue_text, answer):
             snd = wfw_read._homophone_sound(parse, p)
             if snd:
                 line += '  (pronounced as "%s")' % snd.upper()
+        gone = cut_letters(p)
+        if gone:
+            line += "  (loses %s)" % ", ".join(gone)
         lines.append(line)
     # Letters REMOVED. Without these the sum does not add up and an honest reader
     # declines: FALSEALARM was handed "FALSE + an anagram of MALARIA" for a
@@ -158,6 +175,56 @@ def facts_hash(block):
     re-deriving the same paragraph.
     """
     return hashlib.sha1(block.encode("utf-8", "replace")).hexdigest()
+
+
+def cut_letters(piece):
+    """The letters this piece LOSES, from its transform — [] when it loses none.
+
+    The cut lives on the LINK's transform, not on the piece's value: "Tory" keeps
+    the value TORY and carries {"cuts": [{"at": 2, "letters": "RY"}]}, which is what
+    the card renders as `TORY -RY`. Reading the value alone shows a deletion with
+    nothing deleted, and the drafter then either infers the letters from the clue
+    (and is refused for inventing them) or cannot explain the answer at all.
+    Measured 2026-09-25 on INTO, INFERENCE and KIPLING.
+    """
+    raw = (piece["transform"] if "transform" in piece.keys() else "") or ""
+    if not raw:
+        return []
+    try:
+        t = json.loads(raw)
+    except Exception:
+        return []
+    return [str(c.get("letters") or "").strip().upper()
+            for c in (t.get("cuts") or []) if (c.get("letters") or "").strip()]
+
+
+def cut_residue(piece):
+    """What is LEFT of a piece once its recorded cuts are taken out, or "".
+
+    TORY with {"at": 2, "letters": "RY"} leaves TO — the letters this piece really
+    contributes, and the ones honest prose names. The record stores the whole word
+    and the cut separately, so the remainder exists nowhere and was refused as an
+    invention until this (2026-09-25, INTO).
+    """
+    raw = (piece["transform"] if "transform" in piece.keys() else "") or ""
+    val = (piece["value"] or "").strip().upper()
+    if not raw or not val:
+        return ""
+    try:
+        cuts = (json.loads(raw).get("cuts") or [])
+    except Exception:
+        return ""
+    out = val
+    for c in sorted(cuts, key=lambda c: -(c.get("at") or 0)):
+        letters = str(c.get("letters") or "").strip().upper()
+        at = c.get("at")
+        if not letters:
+            continue
+        if isinstance(at, int) and out[at:at + len(letters)] == letters:
+            out = out[:at] + out[at + len(letters):]
+        else:                      # position missing or stale — fall back to text
+            out = out.replace(letters, "", 1)
+    return out if out != val else ""
 
 
 def recorded_values(parse):
@@ -235,6 +302,11 @@ def verify(text, parse, clue_text, answer):
     allowed = {ans, ans.replace(" ", "")} | values
     for p in parse["sources"]:
         allowed.add((p["text"] or "").strip().upper())
+        # A letter the record says is CUT is something the record holds. It is not
+        # in `values` because it is what the piece loses, not what it contributes,
+        # so it is allowed to be named but never required to be.
+        allowed.update(cut_letters(p))
+        allowed.add(cut_residue(p))
     from web import wfw_read
     for p in parse["sources"]:
         if p["mechanism"] == "homophone":
@@ -354,6 +426,11 @@ def main(argv=None):
     ap.add_argument("--pending", action="store_true",
                     help="also draft PENDING prefill readings — what the nightly "
                          "uses, so the prose is waiting beside them at 05:00")
+    ap.add_argument("--redraft", action="store_true",
+                    help="rewrite prose that already exists, even though the "
+                         "reading has not changed. For when the WORDING is what "
+                         "is wrong, not the record. NEVER touches a clue you have "
+                         "approved.")
     ap.add_argument("--dry-run", action="store_true",
                     help="print the facts block and call nothing")
     args = ap.parse_args(argv)
@@ -385,7 +462,14 @@ def main(argv=None):
     for cid, ans, clue, parse in clues:
         block = facts(parse, clue, ans)
         h = facts_hash(block)
-        if prose_store.facts_unchanged(cid, h, data):
+        if args.redraft:
+            # The reading has not changed — the WORDING is what is being replaced,
+            # so facts_unchanged is exactly the wrong test here. An approved clue
+            # is left alone: save_draft would refuse it anyway, and asking for it
+            # would spend a model call on an answer that gets thrown away.
+            if prose_store.approved_text(cid, data):
+                continue
+        elif prose_store.facts_unchanged(cid, h, data):
             continue
         todo.append((cid, ans, clue, parse))
         blocks.append(block)

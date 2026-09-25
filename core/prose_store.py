@@ -50,6 +50,18 @@ def get(clue_id, data=None):
     return rec if isinstance(rec, dict) else None
 
 
+def sentence_case(text):
+    """First letter up, the rest left exactly as written.
+
+    The model hands back a dictionary-style gloss — "a university city in England"
+    — and a sentence is a sentence wherever it is printed (user, 2026-09-25). Only
+    the first character changes: ALL CAPS values, proper nouns and everything after
+    the opening letter are untouched.
+    """
+    t = (text or "").lstrip()
+    return t[:1].upper() + t[1:] if t else t
+
+
 def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     """File a NEW draft, unapproved. Refuses to touch a record already approved —
     an overnight re-run must never undo the user's tick.
@@ -61,7 +73,8 @@ def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     key = str(clue_id)
     if (data.get(key) or {}).get("approved"):
         return False
-    data[key] = {"sentence": sentence, "gloss": gloss,
+    data[key] = {"sentence": sentence_case(sentence),
+                 "gloss": sentence_case(gloss),
                  "answer": (answer or "").upper(), "approved": False,
                  "facts_hash": facts_hash}
     save(data)
