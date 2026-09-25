@@ -213,9 +213,16 @@ def _cut(ff, take, a, b, dst, seconds):
     encoder uses, and NOT -shortest, which with these inputs ends the output
     early (youtube_short.py, 2026-08-21).
     """
-    run([ff, "-y", "-loglevel", "error", "-i", str(take),
-         "-ss", "%.3f" % a] + (["-to", "%.3f" % b] if b is not None else []) +
-        ["-af", "apad", "-t", "%.3f" % seconds, "-c:a", "pcm_s16le", str(dst)])
+    # -ss/-to BEFORE -i, so they bound the INPUT. After -i they bound the output,
+    # where -t wins whenever `seconds` exceeds b - a — and `seconds` is b - a plus
+    # TAIL by construction, so every segment kept reading and carried the opening
+    # of the NEXT clue. The user heard it as her saying the clue number twice
+    # (2026-09-25). Measured on a synthetic take: the last second read -21.1 dB
+    # that way and -91.0 dB this way, with the length identical either way.
+    run([ff, "-y", "-loglevel", "error", "-ss", "%.3f" % a] +
+        (["-to", "%.3f" % b] if b is not None else []) +
+        ["-i", str(take),
+         "-af", "apad", "-t", "%.3f" % seconds, "-c:a", "pcm_s16le", str(dst)])
 
 
 def _silence(ff, dst, seconds):

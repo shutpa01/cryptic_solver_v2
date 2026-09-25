@@ -209,15 +209,15 @@ def next_puzzle(source, done, max_age_days):
     return None
 
 
-def build_video(source, number, narrate=True):
+def build_video(source, number, narrate=False):
     """Run capture then assemble for this puzzle.
 
-    NARRATED BY DEFAULT. Cordelia reads the prose the user ticked on /hs, clue by
-    clue (scripts/narrate_prose.py). The default is on because the fallback is
-    today's video, not a worse one: a clue with no tick is simply silent, and a
-    puzzle with nothing ticked at all falls straight back to the spoken intro over
-    a silent body — which is exactly what this built before. --no-narrate is there
-    for a deliberately silent film, not as a safety net.
+    SILENT OF PROSE BY DEFAULT. Cordelia reading every clue's explanation was
+    withdrawn on 2026-09-25 — the user's verdict on the first full film was that
+    it was unusable. The video is the one thing that cannot be corrected after
+    publishing, so this defaults OFF and --narrate is a deliberate opt-in, not a
+    default with an escape hatch. The spoken INTRO over the title card is
+    untouched: it predates the prose work and is not what was withdrawn.
     """
     py = sys.executable
     assemble = ["--source", source, "--puzzle", number] + (["--narrate"] if narrate else [])
@@ -457,11 +457,10 @@ def main():
                     choices=["private", "unlisted", "public"])
     ap.add_argument("--build", action="store_true",
                     help="run capture + assemble before uploading")
-    ap.add_argument("--no-narrate", action="store_true",
-                    help="film SILENT — do not read the approved prose over the "
-                         "clues. The narration is on by default; an unticked clue "
-                         "is silent on its own, so this is only for a film you want "
-                         "silent throughout.")
+    ap.add_argument("--narrate", action="store_true",
+                    help="read the approved prose over each clue. OFF by default "
+                         "since 2026-09-25; the film is otherwise the spoken intro "
+                         "over a silent body, as it was before the prose work.")
     ap.add_argument("--dry-run", action="store_true",
                     help="show the title, chapters and file; upload nothing")
     ap.add_argument("--max-age-days", type=int, default=0,
@@ -587,7 +586,7 @@ def run_one(args):
         args._skip.add(key)
         return 0
     if args.build or not video.exists():
-        build_video(args.source, puzzle["number"], narrate=not args.no_narrate)
+        build_video(args.source, puzzle["number"], narrate=args.narrate)
     if not video.exists():
         sys.exit("No video at %s" % video)
 
