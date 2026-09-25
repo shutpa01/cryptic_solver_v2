@@ -2,6 +2,7 @@
 
 import sqlite3
 import subprocess
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -10,7 +11,19 @@ import streamlit as st
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 CLUES_DB = PROJECT_ROOT / "data" / "clues_master.db"
+# The day clue-page prose entered service (user, 2026-09-25: "prose started
+# today, everything before today has been dealt with"). Puzzles published
+# earlier are not gated on it — including the 2026-09-24 test drafts.
+PROSE_FROM = "2026-09-25"
 PYTHON = r"C:\Users\shute\PycharmProjects\AI_Solver\.venv\Scripts\python.exe"
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+# core.prose_store is the ONE definition of what counts as approved prose
+# (its approved_text is the only reader the serving path uses). The dashboard
+# asks it rather than reading logs/prose.json itself.
+from core import prose_store  # noqa: E402  (needs PROJECT_ROOT on the path)
 
 
 def _check_tftt_available(puzzle_number):
@@ -87,40 +100,72 @@ def _check_fifteensquared_available(source, puzzle_number):
 
 
 def _get_unpublished_wfw(cutoff_iso):
-    """Puzzles published on/after `cutoff_iso` whose clues are NOT all served —
-    so they will NOT appear on the live site yet. 'Served' = a WFW pass, or an
-    INVALID with a reviewer comment: the SAME rule as the live puzzle page
-    (web.serving.puzzle_is_served). O/S per puzzle = total - served."""
+    """Puzzles published on/after `cutoff_iso` that are NOT ready to go live.
+
+    TWO GATES, COUNTED SEPARATELY (user, 2026-09-25):
+      * O/S pass  -- no WFW pass and no INVALID with a reviewer comment. This is
+        the live puzzle page's own rule (web.serving.puzzle_is_served), so the
+        page and this list can never disagree.
+      * O/S prose -- no APPROVED prose. An INVALID with a comment needs none:
+        the narration reads the comment instead, exactly as
+        scripts/narrate_prose.clue_text_for does.
+
+    A puzzle is listed when EITHER is outstanding. Approvals live in
+    logs/prose.json and not in the DB, so the prose count is done in Python over
+    the same clue rows rather than in SQL.
+    """
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     rows = conn.execute("""
-        SELECT c.source, c.puzzle_number, MAX(c.publication_date) AS pub,
-               COUNT(*) AS total,
-               SUM(CASE WHEN w.clue_id IS NOT NULL
-                     OR (wi.clue_id IS NOT NULL AND n.note IS NOT NULL
-                         AND TRIM(n.note) != '') THEN 1 ELSE 0 END) AS served
+        SELECT c.id, c.source, c.puzzle_number, c.publication_date AS pub,
+               CASE WHEN w.clue_id IS NOT NULL THEN 1 ELSE 0 END AS passed,
+               CASE WHEN wi.clue_id IS NOT NULL AND n.note IS NOT NULL
+                         AND TRIM(n.note) != '' THEN 1 ELSE 0 END AS invalid_noted
         FROM clues c
         LEFT JOIN wfw_solve w  ON w.clue_id = c.id AND w.status = 'pass'
         LEFT JOIN wfw_solve wi ON wi.clue_id = c.id AND wi.status = 'invalid'
         LEFT JOIN wfw_notes  n ON n.clue_id = c.id
         WHERE c.source IN ('telegraph', 'times', 'guardian')
           AND c.publication_date >= ?
-        GROUP BY c.source, c.puzzle_number
-        HAVING served < total
-        ORDER BY pub, c.source
     """, (cutoff_iso,)).fetchall()
     conn.close()
-    return rows
+
+    drafts = prose_store.load()
+    puzzles = {}
+    for r in rows:
+        key = (r["source"], str(r["puzzle_number"]))
+        agg = puzzles.setdefault(key, {
+            "source": r["source"], "puzzle_number": str(r["puzzle_number"]),
+            "pub": "", "total": 0, "served": 0, "prose": 0,
+        })
+        agg["total"] += 1
+        agg["pub"] = max(agg["pub"], r["pub"] or "")
+        if r["passed"] or r["invalid_noted"]:
+            agg["served"] += 1
+        if r["invalid_noted"] or prose_store.approved_text(r["id"], drafts):
+            agg["prose"] += 1
+    # NOTHING BEFORE PROSE_FROM IS GATED ON PROSE. Those puzzles went live without
+    # it and are dealt with. Counting them put 231 puzzles and 6,771 clues on this
+    # list; keying off "has it been drafted" instead pulled in the 2026-09-24 test
+    # drafts, which is not the same thing as being in service.
+    for a in puzzles.values():
+        if a["pub"] < PROSE_FROM:
+            a["prose"] = a["total"]
+    out = [a for a in puzzles.values()
+           if a["served"] < a["total"] or a["prose"] < a["total"]]
+    out.sort(key=lambda a: (a["pub"], a["source"]))
+    return out
 
 
 def _render_unpublished_section():
-    """Which puzzles since the launch floor are NOT yet published because a clue
-    is missing a served WFW status — with clue count and clues outstanding."""
-    st.subheader("Not yet published (WFW status missing)")
+    """Which puzzles since the launch floor are NOT ready -- a clue missing its
+    served WFW status, or missing approved prose, counted separately."""
+    st.subheader("Not yet ready (WFW status or prose missing)")
     st.caption(
-        "Puzzles that will NOT appear on the live site yet because not every "
-        "clue is served — a WFW pass, or an INVALID with a comment. O/S = clues "
-        "still outstanding. Same rule as the live puzzle page."
+        "Puzzles that are NOT ready to go live. **O/S pass** = clues with no "
+        "WFW pass and no INVALID comment - the same rule as the live puzzle "
+        "page. **O/S prose** = clues with no approved prose; an INVALID with a "
+        "comment needs none, because the narration reads the comment."
     )
     cutoff = st.date_input(
         "Published on or after", value=date(2026, 7, 11), key="wfw_cutoff",
@@ -129,23 +174,24 @@ def _render_unpublished_section():
     if not rows:
         st.success(
             f"All served-source puzzles since {cutoff.isoformat()} are fully "
-            "served — nothing outstanding."
+            "served and fully prosed - nothing outstanding."
         )
         return
-    total_os = sum(r["total"] - r["served"] for r in rows)
+    os_pass = sum(r["total"] - r["served"] for r in rows)
+    os_prose = sum(r["total"] - r["prose"] for r in rows)
     st.warning(
-        f"{len(rows)} puzzle(s) not yet published — "
-        f"{total_os} clue(s) outstanding."
+        f"{len(rows)} puzzle(s) not ready - {os_pass} clue(s) awaiting a pass, "
+        f"{os_prose} clue(s) awaiting approved prose."
     )
     data = [{
         "Source": r["source"],
-        "Puzzle": str(r["puzzle_number"]),
-        "Date": r["pub"] or "—",
+        "Puzzle": r["puzzle_number"],
+        "Date": r["pub"] or "-",
         "Clues": r["total"],
-        "O/S": r["total"] - r["served"],
+        "O/S pass": r["total"] - r["served"],
+        "O/S prose": r["total"] - r["prose"],
     } for r in rows]
     st.dataframe(pd.DataFrame(data), use_container_width=True, hide_index=True)
-
 
 def render():
     st.header("Pipeline Runner")
