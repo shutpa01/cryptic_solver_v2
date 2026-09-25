@@ -90,11 +90,17 @@ def _ledger_record(conn, source, number, when):
 
 # --- gather every served puzzle's URLs, grouped by puzzle ----------------------------
 
-def collect_puzzle_urls(db, include_clue_pages=True):
+def collect_puzzle_urls(db, include_clue_pages=True, skip=frozenset()):
     """Every fully-served puzzle -> its production URLs (the puzzle page + each served clue
     page), grouped by (source, puzzle_number). Same serving truth as the sitemap/410 gate,
     so a URL that would 410 is never included. Returns:
         {(source, number): {"urls": [puzzle_url, clue_url, ...], "pub": "YYYY-MM-DD"}}
+
+    `skip` is the set of (source, number) already in the ledger. They are dropped
+    BEFORE any URL is built, because building them is the expensive half of this
+    script — a slug and a card check for every served clue on the site — and on a
+    second deploy the answer is always "nothing new" (user, 2026-09-25: "it is
+    pointless and takes ages"). The ledger used to be consulted only afterwards.
 
     include_clue_pages=False announces ONLY the puzzle page for each puzzle (3-4 URLs a day
     instead of ~95). This does NOT remove or unpublish anything: every clue URL stays in the
@@ -117,7 +123,7 @@ def collect_puzzle_urls(db, include_clue_pages=True):
             f"GROUP BY c.source, c.puzzle_number")
     for r in db.execute(psql, list(SERVED_SOURCES)).fetchall():
         key = (r["source"], str(r["puzzle_number"]))
-        if key not in served:
+        if key not in served or key in skip:
             continue
         entry = out.setdefault(key, {"urls": [], "pub": r["pub"]})
         slug, _ = classify_puzzle(r["source"], r["puzzle_number"], r["pub"])
@@ -226,18 +232,24 @@ def main():
     if args.evergreen:
         return send_evergreen(args)
 
+    # THE LEDGER FIRST. Everything it already holds is excluded before the walk,
+    # so a repeat deploy costs one query instead of a slug for every served clue.
+    conn = _ledger_conn()
+    sent = _ledger_sent(conn)
+    # Seeding is the exception: it exists to record what is served, so it must see
+    # every puzzle, not only the unrecorded ones.
+    skip = frozenset() if (args.seed_all or args.seed_before) else frozenset(sent)
+
     app = create_app("development")
     with app.app_context():
         from web.db import get_db
         db = get_db()
         now = _db_now(db)
-        puzzles = collect_puzzle_urls(db, include_clue_pages=not args.puzzle_pages_only)
+        puzzles = collect_puzzle_urls(db, include_clue_pages=not args.puzzle_pages_only,
+                                      skip=skip)
     if args.puzzle_pages_only:
         print("IndexNow: PUZZLE PAGES ONLY — clue pages will not be announced "
               "(they remain in the sitemap and crawlable).")
-
-    conn = _ledger_conn()
-    sent = _ledger_sent(conn)
 
     # ---- seeding (one-time migration): record without sending ----
     if args.seed_all or args.seed_before:
@@ -254,8 +266,8 @@ def main():
     # ---- normal run: send puzzles not yet in the ledger ----
     new = {k: v for k, v in puzzles.items() if k not in sent}
     total_urls = sum(len(v["urls"]) for v in new.values())
-    print("IndexNow: %d served puzzles, %d already sent, %d new (%d URLs)."
-          % (len(puzzles), len(sent), len(new), total_urls))
+    print("IndexNow: %d already sent, %d new (%d URLs)."
+          % (len(sent), len(new), total_urls))
 
     # safety guard: never blast the whole site because the ledger was never seeded
     if not sent and len(new) > 20 and not (args.dry_run or args.force):

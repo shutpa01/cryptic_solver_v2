@@ -279,6 +279,12 @@ CORDELIA_CODE_DIRS = [
 # Individual files that don't fit the directory pattern
 CORDELIA_EXTRA_FILES = [
     ("data/base_catalog.json", "data/base_catalog.json"),
+    # The clue page's prose lives in a FILE, not the database, so the code that
+    # serves it (web/routes/clue._approved_prose -> core.prose_store) deploys with
+    # core/ and web/ while the text itself stayed here — a page able to show prose
+    # with nothing to show (user, 2026-09-25). Every draft travels; only an
+    # approved one is ever rendered, because approved_text() is the sole reader.
+    ("logs/prose.json", "logs/prose.json"),
 ]
 
 
@@ -404,6 +410,19 @@ def _render_cordelia_deploy():
                         if not local_path.exists():
                             continue
                         try:
+                            # MAKE THE FOLDER FIRST. scp will not create it, and the
+                            # whole code deploy stops on the failure: logs/prose.json
+                            # died on `dest open ... No such file or directory`
+                            # because /opt/cordelia/logs was not there (2026-09-25).
+                            # Harmless when it already exists.
+                            remote_dir = str(Path(remote_file).parent).replace("\\", "/")
+                            if remote_dir not in (".", "", "/"):
+                                subprocess.run(
+                                    ["ssh", CORDELIA_DROPLET,
+                                     f"mkdir -p {CORDELIA_REMOTE}/{remote_dir}"],
+                                    capture_output=True, text=True, timeout=30,
+                                    encoding="utf-8", errors="replace",
+                                )
                             result = subprocess.run(
                                 ["scp", str(local_path), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_file}"],
                                 capture_output=True, text=True, timeout=30,
