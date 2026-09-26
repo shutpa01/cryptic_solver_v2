@@ -8,6 +8,26 @@
 3. **NEVER run destructive commands** (rm, drop table, delete, overwrite) without showing the exact command and getting approval.
 4. **NEVER make bulk changes across multiple files in one go.** One file at a time, test between each.
 
+## DEPLOY ONLY AFFECTS USERS — ALL PROCESSING IS LOCAL
+
+**This tree (`C:\Users\shute\PycharmProjects\cryptic_solver_V2`) is the system.**
+The nightly, scrapers, cascade, prefill, prose drafting, video builds, uploads and
+IndexNow sends all run HERE. An edit takes effect on the next local run — deploy
+plays no part in it.
+
+**Deploy only copies files to the droplet so that users (and Bing) see the served
+pages.** It is the user's routine, done by hand from the dashboard. Therefore:
+
+- Never tell the user to deploy, never list it as a step, never make a plan or an
+  experiment wait on it.
+- Never use "not deployed" / "only local" as reassurance. Not deployed ≠ not running.
+- Never say something "is not live until deployed" as if that limited its effect.
+  Say what it changes and when it runs.
+
+Cost of ignoring this: repeated for weeks; on 2026-09-26 I told the user to "deploy
+the code before tomorrow's puzzles go out". User: *"You keep forgetting that deploy
+has zero impact on anything other than users. All processing is on local."*
+
 ## MANDATE — THE PUBLISHER WIDGET REPLICATES THE LIVE SITE
 
 The widget in `publisher/` is a **re-format of the live solving system**, not a
