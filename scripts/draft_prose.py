@@ -297,7 +297,13 @@ def verify(text, parse, clue_text, answer):
     up = text.upper()
     ans = fold(answer or "").upper()
     values = {fold(v).upper() for v in recorded_values(parse)}
-    missing = [v for v in values if v.replace(" ", "") not in up.replace(" ", "")]
+    # Spaces AND apostrophes are ignored on both sides. The record drops the
+    # apostrophe from a piece's value (`"comrade’s" -> COMRADES`) while the prose
+    # quotes the clue word as written, so "comrade’s" was called a missing piece
+    # and a faithful draft refused (CREAM SODA, times 29658, 2026-09-26). An
+    # apostrophe is never a letter, so ignoring it cannot let an invention through.
+    _flat = lambda s: re.sub(r"[\s'‘’]", "", s)
+    missing = [v for v in values if _flat(v) not in _flat(up)]
     if missing:
         return False, "does not account for %s" % ", ".join(sorted(missing))
     # Anything shouted in capitals must be something we actually hold.

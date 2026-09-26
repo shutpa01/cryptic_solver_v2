@@ -141,6 +141,26 @@ def main():
         log("prefill failed (exit %d): %s" % (r.returncode, (r.stderr or "")[-500:]))
         return 1
     log("prefill complete — report: logs/%s" % report_name)
+
+    # 3. draft the clue-page prose from the PENDING readings just filed — the
+    # nightly's Step 6 (scripts/nightly_run.py), scoped to this run. Missing here,
+    # the button's puzzles got no prose at all (telegraph 31355, 2026-09-26).
+    # Filed UNAPPROVED; never fatal — a missed draft just means no prose block.
+    pargs = [PYTHON_V2, str(ROOT / "scripts" / "draft_prose.py"), "--pending"]
+    pargs += (["--source", args.source, "--puzzle", str(args.pnum)]
+              if args.pnum else ["--day", args.date])
+    log("prose: %s" % " ".join(pargs[2:]))
+    try:
+        p = subprocess.run(pargs, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", cwd=str(ROOT),
+                           timeout=1800)
+        for line in (p.stdout or "").strip().splitlines()[-120:]:
+            log("  " + line)
+        if p.returncode != 0:
+            log("prose failed (exit %d) — not fatal: %s"
+                % (p.returncode, (p.stderr or "")[-300:]))
+    except Exception as e:
+        log("prose ERROR: %s — not fatal" % e)
     return 0
 
 
