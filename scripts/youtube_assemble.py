@@ -288,7 +288,7 @@ def build_frame(ff, src, banner, dst, w, h, banner_h, margin, cw, ch, gap):
 # words.
 INTRO_SCRIPT = (
     "Everything you'll see here is on justcordelia.com — and as well as the "
-    "explanations you'll find a grid solver with an anagram solver, pattern matcher "
+    "explanations you'll find a grid solver with its own anagram solver, pattern matcher "
     "and thesaurus built in, plus a hint on any clue while you're still solving. "
     "That's justcordelia.com, and nowhere else."
 )

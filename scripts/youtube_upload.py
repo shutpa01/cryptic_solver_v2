@@ -209,10 +209,15 @@ def next_puzzle(source, done, max_age_days):
     return None
 
 
-def build_video(source, number, narrate=False):
+def build_video(source, number, narrate=True):
     """Run capture then assemble for this puzzle.
 
-    SILENT OF PROSE BY DEFAULT. Cordelia reading every clue's explanation was
+    NARRATED BY DEFAULT since 2026-09-26: the user heard the full film of telegraph
+    31355 and said "I love it, and I want to use this in future uploads to YT".
+    Only TICKED prose is spoken; an unticked clue plays silent. --no-narrate films
+    the old way.
+
+    HISTORY — was silent of prose by default. Cordelia reading every clue's explanation was
     withdrawn on 2026-09-25 — the user's verdict on the first full film was that
     it was unusable. The video is the one thing that cannot be corrected after
     publishing, so this defaults OFF and --narrate is a deliberate opt-in, not a
@@ -285,15 +290,18 @@ def title_for(source, puzzle):
     <title> go on matching each other, and two namings that drift is exactly the
     failure that function's docstring exists to prevent.
 
-    Six minutes is a FLAT claim, not a measurement. These run about six minutes
+    "Under 15 Minutes" since 2026-09-26 (user's words): the narrated film of
+    telegraph 31355 runs 12:15, so six minutes stopped being true.
+
+    Six minutes WAS a FLAT claim, not a measurement. These run about six minutes
     (12s a clue against a ~30-clue puzzle) and the point being made is against an
     hour, so rounding a 6.6-minute video up to "7" would be a precision nobody
     asked for and a different number on every video.
     """
     ref = puzzle_reference(source, puzzle).replace(" Crossword ", " ")
-    t = "%s Masterclass: Every Clue Explained in 6 Minutes" % ref
+    t = "%s Masterclass: Every Clue Explained in Under 15 Minutes" % ref
     if len(t) > TITLE_MAX:
-        t = "%s Masterclass: Explained in 6 Minutes" % ref
+        t = "%s Masterclass: Explained in Under 15 Minutes" % ref
     return t[:TITLE_MAX]
 
 
@@ -457,10 +465,9 @@ def main():
                     choices=["private", "unlisted", "public"])
     ap.add_argument("--build", action="store_true",
                     help="run capture + assemble before uploading")
-    ap.add_argument("--narrate", action="store_true",
-                    help="read the approved prose over each clue. OFF by default "
-                         "since 2026-09-25; the film is otherwise the spoken intro "
-                         "over a silent body, as it was before the prose work.")
+    ap.add_argument("--no-narrate", dest="narrate", action="store_false",
+                    help="film WITHOUT Cordelia reading the approved prose. "
+                         "Narration is ON by default since 2026-09-26.")
     ap.add_argument("--dry-run", action="store_true",
                     help="show the title, chapters and file; upload nothing")
     ap.add_argument("--max-age-days", type=int, default=0,
@@ -514,7 +521,10 @@ def run_source(args):
     """
     rc = 0
     args._skip = set()
-    for _ in range(PER_SOURCE_CAP):
+    # ONE pass when a puzzle is named. The drain exists to find a SECOND puzzle;
+    # a named puzzle has none, and with --force every pass re-uploaded the same
+    # one — telegraph 31355 went up three times, public (2026-09-26).
+    for _ in range(1 if args.puzzle else PER_SOURCE_CAP):
         args._outcome = "nothing"
         try:
             rc |= run_one(args)
@@ -526,6 +536,8 @@ def run_source(args):
             return 1
         if args._outcome not in ("uploaded", "dry"):
             return rc
+    if args.puzzle:
+        return rc
     print("%s: stopping at %d videos in one run (quota guard) — anything left is "
           "still served and unfilmed, so --backfill can take it."
           % (args.source, PER_SOURCE_CAP))
