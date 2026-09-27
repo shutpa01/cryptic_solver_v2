@@ -465,5 +465,215 @@
     "phrase": "Ten years in prison, stuck in the cooler",
     "approved": false,
     "clue_id": 10093479
+  },
+  "CHECK|confirm": {
+    "phrase": "Just check the doors are locked properly",
+    "approved": false,
+    "clue_id": 10093865
+  },
+  "CHECK|payment from america": {
+    "phrase": "My American cousin mailed me a check",
+    "approved": false,
+    "clue_id": 10093865
+  },
+  "MATE|tea": {
+    "phrase": "Fancy a nice hot cup of mate?",
+    "approved": false,
+    "clue_id": 10093872
+  },
+  "MATE|a friend": {
+    "phrase": "Cheers mate, see you down the pub later",
+    "approved": false,
+    "clue_id": 10093872
+  },
+  "NICK|take": {
+    "phrase": "Did you nick that from the shop?",
+    "approved": false,
+    "clue_id": 10093874
+  },
+  "NICK|shape": {
+    "phrase": "He's in good nick for his age",
+    "approved": false,
+    "clue_id": 10093874
+  },
+  "COASTER|something that might be under glass": {
+    "phrase": "Put your drink down on a coaster",
+    "approved": false,
+    "clue_id": 10093676
+  },
+  "COASTER|vessel": {
+    "phrase": "The old coaster steamed along the coast",
+    "approved": false,
+    "clue_id": 10093676
+  },
+  "LICK|wet": {
+    "phrase": "The dog gave my hand a lick",
+    "approved": false,
+    "clue_id": 10094262
+  },
+  "LICK|bit": {
+    "phrase": "Add a lick of paint to it",
+    "approved": false,
+    "clue_id": 10094262
+  },
+  "RUN-DOWN|shabby": {
+    "phrase": "That run-down old pub needs a lick of paint",
+    "approved": false,
+    "clue_id": 10094084
+  },
+  "RUN-DOWN|review": {
+    "phrase": "The chairman gave a run-down of the year's results",
+    "approved": false,
+    "clue_id": 10094084
+  },
+  "FOURTH ESTATE|another landholding for one who already has three say": {
+    "phrase": "The duke just bought a fourth estate",
+    "approved": false,
+    "clue_id": 10094086
+  },
+  "FOURTH ESTATE|journalists": {
+    "phrase": "The fourth estate exposed the minister's scandal",
+    "approved": false,
+    "clue_id": 10094086
+  },
+  "MOSSY|showing natural growth externally": {
+    "phrase": "The old wall was mossy and green",
+    "approved": false,
+    "clue_id": 10094095
+  },
+  "MOSSY|unlike rolling stone": {
+    "phrase": "Settled here so long he's grown mossy",
+    "approved": false,
+    "clue_id": 10094095
+  },
+  "STAUNCH|stout": {
+    "phrase": "He remained staunch to his old friends",
+    "approved": false,
+    "clue_id": 10094098
+  },
+  "STAUNCH|stem": {
+    "phrase": "Pressure applied to staunch the bleeding",
+    "approved": false,
+    "clue_id": 10094098
+  },
+  "CASABLANCA|an oscar winner": {
+    "phrase": "We watched Casablanca again on telly last night",
+    "approved": false,
+    "clue_id": 10094221
+  },
+  "PUTIN|russian leader": {
+    "phrase": "Putin has led Russia for many years",
+    "approved": false,
+    "clue_id": 10094461
+  },
+  "PUTIN|installed": {
+    "phrase": "We had a new boiler put in",
+    "approved": false,
+    "clue_id": 10094461
+  },
+  "STANDING|reputation": {
+    "phrase": "His standing in the community was high",
+    "approved": false,
+    "clue_id": 10094485
+  },
+  "STANDING|still rising": {
+    "phrase": "We were left standing on the train",
+    "approved": false,
+    "clue_id": 10094485
+  },
+  "BAREBONES|basic facts": {
+    "phrase": "Just give me the bare bones",
+    "approved": false,
+    "clue_id": 10094597
+  },
+  "BAREBONES|on display at the natural history museum": {
+    "phrase": "Visitors admired the dinosaur's bare bones",
+    "approved": false,
+    "clue_id": 10094597
+  },
+  "MICKEY|doped drink": {
+    "phrase": "Someone slipped a mickey in his pint",
+    "approved": false,
+    "clue_id": 10094606
+  },
+  "MICKEY|taken in fun": {
+    "phrase": "Stop taking the mickey out of me",
+    "approved": false,
+    "clue_id": 10094606
+  },
+  "BIGBEN|london icon's": {
+    "phrase": "We heard Big Ben chime at midnight",
+    "approved": false,
+    "clue_id": 10095174
+  },
+  "BIGBEN|hiking challenge in scotland": {
+    "phrase": "Fancy climbing a big Ben this weekend?",
+    "approved": false,
+    "clue_id": 10095174
+  },
+  "LASH|cat": {
+    "phrase": "He felt the lash across his back",
+    "approved": false,
+    "clue_id": 10095175
+  },
+  "MISS|avoid": {
+    "phrase": "I decided to miss the meeting entirely",
+    "approved": false,
+    "clue_id": 10095178
+  },
+  "MISS|girl": {
+    "phrase": "That young miss has forgotten her umbrella",
+    "approved": false,
+    "clue_id": 10095178
+  },
+  "READER|lecturer": {
+    "phrase": "She's a reader in history at Cambridge",
+    "approved": false,
+    "clue_id": 10095185
+  },
+  "READER|library member": {
+    "phrase": "The library asked every reader to renew membership",
+    "approved": false,
+    "clue_id": 10095185
+  },
+  "ONTHETABLE|place for food perhaps": {
+    "phrase": "Dinner's on the table, come and eat",
+    "approved": false,
+    "clue_id": 10095186
+  },
+  "ONTHETABLE|up for discussion": {
+    "phrase": "The pay offer is still on the table",
+    "approved": false,
+    "clue_id": 10095186
+  },
+  "NOTHALF|absolutely": {
+    "phrase": "Do I fancy a cuppa? Not half!",
+    "approved": false,
+    "clue_id": 10095194
+  },
+  "NOTHALF|the minority": {
+    "phrase": "Not half of the members actually voted",
+    "approved": false,
+    "clue_id": 10095194
+  },
+  "FORGED|made": {
+    "phrase": "The blacksmith forged horseshoes over the fire",
+    "approved": false,
+    "clue_id": 10095254
+  },
+  "FORGED|counterfeit": {
+    "phrase": "He was jailed for passing forged banknotes",
+    "approved": false,
+    "clue_id": 10095254
+  },
+  "TRYING|difficult": {
+    "phrase": "My toddler is being very trying today",
+    "approved": false,
+    "clue_id": 10095269
+  },
+  "TRYING|hearing": {
+    "phrase": "The trying of the case begins Monday",
+    "approved": false,
+    "clue_id": 10095269
   }
 }
