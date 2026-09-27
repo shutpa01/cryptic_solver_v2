@@ -6297,6 +6297,14 @@ def _promote_double_definition(parse, db_adds):
     val = _raw_letters(s.value)
     if not ans or val != ans:                     # the synonym must BE the whole answer
         return
+    # A WORD DIVISION IS NOT A DD. `remove blemishes -> DE SPOT` closes up to DESPOT,
+    # so the letter test above passes — but the spacing differs from the answer's, and
+    # that difference IS the device (guardian 4171 21d, 2026-09-27: filed as a word
+    # division, came back a DD every time). A DD's second half spells the answer as the
+    # answer is written: ON THE TABLE for ON THE TABLE, DESPOT for DESPOT.
+    if " ".join((s.value or "").split()).upper() != \
+            " ".join((parse.answer_text or "").split()).upper():
+        return
     if any(getattr(a, "role", "") != "link" for a in (parse.annotations or [])):
         return                                    # only links/filler may sit between the halves
     from core.wfw_model import Source
