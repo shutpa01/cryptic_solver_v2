@@ -5042,6 +5042,7 @@ def hscd_route():
         finally:
             conn.close()
         _capture_signature_review(cid, "pass")
+        _queue_prose_draft(cid)      # a CD settles the reading too — same as Commit/Confirm
         return _json({"ok": True,
                       "msg": "Filed as a cryptic definition (%s) — PASS (frozen)." % addmsg})
     got = ("%s/%s" % (cp.operation or "?", cp.status) if cp is not None else "no parse")
