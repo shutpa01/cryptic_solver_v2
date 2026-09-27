@@ -116,6 +116,12 @@ CREATE TABLE IF NOT EXISTS wfw_notes (
     clue_id INTEGER PRIMARY KEY,   -- free-text note authored in the hand-solver and shown on
     note TEXT                      --   the clue page (extra info for the user). Per-clue,
 );                                 --   never written to any reference DB.
+-- Every read of a stored solve looks these two tables up BY clue_id, and neither had
+-- an index: each clue drawn scanned all ~42k pieces and ~58k links (~55 ms a clue),
+-- so a 28-clue review page took 2.7 s to redraw after every Approve or Confirm
+-- (measured 2026-09-27; user approved the index). An index changes no row.
+CREATE INDEX IF NOT EXISTS idx_wfw_piece_clue ON wfw_piece(clue_id);
+CREATE INDEX IF NOT EXISTS idx_wfw_link_clue ON wfw_link(clue_id);
 """
 
 
@@ -123,7 +129,20 @@ def connect(db_path=None):
     return sqlite3.connect(db_path or DEFAULT_DB, timeout=30)
 
 
+_SCHEMA_DONE = set()   # database files already brought up to SCHEMA in this process
+
+
 def ensure_schema(conn):
+    # ONCE PER DATABASE FILE PER PROCESS. load_parse calls this on every read, so a
+    # 28-clue page ran the whole script 168 times (~0.46 s) to change nothing. A
+    # file already done in this process is skipped; an in-memory or temp database
+    # (file "") is always done, so tests that build one still get the tables.
+    try:
+        path = conn.execute("PRAGMA database_list").fetchone()[2] or ""
+    except Exception:
+        path = ""
+    if path and path in _SCHEMA_DONE:
+        return
     conn.executescript(SCHEMA)
     # Additive migration for a wfw_solve created before the atoms column existed:
     # ALTER ADD COLUMN is non-destructive (existing rows get NULL).
@@ -138,6 +157,8 @@ def ensure_schema(conn):
     if "transform" not in pcols:
         conn.execute("ALTER TABLE wfw_piece ADD COLUMN transform TEXT")
     conn.commit()
+    if path:
+        _SCHEMA_DONE.add(path)
 
 
 def save_parse(conn, clue_id, parse, ctx=None):
