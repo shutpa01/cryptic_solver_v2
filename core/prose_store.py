@@ -71,7 +71,7 @@ def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     """
     data = load()
     key = str(clue_id)
-    if (data.get(key) or {}).get("approved"):
+    if _keep(data.get(key)):
         return False
     data[key] = {"sentence": sentence_case(sentence),
                  "gloss": sentence_case(gloss),
@@ -95,11 +95,40 @@ def save_refusal(clue_id, reason, facts_hash=""):
     """
     data = load()
     key = str(clue_id)
-    if (data.get(key) or {}).get("approved"):
+    if _keep(data.get(key)):
         return False
     data[key] = {"sentence": "", "gloss": "", "answer": "", "approved": False,
                  "refused": (reason or "").strip() or "no reason given",
                  "facts_hash": facts_hash}
+    save(data)
+    return True
+
+
+def _keep(rec):
+    """True when the drafter must leave this record alone: the user ticked it, or
+    the user wrote it. A machine draft may replace a machine draft or a refusal,
+    never the user's own words."""
+    rec = rec or {}
+    return bool(rec.get("approved") or rec.get("author") == "user")
+
+
+def save_user_text(clue_id, sentence, gloss, approved):
+    """File prose the USER typed on /hs, for a clue with no draft or a refused one.
+
+    The box is always there (user, 2026-09-27: "We need a proper process, where I
+    just type it in HS") — times 5235 19a BRAIN OF BRITAIN was refused for
+    "invents BBC" and there was nowhere to write the sentence by hand. Marked
+    `author: user`, so no later drafter run overwrites it (`_keep`). The refusal,
+    if any, is dropped: the user's text is the answer to it. Keeps the old
+    `facts_hash` so an unchanged reading is not sent to the model again.
+    """
+    data = load()
+    key = str(clue_id)
+    old = data.get(key) if isinstance(data.get(key), dict) else {}
+    data[key] = {"sentence": sentence_case((sentence or "").strip()),
+                 "gloss": sentence_case((gloss or "").strip()),
+                 "answer": old.get("answer", ""), "approved": bool(approved),
+                 "author": "user", "facts_hash": old.get("facts_hash", "")}
     save(data)
     return True
 

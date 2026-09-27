@@ -3758,16 +3758,22 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
     quiet = ('<div style="margin:.5rem 0;padding:.4rem .6rem;border:1px dashed #cbd5e1;'
              'border-radius:8px;background:#f8fafc;font-size:.85rem;color:#64748b">'
              '%s</div>')
+    # THE BOX IS ALWAYS THERE (user, 2026-09-27: "We need a proper process, where I
+    # just type it in HS"). A clue with no draft, or a refused one, used to get a
+    # message and nowhere to write — times 5235 19a was refused for "invents BBC"
+    # and could not be given prose at all. Now it gets the same form, empty, with
+    # the reason above it; saving files the text as the user's own
+    # (prose_store.save_user_text), which no drafter run overwrites.
+    why = ""
     if not rec:
-        # NOT an empty string. A clue with no draft used to render nothing at all,
-        # which reads exactly like a broken feature (user, 2026-09-24, on 4a of
-        # telegraph 31287 — one of three clues in the puzzle without one).
-        return quiet % "No prose drafted for this clue."
-    if rec.get("refused"):
+        why = quiet % "No prose drafted for this clue &mdash; type it below."
+        rec = {}
+    elif rec.get("refused"):
         # The drafter could not write an honest sentence from this record. Say what
         # it objected to: it is usually evidence about the READING.
-        return quiet % ('<strong style="color:#b45309">No prose &mdash; the drafter '
-                        'refused:</strong> %s' % escape(rec["refused"]))
+        why = quiet % ('<strong style="color:#b45309">The drafter refused:</strong> '
+                       '%s &mdash; type the prose below.' % escape(rec["refused"]))
+        rec = {}
     ok = bool(rec.get("approved"))
     box = ('width:100%;max-width:46rem;box-sizing:border-box;border:1px solid '
            '#cbd5e1;border-radius:8px;padding:.4rem;font-family:inherit;'
@@ -3781,7 +3787,7 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
         return min(max(2 + len(text or "") // 78, 3), 14)
     grow = ("this.style.height='auto';"
             "this.style.height=(this.scrollHeight+2)+'px'")
-    return "".join([
+    return why + "".join([
         '<form id="prose-%d" method="post" action="/hsprose" style="margin:.5rem 0;'
         'padding:.5rem;border:1px solid %s;border-radius:10px;background:%s">'
         % (clue_id, *(("#0d9488", "#f0fdfa") if ok else ("#e2e8f0", "#f8fafc"))),
@@ -3837,13 +3843,20 @@ def hsprose_route():
     sentence = request.form.get("sentence")
     gloss = request.form.get("gloss")
     rec = prose_store.get(only)
-    if not rec:
-        return _hs_redirect(only, "No prose drafted for this clue.", back)
     # "keep" saves the user's edits WITHOUT changing the approved state, so fixing a
     # typo on served text does not silently pull it off the page, and tidying a draft
     # does not silently publish it.
-    approved = rec.get("approved") if raw == "keep" else (raw == "1")
-    prose_store.set_approved(only, approved, sentence, gloss)
+    # An empty sentence is not prose — refuse to approve it, on every path.
+    if raw == "1" and sentence is not None and not sentence.strip():
+        return _hs_redirect(only, "Type the prose before approving it.", back)
+    if not rec or rec.get("refused"):
+        # Typed by hand where there was no draft (or a refused one): file it as the
+        # user's own.
+        approved = (raw == "1")
+        prose_store.save_user_text(only, sentence, gloss, approved)
+    else:
+        approved = rec.get("approved") if raw == "keep" else (raw == "1")
+        prose_store.set_approved(only, approved, sentence, gloss)
     msg = ("Prose approved — it will be served." if approved and raw != "keep" else
            "Prose un-approved — the page falls back to the card." if raw == "0" else
            "Prose saved.")
