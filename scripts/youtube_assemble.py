@@ -514,16 +514,20 @@ def main():
          # 2026-08-21). The silent audio is infinite, so -t is the bound.
          "-t", "%.3f" % t,
          # ffmpeg 9 dropped -vsync in favour of -fps_mode. CFR (not VFR) because
-         # YouTube re-encodes, and a constant rate is what it expects; the
-         # duplicated frames of a still image cost almost nothing at this CRF.
-         "-fps_mode", "cfr", "-r", "30",
+         # YouTube re-encodes, and a constant rate is what it expects.
+         # 10 fps, "veryfast", tuned for stills (user, 2026-09-30, option "C").
+         # Every frame is a still, so 30 fps on the "slow" preset spent ~8 minutes
+         # per paper squeezing 27,000 identical frames. Measured on Guardian 30125,
+         # same frames and narration: 100 s vs 246 s for veryfast at 30 fps, with
+         # SSIM 0.9997 against the old encode and no visible difference in the text.
+         "-fps_mode", "cfr", "-r", "10",
          # A TARGET BITRATE, not CRF. x264 rightly spends almost nothing on a
          # still image, and the first cut came out at 485 kbps for 2560x1440 —
          # YouTube then re-encodes that thin source and the text goes soft. The
          # fix is to hand YouTube a fat source; the file is bigger, nobody cares.
-         "-c:v", "libx264", "-preset", "slow",
+         "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage",
          "-b:v", args.bitrate, "-maxrate", args.bitrate, "-bufsize", "40M",
-         "-g", "60",
+         "-g", "20",                       # a keyframe every 2 s, as 60 was at 30 fps
          "-pix_fmt", "yuv420p", "-movflags", "+faststart",
          "-c:a", "aac", "-b:a", "128k",
          str(video)])
