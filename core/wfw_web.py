@@ -2735,7 +2735,7 @@ function initGrid(rootId, DATA){
   else if(selPos.indexOf(p)>=0){t.style.background='#1d4ed8';t.style.borderColor='#1d4ed8';t.style.color='#fff';}
   else{t.style.background='#fff';t.style.borderColor='#cbd5e1';t.style.color='#0f172a';}});}
  atiles.forEach(function(t){t.addEventListener('click',function(){var p=+t.dataset.pos;var o=posOwner(p);if(o>=0){releasePiece(o);return;}var i=selPos.indexOf(p);if(i>=0)selPos.splice(i,1);else selPos.push(p);drawTiles();});});
- function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){if(o&&o.msg){msgEl.style.color='#16a34a';msgEl.textContent=o.msg;}}).catch(function(){});}catch(e){}}
+ function saveAssignments(){try{var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));fetch('/hssave',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(o){if(o&&o.msg){msgEl.style.color=/NOT updated|not saved/.test(o.msg)?'#dc2626':'#16a34a';msgEl.textContent=o.msg;}}).catch(function(){});}catch(e){}}
  function checkedIdx(){return Array.prototype.slice.call(tbody.querySelectorAll('input.g-chk:checked')).map(function(c){return +c.value;}).sort(function(a,b){return a-b;});}
  function phraseOf(idx){return idx.map(function(i){return DATA.words[i];}).join(' ');}
  function assignOf(i){for(var k=0;k<assignments.length;k++){if(assignments[k].idx.indexOf(i)>=0)return assignments[k];}return null;}
@@ -7703,7 +7703,49 @@ def _page(body, scroll_to=None):
   <p class="wfw-tag">word-for-word true test &middot; real clues, all engines</p>
   {body}
   {scroll}
+  {_STAY_PUT_JS}
 </body></html>"""
+
+
+# EVERY FORM ACTION RETURNS YOU TO EXACTLY WHERE YOU WERE (user, 2026-09-30: "Whenever I
+# approve I want to return to exactly the place I was at when I approved it"). Every
+# /hs action ends in a redirect that reloads /hs?id=N at the TOP (_hs_redirect), and the
+# review page's scroll_to only reaches the clue's header, not the spot. A raw scrollY is
+# not enough either: the reloaded page gains a notice strip, and an approved row can
+# vanish. So on submit this records WHICH form was pressed (action + its index among
+# forms with that action) and where it sat on screen; after the reload that form is put
+# back at the same height. Fallbacks, in order: the nearest clue header above it
+# (id="clue-N"), then plain scrollY. Same view only (path + id), and only for 2 minutes,
+# so moving to another clue still opens at the top. It runs after the page's own
+# on-load resizing, and overrides scroll_to / #clue-N when it has something better.
+_STAY_PUT_JS = """<script>(function(){
+ var K='wfwStayPut';
+ function view(){var q=new URLSearchParams(location.search);
+  return location.pathname+'|'+(q.get('id')||'');}
+ function formKey(f){var a=f.getAttribute('action')||'';
+  var same=document.querySelectorAll('form[action="'+a+'"]');
+  return a+'#'+Array.prototype.indexOf.call(same,f);}
+ function formByKey(k){var i=k.lastIndexOf('#');
+  var same=document.querySelectorAll('form[action="'+k.slice(0,i)+'"]');
+  return same[+k.slice(i+1)]||null;}
+ function headerAbove(el){var top=el.getBoundingClientRect().top,best=null;
+  document.querySelectorAll('[id^="clue-"]').forEach(function(h){
+   if(h.getBoundingClientRect().top<=top+1)best=h;});return best;}
+ document.addEventListener('submit',function(e){try{var f=e.target,h=headerAbove(f);
+  sessionStorage.setItem(K,JSON.stringify({v:view(),t:Date.now(),y:window.scrollY,
+   f:formKey(f),fy:f.getBoundingClientRect().top,
+   h:h?h.id:null,hy:h?h.getBoundingClientRect().top:0}));}catch(x){}},true);
+ var s=null;try{s=JSON.parse(sessionStorage.getItem(K)||'null');
+  sessionStorage.removeItem(K);}catch(x){}
+ if(!s||s.v!==view()||Date.now()-s.t>120000)return;
+ if('scrollRestoration' in history)history.scrollRestoration='manual';
+ function go(){var f=s.f&&formByKey(s.f);
+  if(f){window.scrollBy(0,f.getBoundingClientRect().top-s.fy);return;}
+  var h=s.h&&document.getElementById(s.h);
+  if(h){window.scrollBy(0,h.getBoundingClientRect().top-s.hy);return;}
+  window.scrollTo(0,s.y);}
+ go();window.addEventListener('load',function(){go();setTimeout(go,60);});
+})();</script>"""
 
 
 if __name__ == "__main__":
