@@ -40,8 +40,8 @@ HOLD_MAX = 7.5      # Seconds on the answer card after the narration ends.
 HOLD_MIN = 2.0      # Below this the card snaps away the instant she stops.
 
 # The narration splits here: everything before plays over the clue, everything after
-# over the answer card. Matches narrate_clue.INTRO_DIFFERENCE's opening words.
-SPLIT_AT = "We do this differently"
+# over the answer card. The card turns as she starts to give the answer.
+SPLIT_AT = "The answer is"
 
 
 def _load(name, filename):
@@ -118,7 +118,6 @@ def _prose_script(nc, row, paper, body):
     lines = ["Our clue of the day is from today's %s." % paper, "",
              "Here it is: %s%s" % (row["clue_text"].rstrip(". "),
                                    (" — %s" % enum) if enum else ""), "",
-             nc.INTRO_DIFFERENCE, "",
              "The answer is %s." % nc._spoken_answer(row["answer"] or "", enum), "",
              body, "", nc.OUTRO]
     # _spoken leaves the clue line alone and says our own capitals properly.

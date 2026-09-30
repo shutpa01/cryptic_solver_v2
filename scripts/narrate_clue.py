@@ -140,14 +140,9 @@ _SPOKEN_PAPER = {"telegraph": "Daily Telegraph", "times": "Times",
                  "guardian": "Guardian", "independent": "Independent",
                  "dailymail": "Daily Mail"}
 
-# Kept SHORT on purpose: a Short is capped at 60 seconds and every second spent here is
-# a second not spent on the answer card, which is the thing viewers need time to read
-# (user, 2026-09-07). The first draft of this ran four seconds longer and pushed the
-# whole thing over the cap.
-INTRO_DIFFERENCE = (
-    "We do this differently. Everyone else starts with the clue and hunts for the "
-    "answer. We start with the answer and work backwards."
-)
+# There is no "we do this differently" line between the clue and the answer any more:
+# heard every day it got tedious, so she goes straight from the clue to the answer
+# (user, 2026-09-29).
 
 # THE PLUG. The whole point of the channel is to send people to the site (user,
 # 2026-09-07), and the first draft of this script never mentioned it once. Kept to a
@@ -618,8 +613,6 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
     lines.append("")
     lines.append("Here it is: %s%s"
                  % (clue_text.rstrip(". "), (" — %s" % enumeration) if enumeration else ""))
-    lines.append("")
-    lines.append(INTRO_DIFFERENCE)
     lines.append("")
     lines.append("The answer is %s." % spoken_answer)
     lines.append("")
