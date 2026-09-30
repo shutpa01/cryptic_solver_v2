@@ -212,7 +212,7 @@ def _rsync(local_path, remote_path, timeout=300):
     )
 
 
-def _rsync_json_dir(local_dir, remote_path, timeout=600):
+def _rsync_json_dir(local_dir, remote_path, timeout=600, patterns=("*.json",)):
     """Rsync only *.json CONTENTS of local_dir into remote_path (trailing slashes),
     --mkpath to create it, no --delete. Mirrors the scraper's own sync
     (scraper/orchestrator/puzzle_scraper.py:_rsync_json_dir). These JSONs are the
@@ -228,7 +228,10 @@ def _rsync_json_dir(local_dir, remote_path, timeout=600):
     # -r is REQUIRED: without it rsync says "skipping directory ." and transfers nothing
     # (the bug in the scraper's original _rsync_json_dir that left the droplet without new
     # grid JSONs). The dir is flat, so -r + --exclude='*' just filters to the *.json files.
-    cmd = f"rsync -crz --mkpath --include='*.json' --exclude='*' {s} {remote}"
+    # `patterns` widens the filter for the clue-audio dir (*.mp3 + *.json); the
+    # default is the command exactly as it was.
+    inc = " ".join(f"--include='{p}'" for p in patterns)
+    cmd = f"rsync -crz --mkpath {inc} --exclude='*' {s} {remote}"
     return subprocess.run(
         [GIT_BASH, '-c', cmd],
         capture_output=True, text=True, timeout=timeout,
@@ -523,6 +526,26 @@ def _render_cordelia_deploy():
                             steps.append((f"Sync {local_rel} grids", False, "Timed out."))
                         except Exception as e:
                             steps.append((f"Sync {local_rel} grids", False, str(e)))
+
+                # Step 2c: Cordelia's recorded clue explanations for the Listen
+                # button (core/clue_audio.py). Incremental; never fails the deploy —
+                # without them the clue pages simply show no Listen button.
+                audio_dir = PROJECT_ROOT / "data" / "clue_audio"
+                if audio_dir.exists():
+                    with st.spinner("Syncing clue audio..."):
+                        try:
+                            result = _rsync_json_dir(
+                                audio_dir,
+                                f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/data/clue_audio",
+                                timeout=900, patterns=("*.mp3", "*.json"),
+                            )
+                            steps.append(("Sync clue audio", result.returncode == 0,
+                                          "Done." if result.returncode == 0
+                                          else (result.stderr or "Failed.")[:200]))
+                        except subprocess.TimeoutExpired:
+                            steps.append(("Sync clue audio", False, "Timed out."))
+                        except Exception as e:
+                            steps.append(("Sync clue audio", False, str(e)))
 
         # Step 3: Restart service
         if not failed:

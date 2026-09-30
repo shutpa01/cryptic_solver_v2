@@ -298,6 +298,41 @@ def _approved_prose(clue_id):
         return None
 
 
+def _has_current_audio(clue_id):
+    """True when Cordelia's recording of this clue exists AND still reads the words
+    the page shows (core/clue_audio.py). The comment is read with raw SQL, the same
+    discipline as web/serving._invalid_card. Never raises: no audio costs the page
+    nothing but the button."""
+    try:
+        from core import clue_audio
+        row = get_db().execute(
+            "SELECT note FROM wfw_notes WHERE clue_id = ?", (clue_id,)).fetchone()
+        note = row["note"] if row and row["note"] else ""
+        return clue_audio.is_current(clue_id, _approved_prose(clue_id), note)
+    except Exception:
+        return False
+
+
+@bp.route("/audio/clue/<int:clue_id>.mp3")
+@rate_limit(scope="clue_audio", limit=60, window=60)
+def clue_audio_file(clue_id):
+    """The Listen button's audio. Served under exactly the rule that shows the
+    button: a served clue whose recording still matches its words. Anything else
+    is 404, so a stale or unserved recording cannot be reached by URL either."""
+    from web.models import get_clue_by_id
+    from web.serving import is_served
+    clue = get_clue_by_id(clue_id)
+    if clue is None or not is_served(clue["source"], clue_id) \
+            or not _has_current_audio(clue_id):
+        abort(404)
+    from flask import send_file
+    from core import clue_audio
+    resp = send_file(clue_audio.mp3_path(clue_id), mimetype="audio/mpeg",
+                     conditional=True, max_age=86400)
+    resp.headers["X-Robots-Tag"] = "noindex"
+    return resp
+
+
 @bp.route("/clue/<slug>")
 @rate_limit(scope="clue_page", limit=60, window=60)
 def clue_page(slug):
@@ -1221,6 +1256,9 @@ def clue_page(slug):
         # reach a page by any route. Unticked, the page falls back to the card
         # exactly as before (user decision 2026-09-24).
         prose=_approved_prose(clue_id),
+        # Listen button: Cordelia's own recording from the puzzle video, shown only
+        # while it still says what this page says (core/clue_audio.py).
+        has_audio=_has_current_audio(clue_id),
         other_appearances=other_appearances,
         source_puzzle_url=source_puzzle_url,
         meta_description=meta_description,

@@ -153,13 +153,15 @@ def rsync(local_path, remote_rel, timeout, dry_run, label):
     return _run([GIT_BASH, "-c", cmd], timeout, dry_run, label)
 
 
-def rsync_json_dir(local_dir, remote_rel, timeout, dry_run, label):
+def rsync_json_dir(local_dir, remote_rel, timeout, dry_run, label, patterns=("*.json",)):
     src = _win_to_msys(local_dir).rstrip("/") + "/"
     # EXACTLY the dashboard's _rsync_json_dir command. The dir is flat, so -r plus
     # --exclude='*' just filters to the *.json files; do NOT add --include='*/' or
-    # this recurses where the dashboard does not.
-    cmd = ("rsync -crz --mkpath --include='*.json' --exclude='*' "
-           "%s %s:%s/%s/" % (src, CORDELIA_DROPLET, CORDELIA_REMOTE, remote_rel.rstrip("/")))
+    # this recurses where the dashboard does not. `patterns` widens the filter for
+    # the clue-audio dir (*.mp3 + *.json); the default is the command as it was.
+    inc = " ".join("--include='%s'" % p for p in patterns)
+    cmd = ("rsync -crz --mkpath %s --exclude='*' "
+           "%s %s:%s/%s/" % (inc, src, CORDELIA_DROPLET, CORDELIA_REMOTE, remote_rel.rstrip("/")))
     return _run([GIT_BASH, "-c", cmd], timeout, dry_run, label)
 
 
@@ -296,6 +298,16 @@ def main():
         ok, out = rsync_json_dir(d, remote_rel, 600, args.dry_run, "rsync %s" % local_rel)
         if not ok:
             log("  grid JSON sync for %s failed: %s — not fatal, carrying on." % (local_rel, out))
+
+    # Step 2c: Cordelia's recorded clue explanations for the Listen button
+    # (core/clue_audio.py). Incremental, so only the day's new files travel. Never
+    # fatal: without them the clue pages simply show no Listen button.
+    audio_dir = ROOT / "data" / "clue_audio"
+    if audio_dir.exists():
+        ok, out = rsync_json_dir(audio_dir, "data/clue_audio", 900, args.dry_run,
+                                 "rsync data/clue_audio", patterns=("*.mp3", "*.json"))
+        if not ok:
+            log("  clue audio sync failed: %s — not fatal, carrying on." % out)
 
     # Step 3: restart. The unit is Restart=always, so a process that dies comes back;
     # what this does not survive is a persistent startup fault, which is why the

@@ -550,6 +550,18 @@ def main():
     print("\n%s" % video)
     print(probe.stdout.strip())
     print("chapters.txt / description.txt written (%d chapters)" % len(chapters))
+
+    # The clue pages' Listen button: each clue's stretch of the take she just
+    # recorded, exported NOW so the words it is stamped with are the words she read
+    # (scripts/export_clue_audio.py). Never allowed to cost the video.
+    if track:
+        try:
+            from scripts.export_clue_audio import export      # lazy: it imports us
+            for line in export(cap):
+                print(line)
+        except Exception as e:
+            print("clue audio export failed (%s: %s) — the video is unaffected."
+                  % (type(e).__name__, e))
     return 0
 
 

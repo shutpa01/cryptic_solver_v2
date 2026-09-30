@@ -144,3 +144,6 @@ secrets/
 # demand, so they are output, not source — and they would churn on every run.
 data/ga4_daily.csv
 data/logs_daily.csv
+
+# Cordelia clue audio for the Listen button (core/clue_audio.py) — synced by deploy, not git
+/data/clue_audio/
