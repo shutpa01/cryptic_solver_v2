@@ -675,5 +675,210 @@
     "phrase": "The trying of the case begins Monday",
     "approved": false,
     "clue_id": 10095269
+  },
+  "PRESENT|offering": {
+    "phrase": "She wrapped his birthday present carefully last night",
+    "approved": false,
+    "clue_id": 10095317
+  },
+  "PRESENT|here": {
+    "phrase": "All the pupils were present at assembly today",
+    "approved": false,
+    "clue_id": 10095317
+  },
+  "GOODFORYOU|great job": {
+    "phrase": "You passed your test? Good for you!",
+    "approved": false,
+    "clue_id": 10095326
+  },
+  "GOODFORYOU|beneficial": {
+    "phrase": "Eating plenty of vegetables is good for you",
+    "approved": false,
+    "clue_id": 10095326
+  },
+  "JACK|lift": {
+    "phrase": "Use the jack to change the tyre",
+    "approved": false,
+    "clue_id": 10095327
+  },
+  "JACK|sailor": {
+    "phrase": "Every jack aboard cheered as we docked",
+    "approved": false,
+    "clue_id": 10095327
+  },
+  "TWIG|get": {
+    "phrase": "She finally twigged what he really meant",
+    "approved": false,
+    "clue_id": 10095428
+  },
+  "TWIG|a bit of stick": {
+    "phrase": "A dry twig snapped under his boot",
+    "approved": false,
+    "clue_id": 10095428
+  },
+  "LAY|produce": {
+    "phrase": "Our hens lay eggs every single morning",
+    "approved": false,
+    "clue_id": 10095434
+  },
+  "LAY|song": {
+    "phrase": "She sang a beautiful old Irish lay",
+    "approved": false,
+    "clue_id": 10095434
+  },
+  "BRAVO|i stand before charlie": {
+    "phrase": "The call sign was Bravo Charlie Two",
+    "approved": false,
+    "clue_id": 10095438
+  },
+  "BRAVO|i like it": {
+    "phrase": "Bravo, what a splendid performance that was",
+    "approved": false,
+    "clue_id": 10095438
+  },
+  "DIRK|gently detective": {
+    "phrase": "Dirk Gently runs that holistic detective agency",
+    "approved": false,
+    "clue_id": 10095439
+  },
+  "DIRK|dagger": {
+    "phrase": "He kept a dirk tucked in his sock",
+    "approved": false,
+    "clue_id": 10095439
+  },
+  "RARE|excellent": {
+    "phrase": "We had a rare old time tonight",
+    "approved": false,
+    "clue_id": 10095843
+  },
+  "RARE|red for the diner": {
+    "phrase": "I'd like my steak cooked rare, please",
+    "approved": false,
+    "clue_id": 10095843
+  },
+  "GUTTED|was a fish factory worker": {
+    "phrase": "He gutted herring on the quayside for years",
+    "approved": false,
+    "clue_id": 10095853
+  },
+  "GUTTED|disappointed": {
+    "phrase": "I was absolutely gutted when we lost",
+    "approved": false,
+    "clue_id": 10095853
+  },
+  "STIR|begin to wake": {
+    "phrase": "The crowd began to stir at dawn",
+    "approved": false,
+    "clue_id": 10095686
+  },
+  "STIR|prison": {
+    "phrase": "He spent five years in stir",
+    "approved": false,
+    "clue_id": 10095686
+  },
+  "ROSEPINK|pale red": {
+    "phrase": "She painted the nursery walls rose pink",
+    "approved": false,
+    "clue_id": 10095821
+  },
+  "ROSEPINK|flowers": {
+    "phrase": "Rose, pink and carnation filled the vase",
+    "approved": false,
+    "clue_id": 10095821
+  },
+  "ORDERLY|well-behaved": {
+    "phrase": "The children were remarkably orderly in class",
+    "approved": false,
+    "clue_id": 10095891
+  },
+  "ORDERLY|soldier": {
+    "phrase": "The orderly fetched the colonel's morning tea",
+    "approved": false,
+    "clue_id": 10095891
+  },
+  "DIVISION|class": {
+    "phrase": "Our team got promoted to the first division",
+    "approved": false,
+    "clue_id": 10095894
+  },
+  "DIVISION|conflict": {
+    "phrase": "The vote exposed deep division within the party",
+    "approved": false,
+    "clue_id": 10095894
+  },
+  "TAKETOYOURHEELS|quickly leave": {
+    "phrase": "She took to her heels and fled",
+    "approved": false,
+    "clue_id": 10096036
+  },
+  "TAKETOYOURHEELS|like a woman fond of party footwear": {
+    "phrase": "You've really taken to your new heels",
+    "approved": false,
+    "clue_id": 10096036
+  },
+  "SPARE TYRE|it's of benefit if you have a flat": {
+    "phrase": "Luckily there's a spare tyre in the boot",
+    "approved": false,
+    "clue_id": 10095911
+  },
+  "SPARE TYRE|belly": {
+    "phrase": "He's developed a spare tyre since Christmas",
+    "approved": false,
+    "clue_id": 10095911
+  },
+  "SHAKERS|millenarian sect": {
+    "phrase": "The Shakers believed the world would end soon",
+    "approved": false,
+    "clue_id": 10096455
+  },
+  "SHAKERS|mixers of cocktails": {
+    "phrase": "The bartenders here are brilliant shakers of cocktails",
+    "approved": false,
+    "clue_id": 10096455
+  },
+  "SWEATER|one exploiting employees": {
+    "phrase": "The mill owner was a notorious sweater",
+    "approved": false,
+    "clue_id": 10096461
+  },
+  "SWEATER|garment": {
+    "phrase": "He pulled on a warm woolly sweater",
+    "approved": false,
+    "clue_id": 10096461
+  },
+  "SUSPENSEACCOUNT|money temporarily put aside here": {
+    "phrase": "The payment sat in a suspense account",
+    "approved": false,
+    "clue_id": 10096474
+  },
+  "SUSPENSEACCOUNT|thriller": {
+    "phrase": "A gripping suspense account of the kidnapping",
+    "approved": false,
+    "clue_id": 10096474
+  },
+  "HIGHFIVE|celebrate": {
+    "phrase": "We exchanged a high five after winning",
+    "approved": false,
+    "clue_id": 10096429
+  },
+  "FINGER|identify": {
+    "phrase": "Witnesses fingered him for the robbery",
+    "approved": false,
+    "clue_id": 10096865
+  },
+  "FINGER|digit": {
+    "phrase": "She wore a ring on every finger",
+    "approved": false,
+    "clue_id": 10096865
+  },
+  "TRACE|draw": {
+    "phrase": "Can you trace round this shape for me?",
+    "approved": false,
+    "clue_id": 10096669
+  },
+  "TRACE|relic": {
+    "phrase": "Police found no trace of the burglar",
+    "approved": false,
+    "clue_id": 10096669
   }
 }
