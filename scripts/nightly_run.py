@@ -313,12 +313,36 @@ def main():
     # Deliberately NOT like Step 5, which runs for real under --dry-run. A dry run
     # that spends model calls is not a dry run, and this step calls the CLI once per
     # puzzle.
-    if args.dry_run:
-        log("  [DRY RUN] Would run draft_prose.py --pending")
-    else:
+    #
+    # ONE PUZZLE AT A TIME, named explicitly for target_date. Two failures on
+    # 2026-09-28 made the bare `--pending` call useless:
+    #   - its default day is SQLite date('now'), which is UTC, so at 00:05 BST it
+    #     drafted YESTERDAY's puzzles (all already drafted: "0 to draft");
+    #   - a whole day in one call (84 clues) passes the prompt as a command-line
+    #     argument longer than Windows allows, and nothing at all was filed.
+    # One puzzle is ~14k characters, well inside the limit.
+    try:
+        sys.path.insert(0, str(ROOT))
+        from web.serving import SERVED_SOURCES
+        conn = sqlite3.connect(str(CLUES_DB))
+        ph = ",".join("?" for _ in SERVED_SOURCES)
+        puzzles = conn.execute(
+            "SELECT DISTINCT source, puzzle_number FROM clues WHERE source IN (%s) "
+            "AND publication_date = ? ORDER BY source" % ph,
+            (*SERVED_SOURCES, target_date)).fetchall()
+        conn.close()
+    except Exception as e:
+        puzzles = []
+        log(f"  could not list {target_date}'s puzzles: {e} — not fatal")
+    for source, pnum in puzzles:
+        log(f"  --- {source} {pnum}")
+        if args.dry_run:
+            log(f"  [DRY RUN] Would run draft_prose.py --pending --source {source} --puzzle {pnum}")
+            continue
         try:
             r = subprocess.run(
-                [sys.executable, str(ROOT / "scripts" / "draft_prose.py"), "--pending"],
+                [sys.executable, str(ROOT / "scripts" / "draft_prose.py"), "--pending",
+                 "--source", source, "--puzzle", str(pnum)],
                 capture_output=True, text=True, encoding="utf-8",
                 errors="replace", timeout=1800, cwd=str(ROOT))
             # Generous tail: draft_prose prints one line per clue and ENDS with the
