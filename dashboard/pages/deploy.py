@@ -282,12 +282,11 @@ CORDELIA_CODE_DIRS = [
 # Individual files that don't fit the directory pattern
 CORDELIA_EXTRA_FILES = [
     ("data/base_catalog.json", "data/base_catalog.json"),
-    # The clue page's prose lives in a FILE, not the database, so the code that
-    # serves it (web/routes/clue._approved_prose -> core.prose_store) deploys with
-    # core/ and web/ while the text itself stayed here — a page able to show prose
-    # with nothing to show (user, 2026-09-25). Every draft travels; only an
-    # approved one is ever rendered, because approved_text() is the sole reader.
-    ("logs/prose.json", "logs/prose.json"),
+    # NO PROSE FILE HERE. The clue page's prose lived in logs/prose.json and was
+    # shipped from this list — i.e. only with a CODE deploy — so on 2026-10-01 the
+    # day's clues went live with no prose after database-only deploys. It now lives
+    # in clues_master.db (table clue_prose, core/prose_store.py) and travels with
+    # every database upload, this page's and the nightly auto_deploy's alike.
 ]
 
 

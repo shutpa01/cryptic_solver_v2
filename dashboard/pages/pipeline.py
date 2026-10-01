@@ -22,7 +22,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 # core.prose_store is the ONE definition of what counts as approved prose
 # (its approved_text is the only reader the serving path uses). The dashboard
-# asks it rather than reading logs/prose.json itself.
+# asks it rather than reading the clue_prose table itself.
 from core import prose_store  # noqa: E402  (needs PROJECT_ROOT on the path)
 
 
@@ -110,8 +110,8 @@ def _get_unpublished_wfw(cutoff_iso):
         the narration reads the comment instead, exactly as
         scripts/narrate_prose.clue_text_for does.
 
-    A puzzle is listed when EITHER is outstanding. Approvals live in
-    logs/prose.json and not in the DB, so the prose count is done in Python over
+    A puzzle is listed when EITHER is outstanding. Approvals are read through
+    core.prose_store (table clue_prose), so the prose count is done in Python over
     the same clue rows rather than in SQL.
     """
     conn = sqlite3.connect(f"file:{CLUES_DB}?mode=ro", uri=True)

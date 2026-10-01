@@ -3697,7 +3697,7 @@ def _queue_prose_draft(clue_id):
     SPEED IS THE WHOLE CONSTRAINT (user, 2026-09-24: "I cannot afford a long
     delay"). MEASURED: a single-clue draft takes 8-11 seconds, which is far too
     long to hold a commit open — so the commit does not wait for it. The child is
-    detached: it outlives this request, writes `logs/prose.json` when it is done,
+    detached: it outlives this request, writes the clue_prose table when it is done,
     and the text is in the box the next time the clue is drawn. By then the user
     has read and filed the next clue, so in practice the prose is waiting before
     it is wanted.
@@ -3832,8 +3832,8 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
 
 @app.route("/hsprose", methods=["POST"])
 def hsprose_route():
-    """Tick, un-tick or edit the prose draft. Writes `logs/prose.json` only — no
-    solve, no clue DB write, no reference-DB write."""
+    """Tick, un-tick or edit the prose draft. Writes the clue_prose table only — no
+    solve, no other clue-DB write, no reference-DB write."""
     from core import prose_store
     only = (request.form.get("only") or "").strip()
     back = (request.form.get("from") or only).strip()

@@ -8,9 +8,19 @@ record looks like.
                   "approved": false}}
 
 Written unapproved by `scripts/draft_prose.py`, ticked on /hs, and served only when
-`approved` is true. It is a JSON file rather than a table because a draft is local
-working state, not a record of the puzzle: `logs/*` is gitignored and the DBs are
-not touched.
+`approved` is true.
+
+IT LIVES IN clues_master.db, TABLE clue_prose (user, 2026-10-01: "put the prose in
+the DB where it belongs and include it in the deploy"). It used to be the file
+logs/prose.json, on the reasoning that a draft is local working state. But an
+approved sentence is page content for a clue, and the file only reached the droplet
+with a CODE deploy — so on 10-01 every clue of the day went live with its answer and
+no prose, because the morning's deploys were database-only. In the DB it travels
+with every database upload, the 00:05 auto_deploy included.
+
+The record shape callers see is unchanged — a dict per clue, keyed by the id as a
+string — so no caller had to change. Absent `author`/`refused` are simply missing
+keys, exactly as they were in the file.
 
 WHY THIS MODULE EXISTS AT ALL. The drafter and the /hs tick both need the path, the
 key and the record shape, and this session has twice been bitten by the same fact
@@ -23,31 +33,79 @@ the drafter cannot silently un-approve something the user has already ticked, an
 ticking cannot silently alter what was drafted.
 """
 
-import json
-from pathlib import Path
+import sqlite3
+import time
 
-ROOT = Path(__file__).resolve().parent.parent
-PROSE = ROOT / "logs" / "prose.json"
+from core import store
+
+# Additive only. One row per clue; the columns are the old JSON record's keys.
+_DDL = """CREATE TABLE IF NOT EXISTS clue_prose (
+    clue_id    INTEGER PRIMARY KEY,
+    sentence   TEXT NOT NULL DEFAULT '',
+    gloss      TEXT NOT NULL DEFAULT '',
+    answer     TEXT NOT NULL DEFAULT '',
+    approved   INTEGER NOT NULL DEFAULT 0,
+    refused    TEXT,
+    author     TEXT,
+    facts_hash TEXT NOT NULL DEFAULT '',
+    updated_at TEXT
+)"""
+_COLS = ("sentence", "gloss", "answer", "approved", "refused", "author", "facts_hash")
 
 
-def load():
-    """Every draft, keyed by clue id as a string. Missing/!unreadable file = {}."""
+def _conn(db_path=None):
+    return store.connect(db_path)
+
+
+def _rec(row):
+    """A DB row -> the record shape the file always had."""
+    sentence, gloss, answer, approved, refused, author, facts_hash = row
+    rec = {"sentence": sentence or "", "gloss": gloss or "", "answer": answer or "",
+           "approved": bool(approved), "facts_hash": facts_hash or ""}
+    if refused:
+        rec["refused"] = refused
+    if author:
+        rec["author"] = author
+    return rec
+
+
+def load(db_path=None):
+    """Every record, keyed by clue id as a string. No table yet = {}."""
     try:
-        data = json.loads(PROSE.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
-    except Exception:
+        with _conn(db_path) as c:
+            rows = c.execute("SELECT clue_id, " + ", ".join(_COLS)
+                             + " FROM clue_prose").fetchall()
+    except sqlite3.OperationalError:
         return {}
-
-
-def save(data):
-    PROSE.parent.mkdir(parents=True, exist_ok=True)
-    PROSE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    return {str(r[0]): _rec(r[1:]) for r in rows}
 
 
 def get(clue_id, data=None):
-    """One clue's record, or None. `data` lets a caller read the file once."""
-    rec = (load() if data is None else data).get(str(clue_id))
-    return rec if isinstance(rec, dict) else None
+    """One clue's record, or None. `data` (from load()) lets a caller read once."""
+    if data is not None:
+        rec = data.get(str(clue_id))
+        return rec if isinstance(rec, dict) else None
+    try:
+        with _conn() as c:
+            row = c.execute("SELECT " + ", ".join(_COLS)
+                            + " FROM clue_prose WHERE clue_id = ?",
+                            (int(clue_id),)).fetchone()
+    except (sqlite3.OperationalError, ValueError, TypeError):
+        return None
+    return _rec(row) if row else None
+
+
+def put(clue_id, rec, db_path=None):
+    """Write one clue's whole record (replacing any previous one)."""
+    with _conn(db_path) as c:
+        c.execute(_DDL)
+        c.execute("INSERT OR REPLACE INTO clue_prose (clue_id, " + ", ".join(_COLS)
+                  + ", updated_at) VALUES (?,?,?,?,?,?,?,?,?)",
+                  (int(clue_id), rec.get("sentence") or "", rec.get("gloss") or "",
+                   rec.get("answer") or "", 1 if rec.get("approved") else 0,
+                   rec.get("refused") or None, rec.get("author") or None,
+                   rec.get("facts_hash") or "",
+                   time.strftime("%Y-%m-%d %H:%M:%S")))
 
 
 def sentence_case(text):
@@ -69,15 +127,12 @@ def save_draft(clue_id, sentence, gloss, answer="", facts_hash=""):
     `facts_hash` fingerprints the record the prose was written from, so a later
     commit can tell whether the reading actually changed. See `facts_unchanged`.
     """
-    data = load()
-    key = str(clue_id)
-    if _keep(data.get(key)):
+    if _keep(get(clue_id)):
         return False
-    data[key] = {"sentence": sentence_case(sentence),
-                 "gloss": sentence_case(gloss),
-                 "answer": (answer or "").upper(), "approved": False,
-                 "facts_hash": facts_hash}
-    save(data)
+    put(clue_id, {"sentence": sentence_case(sentence),
+                  "gloss": sentence_case(gloss),
+                  "answer": (answer or "").upper(), "approved": False,
+                  "facts_hash": facts_hash})
     return True
 
 
@@ -93,14 +148,11 @@ def save_refusal(clue_id, reason, facts_hash=""):
     changed should not spend another model call to be refused again. Never touches
     an approved record, exactly as save_draft does not.
     """
-    data = load()
-    key = str(clue_id)
-    if _keep(data.get(key)):
+    if _keep(get(clue_id)):
         return False
-    data[key] = {"sentence": "", "gloss": "", "answer": "", "approved": False,
-                 "refused": (reason or "").strip() or "no reason given",
-                 "facts_hash": facts_hash}
-    save(data)
+    put(clue_id, {"sentence": "", "gloss": "", "answer": "", "approved": False,
+                  "refused": (reason or "").strip() or "no reason given",
+                  "facts_hash": facts_hash})
     return True
 
 
@@ -122,14 +174,11 @@ def save_user_text(clue_id, sentence, gloss, approved):
     if any, is dropped: the user's text is the answer to it. Keeps the old
     `facts_hash` so an unchanged reading is not sent to the model again.
     """
-    data = load()
-    key = str(clue_id)
-    old = data.get(key) if isinstance(data.get(key), dict) else {}
-    data[key] = {"sentence": sentence_case((sentence or "").strip()),
-                 "gloss": sentence_case((gloss or "").strip()),
-                 "answer": old.get("answer", ""), "approved": bool(approved),
-                 "author": "user", "facts_hash": old.get("facts_hash", "")}
-    save(data)
+    old = get(clue_id) or {}
+    put(clue_id, {"sentence": sentence_case((sentence or "").strip()),
+                  "gloss": sentence_case((gloss or "").strip()),
+                  "answer": old.get("answer", ""), "approved": bool(approved),
+                  "author": "user", "facts_hash": old.get("facts_hash", "")})
     return True
 
 
@@ -151,20 +200,17 @@ def set_approved(clue_id, approved, sentence=None, gloss=None):
     """Tick or untick, optionally keeping edits the user made in the box.
 
     Returns False when there is nothing filed for this clue — approving something
-    that does not exist would put a key in the file that no draft ever wrote.
+    that does not exist would file a row that no draft ever wrote.
     """
-    data = load()
-    key = str(clue_id)
-    rec = data.get(key)
-    if not isinstance(rec, dict):
+    rec = get(clue_id)
+    if rec is None:
         return False
     if sentence is not None:
         rec["sentence"] = sentence.strip()
     if gloss is not None:
         rec["gloss"] = gloss.strip()
     rec["approved"] = bool(approved)
-    data[key] = rec
-    save(data)
+    put(clue_id, rec)
     return True
 
 

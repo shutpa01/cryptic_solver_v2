@@ -287,7 +287,7 @@ def enum_slug_to_new_id(slug):
 def _approved_prose(clue_id):
     """(sentence, gloss) for a clue whose prose the user has ticked, else None.
 
-    Never raises: a missing or malformed logs/prose.json must cost the page
+    Never raises: a missing clue_prose table or bad row must cost the page
     nothing, because the card below it is the explanation that has always been
     served and the prose is an addition to it.
     """
@@ -1251,7 +1251,7 @@ def clue_page(slug):
         wfw_card=wfw_card,
         wfw_card_css=card_css(),
         # The prose block, and ONLY when the user has ticked it. approved_text() is
-        # the single reader of logs/prose.json on the serving side, so an overnight
+        # the single reader of the clue_prose table on the serving side, so an overnight
         # draft — written at 00:05 against a parse still marked pending — cannot
         # reach a page by any route. Unticked, the page falls back to the card
         # exactly as before (user decision 2026-09-24).
