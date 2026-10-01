@@ -239,6 +239,47 @@ def recorded_values(parse):
     return out
 
 
+def _letters(s):
+    return re.sub(r"[^A-Z]", "", fold(s or "").upper())
+
+
+def fodder_spellings(parse):
+    """value -> the clue word that accounts for it, for anagram fodder only.
+
+    The anagram-container solvers record fodder in ANSWER order — `enemy -> ENYME`,
+    `react -> RACTE`, `cur one -> CONUER` — a string that is no word and that no
+    faithful sentence writes. "The letters of enemy are shuffled" accounts for it in
+    full. Rule 1 refused ENZYME on that (2026-10-01) and CONUER before it; RACTE and
+    LEUT only passed because they happen to sit unbroken inside CHARACTER and SLEUTH.
+
+    The clue word stands in ONLY when it holds exactly the same letters. A fodder
+    that loses or gains a letter still has to be named as recorded.
+    """
+    out = {}
+    for p in parse["sources"]:
+        if p["mechanism"] != "anagram_fodder":
+            continue
+        v, t = (p["value"] or "").strip().upper(), _letters(p["text"])
+        if v and t and sorted(_letters(v)) == sorted(t):
+            # The clue word(s) as whole words, any punctuation or space between, so
+            # "ten" is never found inside "attention".
+            words = re.findall(r"[A-Za-z]+", fold(p["text"]))
+            out[v] = re.compile(r"\b" + r"[^A-Za-z]+".join(words) + r"\b", re.I)
+    return out
+
+
+# The NATO spelling alphabet. Prose that explains one of these as a letter names
+# the alphabet — "Golf stands for G in the NATO alphabet" — and the capitals rule
+# called NATO an invention: LILAC, PARNASSUS, SOLDERING, SEE YOU, BRAVO (09-27 to
+# 10-01). NATO is allowed only when a code word is in the clue or the answer.
+NATO_WORDS = {
+    "ALFA", "ALPHA", "BRAVO", "CHARLIE", "DELTA", "ECHO", "FOXTROT", "GOLF",
+    "HOTEL", "INDIA", "JULIET", "JULIETT", "KILO", "LIMA", "MIKE", "NOVEMBER",
+    "OSCAR", "PAPA", "QUEBEC", "ROMEO", "SIERRA", "TANGO", "UNIFORM", "VICTOR",
+    "WHISKEY", "WHISKY", "XRAY", "YANKEE", "ZULU",
+}
+
+
 def fold(text):
     """Letters as the checker must read them: HTML entities resolved, accents
     flattened, case preserved.
@@ -303,7 +344,9 @@ def verify(text, parse, clue_text, answer):
     # and a faithful draft refused (CREAM SODA, times 29658, 2026-09-26). An
     # apostrophe is never a letter, so ignoring it cannot let an invention through.
     _flat = lambda s: re.sub(r"[\s'‘’]", "", s)
-    missing = [v for v in values if _flat(v) not in _flat(up)]
+    stand_in = fodder_spellings(parse)
+    missing = [v for v in values if _flat(v) not in _flat(up)
+               and not (v in stand_in and stand_in[v].search(text))]
     if missing:
         return False, "does not account for %s" % ", ".join(sorted(missing))
     # Anything shouted in capitals must be something we actually hold.
@@ -322,6 +365,10 @@ def verify(text, parse, clue_text, answer):
                 allowed.add(snd.upper())
     allowed |= {w.upper() for w in re.split(r"[^A-Za-z']+", clue_text or "") if w}
     allowed |= {"SENTENCE", "GLOSS", "INSUFFICIENT", "A", "I"}
+    in_play = set(re.findall(r"[A-Z]+", fold(clue_text or "").upper().replace("-", ""))) \
+        | set(re.findall(r"[A-Z]+", ans.replace("-", "")))
+    if in_play & NATO_WORDS:
+        allowed.add("NATO")
     flat = {a.replace(" ", "") for a in allowed if a}
     # THE SPACE IS NOT A CLAIM. The record and the prose disagree about spacing in
     # both directions, and neither disagreement is an invention:
