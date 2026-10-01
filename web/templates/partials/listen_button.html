@@ -1,0 +1,26 @@
+{# LISTEN — Cordelia's own recording of this clue (core/clue_audio.py), on the clue
+   page AND in the puzzle page's explanation overlay. A big round SPEAKER button, not
+   a line of text (user, 2026-09-30: "the globally recognised symbol"). The player is
+   cordeliaListen() in base.html, so this works when the overlay is loaded by htmx.
+   Needs: listen_clue_id. #}
+<div class="listen-row flex items-center gap-3 my-4">
+  <button type="button" onclick="cordeliaListen(this)"
+          data-src="{{ url_for('clue.clue_audio_file', clue_id=listen_clue_id) }}"
+          class="listen-btn relative shrink-0 w-14 h-14 rounded-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white shadow-lg flex items-center justify-center cursor-pointer transition"
+          aria-label="Hear Cordelia explain this clue" title="Hear Cordelia explain this clue">
+    <svg class="absolute inset-0 w-14 h-14 pointer-events-none" viewBox="0 0 56 56" aria-hidden="true">
+      <circle class="listen-ring" cx="28" cy="28" r="26" fill="none" stroke="#fff" stroke-opacity=".85"
+              stroke-width="3" stroke-linecap="round" stroke-dasharray="163.4" stroke-dashoffset="163.4"
+              transform="rotate(-90 28 28)"/>
+    </svg>
+    <svg class="listen-speaker w-7 h-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+      <path d="M16.5 12a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12z"/>
+      <path d="M14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>
+    </svg>
+    <svg class="listen-pause hidden w-7 h-7" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
+    </svg>
+  </button>
+  <span class="listen-label text-base font-semibold text-gray-800">Hear Cordelia explain it</span>
+</div>

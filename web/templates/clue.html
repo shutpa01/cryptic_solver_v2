@@ -137,37 +137,9 @@
        rather than reassembled here (user, 2026-09-24). #}
     {# LISTEN — Cordelia's own recording of this clue, cut from the puzzle video.
        Present only while the recording still says what this page says
-       (core/clue_audio.py); preload="none" so a page view downloads nothing
-       until the button is pressed (user, 2026-09-29). #}
+       (core/clue_audio.py). Nothing downloads until the button is pressed. #}
     {% if has_audio %}
-    <div class="mt-4 flex items-center gap-3">
-      <button type="button" id="listen-btn" onclick="toggleListen()"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-300 bg-white text-indigo-700 hover:bg-indigo-50 font-medium text-sm cursor-pointer"
-              aria-label="Listen to Cordelia explain this clue">
-        <span id="listen-icon" aria-hidden="true">&#9654;</span>
-        <span id="listen-label">Listen to Cordelia explain it</span>
-      </button>
-      <audio id="listen-audio" preload="none"
-             src="{{ url_for('clue.clue_audio_file', clue_id=clue.id) }}"></audio>
-    </div>
-    <script>
-      function toggleListen() {
-        var a = document.getElementById('listen-audio');
-        if (a.paused) { a.play(); } else { a.pause(); }
-      }
-      (function () {
-        var a = document.getElementById('listen-audio');
-        var icon = document.getElementById('listen-icon');
-        var label = document.getElementById('listen-label');
-        function show(playing) {
-          icon.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
-          label.textContent = playing ? 'Pause' : 'Listen to Cordelia explain it';
-        }
-        a.addEventListener('play', function () { show(true); });
-        a.addEventListener('pause', function () { show(false); });
-        a.addEventListener('ended', function () { a.currentTime = 0; show(false); });
-      })();
-    </script>
+    {% with listen_clue_id = clue.id %}{% include "partials/listen_button.html" %}{% endwith %}
     {% endif %}
     {% if prose %}
     <div class="mt-4 rounded-xl border border-gray-200 bg-white p-4">

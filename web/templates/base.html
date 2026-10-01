@@ -894,6 +894,44 @@
     }
     function closeWfwOverlay() {
         document.getElementById('wfw-overlay').classList.add('hidden');
+        cordeliaListenStop();
+    }
+
+    // LISTEN — the player behind partials/listen_button.html. One recording at a time;
+    // the button shows speaker/pause and its ring fills as she speaks. Lives here, not
+    // in the partial, because the overlay's HTML arrives by htmx.
+    var _cl = {audio: null, btn: null};
+    function _clShow(btn, playing) {
+        if (!btn) return;
+        btn.querySelector('.listen-speaker').classList.toggle('hidden', playing);
+        btn.querySelector('.listen-pause').classList.toggle('hidden', !playing);
+        var lab = btn.parentNode.querySelector('.listen-label');
+        if (lab) lab.textContent = playing ? 'Pause' : 'Hear Cordelia explain it';
+        btn.setAttribute('aria-label', playing ? 'Pause' : 'Hear Cordelia explain this clue');
+    }
+    function _clRing(btn, frac) {
+        var r = btn && btn.querySelector('.listen-ring');
+        if (r) r.setAttribute('stroke-dashoffset', (163.4 * (1 - frac)).toFixed(1));
+    }
+    function cordeliaListenStop() {
+        if (_cl.audio) { _cl.audio.pause(); _cl.audio.currentTime = 0; }
+        _clShow(_cl.btn, false); _clRing(_cl.btn, 0);
+    }
+    function cordeliaListen(btn) {
+        if (_cl.btn === btn && _cl.audio) {                  // same button: toggle
+            if (_cl.audio.paused) _cl.audio.play(); else _cl.audio.pause();
+            return;
+        }
+        cordeliaListenStop();                                 // another clue was playing
+        var a = new Audio(btn.getAttribute('data-src'));
+        _cl.audio = a; _cl.btn = btn;
+        a.addEventListener('play', function () { _clShow(btn, true); });
+        a.addEventListener('pause', function () { _clShow(btn, false); });
+        a.addEventListener('timeupdate', function () {
+            if (a.duration) _clRing(btn, a.currentTime / a.duration);
+        });
+        a.addEventListener('ended', function () { a.currentTime = 0; _clShow(btn, false); _clRing(btn, 0); });
+        a.play();
     }
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeWfwOverlay();
