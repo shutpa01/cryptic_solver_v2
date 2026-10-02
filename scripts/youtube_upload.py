@@ -139,10 +139,27 @@ def record(conn, source, number, video_id, title, privacy):
 
 # --- what to upload -----------------------------------------------------------------
 
-def next_puzzle(source, done, max_age_days):
+def _is_weekend(pub):
+    """Published on a Saturday or Sunday (the puzzle's own date, not today's)."""
+    from datetime import date
+    try:
+        return date.fromisoformat((pub or "")[:10]).weekday() >= 5
+    except ValueError:
+        return False
+
+
+def next_puzzle(source, done, max_age_days, weekend_only=True):
     """The most recent fully-served puzzle of `source` not yet uploaded, published
     within `max_age_days` of TODAY. Pass max_age_days=None to lift the guard
     entirely (--backfill).
+
+    WEEKEND ONLY since 2026-10-02 (user: "as from today we only post narrated videos
+    and post narrated clues on the clue pages for the 6 weekend puzzles" — to stay
+    within the ElevenLabs plan). A puzzle published Monday-Friday is skipped, so the
+    deploy's YouTube job films, narrates and uploads nothing on a weekday. The clue
+    pages' Listen audio is cut from this same recording (scripts/export_clue_audio.py),
+    so weekday clues get none either. --any-day lifts it; a named --puzzle never
+    reaches here.
 
     Uses the app's own serving truth, so a puzzle can never be filmed before every
     one of its clues has passed review (web/serving.py:143-171).
@@ -187,12 +204,16 @@ def next_puzzle(source, done, max_age_days):
         if max_age_days is not None:
             cutoff = (date.today() - timedelta(days=max_age_days)).isoformat()
         skipped_old = 0
+        skipped_weekday = []
         for r in served_rows:
             num = str(r["puzzle_number"])
             if (source, num) in done:
                 continue
             if cutoff and (r["pub"] or "") < cutoff:
                 skipped_old += 1
+                continue
+            if weekend_only and not _is_weekend(r["pub"]):
+                skipped_weekday.append("%s (%s)" % (num, (r["pub"] or "")[:10]))
                 continue
             slug, label = classify_puzzle(source, num, r["pub"])
             if slug is None:
@@ -206,6 +227,10 @@ def next_puzzle(source, done, max_age_days):
                   "%d-day age guard (cutoff %s, newest served %s). This is the guard "
                   "working: use --backfill to film them deliberately."
                   % (skipped_old, source, max_age_days, cutoff, newest))
+        if skipped_weekday:
+            print("Weekday %s puzzle(s) not filmed — weekend puzzles only: %s. "
+                  "Use --any-day to film one deliberately."
+                  % (source, ", ".join(skipped_weekday)))
     return None
 
 
@@ -456,9 +481,9 @@ def main():
     ap.add_argument("--sources", default="telegraph,times,guardian",
                     help="sources to run when --source is not given. Each is "
                          "handled independently: a source with nothing served and "
-                         "unfilmed today simply reports nothing to do. There is no "
-                         "day-of-week rule — Saturday's Guardian prize, Sunday's "
-                         "Everyman and the Times Sunday all fall out of "
+                         "unfilmed today simply reports nothing to do. Only puzzles "
+                         "PUBLISHED on a Saturday or Sunday are filmed (see "
+                         "--any-day); their titles still fall out of "
                          "classify_puzzle on their own.")
     ap.add_argument("--puzzle", default=None, help="override the puzzle chosen")
     ap.add_argument("--privacy", default="private",
@@ -484,6 +509,10 @@ def main():
     ap.add_argument("--backfill", action="store_true",
                     help="lift the age guard and take the oldest outstanding puzzle "
                          "too — deliberate archive work, watch the quota")
+    ap.add_argument("--any-day", action="store_true",
+                    help="film weekday puzzles too. Off by default since 2026-10-02: "
+                         "only puzzles published on a Saturday or Sunday are filmed "
+                         "and narrated (ElevenLabs budget).")
     args = ap.parse_args()
 
     if args.source is None and not args.puzzle:
@@ -569,7 +598,8 @@ def run_one(args):
         # None, not 0 — 0 now means "today only", so --backfill must pass None to
         # lift the guard. Passing 0 here was the old bug in miniature.
         puzzle = next_puzzle(args.source, done,
-                             None if args.backfill else args.max_age_days)
+                             None if args.backfill else args.max_age_days,
+                             weekend_only=not args.any_day)
         if puzzle is None:
             print("Nothing to upload for %s." % args.source)
             args._outcome = "nothing"
