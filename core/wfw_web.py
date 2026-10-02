@@ -2833,7 +2833,7 @@ function initGrid(rootId, DATA){
   function h(n,v){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.appendChild(i);}
   h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('kind',kind||'synonym');h('word',word);h('value',value);
   if(DATA.src&&DATA.pnum){h('src',DATA.src);h('pnum',DATA.pnum);}
-  document.body.appendChild(f);f.submit();}
+  if(window.wfwStayPutSave)wfwStayPutSave(document.activeElement);document.body.appendChild(f);f.submit();}
  function fetchTypes(){var idx=checkedIdx();if(!idx.length||!delEl){if(delEl)delEl.innerHTML='';return;}
   var phr=phraseOf(idx);
   fetch('/hstypes?phrase='+encodeURIComponent(phr)).then(function(r){return r.json();}).then(function(list){
@@ -3051,7 +3051,7 @@ function initGrid(rootId, DATA){
   function h(n,val){var i=document.createElement('input');i.type='hidden';i.name=n;i.value=val;f.appendChild(i);}
   h('only',DATA.cid);h('from',DATA.back||DATA.cid);h('word',w);h('homophone',v);
   if(DATA.src&&DATA.pnum){h('src',DATA.src);h('pnum',DATA.pnum);}
-  document.body.appendChild(f);f.submit();}
+  if(window.wfwStayPutSave)wfwStayPutSave(hBtn);document.body.appendChild(f);f.submit();}
  if(hBtn){hBtn.addEventListener('click',addHom);
   [hWord,hVal].forEach(function(el){if(el)el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addHom();}});});}
  if(cutEl)cutEl.addEventListener('input',drawCutPrev);
@@ -3064,7 +3064,7 @@ function initGrid(rootId, DATA){
  candSel.addEventListener('change',function(){if(isValued(roleSel.value)&&candSel.value){addInp.value=candSel.value;drawCutPrev();if(!(cutEl&&cutEl.value.trim()))assignNow();}
   else if(roleSel.value==='selection'&&candSel.value){addInp.value=candSel.value;}});
  var grs=root.querySelector('#g-resolve');
- if(grs)grs.addEventListener('click',function(){payload.value=JSON.stringify(assignments);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
+ if(grs)grs.addEventListener('click',function(){payload.value=JSON.stringify(assignments);if(window.wfwStayPutSave)wfwStayPutSave(grs);var f=root.querySelector('#g-form');f.action='/hsresolve';f.submit();});
  root.querySelector('#g-commit').addEventListener('click',function(){
   var fd=new FormData();fd.append('only',DATA.cid);fd.append('payload',JSON.stringify(assignments));
   cmsg.textContent='committing…';cmsg.style.color='#64748b';
@@ -3076,7 +3076,7 @@ function initGrid(rootId, DATA){
     var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
     if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
     u+='&notice='+encodeURIComponent(o.msg);
-    setTimeout(function(){window.location.href=u;},700);}
+    setTimeout(function(){if(window.wfwStayPutSave)wfwStayPutSave(root.querySelector('#g-commit'));window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';cmsg.style.fontSize='1rem';try{cmsg.scrollIntoView({block:'center'});}catch(e){}}
   }).catch(function(){cmsg.textContent='commit failed (network)';cmsg.style.color='#dc2626';});});
  root.querySelector('#g-uncommit').addEventListener('click',function(){
@@ -3091,7 +3091,7 @@ function initGrid(rootId, DATA){
     var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
     if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
     u+='&notice='+encodeURIComponent(o.msg);
-    setTimeout(function(){window.location.href=u;},700);}
+    setTimeout(function(){if(window.wfwStayPutSave)wfwStayPutSave(gcd);window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
   }).catch(function(){cmsg.textContent='CD failed (network)';cmsg.style.color='#dc2626';});});
  /* &LIT — the same shape as the CD button above, and deliberately so (user 2026-09-07):
@@ -3105,7 +3105,7 @@ function initGrid(rootId, DATA){
     var u='/hs?id='+DATA.cid+'&from='+encodeURIComponent(DATA.back||DATA.cid);
     if(DATA.src&&DATA.pnum)u+='&src='+encodeURIComponent(DATA.src)+'&pnum='+encodeURIComponent(DATA.pnum);
     u+='&notice='+encodeURIComponent(o.msg);
-    setTimeout(function(){window.location.href=u;},700);}
+    setTimeout(function(){if(window.wfwStayPutSave)wfwStayPutSave(gal);window.location.href=u;},700);}
    else{cmsg.textContent='✗ '+o.msg;cmsg.style.color='#dc2626';}
   }).catch(function(){cmsg.textContent='&lit failed (network)';cmsg.style.color='#dc2626';});});
  /* INVALID and REVERSE ANAGRAM each need a comment, set in ONE action: show the comment box
@@ -7710,37 +7710,62 @@ def _page(body, scroll_to=None):
 # EVERY FORM ACTION RETURNS YOU TO EXACTLY WHERE YOU WERE (user, 2026-09-30: "Whenever I
 # approve I want to return to exactly the place I was at when I approved it"). Every
 # /hs action ends in a redirect that reloads /hs?id=N at the TOP (_hs_redirect), and the
+# EVERY FORM ACTION RETURNS YOU TO EXACTLY WHERE YOU WERE (user, 2026-09-30: "Whenever I
+# approve I want to return to exactly the place I was at when I approved it"). Every
+# /hs action ends in a redirect that reloads /hs?id=N at the TOP (_hs_redirect), and the
 # review page's scroll_to only reaches the clue's header, not the spot. A raw scrollY is
 # not enough either: the reloaded page gains a notice strip, and an approved row can
-# vanish. So on submit this records WHICH form was pressed (action + its index among
-# forms with that action) and where it sat on screen; after the reload that form is put
-# back at the same height. Fallbacks, in order: the nearest clue header above it
-# (id="clue-N"), then plain scrollY. Same view only (path + id), and only for 2 minutes,
-# so moving to another clue still opens at the top. It runs after the page's own
-# on-load resizing, and overrides scroll_to / #clue-N when it has something better.
+# vanish. So on submit this records WHICH form was pressed and where it sat on screen;
+# after the reload that form is put back at the same height. Fallbacks, in order: the
+# pressed element's own id, the nearest clue header above it (id="clue-N"), then plain
+# scrollY. Same view only, and only for 2 minutes, so moving to another clue still opens
+# at the top. It runs after the page's own on-load resizing, and overrides scroll_to /
+# #clue-N when it has something better.
+#
+# FIXED 2026-10-02 (user: "sent back to the top of the page when I approve, but not all
+# the time"). The first version keyed the view on path + ?id, which only matched routes
+# that REDIRECT (/hsprose). The review page's Approve all & Confirm, Confirm, Approve,
+# Reject and Status RENDER the page as the POST response (/approveall, /prefillconfirm,
+# /enrich, /reject, /setstatus), so the address became /solver/approveall, the view never
+# matched and the user landed on the clue header. Now:
+#   - VIEW = "hs" or "page", plus the id from the address OR, on a POST-rendered page,
+#     from the page's own hidden id field (every review-page form carries it);
+#   - a form is found again by action + its clue (`only`), not by position, so a block
+#     that vanished after Approve all cannot be mistaken for the next clue's;
+#   - window.wfwStayPutSave(el) records the spot for the /hs buttons that navigate from
+#     JavaScript (Commit, CD, &lit, delete, add homophone, resolve), which never fire
+#     a submit event.
 _STAY_PUT_JS = """<script>(function(){
  var K='wfwStayPut';
- function view(){var q=new URLSearchParams(location.search);
-  return location.pathname+'|'+(q.get('id')||'');}
- function formKey(f){var a=f.getAttribute('action')||'';
-  var same=document.querySelectorAll('form[action="'+a+'"]');
-  return a+'#'+Array.prototype.indexOf.call(same,f);}
- function formByKey(k){var i=k.lastIndexOf('#');
-  var same=document.querySelectorAll('form[action="'+k.slice(0,i)+'"]');
-  return same[+k.slice(i+1)]||null;}
+ function view(){var q=new URLSearchParams(location.search),id=q.get('id');
+  if(!id){var i=document.querySelector('input[name="id"]');id=i?i.value:'';}
+  return (/\\/hs$/.test(location.pathname)?'hs':'page')+'|'+(id||'');}
+ function onlyOf(f){var o=f.querySelector('input[name="only"]');return o?o.value:'';}
+ function sameForms(a,o){return Array.prototype.filter.call(
+  document.querySelectorAll('form[action="'+a+'"]'),function(g){return onlyOf(g)===o;});}
+ function formKey(f){var a=f.getAttribute('action')||'',o=onlyOf(f);
+  return JSON.stringify([a,o,sameForms(a,o).indexOf(f)]);}
+ function formByKey(k){var p=JSON.parse(k);return sameForms(p[0],p[1])[p[2]]||null;}
  function headerAbove(el){var top=el.getBoundingClientRect().top,best=null;
   document.querySelectorAll('[id^="clue-"]').forEach(function(h){
    if(h.getBoundingClientRect().top<=top+1)best=h;});return best;}
- document.addEventListener('submit',function(e){try{var f=e.target,h=headerAbove(f);
+ function save(el){try{if(!el||!el.getBoundingClientRect)el=null;
+  var f=el&&(el.tagName==='FORM'?el:el.closest('form')),h=el&&headerAbove(el);
+  if(f&&!document.body.contains(f))f=null;
   sessionStorage.setItem(K,JSON.stringify({v:view(),t:Date.now(),y:window.scrollY,
-   f:formKey(f),fy:f.getBoundingClientRect().top,
-   h:h?h.id:null,hy:h?h.getBoundingClientRect().top:0}));}catch(x){}},true);
+   f:f?formKey(f):null,fy:f?f.getBoundingClientRect().top:0,
+   e:el&&el.id?el.id:null,ey:el?el.getBoundingClientRect().top:0,
+   h:h?h.id:null,hy:h?h.getBoundingClientRect().top:0}));}catch(x){}}
+ window.wfwStayPutSave=save;
+ document.addEventListener('submit',function(e){save(e.target);},true);
  var s=null;try{s=JSON.parse(sessionStorage.getItem(K)||'null');
   sessionStorage.removeItem(K);}catch(x){}
  if(!s||s.v!==view()||Date.now()-s.t>120000)return;
  if('scrollRestoration' in history)history.scrollRestoration='manual';
- function go(){var f=s.f&&formByKey(s.f);
+ function go(){var f=null;try{f=s.f&&formByKey(s.f);}catch(x){}
   if(f){window.scrollBy(0,f.getBoundingClientRect().top-s.fy);return;}
+  var e=s.e&&document.getElementById(s.e);
+  if(e){window.scrollBy(0,e.getBoundingClientRect().top-s.ey);return;}
   var h=s.h&&document.getElementById(s.h);
   if(h){window.scrollBy(0,h.getBoundingClientRect().top-s.hy);return;}
   window.scrollTo(0,s.y);}
