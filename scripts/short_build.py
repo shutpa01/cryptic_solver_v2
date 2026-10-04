@@ -124,23 +124,7 @@ def _prose_script(nc, row, paper, body):
     return nc._spoken("\n".join(lines))
 
 
-def weekday_refusal(row):
-    """Why a Short of this clue is refused, or None. WEEKEND PUZZLES ONLY since
-    2026-10-02 (user: "as from today we only post narrated videos ... for the 6 weekend
-    puzzles" — the ElevenLabs budget). Same rule as youtube_upload._is_weekend: the
-    puzzle's own publication date, Saturday or Sunday."""
-    from datetime import date
-    pub = (row or {}).get("publication_date") or ""
-    try:
-        if date.fromisoformat(pub[:10]).weekday() >= 5:
-            return None
-    except ValueError:
-        pass
-    return ("weekday puzzle (published %s) — Shorts are weekend puzzles only"
-            % (pub[:10] or "date unknown"))
-
-
-def build(clue_id, voice_off=False, any_day=False):
+def build(clue_id, voice_off=False):
     rb = _load("rb", "reel_build.py")
     ya = _load("ya", "youtube_assemble.py")
     ff = ya.ffmpeg_bin("ffmpeg")
@@ -148,9 +132,6 @@ def build(clue_id, voice_off=False, any_day=False):
     script, row, problems = script_for(clue_id)
     if script is None:
         sys.exit("Cannot narrate this clue: %s" % "; ".join(problems))
-    refusal = None if any_day else weekday_refusal(row)
-    if refusal:
-        sys.exit("Cannot narrate this clue: %s" % refusal)
 
     cap = OUT_ROOT / ("%s-%s" % (row["source"], row["puzzle_number"]))
     if not (cap / "manifest.json").exists():
@@ -226,8 +207,6 @@ def main(argv=None):
                     help="build the pictures with no narration — free, for checking")
     ap.add_argument("--check", action="store_true",
                     help="say whether this clue can be narrated, build nothing")
-    ap.add_argument("--any-day", action="store_true",
-                    help="allow a weekday puzzle's clue (off since 2026-10-02)")
     args = ap.parse_args(argv)
 
     if args.check:
@@ -235,13 +214,9 @@ def main(argv=None):
         if script is None:
             print("NO  — %s" % "; ".join(problems))
             return 1
-        refusal = None if args.any_day else weekday_refusal(row)
-        if refusal:
-            print("NO  — %s" % refusal)
-            return 1
         print("YES — %d words" % len(script.split()))
         return 0
-    build(args.clue_id, voice_off=args.voice_off, any_day=args.any_day)
+    build(args.clue_id, voice_off=args.voice_off)
     return 0
 
 
