@@ -880,5 +880,315 @@
     "phrase": "Police found no trace of the burglar",
     "approved": false,
     "clue_id": 10096669
+  },
+  "ANNUAL|book": {
+    "phrase": "I bought the Beano annual for Christmas",
+    "approved": false,
+    "clue_id": 10096844
+  },
+  "ANNUAL|every twelve months": {
+    "phrase": "My annual check-up is due next week",
+    "approved": false,
+    "clue_id": 10096844
+  },
+  "TWOSHAKES|just a minute": {
+    "phrase": "I'll be with you in two shakes",
+    "approved": false,
+    "clue_id": 10096838
+  },
+  "STILTED|laboured": {
+    "phrase": "His speech was stilted and awkward|like some circus performers|Stilted acrobats towered over the parade crowd",
+    "approved": false,
+    "clue_id": 10097204
+  },
+  "LODGE|make stick": {
+    "phrase": "The splinter managed to lodge in my thumb",
+    "approved": false,
+    "clue_id": 10097209
+  },
+  "LODGE|shelter": {
+    "phrase": "We rented a lovely hunting lodge in Scotland",
+    "approved": false,
+    "clue_id": 10097209
+  },
+  "WANNABE|spice girls' hit": {
+    "phrase": "They played Wannabe at the wedding disco",
+    "approved": false,
+    "clue_id": 10097058
+  },
+  "WANNABE|one aspiring to emulate it": {
+    "phrase": "He's just a wannabe pop star, really",
+    "approved": false,
+    "clue_id": 10097058
+  },
+  "NANNY GOAT|butter": {
+    "phrase": "That nanny goat butts anyone who gets close",
+    "approved": false,
+    "clue_id": 10097071
+  },
+  "NANNY GOAT|providing nourishment for kids": {
+    "phrase": "The nanny goat suckles her two hungry kids",
+    "approved": false,
+    "clue_id": 10097071
+  },
+  "LOCAL|anaesthetic": {
+    "phrase": "The dentist gave me a local first",
+    "approved": false,
+    "clue_id": 10097076
+  },
+  "LOCAL|within easy reach": {
+    "phrase": "Luckily the shops are local to us",
+    "approved": false,
+    "clue_id": 10097076
+  },
+  "OMEN|sign of things to come": {
+    "phrase": "They took the black cat as an omen",
+    "approved": false,
+    "clue_id": 10097386
+  },
+  "IMPALE|run through": {
+    "phrase": "The knight could impale foes with his lance",
+    "approved": false,
+    "clue_id": 10097401
+  },
+  "IMPALE|what dim author might write": {
+    "phrase": "\"Impale,\" she wrote, \"I feel ghostly white\"",
+    "approved": false,
+    "clue_id": 10097401
+  },
+  "HOSE|rinse": {
+    "phrase": "Hose down the patio after the barbecue",
+    "approved": false,
+    "clue_id": 10097439
+  },
+  "HOSE|socks": {
+    "phrase": "A pair of fine silk hose",
+    "approved": false,
+    "clue_id": 10097439
+  },
+  "TRAINER|sports shoe": {
+    "phrase": "My trainer rubbed a blister on my heel",
+    "approved": false,
+    "clue_id": 10097449
+  },
+  "TRAINER|coach": {
+    "phrase": "The new trainer put us through our paces",
+    "approved": false,
+    "clue_id": 10097449
+  },
+  "PULLOVER|go into side of road": {
+    "phrase": "The police told him to pull over",
+    "approved": false,
+    "clue_id": 10097550
+  },
+  "PULLOVER|top gear": {
+    "phrase": "She wore a warm woolly pullover today",
+    "approved": false,
+    "clue_id": 10097550
+  },
+  "NATAL|relating to birth": {
+    "phrase": "She attended natal classes before the baby arrived",
+    "approved": false,
+    "clue_id": 10097854
+  },
+  "NATAL|somewhere in old africa": {
+    "phrase": "My grandfather farmed in Natal before apartheid ended",
+    "approved": false,
+    "clue_id": 10097854
+  },
+  "ATTIC|garret": {
+    "phrase": "We keep the old suitcases in the attic",
+    "approved": false,
+    "clue_id": 10097861
+  },
+  "ATTIC|part of old greece": {
+    "phrase": "The museum displays fine ancient Attic pottery",
+    "approved": false,
+    "clue_id": 10097861
+  },
+  "DASHING|smart": {
+    "phrase": "He looked dashing in his new suit",
+    "approved": false,
+    "clue_id": 10097701
+  },
+  "DASHING|activity of sprinter": {
+    "phrase": "She came dashing down the track",
+    "approved": false,
+    "clue_id": 10097701
+  },
+  "WEARTHETROUSERS|reign supreme": {
+    "phrase": "She definitely wears the trousers in that marriage",
+    "approved": false,
+    "clue_id": 10097723
+  },
+  "WEARTHETROUSERS|take strides to do it": {
+    "phrase": "Best wear the trousers, it's chilly out",
+    "approved": false,
+    "clue_id": 10097723
+  },
+  "MESS|bungle": {
+    "phrase": "Don't mess it up this time",
+    "approved": false,
+    "clue_id": 10097910
+  },
+  "MESS|lunch here": {
+    "phrase": "The officers ate lunch in the mess",
+    "approved": false,
+    "clue_id": 10097910
+  },
+  "CLOBBER|belt": {
+    "phrase": "He clobbered the ball over the fence",
+    "approved": false,
+    "clue_id": 10097826
+  },
+  "CLOBBER|clothes and accessories": {
+    "phrase": "Get your clobber on, we're leaving soon",
+    "approved": false,
+    "clue_id": 10097826
+  },
+  "RELATIONS|union": {
+    "phrase": "Sexual relations outside marriage caused the scandal",
+    "approved": false,
+    "clue_id": 10097836
+  },
+  "RELATIONS|dealings": {
+    "phrase": "We've broken off relations with that supplier",
+    "approved": false,
+    "clue_id": 10097836
+  },
+  "EXIT|death’s": {
+    "phrase": "He made his final exit last year",
+    "approved": false,
+    "clue_id": 10097837
+  },
+  "EXIT|turn-off": {
+    "phrase": "Take the next exit off the motorway",
+    "approved": false,
+    "clue_id": 10097837
+  },
+  "PORRIDGE|time": {
+    "phrase": "He's doing porridge for armed robbery again",
+    "approved": false,
+    "clue_id": 10098248
+  },
+  "PORRIDGE|breakfast": {
+    "phrase": "A warm bowl of porridge every morning",
+    "approved": false,
+    "clue_id": 10098248
+  },
+  "SCREEN|conceal": {
+    "phrase": "Tall hedges screen the garden from view",
+    "approved": false,
+    "clue_id": 10098251
+  },
+  "WORKADAY|not unusual": {
+    "phrase": "It was just a workaday Tuesday, nothing special",
+    "approved": false,
+    "clue_id": 10098252
+  },
+  "WORKADAY|to have most of the week off": {
+    "phrase": "My workaday schedule leaves six days free",
+    "approved": false,
+    "clue_id": 10098252
+  },
+  "SAUCER|the crockery": {
+    "phrase": "She put her teacup back on its saucer",
+    "approved": false,
+    "clue_id": 10098256
+  },
+  "SAUCER|may be flying": {
+    "phrase": "They claim they spotted a flying saucer last night",
+    "approved": false,
+    "clue_id": 10098256
+  },
+  "BEACHCOMBER|scavenger": {
+    "phrase": "The old beachcomber collected driftwood after every tide",
+    "approved": false,
+    "clue_id": 10098258
+  },
+  "BEACHCOMBER|who smooths the sand": {
+    "phrase": "The beachcomber raked the sand perfectly flat again",
+    "approved": false,
+    "clue_id": 10098258
+  },
+  "FLIP-FLOPS|changes one's mind frequently": {
+    "phrase": "He flip-flops on every big decision",
+    "approved": false,
+    "clue_id": 10098091
+  },
+  "FLIP-FLOPS|footwear": {
+    "phrase": "I packed my flip-flops for the beach",
+    "approved": false,
+    "clue_id": 10098091
+  },
+  "DRIVER|club": {
+    "phrase": "He hit his driver off the tee",
+    "approved": false,
+    "clue_id": 10098099
+  },
+  "DRIVER|chauffeur": {
+    "phrase": "Her driver dropped her at the hotel",
+    "approved": false,
+    "clue_id": 10098099
+  },
+  "STRETCH|extend": {
+    "phrase": "I need to stretch this budget further",
+    "approved": false,
+    "clue_id": 10098207
+  },
+  "STRETCH|jail sentence": {
+    "phrase": "He did a ten-year stretch inside",
+    "approved": false,
+    "clue_id": 10098207
+  },
+  "SCREEN|what is on one’s phone": {
+    "phrase": "Don’t crack the screen on your new phone",
+    "approved": false,
+    "clue_id": 10098251
+  },
+  "DEPOT|remove a plant from its container": {
+    "phrase": "Carefully depot the seedlings before planting out",
+    "approved": false,
+    "clue_id": 10098592
+  },
+  "DEPOT|store": {
+    "phrase": "Spare parts are kept at the depot",
+    "approved": false,
+    "clue_id": 10098592
+  },
+  "ROGER|ok": {
+    "phrase": "Roger that, we'll meet you there",
+    "approved": false,
+    "clue_id": 10098605
+  },
+  "SIDEARM|shooter’s": {
+    "phrase": "The guard carried a sidearm on patrol",
+    "approved": false,
+    "clue_id": 10098610
+  },
+  "SIDEARM|recommended action for ducks and drakes": {
+    "phrase": "Skim the stone with a sidearm throw",
+    "approved": false,
+    "clue_id": 10098610
+  },
+  "OVER-THE-TOP|exaggerated": {
+    "phrase": "Her reaction to the news was completely over-the-top",
+    "approved": false,
+    "clue_id": 10098407
+  },
+  "OVER-THE-TOP|where world war i soldiers went": {
+    "phrase": "The whistle blew and they went over the top",
+    "approved": false,
+    "clue_id": 10098407
+  },
+  "AVERAGE|mean": {
+    "phrase": "My maths test score was just average",
+    "approved": false,
+    "clue_id": 10098416
+  },
+  "AVERAGE|pedestrian": {
+    "phrase": "The film was average, nothing special really",
+    "approved": false,
+    "clue_id": 10098416
   }
 }
