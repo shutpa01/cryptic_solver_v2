@@ -4184,6 +4184,17 @@ _HSIND_OP = {"deletion": ("deletion", "DEL_I"), "anagram": ("anagram", "ANA_I"),
 _HSIND_RESIDUE = frozenset({"selection", "alternation", "alternating", "alternate"})
 
 
+def _is_word_selection(phrase, value):
+    """True when `value` is letters a selection rule takes from `phrase` (first, last,
+    outer, ...) and not the phrase's own whole letters — "this" = T. Anagram fodder valued
+    this way is a share of the fodder, not an indirect anagram (no synonym to file)."""
+    from core import selection
+    v = _raw_letters(value or "")
+    if not v or v == _raw_letters(phrase or ""):
+        return False
+    return any(v in _selection_candidates(phrase, r) for r in selection.SPAN_RULES)
+
+
 def _selection_candidates(phrase, rule):
     """The engine's selection rule applied to the phrase's letters — the mirror of the /hs
     grid's selCands (both mirror core.selection.SPAN_RULES, whose lambdas slice generic
@@ -6579,7 +6590,16 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                     return {"ok": False, "msg": "Anagram fodder %r does not contain the tiles "
                             "you clicked (%s) — missing %s." % (value, got,
                             "".join(sorted(short.elements())))}
-                if got == value:                           # unrearranged = NOT an anagram (user rule
+                # LETTERS TAKEN FROM A WORD AS PART OF THE FODDER: "Tips from this analytic
+                # strategy help suffering" = T + A + STRATEGY HELP, all shuffled (Times 29669
+                # 5d GESTALT THERAPY, user 2026-10-09). "this" = T is ONE share of a bigger
+                # anagram, so landing "in order" on one tile says nothing — exempt it when
+                # its value is a SELECTION of its word and another anagram piece exists.
+                # A piece valued with its own whole letters ("as" = AS) is still checked.
+                _sel_share = (_is_word_selection(phrase, value)
+                              and sum(1 for x in assigns if isinstance(x, dict)
+                                      and x.get("role") == "anagram") > 1)
+                if got == value and not _sel_share:        # unrearranged = NOT an anagram (user rule
                     # 2026-07-12): it is a charade literal — BUT ONLY IF THE TILES ARE A RUN.
                     # This message's ADVICE is the prefill's spec (the gate's wording teaches
                     # the reading), and when the tiles are scattered "tag it literal" is the
@@ -6711,7 +6731,8 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             if piece_src == "db" and role == "synonym" and value:   # reusable -> DB after commit
                 db_adds.append(("synonym", phrase, value))
             elif (piece_src == "db" and role == "anagram" and value
-                  and sorted(_own) != sorted(_raw_letters(value))):
+                  and sorted(_own) != sorted(_raw_letters(value))
+                  and not _is_word_selection(phrase, value)):   # T from "this" is not a synonym
                 # INDIRECT ANAGRAM. The fodder is not the ticked word's own letters, so a
                 # synonym step happened on the way: sailor -> TAR, then TAR shuffled. The
                 # piece can only record `sailor -> TAR [anagram_fodder]` (Source has no note

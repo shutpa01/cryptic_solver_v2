@@ -890,6 +890,11 @@ def _fodder_cut_note(text, value):
     w, v = _fold(text), _fold(value)
     if not w or not v:
         return ""
+    # ONE letter from a longer word is not a cut: "this" -> T (Times 29669 5d GESTALT
+    # THERAPY, a first letter) or "Son" -> S (an abbreviation) — never THIS "less HIS".
+    # The row already shows word -> letter, so no note. Mirrored in web/wfw_read._fodder_text.
+    if len(v) == 1 < len(w):
+        return ""
     from collections import Counter
     lost = Counter(w) - Counter(v)
     if not lost or (Counter(v) - Counter(w)):

@@ -608,7 +608,10 @@ def _segments(parse):
                 i += 1
             # fodder texts in CLUE order (source ord), not answer-letter order,
             # each naming the letters its word lost before the anagram (_fodder_text)
-            texts = [_fodder_text(srcs[si]) for si in sorted(group_sis)
+            # sorted by clue position: an /hs grid files pieces in the order they were
+            # assigned, so source ord alone read GESTALT THERAPY's fodder as "A ... T"
+            texts = [_fodder_text(srcs[si])
+                     for si in sorted(group_sis, key=lambda k: (cpos(k), k))
                      if srcs[si]["text"]]
             gpos = min((cpos(si) for si in group_sis), default=_UNPLACED)
             merged.append(("ana", texts, all_placed, gpos))
@@ -678,6 +681,12 @@ def _segments(parse):
     return out
 
 
+# Letter-selection mechanisms that can sit inside an anagram's fodder: the /hs selection
+# piece, and the engines' (anagram_insert_letter_engine records first_letter /
+# last_letter / alternation).
+_SEL_IN_ANAGRAM = {"selection", "first_letter", "last_letter", "alternation"}
+
+
 def _fodder_text(s):
     """One fodder word for the summary line: '"rule" less E' when its VALUE is the word
     MINUS letters (the cut a curtailing indicator makes BEFORE the anagram), otherwise
@@ -697,6 +706,19 @@ def _fodder_text(s):
                        if "A" <= c <= "Z")
     text = s["text"]
     w, v = fold(text), fold(s.get("value"))
+    # A SELECTED letter inside the anagram is not the word cut down — it is the letter(s)
+    # a selection took: "nose" gives N, it does not lose EOS. Read as a cut, the line said
+    # 'anagram of "peer" "I" "sent" "nose" less EOS → SERPENTINE' (16 served passes,
+    # 2026-10-09), and the /hs "shuffled into the anagram" selection (Times 29669 5d
+    # GESTALT THERAPY) would have read '"this" less HIS'. Name the letter and its word.
+    if v and s.get("mechanism") in _SEL_IN_ANAGRAM:
+        return '%s (from "%s")' % (v, text)
+    # Fodder valued as ONE letter of a longer word is not the word cut down: "this" = T
+    # (GESTALT THERAPY, a first letter), "Son" = S (an abbreviation). It read "less HIS" /
+    # "less NO". Name the letter and its word, claim nothing about how. Mirrors
+    # core/wfw_render._fodder_cut_note.
+    if len(v) == 1 < len(w):
+        return '%s (from "%s")' % (v, text)
     if w and v:
         lost = Counter(w) - Counter(v)
         if lost and not (Counter(v) - Counter(w)):
