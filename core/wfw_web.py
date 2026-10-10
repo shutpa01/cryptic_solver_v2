@@ -2816,7 +2816,7 @@ function initGrid(rootId, DATA){
   if(dkind)dkind.style.display=(r==='definition')?'':'none';    // plain def vs def-by-example
   if(selrule)selrule.style.display=(r==='selection')?'':'none'; // the selection rule picker
   fillSub();                                                    // data-driven sub-type dropdown
-  candWrap.style.display=((isPiece(r)&&r!=='homophone')||r==='deletion'||r==='shifted')?'':'none'; // anagram: blank = the ticked words, typed = an INDIRECT anagram; homophone = tiles
+  candWrap.style.display=(isPiece(r)||r==='deletion'||r==='shifted')?'':'none'; // anagram: blank = the ticked words, typed = an INDIRECT anagram; homophone: typed = the word it SOUNDS LIKE (notes -> RAYS), read at Assign
   if(candSel)candSel.style.display=(isValued(r)||r==='selection')?'':'none';
   if(delEl)delEl.style.display=(r==='synonym'||r==='substitution'||r==='indicator')?'':'none';  // prune UI
   if(cutWrap)cutWrap.style.display=(isCuttable(r)||r==='anagram')?'':'none'; // delete letters from a
