@@ -13,7 +13,8 @@ from pathlib import Path
 import json
 
 from flask import Blueprint, request, render_template, abort, g, jsonify, current_app
-from web.word_cache import match_pattern, match_pattern_user
+from web.word_cache import (match_anagram, match_pattern, match_pattern_user,
+                            one_per_word, rank_key, warm)
 from web.session_token import has_valid_session
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 
@@ -224,6 +225,13 @@ _STOP_WORDS = frozenset(
 )
 
 bp = Blueprint("helper", __name__)
+
+
+@bp.before_app_request
+def _warm_word_cache():
+    """Start building the pattern/anagram word list on the first request to the site,
+    in the background, so the first search does not wait for it (web/word_cache.py)."""
+    warm()
 
 HELPER_TOKEN_MAX_AGE = 7200  # 2 hours
 
@@ -889,6 +897,8 @@ def pattern_search():
                 # Single words are NOT reformatted — they don't match
                 # the multi-word enumeration the user requested
             results = filtered
+    else:
+        results = one_per_word(results)
 
     if include_letters:
         filtered = []
@@ -903,9 +913,9 @@ def pattern_search():
                     break
             if match:
                 filtered.append(word)
-        matches = sorted(filtered)[:HELPER_RESULT_CAP]
+        matches = sorted(filtered, key=rank_key)[:HELPER_RESULT_CAP]
     else:
-        matches = sorted(results)[:HELPER_RESULT_CAP]
+        matches = sorted(results, key=rank_key)[:HELPER_RESULT_CAP]
 
     # Look up enumerations for display — single batch query
     match_enums = {}
@@ -939,11 +949,6 @@ def pattern_search():
     )
 
 
-def _letter_signature(word):
-    """Sorted uppercase letters only — the anagram fingerprint."""
-    return "".join(sorted(re.sub(r'[^A-Z]', '', word.upper())))
-
-
 # Flask-Limiter decorator would go here, e.g.:
 # @limiter.limit("20/minute")
 @bp.route("/helper/anagram")
@@ -954,7 +959,8 @@ def anagram_search():
     e.g. "ulbs-eky" → finds "BLUE SKY" (4,3)
     e.g. "sohre" → finds "HORSE", "SHORE", etc.
 
-    Only returns real answers from our clue database — never nonsense.
+    Only returns words our databases hold — never nonsense — past answers first
+    (web/word_cache.py).
 
     Query params:
         letters (str, required) — jumbled letters, dashes for word breaks
@@ -977,74 +983,22 @@ def anagram_search():
     if total < 2:
         abort(400)
 
-    signature = "".join(sorted(all_letters))
     display = "-".join(parts)
-    db = _get_clues_db()
-    results = set()
 
-    if len(word_lengths) == 1:
-        # Single word — search clue answers of this exact length
-        rows = db.execute(
-            """SELECT DISTINCT UPPER(answer) AS ans
-               FROM clues
-               WHERE LENGTH(answer) = ?
-               AND answer IS NOT NULL""",
-            (total,),
-        ).fetchall()
-        for r in rows:
-            if _letter_signature(r["ans"]) == signature:
-                results.add(r["ans"])
-
+    # Every word in both databases (web/word_cache.py), found by its letter fingerprint.
+    results = match_anagram(all_letters)
+    if len(word_lengths) > 1:
+        # Dashes typed: only answers with exactly those word lengths (BLUE SKY for
+        # ulbs-eky). A single word is never force-split to fit.
+        results = {w for w in results
+                   if [len(x) for x in w.split()] == word_lengths}
     else:
-        # Multi-word with dashes — search both spaced and joined forms
-        enum_pattern = ",".join(str(l) for l in word_lengths)
-
-        # Search by enumeration match (most reliable)
-        rows = db.execute(
-            """SELECT DISTINCT UPPER(answer) AS ans, answer AS raw_ans
-               FROM clues
-               WHERE enumeration = ?
-               AND answer IS NOT NULL""",
-            (enum_pattern,),
-        ).fetchall()
-        for r in rows:
-            if _letter_signature(r["ans"]) == signature:
-                results.add(r["raw_ans"].upper())
-
-        # Also try joined form (no spaces) — but only add if we can
-        # format it to match the requested word lengths
-        rows2 = db.execute(
-            """SELECT DISTINCT UPPER(answer) AS ans
-               FROM clues
-               WHERE LENGTH(answer) = ?
-               AND answer IS NOT NULL""",
-            (total,),
-        ).fetchall()
-        for r in rows2:
-            if _letter_signature(r["ans"]) == signature:
-                # Format as multi-word to match the requested enumeration
-                ans = r["ans"].replace(" ", "")
-                formatted = []
-                pos = 0
-                for wl in word_lengths:
-                    formatted.append(ans[pos:pos + wl])
-                    pos += wl
-                results.add(" ".join(formatted))
-
-    # Also search reference DB (synonyms + definitions)
-    ref = _get_ref_db()
-    for table, col in [("synonyms_pairs", "synonym"), ("definition_answers_augmented", "answer")]:
-        ref_rows = ref.execute(
-            f"SELECT DISTINCT UPPER({col}) AS ans FROM {table} WHERE LENGTH({col}) = ?",
-            (total,),
-        ).fetchall()
-        for r in ref_rows:
-            if _letter_signature(r["ans"]) == signature:
-                results.add(r["ans"])
+        results = one_per_word(results)
 
     # Filter out the input itself (don't show fodder as a result)
     input_upper = all_letters.upper()
-    matches = sorted(r for r in results if r.replace(" ", "") != input_upper)[:HELPER_RESULT_CAP]
+    matches = sorted((r for r in results if r.replace(" ", "") != input_upper),
+                     key=rank_key)[:HELPER_RESULT_CAP]
 
     return render_template(
         "partials/anagram_results.html",
