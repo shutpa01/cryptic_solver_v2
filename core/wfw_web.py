@@ -941,7 +941,8 @@ def _render_one(token, raw_list, resolve=True, ai=False, discover=False):
             + prose_block
             + _prefill_confirm_block(clue_id, parse, raw_list)
             + _handsolver_link(clue_id, raw_list)
-            + _reddit_copy_block(clue_id, parse))
+            + _reddit_copy_block(clue_id, parse)
+            + _facebook_post_block(clue_id, parse))
 
 
 def _clue_controls(clue_id, raw_list, status):
@@ -7613,6 +7614,136 @@ def _reddit_copy_block(clue_id, parse):
         '     }, function(){ box.select(); msg.textContent="Select and copy:"; });'
         '   } else { box.select(); msg.textContent="Select and copy:"; }'
         ' }).catch(function(){ msg.textContent="Could not build the markdown."; });'
+        '}'
+        '</script>' % (clue_id, clue_id, clue_id))
+
+
+def _facebook_post_block(clue_id, parse):
+    """Build this clue's Facebook post (user, 2026-10-11): the card as a PICTURE,
+    because a post is plain text and the colour coding must survive, and a
+    caption with the searchable words. web/facebook_post.py builds both; the
+    routes are /fbpost/<id> and /fbpost/<id>.png (web/routes/share.py — not
+    under /admin, for the reason _reddit_copy_block gives).
+
+    One click copies the caption and starts the picture (headless Chrome, ~15 s).
+    The clipboard holds one thing at a time, so the picture has its own Copy and
+    Download — paste the caption, then add the picture. Then the VIDEO (picture +
+    Cordelia's recording, /fbpost/<id>.mp4), or a note saying why there is none.
+    PASS parses only.
+    """
+    if parse is None or (getattr(parse, "status", "") or "") != "pass":
+        return ""
+    return (
+        '<div style="margin:.4rem 0">'
+        '<button type="button" onclick="wfwFbPost(%d, this)" '
+        'class="wfw-reload" style="background:#1877f2;border-color:#1877f2;'
+        'cursor:pointer" title="Build a Facebook post: the colour-coded card as '
+        'a picture, plus a caption">&#128247; Facebook post</button>'
+        '<span id="wfw-fb-msg-%d" style="margin-left:.5rem;font-size:.85rem;'
+        'color:#64748b"></span>'
+        '<div id="wfw-fb-%d" hidden style="margin-top:.4rem">'
+        '<textarea readonly style="width:100%%;height:11rem;'
+        'font-family:ui-monospace,Consolas,monospace;font-size:.82rem;'
+        'padding:.5rem;border:1px solid #cbd5e1;border-radius:8px"></textarea>'
+        '<div class="wfw-fb-pic" style="margin-top:.4rem;font-size:.85rem;'
+        'color:#64748b">Building the picture… (about 15 seconds)</div>'
+        '</div>'
+        '</div>'
+        '<script>'
+        'function wfwFbPostBtn(id, kind, host){'
+        ' var row=document.createElement("div"); row.style.cssText="margin-top:.6rem";'
+        ' host.appendChild(row);'
+        ' fetch("/fbpost/"+id+"/posted").then(function(r){return r.json();}).then(function(prev){'
+        '  if(prev && prev.url){ row.innerHTML="Already on Facebook ("+prev.when+"): ";'
+        '   var a=document.createElement("a"); a.href=prev.url; a.target="_blank";'
+        '   a.textContent="open the post"; row.appendChild(a); return; }'
+        '  var b=document.createElement("button"); b.type="button"; b.className="wfw-reload";'
+        '  b.style.cssText="background:#1877f2;border-color:#1877f2;cursor:pointer;font-weight:600";'
+        '  var label="Post to Facebook ("+(kind==="video"?"video with voice":"picture")+" + caption)";'
+        '  b.textContent=label; var note=document.createElement("span");'
+        '  note.style.cssText="margin-left:.5rem"; row.appendChild(b); row.appendChild(note);'
+        '  var armed=false, timer=null;'
+        '  b.onclick=function(){'
+        '   if(!armed){ armed=true; b.textContent="Confirm: publish now"; b.style.background="#dc2626";'
+        '    b.style.borderColor="#dc2626"; timer=setTimeout(function(){ armed=false;'
+        '     b.textContent=label; b.style.background="#1877f2"; b.style.borderColor="#1877f2"; }, 6000);'
+        '    return; }'
+        '   clearTimeout(timer); b.disabled=true; b.textContent="Posting…";'
+        '   fetch("/fbpost/"+id+"/publish", {method:"POST", headers:{"Content-Type":"application/json"},'
+        '    body:JSON.stringify({kind:kind})}).then(function(r){return r.json();}).then(function(res){'
+        '    if(!res.ok){ b.disabled=false; armed=false; b.textContent=label;'
+        '     b.style.background="#1877f2"; note.textContent=res.error; return; }'
+        '    row.innerHTML="Posted to Facebook. "; var a=document.createElement("a");'
+        '    a.href=res.url; a.target="_blank"; a.textContent="open the post"; row.appendChild(a);'
+        '   }).catch(function(){ b.disabled=false; note.textContent="Could not reach the server."; });'
+        '  };'
+        ' });'
+        '}'
+        'function wfwFbPost(id, btn){'
+        ' var msg=document.getElementById("wfw-fb-msg-"+id);'
+        ' var wrap=document.getElementById("wfw-fb-"+id);'
+        ' var box=wrap.querySelector("textarea");'
+        ' var pic=wrap.querySelector(".wfw-fb-pic");'
+        ' msg.textContent="…"; btn.disabled=true;'
+        ' fetch("/fbpost/"+id).then(function(r){'
+        '   return r.text().then(function(t){return {ok:r.ok, text:t};});'
+        ' }).then(function(res){'
+        '   box.value=res.text; wrap.hidden=false;'
+        '   if(!res.ok){ msg.textContent=""; pic.hidden=true; btn.disabled=false; return; }'
+        # Shown either way: a denied clipboard still leaves the text selectable.
+        '   if(navigator.clipboard && navigator.clipboard.writeText){'
+        '     navigator.clipboard.writeText(res.text).then(function(){'
+        '       msg.textContent="Caption copied.";'
+        '     }, function(){ box.select(); msg.textContent="Select and copy the caption:"; });'
+        '   } else { box.select(); msg.textContent="Select and copy the caption:"; }'
+        '   return fetch("/fbpost/"+id+".png").then(function(r){'
+        '     if(!r.ok){ return r.text().then(function(t){ pic.textContent=t; }); }'
+        '     return r.blob().then(function(b){'
+        '       var url=URL.createObjectURL(b);'
+        '       pic.innerHTML="";'
+        '       var img=document.createElement("img"); img.src=url;'
+        '       img.style.cssText="display:block;max-width:22rem;width:100%%;'
+        'border:1px solid #cbd5e1;border-radius:8px;margin-bottom:.4rem";'
+        '       var cp=document.createElement("button"); cp.type="button";'
+        '       cp.className="wfw-reload"; cp.textContent="Copy picture";'
+        '       cp.style.cssText="background:#1877f2;border-color:#1877f2;cursor:pointer";'
+        '       var note=document.createElement("span");'
+        '       note.style.cssText="margin-left:.5rem";'
+        '       cp.onclick=function(){'
+        '         if(!(navigator.clipboard && window.ClipboardItem)){'
+        '           note.textContent="Clipboard unavailable — use Download."; return; }'
+        '         navigator.clipboard.write([new ClipboardItem({"image/png": b})])'
+        '           .then(function(){ note.textContent="Picture copied."; },'
+        '                 function(){ note.textContent="Copy refused — use Download."; });'
+        '       };'
+        '       var dl=document.createElement("a"); dl.href=url;'
+        '       dl.download="cordelia-clue-"+id+".png"; dl.textContent="Download picture";'
+        '       dl.style.cssText="margin-left:.6rem";'
+        '       pic.appendChild(img); pic.appendChild(cp); pic.appendChild(dl);'
+        '       pic.appendChild(note);'
+        # The video reuses the picture just built, so it follows it, never races it.
+        '       var vid=document.createElement("div"); vid.style.cssText="margin-top:.4rem";'
+        '       vid.textContent="Building the video with Cordelia\'s recording…";'
+        '       pic.appendChild(vid);'
+        '       return fetch("/fbpost/"+id+".mp4").then(function(r){'
+        '         if(!r.ok){ return r.text().then(function(t){ vid.textContent=t;'
+        '           wfwFbPostBtn(id, "picture", pic); }); }'
+        '         return r.blob().then(function(v){'
+        '           var vurl=URL.createObjectURL(v); vid.innerHTML="";'
+        '           var player=document.createElement("video"); player.src=vurl;'
+        '           player.controls=true; player.style.cssText="display:block;'
+        'max-width:22rem;width:100%%;border-radius:8px;margin-bottom:.4rem";'
+        '           var vdl=document.createElement("a"); vdl.href=vurl;'
+        '           vdl.download="cordelia-clue-"+id+".mp4";'
+        '           vdl.textContent="Download video (with Cordelia\'s voice)";'
+        '           vid.appendChild(player); vid.appendChild(vdl);'
+        '           wfwFbPostBtn(id, "video", pic);'
+        '         });'
+        '       });'
+        '     });'
+        '   });'
+        ' }).catch(function(){ msg.textContent="Could not build the post."; })'
+        ' .then(function(){ btn.disabled=false; });'
         '}'
         '</script>' % (clue_id, clue_id, clue_id))
 
