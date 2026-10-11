@@ -4,8 +4,10 @@ Runs at 2am UTC via Windows Task Scheduler (CrypticSolver_NightlyRun).
 
 Flow:
   1. Scrape ALL five papers (corpus). Danword answer-scraping is OFF
-     (puzzle_scraper --danword is opt-in; prize puzzles are hand-solved
-     by the user in the morning, never scraped).
+     (puzzle_scraper --danword is opt-in; prize answers are never scraped).
+  1c. Fill today's answerless PRIZE grids with headless Claude, each grid
+     checked against its published solution hash (scripts/fill_prize_grids.py),
+     so steps 2-3 run on them like any other puzzle (user, 2026-10-11).
   2. WFW cascade on today's SERVING papers (telegraph/times/guardian):
      every new clue WITH an answer through the engines, zero AI calls.
   3. Headless Claude — PREFILL today's FAIL/PENDING clues into the
@@ -134,6 +136,25 @@ def run_prize_toughie_ingest():
         log(f"  stderr: {result.stderr[-300:]}")
 
 
+def run_prize_fill(target_date):
+    """Step 1c: fill the day's answerless prize grids (scripts/fill_prize_grids.py).
+    Never fails the nightly — a grid it cannot fill is left for the morning, as before."""
+    log("Step 1c: fill answerless prize grids (Claude, checked against the solution hash)...")
+    try:
+        result = subprocess.run(
+            [PYTHON_V2, "-m", "scripts.fill_prize_grids", "--date", target_date],
+            cwd=str(ROOT), capture_output=True, text=True,
+            encoding="utf-8", errors="replace", timeout=7200,
+        )
+    except Exception as e:
+        log(f"  Prize fill ERROR: {e} — continuing")
+        return
+    for line in (result.stdout or "").strip().splitlines():
+        log(f"  {line}")
+    if result.returncode != 0 and result.stderr:
+        log(f"  stderr: {result.stderr[-300:]}")
+
+
 def run_cascade(target_date):
     """Run the WFW cascade on today's serving-paper clues (nightly_cascade.py)."""
     log("Step 2: WFW cascade (serving papers, answerless clues skipped)...")
@@ -244,6 +265,17 @@ def main():
         log("[DRY RUN] Would ingest newest Prize Toughie (scripts.ingest_prize_toughie --commit)")
     else:
         run_prize_toughie_ingest()
+
+    # Step 1c: fill today's answerless PRIZE grids with Claude, checked against the
+    # puzzle's published solution hash (scripts/fill_prize_grids.py), so the cascade and
+    # prefill below treat them like any other puzzle and they are ready to check at 05:00
+    # (user, 2026-10-11). An answer that cannot be checked stays blank and is skipped.
+    if args.skip_claude:
+        log("Step 1c: fill prize grids: SKIPPED (--skip-claude)")
+    elif args.dry_run:
+        log(f"[DRY RUN] Would fill answerless prize grids for {target_date} (scripts.fill_prize_grids)")
+    else:
+        run_prize_fill(target_date)
 
     # Step 2: WFW cascade — today's serving-paper clues through the engines.
     if not args.skip_cascade:

@@ -10,8 +10,9 @@ read it in full first:
 - Sources: telegraph, times, guardian. Today's publication_date only.
 - Clues whose wfw_solve status is `fail` or `pending`, that HAVE an answer, and
   that have NO existing row in `wfw_hs_assignments` and NO frozen manual solve.
-  Skip everything else silently. A clue without an answer is NEVER prefilled
-  (prize puzzles are hand-solved by the user in the morning).
+  Skip everything else silently. A clue without an answer is NEVER prefilled.
+  Prize puzzles are included: their grids are filled earlier tonight (Step 1c,
+  checked against the published solution), so they have answers like any other.
 
 ## The work
 For each in-scope clue, file your best COMPLETE reading via
