@@ -707,7 +707,22 @@
 
         _dismissed: {},  // tracks tips dismissed THIS session only
 
-        _sessionOff: false,
+        // Closing any tip silences them all, on every page, until the browser
+        // session ends — kept in sessionStorage so it survives page loads.
+        // The guided tutorial (?tutorial=1) IS a run of tips, so it ignores the
+        // flag and its × closes one step only; "Silence" still stops it.
+        _tutorialPage: /[?&]tutorial=1(&|$)/.test(location.search),
+
+        _sessionOff: (function() {
+            if (/[?&]tutorial=1(&|$)/.test(location.search)) return false;
+            try { return sessionStorage.getItem('cordelia-tips-off') === '1'; } catch (e) { return false; }
+        })(),
+
+        _silence: function() {
+            this._sessionOff = true;
+            if (this._tutorialPage) return;
+            try { sessionStorage.setItem('cordelia-tips-off', '1'); } catch (e) {}
+        },
 
         init: function(tips) {
             if (this._sessionOff) return;
@@ -793,11 +808,12 @@
         dismiss: function() {
             var tip = this._tips[this._currentIdx];
             if (tip) this._dismissed[tip.id] = true;
+            if (!this._tutorialPage) this._silence();
             this._remove();
         },
 
         shhhSession: function() {
-            this._sessionOff = true;
+            this._silence();
             this._remove();
         },
 
@@ -846,7 +862,7 @@
             '<div class="solver-tip">' +
                 '<img src="/static/cordelia.jpg" alt="" class="solver-tip-avatar">' +
                 '<div class="solver-tip-text">' + tip.text + '</div>' +
-                '<span class="solver-tip-dismiss" onclick="this.closest(\'.solver-tip\').remove();CordeliaTips._dismissed[\'' + tip.id + '\']=true">&times;</span>' +
+                '<span class="solver-tip-dismiss" onclick="this.closest(\'.solver-tip\').remove();CordeliaTips._dismissed[\'' + tip.id + '\']=true;CordeliaTips._silence()">&times;</span>' +
             '</div>';
     }
 
