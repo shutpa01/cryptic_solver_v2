@@ -51,7 +51,12 @@ def generate_meta_description(clue, explained):
 
     Order is what the searcher needs: the clue and enumeration first (is this
     my clue?), the offer straight after, the puzzle last. Aims for <= 160
-    chars; when over, the puzzle is dropped — never the clue, never the offer.
+    chars; when over, the puzzle shrinks to "<Source> crossword." and then is
+    dropped — never the clue, never the offer.
+
+    The puzzle line says "crossword": from 2026-10-12 Bing no longer reads a
+    bare clue as a crossword query, searchers add "crossword clue", and the
+    page carried that word nowhere. The title is left alone on purpose.
 
     Args:
         clue: dict with clue_text, enumeration, source, puzzle_number, type_label.
@@ -67,7 +72,7 @@ def generate_meta_description(clue, explained):
     origin = f"{source}"
     if type_label:
         origin += f" {type_label}"
-    origin += f" #{puzzle_number}"
+    origin += f" crossword #{puzzle_number}"
 
     # What the served card is
     if explained:
@@ -78,8 +83,10 @@ def generate_meta_description(clue, explained):
     enum_part = f" ({enum})" if enum else ""
     head = f'"{clue_text}{enum_part}" — {offer}'
 
-    full = f"{head} {origin}."
-    return full if len(full) <= 160 else head
+    for tail in (f" {origin}.", f" {source} crossword."):
+        if len(head) + len(tail) <= 160:
+            return head + tail
+    return head
 
 
 def generate_faq_schema(clue, steps, explained):
