@@ -7642,6 +7642,9 @@ def _facebook_post_block(clue_id, parse):
         '<span id="wfw-fb-msg-%d" style="margin-left:.5rem;font-size:.85rem;'
         'color:#64748b"></span>'
         '<div id="wfw-fb-%d" hidden style="margin-top:.4rem">'
+        '<button type="button" class="wfw-reload wfw-fb-copy" '
+        'onclick="wfwFbCopy(%d)" style="background:#1877f2;border-color:#1877f2;'
+        'cursor:pointer;margin-bottom:.4rem">&#128203; Copy caption</button>'
         '<textarea readonly style="width:100%%;height:11rem;'
         'font-family:ui-monospace,Consolas,monospace;font-size:.82rem;'
         'padding:.5rem;border:1px solid #cbd5e1;border-radius:8px"></textarea>'
@@ -7679,6 +7682,25 @@ def _facebook_post_block(clue_id, parse):
         '  };'
         ' });'
         '}'
+        # The phone reaches the dev server over plain http, where browsers withhold
+        # navigator.clipboard; execCommand("copy") still works there, but only
+        # inside a tap, hence the Copy caption button (user, 2026-10-13).
+        'function wfwFbCopyBox(box){'
+        ' var ro=box.readOnly; box.readOnly=false; box.focus(); box.select();'
+        ' box.setSelectionRange(0, box.value.length); var ok=false;'
+        ' try{ ok=document.execCommand("copy"); }catch(e){}'
+        ' box.readOnly=ro; box.blur(); return ok;'
+        '}'
+        'function wfwFbCopy(id){'
+        ' var msg=document.getElementById("wfw-fb-msg-"+id);'
+        ' var box=document.getElementById("wfw-fb-"+id).querySelector("textarea");'
+        ' if(wfwFbCopyBox(box)){ msg.textContent="Caption copied."; return; }'
+        ' if(navigator.clipboard && navigator.clipboard.writeText){'
+        '   navigator.clipboard.writeText(box.value).then(function(){'
+        '     msg.textContent="Caption copied."; },'
+        '     function(){ box.select(); msg.textContent="Select and copy the caption:"; });'
+        ' } else { box.select(); msg.textContent="Select and copy the caption:"; }'
+        '}'
         'function wfwFbPost(id, btn){'
         ' var msg=document.getElementById("wfw-fb-msg-"+id);'
         ' var wrap=document.getElementById("wfw-fb-"+id);'
@@ -7694,8 +7716,10 @@ def _facebook_post_block(clue_id, parse):
         '   if(navigator.clipboard && navigator.clipboard.writeText){'
         '     navigator.clipboard.writeText(res.text).then(function(){'
         '       msg.textContent="Caption copied.";'
-        '     }, function(){ box.select(); msg.textContent="Select and copy the caption:"; });'
-        '   } else { box.select(); msg.textContent="Select and copy the caption:"; }'
+        # No copy attempt here without the clipboard API: after the fetch the tap
+        # has expired and execCommand reports success while copying nothing.
+        '     }, function(){ msg.textContent="Tap Copy caption."; });'
+        '   } else { msg.textContent="Tap Copy caption."; }'
         '   return fetch("/fbpost/"+id+".png").then(function(r){'
         '     if(!r.ok){ return r.text().then(function(t){ pic.textContent=t; }); }'
         '     return r.blob().then(function(b){'
@@ -7745,7 +7769,7 @@ def _facebook_post_block(clue_id, parse):
         ' }).catch(function(){ msg.textContent="Could not build the post."; })'
         ' .then(function(){ btn.disabled=false; });'
         '}'
-        '</script>' % (clue_id, clue_id, clue_id))
+        '</script>' % (clue_id, clue_id, clue_id, clue_id))
 
 
 def _reload_clue_button(clue_id, raw_list):
