@@ -9,7 +9,13 @@ This script runs the same chain as the nightly, scoped and on demand:
      solve), so the prefill has a work list;
   2. headless Claude prefill (scripts/prompts/nightly_prefill.md + a scope
      override) — files each validated reading as a PENDING commit via
-     core.prefill_commit (never pass; review = Confirm on the clue page).
+     core.prefill_commit (never pass; review = Confirm on the clue page);
+  3. headless Claude pass review of the puzzle's engine passes
+     (nightly_pass_review.md + the same scope override);
+  4. double-definition usage phrases (draft_senses.py), filed unapproved;
+  5. clue-page prose from the pending readings (draft_prose.py), filed unapproved.
+
+  --skip-prefill runs steps 3-5 alone (e.g. after a prefill that ran without them).
 
 Invoked by the puzzle page's "Prefill now" button (web/routes/admin.py, runs
 this DETACHED so the site never blocks on it) or by hand:
@@ -35,6 +41,7 @@ CLAUDE_EXE = r"C:\Users\shute\.local\bin\claude.exe"
 # which changes whenever they /model in an interactive session (2026-07-14).
 CLAUDE_MODEL = "claude-fable-5"
 PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_prefill.md"
+REVIEW_PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_pass_review.md"
 LOG_DIR = ROOT / "logs"
 
 # This script's own stdout is a LOG FILE, never a console, so Python picks the
@@ -86,12 +93,64 @@ def build_prompt(source=None, pnum=None, date=None, report_name=None):
     return override + PROMPT_FILE.read_text(encoding="utf-8")
 
 
+def build_review_prompt(source=None, pnum=None, date=None, report_name=None):
+    """The nightly pass-review prompt, scoped the same way as the prefill."""
+    if source and pnum:
+        scope = ("- Scope: the engine passes of %s puzzle %s ONLY. Run the audit "
+                 "command as written and read only that puzzle's blocks; leave "
+                 "every other puzzle's passes alone." % (source, pnum))
+    else:
+        scope = ("- Scope: the engine passes of publication_date %s, serving "
+                 "papers (telegraph/times/guardian)." % date)
+    override = (
+        "# ON-DEMAND SCOPE OVERRIDE (scripts/run_prefill.py)\n\n"
+        "This is an ON-DEMAND invocation of the standard nightly pass review "
+        "below, run straight after this puzzle's prefill.\nOverride ONLY the "
+        "scope; every other rule applies unchanged:\n\n%s\n- Write the summary "
+        "report to logs/%s — do NOT overwrite any nightly report.\n\n----\n\n"
+        % (scope, report_name))
+    return override + REVIEW_PROMPT_FILE.read_text(encoding="utf-8")
+
+
+def run_claude(prompt, label, env):
+    """Headless Claude, the same invocation as the nightly. Returns the exit code."""
+    log("%s: claude -p ..." % label)
+    r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
+                        "--dangerously-skip-permissions"],
+                       cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                       capture_output=True, text=True, encoding="utf-8",
+                       errors="replace", timeout=5400, env=env)
+    for line in (r.stdout or "").strip().splitlines()[-25:]:
+        log("  " + line)
+    if r.returncode != 0:
+        log("%s failed (exit %d): %s" % (label, r.returncode, (r.stderr or "")[-500:]))
+    return r.returncode
+
+
+def run_step(label, pargs):
+    """A non-Claude follow-on step. Never fatal."""
+    log("%s: %s" % (label, " ".join(pargs[2:])))
+    try:
+        p = subprocess.run(pargs, capture_output=True, text=True,
+                           encoding="utf-8", errors="replace", cwd=str(ROOT),
+                           timeout=1800)
+        for line in (p.stdout or "").strip().splitlines()[-120:]:
+            log("  " + line)
+        if p.returncode != 0:
+            log("%s failed (exit %d) — not fatal: %s"
+                % (label, p.returncode, (p.stderr or "")[-300:]))
+    except Exception as e:
+        log("%s ERROR: %s — not fatal" % (label, e))
+
+
 def main():
     ap = argparse.ArgumentParser(description="On-demand prefill chain")
     ap.add_argument("--source", default=None)
     ap.add_argument("--pnum", default=None)
     ap.add_argument("--date", default=None, help="YYYY-MM-DD (catch-up mode)")
     ap.add_argument("--skip-cascade", action="store_true")
+    ap.add_argument("--skip-prefill", action="store_true",
+                    help="run only the follow-on steps (pass review, senses, prose)")
     ap.add_argument("--plan", action="store_true", help="print the prompt, run nothing")
     args = ap.parse_args()
     if not ((args.source and args.pnum) or args.date):
@@ -129,38 +188,38 @@ def main():
     # so headless runs ALWAYS bill the subscription (2026-07-13).
     claude_env = os.environ.copy()
     claude_env.pop("ANTHROPIC_API_KEY", None)
-    log("prefill: claude -p (scope %s) ..." % tag)
-    r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
-                        "--dangerously-skip-permissions"],
-                       cwd=str(ROOT), stdin=subprocess.DEVNULL,
-                       capture_output=True, text=True, encoding="utf-8",
-                       errors="replace", timeout=5400, env=claude_env)
-    for line in (r.stdout or "").strip().splitlines()[-25:]:
-        log("  " + line)
-    if r.returncode != 0:
-        log("prefill failed (exit %d): %s" % (r.returncode, (r.stderr or "")[-500:]))
-        return 1
-    log("prefill complete — report: logs/%s" % report_name)
+    if args.skip_prefill:
+        log("prefill: SKIPPED (--skip-prefill)")
+    else:
+        if run_claude(prompt, "prefill (scope %s)" % tag, claude_env) != 0:
+            return 1
+        log("prefill complete — report: logs/%s" % report_name)
 
-    # 3. draft the clue-page prose from the PENDING readings just filed — the
-    # nightly's Step 6 (scripts/nightly_run.py), scoped to this run. Missing here,
-    # the button's puzzles got no prose at all (telegraph 31355, 2026-09-26).
-    # Filed UNAPPROVED; never fatal — a missed draft just means no prose block.
-    pargs = [PYTHON_V2, str(ROOT / "scripts" / "draft_prose.py"), "--pending"]
-    pargs += (["--source", args.source, "--puzzle", str(args.pnum)]
-              if args.pnum else ["--day", args.date])
-    log("prose: %s" % " ".join(pargs[2:]))
-    try:
-        p = subprocess.run(pargs, capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", cwd=str(ROOT),
-                           timeout=1800)
-        for line in (p.stdout or "").strip().splitlines()[-120:]:
-            log("  " + line)
-        if p.returncode != 0:
-            log("prose failed (exit %d) — not fatal: %s"
-                % (p.returncode, (p.stderr or "")[-300:]))
-    except Exception as e:
-        log("prose ERROR: %s — not fatal" % e)
+    # The rest of the nightly's per-puzzle chain (scripts/nightly_run.py Steps 3b,
+    # 5, 6), so a button or catch-up run leaves the puzzle exactly as a good night
+    # would (user, 2026-10-19: "they should all be part of prefill otherwise the
+    # manual version is pointless"). Same order as the nightly: pass review AFTER
+    # prefill, so a demotion keeps the engine's claim instead of being re-prefilled.
+    # None of them is fatal.
+    scope_args = (["--source", args.source, "--puzzle", str(args.pnum)]
+                  if args.pnum else ["--day", args.date])
+
+    # 3. read this puzzle's engine passes and hold back the indefensible.
+    review_name = "pass_review_ondemand_%s_%s.md" % (tag, stamp)
+    if run_claude(build_review_prompt(args.source, args.pnum, args.date, review_name),
+                  "pass review (scope %s)" % tag, claude_env) == 0:
+        log("pass review complete — report: logs/%s" % review_name)
+
+    # 4. double-definition usage phrases, filed UNAPPROVED (nightly Step 5).
+    run_step("senses", [PYTHON_V2, str(ROOT / "scripts" / "draft_senses.py")] + scope_args)
+
+    # 5. draft the clue-page prose from the PENDING readings just filed — the
+    # nightly's Step 6, scoped to this run. Missing here, the button's puzzles got
+    # no prose at all (telegraph 31355, 2026-09-26). Filed UNAPPROVED; never fatal
+    # — a missed draft just means no prose block.
+    run_step("prose", [PYTHON_V2, str(ROOT / "scripts" / "draft_prose.py"), "--pending"]
+             + scope_args)
+    log("ALL STEPS COMPLETE (scope %s)" % tag)
     return 0
 
 
