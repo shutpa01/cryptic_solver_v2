@@ -1,0 +1,147 @@
+<title>Ask Us Compared</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+/* Layout: one narrow reading column; a verdict grid of short cards, then one card per rival. */
+:root {
+  --bg: #f3f5f2; --surface: #ffffff; --fg: #1d2420; --muted: #5d6a63;
+  --line: #d9e0db; --accent: #2f7a55; --yes: #2f7a55; --no: #b2452f; --part: #a77418;
+  --display: "Fraunces", Georgia, serif;
+  --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121614; --surface: #1b211e; --fg: #e6ece8; --muted: #9aa8a0;
+  --line: #2c3530; --accent: #6cc79a; --yes: #6cc79a; --no: #ef8a73; --part: #e2b45a; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121614; --surface: #1b211e; --fg: #e6ece8; --muted: #9aa8a0;
+  --line: #2c3530; --accent: #6cc79a; --yes: #6cc79a; --no: #ef8a73; --part: #e2b45a; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 17px/1.5 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 24px 48px; }
+main { max-width: 680px; margin: 0 auto; display: grid; gap: 28px; }
+h1 { font: 600 2rem/1.15 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 600 1.3rem/1.2 var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.lede { color: var(--muted); }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.ours { background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; padding: 18px; display: grid; gap: 10px; }
+.ours ol { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.rivals { display: grid; gap: 14px; }
+.rival { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+.rival header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; align-items: baseline; }
+.price { font-size: .9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.rows { display: grid; gap: 6px; }
+.row { display: grid; grid-template-columns: 1.4rem 1fr; gap: 8px; align-items: start; }
+.mark { font-weight: 600; text-align: center; }
+.y { color: var(--yes); } .n { color: var(--no); } .p { color: var(--part); }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: .92rem; }
+th, td { padding: 9px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+th { font-weight: 600; }
+thead th { color: var(--muted); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; }
+tr.us td, tr.us th { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+.fair { display: grid; gap: 8px; }
+.fair ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.note { font-size: .85rem; color: var(--muted); }
+</style>
+
+<main>
+  <header style="display:grid;gap:8px">
+    <p class="eyebrow">Up and Cycling · Ask Us</p>
+    <h1>Support without knowing who you're talking to</h1>
+    <p class="lede">How the Ask Us system compares with the closest products we found, on the things that matter when you deliberately hold no user data.</p>
+  </header>
+
+  <section class="ours">
+    <h2>How Ask Us works</h2>
+    <ol>
+      <li>The user types a question in the app. There's no name or email field.</li>
+      <li>A Cloudflare Worker emails it to the support inbox with a ticket number.</li>
+      <li>The device keeps the ticket number itself. The user never sees it.</li>
+      <li>We reply from ordinary Gmail. The reply comes back through Cloudflare.</li>
+      <li>The app shows "We've replied" the next time it opens.</li>
+    </ol>
+  </section>
+
+  <section style="display:grid;gap:12px">
+    <h2>At a glance</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Product</th><th>User gives email?</th><th>User keeps a code?</th><th>Two-way?</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr class="us"><th>Ask Us</th><td class="y">No</td><td class="y">No</td><td class="y">Yes</td><td>No new subscription (our estimate)</td></tr>
+          <tr><th>Incogneato</th><td class="y">No</td><td class="n">Yes, a return code</td><td class="y">Yes</td><td>~$17–$83/month</td></tr>
+          <tr><th>Anonymeter</th><td class="y">No</td><td class="p">Revisits a link</td><td class="y">Yes</td><td>Not found</td></tr>
+          <tr><th>Zendesk</th><td class="n">Usually</td><td>—</td><td class="y">Yes</td><td>~$55–$115 per agent/month</td></tr>
+          <tr><th>Customer.io</th><td class="y">No</td><td>—</td><td class="n">One way</td><td>from ~$100/month</td></tr>
+          <tr><th>GhostChat</th><td class="y">No</td><td class="p">Live chat only</td><td class="y">While online</td><td>free, then ~$5–$25/month</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Scroll the table sideways on a phone.</p>
+  </section>
+
+  <section class="rivals">
+    <h2>One by one</h2>
+
+    <article class="rival">
+      <header><h2>Incogneato</h2><span class="price">~$17–$83 / month</span></header>
+      <p>An anonymous suggestion box with chat.</p>
+      <div class="rows">
+        <div class="row"><span class="mark n">✕</span><span>The user must keep a return code to see the reply. Lose it and the conversation is gone.</span></div>
+        <div class="row"><span class="mark y">✓</span><span><strong>Ask Us:</strong> the device keeps the ticket, so there's nothing to lose.</span></div>
+      </div>
+    </article>
+
+    <article class="rival">
+      <header><h2>Anonymeter</h2><span class="price">price not found</span></header>
+      <p>Anonymous feedback forms with follow-up questions.</p>
+      <div class="rows">
+        <div class="row"><span class="mark p">~</span><span>The reply appears when the user goes back to the form link. How it recognises them isn't documented.</span></div>
+        <div class="row"><span class="mark y">✓</span><span><strong>Ask Us:</strong> the reply appears in the app they already use, with a notice.</span></div>
+      </div>
+    </article>
+
+    <article class="rival">
+      <header><h2>Zendesk</h2><span class="price">~$55–$115 per agent / month</span></header>
+      <p>A full helpdesk.</p>
+      <div class="rows">
+        <div class="row"><span class="mark n">✕</span><span>Most anonymous requests now have to verify an email address, so you end up holding that address.</span></div>
+        <div class="row"><span class="mark n">✕</span><span>Priced per staff member, every month.</span></div>
+        <div class="row"><span class="mark y">✓</span><span><strong>Ask Us:</strong> no email ever, and you answer from Gmail you already pay for.</span></div>
+      </div>
+    </article>
+
+    <article class="rival">
+      <header><h2>Customer.io</h2><span class="price">from ~$100 / month</span></header>
+      <p>Marketing messages, including to anonymous visitors.</p>
+      <div class="rows">
+        <div class="row"><span class="mark n">✕</span><span>Built to send to users, not to hear from them.</span></div>
+        <div class="row"><span class="mark y">✓</span><span><strong>Ask Us:</strong> a real two-way conversation, started by the user.</span></div>
+      </div>
+    </article>
+
+    <article class="rival">
+      <header><h2>GhostChat</h2><span class="price">free, then ~$5–$25 / month</span></header>
+      <p>A cookie-free live chat widget.</p>
+      <div class="rows">
+        <div class="row"><span class="mark p">~</span><span>Live chat works while both sides are online. I found no documented way to reply to someone who has left.</span></div>
+        <div class="row"><span class="mark y">✓</span><span><strong>Ask Us:</strong> answer within 24 hours, and the reply waits for them.</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="fair">
+    <h2>Where the others are ahead</h2>
+    <ul>
+      <li>Live, real-time chat: GhostChat, Incogneato.</li>
+      <li>Team features such as queues, assignment and reports: Zendesk.</li>
+      <li>Works on a website with no app: most of them. Ask Us is built into our app; a web version would keep the ticket in the browser instead.</li>
+      <li>If the user clears the app or changes phone, an unanswered ticket is lost.</li>
+    </ul>
+  </section>
+
+  <p class="note">Prices are from review sites (Capterra, SaaSWorthy, eesel) and vendor pages, checked October 2026, and may be out of date. Ask Us "no new subscription" assumes the Cloudflare Worker and Email Routing stay within Cloudflare's free allowances and uses the Google Workspace you already have. That is my estimate, not checked against Cloudflare's current limits.</p>
+</main>
