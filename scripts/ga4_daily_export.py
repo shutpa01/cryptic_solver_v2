@@ -44,8 +44,18 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 # One row per day. Order matters — it's the CSV column order.
-METRICS = ("activeUsers", "newUsers", "sessions", "screenPageViews")
-CSV_COLUMNS = ("date", "active_users", "new_users", "sessions", "page_views")
+# engagedSessions (>=10s, 2+ pages, or a key event) is the bot-resistant
+# count: headless visits that land and do nothing score zero on it.
+# userEngagementDuration is total foreground seconds; a bot that does
+# nothing adds none, so it needs no filtering either.
+# engaged_users has no GA4 metric of its own: it is activeUsers restricted to
+# the user_engagement event, which fires only when a page was in the
+# foreground — so it is the non-bot user count, and the divisor for
+# minutes per user.
+METRICS = ("activeUsers", "newUsers", "sessions", "screenPageViews",
+           "engagedSessions", "userEngagementDuration")
+CSV_COLUMNS = ("date", "active_users", "new_users", "sessions", "page_views",
+               "engaged_sessions", "engagement_seconds", "engaged_users")
 CHANNEL_COLUMNS = ("date", "channel", "active_users", "sessions", "page_views")
 
 DEFAULT_PROVISIONAL_DAYS = 2
@@ -80,7 +90,8 @@ def fill_missing_days(rows: list[dict], start: date, end: date) -> list[dict]:
     for day in day_range(start, end):
         filled.append(by_date.get(day, {
             "date": day, "active_users": 0, "new_users": 0,
-            "sessions": 0, "page_views": 0,
+            "sessions": 0, "page_views": 0, "engaged_sessions": 0,
+            "engagement_seconds": 0, "engaged_users": 0,
         }))
     return filled
 
@@ -197,19 +208,38 @@ def load_client():
 
 
 def fetch_daily(client, property_id: str, start: date, end: date) -> list[dict]:
-    """One row per day: active users, new users, sessions, page views."""
+    """One row per day: active users, new users, sessions, page views,
+    engaged sessions, engagement seconds, engaged users."""
     from google.analytics.data_v1beta.types import (
-        DateRange, Dimension, Metric, RunReportRequest,
+        DateRange, Dimension, Filter, FilterExpression, Metric,
+        RunReportRequest,
     )
 
+    date_ranges = [DateRange(start_date=start.isoformat(),
+                             end_date=end.isoformat())]
     request = RunReportRequest(
         property=f"properties/{property_id}",
         dimensions=[Dimension(name="date")],
         metrics=[Metric(name=name) for name in METRICS],
-        date_ranges=[DateRange(start_date=start.isoformat(),
-                               end_date=end.isoformat())],
+        date_ranges=date_ranges,
     )
     response = client.run_report(request)
+
+    # Users who fired user_engagement: a separate report, because a
+    # dimension filter would narrow every other metric too.
+    engaged_request = RunReportRequest(
+        property=f"properties/{property_id}",
+        dimensions=[Dimension(name="date")],
+        metrics=[Metric(name="activeUsers")],
+        date_ranges=date_ranges,
+        dimension_filter=FilterExpression(filter=Filter(
+            field_name="eventName",
+            string_filter=Filter.StringFilter(value="user_engagement"),
+        )),
+    )
+    engaged = {row.dimension_values[0].value: int(row.metric_values[0].value)
+               for row in client.run_report(engaged_request).rows}
+
     rows = []
     for row in response.rows:
         values = [v.value for v in row.metric_values]
@@ -219,6 +249,9 @@ def fetch_daily(client, property_id: str, start: date, end: date) -> list[dict]:
             "new_users": int(values[1]),
             "sessions": int(values[2]),
             "page_views": int(values[3]),
+            "engaged_sessions": int(values[4]),
+            "engagement_seconds": int(float(values[5])),
+            "engaged_users": engaged.get(row.dimension_values[0].value, 0),
         })
     rows.sort(key=lambda r: r["date"])
     return rows

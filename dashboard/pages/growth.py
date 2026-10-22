@@ -26,6 +26,7 @@ redone in pandas here, so the chart and the CSV can't disagree.
 """
 
 import sys
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -45,6 +46,10 @@ LOGS_CSV = ga4_live.LOGS_CSV
 # How much history to pull. A wider window costs nothing and the rolling
 # average needs a run-up before it can draw anything.
 DEFAULT_DAYS = 180
+# Where the chart opens. The spring collapse and the empty June-July shrink
+# everything after them to a sliver; the averages are still computed over the
+# full fetch, so the line starts at this date with a real value.
+DEFAULT_SHOW_FROM = date(2026, 8, 1)
 CACHE_TTL_SECONDS = 3600
 
 # Categorical slots 1 and 2 from the reference palette, light surface.
@@ -55,13 +60,21 @@ GRID_COLOUR = "#e6e5e1"
 AXIS_INK = "#52514e"
 
 # GA4 column -> label. The log export uses its own names for the same ideas.
+# Engaged sessions comes first, so it is the default: headless bots that land
+# and do nothing (a third of GA4 users on 2026-10-21) score zero on it, and
+# GA4 has recorded it for every day, so the whole history is restated.
 GA4_METRICS = {
+    "engaged_sessions": "Engaged sessions",
     "active_users": "Active users",
     "new_users": "New users",
     "sessions": "Sessions",
     "page_views": "Page views",
 }
 LOG_METRICS = {"visitors": "Active users", "page_views": "Page views"}
+
+# Drawn faint behind Engaged sessions: the gap between the two is the bots.
+BOT_SHADOW_LABEL = "GA4 active users (incl. bots)"
+SHADOW_COLOUR = "#b9b8b3"
 
 
 @st.cache_resource
@@ -166,6 +179,12 @@ def _run_rate(frame: pd.DataFrame, column: str, window: int,
     return out
 
 
+def _min_sec(minutes: float) -> str:
+    """3.04 -> '3m 02s': decimal minutes read as a rounded whole minute."""
+    total = round(minutes * 60)
+    return f"{total // 60}m {total % 60:02d}s"
+
+
 def _chart(data: pd.DataFrame, window: int, multi: bool):
     """Line chart: 2px lines, recessive axes, crosshair tooltip, no legend
     for a single series (the title names it)."""
@@ -176,9 +195,16 @@ def _chart(data: pd.DataFrame, window: int, multi: bool):
         fields=["date"], nearest=True, on="mouseover", empty=False,
     )
 
+    # Fixed series -> colour, so the shadow line is always the grey one
+    # whatever order Altair would sort the names into.
+    names = list(dict.fromkeys(data["series"]))
+    solid = [n for n in names if n != BOT_SHADOW_LABEL]
+    domain = solid + [n for n in names if n == BOT_SHADOW_LABEL]
+    palette = SERIES_COLOURS[:len(solid)] + (
+        [SHADOW_COLOUR] if BOT_SHADOW_LABEL in names else [])
     colour = (
         alt.Color("series:N", title=None,
-                  scale=alt.Scale(range=SERIES_COLOURS),
+                  scale=alt.Scale(domain=domain, range=palette),
                   legend=alt.Legend(orient="top", labelColor=AXIS_INK))
         if multi else alt.value(SERIES_COLOURS[0])
     )
@@ -192,12 +218,19 @@ def _chart(data: pd.DataFrame, window: int, multi: bool):
                 axis=alt.Axis(gridColor=GRID_COLOUR, labelColor=AXIS_INK,
                               titleColor=AXIS_INK, domain=False, ticks=False)),
         color=colour,
+        strokeDash=alt.condition(
+            alt.datum.series == BOT_SHADOW_LABEL,
+            alt.value([4, 3]), alt.value([1, 0])),
     )
 
     # Invisible wide target so the tooltip is easy to hit on a sparse line.
     points = base.mark_point(size=120, opacity=0).encode(
         x="date:T", y="value:Q",
         tooltip=[alt.Tooltip("date:T", title="Date"),
+                 # A "label" column, when given, is the value already
+                 # formatted (e.g. 3m 02s); d3 formats can't do that.
+                 alt.Tooltip("label:N", title="Run rate")
+                 if "label" in data.columns else
                  alt.Tooltip("value:Q", title="Run rate", format=".1f"),
                  alt.Tooltip("series:N", title="Source")],
     ).add_params(hover)
@@ -218,6 +251,8 @@ def render():
     with header[0]:
         days = st.selectbox("History", [90, DEFAULT_DAYS, 365], index=1,
                             format_func=lambda d: f"{d} days")
+    with header[1]:
+        show_from = st.date_input("Show from", value=DEFAULT_SHOW_FROM)
     with header[2]:
         st.write("")
         if st.button("Refresh from GA4", use_container_width=True):
@@ -248,12 +283,19 @@ def render():
     if ga4 is not None:
         column = next((k for k, v in GA4_METRICS.items() if v == metric), None)
         if column and column in ga4.columns:
-            frames.append(_run_rate(ga4, column, window, ga4_label))
+            label = (f"{ga4_label} engaged sessions"
+                     if column == "engaged_sessions" else ga4_label)
+            frames.append(_run_rate(ga4, column, window, label))
+        if column == "engaged_sessions" and "active_users" in ga4.columns:
+            frames.append(_run_rate(ga4, "active_users", window,
+                                    BOT_SHADOW_LABEL))
     if logs is not None:
         column = next((k for k, v in LOG_METRICS.items() if v == metric), None)
         if column and column in logs.columns:
             frames.append(_run_rate(logs, column, window, "Server logs"))
 
+    since = show_from.isoformat()
+    frames = [f[f["date"] >= since] for f in frames]
     frames = [f for f in frames if not f.empty]
     if not frames:
         st.warning(
@@ -275,15 +317,60 @@ def render():
             previous = series["value"].iloc[-1 - window]
             if previous:
                 delta = f"{(latest - previous) / previous * 100:+.1f}% vs {window}d ago"
-        col.metric(f"{series['series'].iloc[0]} — {metric.lower()}/day",
-                   f"{latest:,.1f}", delta)
+        name = series["series"].iloc[0]
+        title = (f"{name}/day" if name == BOT_SHADOW_LABEL
+                 or name.endswith("engaged sessions")
+                 else f"{name} — {metric.lower()}/day")
+        col.metric(title, f"{latest:,.1f}", delta)
 
     st.altair_chart(_chart(data, window, multi), use_container_width=True)
     st.caption(
         f"Each point is the mean of the {window} days ending that day. "
         "The line begins one window after the first day with data — "
         "empty days before that are excluded."
+        + (" Engaged sessions = sessions of 10s+, 2+ pages, or a key event; "
+           "bots that land and leave score zero. The grey dashed line is GA4 "
+           "active users including them. Sessions and users are different "
+           "units (one person can visit twice), so the gap is only a rough "
+           "guide to the bot share."
+           if metric == "Engaged sessions" else "")
     )
+
+    # Second chart, same dates: how much each real visitor uses the site.
+    # Divided by engaged users (those who fired user_engagement), not all
+    # active users, so bots that land and leave don't dilute it.
+    if (ga4 is not None and "engagement_seconds" in ga4.columns
+            and "engaged_users" in ga4.columns):
+        seconds = _run_rate(ga4, "engagement_seconds", window, "seconds")
+        users = _run_rate(ga4, "engaged_users", window, "users")
+        # Ratio of the two window means = window seconds / window users.
+        minutes = seconds.merge(users, on="date", suffixes=("_s", "_u"))
+        minutes = minutes[(minutes["date"] >= since)
+                          & (minutes["value_u"] > 0)]
+        if not minutes.empty:
+            minutes = pd.DataFrame({
+                "date": minutes["date"],
+                "value": minutes["value_s"] / minutes["value_u"] / 60,
+                "series": "Minutes per engaged user",
+            })
+            minutes["label"] = minutes["value"].map(_min_sec)
+            st.subheader("Engagement — minutes per engaged user")
+            series = minutes.sort_values("date")
+            latest = series["value"].iloc[-1]
+            delta = None
+            if len(series) > window:
+                previous = series["value"].iloc[-1 - window]
+                if previous:
+                    delta = (f"{(latest - previous) / previous * 100:+.1f}% "
+                             f"vs {window}d ago")
+            st.metric("GA4 time per engaged user", _min_sec(latest), delta)
+            st.altair_chart(_chart(minutes, window, False),
+                            use_container_width=True)
+            st.caption(
+                f"Foreground time divided by users who had a page in the "
+                f"foreground (GA4 user_engagement event), each a {window}-day "
+                f"average. Bots that land and leave are in neither number."
+            )
 
     with st.expander("Table view"):
         table = data.pivot_table(index="date", columns="series",
