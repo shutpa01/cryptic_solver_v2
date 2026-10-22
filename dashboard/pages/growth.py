@@ -373,8 +373,18 @@ def render():
             )
 
     with st.expander("Table view"):
-        table = data.pivot_table(index="date", columns="series",
-                                 values="value").round(1)
+        # The table is bot-free: the all-users shadow belongs on the chart
+        # only, as the visible gap; it has no place among the counts.
+        table = data[data["series"] != BOT_SHADOW_LABEL].pivot_table(
+            index="date", columns="series", values="value").round(1)
+        # Every series above is a run rate; say so, or a 7am row reads as
+        # "60 users today".
+        table.columns = [f"{name} — {window}-day avg" for name in table.columns]
+        if ga4 is not None and "engaged_users" in ga4.columns:
+            daily = pd.to_numeric(ga4.set_index("date")["engaged_users"],
+                                  errors="coerce")
+            table.insert(0, "Engaged users that day (no bots)",
+                         daily.reindex(table.index).astype("Int64"))
         st.dataframe(table.sort_index(ascending=False),
                      use_container_width=True)
 
