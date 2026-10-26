@@ -19,6 +19,7 @@ Run:  python -m core.wfw_web      then open  http://127.0.0.1:5099/
 import re
 import sqlite3
 import os
+import threading
 from html import escape
 
 from flask import Flask, request, redirect
@@ -137,6 +138,10 @@ DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
 app = Flask(__name__)
 _WIRING = None
 
+# One build at a time: the dev server warms the wiring in a background thread at start
+# (web/run_dev.py), and a click that arrives mid-build must wait for THAT build, not start
+# a second one alongside it (2026-10-26). Re-entrant: reload_wiring() calls wiring().
+_WIRING_LOCK = threading.RLock()
 
 import time as _time
 BOOT_ID = _time.strftime("%H:%M:%S", _time.localtime())   # changes on every server restart
@@ -174,12 +179,16 @@ def wiring():
     on-demand, never part of a batch solve."""
     global _WIRING
     if _WIRING is None:
-        _WIRING = engine_registry.make_db_wiring()
-        # QUEUE-FOR-APPROVAL (not auto-file): a discovered signature is queued for human
-        # approval rather than written straight to the catalog. auto_signature (auto-file)
-        # is deliberately OFF; the per-clue re-run turns on auto_signature_queue (see
-        # _render_one), so discovery only pays its cost on an explicit single-clue re-run.
-        _WIRING["auto_signature"] = False
+        with _WIRING_LOCK:
+            if _WIRING is None:
+                w = engine_registry.make_db_wiring()
+                # QUEUE-FOR-APPROVAL (not auto-file): a discovered signature is queued for
+                # human approval rather than written straight to the catalog. auto_signature
+                # (auto-file) is deliberately OFF; the per-clue re-run turns on
+                # auto_signature_queue (see _render_one), so discovery only pays its cost on
+                # an explicit single-clue re-run.
+                w["auto_signature"] = False
+                _WIRING = w
     return _WIRING
 
 
@@ -194,8 +203,9 @@ def reload_wiring():
     """Drop the cached wiring and rebuild it, so reference-DB edits made since
     startup are picked up WITHOUT restarting the server."""
     global _WIRING
-    _WIRING = None
-    return wiring()
+    with _WIRING_LOCK:
+        _WIRING = None
+        return wiring()
 
 
 def apply_add_to_wiring(form):
@@ -333,6 +343,14 @@ def reload_route():
     raw = (request.form.get("id") or "").strip()
     only = (request.form.get("only") or "").strip()
     reload_wiring()
+    # The Reload button also repairs lookup keys of reference rows edited by hand (the full
+    # norm-key reconcile, ~8 s). Ordinary wiring builds only fill missing keys (2026-10-26).
+    try:
+        from core.live_db import _default_path
+        from core.norm_backfill import backfill_null_norm_keys
+        backfill_null_norm_keys(_default_path(), full=True)
+    except Exception:
+        pass
     notice = '<div class="wfw-notice">Reference DB reloaded from disk.</div>'
     # A per-clue re-run is DB-only by default (fast); the AI fallback runs only when the
     # "with AI fallback" box is ticked. A re-run-all (no only) is always DB-only.

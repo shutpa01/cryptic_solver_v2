@@ -103,7 +103,10 @@ def main():
     from core import span_join
     from core import store
     from core.wfw_web import enum_space   # spaces multi-word answers per enumeration
-    wiring = engine_registry.db_only(engine_registry.make_db_wiring())
+    # full_norm_reconcile: the nightly is where hand-edited reference rows get their lookup
+    # keys repaired (the per-click wiring builds only fill missing keys, 2026-10-26).
+    wiring = engine_registry.db_only(
+        engine_registry.make_db_wiring(full_norm_reconcile=True))
 
     # Split-enumeration pairs (one answer over TWO grid entries, e.g. CURRY (5,6)
     # + a "See 3 Down" stub holding POWDER): solve the PRIMARY against the JOINED

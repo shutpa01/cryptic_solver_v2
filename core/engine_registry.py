@@ -45,7 +45,7 @@ def _match_variants(text):
 POSSESSIVE_S = True
 
 
-def make_db_wiring():
+def make_db_wiring(full_norm_reconcile=False):
     """Build the injected predicates from the reference DB. Returns a dict the
     engines consume. Imported lazily so pure tests need no DB.
 
@@ -66,11 +66,13 @@ def make_db_wiring():
 
     # Fill any blank normalized-key columns (e.g. rows hand-added in DB Browser),
     # so the live lookups — which key off that tidied column for speed — can see them
-    # after a reload. Only NULL rows are touched, so it is cheap; the fast-lookup
-    # design is unchanged. Best-effort: never fatal to wiring build.
+    # after a reload. Only NULL/blank rows are touched, so it is cheap; the fast-lookup
+    # design is unchanged. full_norm_reconcile=True ALSO repairs keys whose word was edited
+    # (all ~2.15M rows through the Python normaliser, 8–10 s) — the WFW Reload button and
+    # the nightly cascade ask for it. Best-effort: never fatal to wiring build.
     try:
         from core.norm_backfill import backfill_null_norm_keys
-        backfill_null_norm_keys(cryptic_db)
+        backfill_null_norm_keys(cryptic_db, full=full_norm_reconcile)
     except Exception:
         pass
 

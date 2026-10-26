@@ -110,17 +110,24 @@ def add_synonym(word, synonym):
         # kept refusing because the sole row stayed mesh-excluded). So: "already present" only
         # if a CURATED (non-mesh) row backs it; a mesh-only pair is PROMOTED to 'admin' (the
         # human's approval curates it out of the excluded pool), which the solver then sees.
-        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
-                        "AND upper(synonym)=upper(?) "
+        #
+        # SPEED (2026-10-26): `synonym = ? COLLATE NOCASE` selects exactly the rows
+        # `upper(synonym)=upper(?)` does (both fold A-Z only) but lets SQLite use
+        # idx_sp_syn_nocase. Without it each check read all ~1.35M rows (0.3 s warm, several
+        # seconds per Approve-all on a busy PC). The original conditions are kept as written.
+        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE synonym = ? COLLATE NOCASE "
+                        "AND lower(word)=lower(?) AND upper(synonym)=upper(?) "
                         "AND (source IS NULL OR source <> 'api_mw_mesh')",
-                        (word, synonym)).fetchone():
+                        (synonym, word, synonym)).fetchone():
             return "Already present: %r = %r" % (word, synonym)
-        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE lower(word)=lower(?) "
+        if conn.execute("SELECT 1 FROM synonyms_pairs WHERE synonym = ? COLLATE NOCASE "
+                        "AND lower(word)=lower(?) "
                         "AND upper(synonym)=upper(?) AND source='api_mw_mesh'",
-                        (word, synonym)).fetchone():
+                        (synonym, word, synonym)).fetchone():
             conn.execute("UPDATE synonyms_pairs SET source='admin' "
-                         "WHERE lower(word)=lower(?) AND upper(synonym)=upper(?) "
-                         "AND source='api_mw_mesh'", (word, synonym))
+                         "WHERE synonym = ? COLLATE NOCASE "
+                         "AND lower(word)=lower(?) AND upper(synonym)=upper(?) "
+                         "AND source='api_mw_mesh'", (synonym, word, synonym))
             conn.commit()
             return "Approved synonym (promoted from mesh): %r = %r" % (word, synonym)
         conn.execute("INSERT INTO synonyms_pairs (word, synonym, source, norm_word) "

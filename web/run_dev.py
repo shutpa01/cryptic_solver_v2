@@ -61,13 +61,107 @@ def _wait_port_free(port, timeout=6.0):
     return False
 
 
+def _normal_priority():
+    """Run at NORMAL priority (2026-10-26). The CrypticSolver_FlaskDev scheduled task starts
+    this server, and Task Scheduler gives its processes below-normal CPU, low I/O and low
+    memory priority. Measured: the same wiring build took 11.3 s at normal priority and 17.0 s
+    in this server (27 s while anything else was busy), and Windows kept paging the server out
+    between requests. Resets all three. Windows-only, best-effort, never fatal."""
+    if not sys.platform.startswith("win"):
+        return
+    try:
+        import ctypes
+        from ctypes import wintypes
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.GetCurrentProcess.restype = wintypes.HANDLE
+        k32.SetPriorityClass.argtypes = [wintypes.HANDLE, wintypes.DWORD]
+        h = k32.GetCurrentProcess()
+        k32.SetPriorityClass(h, 0x20)                        # NORMAL_PRIORITY_CLASS
+        # memory priority: ProcessMemoryPriority (0) = MEMORY_PRIORITY_NORMAL (5)
+        mem = ctypes.c_ulong(5)
+        k32.SetProcessInformation.argtypes = [wintypes.HANDLE, ctypes.c_int,
+                                              ctypes.c_void_p, wintypes.DWORD]
+        k32.SetProcessInformation(h, 0, ctypes.byref(mem), ctypes.sizeof(mem))
+        # I/O priority: ProcessIoPriority (33) = IoPriorityNormal (2)
+        ntdll = ctypes.WinDLL("ntdll")
+        ntdll.NtSetInformationProcess.argtypes = [wintypes.HANDLE, ctypes.c_int,
+                                                  ctypes.c_void_p, wintypes.ULONG]
+        io = ctypes.c_ulong(2)
+        ntdll.NtSetInformationProcess(h, 33, ctypes.byref(io), ctypes.sizeof(io))
+    except Exception as e:
+        print("[run_dev] could not set normal priority: %s" % e)
+
+
+_normal_priority()
+
 app = create_app("development")
+
+# Per-request timing -> logs/request_timing.log (2026-10-26, Approve-all slowness).
+from web.request_timing import RequestTiming
+app.wsgi_app = RequestTiming(app.wsgi_app)
+
+def _warm_up():
+    """Load the slow one-off things in the background as soon as the server starts, so the
+    first click does not pay for them (2026-10-26, measured on the user's own session: first
+    puzzle page 21 s = RefDB load; first Approve-all built the solver wiring inside the click).
+    The user opens the page BY restarting the server, so before this every session began cold.
+    Each loader is locked, so a click that arrives mid-warm waits for that load rather than
+    starting a second one. Never fatal."""
+    import threading
+
+    # The site starts the word cache on its FIRST request (web/routes/helper.py), where it
+    # competed with the two loads below (sandbox: 56 s, and the page render it overlapped
+    # slowed 0.3 -> 2.7 s). It only serves the pattern/anagram tools, so it is built LAST,
+    # here; marking it as already warming stops the first request starting a second build.
+    # A search before it is ready simply builds it on demand (word_cache._get, locked).
+    try:
+        from web import word_cache
+        word_cache._warming = True
+    except Exception:
+        pass
+
+    def run():
+        t0 = time.time()
+        steps = []
+        # Order = the order the user needs them: puzzle page first, then Approve-all.
+        try:
+            app.get_shared_ref_db()                     # RefDB: puzzle-page word coverage
+            steps.append("RefDB %.1fs" % (time.time() - t0))
+        except Exception as e:
+            steps.append("RefDB FAILED: %s" % e)
+        t1 = time.time()
+        try:
+            from core import wfw_web                    # solver import + the WFW app
+            wfw_web.wiring()                            # the wiring an Approve-all uses
+            steps.append("wiring %.1fs" % (time.time() - t1))
+        except Exception as e:
+            steps.append("wiring FAILED: %s" % e)
+        t2 = time.time()
+        try:
+            from web import word_cache
+            word_cache._get()                           # pattern / anagram word list
+            steps.append("word cache %.1fs" % (time.time() - t2))
+        except Exception as e:
+            steps.append("word cache FAILED: %s" % e)
+        msg = "warm-up done in %.1fs: %s" % (time.time() - t0, ", ".join(steps))
+        print("[run_dev] " + msg, flush=True)
+        try:
+            from web.request_timing import _write
+            from datetime import datetime, timezone
+            _write("%s %s" % (datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3],
+                              "STARTUP " + msg))
+        except Exception:
+            pass
+
+    threading.Thread(target=run, name="startup-warm", daemon=True).start()
+
 
 if __name__ == "__main__":
     # Guarantee EXACTLY ONE dev server owns the port: kill any existing listener first, then
     # wait for the OS to release it. Prevents the multi-stale-server trap above.
     _kill_stale_listeners(PORT)
     _wait_port_free(PORT)
+    _warm_up()
     # use_reloader=False (2026-07-12): the auto-reloader KILLED the worker
     # mid-request whenever a render's lazy imports touched the watched tree —
     # the WFW clue page died at ~15-25s every time (reads as an endless hang;

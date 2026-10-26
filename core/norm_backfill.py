@@ -6,10 +6,11 @@ LiveDB looks up reference entries by a stored, tidied (normalised) copy of the w
 key 'mrs winfrey') is invisible to every engine: the entry exists but the fast
 lookup cannot find it.
 
-This runs at every wiring build (app start AND the Reload button) and RECONCILES the
-tidied copy: any row whose key != _normalize_key(word) is repaired (blank or wrong),
-so manual additions AND edits self-heal after a reload without changing the
-fast-lookup design. Idempotent — a clean DB updates zero rows.
+Every wiring build fills MISSING keys (cheap, indexed). The WFW Reload button and the
+nightly cascade run the FULL reconcile: any row whose key != _normalize_key(word) is
+repaired (blank or wrong), so manual additions AND edits self-heal after a Reload or
+overnight without changing the fast-lookup design. Idempotent — a clean DB updates zero
+rows. (Until 2026-10-26 the full reconcile ran on every build: 8–10 s each time.)
 
 Uses the SAME normalisation (signature_solver.db._normalize_key) the lookups use,
 so a reconciled key matches exactly what a query asks for.
@@ -36,9 +37,16 @@ _SPECS = [
 ]
 
 
-def backfill_null_norm_keys(db_path):
-    """Reconcile the normalized-key columns across the reference tables: set each to
-    _normalize_key(word) wherever it differs (NULL, blank, or a stale/wrong value).
+def backfill_null_norm_keys(db_path, full=False):
+    """Fill the normalized-key columns across the reference tables.
+
+    full=False (every wiring build): only NULL or blank keys — rows hand-added without one.
+    The key columns are indexed, so this is ~instant.
+    full=True (the WFW Reload button and the nightly cascade): ALSO repair keys that no longer
+    equal _normalize_key(word) (a row whose word was edited in DB Browser). That needs the
+    Python normaliser on all ~2.15M rows — measured 8–10 s, and it ran on every wiring build,
+    including the rebuild inside an Approve-all (2026-10-26: 0 rows repaired, 8 s spent).
+
     Returns the total number of rows repaired. Best-effort on shape (a missing table or
     column is skipped), but a LOCKED database is reported (warning) rather than swallowed,
     so a stale key is never silently left unrepaired."""
@@ -51,13 +59,19 @@ def backfill_null_norm_keys(db_path):
             if key not in cols or norm not in cols:
                 continue
             try:
-                # Repair every drifted key: NULL, blank, OR a value that no longer equals
-                # the normalised word (a row whose word was edited keeps the old key).
-                # `norm IS NULL` is listed explicitly because `NULL <> x` is NULL (false).
+                if full:
+                    # Repair every drifted key: NULL, blank, OR a value that no longer equals
+                    # the normalised word (a row whose word was edited keeps the old key).
+                    # `norm IS NULL` is listed explicitly because `NULL <> x` is NULL (false).
+                    where = "%s IS NULL OR %s <> pynorm(%s)" % (norm, norm, key)
+                else:
+                    # Only missing keys. A blank key on a blank word is already correct, so
+                    # it is left alone rather than rewritten on every build.
+                    where = ("%s IS NULL OR (%s = '' AND pynorm(%s) <> '')"
+                             % (norm, norm, key))
                 n = conn.execute(
-                    "UPDATE %s SET %s = pynorm(%s) "
-                    "WHERE %s IS NULL OR %s <> pynorm(%s)"
-                    % (table, norm, key, norm, norm, key)).rowcount
+                    "UPDATE %s SET %s = pynorm(%s) WHERE %s"
+                    % (table, norm, key, where)).rowcount
                 filled += n
             except sqlite3.OperationalError as e:
                 sys.stderr.write(

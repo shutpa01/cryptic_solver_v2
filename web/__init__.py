@@ -79,11 +79,17 @@ def create_app(config_name=None):
 
     # Lazy-loaded RefDB for word coverage checks (admin only)
     _word_coverage_db = [None]  # mutable container for closure
+    # ~20 s load. The dev server warms it in the background at start (web/run_dev.py); a
+    # page that arrives mid-load waits for that load instead of starting a second (2026-10-26).
+    import threading as _threading
+    _word_coverage_lock = _threading.Lock()
 
     def _get_word_coverage_db():
         if _word_coverage_db[0] is None:
-            from signature_solver.db import RefDB
-            _word_coverage_db[0] = RefDB()
+            with _word_coverage_lock:
+                if _word_coverage_db[0] is None:
+                    from signature_solver.db import RefDB
+                    _word_coverage_db[0] = RefDB()
         return _word_coverage_db[0]
 
     def invalidate_word_coverage_db():
