@@ -71,9 +71,8 @@ def script_for(clue_id):
         if row is None:
             return None, None, ["no such clue"]
         paper = nc._SPOKEN_PAPER.get(row["source"], (row["source"] or "").title())
-        # THE SAME TEXT AS THE FULL VIDEO. The user's approved prose, or — for an
-        # INVALID or a clue type with no prose — the user's own note, exactly the
-        # choice scripts/narrate_prose.py makes. The Short used to build its script
+        # THE SAME TEXT AS THE FULL VIDEO: the user's approved prose, exactly the
+        # choice scripts/narrate_prose.py makes. Never the note. The Short used to build its script
         # from the card alone, so an INVALID clue ("no stored parse") could never be
         # a Short, and a passed clue said something different in the Short from what
         # it said in the full video (guardian 4171 11a EHS, 2026-09-27).
@@ -82,8 +81,8 @@ def script_for(clue_id):
             return _prose_script(nc, row, paper, body), dict(row), []
         parse = wfw_read._load(clue_id)
         if parse is None:
-            return None, dict(row), ["no stored parse — the clue is not solved, "
-                                     "and it has no approved prose or note"]
+            return None, dict(row), ["no approved prose, and no passed parse to "
+                                     "narrate from"]
         script, problems = nc.narrate(parse, row["clue_text"], row["answer"] or "",
                                       row["enumeration"] or "", paper)
     return script, dict(row), problems
@@ -92,22 +91,14 @@ def script_for(clue_id):
 def _written_explanation(clue_id):
     """The explanation the user has written or approved, or "" when there is none.
 
-    Approved prose first (sentence, then gloss). Failing that, the user's note —
-    but only for an INVALID or a clue type, the two cases whose note IS the
-    explanation. Same priority as narrate_prose.clue_text_for, so the Short and the
+    Approved prose only (sentence, then gloss) — never the note (user,
+    2026-10-29). Same source as narrate_prose.clue_text_for, so the Short and the
     full video can never say different things about one clue.
     """
-    from core import prose_store, store
+    from core import prose_store
     approved = prose_store.approved_text(clue_id)
     if approved:
         return "\n\n".join(p.strip() for p in approved if p and p.strip())
-    nb = _load("np", "narrate_prose.py")
-    conn = store.connect()
-    try:
-        if nb._solve_status(conn, clue_id) == "invalid" or nb._clue_type_op(conn, clue_id):
-            return (store.get_note(conn, clue_id) or "").strip()
-    finally:
-        conn.close()
     return ""
 
 
@@ -117,7 +108,7 @@ def _prose_script(nc, row, paper, body):
     enum = row["enumeration"] or ""
     lines = ["Our clue of the day is from today's %s." % paper, "",
              "Here it is: %s%s" % (row["clue_text"].rstrip(". "),
-                                   (" — %s" % enum) if enum else ""), "",
+                                   (" — %s" % nc._spoken_enumeration(enum)) if enum else ""), "",
              "The answer is %s." % nc._spoken_answer(row["answer"] or "", enum), "",
              body, "", nc.OUTRO]
     # _spoken leaves the clue line alone and says our own capitals properly.

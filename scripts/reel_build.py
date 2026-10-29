@@ -465,11 +465,16 @@ def main():
     # load_breakdown reads through flask.g, so it needs a real app context —
     # it is the site's own reader, not a standalone query, which is the point.
     with app.app_context():
+        from web.serving import is_served
         breakdown = load_breakdown(args.clue_id)
         slug = generate_clue_slug(clue["clue_text"] or "", clue_id=clue["id"])
-    if breakdown is None:
-        sys.exit("Clue %s has no passed parse — nothing to explain." % args.clue_id)
-    type_label = breakdown.get("operation_label") or ""
+        served = is_served(clue["source"], clue["id"])
+    # An INVALID has no passed parse but its clue page is served (answer, banner,
+    # the user's explanation), so it can be a reel — just with no clue type to name.
+    if breakdown is None and not served:
+        sys.exit("Clue %s has no passed parse and no served page — nothing to "
+                 "explain." % args.clue_id)
+    type_label = (breakdown or {}).get("operation_label") or ""
 
     live = todays_live_puzzles(app, clue["publication_date"] or "")
 

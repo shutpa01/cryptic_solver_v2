@@ -85,12 +85,6 @@ def _char_limit():
     return 39000 if MODEL_ID in _BIG_MODELS else 4800
 
 
-def _solve_status(conn, clue_id):
-    row = conn.execute("SELECT status FROM wfw_solve WHERE clue_id = ?",
-                       (clue_id,)).fetchone()
-    return (row[0] or "").lower() if row else ""
-
-
 _ONES = ("", "one", "two", "three", "four", "five", "six", "seven", "eight",
          "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
          "sixteen", "seventeen", "eighteen", "nineteen")
@@ -122,15 +116,6 @@ def spoken_label(label):
     return label
 
 
-def _clue_type_op(conn, clue_id):
-    """The clue-type operation for this clue, or "" — see web.wfw_read.CLUE_TYPE_OPS."""
-    from web.wfw_read import CLUE_TYPE_OPS
-    row = conn.execute("SELECT operation FROM wfw_solve WHERE clue_id = ?",
-                       (clue_id,)).fetchone()
-    op = (row[0] or "").lower() if row else ""
-    return op if op in CLUE_TYPE_OPS else ""
-
-
 def clue_text_for(frame, conn, data):
     """What she says for ONE clue, or (None, reason).
 
@@ -151,17 +136,9 @@ def clue_text_for(frame, conn, data):
             return None, "approved but empty"
         return opening + SEP + body, ""
 
-    # A CLUE TYPE'S COMMENT IS ITS EXPLANATION, exactly as an INVALID's is. A reverse
-    # anagram lands as a PASS with its own operation and no piece places a letter, so
-    # there is nothing to build a sentence from and nothing to improve on: the author
-    # has already written what happens. She reads it as written (user, 2026-09-25).
-    if _solve_status(conn, cid) == "invalid" or _clue_type_op(conn, cid):
-        note = store.get_note(conn, cid).strip()
-        if note:
-            # The user's own words, read as written. Not rephrased, not softened.
-            return opening + SEP + note, ""
-        return None, "%s with no comment" % (_clue_type_op(conn, cid) or "INVALID")
-
+    # NOTHING EVER READS THE NOTE — not for an INVALID, not for a clue type. The
+    # user always writes prose; the note is the reviewer's verdict, not the
+    # explanation (user, 2026-10-29). No approved prose means not narrated yet.
     return None, "no approved prose"
 
 
