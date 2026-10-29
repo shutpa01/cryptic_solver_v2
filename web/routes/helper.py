@@ -754,6 +754,61 @@ def word_info():
     return ", ".join(sorted_meanings)
 
 
+def _words_with_info(words):
+    """Which of these result words would /helper/word-info find meanings for?
+
+    Batch version of word_info()'s lookup, so the results lists only draw the
+    info icon where clicking it shows something.
+    """
+    if not words:
+        return set()
+    ref = _get_ref_db()
+
+    def _known(variants):
+        variants = list(variants)
+        if not variants:
+            return set()
+        ph = ",".join("?" for _ in variants)
+        found = {r[0] for r in ref.execute(
+            f"SELECT DISTINCT UPPER(synonym) FROM synonyms_pairs "
+            f"WHERE synonym COLLATE NOCASE IN ({ph})", variants)}
+        found |= {r[0] for r in ref.execute(
+            f"SELECT DISTINCT UPPER(answer) FROM definition_answers_augmented "
+            f"WHERE answer COLLATE NOCASE IN ({ph})", variants)}
+        return found
+
+    upper = {w: w.strip().upper() for w in words}
+    variants = set(upper.values())
+    variants |= {u.replace(" ", "") for u in upper.values() if " " in u}
+    known = _known(variants)
+
+    has_info = set()
+    unresolved = []
+    for w, u in upper.items():
+        if len(u) < 2:
+            continue
+        if u in known or (" " in u and u.replace(" ", "") in known):
+            has_info.add(w)
+        elif " " not in u and len(u) > 5:
+            unresolved.append(w)
+
+    # word_info() also tries the spaced form of a long word, taken from clues
+    if unresolved:
+        db = _get_clues_db()
+        ph = ",".join("?" for _ in unresolved)
+        spaced = {}
+        for r in db.execute(
+                f"SELECT DISTINCT UPPER(answer) AS a FROM clues "
+                f"WHERE answer LIKE '% %' AND UPPER(REPLACE(answer,' ','')) IN ({ph})",
+                [upper[w] for w in unresolved]):
+            spaced.setdefault(r["a"].replace(" ", ""), r["a"])
+        known_spaced = _known(spaced.values())
+        for w in unresolved:
+            if spaced.get(upper[w]) in known_spaced:
+                has_info.add(w)
+    return has_info
+
+
 @bp.route("/helper/pattern-count")
 def pattern_count():
     """Fast count-only pattern match — just returns the number of matches.
@@ -946,6 +1001,7 @@ def pattern_search():
         total_letters=total_letters,
         matches=matches,
         match_enums=match_enums,
+        info_words=_words_with_info(matches),
     )
 
 
@@ -1006,6 +1062,7 @@ def anagram_search():
         total_letters=total,
         word_lengths=word_lengths,
         matches=matches,
+        info_words=_words_with_info(matches),
     )
 
 

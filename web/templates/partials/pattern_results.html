@@ -19,9 +19,11 @@
                 {% if match_enums and match_enums.get(word) %}
                 <span class="text-gray-400 text-xs">({{ match_enums[word] }})</span>
                 {% endif %}
+                {% if word in info_words %}
                 <span class="text-emerald-400 hover:text-emerald-700 cursor-pointer text-xs select-none"
                       onclick="event.stopPropagation();wordInfoToggle(this,'{{ word }}')"
                       title="What does this mean?">&#9432;</span>
+                {% endif %}
             </span>
             {% endfor %}
         </div>

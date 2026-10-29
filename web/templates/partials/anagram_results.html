@@ -17,9 +17,11 @@
                 <span class="font-mono text-gray-800 tracking-wide cursor-pointer hover:text-violet-700 hover:underline"
                       onclick="pickResultClick('{{ word }}')"
                       title="Click to add to answer box">{{ word }}</span>
+                {% if word in info_words %}
                 <span class="text-violet-400 hover:text-violet-700 cursor-pointer text-xs select-none"
                       onclick="event.stopPropagation();wordInfoToggle(this,'{{ word }}')"
                       title="What does this mean?">&#9432;</span>
+                {% endif %}
             </span>
             {% endfor %}
         </div>
