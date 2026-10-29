@@ -688,6 +688,15 @@ def synonym_search():
         all_syns = {s for s in all_syns if _contains_all(s)}
         abbreviations = {a for a in abbreviations if _contains_all(a)}
 
+    # Filter by "begins with" (up to two letters) — for when the clue suggests
+    # the first letter, which "must include" can't pin to the start.
+    begins = re.sub(r'[^A-Z]', '', request.args.get("begins", "").upper())[:2]
+    if begins:
+        def _starts(candidate):
+            return candidate.replace(' ', '').replace('-', '').startswith(begins)
+        all_syns = {s for s in all_syns if _starts(s)}
+        abbreviations = {a for a in abbreviations if _starts(a)}
+
     sorted_syns = sorted(all_syns, key=len)[:60]
     sorted_abbrs = sorted(abbreviations, key=len)[:20]
     total = len(sorted_syns) + len(sorted_abbrs)

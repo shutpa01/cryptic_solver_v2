@@ -65,7 +65,7 @@
                 class="px-6 py-3 rounded-lg bg-amber-600 text-white text-base font-semibold hover:bg-amber-700 cursor-pointer">
             Find
         </button>
-        <button onclick="document.getElementById('synonym-input').value='';document.getElementById('length-input').value='';document.getElementById('include-input').value='';document.getElementById('results').innerHTML='';document.getElementById('synonym-input').focus()"
+        <button onclick="document.getElementById('synonym-input').value='';document.getElementById('length-input').value='';document.getElementById('include-input').value='';document.getElementById('begins-input').value='';document.getElementById('results').innerHTML='';document.getElementById('synonym-input').focus()"
                 class="px-4 py-3 rounded-lg border border-gray-300 text-gray-600 text-base font-medium hover:bg-gray-50 cursor-pointer">
             Clear
         </button>
@@ -84,8 +84,16 @@
                    placeholder="letters"
                    class="px-3 py-2 rounded border border-gray-300 text-sm font-mono tracking-widest uppercase focus:outline-none focus:border-amber-400 w-28">
         </div>
+        <div class="flex items-center gap-3">
+            <label for="begins-input" class="text-sm font-medium text-gray-700">Begins with:</label>
+            <input type="text" id="begins-input"
+                   placeholder="A"
+                   maxlength="2"
+                   class="px-3 py-2 rounded border border-gray-300 text-sm font-mono tracking-widest uppercase focus:outline-none focus:border-amber-400 w-16">
+        </div>
     </div>
     <p class="text-xs text-gray-500 mt-2">Must include: letters you know are in the answer, in any order &mdash; use this when you know some letters but not where they go.</p>
+    <p class="text-xs text-gray-500 mt-1">Begins with: the first letter or two, when the clue suggests how the answer starts.</p>
 </div>
 
 <div id="results" class="mb-4"></div>
@@ -138,6 +146,8 @@ function findSynonyms() {
     if (len) url += '&length=' + encodeURIComponent(len);
     var inc = document.getElementById('include-input').value.trim();
     if (inc) url += '&include=' + encodeURIComponent(inc);
+    var beg = document.getElementById('begins-input').value.trim();
+    if (beg) url += '&begins=' + encodeURIComponent(beg);
 
     fetch(url)
         .then(function(r) { return r.text(); })
@@ -168,6 +178,13 @@ document.getElementById('include-input').addEventListener('keydown', function(e)
     if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
 });
 document.getElementById('include-input').addEventListener('input', function() {
+    clearTimeout(_synTimer);
+    _synTimer = setTimeout(findSynonyms, 400);
+});
+document.getElementById('begins-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); findSynonyms(); }
+});
+document.getElementById('begins-input').addEventListener('input', function() {
     clearTimeout(_synTimer);
     _synTimer = setTimeout(findSynonyms, 400);
 });
