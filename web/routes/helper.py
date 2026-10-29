@@ -707,6 +707,7 @@ def synonym_search():
         synonyms=sorted_syns,
         abbreviations=sorted_abbrs,
         total=total,
+        info_words=_words_with_info(sorted_syns + sorted_abbrs),
     )
 
 

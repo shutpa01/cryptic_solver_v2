@@ -12,7 +12,9 @@
     <div class="rounded px-3 py-2 bg-amber-50 border border-amber-200">
         <div class="font-medium text-gray-700 mb-1">Synonyms</div>
         <div class="text-gray-800 leading-relaxed">
-            {% for syn in synonyms %}{{ syn }}{% if not loop.last %}, {% endif %}{% endfor %}
+            {% for syn in synonyms %}{{ syn }}{% if syn in info_words %}<span class="text-amber-400 hover:text-amber-700 cursor-pointer text-xs select-none ml-0.5"
+                  onclick='event.stopPropagation();wordInfoToggle(this,{{ syn | tojson }})'
+                  title="What does this mean?">&#9432;</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
         </div>
     </div>
     {% endif %}
@@ -21,9 +23,15 @@
     <div class="rounded px-3 py-2 bg-blue-50 border border-blue-200">
         <div class="font-medium text-gray-700 mb-1">Abbreviations</div>
         <div class="text-gray-800 leading-relaxed">
-            {% for abbr in abbreviations %}{{ abbr }}{% if not loop.last %}, {% endif %}{% endfor %}
+            {% for abbr in abbreviations %}{{ abbr }}{% if abbr in info_words %}<span class="text-blue-400 hover:text-blue-700 cursor-pointer text-xs select-none ml-0.5"
+                  onclick='event.stopPropagation();wordInfoToggle(this,{{ abbr | tojson }})'
+                  title="What does this mean?">&#9432;</span>{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
         </div>
     </div>
+    {% endif %}
+
+    {% if synonyms or abbreviations %}
+    <div id="word-info-display" class="hidden text-xs text-gray-600 italic border-t border-gray-200 pt-1.5"></div>
     {% endif %}
 
     {% if not synonyms and not abbreviations %}
