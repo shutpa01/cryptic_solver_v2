@@ -1,0 +1,1219 @@
+{
+ "date": "2026-10-31",
+ "clue_seconds": 30,
+ "clues": [
+  {
+   "clue_id": 10094100,
+   "clue": "Bad card produces sour expression",
+   "enum": "7",
+   "answer": "GRIMACE",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31352",
+    "position": "22D",
+    "pub_date": "2026-09-23"
+   },
+   "operation_label": "Charade",
+   "summary": "Bad→GRIM + card→ACE → GRIMACE",
+   "answer_tiles": [
+    {
+     "char": "G",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "M",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "C",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Bad→GRIM"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "card→ACE"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"produces\""
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"sour expression\" → GRIMACE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Bad",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "Bad→GRIM",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "card",
+     "box": "Synonym",
+     "pos": 4,
+     "si": 1,
+     "detail": "card→ACE",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "produces",
+     "box": "Link word",
+     "pos": 9,
+     "si": null,
+     "detail": "\"produces\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "sour expression",
+     "box": "Definition",
+     "pos": 18,
+     "si": null,
+     "detail": "\"sour expression\" → GRIMACE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Link word",
+    "Definition"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10086556,
+   "clue": "Tree expert’s concoction of citrus and oil-tar rub",
+   "enum": "15",
+   "answer": "ARBORICULTURIST",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "30091",
+    "position": "8D",
+    "pub_date": "2026-08-21"
+   },
+   "operation_label": "Anagram",
+   "summary": "anagram of \"citrus oil tar rub\" → ARBORICULTURIST",
+   "answer_tiles": [
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "B",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Tree expert’s\" → ARBORICULTURIST"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"concoction\" — anagram indicator"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"of\""
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "citrus oil tar rub→CITRUSOILTARRUB anagram"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"and\""
+    }
+   ],
+   "chips": [
+    {
+     "text": "Tree expert’s",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Tree expert’s\" → ARBORICULTURIST",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "concoction",
+     "box": "Indicator: rearrange",
+     "pos": 14,
+     "si": null,
+     "detail": "\"concoction\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "of",
+     "box": "Link word",
+     "pos": 25,
+     "si": null,
+     "detail": "\"of\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "citrus oil tar rub",
+     "box": "Anagram of",
+     "pos": 28,
+     "si": 0,
+     "detail": "citrus oil tar rub→CITRUSOILTARRUB anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "and",
+     "box": "Link word",
+     "pos": 35,
+     "si": null,
+     "detail": "\"and\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Indicator: rearrange",
+    "Link word",
+    "Anagram of"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10079265,
+   "clue": "Busy month; egomaniac not seen throughout",
+   "enum": "2,3,2",
+   "answer": "ON THE GO",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4160",
+    "position": "19A",
+    "pub_date": "2026-07-12"
+   },
+   "operation_label": "Hidden",
+   "summary": "month egomaniac→ONTHEGO → ON THE GO",
+   "answer_tiles": [
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "H",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "G",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Busy\" → ON THE GO"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "month egomaniac→ONTHEGO"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"not seen throughout\" — hidden indicator"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Busy",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Busy\" → ON THE GO",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "month egomaniac",
+     "box": "Literal",
+     "pos": 5,
+     "si": 0,
+     "detail": "month egomaniac→ONTHEGO",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "not seen throughout",
+     "box": "Indicator: hidden word",
+     "pos": 22,
+     "si": null,
+     "detail": "\"not seen throughout\" — hidden indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Literal",
+    "Indicator: hidden word"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10088787,
+   "clue": "Watch Spooner’s electronics series?",
+   "enum": "8",
+   "answer": "SPECTATE",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "30100",
+    "position": "8D",
+    "pub_date": "2026-09-01"
+   },
+   "operation_label": "Spoonerism",
+   "summary": "electronics series→TECH SPATE → SPECTATE",
+   "answer_tiles": [
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Watch\" → SPECTATE"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Spooner’s\" — spoonerism: TECH SPATE → SPECTATE"
+    },
+    {
+     "pill": "Spoonerism",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "electronics series→TECH SPATE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Watch",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Watch\" → SPECTATE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Spooner’s",
+     "box": "Indicator: swap sounds",
+     "pos": 6,
+     "si": null,
+     "detail": "\"Spooner’s\" — spoonerism: TECH SPATE → SPECTATE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "electronics series",
+     "box": "Spoonerism",
+     "pos": 16,
+     "si": 0,
+     "detail": "electronics series→TECH SPATE",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Indicator: swap sounds",
+    "Spoonerism"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10083440,
+   "clue": "Walked free in road house",
+   "enum": "8",
+   "answer": "STRIDDEN",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "30077",
+    "position": "21A",
+    "pub_date": "2026-08-05"
+   },
+   "operation_label": "Container + charade",
+   "summary": "free→RID + road→ST + house→DEN → STRIDDEN",
+   "answer_tiles": [
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 2
+    },
+    {
+     "char": "E",
+     "source_index": 2
+    },
+    {
+     "char": "N",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Walked\" → STRIDDEN"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "free→RID"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"in\" — container indicator"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "road→ST"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "house→DEN"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Walked",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Walked\" → STRIDDEN",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "free",
+     "box": "Synonym",
+     "pos": 7,
+     "si": 0,
+     "detail": "free→RID",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "in",
+     "box": "Indicator: insert",
+     "pos": 12,
+     "si": null,
+     "detail": "\"in\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "road",
+     "box": "Substitution",
+     "pos": 15,
+     "si": 1,
+     "detail": "road→ST",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "house",
+     "box": "Synonym",
+     "pos": 20,
+     "si": 2,
+     "detail": "house→DEN",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Indicator: insert",
+    "Substitution"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10086990,
+   "clue": "Agent to slow insect devouring pitch",
+   "enum": "9",
+   "answer": "RETARDANT",
+   "source": {
+    "publication": "times",
+    "puzzle": "29629",
+    "position": "15D",
+    "pub_date": "2026-08-24"
+   },
+   "operation_label": "Container",
+   "summary": "insect→RED ANT around pitch→TAR → RETARDANT",
+   "answer_tiles": [
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 1
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Agent to slow\" → RETARDANT"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "insect→RED ANT"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"devouring\" — container indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "pitch→TAR"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Agent to slow",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Agent to slow\" → RETARDANT",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "insect",
+     "box": "Synonym",
+     "pos": 14,
+     "si": 0,
+     "detail": "insect→RED ANT",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "devouring",
+     "box": "Indicator: insert",
+     "pos": 21,
+     "si": null,
+     "detail": "\"devouring\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "pitch",
+     "box": "Synonym",
+     "pos": 31,
+     "si": 1,
+     "detail": "pitch→TAR",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Indicator: insert"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10084292,
+   "clue": "Noticed iron tainted cosmetic",
+   "enum": "11",
+   "answer": "CONDITIONER",
+   "source": {
+    "publication": "times",
+    "puzzle": "29617",
+    "position": "11D",
+    "pub_date": "2026-08-10"
+   },
+   "operation_label": "Anagram",
+   "summary": "anagram of \"Noticed iron\" → CONDITIONER",
+   "answer_tiles": [
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Noticed iron→NOTICEDIRON anagram"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"tainted\" — anagram indicator"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"cosmetic\" → CONDITIONER"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Noticed iron",
+     "box": "Anagram of",
+     "pos": 0,
+     "si": 0,
+     "detail": "Noticed iron→NOTICEDIRON anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "tainted",
+     "box": "Indicator: rearrange",
+     "pos": 13,
+     "si": null,
+     "detail": "\"tainted\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "cosmetic",
+     "box": "Definition",
+     "pos": 21,
+     "si": null,
+     "detail": "\"cosmetic\" → CONDITIONER",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Anagram of",
+    "Indicator: rearrange",
+    "Definition"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10097938,
+   "clue": "Joyous sounds from Spanish Armada coming north",
+   "enum": "4",
+   "answer": "RAHS",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "245",
+    "position": "22D",
+    "pub_date": "2026-10-04"
+   },
+   "operation_label": "Reversal + hidden",
+   "summary": "Spanish Armada→SHAR reversed → RAHS",
+   "answer_tiles": [
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "H",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Joyous sounds\" → RAHS"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"from\" — hidden indicator"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Spanish Armada→SHAR reversed"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"coming north\" — reversal indicator"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Joyous sounds",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Joyous sounds\" → RAHS",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "from",
+     "box": "Indicator: hidden word",
+     "pos": 14,
+     "si": null,
+     "detail": "\"from\" — hidden indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Spanish Armada",
+     "box": "Literal",
+     "pos": 19,
+     "si": 0,
+     "detail": "Spanish Armada→SHAR reversed",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "coming north",
+     "box": "Indicator: reverse",
+     "pos": 34,
+     "si": null,
+     "detail": "\"coming north\" — reversal indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Indicator: hidden word",
+    "Literal",
+    "Indicator: reverse"
+   ],
+   "choices": null
+  },
+  {
+   "clue_id": 10080272,
+   "clue": "Condition in which frost becomes frothed?",
+   "enum": "4",
+   "answer": "LISP",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4161",
+    "position": "4A",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Cryptic definition",
+   "summary": "Cryptic definition — the whole clue is a playful definition of LISP.",
+   "answer_tiles": [
+    {
+     "char": "L",
+     "source_index": null
+    },
+    {
+     "char": "I",
+     "source_index": null
+    },
+    {
+     "char": "S",
+     "source_index": null
+    },
+    {
+     "char": "P",
+     "source_index": null
+    }
+   ],
+   "src_fg": {},
+   "src_fill": {},
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Condition in which frost becomes frothed?\" → LISP"
+    }
+   ],
+   "chips": [],
+   "boxes": [],
+   "choices": [
+    "Cryptic definition",
+    "Double definition",
+    "All-in-one (&lit)"
+   ]
+  },
+  {
+   "clue_id": 10082942,
+   "clue": "Leader of Russia set about a religious adherent",
+   "enum": "5",
+   "answer": "RASTA",
+   "source": {
+    "publication": "times",
+    "puzzle": "29611",
+    "position": "6A",
+    "pub_date": "2026-08-03"
+   },
+   "operation_label": "Charade + reversal",
+   "summary": "Leader of Russia→TSAR reversed + A → RASTA",
+   "answer_tiles": [
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Leader of Russia→TSAR reversed"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"set about\" — reversal indicator"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "A"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"religious adherent\" → RASTA"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Leader of Russia",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "Leader of Russia→TSAR reversed",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "set about",
+     "box": "Indicator: reverse",
+     "pos": 17,
+     "si": null,
+     "detail": "\"set about\" — reversal indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "a",
+     "box": "Literal",
+     "pos": 27,
+     "si": 1,
+     "detail": "A",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "religious adherent",
+     "box": "Definition",
+     "pos": 29,
+     "si": null,
+     "detail": "\"religious adherent\" → RASTA",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Indicator: reverse",
+    "Literal",
+    "Definition"
+   ],
+   "choices": null
+  }
+ ]
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypticker — rebuild the explanation</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f1f5f9;
+       color:#1e293b;min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:560px;padding:16px}
+  .brand{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .brand h1{font-size:20px;font-weight:900;letter-spacing:.06em;margin:0}
+  .brand h1 span{color:#d64545}
+  .brand .meta{font-size:12px;color:#64748b;font-weight:700;letter-spacing:.08em}
+  .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .hidden{display:none!important}
+  .bar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-bottom:6px}
+  .bar>div{height:100%;background:#1e293b;transition:width .25s linear}
+  .bar.low>div{background:#d64545}
+  .timerrow{display:flex;justify-content:space-between;font-size:12px;color:#64748b;font-weight:700;margin-bottom:14px}
+  .clue{font-size:19px;line-height:1.5;margin:4px 0 10px}
+  .clue .enum{color:#64748b;font-size:15px}
+  .tiles{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px}
+  .tile{width:30px;height:36px;border-radius:8px;border:2px solid #cbd5e1;background:#f8fafc;color:#334155;
+        display:flex;align-items:center;justify-content:center;font-family:ui-monospace,monospace;
+        font-weight:800;font-size:17px;transition:all .2s}
+  .tile.sep{width:8px;border:none;background:none}
+  .label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#94a3b8;text-transform:uppercase;margin:0 0 6px}
+  .pool{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;margin-bottom:16px}
+  .chip{border:2px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 12px;font-size:15px;
+        font-weight:600;cursor:pointer;user-select:none;transition:transform .1s}
+  .chip.sel{border-color:#1e293b;background:#1e293b;color:#fff;transform:scale(1.05)}
+  .chip.shake,.box.shake{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .boxes{display:flex;flex-direction:column;gap:8px}
+  .box{border:2px dashed #cbd5e1;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:44px;
+       display:flex;align-items:flex-start;gap:10px}
+  .box.armed{border-color:#1e293b;background:#f8fafc}
+  .box .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+             padding:5px 8px;border-radius:6px;background:#f1f5f9;color:#475569;min-width:7.5rem;text-align:center}
+  .box .got{display:flex;flex-direction:column;gap:4px;font-size:14px;padding-top:3px}
+  .placed{font-weight:600}
+  .placed .det{font-weight:400;color:#334155}
+  .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;cursor:pointer;width:100%}
+  .btn.primary{background:#1e293b;color:#fff}
+  .intro p{line-height:1.5;margin:0 0 10px}
+  .verdict{font-weight:900;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+  .verdict.ok{color:#15803d}.verdict.miss{color:#b45309}
+  /* completed WFW — mirrors web/templates/partials/wfw_full.html */
+  .wfw .badge{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+              padding:4px 10px;border-radius:999px;background:#e0e7ff;color:#4338ca;margin-bottom:10px}
+  .wfw .summary{font-family:ui-monospace,monospace;font-size:13px;background:#f8fafc;border:1px solid #e2e8f0;
+                border-radius:8px;padding:8px 10px;margin:0 0 12px}
+  .wfw .row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+  .wfw .row .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+                  padding:4px 8px;border-radius:6px;min-width:7rem;text-align:center}
+  .wfw .row .det{font-size:14px;padding-top:2px}
+  .src{font-size:12px;color:#94a3b8;margin:10px 0 14px}
+  .score{font-size:56px;font-weight:900;text-align:center;margin:8px 0}
+  .results div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand"><h1>CRYPT<span>ICKER</span></h1><span class="meta" id="meta">DAILY</span></div>
+
+  <div class="card intro" id="intro">
+    <p><b>You get the clue and the answer.</b> Work out how the clue gives the answer.</p>
+    <p>Tap a word from the clue, then tap the box for the job it does. Right: it shows the letters it gives. Wrong: it bounces back.</p>
+    <p><b>10 clues, 30 seconds each.</b> Score = clues completed.</p>
+    <button class="btn primary" onclick="start()">Start</button>
+  </div>
+
+  <div class="card hidden" id="play">
+    <div class="bar" id="bar"><div id="barfill"></div></div>
+    <div class="timerrow"><span id="count"></span><span id="secs"></span></div>
+    <div class="clue" id="clue"></div>
+    <div class="tiles" id="tiles"></div>
+    <p class="label" id="poollabel">Clue words</p>
+    <div class="pool" id="pool"></div>
+    <p class="label" id="boxlabel">Boxes</p>
+    <div class="boxes" id="boxes"></div>
+  </div>
+
+  <div class="card hidden wfw" id="reveal"></div>
+
+  <div class="card hidden" id="end"></div>
+</div>
+
+<script>
+const DAY = {"date": "2026-10-31", "clue_seconds": 30, "clues": [{"clue_id": 10094100, "clue": "Bad card produces sour expression", "enum": "7", "answer": "GRIMACE", "source": {"publication": "telegraph", "puzzle": "31352", "position": "22D", "pub_date": "2026-09-23"}, "operation_label": "Charade", "summary": "Bad→GRIM + card→ACE → GRIMACE", "answer_tiles": [{"char": "G", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "M", "source_index": 0}, {"char": "A", "source_index": 1}, {"char": "C", "source_index": 1}, {"char": "E", "source_index": 1}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea"}, "rows": [{"pill": "Synonym", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Bad→GRIM"}, {"pill": "Synonym", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "card→ACE"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"produces\""}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"sour expression\" → GRIMACE"}], "chips": [{"text": "Bad", "box": "Synonym", "pos": 0, "si": 0, "detail": "Bad→GRIM", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "card", "box": "Synonym", "pos": 4, "si": 1, "detail": "card→ACE", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}, {"text": "produces", "box": "Link word", "pos": 9, "si": null, "detail": "\"produces\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "sour expression", "box": "Definition", "pos": 18, "si": null, "detail": "\"sour expression\" → GRIMACE", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Synonym", "Link word", "Definition"], "choices": null}, {"clue_id": 10086556, "clue": "Tree expert’s concoction of citrus and oil-tar rub", "enum": "15", "answer": "ARBORICULTURIST", "source": {"publication": "guardian", "puzzle": "30091", "position": "8D", "pub_date": "2026-08-21"}, "operation_label": "Anagram", "summary": "anagram of \"citrus oil tar rub\" → ARBORICULTURIST", "answer_tiles": [{"char": "A", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "B", "source_index": 0}, {"char": "O", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "C", "source_index": 0}, {"char": "U", "source_index": 0}, {"char": "L", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "U", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "S", "source_index": 0}, {"char": "T", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Tree expert’s\" → ARBORICULTURIST"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"concoction\" — anagram indicator"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"of\""}, {"pill": "Anagram of", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "citrus oil tar rub→CITRUSOILTARRUB anagram"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"and\""}], "chips": [{"text": "Tree expert’s", "box": "Definition", "pos": 0, "si": null, "detail": "\"Tree expert’s\" → ARBORICULTURIST", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "concoction", "box": "Indicator: rearrange", "pos": 14, "si": null, "detail": "\"concoction\" — anagram indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "of", "box": "Link word", "pos": 25, "si": null, "detail": "\"of\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "citrus oil tar rub", "box": "Anagram of", "pos": 28, "si": 0, "detail": "citrus oil tar rub→CITRUSOILTARRUB anagram", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "and", "box": "Link word", "pos": 35, "si": null, "detail": "\"and\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Definition", "Indicator: rearrange", "Link word", "Anagram of"], "choices": null}, {"clue_id": 10079265, "clue": "Busy month; egomaniac not seen throughout", "enum": "2,3,2", "answer": "ON THE GO", "source": {"publication": "guardian", "puzzle": "4160", "position": "19A", "pub_date": "2026-07-12"}, "operation_label": "Hidden", "summary": "month egomaniac→ONTHEGO → ON THE GO", "answer_tiles": [{"char": "O", "source_index": 0}, {"char": "N", "source_index": 0}, {"sep": " "}, {"char": "T", "source_index": 0}, {"char": "H", "source_index": 0}, {"char": "E", "source_index": 0}, {"sep": " "}, {"char": "G", "source_index": 0}, {"char": "O", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Busy\" → ON THE GO"}, {"pill": "Literal", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "month egomaniac→ONTHEGO"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"not seen throughout\" — hidden indicator"}], "chips": [{"text": "Busy", "box": "Definition", "pos": 0, "si": null, "detail": "\"Busy\" → ON THE GO", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "month egomaniac", "box": "Literal", "pos": 5, "si": 0, "detail": "month egomaniac→ONTHEGO", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "not seen throughout", "box": "Indicator: hidden word", "pos": 22, "si": null, "detail": "\"not seen throughout\" — hidden indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Definition", "Literal", "Indicator: hidden word"], "choices": null}, {"clue_id": 10088787, "clue": "Watch Spooner’s electronics series?", "enum": "8", "answer": "SPECTATE", "source": {"publication": "guardian", "puzzle": "30100", "position": "8D", "pub_date": "2026-09-01"}, "operation_label": "Spoonerism", "summary": "electronics series→TECH SPATE → SPECTATE", "answer_tiles": [{"char": "S", "source_index": 0}, {"char": "P", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "C", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "E", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Watch\" → SPECTATE"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Spooner’s\" — spoonerism: TECH SPATE → SPECTATE"}, {"pill": "Spoonerism", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "electronics series→TECH SPATE"}], "chips": [{"text": "Watch", "box": "Definition", "pos": 0, "si": null, "detail": "\"Watch\" → SPECTATE", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "Spooner’s", "box": "Indicator: swap sounds", "pos": 6, "si": null, "detail": "\"Spooner’s\" — spoonerism: TECH SPATE → SPECTATE", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "electronics series", "box": "Spoonerism", "pos": 16, "si": 0, "detail": "electronics series→TECH SPATE", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}], "boxes": ["Definition", "Indicator: swap sounds", "Spoonerism"], "choices": null}, {"clue_id": 10083440, "clue": "Walked free in road house", "enum": "8", "answer": "STRIDDEN", "source": {"publication": "guardian", "puzzle": "30077", "position": "21A", "pub_date": "2026-08-05"}, "operation_label": "Container + charade", "summary": "free→RID + road→ST + house→DEN → STRIDDEN", "answer_tiles": [{"char": "S", "source_index": 1}, {"char": "T", "source_index": 1}, {"char": "R", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "D", "source_index": 0}, {"char": "D", "source_index": 2}, {"char": "E", "source_index": 2}, {"char": "N", "source_index": 2}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57", "2": "#d2691e"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea", "2": "#fbeadf"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Walked\" → STRIDDEN"}, {"pill": "Synonym", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "free→RID"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"in\" — container indicator"}, {"pill": "Substitution", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "road→ST"}, {"pill": "Synonym", "fg": "#d2691e", "fill": "#fbeadf", "detail": "house→DEN"}], "chips": [{"text": "Walked", "box": "Definition", "pos": 0, "si": null, "detail": "\"Walked\" → STRIDDEN", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "free", "box": "Synonym", "pos": 7, "si": 0, "detail": "free→RID", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "in", "box": "Indicator: insert", "pos": 12, "si": null, "detail": "\"in\" — container indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "road", "box": "Substitution", "pos": 15, "si": 1, "detail": "road→ST", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}, {"text": "house", "box": "Synonym", "pos": 20, "si": 2, "detail": "house→DEN", "detail_html": null, "fg": "#d2691e", "fill": "#fbeadf"}], "boxes": ["Definition", "Synonym", "Indicator: insert", "Substitution"], "choices": null}, {"clue_id": 10086990, "clue": "Agent to slow insect devouring pitch", "enum": "9", "answer": "RETARDANT", "source": {"publication": "times", "puzzle": "29629", "position": "15D", "pub_date": "2026-08-24"}, "operation_label": "Container", "summary": "insect→RED ANT around pitch→TAR → RETARDANT", "answer_tiles": [{"char": "R", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "T", "source_index": 1}, {"char": "A", "source_index": 1}, {"char": "R", "source_index": 1}, {"char": "D", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "N", "source_index": 0}, {"char": "T", "source_index": 0}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Agent to slow\" → RETARDANT"}, {"pill": "Synonym", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "insect→RED ANT"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"devouring\" — container indicator"}, {"pill": "Synonym", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "pitch→TAR"}], "chips": [{"text": "Agent to slow", "box": "Definition", "pos": 0, "si": null, "detail": "\"Agent to slow\" → RETARDANT", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "insect", "box": "Synonym", "pos": 14, "si": 0, "detail": "insect→RED ANT", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "devouring", "box": "Indicator: insert", "pos": 21, "si": null, "detail": "\"devouring\" — container indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "pitch", "box": "Synonym", "pos": 31, "si": 1, "detail": "pitch→TAR", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}], "boxes": ["Definition", "Synonym", "Indicator: insert"], "choices": null}, {"clue_id": 10084292, "clue": "Noticed iron tainted cosmetic", "enum": "11", "answer": "CONDITIONER", "source": {"publication": "times", "puzzle": "29617", "position": "11D", "pub_date": "2026-08-10"}, "operation_label": "Anagram", "summary": "anagram of \"Noticed iron\" → CONDITIONER", "answer_tiles": [{"char": "C", "source_index": 0}, {"char": "O", "source_index": 0}, {"char": "N", "source_index": 0}, {"char": "D", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "I", "source_index": 0}, {"char": "O", "source_index": 0}, {"char": "N", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "R", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Anagram of", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Noticed iron→NOTICEDIRON anagram"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"tainted\" — anagram indicator"}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"cosmetic\" → CONDITIONER"}], "chips": [{"text": "Noticed iron", "box": "Anagram of", "pos": 0, "si": 0, "detail": "Noticed iron→NOTICEDIRON anagram", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "tainted", "box": "Indicator: rearrange", "pos": 13, "si": null, "detail": "\"tainted\" — anagram indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "cosmetic", "box": "Definition", "pos": 21, "si": null, "detail": "\"cosmetic\" → CONDITIONER", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Anagram of", "Indicator: rearrange", "Definition"], "choices": null}, {"clue_id": 10097938, "clue": "Joyous sounds from Spanish Armada coming north", "enum": "4", "answer": "RAHS", "source": {"publication": "telegraph", "puzzle": "245", "position": "22D", "pub_date": "2026-10-04"}, "operation_label": "Reversal + hidden", "summary": "Spanish Armada→SHAR reversed → RAHS", "answer_tiles": [{"char": "R", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "H", "source_index": 0}, {"char": "S", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Joyous sounds\" → RAHS"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"from\" — hidden indicator"}, {"pill": "Literal", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Spanish Armada→SHAR reversed"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"coming north\" — reversal indicator"}], "chips": [{"text": "Joyous sounds", "box": "Definition", "pos": 0, "si": null, "detail": "\"Joyous sounds\" → RAHS", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "from", "box": "Indicator: hidden word", "pos": 14, "si": null, "detail": "\"from\" — hidden indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "Spanish Armada", "box": "Literal", "pos": 19, "si": 0, "detail": "Spanish Armada→SHAR reversed", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "coming north", "box": "Indicator: reverse", "pos": 34, "si": null, "detail": "\"coming north\" — reversal indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Definition", "Indicator: hidden word", "Literal", "Indicator: reverse"], "choices": null}, {"clue_id": 10080272, "clue": "Condition in which frost becomes frothed?", "enum": "4", "answer": "LISP", "source": {"publication": "guardian", "puzzle": "4161", "position": "4A", "pub_date": "2026-07-19"}, "operation_label": "Cryptic definition", "summary": "Cryptic definition — the whole clue is a playful definition of LISP.", "answer_tiles": [{"char": "L", "source_index": null}, {"char": "I", "source_index": null}, {"char": "S", "source_index": null}, {"char": "P", "source_index": null}], "src_fg": {}, "src_fill": {}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Condition in which frost becomes frothed?\" → LISP"}], "chips": [], "boxes": [], "choices": ["Cryptic definition", "Double definition", "All-in-one (&lit)"]}, {"clue_id": 10082942, "clue": "Leader of Russia set about a religious adherent", "enum": "5", "answer": "RASTA", "source": {"publication": "times", "puzzle": "29611", "position": "6A", "pub_date": "2026-08-03"}, "operation_label": "Charade + reversal", "summary": "Leader of Russia→TSAR reversed + A → RASTA", "answer_tiles": [{"char": "R", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "S", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "A", "source_index": 1}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea"}, "rows": [{"pill": "Synonym", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Leader of Russia→TSAR reversed"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"set about\" — reversal indicator"}, {"pill": "Literal", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "A"}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"religious adherent\" → RASTA"}], "chips": [{"text": "Leader of Russia", "box": "Synonym", "pos": 0, "si": 0, "detail": "Leader of Russia→TSAR reversed", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "set about", "box": "Indicator: reverse", "pos": 17, "si": null, "detail": "\"set about\" — reversal indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "a", "box": "Literal", "pos": 27, "si": 1, "detail": "A", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}, {"text": "religious adherent", "box": "Definition", "pos": 29, "si": null, "detail": "\"religious adherent\" → RASTA", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Synonym", "Indicator: reverse", "Literal", "Definition"], "choices": null}]};
+const CLUES = DAY.clues, SECS = DAY.clue_seconds;
+let idx = 0, left = SECS, timer = null, sel = null, placed = [], slots = [], results = [];
+const el = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function start(){ el("intro").classList.add("hidden"); load(); }
+
+function load(){
+  const c = CLUES[idx];
+  sel = null; placed = c.chips.map(() => false); left = SECS;
+  // one box per piece: each box name repeated once for every chip that belongs in it
+  slots = (c.boxes || []).flatMap(name => c.chips.filter(ch => ch.box === name).map(() => ({name, chip: null})));
+  el("reveal").classList.add("hidden"); el("play").classList.remove("hidden");
+  el("meta").textContent = (idx + 1) + " / " + CLUES.length;
+  el("count").textContent = "Clue " + (idx + 1) + " of " + CLUES.length;
+  el("clue").innerHTML = esc(c.clue) + (c.enum ? ' <span class="enum">(' + esc(c.enum) + ")</span>" : "");
+  render(); tick(); clearInterval(timer); timer = setInterval(tick, 1000);
+}
+
+function tick(){
+  el("secs").textContent = left + "s";
+  el("barfill").style.width = (100 * left / SECS) + "%";
+  el("bar").classList.toggle("low", left <= 8);
+  if (left <= 0){ finish(false); return; }
+  left--;
+}
+
+function tilesHTML(c, colourAll){
+  const lit = new Set();
+  c.chips.forEach((ch, i) => { if ((colourAll || placed[i]) && ch.si !== null) lit.add(ch.si); });
+  return c.answer_tiles.map(t => {
+    if (t.sep !== undefined) return '<span class="tile sep"></span>';
+    if (t.source_index !== null && lit.has(t.source_index)){
+      const fg = c.src_fg[t.source_index], fill = c.src_fill[t.source_index];
+      return '<span class="tile" style="color:' + fg + ';border-color:' + fg + ';background:' + fill + '">' + t.char + "</span>";
+    }
+    return '<span class="tile">' + t.char + "</span>";
+  }).join("");
+}
+
+function render(){
+  const c = CLUES[idx];
+  el("tiles").innerHTML = tilesHTML(c, false);
+  const typeQ = !!c.choices;          // CD / DD / &lit: pick the clue type
+  el("poollabel").classList.toggle("hidden", typeQ);
+  el("pool").classList.toggle("hidden", typeQ);
+  el("boxlabel").textContent = typeQ ? "What type of clue is this?" : "Boxes";
+  if (typeQ){ renderChoices(c); return; }
+  const pool = el("pool"); pool.innerHTML = "";
+  c.chips.forEach((ch, i) => {
+    if (placed[i]) return;
+    const b = document.createElement("span");
+    b.className = "chip" + (sel === i ? " sel" : ""); b.id = "chip" + i;
+    b.textContent = ch.text;
+    b.onclick = () => { sel = (sel === i ? null : i); render(); };
+    pool.appendChild(b);
+  });
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  slots.forEach((sl, k) => {
+    const d = document.createElement("div");
+    d.className = "box" + (sel !== null && sl.chip === null ? " armed" : "");
+    const ch = sl.chip === null ? null : c.chips[sl.chip];
+    const got = ch ? '<div class="placed">' + (ch.detail_html || esc(ch.detail || ch.text)) + "</div>" : "";
+    d.innerHTML = '<span class="pill">' + esc(sl.name) + '</span><div class="got">' + got + "</div>";
+    d.onclick = () => assign(k);
+    boxes.appendChild(d);
+  });
+}
+
+function renderChoices(c){
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  c.choices.forEach(name => {
+    const d = document.createElement("div");
+    d.className = "box armed"; d.id = "choice-" + name;
+    d.innerHTML = '<span class="pill">' + esc(name) + "</span>";
+    d.onclick = () => {
+      if (name === c.operation_label){ finish(true); return; }
+      d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");  // wrong: costs time only
+    };
+    boxes.appendChild(d);
+  });
+}
+
+function assign(k){
+  if (sel === null || slots[k].chip !== null) return;     // a filled box takes nothing more
+  const c = CLUES[idx], i = sel;
+  if (c.chips[i].box === slots[k].name){
+    placed[i] = true; slots[k].chip = i; sel = null; render();
+    if (placed.every(Boolean)) finish(true);
+  } else {
+    const chip = el("chip" + i); sel = null;
+    chip.classList.remove("sel"); chip.classList.add("shake");
+    setTimeout(render, 350);        // bounces back; the clock is the only cost
+  }
+}
+
+function finish(ok){
+  clearInterval(timer);
+  results[idx] = ok;
+  const c = CLUES[idx];
+  el("play").classList.add("hidden");
+  const rows = c.rows.map(r => '<div class="row"><span class="pill" style="color:' + r.fg + ";background:" + r.fill + '">'
+      + esc(r.pill) + '</span><span class="det">' + (r.detail_html || esc(r.detail)) + "</span></div>").join("");
+  const s = c.source || {};
+  el("reveal").innerHTML =
+      '<p class="verdict ' + (ok ? "ok" : "miss") + '">' + (ok ? "Completed" : "Time's up") + "</p>"
+    + '<span class="badge">' + esc(c.operation_label) + "</span>"
+    + '<div class="clue">' + esc(c.clue) + (c.enum ? ' <span class="enum">(' + esc(c.enum) + ")</span>" : "") + "</div>"
+    + '<div class="tiles">' + tilesHTML(c, true) + "</div>"
+    + (c.summary ? '<p class="summary">' + esc(c.summary) + "</p>" : "")
+    + rows
+    + '<p class="src">' + esc([s.publication, s.puzzle, s.position].filter(Boolean).join(" · ")) + "</p>"
+    + '<button class="btn primary" onclick="next()">' + (idx + 1 < CLUES.length ? "Next" : "See score") + "</button>";
+  el("reveal").classList.remove("hidden");
+}
+
+function next(){
+  idx++;
+  if (idx < CLUES.length){ load(); return; }
+  el("reveal").classList.add("hidden");
+  const n = results.filter(Boolean).length;
+  el("meta").textContent = "DONE";
+  el("end").innerHTML = '<p class="label" style="text-align:center">Your score</p><div class="score">' + n + " / " + CLUES.length + "</div>"
+    + '<div class="results">' + CLUES.map((c, i) => "<div><span>" + esc(c.answer) + "</span><span>" + (results[i] ? "✓" : "—") + "</span></div>").join("") + "</div>";
+  el("end").classList.remove("hidden");
+}
+</script>
+</body>
+</html>

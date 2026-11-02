@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypticker — rebuild the explanation</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f1f5f9;
+       color:#1e293b;min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:560px;padding:16px}
+  .brand{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .brand h1{font-size:20px;font-weight:900;letter-spacing:.06em;margin:0}
+  .brand h1 span{color:#d64545}
+  .brand .meta{font-size:12px;color:#64748b;font-weight:700;letter-spacing:.08em}
+  .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  .hidden{display:none!important}
+  .bar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-bottom:6px}
+  .bar>div{height:100%;background:#1e293b;transition:width .25s linear}
+  .bar.low>div{background:#d64545}
+  .timerrow{display:flex;justify-content:space-between;font-size:12px;color:#64748b;font-weight:700;margin-bottom:14px}
+  .clue{font-size:19px;line-height:1.5;margin:4px 0 10px}
+  .clue .enum{color:#64748b;font-size:15px}
+  .tiles{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px}
+  .tile{width:30px;height:36px;border-radius:8px;border:2px solid #cbd5e1;background:#f8fafc;color:#334155;
+        display:flex;align-items:center;justify-content:center;font-family:ui-monospace,monospace;
+        font-weight:800;font-size:17px;transition:all .2s}
+  .tile.sep{width:8px;border:none;background:none}
+  .label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#94a3b8;text-transform:uppercase;margin:0 0 6px}
+  .pool{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;margin-bottom:16px}
+  .chip{border:2px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 12px;font-size:15px;
+        font-weight:600;cursor:pointer;user-select:none;transition:transform .1s}
+  .chip.sel{border-color:#1e293b;background:#1e293b;color:#fff;transform:scale(1.05)}
+  .chip.shake,.box.shake{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .boxes{display:flex;flex-direction:column;gap:8px}
+  .box{border:2px dashed #cbd5e1;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:44px;
+       display:flex;align-items:flex-start;gap:10px}
+  .box.armed{border-color:#1e293b;background:#f8fafc}
+  .box .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+             padding:5px 8px;border-radius:6px;background:#f1f5f9;color:#475569;min-width:7.5rem;text-align:center}
+  .box .got{display:flex;flex-direction:column;gap:4px;font-size:14px;padding-top:3px}
+  .placed{font-weight:600}
+  .placed .det{font-weight:400;color:#334155}
+  .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;cursor:pointer;width:100%}
+  .btn.primary{background:#1e293b;color:#fff}
+  .intro p{line-height:1.5;margin:0 0 10px}
+  .verdict{font-weight:900;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+  .verdict.ok{color:#15803d}.verdict.miss{color:#b45309}
+  /* completed WFW — mirrors web/templates/partials/wfw_full.html */
+  .wfw .badge{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+              padding:4px 10px;border-radius:999px;background:#e0e7ff;color:#4338ca;margin-bottom:10px}
+  .wfw .summary{font-family:ui-monospace,monospace;font-size:13px;background:#f8fafc;border:1px solid #e2e8f0;
+                border-radius:8px;padding:8px 10px;margin:0 0 12px}
+  .wfw .row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+  .wfw .row .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+                  padding:4px 8px;border-radius:6px;min-width:7rem;text-align:center}
+  .wfw .row .det{font-size:14px;padding-top:2px}
+  .src{font-size:12px;color:#94a3b8;margin:10px 0 14px}
+  .score{font-size:56px;font-weight:900;text-align:center;margin:8px 0}
+  .results div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand"><h1>CRYPT<span>ICKER</span></h1><span class="meta" id="meta">DAILY</span></div>
+
+  <div class="card intro" id="intro">
+    <p><b>You get the clue and the answer.</b> Work out how the clue gives the answer.</p>
+    <p>Tap a word from the clue, then tap the box for the job it does. Right: it shows the letters it gives. Wrong: it bounces back.</p>
+    <p><b>10 clues, 30 seconds each.</b> Score = clues completed.</p>
+    <button class="btn primary" onclick="start()">Start</button>
+  </div>
+
+  <div class="card hidden" id="play">
+    <div class="bar" id="bar"><div id="barfill"></div></div>
+    <div class="timerrow"><span id="count"></span><span id="secs"></span></div>
+    <div class="clue" id="clue"></div>
+    <div class="tiles" id="tiles"></div>
+    <p class="label" id="poollabel">Clue words</p>
+    <div class="pool" id="pool"></div>
+    <p class="label" id="boxlabel">Boxes</p>
+    <div class="boxes" id="boxes"></div>
+  </div>
+
+  <div class="card hidden wfw" id="reveal"></div>
+
+  <div class="card hidden" id="end"></div>
+</div>
+
+<script>
+const DAY = __DAY_JSON__;
+const CLUES = DAY.clues, SECS = DAY.clue_seconds;
+let idx = 0, left = SECS, timer = null, sel = null, placed = [], slots = [], results = [];
+const el = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function start(){ el("intro").classList.add("hidden"); load(); }
+
+function load(){
+  const c = CLUES[idx];
+  sel = null; placed = c.chips.map(() => false); left = SECS;
+  // one box per piece: each box name repeated once for every chip that belongs in it
+  slots = (c.boxes || []).flatMap(name => c.chips.filter(ch => ch.box === name).map(() => ({name, chip: null})));
+  el("reveal").classList.add("hidden"); el("play").classList.remove("hidden");
+  el("meta").textContent = (idx + 1) + " / " + CLUES.length;
+  el("count").textContent = "Clue " + (idx + 1) + " of " + CLUES.length;
+  el("clue").innerHTML = esc(c.clue) + (c.enum ? ' <span class="enum">(' + esc(c.enum) + ")</span>" : "");
+  render(); tick(); clearInterval(timer); timer = setInterval(tick, 1000);
+}
+
+function tick(){
+  el("secs").textContent = left + "s";
+  el("barfill").style.width = (100 * left / SECS) + "%";
+  el("bar").classList.toggle("low", left <= 8);
+  if (left <= 0){ finish(false); return; }
+  left--;
+}
+
+function tilesHTML(c, colourAll){
+  const lit = new Set();
+  c.chips.forEach((ch, i) => { if ((colourAll || placed[i]) && ch.si !== null) lit.add(ch.si); });
+  return c.answer_tiles.map(t => {
+    if (t.sep !== undefined) return '<span class="tile sep"></span>';
+    if (t.source_index !== null && lit.has(t.source_index)){
+      const fg = c.src_fg[t.source_index], fill = c.src_fill[t.source_index];
+      return '<span class="tile" style="color:' + fg + ';border-color:' + fg + ';background:' + fill + '">' + t.char + "</span>";
+    }
+    return '<span class="tile">' + t.char + "</span>";
+  }).join("");
+}
+
+function render(){
+  const c = CLUES[idx];
+  el("tiles").innerHTML = tilesHTML(c, false);
+  const typeQ = !!c.choices;          // CD / DD / &lit: pick the clue type
+  el("poollabel").classList.toggle("hidden", typeQ);
+  el("pool").classList.toggle("hidden", typeQ);
+  el("boxlabel").textContent = typeQ ? "What type of clue is this?" : "Boxes";
+  if (typeQ){ renderChoices(c); return; }
+  const pool = el("pool"); pool.innerHTML = "";
+  c.chips.forEach((ch, i) => {
+    if (placed[i]) return;
+    const b = document.createElement("span");
+    b.className = "chip" + (sel === i ? " sel" : ""); b.id = "chip" + i;
+    b.textContent = ch.text;
+    b.onclick = () => { sel = (sel === i ? null : i); render(); };
+    pool.appendChild(b);
+  });
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  slots.forEach((sl, k) => {
+    const d = document.createElement("div");
+    d.className = "box" + (sel !== null && sl.chip === null ? " armed" : "");
+    const ch = sl.chip === null ? null : c.chips[sl.chip];
+    const got = ch ? '<div class="placed">' + (ch.detail_html || esc(ch.detail || ch.text)) + "</div>" : "";
+    d.innerHTML = '<span class="pill">' + esc(sl.name) + '</span><div class="got">' + got + "</div>";
+    d.onclick = () => assign(k);
+    boxes.appendChild(d);
+  });
+}
+
+function renderChoices(c){
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  c.choices.forEach(name => {
+    const d = document.createElement("div");
+    d.className = "box armed"; d.id = "choice-" + name;
+    d.innerHTML = '<span class="pill">' + esc(name) + "</span>";
+    d.onclick = () => {
+      if (name === c.operation_label){ finish(true); return; }
+      d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");  // wrong: costs time only
+    };
+    boxes.appendChild(d);
+  });
+}
+
+function assign(k){
+  if (sel === null || slots[k].chip !== null) return;     // a filled box takes nothing more
+  const c = CLUES[idx], i = sel;
+  if (c.chips[i].box === slots[k].name){
+    placed[i] = true; slots[k].chip = i; sel = null; render();
+    if (placed.every(Boolean)) finish(true);
+  } else {
+    const chip = el("chip" + i); sel = null;
+    chip.classList.remove("sel"); chip.classList.add("shake");
+    setTimeout(render, 350);        // bounces back; the clock is the only cost
+  }
+}
+
+function finish(ok){
+  clearInterval(timer);
+  results[idx] = ok;
+  const c = CLUES[idx];
+  el("play").classList.add("hidden");
+  const rows = c.rows.map(r => '<div class="row"><span class="pill" style="color:' + r.fg + ";background:" + r.fill + '">'
+      + esc(r.pill) + '</span><span class="det">' + (r.detail_html || esc(r.detail)) + "</span></div>").join("");
+  const s = c.source || {};
+  el("reveal").innerHTML =
+      '<p class="verdict ' + (ok ? "ok" : "miss") + '">' + (ok ? "Completed" : "Time's up") + "</p>"
+    + '<span class="badge">' + esc(c.operation_label) + "</span>"
+    + '<div class="clue">' + esc(c.clue) + (c.enum ? ' <span class="enum">(' + esc(c.enum) + ")</span>" : "") + "</div>"
+    + '<div class="tiles">' + tilesHTML(c, true) + "</div>"
+    + (c.summary ? '<p class="summary">' + esc(c.summary) + "</p>" : "")
+    + rows
+    + '<p class="src">' + esc([s.publication, s.puzzle, s.position].filter(Boolean).join(" · ")) + "</p>"
+    + '<button class="btn primary" onclick="next()">' + (idx + 1 < CLUES.length ? "Next" : "See score") + "</button>";
+  el("reveal").classList.remove("hidden");
+}
+
+function next(){
+  idx++;
+  if (idx < CLUES.length){ load(); return; }
+  el("reveal").classList.add("hidden");
+  const n = results.filter(Boolean).length;
+  el("meta").textContent = "DONE";
+  el("end").innerHTML = '<p class="label" style="text-align:center">Your score</p><div class="score">' + n + " / " + CLUES.length + "</div>"
+    + '<div class="results">' + CLUES.map((c, i) => "<div><span>" + esc(c.answer) + "</span><span>" + (results[i] ? "✓" : "—") + "</span></div>").join("") + "</div>";
+  el("end").classList.remove("hidden");
+}
+</script>
+</body>
+</html>

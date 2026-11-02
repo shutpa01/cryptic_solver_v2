@@ -1,0 +1,1648 @@
+{
+ "puzzle": {
+  "source": "telegraph",
+  "number": "31354",
+  "quadrant": "top left"
+ },
+ "window": [
+  [
+   {
+    "t": "w",
+    "n": 1
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 2
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 3
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 9
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 12
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 15
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   }
+  ]
+ ],
+ "entries": [
+  {
+   "clue_id": 10094790,
+   "clue": "First lick of paint on great building",
+   "enum": "6",
+   "answer": "PREFAB",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "1A",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Charade + selection",
+   "summary": "paint→P + on→RE + great→FAB → PREFAB",
+   "answer_tiles": [
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "char": "F",
+     "source_index": 2
+    },
+    {
+     "char": "A",
+     "source_index": 2
+    },
+    {
+     "char": "B",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"First lick of\" — selection/first indicator"
+    },
+    {
+     "pill": "Letters from",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "paint→P",
+     "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">p</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">t</span>→P"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "on→RE"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "great→FAB"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"building\" → PREFAB"
+    }
+   ],
+   "chips": [
+    {
+     "text": "First lick of",
+     "box": "Indicator: select letters",
+     "pos": 0,
+     "si": null,
+     "detail": "\"First lick of\" — selection/first indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "paint",
+     "box": "Letters from",
+     "pos": 14,
+     "si": 0,
+     "detail": "paint→P",
+     "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">p</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">t</span>→P",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "on",
+     "box": "Synonym",
+     "pos": 20,
+     "si": 1,
+     "detail": "on→RE",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "great",
+     "box": "Synonym",
+     "pos": 23,
+     "si": 2,
+     "detail": "great→FAB",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "building",
+     "box": "Definition",
+     "pos": 29,
+     "si": null,
+     "detail": "\"building\" → PREFAB",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: select letters",
+    "Letters from",
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "1 Across",
+   "cells": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ]
+   ],
+   "letters": "PREFAB",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10094792,
+   "clue": "Splendid ladies perhaps accompanying one's husband",
+   "enum": "6",
+   "answer": "LAVISH",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "9A",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Charade",
+   "summary": "ladies→LAV + one's→IS + husband→H → LAVISH",
+   "answer_tiles": [
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "V",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "H",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Splendid\" → LAVISH"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "ladies→LAV"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"perhaps\""
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"accompanying\""
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "one's→IS"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "husband→H"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Splendid",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Splendid\" → LAVISH",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "ladies",
+     "box": "Synonym",
+     "pos": 9,
+     "si": 0,
+     "detail": "ladies→LAV",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "perhaps",
+     "box": "Link word",
+     "pos": 16,
+     "si": null,
+     "detail": "\"perhaps\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "accompanying",
+     "box": "Link word",
+     "pos": 24,
+     "si": null,
+     "detail": "\"accompanying\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "one's",
+     "box": "Substitution",
+     "pos": 37,
+     "si": 1,
+     "detail": "one's→IS",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "husband",
+     "box": "Substitution",
+     "pos": 43,
+     "si": 2,
+     "detail": "husband→H",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Link word",
+    "Substitution"
+   ],
+   "choices": null,
+   "label": "9 Across",
+   "cells": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "letters": "LAVISH",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10094796,
+   "clue": "Who takes a bow on stage? Old US president backing Farage?",
+   "enum": "5,7",
+   "answer": "NIGEL KENNEDY",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "15A",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Charade",
+   "summary": "Old US president→KENNEDY + Farage→NIGEL → NIGEL KENNEDY",
+   "answer_tiles": [
+    {
+     "char": "N",
+     "source_index": 1
+    },
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "G",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "char": "L",
+     "source_index": 1
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "K",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "Y",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Who takes a bow on stage\" → NIGEL KENNEDY"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Old US president→KENNEDY"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"backing\" — charade_positional/after indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "Farage→NIGEL"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Who takes a bow on stage",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Who takes a bow on stage\" → NIGEL KENNEDY",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Old US president",
+     "box": "Synonym",
+     "pos": 26,
+     "si": 0,
+     "detail": "Old US president→KENNEDY",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "backing",
+     "box": "Indicator: position",
+     "pos": 43,
+     "si": null,
+     "detail": "\"backing\" — charade_positional/after indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Farage",
+     "box": "Synonym",
+     "pos": 51,
+     "si": 1,
+     "detail": "Farage→NIGEL",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Indicator: position"
+   ],
+   "choices": null,
+   "label": "15 Across",
+   "cells": [
+    [
+     6,
+     0
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     6,
+     10
+    ],
+    [
+     6,
+     11
+    ]
+   ],
+   "letters": "NIGELKENNEDY",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10094804,
+   "clue": "Playing polo, I am close to Arabian horse",
+   "enum": "8",
+   "answer": "PALOMINO",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "1D",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Charade + anagram + selection",
+   "summary": "anagram of \"polo\" \"I\" \"am\" + O + Arabian→N → PALOMINO",
+   "answer_tiles": [
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 2
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "M",
+     "source_index": 2
+    },
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "N",
+     "source_index": 3
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e",
+    "3": "#c2185b"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf",
+    "3": "#fbe4ee"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Playing\" — anagram indicator"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "POLO anagram"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "I"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "AM"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"close to\" — selection/last indicator"
+    },
+    {
+     "pill": "Letters from",
+     "fg": "#c2185b",
+     "fill": "#fbe4ee",
+     "detail": "Arabian→N",
+     "detail_html": "<span style=\"color:#cbd5e1\">A</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">b</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">a</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span>→N"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"horse\" → PALOMINO"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Playing",
+     "box": "Indicator: rearrange",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Playing\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "polo",
+     "box": "Anagram of",
+     "pos": 8,
+     "si": 0,
+     "detail": "POLO anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "I",
+     "box": "Anagram of",
+     "pos": 14,
+     "si": 1,
+     "detail": "I",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "am",
+     "box": "Anagram of",
+     "pos": 16,
+     "si": 2,
+     "detail": "AM",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "close to",
+     "box": "Indicator: select letters",
+     "pos": 19,
+     "si": null,
+     "detail": "\"close to\" — selection/last indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Arabian",
+     "box": "Letters from",
+     "pos": 28,
+     "si": 3,
+     "detail": "Arabian→N",
+     "detail_html": "<span style=\"color:#cbd5e1\">A</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">b</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">a</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span>→N",
+     "fg": "#c2185b",
+     "fill": "#fbe4ee"
+    },
+    {
+     "text": "horse",
+     "box": "Definition",
+     "pos": 36,
+     "si": null,
+     "detail": "\"horse\" → PALOMINO",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: rearrange",
+    "Anagram of",
+    "Indicator: select letters",
+    "Letters from",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "1 Down",
+   "cells": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    [
+     5,
+     0
+    ],
+    [
+     6,
+     0
+    ],
+    [
+     7,
+     0
+    ]
+   ],
+   "letters": "PALOMINO",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10094805,
+   "clue": "Given visa, German takes picture",
+   "enum": "8",
+   "answer": "ENVISAGE",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "2D",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Hidden",
+   "summary": "Given visa German→ENVISAGE → ENVISAGE",
+   "answer_tiles": [
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "V",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "G",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Literal",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Given visa German→ENVISAGE"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"takes\" — hidden indicator"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"picture\" → ENVISAGE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Given visa German",
+     "box": "Literal",
+     "pos": 0,
+     "si": 0,
+     "detail": "Given visa German→ENVISAGE",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "takes",
+     "box": "Indicator: hidden word",
+     "pos": 19,
+     "si": null,
+     "detail": "\"takes\" — hidden indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "picture",
+     "box": "Definition",
+     "pos": 25,
+     "si": null,
+     "detail": "\"picture\" → ENVISAGE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Literal",
+    "Indicator: hidden word",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "2 Down",
+   "cells": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     7,
+     2
+    ]
+   ],
+   "letters": "ENVISAGE",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10094806,
+   "clue": "For example, Schwarzenegger being fed a line is very good sport",
+   "enum": "10,5",
+   "answer": "AUSTRALIAN RULES",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "3D",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Container + charade",
+   "summary": "Schwarzenegger→AUSTRIAN + IAN + A + line→L + is very good→RULES → AUSTRALIAN RULES",
+   "answer_tiles": [
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "L",
+     "source_index": 2
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "R",
+     "source_index": 3
+    },
+    {
+     "char": "U",
+     "source_index": 3
+    },
+    {
+     "char": "L",
+     "source_index": 3
+    },
+    {
+     "char": "E",
+     "source_index": 3
+    },
+    {
+     "char": "S",
+     "source_index": 3
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e",
+    "3": "#c2185b"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf",
+    "3": "#fbe4ee"
+   },
+   "rows": [
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"For example\""
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Schwarzenegger→AUSTRIAN"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"being fed\" — container indicator"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "A"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "line→L"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#c2185b",
+     "fill": "#fbe4ee",
+     "detail": "is very good→RULES"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"sport\" → AUSTRALIAN RULES"
+    }
+   ],
+   "chips": [
+    {
+     "text": "For example",
+     "box": "Link word",
+     "pos": 0,
+     "si": null,
+     "detail": "\"For example\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Schwarzenegger",
+     "box": "Synonym",
+     "pos": 13,
+     "si": 0,
+     "detail": "Schwarzenegger→AUSTRIAN",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "being fed",
+     "box": "Indicator: insert",
+     "pos": 28,
+     "si": null,
+     "detail": "\"being fed\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "a",
+     "box": "Literal",
+     "pos": 38,
+     "si": 1,
+     "detail": "A",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "line",
+     "box": "Substitution",
+     "pos": 40,
+     "si": 2,
+     "detail": "line→L",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "is very good",
+     "box": "Synonym",
+     "pos": 45,
+     "si": 3,
+     "detail": "is very good→RULES",
+     "detail_html": null,
+     "fg": "#c2185b",
+     "fill": "#fbe4ee"
+    },
+    {
+     "text": "sport",
+     "box": "Definition",
+     "pos": 58,
+     "si": null,
+     "detail": "\"sport\" → AUSTRALIAN RULES",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Link word",
+    "Synonym",
+    "Indicator: insert",
+    "Literal",
+    "Substitution",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "3 Down",
+   "cells": [
+    [
+     0,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     8,
+     4
+    ],
+    [
+     9,
+     4
+    ],
+    [
+     10,
+     4
+    ],
+    [
+     11,
+     4
+    ],
+    [
+     12,
+     4
+    ],
+    [
+     13,
+     4
+    ],
+    [
+     14,
+     4
+    ]
+   ],
+   "letters": "AUSTRALIANRULES",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10094794,
+   "clue": "Introducing Latitude, Pulp spring up",
+   "enum": "8",
+   "answer": "MUSHROOM",
+   "source": {
+    "publication": "telegraph",
+    "puzzle": "31354",
+    "position": "12A",
+    "pub_date": "2026-09-25"
+   },
+   "operation_label": "Charade",
+   "summary": "Latitude→ROOM + Pulp→MUSH → MUSHROOM",
+   "answer_tiles": [
+    {
+     "char": "M",
+     "source_index": 1
+    },
+    {
+     "char": "U",
+     "source_index": 1
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "H",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "M",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Introducing\" — charade_positional indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Latitude→ROOM"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "Pulp→MUSH"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"spring up\" → MUSHROOM"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Introducing",
+     "box": "Indicator: position",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Introducing\" — charade_positional indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Latitude",
+     "box": "Synonym",
+     "pos": 12,
+     "si": 0,
+     "detail": "Latitude→ROOM",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "Pulp",
+     "box": "Synonym",
+     "pos": 22,
+     "si": 1,
+     "detail": "Pulp→MUSH",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "spring up",
+     "box": "Definition",
+     "pos": 27,
+     "si": null,
+     "detail": "\"spring up\" → MUSHROOM",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: position",
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "12 Across",
+   "cells": [
+    [
+     4,
+     0
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     7
+    ]
+   ],
+   "letters": "MUSHROOM",
+   "is_last": true,
+   "crosses": 3
+  }
+ ],
+ "clue_seconds": 30,
+ "last_seconds": 30,
+ "last_points": 3,
+ "date": "2026-11-01"
+}

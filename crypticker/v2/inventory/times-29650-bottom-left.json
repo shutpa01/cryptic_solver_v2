@@ -1,0 +1,1463 @@
+{
+ "id": "times-29650-bottom-left",
+ "status": "to_test",
+ "built_at": "2026-11-02T14:42:49+00:00",
+ "approved_at": null,
+ "release_date": null,
+ "game": {
+  "puzzle": {
+   "source": "times",
+   "number": "29650",
+   "quadrant": "bottom left"
+  },
+  "window": [
+   [
+    {
+     "t": "w",
+     "n": 14
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 17
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 18
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 19
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 23
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 26
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 28
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    }
+   ]
+  ],
+  "entries": [
+   {
+    "clue_id": 10092259,
+    "clue": "Drink I’d sent over before matches, say, held back",
+    "enum": "8",
+    "answer": "DIGESTIF",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "18A",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Charade + reversal",
+    "summary": "I’d→ID reversed + matches→FITS reversed + say→EG reversed → DIGESTIF",
+    "answer_tiles": [
+     {
+      "char": "D",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "G",
+      "source_index": 2
+     },
+     {
+      "char": "E",
+      "source_index": 2
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "T",
+      "source_index": 1
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "F",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Drink\" → DIGESTIF"
+     },
+     {
+      "pill": "Literal",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "I’d→ID reversed"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"sent over\" — reversal indicator"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"before\" — charade_positional/before indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "matches→FITS reversed"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "say→EG reversed"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"held back\" — reversal indicator"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Drink",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Drink\" → DIGESTIF",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "I’d",
+      "box": "Literal",
+      "pos": 6,
+      "si": 0,
+      "detail": "I’d→ID reversed",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "sent over",
+      "box": "Indicator: reverse",
+      "pos": 10,
+      "si": null,
+      "detail": "\"sent over\" — reversal indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "before",
+      "box": "Indicator: position",
+      "pos": 20,
+      "si": null,
+      "detail": "\"before\" — charade_positional/before indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "matches",
+      "box": "Synonym",
+      "pos": 27,
+      "si": 1,
+      "detail": "matches→FITS reversed",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "say",
+      "box": "Substitution",
+      "pos": 36,
+      "si": 2,
+      "detail": "say→EG reversed",
+      "detail_html": null,
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     },
+     {
+      "text": "held back",
+      "box": "Indicator: reverse",
+      "pos": 41,
+      "si": null,
+      "detail": "\"held back\" — reversal indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Literal",
+     "Indicator: reverse",
+     "Indicator: position",
+     "Synonym",
+     "Substitution"
+    ],
+    "choices": null,
+    "label": "18 Across",
+    "cells": [
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      1,
+      7
+     ]
+    ],
+    "letters": "DIGESTIF",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10092261,
+    "clue": "Sister taking seconds to insert subcutaneous injection",
+    "enum": "3",
+    "answer": "NUN",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "23A",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Charade + selection",
+    "summary": "insert→N + subcutaneous→U + injection→N → NUN",
+    "answer_tiles": [
+     {
+      "char": "N",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 1
+     },
+     {
+      "char": "N",
+      "source_index": 2
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Sister\" → NUN"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"taking seconds\" — selection/named indicator"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"to\""
+     },
+     {
+      "pill": "Letters from",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "insert→N",
+      "detail_html": "<span style=\"color:#cbd5e1\">i</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">t</span>→N"
+     },
+     {
+      "pill": "Letters from",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "subcutaneous→U",
+      "detail_html": "<span style=\"color:#cbd5e1\">s</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">u</span><span style=\"color:#cbd5e1\">b</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">s</span>→U"
+     },
+     {
+      "pill": "Letters from",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "injection→N",
+      "detail_html": "<span style=\"color:#cbd5e1\">i</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span><span style=\"color:#cbd5e1\">j</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">n</span>→N"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Sister",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Sister\" → NUN",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "taking seconds",
+      "box": "Indicator: select letters",
+      "pos": 7,
+      "si": null,
+      "detail": "\"taking seconds\" — selection/named indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "to",
+      "box": "Link word",
+      "pos": 22,
+      "si": null,
+      "detail": "\"to\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "insert",
+      "box": "Letters from",
+      "pos": 25,
+      "si": 0,
+      "detail": "insert→N",
+      "detail_html": "<span style=\"color:#cbd5e1\">i</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">t</span>→N",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "subcutaneous",
+      "box": "Letters from",
+      "pos": 32,
+      "si": 1,
+      "detail": "subcutaneous→U",
+      "detail_html": "<span style=\"color:#cbd5e1\">s</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">u</span><span style=\"color:#cbd5e1\">b</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">a</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">s</span>→U",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "injection",
+      "box": "Letters from",
+      "pos": 45,
+      "si": 2,
+      "detail": "injection→N",
+      "detail_html": "<span style=\"color:#cbd5e1\">i</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">n</span><span style=\"color:#cbd5e1\">j</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">n</span>→N",
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Indicator: select letters",
+     "Link word",
+     "Letters from"
+    ],
+    "choices": null,
+    "label": "23 Across",
+    "cells": [
+     [
+      3,
+      0
+     ],
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    "letters": "NUN",
+    "is_last": false,
+    "crosses": 2
+   },
+   {
+    "clue_id": 10092263,
+    "clue": "One manipulating currency reduced by large amount",
+    "enum": "7",
+    "answer": "MASSEUR",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "26A",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Charade + deletion",
+    "summary": "currency→EURO less O + large amount→MASS → MASSEUR",
+    "answer_tiles": [
+     {
+      "char": "M",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 0
+     },
+     {
+      "char": "R",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"One manipulating\" → MASSEUR"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "currency→EURO less O"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"reduced\" — deletion/tail indicator"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"by\" — charade_positional/after indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "large amount→MASS"
+     }
+    ],
+    "chips": [
+     {
+      "text": "One manipulating",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"One manipulating\" → MASSEUR",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "currency",
+      "box": "Synonym",
+      "pos": 17,
+      "si": 0,
+      "detail": "currency→EURO less O",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "reduced",
+      "box": "Indicator: delete",
+      "pos": 26,
+      "si": null,
+      "detail": "\"reduced\" — deletion/tail indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "by",
+      "box": "Indicator: position",
+      "pos": 34,
+      "si": null,
+      "detail": "\"by\" — charade_positional/after indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "large amount",
+      "box": "Synonym",
+      "pos": 37,
+      "si": 1,
+      "detail": "large amount→MASS",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym",
+     "Indicator: delete",
+     "Indicator: position"
+    ],
+    "choices": null,
+    "label": "26 Across",
+    "cells": [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ],
+     [
+      5,
+      2
+     ],
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ],
+     [
+      5,
+      6
+     ]
+    ],
+    "letters": "MASSEUR",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10092265,
+    "clue": "Layer containing sulphur turned yellow in parts",
+    "enum": "4",
+    "answer": "NESH",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "28A",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Container + reversal",
+    "summary": "Layer→HEN reversed around sulphur→S → NESH",
+    "answer_tiles": [
+     {
+      "char": "N",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "H",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Layer→HEN reversed"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"containing\" — insertion indicator"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "sulphur→S"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"turned\" — reversal indicator"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"yellow in parts\" → NESH"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Layer",
+      "box": "Synonym",
+      "pos": 0,
+      "si": 0,
+      "detail": "Layer→HEN reversed",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "containing",
+      "box": "Indicator: insert",
+      "pos": 6,
+      "si": null,
+      "detail": "\"containing\" — insertion indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "sulphur",
+      "box": "Substitution",
+      "pos": 17,
+      "si": 1,
+      "detail": "sulphur→S",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "turned",
+      "box": "Indicator: reverse",
+      "pos": 25,
+      "si": null,
+      "detail": "\"turned\" — reversal indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "yellow in parts",
+      "box": "Definition",
+      "pos": 32,
+      "si": null,
+      "detail": "\"yellow in parts\" → NESH",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Synonym",
+     "Indicator: insert",
+     "Substitution",
+     "Indicator: reverse",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "28 Across",
+    "cells": [
+     [
+      7,
+      0
+     ],
+     [
+      7,
+      1
+     ],
+     [
+      7,
+      2
+     ],
+     [
+      7,
+      3
+     ]
+    ],
+    "letters": "NESH",
+    "is_last": false,
+    "crosses": 2
+   },
+   {
+    "clue_id": 10092276,
+    "clue": "Stole loadsamoney having pinched fine wine",
+    "enum": "8",
+    "answer": "PILFERED",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "17D",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Container + charade",
+    "summary": "loadsamoney→PILE around fine→F + wine→RED → PILFERED",
+    "answer_tiles": [
+     {
+      "char": "P",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "F",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "R",
+      "source_index": 2
+     },
+     {
+      "char": "E",
+      "source_index": 2
+     },
+     {
+      "char": "D",
+      "source_index": 2
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Stole\" → PILFERED"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "loadsamoney→PILE"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"having pinched\" — insertion indicator"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "fine→F"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "wine→RED"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Stole",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Stole\" → PILFERED",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "loadsamoney",
+      "box": "Synonym",
+      "pos": 6,
+      "si": 0,
+      "detail": "loadsamoney→PILE",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "having pinched",
+      "box": "Indicator: insert",
+      "pos": 18,
+      "si": null,
+      "detail": "\"having pinched\" — insertion indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "fine",
+      "box": "Substitution",
+      "pos": 33,
+      "si": 1,
+      "detail": "fine→F",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "wine",
+      "box": "Synonym",
+      "pos": 38,
+      "si": 2,
+      "detail": "wine→RED",
+      "detail_html": null,
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym",
+     "Indicator: insert",
+     "Substitution"
+    ],
+    "choices": null,
+    "label": "17 Down",
+    "cells": [
+     [
+      0,
+      6
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      6
+     ],
+     [
+      5,
+      6
+     ],
+     [
+      6,
+      6
+     ],
+     [
+      7,
+      6
+     ]
+    ],
+    "letters": "PILFERED",
+    "is_last": false,
+    "crosses": 2
+   },
+   {
+    "clue_id": 10092277,
+    "clue": "Book pioneering prog rock band",
+    "enum": "7",
+    "answer": "GENESIS",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "19D",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Double definition",
+    "summary": "Double definition — \"Book\" and \"pioneering prog rock band\" each define GENESIS.",
+    "answer_tiles": [
+     {
+      "char": "G",
+      "source_index": null
+     },
+     {
+      "char": "E",
+      "source_index": null
+     },
+     {
+      "char": "N",
+      "source_index": null
+     },
+     {
+      "char": "E",
+      "source_index": null
+     },
+     {
+      "char": "S",
+      "source_index": null
+     },
+     {
+      "char": "I",
+      "source_index": null
+     },
+     {
+      "char": "S",
+      "source_index": null
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Book\" → GENESIS"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"pioneering prog rock band\" → GENESIS"
+     }
+    ],
+    "chips": [],
+    "boxes": [],
+    "choices": [
+     "Cryptic definition",
+     "Double definition",
+     "All-in-one (&lit)"
+    ],
+    "label": "19 Down",
+    "cells": [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ],
+     [
+      6,
+      2
+     ],
+     [
+      7,
+      2
+     ]
+    ],
+    "letters": "GENESIS",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10092275,
+    "clue": "Introduction heralds FBI agent hero?",
+    "enum": "7,3",
+    "answer": "LEADING MAN",
+    "source": {
+     "publication": "times",
+     "puzzle": "29650",
+     "position": "14D",
+     "pub_date": "2026-09-17"
+    },
+    "operation_label": "Charade",
+    "summary": "Introduction→LEADIN + FBI agent→GMAN → LEADING MAN",
+    "answer_tiles": [
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "D",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "N",
+      "source_index": 0
+     },
+     {
+      "char": "G",
+      "source_index": 1
+     },
+     {
+      "sep": " "
+     },
+     {
+      "char": "M",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "N",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Introduction→LEADIN"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"heralds\" — charade_positional/before indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "FBI agent→GMAN"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"hero\" → LEADING MAN"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Introduction",
+      "box": "Synonym",
+      "pos": 0,
+      "si": 0,
+      "detail": "Introduction→LEADIN",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "heralds",
+      "box": "Indicator: position",
+      "pos": 13,
+      "si": null,
+      "detail": "\"heralds\" — charade_positional/before indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "FBI agent",
+      "box": "Synonym",
+      "pos": 21,
+      "si": 1,
+      "detail": "FBI agent→GMAN",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "hero",
+      "box": "Definition",
+      "pos": 31,
+      "si": null,
+      "detail": "\"hero\" → LEADING MAN",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Synonym",
+     "Indicator: position",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "14 Down",
+    "cells": [
+     [
+      -2,
+      0
+     ],
+     [
+      -1,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ],
+     [
+      6,
+      0
+     ],
+     [
+      7,
+      0
+     ]
+    ],
+    "letters": "LEADINGMAN",
+    "is_last": true,
+    "crosses": 4
+   }
+  ],
+  "clue_seconds": 30,
+  "last_seconds": 30,
+  "last_points": 3
+ }
+}

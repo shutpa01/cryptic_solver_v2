@@ -1,0 +1,1422 @@
+{
+ "puzzle": {
+  "source": "guardian",
+  "number": "4167",
+  "quadrant": "bottom right"
+ },
+ "window": [
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 16
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 17
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 18
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 22
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 24
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 25
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 27
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ]
+ ],
+ "entries": [
+  {
+   "clue_id": 10088305,
+   "clue": "Damaged sub with mortar: hear who's overseeing the boats?",
+   "enum": "13",
+   "answer": "HARBOURMASTER",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "18A",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Anagram",
+   "summary": "anagram of \"sub mortar hear\" → HARBOURMASTER",
+   "answer_tiles": [
+    {
+     "char": "H",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "B",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "M",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Damaged\" — anagram indicator"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "sub mortar hear→SUBMORTARHEAR anagram"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"with\""
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"who's overseeing the boats\" → HARBOURMASTER"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Damaged",
+     "box": "Indicator: rearrange",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Damaged\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "sub mortar hear",
+     "box": "Anagram of",
+     "pos": 8,
+     "si": 0,
+     "detail": "sub mortar hear→SUBMORTARHEAR anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "with",
+     "box": "Link word",
+     "pos": 12,
+     "si": null,
+     "detail": "\"with\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "who's overseeing the boats",
+     "box": "Definition",
+     "pos": 30,
+     "si": null,
+     "detail": "\"who's overseeing the boats\" → HARBOURMASTER",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: rearrange",
+    "Anagram of",
+    "Link word",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "18 Across",
+   "cells": [
+    [
+     1,
+     -5
+    ],
+    [
+     1,
+     -4
+    ],
+    [
+     1,
+     -3
+    ],
+    [
+     1,
+     -2
+    ],
+    [
+     1,
+     -1
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ]
+   ],
+   "letters": "HARBOURMASTER",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10088307,
+   "clue": "Kind of article mentioned",
+   "enum": "7",
+   "answer": "CLEMENT",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "22A",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Hidden word",
+   "summary": "hidden in \"article mentioned\" → CLEMENT",
+   "answer_tiles": [
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "M",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Kind of\" → CLEMENT"
+    },
+    {
+     "pill": "Hidden in",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "hidden in \"article mentioned\""
+    }
+   ],
+   "chips": [
+    {
+     "text": "Kind of",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Kind of\" → CLEMENT",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "article mentioned",
+     "box": "Hidden in",
+     "pos": 8,
+     "si": 0,
+     "detail": "hidden in \"article mentioned\"",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Hidden in"
+   ],
+   "choices": null,
+   "label": "22 Across",
+   "cells": [
+    [
+     3,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "letters": "CLEMENT",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10088311,
+   "clue": "In Cuba and America, pretend to be one that can last a while without drink",
+   "enum": "6",
+   "answer": "CACTUS",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "27A",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Container + charade",
+   "summary": "Cuba→C + America→US + pretend→ACT → CACTUS",
+   "answer_tiles": [
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 2
+    },
+    {
+     "char": "C",
+     "source_index": 2
+    },
+    {
+     "char": "T",
+     "source_index": 2
+    },
+    {
+     "char": "U",
+     "source_index": 1
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"In\" — insertion indicator"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Cuba→C"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"and\""
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "America→US"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "pretend→ACT"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"to\""
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"be\""
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"one that can last a while without drink\" → CACTUS"
+    }
+   ],
+   "chips": [
+    {
+     "text": "In",
+     "box": "Indicator: insert",
+     "pos": 0,
+     "si": null,
+     "detail": "\"In\" — insertion indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Cuba",
+     "box": "Substitution",
+     "pos": 3,
+     "si": 0,
+     "detail": "Cuba→C",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "and",
+     "box": "Link word",
+     "pos": 8,
+     "si": null,
+     "detail": "\"and\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "America",
+     "box": "Substitution",
+     "pos": 12,
+     "si": 1,
+     "detail": "America→US",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "pretend",
+     "box": "Synonym",
+     "pos": 21,
+     "si": 2,
+     "detail": "pretend→ACT",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "to",
+     "box": "Link word",
+     "pos": 29,
+     "si": null,
+     "detail": "\"to\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "be",
+     "box": "Link word",
+     "pos": 32,
+     "si": null,
+     "detail": "\"be\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "one that can last a while without drink",
+     "box": "Definition",
+     "pos": 35,
+     "si": null,
+     "detail": "\"one that can last a while without drink\" → CACTUS",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: insert",
+    "Substitution",
+    "Link word",
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "27 Across",
+   "cells": [
+    [
+     7,
+     2
+    ],
+    [
+     7,
+     3
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     7
+    ]
+   ],
+   "letters": "CACTUS",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10088321,
+   "clue": "Noted repeatedly concerning electrical component",
+   "enum": "2,6",
+   "answer": "ON RECORD",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "16D",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Charade",
+   "summary": "repeatedly concerning→ONRE + electrical component→CORD → ON RECORD",
+   "answer_tiles": [
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 1
+    },
+    {
+     "char": "O",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 1
+    },
+    {
+     "char": "D",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Noted\" → ON RECORD"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "repeatedly concerning→ONRE"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "electrical component→CORD"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Noted",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Noted\" → ON RECORD",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "repeatedly concerning",
+     "box": "Synonym",
+     "pos": 6,
+     "si": 0,
+     "detail": "repeatedly concerning→ONRE",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "electrical component",
+     "box": "Synonym",
+     "pos": 28,
+     "si": 1,
+     "detail": "electrical component→CORD",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym"
+   ],
+   "choices": null,
+   "label": "16 Down",
+   "cells": [
+    [
+     -1,
+     1
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ]
+   ],
+   "letters": "ONRECORD",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10088322,
+   "clue": "Babbles, splatter splashing",
+   "enum": "8",
+   "answer": "PRATTLES",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "17D",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Anagram",
+   "summary": "anagram of \"splatter\" → PRATTLES",
+   "answer_tiles": [
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Babbles\" → PRATTLES"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "SPLATTER anagram"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"splashing\" — anagram indicator"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Babbles",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Babbles\" → PRATTLES",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "splatter",
+     "box": "Anagram of",
+     "pos": 9,
+     "si": 0,
+     "detail": "SPLATTER anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "splashing",
+     "box": "Indicator: rearrange",
+     "pos": 18,
+     "si": null,
+     "detail": "\"splashing\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Anagram of",
+    "Indicator: rearrange"
+   ],
+   "choices": null,
+   "label": "17 Down",
+   "cells": [
+    [
+     0,
+     7
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     7,
+     7
+    ]
+   ],
+   "letters": "PRATTLES",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10088325,
+   "clue": "Age of beermat regularly noted",
+   "enum": "3",
+   "answer": "ERA",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "25D",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Selection",
+   "summary": "beermat→ERA → ERA",
+   "answer_tiles": [
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Age\" → ERA"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"of\""
+    },
+    {
+     "pill": "Letters from",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "beermat→ERA",
+     "detail_html": "<span style=\"color:#cbd5e1\">b</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">e</span><span style=\"color:#cbd5e1\">e</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">r</span><span style=\"color:#cbd5e1\">m</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">a</span><span style=\"color:#cbd5e1\">t</span>→ERA"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"regularly noted\" — selection/alternate indicator"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Age",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Age\" → ERA",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "of",
+     "box": "Link word",
+     "pos": 4,
+     "si": null,
+     "detail": "\"of\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "beermat",
+     "box": "Letters from",
+     "pos": 7,
+     "si": 0,
+     "detail": "beermat→ERA",
+     "detail_html": "<span style=\"color:#cbd5e1\">b</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">e</span><span style=\"color:#cbd5e1\">e</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">r</span><span style=\"color:#cbd5e1\">m</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">a</span><span style=\"color:#cbd5e1\">t</span>→ERA",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "regularly noted",
+     "box": "Indicator: select letters",
+     "pos": 15,
+     "si": null,
+     "detail": "\"regularly noted\" — selection/alternate indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Link word",
+    "Letters from",
+    "Indicator: select letters"
+   ],
+   "choices": null,
+   "label": "25 Down",
+   "cells": [
+    [
+     5,
+     3
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     7,
+     3
+    ]
+   ],
+   "letters": "ERA",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10088309,
+   "clue": "Recreational vehicle inspired by piece of snooker equipment? That's unexpected",
+   "enum": "9",
+   "answer": "CURVEBALL",
+   "source": {
+    "publication": "guardian",
+    "puzzle": "4167",
+    "position": "24A",
+    "pub_date": "2026-08-30"
+   },
+   "operation_label": "Container",
+   "summary": "piece of snooker equipment→CUEBALL around Recreational vehicle→RV → CURVEBALL",
+   "answer_tiles": [
+    {
+     "char": "C",
+     "source_index": 1
+    },
+    {
+     "char": "U",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "char": "V",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "char": "B",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "L",
+     "source_index": 1
+    },
+    {
+     "char": "L",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Substitution",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Recreational vehicle→RV"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"inspired by\" — container indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "piece of snooker equipment→CUEBALL"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"That's unexpected\" → CURVEBALL"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Recreational vehicle",
+     "box": "Substitution",
+     "pos": 0,
+     "si": 0,
+     "detail": "Recreational vehicle→RV",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "inspired by",
+     "box": "Indicator: insert",
+     "pos": 21,
+     "si": null,
+     "detail": "\"inspired by\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "piece of snooker equipment",
+     "box": "Synonym",
+     "pos": 33,
+     "si": 1,
+     "detail": "piece of snooker equipment→CUEBALL",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "That's unexpected",
+     "box": "Definition",
+     "pos": 61,
+     "si": null,
+     "detail": "\"That's unexpected\" → CURVEBALL",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Substitution",
+    "Indicator: insert",
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "24 Across",
+   "cells": [
+    [
+     5,
+     -1
+    ],
+    [
+     5,
+     0
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     7
+    ]
+   ],
+   "letters": "CURVEBALL",
+   "is_last": true,
+   "crosses": 3
+  }
+ ],
+ "clue_seconds": 30,
+ "last_seconds": 30,
+ "last_points": 3,
+ "date": "2026-11-02"
+}
