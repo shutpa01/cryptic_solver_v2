@@ -218,6 +218,17 @@ def save_parse(conn, clue_id, parse, ctx=None):
     if parse.status == "pass" and _has_overrides(conn, clue_id):
         set_frozen(conn, clue_id)
     conn.commit()
+    _sync_stubs(conn, clue_id)
+
+
+def _sync_stubs(conn, clue_id):
+    """A "See N" stub follows its parent's verdict (core/span_join.sync_stubs_for,
+    user 2026-11-02). Runs after every write here; it can never fail the save."""
+    try:
+        from core import span_join
+        span_join.sync_stubs_for(conn, clue_id)
+    except Exception:
+        pass
 
 
 def delete_parse(conn, clue_id):
@@ -231,6 +242,7 @@ def delete_parse(conn, clue_id):
     for table in ("wfw_solve", "wfw_piece", "wfw_link"):
         conn.execute("DELETE FROM %s WHERE clue_id = ?" % table, (clue_id,))
     conn.commit()
+    _sync_stubs(conn, clue_id)
 
 
 def is_frozen(conn, clue_id):
@@ -335,6 +347,7 @@ def set_status(conn, clue_id, status):
     conn.execute("UPDATE wfw_solve SET status = ? WHERE clue_id = ?",
                  (status, clue_id))
     conn.commit()
+    _sync_stubs(conn, clue_id)
 
 
 def set_piece_source(conn, clue_id, role, ord_, source):

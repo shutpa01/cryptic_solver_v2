@@ -450,6 +450,10 @@ def clues_in_scope(source=None, puzzle=None, day=None, clue=None, pending=False)
             # or invent, and would compete with what the author already wrote.
             if parse is not None and (parse.get("operation") or "") in wfw_read.CLUE_TYPE_OPS:
                 continue
+            # A "See N" stub is explained on its parent and has no page of its own
+            # (core/span_join.sync_stubs_for, 2026-11-02): nothing to draft.
+            if parse is not None and (parse.get("operation") or "") == "continuation":
+                continue
             if parse is None:
                 continue            # nothing settled enough to describe
             found.append((r["id"], r["answer"] or "", r["clue_text"] or "", parse))

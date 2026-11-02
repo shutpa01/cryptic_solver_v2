@@ -153,6 +153,101 @@ def mark_continuation(conn, stub_id, clue_text, answer, primary_id,
     return True
 
 
+# ---------------------------------------------------------------------------
+# A "See N" stub FOLLOWS its parent (user, 2026-11-02): "where a clue uses the
+# tiles from another clue, the secondary clue that just refers to the main clue
+# should be set to pass when the parent is passed", and Cordelia does not narrate
+# or film it.
+#
+# The stub's row becomes operation='continuation', solved_by='span_join', with NO
+# pieces, and status 'pass' while the parent is served, 'continuation' while it
+# is not. With no pieces, core/wfw_card.stored_card returns None. The stub then
+# has no card or page of its own, so the video (scripts/youtube_capture.clue_list)
+# and its narration skip it. But it is a PASS, so the puzzle-level gate counts it
+# and the puzzle can go live.
+#
+# Called from core/store after every save_parse / set_status / delete_parse, so
+# every route that passes or demotes a parent is covered without touching any of
+# them. It never touches a human's own stub verdict: a frozen or manual stub row,
+# or an INVALID one, is left exactly as it is.
+# ---------------------------------------------------------------------------
+
+def _stub_parent(conn, source, puzzle_number, num, rdir):
+    """The clue id a "See <num> [<rdir>]" stub points at, or None when it is
+    missing or ambiguous (no direction given and both N across and N down are
+    real clues)."""
+    params = [source, puzzle_number, str(num)]
+    where = "source = ? AND puzzle_number = ? AND clue_number = ?"
+    if rdir:
+        where += " AND direction = ?"
+        params.append(rdir)
+    cands = [cid for cid, text in conn.execute(
+        "SELECT id, clue_text FROM clues WHERE %s" % where, params).fetchall()
+        if stub_ref(text) is None]
+    return cands[0] if len(cands) == 1 else None
+
+
+def _is_served(conn, clue_id):
+    """The site's per-clue serving rule: a pass, or INVALID with a comment."""
+    row = conn.execute("SELECT status FROM wfw_solve WHERE clue_id = ?",
+                       (clue_id,)).fetchone()
+    if not row:
+        return False
+    if row[0] == "pass":
+        return True
+    if row[0] == "invalid":
+        n = conn.execute("SELECT note FROM wfw_notes WHERE clue_id = ?",
+                         (clue_id,)).fetchone()
+        return bool(n and (n[0] or "").strip())
+    return False
+
+
+def sync_stubs_for(conn, clue_id):
+    """Bring every "See N" stub in this clue's puzzle into line with its parent.
+    Returns the number of stub rows written. Commits only when it writes."""
+    row = conn.execute("SELECT source, puzzle_number FROM clues WHERE id = ?",
+                       (clue_id,)).fetchone()
+    if not row:
+        return 0
+    source, pnum = row
+    written = 0
+    for sid, text, answer in conn.execute(
+            "SELECT id, clue_text, answer FROM clues WHERE source = ? AND "
+            "puzzle_number = ? AND lower(clue_text) LIKE 'see %'",
+            (source, pnum)).fetchall():
+        ref = stub_ref(text)
+        if ref is None:
+            continue
+        parent = _stub_parent(conn, source, pnum, ref[0], ref[1])
+        if parent is None:
+            continue
+        cur = conn.execute("SELECT status, operation, solved_by FROM wfw_solve "
+                           "WHERE clue_id = ?", (sid,)).fetchone()
+        if cur and (cur[2] == "manual" or cur[0] == "invalid"):
+            continue                          # the human's own verdict stands
+        if conn.execute("SELECT 1 FROM wfw_frozen WHERE clue_id = ?",
+                        (sid,)).fetchone():
+            continue
+        want = "pass" if _is_served(conn, parent) else "continuation"
+        if cur and cur[1] == "continuation" and cur[0] == want:
+            continue                          # already in line
+        for table in ("wfw_solve", "wfw_piece", "wfw_link"):
+            conn.execute("DELETE FROM %s WHERE clue_id = ?" % table, (sid,))
+        plabel = conn.execute("SELECT clue_number || ' ' || direction FROM clues "
+                              "WHERE id = ?", (parent,)).fetchone()[0]
+        conn.execute(
+            "INSERT INTO wfw_solve (clue_id, clue_text, answer_text, operation, "
+            "solved_by, status, confidence, warnings, atoms) "
+            "VALUES (?, ?, ?, 'continuation', 'span_join', ?, NULL, ?, NULL)",
+            (sid, text, answer, want, json.dumps(
+                ["Continuation of %s (clue %d) — the answer is clued and explained "
+                 "there; this entry follows its verdict." % (plabel, parent)])))
+        written += 1
+    if written:
+        conn.commit()
+    return written
+
+
 def _find_primary(conn, source, puzzle_number, clue_number, direction,
                   stub_letters):
     """The primary a stub points at — confirmed by the same arithmetic in the

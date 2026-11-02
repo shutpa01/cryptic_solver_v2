@@ -149,7 +149,10 @@ def _get_unpublished_wfw(cutoff_iso):
         agg["pub"] = max(agg["pub"], r["pub"] or "")
         if r["passed"] or r["invalid_noted"]:
             agg["served"] += 1
+        # A "See N" stub (operation 'continuation') is explained on its parent and
+        # has no page of its own, so it needs no prose (core/span_join, 2026-11-02).
         if (r["invalid_noted"] or r["operation"] in CLUE_TYPE_OPS
+                or r["operation"] == "continuation"
                 or prose_store.approved_text(r["id"], drafts)):
             agg["prose"] += 1
     # NOTHING BEFORE PROSE_FROM IS GATED ON PROSE. Those puzzles went live without
