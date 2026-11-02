@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Crypticker — quadrant</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f1f5f9;
+       color:#1e293b;min-height:100vh;display:flex;justify-content:center}
+  .app{width:100%;max-width:560px;padding:12px}
+  @media (max-width:420px){.card{padding:14px}.clue{font-size:17px!important}}
+  .brand{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+  .brand h1{font-size:20px;font-weight:900;letter-spacing:.06em;margin:0}
+  .brand h1 span{color:#d64545}
+  .brand .meta{font-size:12px;color:#64748b;font-weight:700;letter-spacing:.08em}
+  .card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:12px}
+  .hidden{display:none!important}
+  /* always-on grid */
+  .gridwrap{display:flex;justify-content:center;margin:0 0 12px}
+  .grid{--sq:min(34px,calc((100vw - 72px) / 8));display:grid;gap:2px;background:#1e293b;padding:2px;border-radius:6px}
+  .sq{width:var(--sq);height:var(--sq);position:relative;display:flex;align-items:center;justify-content:center;
+      font-family:ui-monospace,monospace;font-weight:800;font-size:calc(var(--sq) * .55);background:#fff;color:#1e293b}
+  .sq.b{background:#1e293b}
+  .sq.o{background:#cbd5e1}
+  .sq.cur{background:#fef3c7}
+  .sq.last{background:#fde68a}
+  .sq.got{color:#15803d}
+  .sq .n{position:absolute;top:1px;left:2px;font-size:8px;font-weight:700;color:#475569;font-family:system-ui}
+  .bar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-bottom:6px}
+  .bar>div{height:100%;background:#1e293b;transition:width .25s linear}
+  .bar.low>div{background:#d64545}
+  .timerrow{display:flex;justify-content:space-between;font-size:12px;color:#64748b;font-weight:700;margin-bottom:14px}
+  .clue{font-size:19px;line-height:1.5;margin:4px 0 10px}
+  .clue .enum{color:#64748b;font-size:15px}
+  .clue .lab{font-size:13px;font-weight:800;color:#64748b;margin-right:6px}
+  .tiles{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:16px}
+  .tile{width:30px;height:36px;border-radius:8px;border:2px solid #cbd5e1;background:#f8fafc;color:#334155;
+        display:flex;align-items:center;justify-content:center;font-family:ui-monospace,monospace;
+        font-weight:800;font-size:17px;transition:all .2s}
+  .tile.sep{width:8px;border:none;background:none}
+  .label{font-size:11px;font-weight:800;letter-spacing:.08em;color:#94a3b8;text-transform:uppercase;margin:0 0 6px}
+  .pool{display:flex;flex-wrap:wrap;gap:8px;min-height:44px;margin-bottom:16px}
+  .chip{border:2px solid #cbd5e1;background:#fff;border-radius:10px;padding:8px 12px;font-size:15px;
+        font-weight:600;cursor:pointer;user-select:none;transition:transform .1s}
+  .chip.sel{border-color:#1e293b;background:#1e293b;color:#fff;transform:scale(1.05)}
+  .chip.shake,.box.shake,.answer.shake{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .boxes{display:flex;flex-direction:column;gap:8px}
+  .box{border:2px dashed #cbd5e1;border-radius:12px;padding:8px 10px;cursor:pointer;min-height:44px;
+       display:flex;align-items:flex-start;gap:10px}
+  .box.armed{border-color:#1e293b;background:#f8fafc}
+  .box .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+             padding:5px 8px;border-radius:6px;background:#f1f5f9;color:#475569;min-width:7.5rem;text-align:center}
+  .box .got{display:flex;flex-direction:column;gap:4px;font-size:14px;padding-top:3px}
+  .placed{font-weight:600}
+  .answer{width:100%;font-size:22px;font-family:ui-monospace,monospace;font-weight:800;letter-spacing:.15em;
+          text-transform:uppercase;padding:12px;border:2px solid #1e293b;border-radius:12px;margin-bottom:10px}
+  .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;cursor:pointer;width:100%}
+  .btn.primary{background:#1e293b;color:#fff}
+  .intro p{line-height:1.5;margin:0 0 10px}
+  .verdict{font-weight:900;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
+  .verdict.ok{color:#15803d}.verdict.miss{color:#b45309}
+  /* completed WFW — mirrors web/templates/partials/wfw_full.html */
+  .wfw .badge{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+              padding:4px 10px;border-radius:999px;background:#e0e7ff;color:#4338ca;margin-bottom:10px}
+  .wfw .summary{font-family:ui-monospace,monospace;font-size:13px;background:#f8fafc;border:1px solid #e2e8f0;
+                border-radius:8px;padding:8px 10px;margin:0 0 12px}
+  .wfw .row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px}
+  .wfw .row .pill{flex-shrink:0;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+                  padding:4px 8px;border-radius:6px;min-width:7rem;text-align:center}
+  .wfw .row .det{font-size:14px;padding-top:2px}
+  .src{font-size:12px;color:#94a3b8;margin:10px 0 14px}
+  .score{font-size:56px;font-weight:900;text-align:center;margin:8px 0}
+  /* today's count card */
+  .countcard{text-align:center}
+  .countcard .big{font-size:64px;font-weight:900;line-height:1;margin:4px 0}
+  .countcard .sub{font-size:17px;color:#1e293b;font-weight:600;margin:6px 0 14px}
+  .dots{display:flex;justify-content:center;gap:8px}
+  .dotcol{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .dotcol .give{font-size:15px;font-weight:900;color:#1e293b}
+  .dotcol .give.zero{color:#64748b}
+  .givekey{font-size:15px;font-weight:700;color:#1e293b;margin:12px 0 0}
+  .dot{width:34px;height:34px;border-radius:50%;background:#e2e8f0;color:#1e293b;font-size:15px;font-weight:800;
+       display:flex;align-items:center;justify-content:center}
+  .dot.fin{background:#fde68a;color:#92400e}
+  /* question header */
+  .qhead{margin:0 0 10px}
+  .qhead .qn{font-size:24px;font-weight:900}
+  .qhead .qn small{font-size:18px;color:#1e293b;font-weight:700}
+  .cross{display:flex;align-items:center;gap:12px;border:2px solid #f59e0b;background:#fef3c7;color:#1e293b;
+         border-radius:12px;padding:8px 12px;margin:0 0 12px;font-size:17px;font-weight:800}
+  .cross .cn{font-size:30px;font-weight:900;min-width:36px;text-align:center;color:#92400e}
+  .cross.none{border-color:#94a3b8;background:#f1f5f9}
+  .cross.none .cn{color:#1e293b}
+  /* admin strip: only when the server says admin */
+  .adminbar{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#1e293b;color:#fff;
+            border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:15px;font-weight:700}
+  .adminbar a{color:#fde68a}
+  .adminbar label{display:flex;align-items:center;gap:8px;cursor:pointer}
+  .adminbar input{width:20px;height:20px}
+  .results div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand"><h1>CRYPT<span>ICKER</span></h1><span class="meta" id="meta">DAILY</span></div>
+  <div class="adminbar hidden" id="adminbar">
+    <label><input type="checkbox" id="clockoff"> Clock off</label>
+    <span id="adminnote"></span>
+  </div>
+
+  <div class="card countcard" id="countcard">
+    <p class="label">Today's game</p>
+    <div class="big" id="ccount"></div>
+    <p class="sub" id="csub"></p>
+    <div class="dots" id="cdots"></div>
+    <p class="givekey" id="cgivekey"></p>
+  </div>
+
+  <div class="card intro" id="intro">
+    <p><b>A corner of a real crossword.</b></p>
+    <p>For each clue you get the answer: tap a clue word, then tap the box for the job it does. Finish it in <b>30 seconds</b> to win its letters.</p>
+    <p>The <b>last clue</b> has no help: you see the grid with the letters you've won, and type the answer.</p>
+    <p>1 point per clue, <b>3</b> for the last.</p>
+    <button class="btn primary" onclick="start()">Start</button>
+  </div>
+
+  <div class="card hidden" id="play">
+    <div class="bar" id="bar"><div id="barfill"></div></div>
+    <div class="timerrow"><span id="count"></span><span id="secs"></span></div>
+    <div class="qhead"><span class="qn" id="qn"></span></div>
+    <div class="cross" id="cross"></div>
+    <div class="gridwrap hidden" id="gridwrap"><div class="grid" id="grid"></div></div>
+    <div class="clue" id="clue"></div>
+    <div class="tiles" id="tiles"></div>
+    <div id="assemble">
+      <p class="label" id="poollabel">Clue words</p>
+      <div class="pool" id="pool"></div>
+      <p class="label" id="boxlabel">Boxes</p>
+      <div class="boxes" id="boxes"></div>
+    </div>
+    <div id="typein" class="hidden">
+      <input class="answer" id="answer" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+      <button class="btn primary" onclick="submitLast()">Enter</button>
+    </div>
+  </div>
+
+  <div class="card hidden wfw" id="reveal"></div>
+  <div class="card hidden" id="end"></div>
+</div>
+
+<script>
+const G = {"puzzle": {"source": "guardian", "number": "4167", "quadrant": "bottom right"}, "window": [[{"t": "b"}, {"t": "w", "n": 16}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "w", "n": 17}], [{"t": "w", "n": 18}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}], [{"t": "b"}, {"t": "w", "n": null}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "w", "n": null}], [{"t": "b"}, {"t": "w", "n": 22}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}], [{"t": "b"}, {"t": "w", "n": null}, {"t": "b"}, {"t": "b"}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "w", "n": null}], [{"t": "w", "n": 24}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": 25}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}], [{"t": "b"}, {"t": "w", "n": null}, {"t": "b"}, {"t": "w", "n": null}, {"t": "b"}, {"t": "o"}, {"t": "b"}, {"t": "w", "n": null}], [{"t": "o"}, {"t": "b"}, {"t": "w", "n": 27}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}, {"t": "w", "n": null}]], "entries": [{"clue_id": 10088305, "clue": "Damaged sub with mortar: hear who's overseeing the boats?", "enum": "13", "answer": "HARBOURMASTER", "source": {"publication": "guardian", "puzzle": "4167", "position": "18A", "pub_date": "2026-08-30"}, "operation_label": "Anagram", "summary": "anagram of \"sub mortar hear\" → HARBOURMASTER", "answer_tiles": [{"char": "H", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "B", "source_index": 0}, {"char": "O", "source_index": 0}, {"char": "U", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "M", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "S", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "R", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Damaged\" — anagram indicator"}, {"pill": "Anagram of", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "sub mortar hear→SUBMORTARHEAR anagram"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"with\""}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"who's overseeing the boats\" → HARBOURMASTER"}], "chips": [{"text": "Damaged", "box": "Indicator: rearrange", "pos": 0, "si": null, "detail": "\"Damaged\" — anagram indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "sub mortar hear", "box": "Anagram of", "pos": 8, "si": 0, "detail": "sub mortar hear→SUBMORTARHEAR anagram", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "with", "box": "Link word", "pos": 12, "si": null, "detail": "\"with\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "who's overseeing the boats", "box": "Definition", "pos": 30, "si": null, "detail": "\"who's overseeing the boats\" → HARBOURMASTER", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Indicator: rearrange", "Anagram of", "Link word", "Definition"], "choices": null, "label": "18 Across", "cells": [[1, -5], [1, -4], [1, -3], [1, -2], [1, -1], [1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7]], "letters": "HARBOURMASTER", "is_last": false, "crosses": 2}, {"clue_id": 10088307, "clue": "Kind of article mentioned", "enum": "7", "answer": "CLEMENT", "source": {"publication": "guardian", "puzzle": "4167", "position": "22A", "pub_date": "2026-08-30"}, "operation_label": "Hidden word", "summary": "hidden in \"article mentioned\" → CLEMENT", "answer_tiles": [{"char": "C", "source_index": 0}, {"char": "L", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "M", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "N", "source_index": 0}, {"char": "T", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Kind of\" → CLEMENT"}, {"pill": "Hidden in", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "hidden in \"article mentioned\""}], "chips": [{"text": "Kind of", "box": "Definition", "pos": 0, "si": null, "detail": "\"Kind of\" → CLEMENT", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "article mentioned", "box": "Hidden in", "pos": 8, "si": 0, "detail": "hidden in \"article mentioned\"", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}], "boxes": ["Definition", "Hidden in"], "choices": null, "label": "22 Across", "cells": [[3, 1], [3, 2], [3, 3], [3, 4], [3, 5], [3, 6], [3, 7]], "letters": "CLEMENT", "is_last": false, "crosses": 2}, {"clue_id": 10088311, "clue": "In Cuba and America, pretend to be one that can last a while without drink", "enum": "6", "answer": "CACTUS", "source": {"publication": "guardian", "puzzle": "4167", "position": "27A", "pub_date": "2026-08-30"}, "operation_label": "Container + charade", "summary": "Cuba→C + America→US + pretend→ACT → CACTUS", "answer_tiles": [{"char": "C", "source_index": 0}, {"char": "A", "source_index": 2}, {"char": "C", "source_index": 2}, {"char": "T", "source_index": 2}, {"char": "U", "source_index": 1}, {"char": "S", "source_index": 1}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57", "2": "#d2691e"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea", "2": "#fbeadf"}, "rows": [{"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"In\" — insertion indicator"}, {"pill": "Substitution", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Cuba→C"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"and\""}, {"pill": "Substitution", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "America→US"}, {"pill": "Synonym", "fg": "#d2691e", "fill": "#fbeadf", "detail": "pretend→ACT"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"to\""}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"be\""}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"one that can last a while without drink\" → CACTUS"}], "chips": [{"text": "In", "box": "Indicator: insert", "pos": 0, "si": null, "detail": "\"In\" — insertion indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "Cuba", "box": "Substitution", "pos": 3, "si": 0, "detail": "Cuba→C", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "and", "box": "Link word", "pos": 8, "si": null, "detail": "\"and\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "America", "box": "Substitution", "pos": 12, "si": 1, "detail": "America→US", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}, {"text": "pretend", "box": "Synonym", "pos": 21, "si": 2, "detail": "pretend→ACT", "detail_html": null, "fg": "#d2691e", "fill": "#fbeadf"}, {"text": "to", "box": "Link word", "pos": 29, "si": null, "detail": "\"to\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "be", "box": "Link word", "pos": 32, "si": null, "detail": "\"be\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "one that can last a while without drink", "box": "Definition", "pos": 35, "si": null, "detail": "\"one that can last a while without drink\" → CACTUS", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Indicator: insert", "Substitution", "Link word", "Synonym", "Definition"], "choices": null, "label": "27 Across", "cells": [[7, 2], [7, 3], [7, 4], [7, 5], [7, 6], [7, 7]], "letters": "CACTUS", "is_last": false, "crosses": 2}, {"clue_id": 10088321, "clue": "Noted repeatedly concerning electrical component", "enum": "2,6", "answer": "ON RECORD", "source": {"publication": "guardian", "puzzle": "4167", "position": "16D", "pub_date": "2026-08-30"}, "operation_label": "Charade", "summary": "repeatedly concerning→ONRE + electrical component→CORD → ON RECORD", "answer_tiles": [{"char": "O", "source_index": 0}, {"char": "N", "source_index": 0}, {"sep": " "}, {"char": "R", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "C", "source_index": 1}, {"char": "O", "source_index": 1}, {"char": "R", "source_index": 1}, {"char": "D", "source_index": 1}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Noted\" → ON RECORD"}, {"pill": "Synonym", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "repeatedly concerning→ONRE"}, {"pill": "Synonym", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "electrical component→CORD"}], "chips": [{"text": "Noted", "box": "Definition", "pos": 0, "si": null, "detail": "\"Noted\" → ON RECORD", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "repeatedly concerning", "box": "Synonym", "pos": 6, "si": 0, "detail": "repeatedly concerning→ONRE", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "electrical component", "box": "Synonym", "pos": 28, "si": 1, "detail": "electrical component→CORD", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}], "boxes": ["Definition", "Synonym"], "choices": null, "label": "16 Down", "cells": [[-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1]], "letters": "ONRECORD", "is_last": false, "crosses": 3}, {"clue_id": 10088322, "clue": "Babbles, splatter splashing", "enum": "8", "answer": "PRATTLES", "source": {"publication": "guardian", "puzzle": "4167", "position": "17D", "pub_date": "2026-08-30"}, "operation_label": "Anagram", "summary": "anagram of \"splatter\" → PRATTLES", "answer_tiles": [{"char": "P", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "A", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "T", "source_index": 0}, {"char": "L", "source_index": 0}, {"char": "E", "source_index": 0}, {"char": "S", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Babbles\" → PRATTLES"}, {"pill": "Anagram of", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "SPLATTER anagram"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"splashing\" — anagram indicator"}], "chips": [{"text": "Babbles", "box": "Definition", "pos": 0, "si": null, "detail": "\"Babbles\" → PRATTLES", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "splatter", "box": "Anagram of", "pos": 9, "si": 0, "detail": "SPLATTER anagram", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "splashing", "box": "Indicator: rearrange", "pos": 18, "si": null, "detail": "\"splashing\" — anagram indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Definition", "Anagram of", "Indicator: rearrange"], "choices": null, "label": "17 Down", "cells": [[0, 7], [1, 7], [2, 7], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7]], "letters": "PRATTLES", "is_last": false, "crosses": 4}, {"clue_id": 10088325, "clue": "Age of beermat regularly noted", "enum": "3", "answer": "ERA", "source": {"publication": "guardian", "puzzle": "4167", "position": "25D", "pub_date": "2026-08-30"}, "operation_label": "Selection", "summary": "beermat→ERA → ERA", "answer_tiles": [{"char": "E", "source_index": 0}, {"char": "R", "source_index": 0}, {"char": "A", "source_index": 0}], "src_fg": {"0": "#1d6fb8"}, "src_fill": {"0": "#e3f0fb"}, "rows": [{"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"Age\" → ERA"}, {"pill": "Link", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"of\""}, {"pill": "Letters from", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "beermat→ERA", "detail_html": "<span style=\"color:#cbd5e1\">b</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">e</span><span style=\"color:#cbd5e1\">e</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">r</span><span style=\"color:#cbd5e1\">m</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">a</span><span style=\"color:#cbd5e1\">t</span>→ERA"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"regularly noted\" — selection/alternate indicator"}], "chips": [{"text": "Age", "box": "Definition", "pos": 0, "si": null, "detail": "\"Age\" → ERA", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "of", "box": "Link word", "pos": 4, "si": null, "detail": "\"of\"", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "beermat", "box": "Letters from", "pos": 7, "si": 0, "detail": "beermat→ERA", "detail_html": "<span style=\"color:#cbd5e1\">b</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">e</span><span style=\"color:#cbd5e1\">e</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">r</span><span style=\"color:#cbd5e1\">m</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">a</span><span style=\"color:#cbd5e1\">t</span>→ERA", "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "regularly noted", "box": "Indicator: select letters", "pos": 15, "si": null, "detail": "\"regularly noted\" — selection/alternate indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Definition", "Link word", "Letters from", "Indicator: select letters"], "choices": null, "label": "25 Down", "cells": [[5, 3], [6, 3], [7, 3]], "letters": "ERA", "is_last": false, "crosses": 2}, {"clue_id": 10088309, "clue": "Recreational vehicle inspired by piece of snooker equipment? That's unexpected", "enum": "9", "answer": "CURVEBALL", "source": {"publication": "guardian", "puzzle": "4167", "position": "24A", "pub_date": "2026-08-30"}, "operation_label": "Container", "summary": "piece of snooker equipment→CUEBALL around Recreational vehicle→RV → CURVEBALL", "answer_tiles": [{"char": "C", "source_index": 1}, {"char": "U", "source_index": 1}, {"char": "R", "source_index": 0}, {"char": "V", "source_index": 0}, {"char": "E", "source_index": 1}, {"char": "B", "source_index": 1}, {"char": "A", "source_index": 1}, {"char": "L", "source_index": 1}, {"char": "L", "source_index": 1}], "src_fg": {"0": "#1d6fb8", "1": "#2e8b57"}, "src_fill": {"0": "#e3f0fb", "1": "#e4f4ea"}, "rows": [{"pill": "Substitution", "fg": "#1d6fb8", "fill": "#e3f0fb", "detail": "Recreational vehicle→RV"}, {"pill": "Indicator", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"inspired by\" — container indicator"}, {"pill": "Synonym", "fg": "#2e8b57", "fill": "#e4f4ea", "detail": "piece of snooker equipment→CUEBALL"}, {"pill": "Definition", "fg": "#475569", "fill": "#f1f5f9", "detail": "\"That's unexpected\" → CURVEBALL"}], "chips": [{"text": "Recreational vehicle", "box": "Substitution", "pos": 0, "si": 0, "detail": "Recreational vehicle→RV", "detail_html": null, "fg": "#1d6fb8", "fill": "#e3f0fb"}, {"text": "inspired by", "box": "Indicator: insert", "pos": 21, "si": null, "detail": "\"inspired by\" — container indicator", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}, {"text": "piece of snooker equipment", "box": "Synonym", "pos": 33, "si": 1, "detail": "piece of snooker equipment→CUEBALL", "detail_html": null, "fg": "#2e8b57", "fill": "#e4f4ea"}, {"text": "That's unexpected", "box": "Definition", "pos": 61, "si": null, "detail": "\"That's unexpected\" → CURVEBALL", "detail_html": null, "fg": "#475569", "fill": "#f1f5f9"}], "boxes": ["Substitution", "Indicator: insert", "Synonym", "Definition"], "choices": null, "label": "24 Across", "cells": [[5, -1], [5, 0], [5, 1], [5, 2], [5, 3], [5, 4], [5, 5], [5, 6], [5, 7]], "letters": "CURVEBALL", "is_last": true, "crosses": 3}], "clue_seconds": 30, "last_seconds": 30, "last_points": 3, "date": "2026-11-02"};
+const ADMIN = null;            // null for players; {note, clock_off} in admin mode
+let clockOff = false;
+if (ADMIN){
+  el_("adminbar").classList.remove("hidden");
+  el_("adminnote").innerHTML = ADMIN.note || "";
+  el_("clockoff").checked = clockOff = !!ADMIN.clock_off;
+  el_("clockoff").onchange = ev => { clockOff = ev.target.checked; showClock(); };
+}
+function el_(id){ return document.getElementById(id); }
+const E = G.entries, N = E.length;
+let idx = 0, left = 0, total = 0, timer = null, sel = null, placed = [], slots = [], results = [];
+const won = new Set();                          // entry indexes whose answers are in the grid
+const el = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const isLast = () => E[idx].is_last;
+const LASTI = E.findIndex(e => e.is_last);
+const key = rc => rc[0] + "," + rc[1];
+const lastCells = new Set(E[LASTI].cells.map(key));
+// letters each question gives the last clue (squares it shares with it)
+const crossN = E.map((e, i) => i === LASTI ? 0 : e.cells.filter(rc => lastCells.has(key(rc))).length);
+const lettersWord = n => n === 1 ? "letter" : "letters";
+const crossHTML = (n, text) => '<span class="cn">' + n + "</span><span>" + text + "</span>";
+// grid numbers = question numbers, on each entry's first square inside the window
+const qnumAt = {};
+E.forEach((e, i) => {
+  const rc = e.cells.find(([r, c]) => r >= 0 && c >= 0 && r < G.window.length && c < G.window[0].length);
+  if (rc) (qnumAt[key(rc)] = qnumAt[key(rc)] || []).push(i + 1);
+});
+(function countCard(){
+  el("ccount").textContent = N + " clues";
+  el("csub").textContent = (N - 1) + " to solve, then the last one to type";
+  el("cdots").innerHTML = E.map((e, i) => '<div class="dotcol"><span class="dot' + (e.is_last ? " fin" : "") + '">'
+      + (e.is_last ? "★" : i + 1) + "</span>"
+      + (e.is_last ? '<span class="give">' + e.cells.length + "</span>"
+                   : '<span class="give' + (crossN[i] ? "" : " zero") + '">+' + crossN[i] + "</span>") + "</div>").join("");
+  el("cgivekey").textContent = "+N = letters each question gives the last clue (★, " + E[LASTI].cells.length + " letters)";
+})();
+
+/* ---------- grid ---------- */
+function gridLetters(){
+  const m = {};
+  won.forEach(i => E[i].cells.forEach((rc, j) => m[rc[0] + "," + rc[1]] = E[i].letters[j]));
+  return m;
+}
+function drawGrid(){
+  const L = gridLetters(), g = el("grid"), w = G.window;
+  const cur = new Set((idx < N ? E[idx].cells : []).map(rc => rc[0] + "," + rc[1]));
+  const playing = !el("play").classList.contains("hidden");
+  g.style.gridTemplateColumns = "repeat(" + w[0].length + ", var(--sq))";
+  g.innerHTML = w.map((row, r) => row.map((sq, c) => {
+    if (sq.t === "b") return '<div class="sq b"></div>';
+    if (sq.t === "o") return '<div class="sq o"></div>';
+    const k = r + "," + c;
+    let cls = "sq";
+    if (playing && cur.has(k)) cls += isLast() ? " last" : " cur";
+    return '<div class="' + cls + '">' + (qnumAt[k] ? '<span class="n">' + qnumAt[k].join("/") + "</span>" : "")
+         + (L[k] || "") + "</div>";
+  }).join("")).join("");
+}
+
+/* ---------- flow ---------- */
+function start(){ el("intro").classList.add("hidden"); el("countcard").classList.add("hidden"); load(); }
+
+function load(){
+  const e = E[idx];
+  sel = null; placed = e.chips.map(() => false);
+  // one box per piece: each box name repeated once for every chip that belongs in it
+  slots = (e.boxes || []).flatMap(name => e.chips.filter(ch => ch.box === name).map(() => ({name, chip: null})));
+  total = left = e.is_last ? G.last_seconds : G.clue_seconds;
+  el("reveal").classList.add("hidden"); el("play").classList.remove("hidden");
+  el("meta").textContent = (idx + 1) + " / " + N;
+  el("count").textContent = e.is_last ? "Last clue — " + G.last_points + " points" : "1 point";
+  el("qn").innerHTML = (e.is_last ? "Last clue" : "Question " + (idx + 1)) + " <small>of " + N + "</small>";
+  if (e.is_last){
+    const have = E[LASTI].cells.filter(rc => gridLetters()[key(rc)]).length;
+    el("cross").innerHTML = crossHTML(have, "of " + e.cells.length + " letters already in the grid");
+    el("cross").className = "cross" + (have ? "" : " none");
+  } else {
+    el("cross").innerHTML = crossHTML(crossN[idx], lettersWord(crossN[idx]) + " for the last clue if you solve this");
+    el("cross").className = "cross" + (crossN[idx] ? "" : " none");
+  }
+  el("clue").innerHTML = esc(e.clue)
+      + (e.enum ? ' <span class="enum">(' + esc(e.enum) + ")</span>" : "");
+  el("assemble").classList.toggle("hidden", e.is_last);
+  el("typein").classList.toggle("hidden", !e.is_last);
+  el("gridwrap").classList.toggle("hidden", !e.is_last);
+  el("tiles").classList.toggle("hidden", e.is_last);   // the grid shows the pattern
+  if (e.is_last){
+    drawGrid();
+    // focus inside the Next tap so a phone opens its keyboard
+    const a = el("answer"); a.value = ""; a.focus();
+  } else render();
+  tick(); clearInterval(timer); timer = setInterval(tick, 1000);
+}
+
+function showClock(){
+  el("secs").textContent = clockOff ? "clock off" : left + "s";
+}
+function tick(){
+  showClock();
+  if (clockOff) return;                  // admin testing: time stands still
+  el("barfill").style.width = (100 * left / total) + "%";
+  el("bar").classList.toggle("low", left <= 8);
+  if (left <= 0){ finish(false); return; }
+  left--;
+}
+
+/* ---------- clues 1..N-1: words into boxes (same as the daily game) ---------- */
+function tilesHTML(c, colourAll){
+  const lit = new Set();
+  c.chips.forEach((ch, i) => { if ((colourAll || placed[i]) && ch.si !== null) lit.add(ch.si); });
+  return c.answer_tiles.map(t => {
+    if (t.sep !== undefined) return '<span class="tile sep"></span>';
+    if (t.source_index !== null && lit.has(t.source_index)){
+      const fg = c.src_fg[t.source_index], fill = c.src_fill[t.source_index];
+      return '<span class="tile" style="color:' + fg + ';border-color:' + fg + ';background:' + fill + '">' + t.char + "</span>";
+    }
+    return '<span class="tile">' + t.char + "</span>";
+  }).join("");
+}
+
+function render(){
+  const c = E[idx];
+  el("tiles").innerHTML = tilesHTML(c, false);
+  const typeQ = !!c.choices;          // CD / DD / &lit: pick the clue type
+  el("poollabel").classList.toggle("hidden", typeQ);
+  el("pool").classList.toggle("hidden", typeQ);
+  el("boxlabel").textContent = typeQ ? "What type of clue is this?" : "Boxes";
+  if (typeQ){ renderChoices(c); return; }
+  const pool = el("pool"); pool.innerHTML = "";
+  c.chips.forEach((ch, i) => {
+    if (placed[i]) return;
+    const b = document.createElement("span");
+    b.className = "chip" + (sel === i ? " sel" : ""); b.id = "chip" + i;
+    b.textContent = ch.text;
+    b.onclick = () => { sel = (sel === i ? null : i); render(); };
+    pool.appendChild(b);
+  });
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  slots.forEach((sl, k) => {
+    const d = document.createElement("div");
+    d.className = "box" + (sel !== null && sl.chip === null ? " armed" : "");
+    const ch = sl.chip === null ? null : c.chips[sl.chip];
+    const got = ch ? '<div class="placed">' + (ch.detail_html || esc(ch.detail || ch.text)) + "</div>" : "";
+    d.innerHTML = '<span class="pill">' + esc(sl.name) + '</span><div class="got">' + got + "</div>";
+    d.onclick = () => assign(k);
+    boxes.appendChild(d);
+  });
+}
+
+function renderChoices(c){
+  const boxes = el("boxes"); boxes.innerHTML = "";
+  c.choices.forEach(name => {
+    const d = document.createElement("div");
+    d.className = "box armed";
+    d.innerHTML = '<span class="pill">' + esc(name) + "</span>";
+    d.onclick = () => {
+      if (name === c.operation_label){ finish(true); return; }
+      d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
+    };
+    boxes.appendChild(d);
+  });
+}
+
+function assign(k){
+  if (sel === null || slots[k].chip !== null) return;     // a filled box takes nothing more
+  const c = E[idx], i = sel;
+  if (c.chips[i].box === slots[k].name){
+    placed[i] = true; slots[k].chip = i; sel = null; render();
+    if (placed.every(Boolean)) finish(true);
+  } else {
+    const chip = el("chip" + i); sel = null;
+    chip.classList.remove("sel"); chip.classList.add("shake");
+    setTimeout(render, 350);
+  }
+}
+
+/* ---------- last clue: type it in ---------- */
+function submitLast(){
+  const a = el("answer"), guess = a.value.toUpperCase().replace(/[^A-Z]/g, "");
+  if (guess === E[idx].letters){ finish(true); return; }
+  a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake");   // wrong: costs time only
+}
+document.addEventListener("keydown", ev => {
+  if (ev.key === "Enter" && idx < N && isLast() && !el("play").classList.contains("hidden")) submitLast();
+});
+
+/* ---------- reveal + end ---------- */
+function finish(ok){
+  clearInterval(timer);
+  results[idx] = ok;
+  if (ok) won.add(idx);
+  const c = E[idx];
+  el("play").classList.add("hidden");
+  const rows = c.rows.map(r => '<div class="row"><span class="pill" style="color:' + r.fg + ";background:" + r.fill + '">'
+      + esc(r.pill) + '</span><span class="det">' + (r.detail_html || esc(r.detail)) + "</span></div>").join("");
+  const s = c.source || {};
+  el("reveal").innerHTML =
+      '<p class="verdict ' + (ok ? "ok" : "miss") + '">' + (ok ? "Completed" : "Time's up — " + esc(c.answer)) + "</p>"
+    + (c.is_last ? "" : '<div class="cross' + (ok && crossN[idx] ? "" : " none") + '">'
+        + crossHTML(ok ? crossN[idx] : 0, crossN[idx] === 0 ? "letters for the last clue — this one doesn't cross it"
+           : ok ? lettersWord(crossN[idx]) + " won for the last clue"
+                : "letters won — " + crossN[idx] + " lost for the last clue") + "</div>")
+    + '<span class="badge">' + esc(c.operation_label) + "</span>"
+    + '<div class="clue"><span class="lab">' + (c.is_last ? "Last clue" : "Q" + (idx + 1)) + "</span>" + esc(c.clue)
+    + (c.enum ? ' <span class="enum">(' + esc(c.enum) + ")</span>" : "") + "</div>"
+    + '<div class="tiles">' + tilesHTML(c, true) + "</div>"
+    + (c.summary ? '<p class="summary">' + esc(c.summary) + "</p>" : "")
+    + rows
+    + '<p class="src">' + esc([s.publication, s.puzzle, s.position].filter(Boolean).join(" · ")) + "</p>"
+    + '<button class="btn primary" onclick="next()">' + (idx + 1 < N ? "Next" : "See score") + "</button>";
+  el("reveal").classList.remove("hidden");
+}
+
+function next(){
+  idx++;
+  if (idx < N){ load(); return; }
+  el("reveal").classList.add("hidden");
+  let n = 0, max = 0;
+  E.forEach((e, i) => { const p = e.is_last ? G.last_points : 1; max += p; if (results[i]) n += p; });
+  el("meta").textContent = "DONE";
+  el("end").innerHTML = '<p class="label" style="text-align:center">Your score</p><div class="score">' + n + " / " + max + "</div>"
+    + '<div class="results">' + E.map((e, i) => "<div><span>" + (e.is_last ? "Last" : "Q" + (i + 1)) + " " + esc(e.answer) + "</span><span>"
+      + (results[i] ? "✓ " + (e.is_last ? G.last_points : 1) : "—") + "</span></div>").join("") + "</div>"
+    + '<p class="src">' + esc(G.puzzle.source + " " + G.puzzle.number + " · " + G.puzzle.quadrant) + "</p>";
+  el("end").classList.remove("hidden");
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1307 @@
+{
+ "puzzle": {
+  "source": "times",
+  "number": "29633",
+  "quadrant": "top left"
+ },
+ "window": [
+  [
+   {
+    "t": "w",
+    "n": 1
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 2
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 3
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 4
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 10
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "o"
+   }
+  ],
+  [
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 14
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "o"
+   }
+  ],
+  [
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   }
+  ]
+ ],
+ "entries": [
+  {
+   "clue_id": 10087925,
+   "clue": "Trace source of unusual food eaten when cycling",
+   "enum": "9",
+   "answer": "DELINEATE",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "10A",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade + letter shift",
+   "summary": "source of unusual food→DELI + EATEN last letter to the front → DELINEATE (move last letter to front)",
+   "answer_tiles": [
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Trace\" → DELINEATE"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "source of unusual food→DELI"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "EATEN last letter to the front"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"when cycling\" — letter_shift/last_front indicator"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Trace",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Trace\" → DELINEATE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "source of unusual food",
+     "box": "Synonym",
+     "pos": 6,
+     "si": 0,
+     "detail": "source of unusual food→DELI",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "eaten",
+     "box": "Literal",
+     "pos": 29,
+     "si": 1,
+     "detail": "EATEN last letter to the front",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "when cycling",
+     "box": "Indicator: move a letter",
+     "pos": 35,
+     "si": null,
+     "detail": "\"when cycling\" — letter_shift/last_front indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Literal",
+    "Indicator: move a letter"
+   ],
+   "choices": null,
+   "label": "10 Across",
+   "cells": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ]
+   ],
+   "letters": "DELINEATE",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10087928,
+   "clue": "Performing dance with specialist shoes easy to access",
+   "enum": "2,3",
+   "answer": "ON TAP",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "14A",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade",
+   "summary": "Performing→ON + dance with specialist shoes→TAP → ON TAP",
+   "answer_tiles": [
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "P",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Performing→ON"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "dance with specialist shoes→TAP"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"easy to access\" → ON TAP"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Performing",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "Performing→ON",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "dance with specialist shoes",
+     "box": "Synonym",
+     "pos": 11,
+     "si": 1,
+     "detail": "dance with specialist shoes→TAP",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "easy to access",
+     "box": "Definition",
+     "pos": 39,
+     "si": null,
+     "detail": "\"easy to access\" → ON TAP",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "14 Across",
+   "cells": [
+    [
+     6,
+     0
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     6,
+     4
+    ]
+   ],
+   "letters": "ONTAP",
+   "is_last": false,
+   "crosses": 1
+  },
+  {
+   "clue_id": 10087937,
+   "clue": "Stew not yet cooked?",
+   "enum": "2-2",
+   "answer": "TO-DO",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "1D",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Double definition",
+   "summary": "Double definition — \"Stew\" and \"not yet cooked\" each define TO-DO.",
+   "answer_tiles": [
+    {
+     "char": "T",
+     "source_index": null
+    },
+    {
+     "char": "O",
+     "source_index": null
+    },
+    {
+     "sep": "-"
+    },
+    {
+     "char": "D",
+     "source_index": null
+    },
+    {
+     "char": "O",
+     "source_index": null
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Stew\" → TO-DO"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"not yet cooked\" → TO-DO"
+    }
+   ],
+   "chips": [],
+   "boxes": [],
+   "choices": [
+    "Cryptic definition",
+    "Double definition",
+    "All-in-one (&lit)"
+   ],
+   "label": "1 Down",
+   "cells": [
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ],
+    [
+     3,
+     0
+    ]
+   ],
+   "letters": "TODO",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10087938,
+   "clue": "Petition on that basis allowed",
+   "enum": "7",
+   "answer": "SOLICIT",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "2D",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade",
+   "summary": "on that basis→SO + allowed→LICIT → SOLICIT",
+   "answer_tiles": [
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 1
+    },
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "C",
+     "source_index": 1
+    },
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Petition\" → SOLICIT"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "on that basis→SO"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "allowed→LICIT"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Petition",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Petition\" → SOLICIT",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "on that basis",
+     "box": "Synonym",
+     "pos": 9,
+     "si": 0,
+     "detail": "on that basis→SO",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "allowed",
+     "box": "Synonym",
+     "pos": 23,
+     "si": 1,
+     "detail": "allowed→LICIT",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym"
+   ],
+   "choices": null,
+   "label": "2 Down",
+   "cells": [
+    [
+     0,
+     2
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ]
+   ],
+   "letters": "SOLICIT",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10087939,
+   "clue": "Clear up right after a bit of carpentry",
+   "enum": "5",
+   "answer": "TENON",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "3D",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade + reversal",
+   "summary": "Clear→NET reversed + right after→ON → TENON",
+   "answer_tiles": [
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "O",
+     "source_index": 1
+    },
+    {
+     "char": "N",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Clear→NET reversed"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"up\" — reversal indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "right after→ON"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"a\""
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"bit of carpentry\" → TENON"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Clear",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "Clear→NET reversed",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "up",
+     "box": "Indicator: reverse",
+     "pos": 6,
+     "si": null,
+     "detail": "\"up\" — reversal indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "right after",
+     "box": "Synonym",
+     "pos": 9,
+     "si": 1,
+     "detail": "right after→ON",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "a",
+     "box": "Link word",
+     "pos": 21,
+     "si": null,
+     "detail": "\"a\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "bit of carpentry",
+     "box": "Definition",
+     "pos": 23,
+     "si": null,
+     "detail": "\"bit of carpentry\" → TENON",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Indicator: reverse",
+    "Link word",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "3 Down",
+   "cells": [
+    [
+     0,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ]
+   ],
+   "letters": "TENON",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10087940,
+   "clue": "Book and at least three gardening tools fitting inside drum",
+   "enum": "5,4",
+   "answer": "BRAKE SHOE",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "4D",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade",
+   "summary": "Book→B + at least three gardening tools→RAKES HOE → BRAKE SHOE",
+   "answer_tiles": [
+    {
+     "char": "B",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "K",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "H",
+     "source_index": 1
+    },
+    {
+     "char": "O",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Substitution",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Book→B"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"and\""
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "at least three gardening tools→RAKES HOE"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"fitting inside drum\" → BRAKE SHOE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Book",
+     "box": "Substitution",
+     "pos": 0,
+     "si": 0,
+     "detail": "Book→B",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "and",
+     "box": "Link word",
+     "pos": 5,
+     "si": null,
+     "detail": "\"and\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "at least three gardening tools",
+     "box": "Synonym",
+     "pos": 9,
+     "si": 1,
+     "detail": "at least three gardening tools→RAKES HOE",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "fitting inside drum",
+     "box": "Definition",
+     "pos": 40,
+     "si": null,
+     "detail": "\"fitting inside drum\" → BRAKE SHOE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Substitution",
+    "Link word",
+    "Synonym",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "4 Down",
+   "cells": [
+    [
+     0,
+     6
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     8,
+     6
+    ]
+   ],
+   "letters": "BRAKESHOE",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10087923,
+   "clue": "Cricket and telly where there could be culture?",
+   "enum": "4,4",
+   "answer": "TEST TUBE",
+   "source": {
+    "publication": "times",
+    "puzzle": "29633",
+    "position": "1A",
+    "pub_date": "2026-08-28"
+   },
+   "operation_label": "Charade",
+   "summary": "Cricket→TEST + telly→TUBE → TEST TUBE",
+   "answer_tiles": [
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "U",
+     "source_index": 1
+    },
+    {
+     "char": "B",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "Cricket→TEST"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"and\""
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "telly→TUBE"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"where there could be culture\" → TEST TUBE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Cricket",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "Cricket→TEST",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "and",
+     "box": "Link word",
+     "pos": 8,
+     "si": null,
+     "detail": "\"and\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "telly",
+     "box": "Synonym",
+     "pos": 12,
+     "si": 1,
+     "detail": "telly→TUBE",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "where there could be culture",
+     "box": "Definition",
+     "pos": 18,
+     "si": null,
+     "detail": "\"where there could be culture\" → TEST TUBE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Link word",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "1 Across",
+   "cells": [
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     6
+    ],
+    [
+     0,
+     7
+    ]
+   ],
+   "letters": "TESTTUBE",
+   "is_last": true,
+   "crosses": 4
+  }
+ ],
+ "clue_seconds": 30,
+ "last_seconds": 30,
+ "last_points": 3,
+ "date": "2026-11-03"
+}

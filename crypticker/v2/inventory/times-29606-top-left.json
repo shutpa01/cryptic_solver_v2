@@ -1,0 +1,1474 @@
+{
+ "id": "times-29606-top-left",
+ "status": "to_test",
+ "built_at": "2026-11-02T14:43:54+00:00",
+ "approved_at": null,
+ "release_date": null,
+ "game": {
+  "puzzle": {
+   "source": "times",
+   "number": "29606",
+   "quadrant": "top left"
+  },
+  "window": [
+   [
+    {
+     "t": "w",
+     "n": 1
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 2
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 3
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 4
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 10
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 11
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    }
+   ],
+   [
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    }
+   ]
+  ],
+  "entries": [
+   {
+    "clue_id": 10081807,
+    "clue": "Emu wants to transform, becoming this?",
+    "enum": "4,4",
+    "answer": "MUTE SWAN",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "1A",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Anagram",
+    "summary": "anagram of \"Emu wants\" → MUTE SWAN",
+    "answer_tiles": [
+     {
+      "char": "M",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 0
+     },
+     {
+      "char": "T",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "sep": " "
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "W",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "N",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8"
+    },
+    "src_fill": {
+     "0": "#e3f0fb"
+    },
+    "rows": [
+     {
+      "pill": "Anagram of",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Emu wants→EMUWANTS anagram"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"to transform\" — anagram indicator"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"becoming this\" → MUTE SWAN"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Emu wants",
+      "box": "Anagram of",
+      "pos": 0,
+      "si": 0,
+      "detail": "Emu wants→EMUWANTS anagram",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "to transform",
+      "box": "Indicator: rearrange",
+      "pos": 10,
+      "si": null,
+      "detail": "\"to transform\" — anagram indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "becoming this",
+      "box": "Definition",
+      "pos": 24,
+      "si": null,
+      "detail": "\"becoming this\" → MUTE SWAN",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Anagram of",
+     "Indicator: rearrange",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "1 Across",
+    "cells": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      0,
+      6
+     ],
+     [
+      0,
+      7
+     ]
+    ],
+    "letters": "MUTESWAN",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10081809,
+    "clue": "Rules unfairly applied in tennis match, restricting quality",
+    "enum": "6,9",
+    "answer": "DOUBLE STANDARDS",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "10A",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Container",
+    "summary": "tennis match→DOUBLES around quality→STANDARD → DOUBLE STANDARDS",
+    "answer_tiles": [
+     {
+      "char": "D",
+      "source_index": 0
+     },
+     {
+      "char": "O",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 0
+     },
+     {
+      "char": "B",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "sep": " "
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "T",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "N",
+      "source_index": 1
+     },
+     {
+      "char": "D",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "R",
+      "source_index": 1
+     },
+     {
+      "char": "D",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Rules unfairly applied\" → DOUBLE STANDARDS"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"in\""
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "tennis match→DOUBLES"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"restricting\" — insertion indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "quality→STANDARD"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Rules unfairly applied",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Rules unfairly applied\" → DOUBLE STANDARDS",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "in",
+      "box": "Link word",
+      "pos": 23,
+      "si": null,
+      "detail": "\"in\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "tennis match",
+      "box": "Synonym",
+      "pos": 26,
+      "si": 0,
+      "detail": "tennis match→DOUBLES",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "restricting",
+      "box": "Indicator: insert",
+      "pos": 40,
+      "si": null,
+      "detail": "\"restricting\" — insertion indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "quality",
+      "box": "Synonym",
+      "pos": 52,
+      "si": 1,
+      "detail": "quality→STANDARD",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Link word",
+     "Synonym",
+     "Indicator: insert"
+    ],
+    "choices": null,
+    "label": "10 Across",
+    "cells": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      2,
+      8
+     ],
+     [
+      2,
+      9
+     ],
+     [
+      2,
+      10
+     ],
+     [
+      2,
+      11
+     ],
+     [
+      2,
+      12
+     ],
+     [
+      2,
+      13
+     ],
+     [
+      2,
+      14
+     ]
+    ],
+    "letters": "DOUBLESTANDARDS",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10081810,
+    "clue": "Unearths former partner of philosopher",
+    "enum": "7",
+    "answer": "EXHUMES",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "11A",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Charade",
+    "summary": "former partner→EX + of philosopher→HUMES → EXHUMES",
+    "answer_tiles": [
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "X",
+      "source_index": 0
+     },
+     {
+      "char": "H",
+      "source_index": 1
+     },
+     {
+      "char": "U",
+      "source_index": 1
+     },
+     {
+      "char": "M",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Unearths\" → EXHUMES"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "former partner→EX"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "of philosopher→HUMES"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Unearths",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Unearths\" → EXHUMES",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "former partner",
+      "box": "Synonym",
+      "pos": 9,
+      "si": 0,
+      "detail": "former partner→EX",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "of philosopher",
+      "box": "Synonym",
+      "pos": 24,
+      "si": 1,
+      "detail": "of philosopher→HUMES",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym"
+    ],
+    "choices": null,
+    "label": "11 Across",
+    "cells": [
+     [
+      4,
+      0
+     ],
+     [
+      4,
+      1
+     ],
+     [
+      4,
+      2
+     ],
+     [
+      4,
+      3
+     ],
+     [
+      4,
+      4
+     ],
+     [
+      4,
+      5
+     ],
+     [
+      4,
+      6
+     ]
+    ],
+    "letters": "EXHUMES",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10081821,
+    "clue": "Spooner’s guided writer in selection of music",
+    "enum": "6",
+    "answer": "MEDLEY",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "1D",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Spoonerism",
+    "summary": "guided writer→LED ME → MEDLEY",
+    "answer_tiles": [
+     {
+      "char": "M",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "D",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "Y",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8"
+    },
+    "src_fill": {
+     "0": "#e3f0fb"
+    },
+    "rows": [
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Spooner’s\" — spoonerism: LED ME → MEDLEY"
+     },
+     {
+      "pill": "Spoonerism",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "guided writer→LED ME"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"in\""
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"selection of music\" → MEDLEY"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Spooner’s",
+      "box": "Indicator: swap sounds",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Spooner’s\" — spoonerism: LED ME → MEDLEY",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "guided writer",
+      "box": "Spoonerism",
+      "pos": 10,
+      "si": 0,
+      "detail": "guided writer→LED ME",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "in",
+      "box": "Link word",
+      "pos": 24,
+      "si": null,
+      "detail": "\"in\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "selection of music",
+      "box": "Definition",
+      "pos": 27,
+      "si": null,
+      "detail": "\"selection of music\" → MEDLEY",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Indicator: swap sounds",
+     "Spoonerism",
+     "Link word",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "1 Down",
+    "cells": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ]
+    ],
+    "letters": "MEDLEY",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10081823,
+    "clue": "Short sailor all but unsuitable for naval battle",
+    "enum": "7",
+    "answer": "SALAMIS",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "3D",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Charade + deletion",
+    "summary": "sailor→SALT less T + unsuitable→AMISS less S → SALAMIS",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "M",
+      "source_index": 1
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Short\" — deletion/tail indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "sailor→SALT less T"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"all but\" — deletion/tail indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "unsuitable→AMISS less S"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"for\""
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"naval battle\" → SALAMIS"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Short",
+      "box": "Indicator: delete",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Short\" — deletion/tail indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "sailor",
+      "box": "Synonym",
+      "pos": 6,
+      "si": 0,
+      "detail": "sailor→SALT less T",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "all but",
+      "box": "Indicator: delete",
+      "pos": 13,
+      "si": null,
+      "detail": "\"all but\" — deletion/tail indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "unsuitable",
+      "box": "Synonym",
+      "pos": 21,
+      "si": 1,
+      "detail": "unsuitable→AMISS less S",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "for",
+      "box": "Link word",
+      "pos": 32,
+      "si": null,
+      "detail": "\"for\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "naval battle",
+      "box": "Definition",
+      "pos": 36,
+      "si": null,
+      "detail": "\"naval battle\" → SALAMIS",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Indicator: delete",
+     "Synonym",
+     "Link word",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "3 Down",
+    "cells": [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ],
+     [
+      5,
+      4
+     ],
+     [
+      6,
+      4
+     ]
+    ],
+    "letters": "SALAMIS",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10081824,
+    "clue": "Unaltered having adopted parking orbit position",
+    "enum": "5",
+    "answer": "APSIS",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "4D",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Container",
+    "summary": "Unaltered→AS IS around parking→P → APSIS",
+    "answer_tiles": [
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "P",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Unaltered→AS IS"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"having adopted\" — insertion indicator"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "parking→P"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"orbit position\" → APSIS"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Unaltered",
+      "box": "Synonym",
+      "pos": 0,
+      "si": 0,
+      "detail": "Unaltered→AS IS",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "having adopted",
+      "box": "Indicator: insert",
+      "pos": 10,
+      "si": null,
+      "detail": "\"having adopted\" — insertion indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "parking",
+      "box": "Substitution",
+      "pos": 25,
+      "si": 1,
+      "detail": "parking→P",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "orbit position",
+      "box": "Definition",
+      "pos": 33,
+      "si": null,
+      "detail": "\"orbit position\" → APSIS",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Synonym",
+     "Indicator: insert",
+     "Substitution",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "4 Down",
+    "cells": [
+     [
+      0,
+      6
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      2,
+      6
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      4,
+      6
+     ]
+    ],
+    "letters": "APSIS",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10081822,
+    "clue": "Skill shown by driver with any luck",
+    "enum": "5,4",
+    "answer": "TOUCH WOOD",
+    "source": {
+     "publication": "times",
+     "puzzle": "29606",
+     "position": "2D",
+     "pub_date": "2026-07-28"
+    },
+    "operation_label": "Charade",
+    "summary": "Skill→TOUCH + driver→WOOD → TOUCH WOOD",
+    "answer_tiles": [
+     {
+      "char": "T",
+      "source_index": 0
+     },
+     {
+      "char": "O",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 0
+     },
+     {
+      "char": "C",
+      "source_index": 0
+     },
+     {
+      "char": "H",
+      "source_index": 0
+     },
+     {
+      "sep": " "
+     },
+     {
+      "char": "W",
+      "source_index": 1
+     },
+     {
+      "char": "O",
+      "source_index": 1
+     },
+     {
+      "char": "O",
+      "source_index": 1
+     },
+     {
+      "char": "D",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Skill→TOUCH"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"shown by\""
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "driver→WOOD"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"with any luck\" → TOUCH WOOD"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Skill",
+      "box": "Synonym",
+      "pos": 0,
+      "si": 0,
+      "detail": "Skill→TOUCH",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "shown by",
+      "box": "Link word",
+      "pos": 6,
+      "si": null,
+      "detail": "\"shown by\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "driver",
+      "box": "Synonym",
+      "pos": 15,
+      "si": 1,
+      "detail": "driver→WOOD",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "with any luck",
+      "box": "Definition",
+      "pos": 22,
+      "si": null,
+      "detail": "\"with any luck\" → TOUCH WOOD",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Synonym",
+     "Link word",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "2 Down",
+    "cells": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ],
+     [
+      6,
+      2
+     ],
+     [
+      7,
+      2
+     ],
+     [
+      8,
+      2
+     ]
+    ],
+    "letters": "TOUCHWOOD",
+    "is_last": true,
+    "crosses": 3
+   }
+  ],
+  "clue_seconds": 30,
+  "last_seconds": 30,
+  "last_points": 3
+ }
+}

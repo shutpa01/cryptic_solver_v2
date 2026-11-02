@@ -1,0 +1,1597 @@
+{
+ "puzzle": {
+  "source": "times",
+  "number": "5225",
+  "quadrant": "bottom right"
+ },
+ "window": [
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 12
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 13
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 19
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": 20
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 21
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "o"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": 26
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "o"
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "b"
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ],
+  [
+   {
+    "t": "w",
+    "n": 28
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   },
+   {
+    "t": "w",
+    "n": null
+   }
+  ]
+ ],
+ "entries": [
+  {
+   "clue_id": 10080249,
+   "clue": "Draw spotlight away from winning coach",
+   "enum": "7",
+   "answer": "UPSTAGE",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "19A",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Charade",
+   "summary": "winning→UP + coach→STAGE → UPSTAGE",
+   "answer_tiles": [
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "G",
+     "source_index": 1
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Draw spotlight away\" → UPSTAGE"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"from\""
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "winning→UP"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "coach→STAGE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Draw spotlight away",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Draw spotlight away\" → UPSTAGE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "from",
+     "box": "Link word",
+     "pos": 20,
+     "si": null,
+     "detail": "\"from\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "winning",
+     "box": "Synonym",
+     "pos": 25,
+     "si": 0,
+     "detail": "winning→UP",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "coach",
+     "box": "Synonym",
+     "pos": 33,
+     "si": 1,
+     "detail": "coach→STAGE",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Link word",
+    "Synonym"
+   ],
+   "choices": null,
+   "label": "19 Across",
+   "cells": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ]
+   ],
+   "letters": "UPSTAGE",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10080250,
+   "clue": "One paying to receive American tan lingerie",
+   "enum": "9,4",
+   "answer": "SUSPENDER BELT",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "21A",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Container + charade",
+   "summary": "One paying→SPENDER around American→US + tan→BELT → SUSPENDER BELT",
+   "answer_tiles": [
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 1
+    },
+    {
+     "char": "S",
+     "source_index": 1
+    },
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "R",
+     "source_index": 0
+    },
+    {
+     "sep": " "
+    },
+    {
+     "char": "B",
+     "source_index": 2
+    },
+    {
+     "char": "E",
+     "source_index": 2
+    },
+    {
+     "char": "L",
+     "source_index": 2
+    },
+    {
+     "char": "T",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "One paying→SPENDER"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"to\""
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"receive\" — container indicator"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "American→US"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "tan→BELT"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"lingerie\" → SUSPENDER BELT"
+    }
+   ],
+   "chips": [
+    {
+     "text": "One paying",
+     "box": "Synonym",
+     "pos": 0,
+     "si": 0,
+     "detail": "One paying→SPENDER",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "to",
+     "box": "Link word",
+     "pos": 11,
+     "si": null,
+     "detail": "\"to\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "receive",
+     "box": "Indicator: insert",
+     "pos": 14,
+     "si": null,
+     "detail": "\"receive\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "American",
+     "box": "Substitution",
+     "pos": 22,
+     "si": 1,
+     "detail": "American→US",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "tan",
+     "box": "Synonym",
+     "pos": 31,
+     "si": 2,
+     "detail": "tan→BELT",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "lingerie",
+     "box": "Definition",
+     "pos": 35,
+     "si": null,
+     "detail": "\"lingerie\" → SUSPENDER BELT",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Synonym",
+    "Link word",
+    "Indicator: insert",
+    "Substitution",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "21 Across",
+   "cells": [
+    [
+     3,
+     -5
+    ],
+    [
+     3,
+     -4
+    ],
+    [
+     3,
+     -3
+    ],
+    [
+     3,
+     -2
+    ],
+    [
+     3,
+     -1
+    ],
+    [
+     3,
+     0
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "letters": "SUSPENDERBELT",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10080252,
+   "clue": "Sort of hilt round a heavy Indian club",
+   "enum": "5",
+   "answer": "LATHI",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "26A",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Container + anagram",
+   "summary": "anagram of \"hilt\" + THI + A → LATHI",
+   "answer_tiles": [
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "H",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Sort of\" — anagram indicator"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "HILT anagram"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"round\" — container indicator"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "A"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"heavy Indian club\" → LATHI"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Sort of",
+     "box": "Indicator: rearrange",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Sort of\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "hilt",
+     "box": "Anagram of",
+     "pos": 8,
+     "si": 0,
+     "detail": "HILT anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "round",
+     "box": "Indicator: insert",
+     "pos": 13,
+     "si": null,
+     "detail": "\"round\" — container indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "a",
+     "box": "Literal",
+     "pos": 19,
+     "si": 1,
+     "detail": "A",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "heavy Indian club",
+     "box": "Definition",
+     "pos": 21,
+     "si": null,
+     "detail": "\"heavy Indian club\" → LATHI",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: rearrange",
+    "Anagram of",
+    "Indicator: insert",
+    "Literal",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "26 Across",
+   "cells": [
+    [
+     5,
+     3
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     7
+    ]
+   ],
+   "letters": "LATHI",
+   "is_last": false,
+   "crosses": 2
+  },
+  {
+   "clue_id": 10080254,
+   "clue": "In retrospect, a clean World Cup, perhaps",
+   "enum": "9",
+   "answer": "SPECTACLE",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "28A",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Hidden",
+   "summary": "retrospect a clean→SPECTACLE → SPECTACLE",
+   "answer_tiles": [
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "P",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "L",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"In\" — hidden indicator"
+    },
+    {
+     "pill": "Literal",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "retrospect a clean→SPECTACLE"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"World Cup perhaps\" → SPECTACLE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "In",
+     "box": "Indicator: hidden word",
+     "pos": 0,
+     "si": null,
+     "detail": "\"In\" — hidden indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "retrospect a clean",
+     "box": "Literal",
+     "pos": 3,
+     "si": 0,
+     "detail": "retrospect a clean→SPECTACLE",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "World Cup perhaps",
+     "box": "Definition",
+     "pos": 23,
+     "si": null,
+     "detail": "\"World Cup perhaps\" → SPECTACLE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: hidden word",
+    "Literal",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "28 Across",
+   "cells": [
+    [
+     7,
+     -1
+    ],
+    [
+     7,
+     0
+    ],
+    [
+     7,
+     1
+    ],
+    [
+     7,
+     2
+    ],
+    [
+     7,
+     3
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     7
+    ]
+   ],
+   "letters": "SPECTACLE",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10080263,
+   "clue": "Tipsy medic using a wrong direction",
+   "enum": "11",
+   "answer": "MISGUIDANCE",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "12D",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Anagram",
+   "summary": "anagram of \"medic using a\" → MISGUIDANCE",
+   "answer_tiles": [
+    {
+     "char": "M",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "G",
+     "source_index": 0
+    },
+    {
+     "char": "U",
+     "source_index": 0
+    },
+    {
+     "char": "I",
+     "source_index": 0
+    },
+    {
+     "char": "D",
+     "source_index": 0
+    },
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "N",
+     "source_index": 0
+    },
+    {
+     "char": "C",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 0
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8"
+   },
+   "src_fill": {
+    "0": "#e3f0fb"
+   },
+   "rows": [
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Tipsy\" — anagram indicator"
+    },
+    {
+     "pill": "Anagram of",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "medic using a→MEDICUSINGA anagram"
+    },
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"wrong direction\" → MISGUIDANCE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Tipsy",
+     "box": "Indicator: rearrange",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Tipsy\" — anagram indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "medic using a",
+     "box": "Anagram of",
+     "pos": 6,
+     "si": 0,
+     "detail": "medic using a→MEDICUSINGA anagram",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "wrong direction",
+     "box": "Definition",
+     "pos": 20,
+     "si": null,
+     "detail": "\"wrong direction\" → MISGUIDANCE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Indicator: rearrange",
+    "Anagram of",
+    "Definition"
+   ],
+   "choices": null,
+   "label": "12 Down",
+   "cells": [
+    [
+     -3,
+     1
+    ],
+    [
+     -2,
+     1
+    ],
+    [
+     -1,
+     1
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     7,
+     1
+    ]
+   ],
+   "letters": "MISGUIDANCE",
+   "is_last": false,
+   "crosses": 3
+  },
+  {
+   "clue_id": 10080264,
+   "clue": "Ravel concert’s finale in lifeless Bordeaux?",
+   "enum": "10",
+   "answer": "INTERTWINE",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "13D",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Container + charade + selection",
+   "summary": "lifeless→INERT around concert’s→T + Bordeaux→WINE → INTERTWINE",
+   "answer_tiles": [
+    {
+     "char": "I",
+     "source_index": 1
+    },
+    {
+     "char": "N",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 1
+    },
+    {
+     "char": "R",
+     "source_index": 1
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "W",
+     "source_index": 2
+    },
+    {
+     "char": "I",
+     "source_index": 2
+    },
+    {
+     "char": "N",
+     "source_index": 2
+    },
+    {
+     "char": "E",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Ravel\" → INTERTWINE"
+    },
+    {
+     "pill": "Letters from",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "concert’s→T",
+     "detail_html": "<span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">r</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">t</span>’<span style=\"color:#cbd5e1\">s</span>→T"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"finale\" — selection/last indicator"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"in\" — insertion indicator"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "lifeless→INERT"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "Bordeaux→WINE"
+    }
+   ],
+   "chips": [
+    {
+     "text": "Ravel",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Ravel\" → INTERTWINE",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "concert’s",
+     "box": "Letters from",
+     "pos": 6,
+     "si": 0,
+     "detail": "concert’s→T",
+     "detail_html": "<span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">c</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">r</span><span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">t</span>’<span style=\"color:#cbd5e1\">s</span>→T",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "finale",
+     "box": "Indicator: select letters",
+     "pos": 16,
+     "si": null,
+     "detail": "\"finale\" — selection/last indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "in",
+     "box": "Indicator: insert",
+     "pos": 23,
+     "si": null,
+     "detail": "\"in\" — insertion indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "lifeless",
+     "box": "Synonym",
+     "pos": 26,
+     "si": 1,
+     "detail": "lifeless→INERT",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "Bordeaux",
+     "box": "Synonym",
+     "pos": 35,
+     "si": 2,
+     "detail": "Bordeaux→WINE",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Letters from",
+    "Indicator: select letters",
+    "Indicator: insert",
+    "Synonym"
+   ],
+   "choices": null,
+   "label": "13 Down",
+   "cells": [
+    [
+     -2,
+     7
+    ],
+    [
+     -1,
+     7
+    ],
+    [
+     0,
+     7
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     7,
+     7
+    ]
+   ],
+   "letters": "INTERTWINE",
+   "is_last": false,
+   "crosses": 4
+  },
+  {
+   "clue_id": 10080267,
+   "clue": "Sanitised, like Troy in the Iliad, say",
+   "enum": "7",
+   "answer": "ASEPTIC",
+   "source": {
+    "publication": "times",
+    "puzzle": "5225",
+    "position": "20D",
+    "pub_date": "2026-07-19"
+   },
+   "operation_label": "Container + charade",
+   "summary": "like→AS + Iliad→EPIC around Troy→T → ASEPTIC",
+   "answer_tiles": [
+    {
+     "char": "A",
+     "source_index": 0
+    },
+    {
+     "char": "S",
+     "source_index": 0
+    },
+    {
+     "char": "E",
+     "source_index": 2
+    },
+    {
+     "char": "P",
+     "source_index": 2
+    },
+    {
+     "char": "T",
+     "source_index": 1
+    },
+    {
+     "char": "I",
+     "source_index": 2
+    },
+    {
+     "char": "C",
+     "source_index": 2
+    }
+   ],
+   "src_fg": {
+    "0": "#1d6fb8",
+    "1": "#2e8b57",
+    "2": "#d2691e"
+   },
+   "src_fill": {
+    "0": "#e3f0fb",
+    "1": "#e4f4ea",
+    "2": "#fbeadf"
+   },
+   "rows": [
+    {
+     "pill": "Definition",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"Sanitised\" → ASEPTIC"
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb",
+     "detail": "like→AS"
+    },
+    {
+     "pill": "Substitution",
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea",
+     "detail": "Troy→T"
+    },
+    {
+     "pill": "Indicator",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"in\" — insertion indicator"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"the\""
+    },
+    {
+     "pill": "Synonym",
+     "fg": "#d2691e",
+     "fill": "#fbeadf",
+     "detail": "Iliad→EPIC"
+    },
+    {
+     "pill": "Link",
+     "fg": "#475569",
+     "fill": "#f1f5f9",
+     "detail": "\"say\""
+    }
+   ],
+   "chips": [
+    {
+     "text": "Sanitised",
+     "box": "Definition",
+     "pos": 0,
+     "si": null,
+     "detail": "\"Sanitised\" → ASEPTIC",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "like",
+     "box": "Synonym",
+     "pos": 11,
+     "si": 0,
+     "detail": "like→AS",
+     "detail_html": null,
+     "fg": "#1d6fb8",
+     "fill": "#e3f0fb"
+    },
+    {
+     "text": "Troy",
+     "box": "Substitution",
+     "pos": 16,
+     "si": 1,
+     "detail": "Troy→T",
+     "detail_html": null,
+     "fg": "#2e8b57",
+     "fill": "#e4f4ea"
+    },
+    {
+     "text": "in",
+     "box": "Indicator: insert",
+     "pos": 21,
+     "si": null,
+     "detail": "\"in\" — insertion indicator",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "the",
+     "box": "Link word",
+     "pos": 24,
+     "si": null,
+     "detail": "\"the\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    },
+    {
+     "text": "Iliad",
+     "box": "Synonym",
+     "pos": 28,
+     "si": 2,
+     "detail": "Iliad→EPIC",
+     "detail_html": null,
+     "fg": "#d2691e",
+     "fill": "#fbeadf"
+    },
+    {
+     "text": "say",
+     "box": "Link word",
+     "pos": 35,
+     "si": null,
+     "detail": "\"say\"",
+     "detail_html": null,
+     "fg": "#475569",
+     "fill": "#f1f5f9"
+    }
+   ],
+   "boxes": [
+    "Definition",
+    "Synonym",
+    "Substitution",
+    "Indicator: insert",
+    "Link word"
+   ],
+   "choices": null,
+   "label": "20 Down",
+   "cells": [
+    [
+     1,
+     5
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     7,
+     5
+    ]
+   ],
+   "letters": "ASEPTIC",
+   "is_last": true,
+   "crosses": 4
+  }
+ ],
+ "clue_seconds": 30,
+ "last_seconds": 30,
+ "last_points": 3,
+ "date": "2026-11-04"
+}

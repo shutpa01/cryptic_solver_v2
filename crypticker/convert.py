@@ -69,6 +69,23 @@ def jumble(text, seed):
     return out
 
 
+def scramble_perm(n, seed):
+    """A deterministic NON-identity permutation of range(n). Used to shuffle a
+    charade's tile order so the pieces no longer sit in answer order (tapping
+    left-to-right must not spell the answer)."""
+    if n < 2:
+        return list(range(n))
+    idx = list(range(n))
+    s = seed & 0x7FFFFFFF
+    for i in range(n - 1, 0, -1):
+        s = (s * 1103515245 + 12345) & 0x7FFFFFFF
+        j = s % (i + 1)
+        idx[i], idx[j] = idx[j], idx[i]
+    if idx == list(range(n)):             # never leave it in answer order
+        idx = idx[1:] + idx[:1]
+    return idx
+
+
 # ---- anagram: single-letter fodder tiles + a positional foothold -------------
 def build_anagram(parse, max_anchors=None):
     """Anagram tiles: one per fodder letter, in fodder (clue) order, coloured by
@@ -122,6 +139,103 @@ def build_anagram(parse, max_anchors=None):
     return atoms, assembly_order, anchors
 
 
+# ---- hidden / lurker: atomise the clue, reveal the mechanism -----------------
+def build_hidden(clue_text, answer, reversed_hidden):
+    """A lurker's answer is a consecutive substring of the clue's letters
+    (reversed for hidden_reversed). We atomise the SPANNING words (+/- one
+    neighbour) into single-letter tiles coloured per clue word, and mark which
+    consecutive run is the answer. The player selects that run among decoys.
+    Returns None if the substring can't be located (caller falls back)."""
+    a = "".join(ch for ch in (answer or "").upper() if ch.isalpha())
+    target = a[::-1] if reversed_hidden else a
+    words = (clue_text or "").split()
+    seq = []                                   # (char, word_index) for every clue letter
+    for wi, w in enumerate(words):
+        for ch in w.upper():
+            if ch.isalpha():
+                seq.append((ch, wi))
+    full = "".join(c for c, _ in seq)
+    start = full.find(target)
+    if start < 0 or not target:
+        return None
+    end = start + len(target)                  # exclusive
+    w_start, w_end = seq[start][1], seq[end - 1][1]
+    win_lo = max(0, w_start - 1)               # one decoy word each side
+    win_hi = min(len(words) - 1, w_end + 1)
+    letters, seq_to_win = [], {}
+    for i, (ch, wi) in enumerate(seq):
+        if win_lo <= wi <= win_hi:
+            seq_to_win[i] = len(letters)
+            letters.append({"ch": ch, "colour": PALETTE[(wi - win_lo) % len(PALETTE)][0]})
+    span = [seq_to_win[start], seq_to_win[end - 1]]
+    return {"letters": letters, "answer_span": span,
+            "target": target, "reversed": bool(reversed_hidden)}
+
+
+# ---- acrostic: show the words, take initials of a consecutive run ------------
+def build_acrostic(clue_text, answer):
+    """An acrostic answer is the first letters of a run of consecutive clue
+    words. We show the words (+/- one neighbour as decoys), coloured per word,
+    and mark which run's initials are the answer. The player selects that run
+    of words. Returns None if the initials don't contain the answer."""
+    a = "".join(ch for ch in (answer or "").upper() if ch.isalpha())
+    words = []                                  # (display, letters) for words with letters
+    for w in (clue_text or "").split():
+        lw = "".join(ch for ch in w.upper() if ch.isalpha())
+        if lw:
+            words.append((w, lw))
+    initials = "".join(lw[0] for _, lw in words)
+    start = initials.find(a)
+    if start < 0 or not a:
+        return None
+    end = start + len(a)                         # exclusive, in word-index space
+    win_lo = max(0, start - 1)
+    win_hi = min(len(words) - 1, end)            # last answer word is end-1; +1 decoy
+    win_words, seq_to_win = [], {}
+    for i in range(len(words)):
+        if win_lo <= i <= win_hi:
+            seq_to_win[i] = len(win_words)
+            win_words.append({"text": words[i][0],
+                              "colour": PALETTE[(i - win_lo) % len(PALETTE)][0]})
+    span = [seq_to_win[start], seq_to_win[end - 1]]
+    return {"words": win_words, "answer_span": span, "target": a}
+
+
+# ---- jumble board: arrange the answer's own letters (DD + anagram-hybrid) ----
+NEUTRAL = "#64748b"
+
+def build_jumble_board(answer, foothold, seed_base):
+    """Single-letter tiles of the ANSWER's own letters, jumbled (deterministic),
+    played on the anagram slot board. Used for double_definition (no foothold —
+    you unscramble from the two definitions) and, as an interim, anagram-hybrids
+    (with the normal foothold). Returns (atoms, assembly_order, anchors)."""
+    letters = [ch for ch in (answer or "").upper() if ch.isalpha()]
+    n = len(letters)
+    tray = list(jumble("".join(letters), seed_base))       # shuffle preserves the multiset
+    atoms = [{"true": ch, "display": ch, "colour": NEUTRAL, "source_index": 0,
+              "source_word": "", "mechanism": "jumble"} for ch in tray]
+    used, assembly_order = [False] * n, []
+    for ch in letters:                                      # answer pos -> a tray tile
+        for i, a in enumerate(atoms):
+            if not used[i] and a["true"] == ch:
+                used[i] = True; assembly_order.append(i); break
+        else:
+            assembly_order.append(None)
+    anchors = []
+    if foothold and n > 1:
+        k = min(anchor_count(n), n - 1)
+        positions = []
+        for i in range(k):
+            p = min(n - 1, int((i + 0.5) * n / k)) if k else 0
+            while p in positions:
+                p = (p + 1) % n
+            positions.append(p)
+        positions.sort()
+        anchors = [{"pos": p, "atom_index": assembly_order[p], "letter": letters[p]}
+                   for p in positions if assembly_order[p] is not None]
+    return atoms, assembly_order, anchors
+
+
 # ---- bonus question: derived from the parse, deterministic -------------------
 def bonus_question(parse, atoms):
     """One 3-option multiple-choice question about this clue. v1: the definition
@@ -162,8 +276,48 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
     parse.clue_id = clue_id
 
     anchors = []
-    if (parse.operation or "") == "anagram":
+    board = "assembly"
+    hidden_data = None
+    acrostic_data = None
+    from crypticker.mech_kind import effective_op   # local: mech_kind imports this module
+    op = effective_op(parse)              # /hs 'manual' clues: kind from the pieces
+    if op in ("hidden", "hidden_reversed"):
+        hidden_data = build_hidden(parse.clue_text, parse.answer_text,
+                                   op == "hidden_reversed")
+        if hidden_data is None:
+            raise ValueError("hidden substring not found for %s" % clue_id)
+        board, kind, mode, highlighted = "hidden", "hidden", "hard", False
+        _sp = hidden_data["answer_span"]
+        _run = hidden_data["letters"][_sp[0]:_sp[1] + 1]
+        _seq = _run if not hidden_data["reversed"] else list(reversed(_run))
+        atoms = out_atoms = [{"true": x["ch"], "display": x["ch"], "colour": x["colour"],
+                              "source_index": 0, "source_word": "hidden",
+                              "mechanism": "hidden"} for x in _seq]
+        assembly_order = list(range(len(out_atoms)))
+    elif op == "acrostic":
+        acrostic_data = build_acrostic(parse.clue_text, parse.answer_text)
+        if acrostic_data is None:
+            raise ValueError("acrostic run not found for %s" % clue_id)
+        board, kind, mode, highlighted = "acrostic", "acrostic", "hard", False
+        _sp, _tg = acrostic_data["answer_span"], acrostic_data["target"]
+        atoms = out_atoms = [{"true": _tg[j], "display": _tg[j],
+                              "colour": acrostic_data["words"][_sp[0] + j]["colour"],
+                              "source_index": 0, "source_word": "acrostic",
+                              "mechanism": "acrostic"} for j in range(len(_tg))]
+        assembly_order = list(range(len(out_atoms)))
+    elif op == "double_definition":
+        board = mode = "anagram"; kind = "dd"; highlighted = False
+        atoms, assembly_order, anchors = build_jumble_board(
+            parse.answer_text, foothold=False, seed_base=clue_id * 100 + 7)
+        out_atoms = atoms
+    elif op in ("anagram_charade", "anagram_container"):
+        board = mode = "anagram"; kind = "anagram_hybrid"; highlighted = False
+        atoms, assembly_order, anchors = build_jumble_board(
+            parse.answer_text, foothold=True, seed_base=clue_id * 100 + 3)
+        out_atoms = atoms
+    elif op == "anagram":
         mode = "anagram"
+        board = "anagram"
         highlighted = False               # spec open decision 6: no def highlight on anagram
         atoms, assembly_order, anchors = build_anagram(parse, max_anchors)
         kind = "anagram"
@@ -194,6 +348,13 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
                 "colour": a["colour"], "source_index": a["source_index"],
                 "source_word": a["source_word"], "mechanism": a["mechanism"],
             })
+        if kind == "charade" and len(out_atoms) >= 2:
+            # A charade's tiles sit in ANSWER order, so tapping them left-to-right
+            # assembles the answer with no thought. Scramble the tile order (the
+            # letters stay jumbled too) so the player must work out the order.
+            perm = scramble_perm(len(out_atoms), clue_id * 7 + 1)
+            out_atoms = [out_atoms[perm[i]] for i in range(len(perm))]
+            assembly_order = [perm.index(p) for p in range(len(perm))]
 
     row = conn.execute(
         "SELECT source, puzzle_number, clue_number, direction, publication_date "
@@ -203,6 +364,23 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
         pos = (row[2] or "") + (row[3][:1].upper() if row[3] else "")
         source = {"publication": row[0], "puzzle": row[1],
                   "position": pos, "pub_date": row[4]}
+
+    expl = explanation(parse, atoms, assembly_order, source)
+    if board == "hidden":
+        d = parse.definition.text if parse.definition else "?"
+        rev = "(reversed) " if hidden_data["reversed"] else ""
+        expl = "%s is hidden %sin the surface. Definition: %s." % (
+            parse.answer_text, rev, d)
+    elif board == "acrostic":
+        d = parse.definition.text if parse.definition else "?"
+        expl = "%s = the initial letters of consecutive words. Definition: %s." % (
+            parse.answer_text, d)
+    elif kind == "dd":
+        expl = "Double definition — the clue defines %s two ways." % parse.answer_text
+    elif kind == "anagram_hybrid":
+        d = parse.definition.text if parse.definition else "?"
+        expl = "Anagram-based wordplay: the letters rearrange to %s. Definition: %s." % (
+            parse.answer_text, d)
 
     return {
         "clue_id": clue_id,
@@ -216,10 +394,13 @@ def convert_clue(conn, clue_id, mode=None, max_anchors=None):
                        "highlighted": highlighted},
         "atoms": out_atoms,
         "assembly_order": assembly_order,
+        "board": board,                   # assembly / anagram / hidden / acrostic — drives the UI
+        "hidden": hidden_data,            # hidden-board data (letters/span); None otherwise
+        "acrostic": acrostic_data,        # acrostic-board data (words/span); None otherwise
         "anchors": anchors,               # pre-placed positions (anagram foothold); [] otherwise
         "jumbled": any(o["display"] != o["true"] for o in out_atoms),
         "bonus": bonus_question(parse, atoms),
-        "explanation": explanation(parse, atoms, assembly_order, source),
+        "explanation": expl,
     }
 
 

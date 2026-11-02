@@ -30,6 +30,8 @@
 
   .cluecard{background:var(--card);border:1px solid #e2e6eb;border-radius:14px;padding:22px 20px;box-shadow:0 1px 3px rgba(27,36,48,.06)}
   .cluecount{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+  .mechbadge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.09em;
+    padding:3px 10px;border-radius:999px;text-transform:uppercase;color:#fff;vertical-align:middle}
   .clue{font-family:Georgia,'Times New Roman',serif;font-size:20px;line-height:1.5}
   .clue .enum{color:var(--muted);font-size:16px;white-space:nowrap}
   .defhl{background:#e5edfd;border-bottom:2px solid var(--def);border-radius:3px;padding:0 2px}
@@ -57,6 +59,30 @@
   .slot.empty{color:#c3cad3}
   .slot.locked{border-style:solid;cursor:default;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35)}
   .slots.correct .slot{border-color:var(--good)}
+
+  /* hidden/lurker: a row of atomised clue letters; select the run */
+  .lrow{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:20px 0 8px;
+        padding:14px;border-radius:12px;border:2px dashed #cdd4dc;background:#fafbfc}
+  .lrow.wrong{animation:shake .35s}
+  .lchip{border:none;cursor:pointer;user-select:none;font-family:inherit;font-weight:900;
+    font-size:19px;color:#fff;width:42px;height:50px;border-radius:9px;opacity:.92;
+    box-shadow:0 2px 0 rgba(0,0,0,.2);transition:transform .08s,outline-color .1s}
+  .lchip:active{transform:translateY(2px)}
+  .lchip.run{outline:3px solid var(--good);outline-offset:1px;opacity:1}
+  .lchip.sel,.wchip.sel{outline:3px solid #111827;outline-offset:2px;position:relative;z-index:2;
+    transform:translateY(-3px) scale(1.08);animation:pulsesel 1s ease-in-out infinite}
+  @keyframes pulsesel{
+    0%,100%{box-shadow:0 0 0 4px rgba(17,24,39,.18),0 6px 12px rgba(0,0,0,.28)}
+    50%{box-shadow:0 0 0 8px rgba(17,24,39,.08),0 6px 12px rgba(0,0,0,.28)}}
+  @media (prefers-reduced-motion: reduce){.lchip.sel,.wchip.sel{animation:none;box-shadow:0 0 0 5px rgba(17,24,39,.15)}}
+
+  /* acrostic: word tiles; take the initial of a run of words */
+  .wchip{border:none;cursor:pointer;user-select:none;font-family:inherit;font-weight:800;
+    font-size:16px;color:#fff;padding:13px 15px;border-radius:9px;opacity:.92;
+    box-shadow:0 2px 0 rgba(0,0,0,.2);transition:transform .08s,outline-color .1s}
+  .wchip u{text-underline-offset:2px}
+  .wchip:active{transform:translateY(2px)}
+  .wchip.run{outline:3px solid var(--good);outline-offset:1px;opacity:1}
 
   .hint{font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px}
   .controls{display:flex;gap:10px;justify-content:center}
@@ -99,6 +125,16 @@
   .modal .verdict.ok{color:var(--good)} .modal .verdict.no{color:var(--clock)}
   .banner{text-align:center;font-size:13px;font-weight:700;margin-bottom:12px;min-height:18px}
   .banner.ok{color:var(--good)} .banner.no{color:var(--clock)}
+
+  /* solved-answer reveal: big, centred, unmissable; clock pauses while it shows */
+  .answerpop{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:30;
+    background:var(--good);color:#fff;font-weight:900;letter-spacing:.05em;text-align:center;
+    font-size:clamp(28px,7vw,40px);padding:20px 36px;border-radius:18px;max-width:90vw;
+    box-shadow:0 14px 38px rgba(0,0,0,.30);animation:popin .18s ease-out}
+  .answerpop .tick{display:block;font-size:14px;letter-spacing:.18em;opacity:.9;margin-bottom:4px}
+  @keyframes popin{from{transform:translate(-50%,-50%) scale(.82);opacity:0}
+    to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+
   .hidden{display:none}
 </style>
 </head>
@@ -128,7 +164,7 @@
       <span id="ttext" class="timertext">2:00</span>
     </div>
     <div class="cluecard">
-      <div class="cluecount" id="count">Clue 1</div>
+      <div class="cluecount"><span id="count">Clue 1</span> <span class="mechbadge" id="mechbadge" style="display:none"></span></div>
       <div class="clue" id="cluetext"></div>
     </div>
     <div id="board"></div>
@@ -153,6 +189,8 @@
     <div class="reveal"><h2>How they worked</h2><div id="reveals"></div></div>
   </div>
 
+  <div id="answerpop" class="answerpop hidden"></div>
+
   <div id="bonusoverlay" class="overlay hidden">
     <div class="modal">
       <div class="tag">✦ Bonus gamble</div>
@@ -170,8 +208,8 @@ const TOTAL_TIME = DAY.time_limit_s || 120;
 const SKIP_PENALTY = DAY.skip_penalty_s || 30;
 
 let idx=0, timeLeft=TOTAL_TIME, timer=null;
-let placed=[], slots=[], results=[], solvedCount=0;
-let bonusUsed=false, bonusOpen=false, bonusWon=false, clueStartTimeLeft=TOTAL_TIME;
+let placed=[], slots=[], results=[], solvedCount=0, hiddenStart=null;
+let bonusUsed=false, bonusOpen=false, bonusWon=false, revealing=false, clueStartTimeLeft=TOTAL_TIME;
 const el=id=>document.getElementById(id);
 const answerLetters=p=>(p.answer||"").toUpperCase().replace(/[^A-Z]/g,"");
 
@@ -187,7 +225,7 @@ function startGame(){
    the time this clue has cost you (deliberation included), capped at 60s. While
    the bonus modal is open we don't end the round even at 0:00, so a correct
    answer's refund can still rescue it. */
-function tick(){ timeLeft--; paintTime(); if(timeLeft<=0 && !bonusOpen) endGame(); }
+function tick(){ if(revealing) return; timeLeft--; paintTime(); if(timeLeft<=0 && !bonusOpen) endGame(); }
 function paintTime(){
   const t=Math.max(timeLeft,0), m=Math.floor(t/60), s=String(t%60).padStart(2,"0");
   el("ttext").textContent=m+":"+s;
@@ -202,11 +240,23 @@ function clueHTML(p){
   return text+(p.enum?(" <span class='enum'>"+p.enum+"</span>"):"");
 }
 function loadClue(i){
-  idx=i; placed=[]; slots=[]; clueStartTimeLeft=timeLeft; bonusWon=false;
+  idx=i; placed=[]; slots=[]; hiddenStart=null; clueStartTimeLeft=timeLeft; bonusWon=false;
   const p=PUZZLES[i];
   el("count").textContent="Clue "+(i+1)+" of "+PUZZLES.length;
   el("cluetext").innerHTML=clueHTML(p);
-  if(p.mode==="anagram"){
+  const badge=el("mechbadge");
+  if(p.board==="hidden"){ badge.textContent=p.hidden.reversed?"Hidden · reversed":"Hidden word";
+    badge.style.background="#7c3aed"; badge.style.display="inline-block"; }
+  else if(p.board==="acrostic"){ badge.textContent="Acrostic";
+    badge.style.background="#0e7490"; badge.style.display="inline-block"; }
+  else { badge.style.display="none"; }
+  if(p.board==="hidden"){
+    el("hint").textContent = p.hidden.reversed
+      ? "The answer hides in these letters, reading BACKWARDS — tap the letter where it begins."
+      : "The answer hides unbroken in these letters — tap its FIRST letter.";
+  }else if(p.board==="acrostic"){
+    el("hint").textContent = "The answer is the initial letters of a run of words — tap the FIRST word of the run.";
+  }else if(p.mode==="anagram"){
     el("hint").textContent="Single letters — some are locked in place. Fill the blanks.";
   }else{
     el("hint").textContent =
@@ -222,8 +272,69 @@ function tileText(p,a){ return (p.mode==="easy" && a.display)?a.display:a.true; 
 /* ---------- render dispatch ---------- */
 function render(){
   const p=PUZZLES[idx];
-  if(p.mode==="anagram"){ renderSlots(); renderTrayAnagram(); }
+  if(p.board==="hidden"){ renderHidden(); el("tray").innerHTML=""; }
+  else if(p.board==="acrostic"){ renderAcrostic(); el("tray").innerHTML=""; }
+  else if(p.mode==="anagram"){ renderSlots(); renderTrayAnagram(); }
   else { renderRail(); renderTray(); }
+}
+
+/* ---------- acrostic (select a run of words, take initials) ---------- */
+function firstAlpha(s){ const m=(s||"").toUpperCase().match(/[A-Z]/); return m?m[0]:""; }
+function renderAcrostic(){
+  const p=PUZZLES[idx], ac=p.acrostic, board=el("board");
+  board.className="lrow"; board.classList.remove("wrong"); board.innerHTML="";
+  ac.words.forEach((W,i)=>{
+    const b=document.createElement("button");
+    b.className="wchip"+(i===hiddenStart?" sel":"");
+    b.style.background=W.colour;
+    const fi=(W.text||"").search(/[A-Za-z]/);
+    b.innerHTML = fi<0 ? W.text : W.text.slice(0,fi)+"<u>"+W.text[fi]+"</u>"+W.text.slice(fi+1);
+    b.onclick=()=>acrosticTap(i);
+    board.appendChild(b);
+  });
+}
+/* One tap: tap the FIRST word of the run; it takes that word plus the next
+   (answer-length) words' initials and checks. */
+function acrosticTap(i){
+  const p=PUZZLES[idx], ac=p.acrostic, L=ac.target.length, lo=i, hi=i+L-1;
+  const built = hi < ac.words.length ? ac.words.slice(lo,hi+1).map(W=>firstAlpha(W.text)).join("") : "";
+  if(built===ac.target){
+    win(()=>{ const b=el("board");
+      [...b.children].forEach((c,ci)=>{ if(ci>=lo&&ci<=hi) c.classList.add("run"); }); });
+  }else{
+    renderAcrostic();
+    const b=el("board");
+    [...b.children].forEach((c,ci)=>{ if(ci>=lo&&ci<=hi) c.classList.add("sel"); });
+    b.classList.add("wrong"); setTimeout(()=>{ b.classList.remove("wrong"); renderAcrostic(); },450);
+  }
+}
+
+/* ---------- hidden/lurker (select the run among decoys) ---------- */
+function renderHidden(){
+  const p=PUZZLES[idx], h=p.hidden, board=el("board");
+  board.className="lrow"; board.classList.remove("wrong"); board.innerHTML="";
+  h.letters.forEach((L,i)=>{
+    const b=document.createElement("button");
+    b.className="lchip"+(i===hiddenStart?" sel":"");
+    b.style.background=L.colour; b.textContent=L.ch;
+    b.onclick=()=>hiddenTap(i);
+    board.appendChild(b);
+  });
+}
+/* One tap: tap where the hidden word BEGINS; it auto-selects the answer's length
+   (known from the enum) and checks. Reversed clues store the run as it appears. */
+function hiddenTap(i){
+  const p=PUZZLES[idx], h=p.hidden, L=h.target.length, lo=i, hi=i+L-1;
+  const run = hi < h.letters.length ? h.letters.slice(lo,hi+1).map(L=>L.ch).join("") : "";
+  if(run===h.target){
+    win(()=>{ const b=el("board");
+      [...b.children].forEach((c,ci)=>{ if(ci>=lo&&ci<=hi) c.classList.add("run"); }); });
+  }else{
+    renderHidden();
+    const b=el("board");
+    [...b.children].forEach((c,ci)=>{ if(ci>=lo&&ci<=hi) c.classList.add("sel"); }); // show the tap landed
+    b.classList.add("wrong"); setTimeout(()=>{ b.classList.remove("wrong"); renderHidden(); },450);
+  }
 }
 
 /* ---------- assembly modes (rail append) ---------- */
@@ -315,7 +426,11 @@ function win(revealFn){
   }
   revealFn && revealFn();
   el("board").classList.add("correct");
-  setTimeout(nextClue,650);
+  const ap=el("answerpop");
+  ap.innerHTML="<span class='tick'>SOLVED</span>"+PUZZLES[idx].answer.toUpperCase();
+  ap.classList.remove("hidden");
+  revealing=true;                       // pause the clock while the answer shows
+  setTimeout(nextClue,1200);
 }
 function skipClue(){
   results[idx]="skip"; timeLeft-=SKIP_PENALTY; paintTime();
@@ -324,6 +439,8 @@ function skipClue(){
 }
 function nextClue(){
   el("board").classList.remove("correct");
+  el("answerpop").classList.add("hidden");
+  revealing=false;
   if(idx+1<PUZZLES.length) loadClue(idx+1); else endGame();
 }
 
