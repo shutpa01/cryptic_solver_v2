@@ -13,14 +13,11 @@ import json, os
 from flask import Blueprint, abort, current_app, g, redirect, request, url_for
 from markupsafe import escape
 
-import sys
-_HERE = os.path.dirname(os.path.abspath(__file__))
-if _HERE not in sys.path:
-    sys.path.insert(0, _HERE)
-import inventory as inv                                    # noqa: E402
+from web import crypticker_inventory as inv
 
 crypticker_bp = Blueprint("crypticker", __name__, url_prefix="/crypticker")
-TEMPLATE = os.path.join(_HERE, "quad_template.html")
+TEMPLATE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                        "templates", "crypticker_quad.html")       # read raw, NOT through Jinja
 
 
 def _page(game, admin=None):

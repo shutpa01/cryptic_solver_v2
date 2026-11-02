@@ -278,6 +278,9 @@ CORDELIA_CODE_DIRS = [
     ("backfill_ai_exp", "backfill_ai_exp", "*.py"),
     ("sonnet_pipeline", "sonnet_pipeline", "*.py"),
     ("scraper/danword", "scraper/danword", "*.py"),
+    # Crypticker: /crypticker serves the approved puzzle for today's UK date from
+    # these files (web/routes/crypticker.py). Approvals go live with a code deploy.
+    ("crypticker/v2/inventory", "crypticker/v2/inventory", "*.json"),
 ]
 # Individual files that don't fit the directory pattern
 CORDELIA_EXTRA_FILES = [

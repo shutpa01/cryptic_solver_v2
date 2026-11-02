@@ -256,7 +256,7 @@ def main(date):
     os.makedirs(os.path.join(HERE, "quad_days"), exist_ok=True)
     with open(os.path.join(HERE, "quad_days", date + ".json"), "w", encoding="utf-8") as f:
         json.dump(game, f, ensure_ascii=False, indent=1)
-    with open(os.path.join(HERE, "quad_template.html"), encoding="utf-8") as f:
+    with open(os.path.join(bd.MAIN, "web", "templates", "crypticker_quad.html"), encoding="utf-8") as f:
         tmpl = f.read()
     with open(os.path.join(HERE, "quad.html"), "w", encoding="utf-8") as f:
         f.write(tmpl.replace("__GAME_JSON__", json.dumps(game, ensure_ascii=False)).replace("__ADMIN_JSON__", "null"))

@@ -1,6 +1,6 @@
 """Crypticker quadrant inventory — one small JSON file per puzzle.
 
-    crypticker/v2/inventory/<id>.json
+    crypticker/v2/inventory/<id>.json      (shipped by the dashboard code deploy)
         {"id", "status": "to_test" | "approved" | "rejected",
          "built_at", "approved_at", "release_date", "game"}
 
@@ -15,8 +15,9 @@ clues_master.db) lazily, so the public page never loads it.
 import datetime, json, os, re
 from zoneinfo import ZoneInfo
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-DIR = os.path.join(HERE, "inventory")
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # project root
+BUILDER = os.path.join(ROOT, "crypticker", "v2")                      # build_quadrant (local only)
+DIR = os.path.join(BUILDER, "inventory")
 UK = ZoneInfo("Europe/London")
 
 
@@ -95,6 +96,9 @@ def reject(pid):
 def build_candidate():
     """Build one new to-test game from a puzzle never used before (any status).
     Must run inside a Flask app context whose CLUES_DB is clues_master.db."""
+    import sys
+    if BUILDER not in sys.path:
+        sys.path.insert(0, BUILDER)
     import build_quadrant as bq                      # heavy: MAIN tree + DB
     every = items()
     used = {(it["game"]["puzzle"]["source"], str(it["game"]["puzzle"]["number"])) for it in every}
