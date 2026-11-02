@@ -189,18 +189,31 @@ def wait_ready(tok, container_id, timeout=300):
 
 def main():
     ap = argparse.ArgumentParser(description="Post a built reel to Instagram")
-    ap.add_argument("--clue-id", type=int, required=True)
+    which = ap.add_mutually_exclusive_group(required=True)
+    which.add_argument("--clue-id", type=int)
+    # A STANDALONE Short (2026-10-17), not about one clue: logs/youtube/NAME/ holds
+    # short.mp4 + description.txt (the caption) — the same files scripts/short_post.py
+    # posts to YouTube, so one build goes to both.
+    which.add_argument("--short", metavar="NAME",
+                       help="post logs/youtube/NAME/short.mp4 as a reel")
     ap.add_argument("--publish", action="store_true",
                     help="actually publish; without it nothing goes public")
     args = ap.parse_args()
 
-    d = OUT_ROOT / str(args.clue_id)
-    video, cap_file = d / "reel.mp4", d / "reel_caption.txt"
+    if args.short:
+        d = ROOT / "logs" / "youtube" / args.short
+        video, cap_file = d / "short.mp4", d / "description.txt"
+        host_name, posted_file = "short-%s" % args.short, d / "posted_instagram.json"
+    else:
+        d = OUT_ROOT / str(args.clue_id)
+        video, cap_file = d / "reel.mp4", d / "reel_caption.txt"
+        host_name, posted_file = args.clue_id, d / "posted.json"
     for p in (video, cap_file):
         if not p.exists():
-            sys.exit("%s is missing — run scripts.reel_build first." % p.name)
+            sys.exit("%s is missing — build it first." % p)
     caption = cap_file.read_text(encoding="utf-8").strip()
 
+    # A standalone caption names no puzzles, so this finds nothing to check there.
     named, missing = still_true(cap_file)
     if missing:
         sys.exit("REFUSING TO POST. The reel says these are live and they are "
@@ -213,7 +226,7 @@ def main():
     print("account: %s (%s)" % (who.get("username"), who.get("id")))
     print("video: %s (%.1f MB)" % (video.name, video.stat().st_size / 1e6))
 
-    url = host_on_droplet(video, args.clue_id)
+    url = host_on_droplet(video, host_name)
     code, ctype, clen = reachable(url)
     print("hosted: %s -> %s %s %s" % (url, code, ctype, clen))
     if code != 200:
@@ -238,7 +251,7 @@ def main():
         sys.exit("Publish failed: %s %s" % (r.status_code, r.text[:400]))
     media_id = r.json().get("id")
     print("PUBLISHED. media id %s" % media_id)
-    (d / "posted.json").write_text(json.dumps(
+    posted_file.write_text(json.dumps(
         {"media_id": media_id, "container": cid, "account": who}), encoding="utf-8")
     return 0
 

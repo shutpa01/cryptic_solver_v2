@@ -1190,5 +1190,815 @@
     "phrase": "The film was average, nothing special really",
     "approved": false,
     "clue_id": 10098416
+  },
+  "FILLINGSTATION|where gas supplied in the us": {
+    "phrase": "We stopped at a filling station for fuel",
+    "approved": false,
+    "clue_id": 10098976
+  },
+  "DOWNINTHEMOUTH|where dentist looks": {
+    "phrase": "The dentist peered down in the mouth",
+    "approved": false,
+    "clue_id": 10098981
+  },
+  "DOWNINTHEMOUTH|miserable": {
+    "phrase": "She's been down in the mouth all week",
+    "approved": false,
+    "clue_id": 10098981
+  },
+  "BITING|nippy": {
+    "phrase": "There's a biting wind out there today",
+    "approved": false,
+    "clue_id": 10098983
+  },
+  "BITING|dental ability": {
+    "phrase": "The puppy kept biting my fingers playfully",
+    "approved": false,
+    "clue_id": 10098983
+  },
+  "LOCK|hair": {
+    "phrase": "She brushed a stray lock from her face",
+    "approved": false,
+    "clue_id": 10098986
+  },
+  "LOCK|clip": {
+    "phrase": "Lock the gate behind you when leaving",
+    "approved": false,
+    "clue_id": 10098986
+  },
+  "MARMITE|not everyone’s cup of tea": {
+    "phrase": "His taste in music is proper Marmite",
+    "approved": false,
+    "clue_id": 10098987
+  },
+  "MARMITE|pot": {
+    "phrase": "The stew simmered slowly in a marmite",
+    "approved": false,
+    "clue_id": 10098987
+  },
+  "LOWDOWN|very bad": {
+    "phrase": "That was a lowdown trick to pull",
+    "approved": false,
+    "clue_id": 10098996
+  },
+  "LOWDOWN|the score": {
+    "phrase": "Give me the lowdown on the new neighbours",
+    "approved": false,
+    "clue_id": 10098996
+  },
+  "HEADED|ran": {
+    "phrase": "She headed the firm for ten years",
+    "approved": false,
+    "clue_id": 10098814
+  },
+  "HEADED|met high ball crossed into box": {
+    "phrase": "He headed the cross into the net",
+    "approved": false,
+    "clue_id": 10098814
+  },
+  "FLYINGSAUCERS|otherworldly sightings": {
+    "phrase": "He swears he saw flying saucers last night",
+    "approved": false,
+    "clue_id": 10098946
+  },
+  "FLYINGSAUCERS|evidence of poltergeist in kitchen": {
+    "phrase": "She ducked the flying saucers during the row",
+    "approved": false,
+    "clue_id": 10098946
+  },
+  "GUTS|nerve": {
+    "phrase": "It took real guts to speak up",
+    "approved": false,
+    "clue_id": 10098950
+  },
+  "GUTS|centre": {
+    "phrase": "The guts of the machine were rusty",
+    "approved": false,
+    "clue_id": 10098950
+  },
+  "WHISTLEBLOWER|rat": {
+    "phrase": "The whistleblower exposed the firm's dodgy accounts",
+    "approved": false,
+    "clue_id": 10098955
+  },
+  "WHISTLEBLOWER|train dispatcher": {
+    "phrase": "The whistleblower sent our train off on time",
+    "approved": false,
+    "clue_id": 10098955
+  },
+  "DRESSING|food additive": {
+    "phrase": "Drizzle a little salad dressing over the leaves",
+    "approved": false,
+    "clue_id": 10098957
+  },
+  "DRESSING|that may be used in curing process": {
+    "phrase": "The nurse changed the dressing on my wound",
+    "approved": false,
+    "clue_id": 10098957
+  },
+  "FAIRWAY|mile or two off": {
+    "phrase": "It's still a fair way to town",
+    "approved": false,
+    "clue_id": 10098967
+  },
+  "FAIRWAY|land sought by driver": {
+    "phrase": "His tee shot landed on the fairway",
+    "approved": false,
+    "clue_id": 10098967
+  },
+  "SEE|make out": {
+    "phrase": "I can barely see anything in this fog",
+    "approved": false,
+    "clue_id": 10099355
+  },
+  "SEE|date": {
+    "phrase": "She's been seeing someone from work lately",
+    "approved": false,
+    "clue_id": 10099355
+  },
+  "STAVES|slats of wood": {
+    "phrase": "The old barrel was made from oak staves",
+    "approved": false,
+    "clue_id": 10099716
+  },
+  "STAVES|they may be found at fronts of bars": {
+    "phrase": "She drew the staves before adding any notes",
+    "approved": false,
+    "clue_id": 10099716
+  },
+  "ON THE BALL|alert": {
+    "phrase": "She's really on the ball this morning",
+    "approved": false,
+    "clue_id": 10099571
+  },
+  "ON THE BALL|15 down looking to pass or shoot": {
+    "phrase": "The striker's on the ball near goal",
+    "approved": false,
+    "clue_id": 10099571
+  },
+  "REEVE|old magistrate once": {
+    "phrase": "The medieval reeve collected rents for the manor",
+    "approved": false,
+    "clue_id": 10099592
+  },
+  "REEVE|a kent player": {
+    "phrase": "Christopher Reeve was superb as Clark Kent",
+    "approved": false,
+    "clue_id": 10099592
+  },
+  "SHED|slough": {
+    "phrase": "Snakes shed their skin every few months",
+    "approved": false,
+    "clue_id": 10099965
+  },
+  "SHED|building": {
+    "phrase": "The lawnmower's kept in the garden shed",
+    "approved": false,
+    "clue_id": 10099965
+  },
+  "EVENING|smoothing things out": {
+    "phrase": "The plasterer was evening out the surface",
+    "approved": false,
+    "clue_id": 10099972
+  },
+  "EVENING|late in the day": {
+    "phrase": "We went for a walk this evening",
+    "approved": false,
+    "clue_id": 10099972
+  },
+  "WAGED|campaigned": {
+    "phrase": "They waged a long campaign against litter",
+    "approved": false,
+    "clue_id": 10100548
+  },
+  "WAGED|regularly paid": {
+    "phrase": "Every waged worker deserves a decent pension",
+    "approved": false,
+    "clue_id": 10100548
+  },
+  "ANNUALS|6 of plants": {
+    "phrase": "She planted annuals in the border this spring",
+    "approved": false,
+    "clue_id": 10100549
+  },
+  "ANNUALS|guinness book of records etc": {
+    "phrase": "The children got annuals in their Christmas stockings",
+    "approved": false,
+    "clue_id": 10100549
+  },
+  "POLISH|european": {
+    "phrase": "She's Polish, from a small town near Kraków",
+    "approved": false,
+    "clue_id": 10100237
+  },
+  "POLISH|finesse": {
+    "phrase": "He handled the awkward question with real polish",
+    "approved": false,
+    "clue_id": 10100237
+  },
+  "OPERAHAT|product designed for musical": {
+    "phrase": "He bought an opera hat for tonight's performance",
+    "approved": false,
+    "clue_id": 10100356
+  },
+  "ROAST|pan": {
+    "phrase": "Critics will roast his new film mercilessly",
+    "approved": false,
+    "clue_id": 10100520
+  },
+  "ROAST|put in the oven": {
+    "phrase": "Roast the potatoes until golden and crisp",
+    "approved": false,
+    "clue_id": 10100520
+  },
+  "OPERAHAT|that's likely to fold": {
+    "phrase": "His opera hat folded flat under the seat",
+    "approved": false,
+    "clue_id": 10100356
+  },
+  "REAREND|crash into": {
+    "phrase": "A lorry rear-ended me at the lights",
+    "approved": false,
+    "clue_id": 10100854
+  },
+  "REAREND|back of seat": {
+    "phrase": "The car's rear end was badly dented",
+    "approved": false,
+    "clue_id": 10100854
+  },
+  "DETACHMENT|reserve": {
+    "phrase": "She viewed the whole affair with cool detachment",
+    "approved": false,
+    "clue_id": 10100860
+  },
+  "DETACHMENT|unit": {
+    "phrase": "A small detachment guarded the bridge overnight",
+    "approved": false,
+    "clue_id": 10100860
+  },
+  "THESUN|popular title for daily": {
+    "phrase": "He reads The Sun every morning",
+    "approved": false,
+    "clue_id": 10100863
+  },
+  "THESUN|setter": {
+    "phrase": "The sun sets early in winter now",
+    "approved": false,
+    "clue_id": 10100863
+  },
+  "THINNER|comparatively poor": {
+    "phrase": "His excuse sounded even thinner than before",
+    "approved": false,
+    "clue_id": 10100868
+  },
+  "THINNER|solvent": {
+    "phrase": "Clean the brushes with some paint thinner",
+    "approved": false,
+    "clue_id": 10100868
+  },
+  "TRYITON|attempt to deceive": {
+    "phrase": "Don't try it on with me, sunshine",
+    "approved": false,
+    "clue_id": 10100869
+  },
+  "TRYITON|as one might with new outfit": {
+    "phrase": "Try it on before you buy it",
+    "approved": false,
+    "clue_id": 10100869
+  },
+  "NOTICED|saw": {
+    "phrase": "I noticed you'd had your hair cut",
+    "approved": false,
+    "clue_id": 10100880
+  },
+  "NOTICED|how single malt aficionado might prefer his laphroaig": {
+    "phrase": "My whisky, not iced, thank you please",
+    "approved": false,
+    "clue_id": 10100880
+  },
+  "FAST|fixed": {
+    "phrase": "The rope held fast in the gale",
+    "approved": false,
+    "clue_id": 10101061
+  },
+  "FAST|quickly": {
+    "phrase": "Don't drive so fast in the rain",
+    "approved": false,
+    "clue_id": 10101061
+  },
+  "ENTERTAIN|amuse": {
+    "phrase": "We hired a magician to entertain the children",
+    "approved": false,
+    "clue_id": 10100936
+  },
+  "ENTERTAIN|nurse": {
+    "phrase": "She continued to entertain hopes of promotion",
+    "approved": false,
+    "clue_id": 10100936
+  },
+  "NICKS|helps oneself to": {
+    "phrase": "He always nicks biscuits from my desk",
+    "approved": false,
+    "clue_id": 10100924
+  },
+  "NICKS|chips": {
+    "phrase": "The blade nicks the worktop every time",
+    "approved": false,
+    "clue_id": 10100924
+  },
+  "STUMPED|cricketer might have got this": {
+    "phrase": "The batsman was stumped leaving his crease",
+    "approved": false,
+    "clue_id": 10100941
+  },
+  "STUMPED|baffled": {
+    "phrase": "I'm completely stumped by this tricky question",
+    "approved": false,
+    "clue_id": 10100941
+  },
+  "TOT|short": {
+    "phrase": "He poured himself a tot of rum",
+    "approved": false,
+    "clue_id": 10101691
+  },
+  "TOT|child": {
+    "phrase": "She watched her tiny tot toddle off",
+    "approved": false,
+    "clue_id": 10101691
+  },
+  "CREAM|best": {
+    "phrase": "She's the cream of this year's applicants",
+    "approved": false,
+    "clue_id": 10101696
+  },
+  "CREAM|1960s rock band": {
+    "phrase": "Eric Clapton played lead guitar in Cream",
+    "approved": false,
+    "clue_id": 10101696
+  },
+  "JUNK|refuse": {
+    "phrase": "Clear all that junk from the garage",
+    "approved": false,
+    "clue_id": 10101853
+  },
+  "JUNK|boat": {
+    "phrase": "A junk sailed slowly across the harbour",
+    "approved": false,
+    "clue_id": 10101853
+  },
+  "BRUCE|jack in 27 across": {
+    "phrase": "Bruce played bass on Sunshine of Your Love",
+    "approved": false,
+    "clue_id": 10101687
+  },
+  "BRUCE|the victor at bannockburn": {
+    "phrase": "Bruce led the Scots to victory in 1314",
+    "approved": false,
+    "clue_id": 10101687
+  },
+  "TAPER|vcr": {
+    "phrase": "Set the taper to record tonight's film",
+    "approved": false,
+    "clue_id": 10101839
+  },
+  "TAPER|to become narrower": {
+    "phrase": "Her trousers taper neatly at the ankle",
+    "approved": false,
+    "clue_id": 10101839
+  },
+  "RAM|butter": {
+    "phrase": "The old ram butted anyone who came near",
+    "approved": false,
+    "clue_id": 10102103
+  },
+  "RAM|jam": {
+    "phrase": "He rammed his clothes into the suitcase",
+    "approved": false,
+    "clue_id": 10102103
+  },
+  "WISDOM|learning": {
+    "phrase": "With age comes wisdom, they always say",
+    "approved": false,
+    "clue_id": 10101928
+  },
+  "WISDOM|old comedian": {
+    "phrase": "Norman Wisdom always made my grandad laugh",
+    "approved": false,
+    "clue_id": 10101928
+  },
+  "WET BLANKET|killjoy": {
+    "phrase": "Don't be such a wet blanket tonight",
+    "approved": false,
+    "clue_id": 10101934
+  },
+  "WET BLANKET|that may ruin a picnic": {
+    "phrase": "Nobody fancied sitting on a wet blanket",
+    "approved": false,
+    "clue_id": 10101934
+  },
+  "PECKISH|rather hungry": {
+    "phrase": "I'm feeling a bit peckish before lunch",
+    "approved": false,
+    "clue_id": 10101948
+  },
+  "PECKISH|like gregory perhaps": {
+    "phrase": "In that suit he looks positively Peckish",
+    "approved": false,
+    "clue_id": 10101948
+  },
+  "FITTER|tradesperson": {
+    "phrase": "The gas fitter arrived to service our boiler",
+    "approved": false,
+    "clue_id": 10102263
+  },
+  "FITTER|improved after training": {
+    "phrase": "I feel much fitter since joining the gym",
+    "approved": false,
+    "clue_id": 10102263
+  },
+  "ONEAFTERANOTHER|description of eleven": {
+    "phrase": "Eleven? That's just one after another",
+    "approved": false,
+    "clue_id": 10102399
+  },
+  "ONEAFTERANOTHER|in succession": {
+    "phrase": "The buses arrived one after another today",
+    "approved": false,
+    "clue_id": 10102399
+  },
+  "PRESS|publicity": {
+    "phrase": "The film got plenty of good press",
+    "approved": false,
+    "clue_id": 10102413
+  },
+  "PRESS|campaign": {
+    "phrase": "Unions continue to press for better pay",
+    "approved": false,
+    "clue_id": 10102413
+  },
+  "POPS|old man": {
+    "phrase": "Pops is asleep in his armchair again",
+    "approved": false,
+    "clue_id": 10102717
+  },
+  "POPS|bursts": {
+    "phrase": "The balloon pops if you squeeze it",
+    "approved": false,
+    "clue_id": 10102717
+  },
+  "TILLER|shoot": {
+    "phrase": "The barley sent up another tiller overnight",
+    "approved": false,
+    "clue_id": 10103097
+  },
+  "TILLER|ploughman": {
+    "phrase": "The weary tiller ploughed his field alone",
+    "approved": false,
+    "clue_id": 10103097
+  },
+  "FRENCHPOLISH|finish brilliantly": {
+    "phrase": "The restorer gave the table a French polish",
+    "approved": false,
+    "clue_id": 10103071
+  },
+  "FRENCHPOLISH|two languages": {
+    "phrase": "She speaks fluent French, Polish and some German",
+    "approved": false,
+    "clue_id": 10103071
+  },
+  "HAVEAHEART|be given a red card": {
+    "phrase": "I have a heart, so I'll follow suit",
+    "approved": false,
+    "clue_id": 10103079
+  },
+  "HAVEAHEART|show mercy": {
+    "phrase": "Have a heart, he's only a kid",
+    "approved": false,
+    "clue_id": 10103079
+  },
+  "CAPITAL|as written i must be": {
+    "phrase": "Always write I with a capital letter",
+    "approved": false,
+    "clue_id": 10103081
+  },
+  "CAPITAL|punishable by death": {
+    "phrase": "Treason was once a capital offence here",
+    "approved": false,
+    "clue_id": 10103081
+  },
+  "LEAVER|child finishing their time at school": {
+    "phrase": "The school leaver found a job quickly",
+    "approved": false,
+    "clue_id": 10103089
+  },
+  "LEAVER|no friend of eu": {
+    "phrase": "A staunch leaver since the referendum campaign",
+    "approved": false,
+    "clue_id": 10103089
+  },
+  "HOARDING|holding on to": {
+    "phrase": "Stop hoarding old newspapers in the loft",
+    "approved": false,
+    "clue_id": 10102934
+  },
+  "HOARDING|advertising space": {
+    "phrase": "They stuck posters on the station hoarding",
+    "approved": false,
+    "clue_id": 10102934
+  },
+  "LISTLESS|lacking energy": {
+    "phrase": "She felt listless all day in the heat",
+    "approved": false,
+    "clue_id": 10102935
+  },
+  "LISTLESS|like an unprepared shopper": {
+    "phrase": "Arrived at Tesco listless and forgot the milk",
+    "approved": false,
+    "clue_id": 10102935
+  },
+  "NOODLE|improvise": {
+    "phrase": "The band would just noodle around backstage",
+    "approved": false,
+    "clue_id": 10102940
+  },
+  "NOODLE|pasta": {
+    "phrase": "Add a handful of noodles to the broth",
+    "approved": false,
+    "clue_id": 10102940
+  },
+  "PEERLESS|unrivalled": {
+    "phrase": "Her peerless baking won every village prize",
+    "approved": false,
+    "clue_id": 10102941
+  },
+  "PEERLESS|like the house of commons": {
+    "phrase": "The Commons sits peerless, no Lords allowed",
+    "approved": false,
+    "clue_id": 10102941
+  },
+  "TRAILER|pulled vehicle": {
+    "phrase": "We hitched the trailer to the car",
+    "approved": false,
+    "clue_id": 10103053
+  },
+  "TRAILER|advertisement": {
+    "phrase": "We watched the trailer before the film",
+    "approved": false,
+    "clue_id": 10103053
+  },
+  "AFFECTED|influenced": {
+    "phrase": "The weather really affected my mood today",
+    "approved": false,
+    "clue_id": 10103452
+  },
+  "AFFECTED|camp": {
+    "phrase": "He spoke in an affected theatrical manner",
+    "approved": false,
+    "clue_id": 10103452
+  },
+  "CONCERN|business": {
+    "phrase": "She runs a small family concern in Leeds",
+    "approved": false,
+    "clue_id": 10103284
+  },
+  "CONCERN|trouble": {
+    "phrase": "His health is a real concern for us",
+    "approved": false,
+    "clue_id": 10103284
+  },
+  "MYSELF|one": {
+    "phrase": "I kept the last biscuit for myself",
+    "approved": false,
+    "clue_id": 10103425
+  },
+  "SUGAR|drug": {
+    "phrase": "Dealers were pushing sugar outside the club",
+    "approved": false,
+    "clue_id": 10103445
+  },
+  "SUGAR|money": {
+    "phrase": "He's short of sugar until payday comes",
+    "approved": false,
+    "clue_id": 10103445
+  },
+  "ON THE SPOT|where pimple patch is placed": {
+    "phrase": "Stick the patch right on the spot",
+    "approved": false,
+    "clue_id": 10103276
+  },
+  "ON THE SPOT|straight away": {
+    "phrase": "He offered her the job on the spot",
+    "approved": false,
+    "clue_id": 10103276
+  },
+  "STREAKY|rather inconsistent": {
+    "phrase": "His form this season has been streaky",
+    "approved": false,
+    "clue_id": 10103408
+  },
+  "PREDATED|came before": {
+    "phrase": "The old barn predated the house by decades",
+    "approved": false,
+    "clue_id": 10103422
+  },
+  "PREDATED|went after": {
+    "phrase": "Foxes predated the hens all last spring",
+    "approved": false,
+    "clue_id": 10103422
+  },
+  "REEVE|beak that was": {
+    "phrase": "The reeve judged disputes in medieval villages",
+    "approved": false,
+    "clue_id": 10103426
+  },
+  "REEVE|female ruff": {
+    "phrase": "We spotted a reeve wading on the marsh",
+    "approved": false,
+    "clue_id": 10103426
+  },
+  "OPERATIVE|efficacious": {
+    "phrase": "\"Allegedly\" being the operative word here, mind",
+    "approved": false,
+    "clue_id": 10103660
+  },
+  "OPERATIVE|worker": {
+    "phrase": "He's a machine operative at the factory",
+    "approved": false,
+    "clue_id": 10103660
+  },
+  "NESTLE|food manufacturers": {
+    "phrase": "Nestle make all sorts of chocolate bars",
+    "approved": false,
+    "clue_id": 10103786
+  },
+  "NESTLE|are in protected position": {
+    "phrase": "The cottages nestle in the sheltered valley",
+    "approved": false,
+    "clue_id": 10103786
+  },
+  "TAP|hearing aid": {
+    "phrase": "Police put a tap on his phone",
+    "approved": false,
+    "clue_id": 10103974
+  },
+  "TAP|readily available on this": {
+    "phrase": "This pub has four beers on tap",
+    "approved": false,
+    "clue_id": 10103974
+  },
+  "PRINCIPAL|this head": {
+    "phrase": "The principal called me into her office",
+    "approved": false,
+    "clue_id": 10103977
+  },
+  "HARROW|school": {
+    "phrase": "My cousin boarded at Harrow for school",
+    "approved": false,
+    "clue_id": 10104017
+  },
+  "HARROW|what aids in cultivation": {
+    "phrase": "The tractor pulled a harrow across the field",
+    "approved": false,
+    "clue_id": 10104017
+  },
+  "INSET|training for teachers": {
+    "phrase": "School's shut Friday for an inset day",
+    "approved": false,
+    "clue_id": 10104029
+  },
+  "INSET|pupils here": {
+    "phrase": "The map inset shows the town centre",
+    "approved": false,
+    "clue_id": 10104029
+  },
+  "RECESS|depression": {
+    "phrase": "The hermit lived in a rocky recess",
+    "approved": false,
+    "clue_id": 10104030
+  },
+  "RECESS|break from work": {
+    "phrase": "The children played outside during morning recess",
+    "approved": false,
+    "clue_id": 10104030
+  },
+  "GROOM|cake figurine": {
+    "phrase": "the little groom on the wedding cake",
+    "approved": false,
+    "clue_id": 10104589
+  },
+  "GROOM|stable character": {
+    "phrase": "the groom saddled the horses at dawn",
+    "approved": false,
+    "clue_id": 10104589
+  },
+  "LOO|where peers congregate": {
+    "phrase": "I'm just nipping to the loo",
+    "approved": false,
+    "clue_id": 10104592
+  },
+  "LOO|game of cards": {
+    "phrase": "Fancy a quick hand of loo?",
+    "approved": false,
+    "clue_id": 10104592
+  },
+  "BAY|what wolf might do": {
+    "phrase": "The wolves began to bay at the moon",
+    "approved": false,
+    "clue_id": 10104619
+  },
+  "BAY|horse": {
+    "phrase": "The jockey rode a handsome bay yesterday",
+    "approved": false,
+    "clue_id": 10104619
+  },
+  "WORKS|factory": {
+    "phrase": "The old steel works shut down last year",
+    "approved": false,
+    "clue_id": 10104424
+  },
+  "WORKS|farms": {
+    "phrase": "He works the land his father left him",
+    "approved": false,
+    "clue_id": 10104424
+  },
+  "CLASS|fine": {
+    "phrase": "That hotel has a touch of real class",
+    "approved": false,
+    "clue_id": 10104951
+  },
+  "CLASS|form": {
+    "phrase": "My daughter's in the top class at school",
+    "approved": false,
+    "clue_id": 10104951
+  },
+  "SMART|clever": {
+    "phrase": "That was a smart move, well done",
+    "approved": false,
+    "clue_id": 10104972
+  },
+  "SMART|sting": {
+    "phrase": "This antiseptic might smart a bit",
+    "approved": false,
+    "clue_id": 10104972
+  },
+  "IMPLEMENT|device": {
+    "phrase": "He sharpened every farm implement in the shed",
+    "approved": false,
+    "clue_id": 10105041
+  },
+  "IMPLEMENT|put into operation": {
+    "phrase": "The council will implement the new parking rules",
+    "approved": false,
+    "clue_id": 10105041
+  },
+  "OFFCOLOUR|blue": {
+    "phrase": "His jokes last night were decidedly off-colour",
+    "approved": false,
+    "clue_id": 10105045
+  },
+  "OFFCOLOUR|green": {
+    "phrase": "I stayed home feeling a bit off-colour",
+    "approved": false,
+    "clue_id": 10105045
+  },
+  "CATCH|notice": {
+    "phrase": "Did you catch that sign by the door?",
+    "approved": false,
+    "clue_id": 10105551
+  },
+  "CATCH|board": {
+    "phrase": "We need to catch the next train home",
+    "approved": false,
+    "clue_id": 10105551
+  },
+  "TAKE|appropriate": {
+    "phrase": "Someone's tried to take my parking space",
+    "approved": false,
+    "clue_id": 10106287
+  },
+  "TAKE|opinion": {
+    "phrase": "What's your take on the new manager?",
+    "approved": false,
+    "clue_id": 10106287
+  },
+  "WHOOPS|loud cries": {
+    "phrase": "The crowd let out whoops of delight",
+    "approved": false,
+    "clue_id": 10107404
+  },
+  "WHOOPS|oh dear": {
+    "phrase": "Whoops, I've spilt tea on the carpet",
+    "approved": false,
+    "clue_id": 10107404
+  },
+  "BOBS|ducks": {
+    "phrase": "She bobs down whenever a ball flies over",
+    "approved": false,
+    "clue_id": 10107688
+  },
+  "BOBS|haircuts": {
+    "phrase": "Sleek bobs are back in fashion this year",
+    "approved": false,
+    "clue_id": 10107688
   }
 }

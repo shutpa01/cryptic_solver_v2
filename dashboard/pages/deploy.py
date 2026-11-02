@@ -443,19 +443,32 @@ def _render_cordelia_deploy():
 
                 if not failed:
                     steps.append(("Upload code", True, f"{uploaded} items uploaded."))
-                    # Fix permissions — scp sets restrictive modes that block nginx
-                    try:
-                        subprocess.run(
-                            ["ssh", CORDELIA_DROPLET,
-                             f"find {CORDELIA_REMOTE}/web/static -type d -exec chmod 755 {{}} \\; && "
-                             f"find {CORDELIA_REMOTE}/web/static -type f -exec chmod 644 {{}} \\; && "
-                             f"find {CORDELIA_REMOTE}/web/templates -type d -exec chmod 755 {{}} \\; && "
-                             f"find {CORDELIA_REMOTE}/web/templates -type f -exec chmod 644 {{}} \\;"],
-                            capture_output=True, timeout=15,
-                        )
+                # Fix permissions — scp creates folders drwx------, which nginx (www-data)
+                # cannot read: every /static file 403s. Runs EVEN AFTER A FAILED UPLOAD,
+                # because whatever was uploaded before the failure already has the bad
+                # modes. 2026-11-02: an upload failed after web/static went up (ship
+                # connection), this step was skipped, and the live site lost every image
+                # and stylesheet. The result is CHECKED: it used to report "fixed" blind.
+                try:
+                    _perm = subprocess.run(
+                        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", CORDELIA_DROPLET,
+                         f"find {CORDELIA_REMOTE}/web/static {CORDELIA_REMOTE}/web/templates "
+                         f"-type d -exec chmod 755 {{}} + && "
+                         f"find {CORDELIA_REMOTE}/web/static {CORDELIA_REMOTE}/web/templates "
+                         f"-type f -exec chmod 644 {{}} + && "
+                         f"stat -c %a {CORDELIA_REMOTE}/web/static"],
+                        capture_output=True, text=True, timeout=60,
+                        encoding="utf-8", errors="replace",
+                    )
+                    if _perm.returncode == 0 and _perm.stdout.strip() == "755":
                         steps.append(("Fix permissions", True, "Static/template permissions fixed."))
-                    except Exception as e:
-                        steps.append(("Fix permissions", False, f"Permission fix failed: {e}"))
+                    else:
+                        steps.append(("Fix permissions", False,
+                                      "Permission fix FAILED — the site's images and CSS will "
+                                      "403 until it runs: %s" % (_perm.stderr or _perm.stdout)[-300:]))
+                except Exception as e:
+                    steps.append(("Fix permissions", False,
+                                  f"Permission fix FAILED — the site's images and CSS will 403: {e}"))
 
         # Step 2: Upload databases
         if deploy_db and not failed:

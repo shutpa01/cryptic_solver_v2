@@ -313,6 +313,15 @@ def _has_current_audio(clue_id):
         return False
 
 
+# TEMPORARY Bing test (user, 2026-10-23). Every new page of 10-23 came back "indexing
+# not allowed"; 10-22's were indexed. To tell a Bing-side change from something in
+# the 10-23 pages, one already-indexed 10-22 Times clue is made to send noindex until
+# Bing drops it; this set is then emptied and the page resubmitted, so it goes
+# through first-time indexing again with nothing changed but the day.
+# REMOVE the entry once Bing reports the page dropped.
+_BING_DEINDEX_TEST = {10104180}   # times 29680 25a CHINAWARE
+
+
 @bp.route("/audio/clue/<int:clue_id>.mp3")
 @rate_limit(scope="clue_audio", limit=60, window=60)
 def clue_audio_file(clue_id):
@@ -1270,4 +1279,6 @@ def clue_page(slug):
         learn_slug=learn_slug,
         learn_label=learn_label,
     ))
+    if clue_id in _BING_DEINDEX_TEST:
+        response.headers["X-Robots-Tag"] = "noindex"
     return issue_session_cookie(response)

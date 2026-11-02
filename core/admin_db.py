@@ -526,8 +526,10 @@ def add_indicator(word, wordplay_type, subtype=None):
     # "named" is the exchange: the clue NAMES the letters that move ("tense exchanges with
     # Romeo" — T and R trade places in MET CURIO). The letters are named by other words, so
     # the direction is not a fixed rotation; the piece's recorded swap says which they are.
+    # "cycle" is a BLOCK rotation ("showering while cycling": RAIN|ING -> ING|RAIN); the
+    # piece's recorded rot says how many letters travel (user, 2026-10-25).
     if wp == "letter_shift":
-        _LS_SUBS = ("last_front", "first_end", "move_left", "move_right", "named")
+        _LS_SUBS = ("last_front", "first_end", "move_left", "move_right", "named", "cycle")
         if not sub:
             return ("A letter-shift indicator needs a sub-type (which way it moves): "
                     "one of %s." % ", ".join(_LS_SUBS))

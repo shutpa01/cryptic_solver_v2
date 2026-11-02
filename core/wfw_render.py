@@ -229,6 +229,9 @@ def _engine_type_label(parse):
     build the full clue-type; otherwise keep the curated op-name label. Mirrors
     web/wfw_read._wordplay_label's engine branch."""
     op = parse.operation or ""
+    if op == "double_definition" and len(
+            [s for s in (parse.sources or []) if s.mechanism == "definition"]) == 3:
+        return "Triple definition"   # a DD record with three halves (/hs, 2026-11-02)
     if op in _ATOMIC_OPS:
         return _TYPE_LABEL.get(op) or op.replace("_", " ").capitalize()
     op_mechs = set(w for w in op.split("_") if w in _MECH_WORDS)
@@ -494,7 +497,8 @@ _SUBTYPE_DETAIL = {
                      "first_end": "move first letter to end",
                      "move_left": "move letter left",
                      "move_right": "move letter right",
-                     "named": "the named letters change places"},
+                     "named": "the named letters change places",
+                     "cycle": "cycle a block of letters end to end"},
     "charade_positional": {"after": "this piece goes after its neighbour",
                            "before": "this piece goes before its neighbour"},
 }
@@ -1262,7 +1266,7 @@ def _arrow_ans(parse):
 
 @renders("double_definition")
 def _render_dd(parse, ctx, src_fg, src_fill):
-    """"def 1" = "def 2" -> ANSWER (two definitions of the same word)."""
+    """"def 1" = "def 2" [= "def 3"] -> ANSWER (two or three definitions of one word)."""
     defs = [s for s in parse.sources if s.mechanism == "definition"]
     if len(defs) >= 2:
         chain = ' <span class="wfw-eq">=</span> '.join(

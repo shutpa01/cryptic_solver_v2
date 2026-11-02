@@ -90,6 +90,7 @@ _SUBTYPE_LABELS = {
     ("letter_shift", "move_left"):  "move letter left",
     ("letter_shift", "move_right"): "move letter right",
     ("letter_shift", "named"):      "named letters (exchange, e.g. T for R)",
+    ("letter_shift", "cycle"):      "cycle a block of letters end to end",
     ("charade_positional", "after"):  "piece goes AFTER (behind) its neighbour",
     ("charade_positional", "before"): "piece goes BEFORE (ahead of) its neighbour",
     ("alternation", ""): "— no sub-type needed —",
@@ -117,7 +118,7 @@ def _build_ind_subtypes():
     out["deletion"] = d
     out["letter_shift"] = [(c, _SUBTYPE_LABELS[("letter_shift", c)])
                            for c in ("last_front", "first_end",
-                                     "move_left", "move_right", "named")]
+                                     "move_left", "move_right", "named", "cycle")]
     out["charade_positional"] = [(c, _SUBTYPE_LABELS[("charade_positional", c)])
                                  for c in ("after", "before")]
     out["alternation"] = [("", _SUBTYPE_LABELS[("alternation", "")])]
@@ -137,11 +138,11 @@ DB = os.path.join(os.path.dirname(os.path.dirname(__file__)),
 
 app = Flask(__name__)
 _WIRING = None
-
 # One build at a time: the dev server warms the wiring in a background thread at start
 # (web/run_dev.py), and a click that arrives mid-build must wait for THAT build, not start
 # a second one alongside it (2026-10-26). Re-entrant: reload_wiring() calls wiring().
 _WIRING_LOCK = threading.RLock()
+
 
 import time as _time
 BOOT_ID = _time.strftime("%H:%M:%S", _time.localtime())   # changes on every server restart
@@ -342,7 +343,6 @@ def reload_route():
     JUST that clue and keeps the rest of the batch on screen; otherwise re-solve all."""
     raw = (request.form.get("id") or "").strip()
     only = (request.form.get("only") or "").strip()
-    reload_wiring()
     # The Reload button also repairs lookup keys of reference rows edited by hand (the full
     # norm-key reconcile, ~8 s). Ordinary wiring builds only fill missing keys (2026-10-26).
     try:
@@ -351,6 +351,7 @@ def reload_route():
         backfill_null_norm_keys(_default_path(), full=True)
     except Exception:
         pass
+    reload_wiring()
     notice = '<div class="wfw-notice">Reference DB reloaded from disk.</div>'
     # A per-clue re-run is DB-only by default (fast); the AI fallback runs only when the
     # "with AI fallback" box is ticked. A re-run-all (no only) is always DB-only.
@@ -2633,6 +2634,9 @@ function initGrid(rootId, DATA){
    mb.splice(mt,0,mc);v=mb.join('');}
   if(xf.shift==='last_front')v=v.slice(-1)+v.slice(0,-1);
   else if(xf.shift==='first_end')v=v.slice(1)+v.slice(0,1);
+  if(xf.rot){var rn=xf.rot;                                      // a BLOCK cycled to the end
+   if(typeof rn!=='number'||rn<2||rn>v.length-2)return null;     //   (one letter is `shift`)
+   v=v.slice(rn)+v.slice(0,rn);}
   if(xf.rev)v=v.split('').reverse().join('');
   return v;}
  // The letters as they stand when the swap is applied (i.e. after the cuts), so the record's
@@ -2654,6 +2658,8 @@ function initGrid(rootId, DATA){
      ((mt>=sv.length-1)?'to the end':((mt<mf)?'left':'right'))));}
    else b.push('one letter moved');}
   if(xf.shift)b.push(xf.shift==='last_front'?'last&rarr;front':'first&rarr;end');
+  if(xf.rot){var rv=xfApply(value,{cuts:xf.cuts,swap:xf.swap,move:xf.move,shift:xf.shift});
+   b.push((rv&&xf.rot<rv.length)?rv.slice(0,xf.rot)+' cycled to the end':xf.rot+' letters cycled to the end');}
   if(xf.rev)b.push('reversed');return b.join(' ');}
  function cutSpots(v,cut){var out=[],i=v.indexOf(cut);while(i>=0){out.push(i);i=v.indexOf(cut,i+1);}return out;}
  /* THE recording step: which cut / shift / reversal actually turns `value` into the tiles
@@ -2669,8 +2675,8 @@ function initGrid(rootId, DATA){
  // places" is the more specific claim). Without that ordering AB->BA would tie three ways
  // and be refused.
  function xfPrio(xf){var ops=(xf.cuts?xf.cuts.length:0)+(xf.rev?1:0)+(xf.shift?1:0)
-   +(xf.swap?1:0)+(xf.move?1:0);
-  return ops*100+(xf.move?30:0)+(xf.swap?20:0)+(xf.shift?10:0)+(xf.rev?1:0);}
+   +(xf.swap?1:0)+(xf.move?1:0)+(xf.rot?1:0);
+  return ops*100+(xf.move?30:0)+(xf.swap?20:0)+(xf.rot?15:0)+(xf.shift?10:0)+(xf.rev?1:0);}
  /* The one exchange that turns `a` into `b`, or null. Pure arithmetic, not a search: two
     letters trading places differ in EXACTLY two positions, and each must hold the other's
     letter. Anything else is not a swap, and a value that needs several pairs moved is an
@@ -2730,7 +2736,13 @@ function initGrid(rootId, DATA){
     var sw=swapFor(post,back);
     if(sw)consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift,swap:sw});
     var mv=moveFor(post,back);                                  // a NAMED LETTER that relocates
-    if(mv)consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift,move:mv});}}
+    if(mv)consider({cuts:cutsets[s],rev:opts[o].rev,shift:opts[o].shift,move:mv});}
+   /* A BLOCK ROTATION ("cycling": RAIN|ING -> ING|RAIN). Every block size that leaves a
+      block behind; one letter either way is already the named shift above. A value whose
+      letters repeat in a cycle (two sizes spelling the same tiles) ties and is left bare. */
+   var rpost=xfApply(v,{cuts:cutsets[s]});
+   if(rpost)for(var rk=2;rk<=rpost.length-2;rk++)
+    consider({cuts:cutsets[s],rev:false,shift:null,rot:rk});}
   return tied?null:best;}
  function isOrdered(r){return r==='synonym'||r==='substitution'||r==='letters'||r==='replacement';}
  function drawCutPrev(){if(!cutPrev)return;var r=roleSel.value;
@@ -6455,6 +6467,7 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
     # source tiles are not necessarily covered yet when the repeat itself comes past.
     _repeats = []
     definition2 = None            # a SECOND definition tag -> a double definition (two defs, no wordplay)
+    definition3 = None            # a THIRD -> a triple definition (TWIST: rick / dance / turn)
     db_adds = []   # reusable pieces to save to the reference DB AFTER a successful commit
     # A manual HOMOPHONE piece is justified by a homophone INDICATOR in the clue (user rule
     # 2026-07-14) — not an automatic sound-check. The human owns the verdict; the indicator
@@ -6931,10 +6944,16 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
                 definition = _dsrc
             elif definition2 is None:
                 definition2 = _dsrc
+            elif definition3 is None:
+                # A TRIPLE DEFINITION (user, 2026-11-02, Times 29689 24a TWIST "Rick's
+                # dance turn"): three definitions of one answer, no wordplay. Built below
+                # exactly like a double definition, with a third definition source.
+                definition3 = _dsrc
             else:
-                return {"ok": False, "msg": "Three definitions tagged (%r, %r, %r). A clue "
-                        "has one definition, or two for a double definition — not three."
-                        % (definition.text, definition2.text, phrase)}
+                return {"ok": False, "msg": "Four definitions tagged (%r, %r, %r, %r). A "
+                        "clue has one definition, two for a double definition or three "
+                        "for a triple definition — not four."
+                        % (definition.text, definition2.text, definition3.text, phrase)}
             if _dsource != "pending":     # reusable -> save after commit (backed defs only;
                 db_adds.append(("definition", phrase, ans_letters))   # a pending def is not harvested
         elif role == "indicator":
@@ -7072,13 +7091,19 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
         # wordplay. Build it as the DD engine does (two definition sources, no piece links,
         # operation 'double_definition') so it renders as two definitions — never an invented
         # 'synonym' clue type. A wordplay piece alongside two definitions is contradictory.
+        # A TRIPLE definition is the same shape with a third definition source, and keeps
+        # operation 'double_definition' so every DD path (render, read, senses, narration)
+        # handles it unchanged; the label reads "Triple definition" from the source count.
+        _defs = [d for d in (definition, definition2, definition3) if d is not None]
+        _kind = "triple" if len(_defs) == 3 else "double"
         if sources:
-            return {"ok": False, "msg": "Not committed — a double definition is TWO "
+            return {"ok": False, "msg": "Not committed — a %s definition is %s "
                     "definitions and no wordplay, but a wordplay piece is also tagged (%s). "
                     "Untag it, or keep one definition and tag the rest as wordplay."
-                    % ", ".join(s.text for s in sources)}
+                    % (_kind, "THREE" if _kind == "triple" else "TWO",
+                       ", ".join(s.text for s in sources))}
         parse = Parse(clue_text=clue_text, answer_text=answer,
-                      sources=[definition, definition2], links=[], annotations=annotations,
+                      sources=_defs, links=[], annotations=annotations,
                       definition=None, operation="double_definition",
                       solved_by="manual", status="pass")
         unaccounted = parse.unexplained_words(ctx)
@@ -7086,7 +7111,8 @@ def _build_manual_parse(cid, assigns, andlit=False, verify_db=False):
             return {"ok": False, "msg": "Not committed — these clue words have NO role: %s. "
                     "Every clue word must be a definition half, a link, or filler."
                     % ", ".join("“%s”" % w for w in unaccounted)}
-        return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds, "n_sources": 2}
+        return {"ok": True, "parse": parse, "ctx": ctx, "db_adds": db_adds,
+                "n_sources": len(_defs)}
 
     # ---- REPEATS, resolved now that every ordinary piece is placed --------------------
     # The honesty of a repeat rests on three things, all checked here: the tiles it copies

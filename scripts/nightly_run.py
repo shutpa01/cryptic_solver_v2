@@ -38,8 +38,11 @@ import sqlite3
 import subprocess
 import sys
 import time
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+import ctypes
+import urllib.error
+import urllib.request
 
 ROOT = Path(__file__).resolve().parent.parent
 CLUES_DB = ROOT / "data" / "clues_master.db"
@@ -64,6 +67,82 @@ def log(msg):
     # Replace chars that Windows cp1252 can't encode
     safe_msg = str(msg).encode('cp1252', errors='replace').decode('cp1252')
     print(f"[{ts}] {safe_msg}", flush=True)
+
+
+def uk_now():
+    """The time in the UK (GMT, or BST from 01:00 UTC on the last Sunday of March
+    to 01:00 UTC on the last Sunday of October), whatever zone the laptop is in.
+
+    The puzzles are dated in UK days, so "today" must be the UK day. On 2026-11-01
+    the laptop was on a ship in Atlantic Standard Time (UTC-4): the run fired at
+    20:05 local = 00:05 UK, took the LOCAL date, re-ran 11-01 and never cascaded
+    11-02. Computed by hand because the venv has no tzdata for zoneinfo."""
+    utc = datetime.now(timezone.utc)
+
+    def last_sunday_0100(month):
+        last_day = datetime(utc.year, month + 1, 1, 1, tzinfo=timezone.utc) - timedelta(days=1)
+        return last_day - timedelta(days=(last_day.weekday() + 1) % 7)
+
+    in_bst = last_sunday_0100(3) <= utc < last_sunday_0100(10)
+    return utc + timedelta(hours=1 if in_bst else 0)
+
+
+def preflight(target_date):
+    """Check the conditions the run depends on and say plainly, at the top of the
+    log, if any is wrong. Never stops the run: a warning that is read beats a run
+    that did not happen. Problems are prefixed '!!' so they stand out."""
+    log("PRE-FLIGHT")
+
+    # 1. Clock. The run uses the UK date; say so when the laptop's own date differs.
+    local_now = datetime.now().astimezone()
+    zone = local_now.tzname() or "?"
+    offset = local_now.strftime("%z")
+    uk = uk_now()
+    if local_now.date().isoformat() != uk.date().isoformat():
+        log(f"  !! Clock: laptop is on {zone} (UTC{offset}), its date is "
+            f"{local_now.date()} but the UK date is {uk.date()}. Using the UK date.")
+    elif offset not in ("+0000", "+0100"):
+        log(f"  !! Clock: laptop is on {zone} (UTC{offset}), not UK time. Dates agree "
+            f"right now ({uk.date()}), and the run always uses the UK date.")
+    else:
+        log(f"  Clock: OK ({zone}, UTC{offset}); UK date {uk.date()}")
+    if target_date != uk.date().isoformat():
+        log(f"  Target date {target_date} was given by hand (UK date is {uk.date()}).")
+
+    # 2. Power. A laptop on battery can die mid-run (2026-10-30 it slept and the
+    # run never happened). This cannot catch a run that never started; it warns
+    # when this one is at risk.
+    class _SPS(ctypes.Structure):
+        _fields_ = [("ACLineStatus", ctypes.c_ubyte), ("BatteryFlag", ctypes.c_ubyte),
+                    ("BatteryLifePercent", ctypes.c_ubyte), ("SystemStatusFlag", ctypes.c_ubyte),
+                    ("BatteryLifeTime", ctypes.c_ulong), ("BatteryFullLifeTime", ctypes.c_ulong)]
+    try:
+        sps = _SPS()
+        ctypes.windll.kernel32.GetSystemPowerStatus(ctypes.byref(sps))
+        pct = "unknown" if sps.BatteryLifePercent == 255 else f"{sps.BatteryLifePercent}%"
+        if sps.ACLineStatus == 1:
+            log(f"  Power: OK (mains, battery {pct})")
+        elif sps.ACLineStatus == 0:
+            log(f"  !! Power: ON BATTERY ({pct}). Plug in, or the run may stop part-way.")
+        else:
+            log(f"  !! Power: mains status unknown (battery {pct})")
+    except Exception as e:
+        log(f"  !! Power: could not read ({e})")
+
+    # 3. Network. Any HTTP answer, even an error page, means the site is reachable;
+    # only a failure to connect counts as down.
+    for name, url in [("telegraph", "https://www.telegraph.co.uk/"),
+                      ("times", "https://www.thetimes.com/"),
+                      ("guardian", "https://www.theguardian.com/")]:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            urllib.request.urlopen(req, timeout=20).close()
+            log(f"  Network: {name} reachable")
+        except urllib.error.HTTPError as e:
+            log(f"  Network: {name} reachable (HTTP {e.code})")
+        except Exception as e:
+            log(f"  !! Network: {name} UNREACHABLE ({e}). Its puzzle will not be scraped.")
+    log("")
 
 
 def run_scraper():
@@ -184,7 +263,7 @@ def run_cascade(target_date):
     return True
 
 
-def run_claude(prompt_name, label, timeout=5400):
+def run_claude(prompt_name, label, target_date, timeout=5400):
     """Run a headless Claude Code session on a prompt file, logging its output.
 
     Unattended, so permissions are skipped — the prompt files carry the hard
@@ -195,7 +274,13 @@ def run_claude(prompt_name, label, timeout=5400):
     if not prompt_file.exists():
         log(f"  Prompt file missing: {prompt_file}")
         return False
-    prompt = prompt_file.read_text(encoding="utf-8")
+    # The prompts say "today"; left alone, Claude takes the laptop's date, which is
+    # wrong whenever the laptop is outside UK time (2026-11-01, on a ship in UTC-4,
+    # prefill worked on 11-01 and reported 11-02 as "tomorrow's puzzles").
+    prompt = (f"TODAY'S DATE FOR THIS RUN: {target_date} (the UK date). Wherever this "
+              f"prompt says \"today\" or \"today's\", it means publication_date = "
+              f"'{target_date}'. Do not use the system clock's date.\n\n"
+              + prompt_file.read_text(encoding="utf-8"))
     # Strip any inherited ANTHROPIC_API_KEY so claude bills the subscription,
     # never prepaid API credits (see run_prefill.py, 2026-07-13). The task
     # scheduler env is clean today; this guards against future launch contexts.
@@ -240,7 +325,8 @@ def main():
     parser.add_argument("--skip-claude", action="store_true", help="Skip the Claude steps")
     args = parser.parse_args()
 
-    target_date = args.date or date.today().isoformat()
+    # The UK date, never the laptop's: see uk_now().
+    target_date = args.date or uk_now().date().isoformat()
     target_day = date.fromisoformat(target_date).strftime('%A')
 
     # Ensure log directory exists
@@ -249,6 +335,7 @@ def main():
     log("=" * 60)
     log(f"NIGHTLY RUN — {target_date} ({target_day})")
     log("=" * 60)
+    preflight(target_date)
 
     # Step 1: Scrape all five papers (corpus). Danword is opt-in inside
     # puzzle_scraper and NOT passed here — answerless prizes wait for the user.
@@ -306,8 +393,8 @@ def main():
     elif args.dry_run:
         log("[DRY RUN] Would run claude -p nightly_prefill.md, nightly_pass_review.md")
     else:
-        run_claude("nightly_prefill.md", "Step 3: prefill")
-        run_claude("nightly_pass_review.md", "Step 3b: review today's engine passes")
+        run_claude("nightly_prefill.md", "Step 3: prefill", target_date)
+        run_claude("nightly_pass_review.md", "Step 3b: review today's engine passes", target_date)
 
     # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
     # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only

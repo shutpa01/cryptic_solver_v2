@@ -40,9 +40,9 @@ SENSES = ROOT / "logs" / "senses.json"
 CLAUDE = Path.home() / ".local" / "bin" / "claude.exe"
 CLAUDE_MODEL = "claude-fable-5"
 
-PROMPT = """The cryptic crossword answer is {answer}. It is a double definition clue: \
+PROMPT = """The cryptic crossword answer is {answer}. It is a {kind} definition clue: \
 "{clue}"
-The two definitions are {halves}.
+The {count} definitions are {halves}.
 
 For EACH definition, give ONE short, natural, everyday British English phrase showing \
 {answer} used in that exact sense. Six to eight words. No explanation, no preamble.
@@ -101,8 +101,11 @@ def dd_clues(source=None, puzzle=None, day=None):
 
 def draft(answer, clue, halves):
     """{half: phrase} from the LLM, or {} when it cannot be parsed. Never raises."""
+    q = ['"%s"' % h for h in halves]
     prompt = PROMPT.format(answer=answer.upper(), clue=clue, n=len(halves),
-                           halves=" and ".join('"%s"' % h for h in halves))
+                           kind="triple" if len(halves) == 3 else "double",
+                           count="three" if len(halves) == 3 else "two",
+                           halves=", ".join(q[:-1]) + " and " + q[-1])
     # Strip any inherited ANTHROPIC_API_KEY so claude bills the SUBSCRIPTION, never
     # prepaid API credits — the same guard as nightly_run.py:178-182 and
     # run_prefill.py, added after the 2026-07-13 incident and missed here because

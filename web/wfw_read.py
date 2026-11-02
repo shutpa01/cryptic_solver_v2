@@ -222,6 +222,12 @@ def wfw_hint(clue_id, step_type):
 # step 1 — definition
 # ---------------------------------------------------------------------------
 
+def _n_def_halves(parse):
+    """How many definition halves a DD record carries: 2, or 3 for a triple definition."""
+    d = _definition(parse)
+    return len(d.split(" / ")) if d else 0
+
+
 def _definition(parse):
     texts = [d["text"] for d in parse["definitions"] if (d["text"] or "").strip()]
     # A double definition may store the second definition as a source piece.
@@ -361,6 +367,8 @@ def _wordplay_label(parse):
     op = parse["operation"]
     if op == "manual":
         return _manual_label(parse)
+    if op in ("dd", "double_definition") and _n_def_halves(parse) == 3:
+        return "Triple definition"   # mirrors core/wfw_render._engine_type_label
     if op in _ATOMIC_OPS:
         return _OP_LABEL.get(op) or op.replace("_", " ").capitalize()
     # Engine solves carry the same rich indicator notes as manual solves, and the
@@ -439,6 +447,7 @@ _LETTER_SHIFT_DETAIL = {
     "move_left": "move letter left",
     "move_right": "move letter right",
     "named": "the named letters change places",
+    "cycle": "cycle a block of letters end to end",
 }
 
 
@@ -468,10 +477,13 @@ def _summary(parse):
         return "Cryptic definition — the whole clue is a playful definition of %s." % answer
     if op in ("dd", "double_definition"):
         d = _definition(parse)
+        kind = "Triple" if _n_def_halves(parse) == 3 else "Double"
         if d:
-            return "Double definition — %s each define %s." % (
-                " and ".join('"%s"' % t for t in d.split(" / ")), answer)
-        return "Double definition — two meanings of %s." % answer
+            q = ['"%s"' % t for t in d.split(" / ")]
+            joined = (", ".join(q[:-1]) + " and " + q[-1]) if len(q) > 1 else q[0]
+            return "%s definition — %s each define %s." % (kind, joined, answer)
+        return "%s definition — %s meanings of %s." % (
+            kind, "three" if kind == "Triple" else "two", answer)
 
     if op == "homophone" and parse["sources"]:
         # Mirror the WFW page's own homophone line, word for word
@@ -898,10 +910,18 @@ def _xf_load(stored):
             mv = None if (_f < 0 or _t < 0 or _f == _t) else {"from": _f, "to": _t}
     else:
         mv = None
-    if not cuts and not t.get("rev") and not shift and not sw and not mv:
+    rot = t.get("rot")                        # a BLOCK of leading letters cycled to the end
+    try:
+        rot = None if isinstance(rot, bool) or rot is None or int(rot) < 1 else int(rot)
+    except (TypeError, ValueError):
+        rot = None
+    if not cuts and not t.get("rev") and not shift and not sw and not mv and not rot:
         return {}
-    return {"cuts": cuts, "rev": bool(t.get("rev")), "shift": shift, "swap": sw,
-            "move": mv}
+    out = {"cuts": cuts, "rev": bool(t.get("rev")), "shift": shift, "swap": sw,
+           "move": mv}
+    if rot:
+        out["rot"] = rot
+    return out
 
 
 def _xf_apply(value, t):
@@ -944,6 +964,11 @@ def _xf_apply(value, t):
         v = v[-1] + v[:-1]
     elif t.get("shift") == "first_end":
         v = v[1:] + v[0]
+    rot = t.get("rot")
+    if rot:
+        if not isinstance(rot, int) or not 2 <= rot <= len(v) - 2:
+            return None
+        v = v[rot:] + v[:rot]
     if t.get("rev"):
         v = v[::-1]
     return v
@@ -979,10 +1004,16 @@ def _xf_words(value, t):
                 v[f], "to the front" if to == 0 else
                       "to the end" if to >= len(v) - 1 else
                       ("left" if to < f else "right")))
+            v = _xf_apply(v, {"move": mv}) or v
         else:
             bits.append("with one letter moved")
     if t.get("shift"):
         bits.append(_XF_SHIFT_WORDS[t["shift"]])
+        v = _xf_apply(v, {"shift": t["shift"]}) or v
+    rot = t.get("rot")
+    if rot:
+        bits.append("with %s cycled to the end" % v[:rot] if 0 < rot < len(v)
+                    else "with %d letters cycled to the end" % rot)
     if t.get("rev"):
         bits.append("reversed")
     return " ".join(bits)

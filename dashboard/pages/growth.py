@@ -385,6 +385,7 @@ def render():
                                   errors="coerce")
             table.insert(0, "Engaged users that day (no bots)",
                          daily.reindex(table.index).astype("Int64"))
+        table.insert(0, "Day", pd.to_datetime(table.index).strftime("%A"))
         st.dataframe(table.sort_index(ascending=False),
                      use_container_width=True)
 

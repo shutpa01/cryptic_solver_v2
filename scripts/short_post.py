@@ -2,6 +2,15 @@
 
     python scripts/short_post.py --clue-id 10089910 --dry-run
     python scripts/short_post.py --clue-id 10089910
+    python scripts/short_post.py --short db-guess --dry-run    # a STANDALONE Short
+    python scripts/short_post.py --video anagram-tool --dry-run  # a standalone 16:9 video
+
+STANDALONE SHORTS (2026-10-17) are not about one clue — e.g. the "guess how many
+different answers" Short (scripts/db_guess_short.py). Each lives in its own folder,
+logs/youtube/<name>/, as short.mp4 + title.txt + description.txt, and its builder writes
+the title and description: there is no clue to make them from. --video posts the same
+folder's video.mp4 instead — an ordinary 16:9 video (scripts/screen_short.py --landscape),
+so there is no 60-second check.
 
 Nothing here decides to publish. The build (scripts/short_build.py) is safe to automate;
 this is the step a person triggers, the same shape as the reel's POST TO INSTAGRAM.
@@ -75,12 +84,19 @@ def title_for(row):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--clue-id", type=int, required=True)
+    which = ap.add_mutually_exclusive_group(required=True)
+    which.add_argument("--clue-id", type=int)
+    which.add_argument("--short", metavar="NAME",
+                       help="a standalone Short in logs/youtube/NAME/")
+    which.add_argument("--video", metavar="NAME",
+                       help="a standalone 16:9 video, logs/youtube/NAME/video.mp4")
     ap.add_argument("--privacy", default="public",
                     choices=["private", "unlisted", "public"])
     ap.add_argument("--dry-run", action="store_true",
                     help="show the title and description, upload nothing")
     args = ap.parse_args(argv)
+    if args.short or args.video:
+        return post_standalone(args)
 
     row = _clue(args.clue_id)
     if row is None:
@@ -135,6 +151,55 @@ def main(argv=None):
 
     print("\nposted: %s  (%s)" % (url, args.privacy))
     print("recorded in the ledger as %s short-%s" % (row["source"], row["puzzle_number"]))
+    return 0
+
+
+def post_standalone(args):
+    """Post logs/youtube/<name>/short.mp4 (or video.mp4 with --video) under its own
+    title.txt + description.txt."""
+    name = args.short or args.video
+    d = OUT_ROOT / name
+    video = d / ("short.mp4" if args.short else "video.mp4")
+    tfile, dfile = d / "title.txt", d / "description.txt"
+    for p in (video, tfile, dfile):
+        if not p.exists():
+            sys.exit("%s is missing — build the Short first." % p)
+    yu = _load("yu", "youtube_upload.py")
+    ya = _load("ya", "youtube_assemble.py")
+    secs = _duration(ya, video)
+    if args.short and secs > MAX_SECONDS:
+        sys.exit("The film is %.1fs. Over %.0fs YouTube publishes it as an ordinary "
+                 "video, not a Short — rebuild it shorter." % (secs, MAX_SECONDS))
+    title = tfile.read_text(encoding="utf-8").strip()
+    if len(title) > 100:
+        sys.exit("Title is %d characters; YouTube allows 100." % len(title))
+    desc = dfile.read_text(encoding="utf-8").strip()
+    tags = ["cryptic crossword", "crossword", "puzzle"]
+
+    print("%s   %s" % ("short" if args.short else "video", name))
+    print("file    %s  %.1fs  %.1f MB" % (video, secs, video.stat().st_size / 1e6))
+    print("title   %s  (%d chars)" % (title, len(title)))
+    print("privacy %s" % args.privacy)
+    print("---- description ----")
+    print(desc)
+    if args.dry_run:
+        print("\n[dry-run] nothing uploaded.")
+        return 0
+
+    yt = yu.service()
+    print("\nUploading…")
+    resp = yu.upload(yt, video, title, desc, tags, args.privacy)
+    vid = resp["id"]
+    conn = yu.ledger()
+    try:
+        # source 'standalone', keyed by the folder name — cannot collide with a puzzle.
+        key = name if args.short else "video-%s" % name
+        yu.record(conn, "standalone", key, vid, title, args.privacy)
+    finally:
+        conn.close()
+    print("\nposted: https://www.youtube.com/%s%s  (%s)"
+          % ("shorts/" if args.short else "watch?v=", vid, args.privacy))
+    print("recorded in the ledger as standalone %s" % key)
     return 0
 
 

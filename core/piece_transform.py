@@ -35,9 +35,14 @@ This module is the vocabulary and the arithmetic. A transform is a small dict:
   shift  a single-letter rotation of the survivor: 'last_front' | 'first_end'.
          last_front/first_end are the two moves common enough to have names of
          their own; they are kept because older records use them.
+  rot    a rotation by a BLOCK of letters: the first `rot` letters of the survivor
+         moved, as one run, to the end ("showering while cycling": RAIN|ING ->
+         ING|RAIN). An int, 2 <= rot <= len-2 — one letter either way is `shift`,
+         which keeps its name. Added 2026-10-25 (user): "cycling" moves any number
+         of letters end to end, and the old vocabulary capped it at one.
 
-Order is fixed and total: cut(s), then swap, then move, then shift, then
-reverse. Anagram, selection and homophone are NOT here — those pieces already
+Order is fixed and total: cut(s), then swap, then move, then shift, then rot,
+then reverse. Anagram, selection and homophone are NOT here — those pieces already
 carry their mechanism, which says what happened to them.
 
 Swap and move are recorded by POSITION, not by letter, for the same reason a cut
@@ -66,7 +71,7 @@ def empty(t):
     if not t:
         return True
     return not (t.get("cuts") or t.get("swap") or t.get("move")
-                or t.get("rev") or t.get("shift"))
+                or t.get("rev") or t.get("shift") or t.get("rot"))
 
 
 def cut(letters, at):
@@ -113,10 +118,24 @@ def _norm_swap(s):
     return {"i": min(i, j), "j": max(i, j)}
 
 
-def make(cuts=(), rev=False, shift=None, swap=None, move=None):
+def _norm_rot(r):
+    """A block rotation normalised to a positive int, or None when it is not one.
+    Whether it fits the letters (2 <= rot <= len-2) is apply()'s check — make()
+    does not know the survivor's length."""
+    if isinstance(r, bool):
+        return None
+    try:
+        n = int(r)
+    except (TypeError, ValueError):
+        return None
+    return n if n >= 1 else None
+
+
+def make(cuts=(), rev=False, shift=None, swap=None, move=None, rot=None):
     """A transform dict from its parts, normalised. Returns {} for 'no change'.
     Each cut must be a {'letters', 'at'} mapping — see cut(); the swap a
-    {'i', 'j'} mapping — see swap(); the move a {'from', 'to'} — see move()."""
+    {'i', 'j'} mapping — see swap(); the move a {'from', 'to'} — see move();
+    rot the number of leading letters cycled to the end."""
     out = []
     for c in (cuts or ()):
         letters = letters_only(c.get("letters"))
@@ -128,10 +147,13 @@ def make(cuts=(), rev=False, shift=None, swap=None, move=None):
             continue                          # a cut with no position is not a record
         out.append({"letters": letters, "at": at})
     shift = shift if shift in _SHIFTS else None
-    sw, mv = _norm_swap(swap), _norm_move(move)
-    if not out and not rev and not shift and not sw and not mv:
+    sw, mv, rt = _norm_swap(swap), _norm_move(move), _norm_rot(rot)
+    if not out and not rev and not shift and not sw and not mv and not rt:
         return {}
-    return {"cuts": out, "rev": bool(rev), "shift": shift, "swap": sw, "move": mv}
+    t = {"cuts": out, "rev": bool(rev), "shift": shift, "swap": sw, "move": mv}
+    if rt:
+        t["rot"] = rt                         # only when present, so every older record
+    return t                                  #   stores exactly as it did before
 
 
 def apply(value, t):
@@ -181,6 +203,11 @@ def apply(value, t):
         v = v[-1] + v[:-1]
     elif shift == "first_end":
         v = v[1:] + v[0]
+    rot = t.get("rot")
+    if rot:
+        if not isinstance(rot, int) or isinstance(rot, bool) or not 2 <= rot <= len(v) - 2:
+            return None                       # one letter is `shift`; a block must leave a block
+        v = v[rot:] + v[:rot]
     if t.get("rev"):
         v = v[::-1]
     return v
@@ -256,11 +283,23 @@ def describe(value, t):
     mv = t.get("move")
     if mv:
         bits.append(_move_words(v, mv))
+        v = apply(v, {"move": mv}) or v
     if t.get("shift"):
         bits.append(_SHIFT_WORDS[t["shift"]])
+        v = apply(v, {"shift": t["shift"]}) or v
+    if t.get("rot"):
+        bits.append(_rot_words(v, t["rot"]))
     if t.get("rev"):
         bits.append("reversed")
     return ", ".join(bits)
+
+
+def _rot_words(v, rot):
+    """A block rotation in plain words, naming the LETTERS that travel ("with RAIN
+    cycled to the end"). `v` is the letters as they stand when the rotation applies."""
+    if isinstance(rot, int) and 0 < rot < len(v):
+        return "with %s cycled to the end" % v[:rot]
+    return "with %d letters cycled to the end" % rot
 
 
 def short(value, t):
@@ -292,10 +331,16 @@ def short(value, t):
                      "to the end" if to >= len(v) - 1 else
                      ("left" if to < f else "right"))
             bits.append("%s moved %s" % (v[f], where))
+            v = apply(v, {"move": mv}) or v
         else:
             bits.append("one letter moved")
     if t.get("shift"):
         bits.append(_SHIFT_WORDS[t["shift"]])
+        v = apply(v, {"shift": t["shift"]}) or v
+    if t.get("rot"):
+        rot = t["rot"]
+        bits.append("%s cycled to the end" % v[:rot] if isinstance(rot, int) and 0 < rot < len(v)
+                    else "%d letters cycled to the end" % rot)
     if t.get("rev"):
         bits.append("reversed")
     return " ".join(bits)
@@ -312,7 +357,7 @@ def coerce(obj):
     malformed record (a cut with no position) becomes {} rather than a half-truth."""
     if isinstance(obj, dict):
         return make(obj.get("cuts"), obj.get("rev"), obj.get("shift"),
-                    obj.get("swap"), obj.get("move"))
+                    obj.get("swap"), obj.get("move"), obj.get("rot"))
     if isinstance(obj, str):
         return loads(obj)
     return {}
@@ -329,4 +374,4 @@ def loads(s):
     if not isinstance(t, dict):
         return {}
     return make(t.get("cuts"), t.get("rev"), t.get("shift"), t.get("swap"),
-                t.get("move"))
+                t.get("move"), t.get("rot"))

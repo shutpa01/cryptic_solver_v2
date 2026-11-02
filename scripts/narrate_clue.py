@@ -559,6 +559,25 @@ def _spoken_answer(answer, enumeration):
     return out
 
 
+_NUM_WORDS = ("zero one two three four five six seven eight nine ten eleven twelve "
+              "thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty").split()
+
+
+def _spoken_enumeration(enumeration):
+    """The enumeration as words for the voice: (4,2) -> "four, two".
+
+    Handed digits, the voice read "4,2" as one number, "four thousand and two"
+    (user, 2026-10-20, Guardian 30142 MESS UP). Words leave it nothing to misread.
+    A hyphen stays a hyphen between words ("three-four"). A number past twenty is
+    left as digits.
+    """
+    def word(m):
+        n = int(m.group(0))
+        return _NUM_WORDS[n] if n < len(_NUM_WORDS) else m.group(0)
+    e = re.sub(r"\s*,\s*", ", ", (enumeration or "").strip())
+    return re.sub(r"\d+", word, e)
+
+
 # The SETTER'S OWN WORDS, which are never rewritten: the clue as printed, and any
 # definition quoted from it. Everything else in the script is ours.
 _VERBATIM = re.compile(u"(“[^”]*”|\"[^\"]*\"|Here it is:.*)")
@@ -612,7 +631,8 @@ def narrate(parse, clue_text, answer, enumeration, paper_label):
     lines.append("Our clue of the day is from today's %s." % paper_label)
     lines.append("")
     lines.append("Here it is: %s%s"
-                 % (clue_text.rstrip(". "), (" — %s" % enumeration) if enumeration else ""))
+                 % (clue_text.rstrip(". "),
+                    (" — %s" % _spoken_enumeration(enumeration)) if enumeration else ""))
     lines.append("")
     lines.append("The answer is %s." % spoken_answer)
     lines.append("")
