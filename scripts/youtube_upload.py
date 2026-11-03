@@ -597,7 +597,15 @@ def run_one(args):
         args._outcome = "dry"
         args._skip.add(key)
         return 0
-    if args.build or not video.exists():
+    # A video counts as BUILT only if chapters.txt exists and is no older than it:
+    # youtube_assemble writes chapters.txt AFTER the encode finishes. A run killed
+    # mid-encode leaves a partial video.mp4 and no chapters.txt, and the retry used
+    # to skip the build and crash on the missing chapters.txt (guardian 30153,
+    # 2026-11-02 09:16; guardian 30154 left an 8 MB partial video 2026-11-03).
+    chapters_file = cap_dir / "chapters.txt"
+    built = (video.exists() and chapters_file.exists()
+             and chapters_file.stat().st_mtime >= video.stat().st_mtime)
+    if args.build or not built:
         build_video(args.source, puzzle["number"], narrate=args.narrate)
     if not video.exists():
         sys.exit("No video at %s" % video)

@@ -2000,5 +2000,20 @@
     "phrase": "Sleek bobs are back in fashion this year",
     "approved": false,
     "clue_id": 10107688
+  },
+  "FIDDLESTICKS|bows": {
+    "phrase": "She rosined both fiddlesticks before the ceilidh",
+    "approved": false,
+    "clue_id": 10108187
+  },
+  "FIDDLESTICKS|that irritated me": {
+    "phrase": "Fiddlesticks, I've gone and missed the bus!",
+    "approved": false,
+    "clue_id": 10108187
+  },
+  "ROAST|strongly heat": {
+    "phrase": "Roast the potatoes in a hot oven",
+    "approved": false,
+    "clue_id": 10108069
   }
 }

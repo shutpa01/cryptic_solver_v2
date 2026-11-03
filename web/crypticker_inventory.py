@@ -18,11 +18,21 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))     # project root
 BUILDER = os.path.join(ROOT, "crypticker", "v2")                      # build_quadrant (local only)
 DIR = os.path.join(BUILDER, "inventory")
-UK = ZoneInfo("Europe/London")
+# Looked up on first use, not at import: create_app() imports this module, and the
+# nightly's scripts (draft_prose, draft_senses) build the app under a venv with no
+# tzdata — an import-time lookup crashed them (no prose, 2026-11-03).
+_UK = None
+
+
+def _uk():
+    global _UK
+    if _UK is None:
+        _UK = ZoneInfo("Europe/London")
+    return _UK
 
 
 def uk_today():
-    return datetime.datetime.now(UK).date().isoformat()
+    return datetime.datetime.now(_uk()).date().isoformat()
 
 
 def _path(pid):
@@ -79,7 +89,7 @@ def approve(pid):
     while nxt.isoformat() in taken:
         nxt += datetime.timedelta(days=1)
     it.update(status="approved", release_date=nxt.isoformat(),
-              approved_at=datetime.datetime.now(UK).isoformat(timespec="seconds"))
+              approved_at=datetime.datetime.now(_uk()).isoformat(timespec="seconds"))
     save(it)
     return it
 
@@ -102,7 +112,7 @@ def build_candidate():
     import build_quadrant as bq                      # heavy: MAIN tree + DB
     every = items()
     used = {(it["game"]["puzzle"]["source"], str(it["game"]["puzzle"]["number"])) for it in every}
-    now = datetime.datetime.now(UK)
+    now = datetime.datetime.now(_uk())
     game, tried = bq.pick(now.isoformat(), exclude=used, rotation=len(every))
     if game is None:
         return None, tried

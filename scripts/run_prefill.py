@@ -211,7 +211,9 @@ def main():
         log("pass review complete — report: logs/%s" % review_name)
 
     # 4. double-definition usage phrases, filed UNAPPROVED (nightly Step 5).
-    run_step("senses", [PYTHON_V2, str(ROOT / "scripts" / "draft_senses.py")] + scope_args)
+    # --pending: the DDs prefill just filed are pending (2026-11-03 fix).
+    run_step("senses", [PYTHON_V2, str(ROOT / "scripts" / "draft_senses.py"), "--pending"]
+             + scope_args)
 
     # 5. draft the clue-page prose from the PENDING readings just filed — the
     # nightly's Step 6, scoped to this run. Missing here, the button's puzzles got

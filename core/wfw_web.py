@@ -3785,10 +3785,26 @@ def _hs_prose_block(clue_id, back, ctx_hidden, return_to=None):
     is the only difference, because the clue page must come back to itself.
     """
     from core import prose_store
-    rec = prose_store.get(clue_id)
     quiet = ('<div style="margin:.5rem 0;padding:.4rem .6rem;border:1px dashed #cbd5e1;'
              'border-radius:8px;background:#f8fafc;font-size:.85rem;color:#64748b">'
              '%s</div>')
+    # A "See N" stub (operation 'continuation') has no page and no prose: it is
+    # explained on its parent (draft_prose.py skips it too). An empty box here asked
+    # the user to approve prose that cannot exist, and Approve bounced to /hs with
+    # "Type the prose before approving it" (guardian 30154 BIRDIE, 2026-11-03).
+    try:
+        _c = store.connect()
+        try:
+            _op = _c.execute("SELECT operation FROM wfw_solve WHERE clue_id = ?",
+                             (int(clue_id),)).fetchone()
+        finally:
+            _c.close()
+    except Exception:
+        _op = None
+    if _op and _op[0] == "continuation":
+        return quiet % ("&ldquo;See&rdquo; entry &mdash; explained on the clue it "
+                        "points to. No prose needed.")
+    rec = prose_store.get(clue_id)
     # THE BOX IS ALWAYS THERE (user, 2026-09-27: "We need a proper process, where I
     # just type it in HS"). A clue with no draft, or a refused one, used to get a
     # message and nowhere to write — times 5235 19a was refused for "invents BBC"

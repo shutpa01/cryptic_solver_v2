@@ -404,13 +404,19 @@ def main():
     log("")
     log("Step 5: draft double-definition usage phrases (for your approval)...")
     try:
-        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "draft_senses.py")],
+        # --pending: prefilled DDs are pending at this hour; without it they were
+        # invisible (2026-11-03 ROAST, FIDDLESTICKS got no phrases).
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "draft_senses.py"),
+                            "--pending"],
                            capture_output=True, text=True, encoding="utf-8",
                            errors="replace", timeout=900, cwd=str(ROOT))
         for line in (r.stdout or "").strip().splitlines()[-12:]:
             log(f"  {line}")
         if r.returncode != 0:
             log(f"  draft_senses failed (exit {r.returncode}) — not fatal")
+            # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
+            for line in (r.stderr or "").strip().splitlines()[-15:]:
+                log(f"  stderr: {line}")
     except Exception as e:
         log(f"  draft_senses ERROR: {e} — not fatal")
 
@@ -471,6 +477,9 @@ def main():
                 log(f"  {line}")
             if r.returncode != 0:
                 log(f"  draft_prose failed (exit {r.returncode}) — not fatal")
+                # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
+                for line in (r.stderr or "").strip().splitlines()[-15:]:
+                    log(f"  stderr: {line}")
         except Exception as e:
             log(f"  draft_prose ERROR: {e} — not fatal")
 

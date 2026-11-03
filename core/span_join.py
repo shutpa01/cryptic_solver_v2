@@ -172,19 +172,25 @@ def mark_continuation(conn, stub_id, clue_text, answer, primary_id,
 # or an INVALID one, is left exactly as it is.
 # ---------------------------------------------------------------------------
 
-def _stub_parent(conn, source, puzzle_number, num, rdir):
+def _stub_parent(conn, source, puzzle_number, num, rdir, stub_answer=None):
     """The clue id a "See <num> [<rdir>]" stub points at, or None when it is
-    missing or ambiguous (no direction given and both N across and N down are
-    real clues)."""
+    missing or still ambiguous.
+
+    No direction given and both N across and N down real clues: the parent is the
+    one whose answer CONTAINS the stub's answer (guardian 30154 "See 1" BIRDIE ->
+    1 across WATCHTHEBIRDIE, not 1 down WHIFFY; left FAIL on 2026-11-03)."""
     params = [source, puzzle_number, str(num)]
     where = "source = ? AND puzzle_number = ? AND clue_number = ?"
     if rdir:
         where += " AND direction = ?"
         params.append(rdir)
-    cands = [cid for cid, text in conn.execute(
-        "SELECT id, clue_text FROM clues WHERE %s" % where, params).fetchall()
+    cands = [(cid, ans) for cid, text, ans in conn.execute(
+        "SELECT id, clue_text, answer FROM clues WHERE %s" % where, params).fetchall()
         if stub_ref(text) is None]
-    return cands[0] if len(cands) == 1 else None
+    if len(cands) > 1 and _letters(stub_answer or ""):
+        mine = _letters(stub_answer)
+        cands = [c for c in cands if mine in _letters(c[1] or "")]
+    return cands[0][0] if len(cands) == 1 else None
 
 
 def _is_served(conn, clue_id):
@@ -218,7 +224,7 @@ def sync_stubs_for(conn, clue_id):
         ref = stub_ref(text)
         if ref is None:
             continue
-        parent = _stub_parent(conn, source, pnum, ref[0], ref[1])
+        parent = _stub_parent(conn, source, pnum, ref[0], ref[1], answer)
         if parent is None:
             continue
         cur = conn.execute("SELECT status, operation, solved_by FROM wfw_solve "

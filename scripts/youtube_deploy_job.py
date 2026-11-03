@@ -73,7 +73,11 @@ def main():
         [sys.executable, "-u", str(ROOT / "scripts" / "youtube_upload.py"),
          "--privacy", args.privacy, "--sources", args.sources],
         cwd=str(ROOT), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-        text=True, encoding="utf-8", errors="replace", bufsize=1)
+        text=True, encoding="utf-8", errors="replace", bufsize=1,
+        # No console window. This job runs detached (no console), so without the
+        # flag Windows opened a NEW blank terminal for the child; closing it killed
+        # the upload (2026-11-03 05:55, guardian 30154, exit 0xC000013A).
+        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
     for line in proc.stdout:
         print(line.rstrip("\n"), flush=True)
     rc = proc.wait()

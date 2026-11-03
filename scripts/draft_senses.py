@@ -68,8 +68,13 @@ def key(answer, half):
     return "%s|%s" % (answer.upper(), half.lower())
 
 
-def dd_clues(source=None, puzzle=None, day=None):
-    """[(clue_id, answer, clue_text, [halves])] for every double definition in scope."""
+def dd_clues(source=None, puzzle=None, day=None, pending=False):
+    """[(clue_id, answer, clue_text, [halves])] for every double definition in scope.
+
+    pending=True also reads PENDING prefill readings, as draft_prose --pending does.
+    Without it a prefilled DD was invisible: 2026-11-03 telegraph 31387 ROAST got
+    prose but no usage phrases ("No double definitions in scope").
+    """
     from web import create_app, wfw_read
     app = create_app("development")
     found = []
@@ -86,7 +91,7 @@ def dd_clues(source=None, puzzle=None, day=None):
                    "AND publication_date = COALESCE(?, date('now'))" % ph)
             rows = get_db().execute(sql, (*SERVED_SOURCES, day)).fetchall()
         for r in rows:
-            parse = wfw_read._load(r["id"])
+            parse = wfw_read._load(r["id"], allow_pending=pending)
             if parse is None or parse["operation"] not in ("dd", "double_definition"):
                 continue
             halves = [(d["text"] or "").strip() for d in parse["definitions"]
@@ -150,6 +155,8 @@ def main(argv=None):
     ap.add_argument("--puzzle")
     ap.add_argument("--day", help="publication date; default today")
     ap.add_argument("--list", action="store_true", help="show what awaits approval")
+    ap.add_argument("--pending", action="store_true",
+                    help="also draft PENDING prefill readings (as draft_prose --pending)")
     args = ap.parse_args(argv)
 
     data = load()
@@ -164,7 +171,7 @@ def main(argv=None):
             print("  %-28s %s" % (k, v.get("phrase", "")))
         return 0
 
-    clues = dd_clues(args.source, args.puzzle, args.day)
+    clues = dd_clues(args.source, args.puzzle, args.day, pending=args.pending)
     if not clues:
         print("No double definitions in scope — nothing to draft.")
         return 0
