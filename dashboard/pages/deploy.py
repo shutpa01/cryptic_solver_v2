@@ -260,6 +260,62 @@ def render():
 
 CORDELIA_DROPLET = "root@165.232.46.255"
 CORDELIA_REMOTE = "/opt/cordelia"
+
+
+# Windows' own ssh, named explicitly. A dashboard started from Git Bash finds
+# C:\Users\shute\bin\ssh.exe (MSYS) first, and that one fails on this server with
+# "Host key verification failed" (measured 2026-11-03 by replaying the unlock call).
+_WIN_SSH = r"C:\Windows\System32\OpenSSH\ssh.exe"
+SSH_EXE = _WIN_SSH if os.path.exists(_WIN_SSH) else "ssh"
+_STATIC_DIRS = ("web/static", "web/static/js", "web/static/css")
+
+
+def _unlock_static(attempts=3):
+    """Make /static and /templates readable by nginx and PROVE it.
+
+    Every code deploy's `scp -r web/static` leaves the folders drwx------, so nginx
+    (www-data) 403s every image, stylesheet and script until they are 755. This was
+    one ssh call with no retry; on 2026-11-03 05:15 it never reached the server and
+    the live site lost Cordelia's photo and puzzle2.js. Now: Windows ssh, a longer
+    connect window, three tries, and success only when all three folders read 755.
+    Returns (ok, message)."""
+    R = CORDELIA_REMOTE
+    cmd = (f"find {R}/web/static {R}/web/templates -type d -exec chmod 755 {{}} + ; "
+           f"find {R}/web/static {R}/web/templates -type f -exec chmod 644 {{}} + ; "
+           + "stat -c %a " + " ".join(f"{R}/{d}" for d in _STATIC_DIRS))
+    last = ""
+    for i in range(1, attempts + 1):
+        try:
+            r = subprocess.run(
+                [SSH_EXE, "-o", "BatchMode=yes", "-o", "ConnectTimeout=30",
+                 CORDELIA_DROPLET, cmd],
+                capture_output=True, text=True, timeout=120,
+                encoding="utf-8", errors="replace")
+            modes = r.stdout.split()
+            if r.returncode == 0 and modes == ["755"] * len(_STATIC_DIRS):
+                return True, ("Site files readable (static, js, css = 755)%s."
+                              % ("" if i == 1 else ", on try %d" % i))
+            last = (r.stderr or r.stdout or "exit %d" % r.returncode).strip()[-300:]
+        except Exception as e:
+            last = str(e)
+        if i < attempts:
+            time.sleep(5)
+    return False, ("NOT FIXED after %d tries: the live site's pictures, CSS and "
+                   "JavaScript are refused (403). Last error: %s" % (attempts, last))
+
+
+def _write_deploy_log(steps):
+    """Keep every deploy's results. The page used to show them and forget them, so a
+    failure could never be traced afterwards (2026-11-03)."""
+    try:
+        d = PROJECT_ROOT / "logs" / "deploys"
+        d.mkdir(parents=True, exist_ok=True)
+        f = d / ("deploy_%s.log" % datetime.now().strftime("%Y%m%d_%H%M%S"))
+        f.write_text("".join("%s  %-28s %s\n" % ("OK  " if ok else "FAIL", label, msg)
+                             for label, ok, msg in steps), encoding="utf-8")
+        return f
+    except Exception:
+        return None
 CRYPTIC_NEW_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
 # Directories to deploy to Cordelia (local_dir, remote_dir, glob pattern)
 # Uses scp -r for directories, excludes __pycache__
@@ -446,32 +502,11 @@ def _render_cordelia_deploy():
 
                 if not failed:
                     steps.append(("Upload code", True, f"{uploaded} items uploaded."))
-                # Fix permissions — scp creates folders drwx------, which nginx (www-data)
-                # cannot read: every /static file 403s. Runs EVEN AFTER A FAILED UPLOAD,
-                # because whatever was uploaded before the failure already has the bad
-                # modes. 2026-11-02: an upload failed after web/static went up (ship
-                # connection), this step was skipped, and the live site lost every image
-                # and stylesheet. The result is CHECKED: it used to report "fixed" blind.
-                try:
-                    _perm = subprocess.run(
-                        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15", CORDELIA_DROPLET,
-                         f"find {CORDELIA_REMOTE}/web/static {CORDELIA_REMOTE}/web/templates "
-                         f"-type d -exec chmod 755 {{}} + && "
-                         f"find {CORDELIA_REMOTE}/web/static {CORDELIA_REMOTE}/web/templates "
-                         f"-type f -exec chmod 644 {{}} + && "
-                         f"stat -c %a {CORDELIA_REMOTE}/web/static"],
-                        capture_output=True, text=True, timeout=60,
-                        encoding="utf-8", errors="replace",
-                    )
-                    if _perm.returncode == 0 and _perm.stdout.strip() == "755":
-                        steps.append(("Fix permissions", True, "Static/template permissions fixed."))
-                    else:
-                        steps.append(("Fix permissions", False,
-                                      "Permission fix FAILED — the site's images and CSS will "
-                                      "403 until it runs: %s" % (_perm.stderr or _perm.stdout)[-300:]))
-                except Exception as e:
-                    steps.append(("Fix permissions", False,
-                                  f"Permission fix FAILED — the site's images and CSS will 403: {e}"))
+                # Unlock /static straight after the code upload (scp -r leaves it 700).
+                # _unlock_static retries and checks; it runs AGAIN as the last step of
+                # every deploy, so one failed attempt here no longer breaks the site.
+                _ok, _msg = _unlock_static()
+                steps.append(("Fix permissions", _ok, _msg))
 
         # Step 2: Upload databases
         if deploy_db and not failed:
@@ -740,12 +775,23 @@ def _render_cordelia_deploy():
                               lines[-2] if len(lines) > 1 else "nothing to upload"))
 
 
+        # LAST STEP OF EVERY DEPLOY: the site's own files must be readable. Runs
+        # whatever was ticked and whatever failed above, so the photo, CSS and
+        # scripts can no longer be left locked by any earlier step.
+        _ok, _msg = _unlock_static()
+        steps.append(("Site files check", _ok, _msg))
+        if not _ok:
+            st.error("## ⛔ THE LIVE SITE'S PICTURES AND SCRIPTS ARE BROKEN\n\n" + _msg)
+        _log = _write_deploy_log(steps)
+
         # Show results
         for label, ok, msg in steps:
             if ok:
                 st.success(f"{label}: {msg}")
             else:
                 st.error(f"{label}: {msg}")
+        if _log:
+            st.caption(f"Saved to {_log}")
 
 
 # Auto-render when Streamlit runs this file directly (multipage mode)
