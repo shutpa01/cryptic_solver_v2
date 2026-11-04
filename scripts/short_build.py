@@ -35,7 +35,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "logs" / "youtube"
 
-CAP = 59.8          # Shorts limit is 60s; leave a little air for container rounding.
+# Shorts limit is 3 minutes for vertical video (YouTube, from 2024-10-15); it was
+# 60s here until 2026-11-04. Leave a little air for container rounding.
+CAP = 179.8
 HOLD_MAX = 7.5      # Seconds on the answer card after the narration ends.
 HOLD_MIN = 2.0      # Below this the card snaps away the instant she stops.
 
@@ -103,16 +105,31 @@ def _written_explanation(clue_id):
 
 
 def _prose_script(nc, row, paper, body):
-    """narrate()'s frame around the written explanation: the paper, the clue, the
-    turn to the answer card (SPLIT_AT), the answer, the explanation, the plug."""
-    enum = row["enumeration"] or ""
-    lines = ["Our clue of the day is from today's %s." % paper, "",
-             "Here it is: %s%s" % (row["clue_text"].rstrip(". "),
-                                   (" — %s" % nc._spoken_enumeration(enum)) if enum else ""), "",
-             "The answer is %s." % nc._spoken_answer(row["answer"] or "", enum), "",
-             body, "", nc.OUTRO]
-    # _spoken leaves the clue line alone and says our own capitals properly.
-    return nc._spoken("\n".join(lines))
+    """EXACTLY what the full video says for this clue, then the plug.
+
+    Since 2026-11-04 (user): the opening is the full video's own
+    (narrate_prose.clue_text_for) — "Seven down. “clue”." — then the explanation.
+    No "Our clue of the day…" and no "The answer is…" before it. The answer card
+    turns as the explanation starts (see _card_turn).
+    """
+    np_ = _load("np", "narrate_prose.py")
+    label = "%s %s" % (row["clue_number"], (row["direction"] or "").capitalize())
+    opening = u"%s. “%s”." % (np_.spoken_label(label),
+                               (row["clue_text"] or "").strip().rstrip(". "))
+    # _spoken leaves the quoted clue alone and says our own capitals properly —
+    # the same call the full video makes on opening + SEP + body.
+    return nc._spoken(opening + np_.SEP + body + "\n\n" + nc.OUTRO)
+
+
+def _card_turn(script):
+    """Index in `script` where the picture turns from the clue to the answer card.
+
+    Prose scripts: where the explanation starts, i.e. after the opening paragraph.
+    The fallback (narrate() from a parse, no prose) still says "The answer is".
+    """
+    if SPLIT_AT in script:
+        return script.index(SPLIT_AT)
+    return script.index("\n\n") + 2
 
 
 def build(clue_id, voice_off=False):
@@ -130,8 +147,9 @@ def build(clue_id, voice_off=False):
                  % (row["source"], row["puzzle_number"]))
     (cap / "narration.txt").write_text(script, encoding="utf-8")
 
-    i = script.index(SPLIT_AT)
+    i = _card_turn(script)
     blocks = (script[:i].strip(), script[i:].strip())
+    mark = script[i:i + 40]
 
     if voice_off:
         # Silent build for checking the pictures without spending on synthesis.
@@ -141,7 +159,7 @@ def build(clue_id, voice_off=False):
         # ONE TAKE. Two generations were two cold starts and never matched each
         # other; the boundary now comes from the alignment, not from cutting the
         # recording in two. See reel_build.synthesise_marked.
-        _, at, total = rb.synthesise_marked(script, cap / "short_voice.wav", SPLIT_AT)
+        _, at, total = rb.synthesise_marked(script, cap / "short_voice.wav", mark)
         secs = [at, total - at]
         print("one take: %.2fs, answer card turns at %.2fs" % (total, at))
 

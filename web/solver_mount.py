@@ -70,6 +70,35 @@ class SolverMount:
         except Exception:
             return False
 
+    def _log_refusal(self, environ):
+        """Record WHY admin was missing (2026-11-03/04: admin kept vanishing
+        locally with no logout). Cookie NAMES only, never values."""
+        try:
+            import os
+            from datetime import datetime
+            from http.cookies import SimpleCookie
+            raw = environ.get("HTTP_COOKIE", "")
+            jar = SimpleCookie()
+            try:
+                jar.load(raw)
+            except Exception:
+                pass
+            names = sorted(jar.keys())
+            sc = jar.get("session")
+            line = "%s host=%s referer=%s ua=%s cookies=%s session_len=%s\n" % (
+                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                environ.get("HTTP_HOST", ""),
+                environ.get("HTTP_REFERER", "").split("?", 1)[0],
+                environ.get("HTTP_USER_AGENT", "")[:60],
+                ",".join(names) or "-",
+                len(sc.value) if sc else 0)
+            path = os.path.join(os.path.dirname(os.path.dirname(
+                os.path.abspath(__file__))), "logs", "admin_refused.log")
+            with open(path, "a", encoding="utf-8") as fh:
+                fh.write(line)
+        except Exception:
+            pass
+
     def _rewrite_body(self, body):
         for old, new in self._patterns:
             body = body.replace(old, new)
@@ -90,6 +119,7 @@ class SolverMount:
             return self._inner(environ, start_response)
 
         if not self._is_admin(environ):
+            self._log_refusal(environ)
             start_response("403 FORBIDDEN", [("Content-Type", "text/plain")])
             return [b"Admin only."]
 

@@ -20,6 +20,44 @@ YT_LATEST = YT_LOG_DIR / "youtube_job_latest.txt"
 YT_DONE = "=== job finished"          # sentinel written by scripts/youtube_deploy_job.py
 
 
+YT_PID = YT_LOG_DIR / "youtube_job_pid.txt"
+
+
+def _pid_alive(pid):
+    """True iff process `pid` is still running (Windows; never signals it)."""
+    try:
+        import ctypes
+        k = ctypes.windll.kernel32
+        h = k.OpenProcess(0x1000, False, int(pid))   # QUERY_LIMITED_INFORMATION
+        if not h:
+            return False
+        code = ctypes.c_ulong()
+        ok = k.GetExitCodeProcess(h, ctypes.byref(code))
+        k.CloseHandle(h)
+        return bool(ok) and code.value == 259          # STILL_ACTIVE
+    except Exception:
+        return False
+
+
+def _yt_running():
+    """The log of a YouTube job that is STILL RUNNING, else None.
+
+    2026-11-04: three DB deploys (05:26, 05:36, 05:44) started three jobs. The
+    first was filming and uploading fine; the other two collided with its files
+    (PermissionError on banner.png / concat.txt) and the page showed "FAILED".
+    One job at a time: a deploy while one runs watches that one instead.
+    """
+    try:
+        pid = int(YT_PID.read_text(encoding="utf-8").strip())
+        log = Path(YT_LATEST.read_text(encoding="utf-8").strip())
+    except (OSError, ValueError):
+        return None
+    if not _pid_alive(pid):
+        return None
+    _lines, finished = _yt_read(log)
+    return None if finished else log
+
+
 def _yt_launch(privacy):
     """Start the YouTube job DETACHED and return the log file it writes.
 
@@ -32,6 +70,9 @@ def _yt_launch(privacy):
     So the page only STARTS this and then reads its log. Closing the browser is
     now free: the job keeps filming and uploading, and the log is the record.
     """
+    running = _yt_running()
+    if running is not None:
+        return running
     YT_LOG_DIR.mkdir(parents=True, exist_ok=True)
     log = YT_LOG_DIR / ("youtube_job_%s.log"
                         % datetime.now().strftime("%Y%m%d_%H%M%S"))
@@ -41,13 +82,14 @@ def _yt_launch(privacy):
         # DETACHED_PROCESS: no console tied to Streamlit's. CREATE_NEW_PROCESS_GROUP:
         # a Ctrl-C in the parent's group never reaches it.
         flags = subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
-    subprocess.Popen(
+    proc = subprocess.Popen(
         [str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"), "-u",
          str(PROJECT_ROOT / "scripts" / "youtube_deploy_job.py"),
          "--privacy", privacy],
         stdout=fh, stderr=subprocess.STDOUT, cwd=str(PROJECT_ROOT),
         creationflags=flags, close_fds=True)
     YT_LATEST.write_text(str(log), encoding="utf-8")
+    YT_PID.write_text(str(proc.pid), encoding="utf-8")
     return log
 
 
@@ -754,7 +796,12 @@ def _render_cordelia_deploy():
         # is missing (scripts/youtube_upload.py:430), so a killed upload just needs
         #   python scripts\youtube_upload.py --source guardian --privacy public
         if deploy_db and not failed and upload_video:
+            already = _yt_running()
             log_path = _yt_launch(video_privacy)
+            if already is not None:
+                st.info("A YouTube job is already running (started %s) — showing "
+                        "that one; no second job started."
+                        % log_path.stem.replace("youtube_job_", ""))
             st.caption("YouTube: filming and uploading every paper's puzzles for "
                        "today. This runs on its own — closing this page will NOT "
                        "stop it, and reopening the Deploy page shows it again.")

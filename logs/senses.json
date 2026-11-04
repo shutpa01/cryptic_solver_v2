@@ -2015,5 +2015,25 @@
     "phrase": "Roast the potatoes in a hot oven",
     "approved": false,
     "clue_id": 10108069
+  },
+  "RASHER|less sensible": {
+    "phrase": "That was a rasher decision than usual",
+    "approved": false,
+    "clue_id": 10108554
+  },
+  "RASHER|ingredient of english breakfast": {
+    "phrase": "Just one rasher of bacon for me",
+    "approved": false,
+    "clue_id": 10108554
+  },
+  "BEAR|shoulder": {
+    "phrase": "She must bear the costs herself now",
+    "approved": false,
+    "clue_id": 10108365
+  },
+  "BEAR|or stomach": {
+    "phrase": "I can't bear the smell of fish",
+    "approved": false,
+    "clue_id": 10108365
   }
 }

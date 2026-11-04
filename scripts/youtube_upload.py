@@ -44,11 +44,21 @@ adding publications; this is the first thing that will break silently.
 """
 
 import argparse
+import builtins
+import functools
 import json
 import sqlite3
 import subprocess
 import sys
 from pathlib import Path
+
+# EVERY LINE GOES OUT AT ONCE. Loading the site (web/routes/admin.py imports
+# scraper/danword/danword_lookup.py) swaps sys.stdout for a fresh UTF-8 wrapper
+# that buffers, which undid -u: this script's own lines ("title:", "Uploading...",
+# the %, "uploaded:") sat in the buffer until exit while the children's output went
+# straight through. The Deploy page therefore never saw an upload happen, and on
+# 2026-11-04 two more jobs were started on top of the working one and "failed".
+print = functools.partial(builtins.print, flush=True)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 

@@ -56,7 +56,15 @@ BG = "0xF1F5F9"
 # source line — the question, with no answer anywhere on screen.
 TEASER_JS = TRIM_JS.replace(
     "let n = card.nextElementSibling;",
-    "card.style.display = 'none';\nlet n = card.nextElementSibling;")
+    "card.style.display = 'none';\n"
+    # The written explanation sits just above the card and NAMES THE ANSWER, and the
+    # listen button is no use in a film: hide both on the question frame (2026-11-04,
+    # guardian 30155 5d showed "Corral means…" before the card turned).
+    "const pr = card.previousElementSibling;\n"
+    "if (pr && pr.matches('div.rounded-xl') && pr.querySelector('p.text-base')) "
+    "{ pr.style.display = 'none'; }\n"
+    "panel.querySelectorAll('.listen-row').forEach(e => { e.style.display = 'none'; });\n"
+    "let n = card.nextElementSibling;")
 
 
 def pick_clue(frames, label):
@@ -83,9 +91,13 @@ def capture_pair(source, clue, out_dir):
             d.find_element(By.CSS_SELECTOR, PANEL).screenshot(
                 str(out_dir / "short_teaser.png"))
             # Same load, card restored — the reveal is the identical panel.
+            # ...and the written explanation above it comes back with it.
             d.execute_script(
-                "document.querySelector('%s').querySelector('.wfw-card')"
-                ".style.display = '';" % PANEL)
+                "const c = document.querySelector('%s').querySelector('.wfw-card');"
+                "c.style.display = '';"
+                "const pr = c.previousElementSibling;"
+                "if (pr && pr.matches('div.rounded-xl')) { pr.style.display = ''; }"
+                % PANEL)
             d.find_element(By.CSS_SELECTOR, PANEL).screenshot(
                 str(out_dir / "short_reveal.png"))
     finally:

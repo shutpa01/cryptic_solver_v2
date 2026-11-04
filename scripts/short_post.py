@@ -39,7 +39,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_ROOT = ROOT / "logs" / "youtube"
-MAX_SECONDS = 60.0
+# YouTube counts square/vertical videos up to THREE minutes as Shorts (rolled out
+# from 2024-10-15; support.google.com/youtube/answer/15424877). Was 60.0 until
+# 2026-11-04 — out of date, and it refused clues whose explanation ran long.
+MAX_SECONDS = 180.0
 
 
 def _load(name, filename):
