@@ -174,6 +174,16 @@ def is_served(source, clue_id):
 # door Google already knows about.
 ARCHIVE_SOURCES = ('telegraph', 'times', 'dailymail', 'guardian', 'independent')
 
+# ARCHIVE PAGES WITHDRAWN (user, 2026-11-06: "we dropped them months ago" ...
+# "yes, make them 410"). Measured that day through nginx: they still answered
+# 200 with `index,follow`, so Google had never been told they were gone, while
+# Googlebot asked for one archive clue in 14 days. False => archive_answer gives
+# None everywhere: the clue route answers 410 (web/routes/clue.py) and /search +
+# /search/suggest stop linking to them (never link to a 410). True restores the
+# 2026-08-29 behaviour exactly.
+ARCHIVE_PAGES_ENABLED = False
+
+
 def archive_answer(clue):
     """The answer to show on an archive page, or None if this clue gets no page.
 
@@ -188,7 +198,7 @@ def archive_answer(clue):
     could serve. (And it protected nothing in practice: today's prize puzzle
     31331 already serves its answers in full, with the wordplay.)
     """
-    if clue is None:
+    if clue is None or not ARCHIVE_PAGES_ENABLED:
         return None
     if (clue["source"] or "") not in ARCHIVE_SOURCES:
         return None
