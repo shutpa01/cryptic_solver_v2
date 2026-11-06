@@ -23,8 +23,9 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 load_dotenv(_PROJECT_ROOT / '.env')
 
 
-def _send_email(subject: str, body: str):
-    """Send an email. No-op if SMTP not configured."""
+def _send_email(subject: str, body: str) -> bool:
+    """Send an email. No-op if SMTP not configured. Returns True only when sent
+    (scripts/nightly_run.py records a sent summary, so it must know)."""
     host = os.getenv('SMTP_HOST')
     port = os.getenv('SMTP_PORT')
     user = os.getenv('SMTP_USER')
@@ -32,7 +33,8 @@ def _send_email(subject: str, body: str):
     recipient = os.getenv('ALERT_EMAIL')
 
     if not all([host, port, user, password, recipient]):
-        return
+        print("  [notify] SMTP not configured in .env — email not sent")
+        return False
 
     msg = MIMEText(body)
     msg['Subject'] = subject
@@ -44,8 +46,10 @@ def _send_email(subject: str, body: str):
             server.starttls()
             server.login(user, password)
             server.sendmail(user, [recipient], msg.as_string())
+        return True
     except Exception as e:
         print(f"  [notify] Failed to send email: {e}")
+        return False
 
 
 def send_failure_email(scraper_name: str, error_message: str):

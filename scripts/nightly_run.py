@@ -155,8 +155,10 @@ def run_scraper():
     for source in SCRAPE_SOURCES:
         log(f"Step 1: Scraping {source}...")
         try:
+            # --no-email: the scraper's own per-paper email is replaced by the ONE
+            # summary this script sends at the end (send_summary, user 2026-11-06).
             result = subprocess.run(
-                [PYTHON_SCRAPER, SCRAPER_SCRIPT, "--only", source],
+                [PYTHON_SCRAPER, SCRAPER_SCRIPT, "--only", source, "--no-email"],
                 cwd=str(ROOT),
                 capture_output=True,
                 text=True,
@@ -316,6 +318,118 @@ def run_claude(prompt_name, label, target_date, timeout=5400):
     return True
 
 
+# ---------------------------------------------------------------------------
+# ONE EMAIL A NIGHT (user, 2026-11-06): "all I want is one email at the end of
+# the process that tells me in the subject whether all puzzles worked". Until
+# then the scraper emailed once per paper, and the 02:00 catch-up run repeated
+# all five — about ten a night. The scraper is now called with --no-email and
+# this sends the only one.
+#
+# The SUBJECT is the verdict. "Worked" = every puzzle the schedule expects today
+# is in the DB, the serving papers' clues all have answers, and every step of
+# the run succeeded. Clues left for the morning walk are normal work, not a
+# failure: they are counted in the body, not the subject.
+#
+# The 02:00 catch-up runs this same script. It sends only when the 00:05 run
+# sent nothing for the date (it crashed, or never ran) or the verdict CHANGED —
+# so a normal night is one email. The record is logs/nightly_email_<date>.txt.
+# ---------------------------------------------------------------------------
+
+def _summary(target_date, steps):
+    """(subject, body) for the night."""
+    sys.path.insert(0, str(ROOT / "scraper" / "orchestrator"))
+    sys.path.insert(0, str(ROOT))
+    import puzzle_scraper as ps
+    from web.serving import SERVED_SOURCES
+
+    day = date.fromisoformat(target_date)
+    problems = []
+
+    recon, found, expected = ps.reconcile(day)
+    for label, status, detail in recon:
+        if status != "OK":
+            problems.append(f"{label} missing")
+
+    conn = sqlite3.connect(str(CLUES_DB))
+    try:
+        ph = ",".join("?" for _ in SERVED_SOURCES)
+        rows = conn.execute(
+            "SELECT c.source, c.puzzle_number, COUNT(*), "
+            "  SUM(c.answer IS NULL OR c.answer = ''), "
+            "  SUM(s.status = 'pass'), SUM(s.status = 'pending'), "
+            "  SUM(s.status = 'invalid'), SUM(s.status = 'continuation'), "
+            "  SUM(s.status IS NULL OR s.status = 'fail') "
+            "FROM clues c LEFT JOIN wfw_solve s ON s.clue_id = c.id "
+            "WHERE c.publication_date = ? AND c.source IN (%s) "
+            "GROUP BY c.source, c.puzzle_number ORDER BY c.source" % ph,
+            (target_date, *SERVED_SOURCES)).fetchall()
+    finally:
+        conn.close()
+
+    puzzle_lines = []
+    for src, pnum, n, no_ans, p, pend, inv, cont, fail in rows:
+        if no_ans:
+            problems.append(f"{src.title()} {pnum}: {no_ans} answers missing")
+        puzzle_lines.append(
+            f"  {src.title():10} {pnum:>6}  {n:>2} clues | pass {p or 0}, pending "
+            f"{pend or 0}, invalid {inv or 0}, continuation {cont or 0}, "
+            f"not done {fail or 0}" + (f" | {no_ans} WITHOUT ANSWERS" if no_ans else ""))
+
+    for name, ok, detail in steps:
+        if not ok:
+            problems.append(f"{name} failed")
+
+    label = day.strftime("%a %d %b")
+    if problems:
+        subject = f"Nightly {label}: PROBLEM - " + "; ".join(problems)
+        if len(subject) > 180:
+            subject = subject[:177] + "..."
+    else:
+        subject = f"Nightly {label}: ALL {expected} PUZZLES OK"
+
+    body = [f"Nightly run for {target_date}, finished "
+            f"{uk_now().strftime('%H:%M')} UK time.", ""]
+    if problems:
+        body += ["PROBLEMS", "-" * 40] + [f"  {p}" for p in problems] + [""]
+    body += ["EXPECTED PUZZLES", "-" * 40]
+    body += [f"  [{'+' if s == 'OK' else 'X'}] {lab:28} {d}" for lab, s, d in recon]
+    body += [f"  {found}/{expected} captured", "", "SERVING PUZZLES", "-" * 40]
+    body += puzzle_lines or ["  none in the DB for this date"]
+    body += ["", "STEPS", "-" * 40]
+    body += [f"  {'OK    ' if ok else 'FAILED'} {name}" + (f" - {d}" if d else "")
+             for name, ok, d in steps]
+    body += ["", f"Full log: logs\\nightly_{date.today().isoformat()}.log"]
+    return subject, "\n".join(body)
+
+
+def send_summary(target_date, steps, dry_run=False):
+    """Build and send the night's one email (see the block comment above)."""
+    log("")
+    log("Summary email...")
+    sys.path.insert(0, str(ROOT / "scraper" / "orchestrator"))   # notify, puzzle_scraper
+    try:
+        subject, body = _summary(target_date, steps)
+    except Exception as e:
+        subject = f"Nightly {target_date}: PROBLEM - summary could not be built"
+        body = f"The run finished but building the summary failed: {e}\nSee the nightly log."
+    log(f"  subject: {subject}")
+    if dry_run:
+        log("  [DRY RUN] not sent. Body:")
+        for line in body.splitlines():
+            log(f"    {line}")
+        return
+    sent_file = LOG_DIR / f"nightly_email_{target_date}.txt"
+    if sent_file.exists() and sent_file.read_text(encoding="utf-8").strip() == subject:
+        log("  same verdict already emailed for this date - not sending again")
+        return
+    from notify import _send_email
+    if _send_email(subject, body):
+        sent_file.write_text(subject + "\n", encoding="utf-8")
+        log("  sent")
+    else:
+        log("  !! NOT sent (see the [notify] line above)")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Nightly publish-first chain")
     parser.add_argument("--dry-run", action="store_true", help="Show plan without executing")
@@ -331,6 +445,9 @@ def main():
 
     # Ensure log directory exists
     LOG_DIR.mkdir(exist_ok=True)
+    # (name, ok, detail) per step, for the one summary email (send_summary).
+    steps = []
+    _RUN["target_date"], _RUN["steps"], _RUN["dry_run"] = target_date, steps, args.dry_run
 
     log("=" * 60)
     log(f"NIGHTLY RUN — {target_date} ({target_day})")
@@ -343,7 +460,7 @@ def main():
         if args.dry_run:
             log("[DRY RUN] Would scrape: " + ", ".join(SCRAPE_SOURCES))
         else:
-            run_scraper()
+            steps.append(("Step 1 scrape", run_scraper(), ""))
 
     # Step 1b: ingest the Sunday Prize Toughie (idempotent; only writes on a fresh one).
     # Runs regardless of --skip-scraper so a scraped-but-un-ingested puzzle still lands;
@@ -369,7 +486,7 @@ def main():
         if args.dry_run:
             log(f"[DRY RUN] Would cascade {target_date} (serving papers)")
         else:
-            run_cascade(target_date)
+            steps.append(("Step 2 cascade", run_cascade(target_date), ""))
 
     # Steps 3+3b: headless Claude. Prefill (today's FAIL/PENDING clues ->
     # hand-solver readings for the morning walk), then a READ of today's engine
@@ -393,8 +510,11 @@ def main():
     elif args.dry_run:
         log("[DRY RUN] Would run claude -p nightly_prefill.md, nightly_pass_review.md")
     else:
-        run_claude("nightly_prefill.md", "Step 3: prefill", target_date)
-        run_claude("nightly_pass_review.md", "Step 3b: review today's engine passes", target_date)
+        steps.append(("Step 3 prefill",
+                      run_claude("nightly_prefill.md", "Step 3: prefill", target_date), ""))
+        steps.append(("Step 3b pass review",
+                      run_claude("nightly_pass_review.md",
+                                 "Step 3b: review today's engine passes", target_date), ""))
 
     # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
     # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only
@@ -412,6 +532,8 @@ def main():
                            errors="replace", timeout=900, cwd=str(ROOT))
         for line in (r.stdout or "").strip().splitlines()[-12:]:
             log(f"  {line}")
+        steps.append(("Step 5 usage phrases", r.returncode == 0,
+                      "" if r.returncode == 0 else f"exit {r.returncode}"))
         if r.returncode != 0:
             log(f"  draft_senses failed (exit {r.returncode}) — not fatal")
             # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
@@ -419,6 +541,7 @@ def main():
                 log(f"  stderr: {line}")
     except Exception as e:
         log(f"  draft_senses ERROR: {e} — not fatal")
+        steps.append(("Step 5 usage phrases", False, str(e)[:120]))
 
     # Step 6: draft the clue pages' prose blocks. LAST, and with --pending, because
     # by now prefill has filed its readings and the user accepts the vast majority of
@@ -475,6 +598,8 @@ def main():
             # A 14-line tail lost 11 of 12 refusals on the first real run.
             for line in (r.stdout or "").strip().splitlines()[-120:]:
                 log(f"  {line}")
+            steps.append((f"Step 6 prose {source} {pnum}", r.returncode == 0,
+                          "" if r.returncode == 0 else f"exit {r.returncode}"))
             if r.returncode != 0:
                 log(f"  draft_prose failed (exit {r.returncode}) — not fatal")
                 # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
@@ -482,11 +607,18 @@ def main():
                     log(f"  stderr: {line}")
         except Exception as e:
             log(f"  draft_prose ERROR: {e} — not fatal")
+            steps.append((f"Step 6 prose {source} {pnum}", False, str(e)[:120]))
+
+    send_summary(target_date, steps, args.dry_run)
 
     log("")
     log("=" * 60)
     log("NIGHTLY RUN COMPLETE")
     log("=" * 60)
+
+
+# What main() has done so far, so a crash can still send the night's email.
+_RUN = {}
 
 
 if __name__ == "__main__":
@@ -497,4 +629,10 @@ if __name__ == "__main__":
         import traceback
         for line in traceback.format_exc().splitlines():
             log(f"  {line}")
+        if _RUN.get("target_date"):
+            _RUN["steps"].append(("Run CRASHED", False, str(e)[:150]))
+            try:
+                send_summary(_RUN["target_date"], _RUN["steps"], _RUN["dry_run"])
+            except Exception as e2:
+                log(f"  summary email also failed: {e2}")
         sys.exit(1)

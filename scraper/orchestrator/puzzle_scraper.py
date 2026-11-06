@@ -446,6 +446,10 @@ def main():
                              'puzzles. OFF by default (publish-first process '
                              '2026-07-10: prize/answerless puzzles are hand-solved '
                              'in the morning, never scraped from Danword).')
+    parser.add_argument('--no-email', action='store_true',
+                        help='Send no email. The nightly (scripts/nightly_run.py) passes '
+                             'this and sends ONE summary of the whole night itself — '
+                             'per-paper emails made ~10 a night (user, 2026-11-06).')
     args = parser.parse_args()
 
     print(f"Puzzle Scraper — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -475,7 +479,7 @@ def main():
 
         results[name] = success
 
-        if not success:
+        if not success and not args.no_email:
             send_failure_email(name, f"{name} scraper failed after {max_attempts} attempt(s)")
 
     # Snapshot DB after scraping
@@ -607,7 +611,10 @@ def main():
     email_lines.append("")
     email_lines.append("Droplet sync + Indexing API: DISABLED (local-only run)")
 
-    _send_email(subject, '\n'.join(email_lines))
+    if args.no_email:
+        print(f"\n  (--no-email: not sending \"{subject}\")")
+    else:
+        _send_email(subject, '\n'.join(email_lines))
 
     print(f"\n{'=' * 60}")
     print("DONE")

@@ -471,6 +471,11 @@ def _verdict_badge(parse):
         return '<span class="wfw-verdict pending">&#8226; PENDING</span>'
     if status == "invalid":
         return '<span class="wfw-verdict invalid">&#9888; INVALID</span>'
+    # A "See N" stub waiting on its parent (core/span_join.sync_stubs_for files
+    # status='continuation' until the parent is served, then 'pass'). It is not a
+    # failure — it fell through to FAIL here (guardian 30157 22d ASKED, 2026-11-06).
+    if status == "continuation":
+        return '<span class="wfw-verdict continuation">&#8618; CONTINUATION</span>'
     return '<span class="wfw-verdict fail">&#10007; FAIL</span>'
 
 
@@ -1804,6 +1809,7 @@ CARD_CSS = """
   .wfw-verdict.review { background:#7c3aed; }
   .wfw-verdict.fail { background:#dc2626; }
   .wfw-verdict.invalid { background:#475569; }
+  .wfw-verdict.continuation { background:#0d9488; }
   .wfw-clue { font-size:1.4rem; line-height:1.6; margin-bottom:1.1rem;
               color:var(--ink); font-weight:500; }
   .wfw-enum { color:#94a3b8; font-weight:600; }
