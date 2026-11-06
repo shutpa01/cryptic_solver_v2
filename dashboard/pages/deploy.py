@@ -247,11 +247,10 @@ def _rsync(local_path, remote_path, timeout=300):
     if len(s) >= 2 and s[1] == ':':
         s = '/' + s[0].lower() + s[2:]
     cmd = f'rsync -cz {s} {remote_path}'
-    return subprocess.run(
-        [GIT_BASH, '-c', cmd],
-        capture_output=True, text=True, timeout=timeout,
-        encoding="utf-8", errors="replace",
-    )
+    # Retried on a dropped connection (see _scp_retry). Safe: rsync writes a temp
+    # file and renames it into place only when complete, so a cut-off attempt never
+    # leaves a half database live.
+    return _scp_retry([GIT_BASH, '-c', cmd], timeout=timeout)
 
 
 def _rsync_json_dir(local_dir, remote_path, timeout=600, patterns=("*.json",)):
@@ -359,6 +358,48 @@ def _write_deploy_log(steps):
     except Exception:
         return None
 CRYPTIC_NEW_DB = PROJECT_ROOT / "data" / "cryptic_new.db"
+
+
+# A connection the NETWORK killed, not a real upload error. On ship wifi (2026-11-06,
+# EXPLORA1-HOTSPOT, NordVPN on or off) 2 of 3 fresh ssh connections were reset at
+# once ("kex_exchange_identification: read: Connection reset") while the droplet
+# logged nothing; three code deploys in a row died on the first reset, each at a
+# different folder. Re-sending identical files is harmless, so these are retried.
+_CONN_ERRORS = ("kex_exchange_identification", "connection reset", "connection closed",
+                "connection timed out", "operation timed out", "broken pipe",
+                "connection refused", "lost connection", "network is unreachable",
+                "connection unexpectedly closed")          # rsync's wording
+
+
+def _scp_retry(cmd, timeout, attempts=8, wait=3):
+    """subprocess.run(cmd) for an scp, retried while the failure is a dropped
+    connection (_CONN_ERRORS) or a timeout. Any other failure (bad path,
+    permission) returns at once, exactly as before. Returns the last
+    CompletedProcess; raises the last TimeoutExpired if every try timed out.
+
+    The wait grows (3, 6, 9, 12, 15, 15, 15 s ≈ 75 s in all): measured at sea the
+    resets come in BURSTS — 6 tries 3 s apart (18 s) failed once in 10 and only
+    just succeeded once more (2026-11-06)."""
+    import time as _time
+    result = None
+    for i in range(1, attempts + 1):
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
+                                    encoding="utf-8", errors="replace")
+        except subprocess.TimeoutExpired:
+            if i == attempts:
+                raise
+            _time.sleep(min(wait * i, 15))
+            continue
+        if result.returncode == 0:
+            return result
+        err = (result.stderr or "").lower()
+        if i == attempts or not any(k in err for k in _CONN_ERRORS):
+            return result
+        _time.sleep(min(wait * i, 15))
+    return result
+
+
 # Directories to deploy to Cordelia (local_dir, remote_dir, glob pattern)
 # Uses scp -r for directories, excludes __pycache__
 CORDELIA_CODE_DIRS = [
@@ -462,10 +503,9 @@ def _render_cordelia_deploy():
                     if pattern is None:
                         # Upload entire directory
                         try:
-                            result = subprocess.run(
+                            result = _scp_retry(
                                 ["scp", "-r", str(local_path) + "/.", f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/"],
-                                capture_output=True, text=True, timeout=60,
-                                encoding="utf-8", errors="replace",
+                                timeout=60,
                             )
                             if result.returncode == 0:
                                 uploaded += 1
@@ -490,10 +530,9 @@ def _render_cordelia_deploy():
                         ]
                         if files:
                             try:
-                                result = subprocess.run(
+                                result = _scp_retry(
                                     ["scp"] + files + [f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_dir}/"],
-                                    capture_output=True, text=True, timeout=300,
-                                    encoding="utf-8", errors="replace",
+                                    timeout=300,
                                 )
                                 if result.returncode != 0:
                                     steps.append(("Upload code", False, f"Failed on {remote_dir}: {result.stderr}"))
@@ -526,10 +565,9 @@ def _render_cordelia_deploy():
                                     capture_output=True, text=True, timeout=30,
                                     encoding="utf-8", errors="replace",
                                 )
-                            result = subprocess.run(
+                            result = _scp_retry(
                                 ["scp", str(local_path), f"{CORDELIA_DROPLET}:{CORDELIA_REMOTE}/{remote_file}"],
-                                capture_output=True, text=True, timeout=30,
-                                encoding="utf-8", errors="replace",
+                                timeout=30,
                             )
                             if result.returncode == 0:
                                 uploaded += 1
@@ -643,10 +681,11 @@ def _render_cordelia_deploy():
         if not failed:
             with st.spinner("Restarting Cordelia service..."):
                 try:
-                    result = subprocess.run(
-                        ["ssh", CORDELIA_DROPLET, "systemctl restart cordelia"],
-                        capture_output=True, text=True, timeout=120,
-                        encoding="utf-8", errors="replace",
+                    # Retried on a dropped connection: restarting twice is harmless.
+                    result = _scp_retry(
+                        ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=20",
+                         CORDELIA_DROPLET, "systemctl restart cordelia"],
+                        timeout=120,
                     )
                     if result.returncode == 0:
                         steps.append(("Restart service", True, "Service restarted."))
