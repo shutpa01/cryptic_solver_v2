@@ -107,15 +107,21 @@ def _written_explanation(clue_id):
 def _prose_script(nc, row, paper, body):
     """EXACTLY what the full video says for this clue, then the plug.
 
-    Since 2026-11-04 (user): the opening is the full video's own
+    Since 2026-11-04 (user): the clue is spoken as the full video speaks it
     (narrate_prose.clue_text_for) — "Seven down. “clue”." — then the explanation.
-    No "Our clue of the day…" and no "The answer is…" before it. The answer card
-    turns as the explanation starts (see _card_turn).
+    No "The answer is…". The answer card turns as the explanation starts (see
+    _card_turn).
+
+    THE PREAMBLE STAYS (user, 2026-11-07: "the short has zero preamble about it
+    being the clue of the day and just says 1 across"). A Short is watched alone,
+    so it must say what it is and which paper, before the clue. It sits in the
+    SAME paragraph as the clue so the card still turns where the explanation starts.
     """
     np_ = _load("np", "narrate_prose.py")
     label = "%s %s" % (row["clue_number"], (row["direction"] or "").capitalize())
-    opening = u"%s. “%s”." % (np_.spoken_label(label),
-                               (row["clue_text"] or "").strip().rstrip(". "))
+    opening = u"Our clue of the day is from today's %s. %s. “%s”." % (
+        paper, np_.spoken_label(label),
+        (row["clue_text"] or "").strip().rstrip(". "))
     # _spoken leaves the quoted clue alone and says our own capitals properly —
     # the same call the full video makes on opening + SEP + body.
     return nc._spoken(opening + np_.SEP + body + "\n\n" + nc.OUTRO)

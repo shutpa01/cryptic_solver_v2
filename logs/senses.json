@@ -2035,5 +2035,165 @@
     "phrase": "I can't bear the smell of fish",
     "approved": false,
     "clue_id": 10108365
+  },
+  "WELL|alive and kicking": {
+    "phrase": "I'm feeling well again after my cold",
+    "approved": false,
+    "clue_id": 10108873
+  },
+  "ITTAKESALLSORTS|what the liquorice loving magpie does": {
+    "phrase": "The thieving magpie? It takes all sorts",
+    "approved": false,
+    "clue_id": 10108878
+  },
+  "EDEN|7": {
+    "phrase": "Our back garden is a perfect Eden",
+    "approved": false,
+    "clue_id": 10108884
+  },
+  "EDEN|put paid to by suez": {
+    "phrase": "Eden resigned as Prime Minister after Suez",
+    "approved": false,
+    "clue_id": 10108884
+  },
+  "EXECUTION|carrying out": {
+    "phrase": "The execution of the plan went smoothly",
+    "approved": false,
+    "clue_id": 10108687
+  },
+  "EXECUTION|death penalty": {
+    "phrase": "The prisoner faced execution at dawn tomorrow",
+    "approved": false,
+    "clue_id": 10108687
+  },
+  "CHOKE|throttle": {
+    "phrase": "The thick smoke made him choke badly",
+    "approved": false,
+    "clue_id": 10108710
+  },
+  "CHOKE|carburettor part": {
+    "phrase": "Pull the choke out on cold mornings",
+    "approved": false,
+    "clue_id": 10108710
+  },
+  "WELL|what’s found in the 7": {
+    "phrase": "The village well ran dry last summer",
+    "approved": false,
+    "clue_id": 10108873
+  },
+  "NOQUESTIONSASKED|examiner made redundant it seems": {
+    "phrase": "The exam was cancelled, so no questions asked",
+    "approved": false,
+    "clue_id": 10109176
+  },
+  "NOQUESTIONSASKED|unconditionally": {
+    "phrase": "Return it for a full refund, no questions asked",
+    "approved": false,
+    "clue_id": 10109176
+  },
+  "THIRD-PARTY|after a couple of bashes i'm ready": {
+    "phrase": "Two parties down, I'd happily attend a third party",
+    "approved": false,
+    "clue_id": 10109000
+  },
+  "THIRD-PARTY|this type of insurance": {
+    "phrase": "My old car only has third-party insurance",
+    "approved": false,
+    "clue_id": 10109000
+  },
+  "STARTLE|amaze": {
+    "phrase": "The sudden knock startled me out of my chair",
+    "approved": false,
+    "clue_id": 10109148
+  },
+  "STARTLE|as leeds and leicester do": {
+    "phrase": "Both those cities start, \"LE\", don't they?",
+    "approved": false,
+    "clue_id": 10109148
+  },
+  "ICE|murder across the pond": {
+    "phrase": "The mob boss ordered them to ice him",
+    "approved": false,
+    "clue_id": 10109156
+  },
+  "ICE|frozen water": {
+    "phrase": "Careful, there's ice on the path this morning",
+    "approved": false,
+    "clue_id": 10109156
+  },
+  "BUST|solvent no longer": {
+    "phrase": "The company went bust during the recession",
+    "approved": false,
+    "clue_id": 10109162
+  },
+  "BUST|chest": {
+    "phrase": "She measured her bust for the dress",
+    "approved": false,
+    "clue_id": 10109162
+  },
+  "OLDMAID|woman matchless": {
+    "phrase": "She never married, ended up an old maid",
+    "approved": false,
+    "clue_id": 10109167
+  },
+  "OLDMAID|game": {
+    "phrase": "The children played old maid after tea",
+    "approved": false,
+    "clue_id": 10109167
+  },
+  "BROCCOLI|vegetable": {
+    "phrase": "Steam the broccoli for Sunday's roast dinner",
+    "approved": false,
+    "clue_id": 10109324
+  },
+  "BROCCOLI|producer": {
+    "phrase": "Broccoli produced all the classic Bond films",
+    "approved": false,
+    "clue_id": 10109324
+  },
+  "DRAG|tedious experience": {
+    "phrase": "The whole journey was a real drag",
+    "approved": false,
+    "clue_id": 10109330
+  },
+  "DRAG|yank": {
+    "phrase": "Don't drag the table across the floor",
+    "approved": false,
+    "clue_id": 10109330
+  },
+  "RACES|people’s": {
+    "phrase": "Folk of all races mingled at the festival",
+    "approved": false,
+    "clue_id": 10109334
+  },
+  "RACES|careers": {
+    "phrase": "He races down the stairs every morning",
+    "approved": false,
+    "clue_id": 10109334
+  },
+  "OMNIBUS|transport": {
+    "phrase": "We caught the omnibus into town yesterday",
+    "approved": false,
+    "clue_id": 10109341
+  },
+  "OMNIBUS|large volume": {
+    "phrase": "She's reading a hefty omnibus of Christie novels",
+    "approved": false,
+    "clue_id": 10109341
+  },
+  "GRACE|elegance": {
+    "phrase": "The dancer moved with such effortless grace",
+    "approved": false,
+    "clue_id": 10109342
+  },
+  "SCREW|money from employer": {
+    "phrase": "He's on a very good screw there",
+    "approved": false,
+    "clue_id": 10109410
+  },
+  "SCREW|one’s head is turned": {
+    "phrase": "Turn the screw’s head until it’s tight",
+    "approved": false,
+    "clue_id": 10109410
   }
 }
