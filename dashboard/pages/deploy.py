@@ -298,6 +298,50 @@ def render():
     except Exception as e:
         st.error(f"Error in Cordelia deploy: {e}")
 
+    # A SEPARATE JOB (user, 2026-11-12): "deploying the YT needs to be a totally
+    # separate job that I run after I have uploaded the DBs / bing index etc." It was a
+    # checkbox on the deploy, which then sat watching the job and wrote its own log and
+    # site-files check only after the filming ended — a deploy that looked unfinished
+    # for half an hour.
+    st.subheader("YouTube videos")
+    try:
+        _render_youtube_job()
+    except Exception as e:
+        st.error(f"Error in YouTube job: {e}")
+
+
+def _render_youtube_job():
+    """Film and upload today's live puzzles — its own button, run after a deploy.
+
+    Same job as the deploy used to start (_yt_launch: detached, one at a time, the
+    ledger stops repeats), so nothing about filming or uploading changes here."""
+    _render_yt_job_status()
+    st.caption("Run this AFTER the deploy has put today's puzzles live: it films "
+               "the live clue pages. Once per puzzle — a ledger stops repeats.")
+    # PUBLIC by default (user, 2026-09-21): the button is the deliberate act.
+    video_privacy = st.selectbox(
+        "Video privacy", ["public", "unlisted", "private"], index=0,
+        key="co_video_privacy",
+        help="Public by default — that is what these films are for. Choose private "
+             "if you want to watch one before anybody else can.")
+    if st.button("Upload YouTube videos", key="yt_upload_run"):
+        already = _yt_running()
+        log_path = _yt_launch(video_privacy)
+        if already is not None:
+            st.info("A YouTube job is already running (started %s) — showing that "
+                    "one; no second job started."
+                    % log_path.stem.replace("youtube_job_", ""))
+        st.caption("Runs on its own — closing this page will NOT stop it, and "
+                   "reopening the Deploy page shows it again.")
+        live = st.empty()
+        lines, _finished = _yt_tail(log_path, live)
+        live.empty()
+        for ln in lines:
+            if "youtube.com/watch" in ln:
+                st.success("YouTube upload: %s" % ln.strip())
+        with st.expander("YouTube job — full log (%s)" % log_path.name):
+            st.code("\n".join(lines) or "(no output yet)")
+
 
 CORDELIA_DROPLET = "root@165.232.46.255"
 CORDELIA_REMOTE = "/opt/cordelia"
@@ -434,31 +478,13 @@ CORDELIA_EXTRA_FILES = [
 
 def _render_cordelia_deploy():
     """Deploy databases and/or code to the Cordelia droplet."""
-    st.caption("Deploy to justcordelia.com — upload databases, code, or both.")
-    _render_yt_job_status()
+    st.caption("Deploy to justcordelia.com — upload databases, code, or both. "
+               "YouTube is its own button below.")
 
     col1, col2 = st.columns(2)
     with col1:
         deploy_db = st.checkbox("Deploy databases", value=True, key="co_deploy_db")
         deploy_code = st.checkbox("Deploy code", value=False, key="co_deploy_code")
-        # Off by default: a deploy is about the site, and filming adds minutes.
-        # Tick it on the deploy that puts a new puzzle live.
-        upload_video = st.checkbox("Upload puzzle video to YouTube", value=False,
-                                   key="co_upload_video",
-                                   help="Films the newly-live puzzle's clue pages and "
-                                        "uploads with per-clue chapters. Once per "
-                                        "puzzle — a ledger stops repeats. Needs the "
-                                        "databases to be deploying.")
-        # PUBLIC by default (user, 2026-09-21). The old default was private, from when
-        # the channel was new and an unattended first run must not make it live. It has
-        # been public for weeks and every upload was being switched by hand, so private
-        # was no longer a safeguard — just a step to forget. The ticked checkbox above
-        # is the deliberate act; this says what it does when ticked.
-        video_privacy = st.selectbox(
-            "Video privacy", ["public", "unlisted", "private"], index=0,
-            key="co_video_privacy", disabled=not upload_video,
-            help="Public by default — that is what these films are for. Choose private "
-                 "if you want to watch one before anybody else can.")
     with col2:
         if deploy_db:
             clues_size = CLUES_DB.stat().st_size / 1024 / 1024
@@ -803,63 +829,8 @@ def _render_cordelia_deploy():
                 except Exception as e:
                     steps.append(("IndexNow evergreen", False, str(e)))
 
-        # Step 5: YouTube — film the newly-live puzzle and upload it. Same gate as
-        # IndexNow and for the same reason: the DB going up IS the moment a puzzle
-        # becomes live, and a puzzle is only ever live once every clue has passed
-        # review (web/serving.py:143-171), so there is no way to film an unreviewed
-        # one. Like IndexNow it NEVER fails the deploy — the site is already up, and
-        # a video is not worth taking a deploy down for.
-        #
-        # Its own ledger (logs/youtube_state.db) makes it once-per-puzzle, and its
-        # age guard stops a deploy working backwards through the 51 unfilmed archive
-        # puzzles. Privacy is whatever the checkbox below says; PRIVATE by default,
-        # because a deploy should not be what makes the channel public.
-        #
-        # The budget is minutes, not seconds: each paper captures ~30 clue pages in
-        # headless Chrome, encodes with ffmpeg, then uploads.
-        #
-        # ONE INVOCATION PER SOURCE, each with its own timeout. It used to be a single
-        # call — youtube_upload.py's own --sources default sweeps telegraph, times and
-        # guardian in sequence — under one 20-minute cap covering all three. Three full
-        # film-and-upload cycles do not fit in 20 minutes, so the cap fell mid-run and,
-        # because guardian is last, guardian was ALWAYS the casualty: on 2026-09-03 its
-        # video.mp4 finished encoding at 07:35:50, about 21 minutes in, and the process
-        # was killed before the upload call. Two rows in the ledger, three videos built.
-        #
-        # Per source, a timeout can only ever cost the paper it happened to, and a slow
-        # Telegraph cannot eat Guardian's budget. Each source is independent: one that
-        # times out or errors must not stop the rest, exactly as youtube_upload.py's own
-        # loop contains a per-source failure.
-        #
-        # Recovery is cheap and does NOT re-film: the script only builds when the video
-        # is missing (scripts/youtube_upload.py:430), so a killed upload just needs
-        #   python scripts\youtube_upload.py --source guardian --privacy public
-        if deploy_db and not failed and upload_video:
-            already = _yt_running()
-            log_path = _yt_launch(video_privacy)
-            if already is not None:
-                st.info("A YouTube job is already running (started %s) — showing "
-                        "that one; no second job started."
-                        % log_path.stem.replace("youtube_job_", ""))
-            st.caption("YouTube: filming and uploading every paper's puzzles for "
-                       "today. This runs on its own — closing this page will NOT "
-                       "stop it, and reopening the Deploy page shows it again.")
-            live = st.empty()
-            lines, finished = _yt_tail(log_path, live)
-            live.empty()
-            with st.expander("YouTube job — full log (%s)" % log_path.name):
-                st.code("\n".join(lines) or "(no output yet)")
-            uploads = [ln for ln in lines if "youtube.com/watch" in ln]
-            for ln in uploads:
-                steps.append(("YouTube upload", True, ln))
-            if not finished:
-                steps.append(("YouTube job", True,
-                              "still running — reopen this page to watch it "
-                              "(log: %s)" % log_path.name))
-            elif not uploads:
-                steps.append(("YouTube job", True,
-                              lines[-2] if len(lines) > 1 else "nothing to upload"))
-
+        # (Step 5, YouTube, is no longer part of a deploy — it is its own button,
+        # _render_youtube_job, run after the deploy. User, 2026-11-12.)
 
         # LAST STEP OF EVERY DEPLOY: the site's own files must be readable. Runs
         # whatever was ticked and whatever failed above, so the photo, CSS and

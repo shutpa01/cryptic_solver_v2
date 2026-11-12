@@ -55,6 +55,14 @@ def main():
     ap.add_argument("--sources", default="telegraph,times,guardian")
     args = ap.parse_args()
 
+    # UTF-8 OUT, never the Windows codepage. The child's lines are decoded with
+    # errors="replace", so a byte that is not UTF-8 (a grandchild printing a curly
+    # apostrophe in cp1252, e.g. Times 5241 "Singer’s") arrives as U+FFFD — and
+    # cp1252 cannot encode U+FFFD, so the print raised and killed the job mid-sweep,
+    # taking the upload with it (2026-11-08 05:50). The dashboard opens and reads
+    # this log as UTF-8 anyway (dashboard/pages/deploy.py:79, :99).
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
     start = datetime.now()
     print("=== youtube job started %s (privacy=%s, sources=%s) ==="
           % (start.strftime("%Y-%m-%d %H:%M:%S"), args.privacy, args.sources),
