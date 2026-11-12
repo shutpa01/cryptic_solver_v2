@@ -48,7 +48,8 @@ def file_pending_prefill(clue_id, assignments):
     from core.wfw_web import _build_manual_parse
     # verify_db=True: the prefill is an AI reading, so a synonym/abbreviation piece the
     # reference DB does not back is filed PROVISIONAL (never trusted, never harvested) and
-    # queued for review — an AI cannot fabricate a trusted letter-source (take->R).
+    # queued for review (queue_provisional, below — this comment claimed the queueing for
+    # four months before any code did it) — an AI cannot fabricate a trusted letter-source.
     built = _build_manual_parse(clue_id, assignments, verify_db=True)
     if not built["ok"]:
         return built                     # the validation gate's own message
@@ -66,8 +67,112 @@ def file_pending_prefill(clue_id, assignments):
         conn.commit()
     finally:
         conn.close()
-    return {"ok": True, "msg": "filed PENDING prefill for clue %d (%d piece%s)"
-            % (clue_id, built["n_sources"], "" if built["n_sources"] == 1 else "s")}
+    queued, unqueueable = queue_provisional(clue_id, parse)
+    msg = "filed PENDING prefill for clue %d (%d piece%s)" % (
+        clue_id, built["n_sources"], "" if built["n_sources"] == 1 else "s")
+    if queued:
+        msg += "; queued for review: %s" % "; ".join(queued)
+    if unqueueable:
+        msg += "; NO queue type (approve in /hs Status): %s" % "; ".join(unqueueable)
+    return {"ok": True, "msg": msg}
+
+
+def queue_provisional(clue_id, parse):
+    """Put every provisional (source='pending') piece of `parse` in pending_enrichments, so the
+    clue page's Approve / Approve-all can accept it and Confirm then passes.
+
+    Without this, Confirm refused the reading ("accept it in the review queue") while the queue
+    held nothing for it — only pieces the 00:09 cascade happened to queue were ever there — and
+    Approve-all approved 0 and refused again (Gdn 30161 7d DIAMONDS / 4d PAINT STRIPPER,
+    2026-11-11). Pieces are found by wfw_web._provisional_pieces, the SAME list Confirm's
+    approval path files, so what is queued is exactly what blocks the pass.
+
+    Row shape matches what the queue already holds and what pending_for_clue / _drop_queued
+    match on: clue_text exactly as in clues, answer letters-only; letters = the value for
+    synonym/substitution/homophone, the answer for a definition, the TYPE for an indicator.
+    Deduped (same type + word + letters + clue). Returns (queued labels, unqueueable labels)."""
+    from core import admin_db
+    from core.wfw_web import _provisional_pieces, _QUEUE_TYPE, _raw_letters, _is_backed
+
+    conn = admin_db._mconn()
+    try:
+        row = conn.execute("SELECT clue_text, answer, source, puzzle_number FROM clues "
+                           "WHERE id=?", (clue_id,)).fetchone()
+        if not row:
+            return [], []
+        clue_text, answer, src, pnum = row
+        ans = _raw_letters(answer)
+        queued, unqueueable = [], []
+        for _role, _ord, _piece, add, label in _provisional_pieces(parse):
+            qtype = _QUEUE_TYPE.get(add[0]) if add else None
+            if qtype is None:
+                unqueueable.append(label)
+                continue
+            if _is_backed(add):         # the DB holds it already: nothing to review
+                continue
+            word = (add[1] or "").strip()
+            if qtype == "indicator":
+                letters = (add[2] or "").strip().lower()
+            elif qtype == "definition":
+                letters = ans
+            else:
+                letters = "".join(c for c in (add[2] or "").upper() if c.isalpha())
+            if not word or not letters:
+                unqueueable.append(label)
+                continue
+            # The queue holds ONE row per (type, word, letters) across ALL clues (UNIQUE
+            # constraint). A pair already queued by another clue stays where it is;
+            # queued_rows_for() finds it for this clue's Approve-all.
+            other = conn.execute("SELECT clue_text FROM pending_enrichments WHERE type=? AND "
+                                 "lower(trim(word))=? AND lower(trim(letters))=?",
+                                 (qtype, word.lower(), letters.lower())).fetchone()
+            if other is not None:
+                queued.append(label + (" (already queued)" if other[0] == clue_text
+                                       else " (already queued by another clue)"))
+                continue
+            cur = conn.execute("INSERT OR IGNORE INTO pending_enrichments (type, word, letters, "
+                               "answer, clue_text, source, puzzle_number, created_at) "
+                               "VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))",
+                               (qtype, word, letters, ans, clue_text, src or "",
+                                str(pnum or "")))
+            queued.append(label if cur.rowcount else label + " (already queued)")
+        conn.commit()
+        return queued, unqueueable
+    finally:
+        conn.close()
+
+
+def queued_rows_for(parse):
+    """The queue rows that would settle `parse`'s provisional pieces, wherever they were
+    queued: [(id, type, word, letters, answer)], the shape of admin_db.pending_for_clue.
+    pending_for_clue matches on THIS clue's text only, but the queue is unique per pair, so
+    a pair first queued by another clue lives under that clue's text — Approve-all must still
+    approve it, or Confirm refuses on a piece the user was never shown (2026-11-11)."""
+    from core import admin_db
+    from core.wfw_web import _provisional_pieces, _QUEUE_TYPE, _raw_letters
+
+    ans = _raw_letters(parse.answer_text)
+    out = []
+    conn = admin_db._mconn()
+    try:
+        for _role, _ord, _piece, add, _label in _provisional_pieces(parse):
+            qtype = _QUEUE_TYPE.get(add[0]) if add else None
+            if qtype is None:
+                continue
+            if qtype == "indicator":
+                letters = (add[2] or "").strip().lower()
+            elif qtype == "definition":
+                letters = ans
+            else:
+                letters = "".join(c for c in (add[2] or "").upper() if c.isalpha())
+            row = conn.execute("SELECT id, type, word, letters, answer FROM pending_enrichments "
+                               "WHERE type=? AND lower(trim(word))=? AND lower(trim(letters))=?",
+                               (qtype, (add[1] or "").strip().lower(), letters.lower())).fetchone()
+            if row:
+                out.append(tuple(row))
+        return out
+    finally:
+        conn.close()
 
 
 def main(argv):

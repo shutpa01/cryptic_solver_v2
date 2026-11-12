@@ -7426,6 +7426,20 @@ def approveall_route():
     clue_text = row[0] or ""
     ans_letters = _raw_letters(row[1])
     pend = admin_db.pending_for_clue(clue_text, ans_letters)
+    # Plus the rows for this reading's provisional pieces that were queued under ANOTHER clue's
+    # text (the queue is unique per pair), so Approve-all settles every piece Confirm checks.
+    try:
+        from core.prefill_commit import queued_rows_for
+        _conn_p = store.connect()
+        try:
+            _sp = store.load_parse(_conn_p, cid)
+        finally:
+            _conn_p.close()
+        if _sp is not None:
+            _have = {p[0] for p in pend}
+            pend = list(pend) + [r for r in queued_rows_for(_sp) if r[0] not in _have]
+    except Exception:
+        pass
     # An indicator's sub-type (selection rule / positional direction) is NOT stored in the
     # queue — `letters` holds the TYPE only — but add_indicator REQUIRES it for selection /
     # charade_positional / letter_shift. Recover it from THIS clue's saved /hs reading
