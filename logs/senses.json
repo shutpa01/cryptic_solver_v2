@@ -2195,5 +2195,390 @@
     "phrase": "Turn the screw’s head until it’s tight",
     "approved": false,
     "clue_id": 10109410
+  },
+  "DUST|sprinkle powder on": {
+    "phrase": "Lightly dust the sponge with icing sugar",
+    "approved": false,
+    "clue_id": 10109654
+  },
+  "DUST|wipe powder off": {
+    "phrase": "I dust the shelves every Saturday morning",
+    "approved": false,
+    "clue_id": 10109654
+  },
+  "BLOCK|several offices": {
+    "phrase": "They work in the same office block",
+    "approved": false,
+    "clue_id": 10109659
+  },
+  "BLOCK|a bar": {
+    "phrase": "Fallen trees block the road ahead",
+    "approved": false,
+    "clue_id": 10109659
+  },
+  "PRIOR|type of approval": {
+    "phrase": "You'll need prior approval for that expense",
+    "approved": false,
+    "clue_id": 10109660
+  },
+  "PRIOR|monks' boss": {
+    "phrase": "The prior led the monks in prayer",
+    "approved": false,
+    "clue_id": 10109660
+  },
+  "FLOGSADEADHORSE|wastes time": {
+    "phrase": "Complaining to the council flogs a dead horse",
+    "approved": false,
+    "clue_id": 10109664
+  },
+  "FLOGSADEADHORSE|sells dodgy lasagne": {
+    "phrase": "That dodgy butcher literally flogs a dead horse",
+    "approved": false,
+    "clue_id": 10109664
+  },
+  "DEEJAYS|entertainers": {
+    "phrase": "The deejays kept the party going all night",
+    "approved": false,
+    "clue_id": 10109669
+  },
+  "DEEJAYS|like dereks jarman and jacobi": {
+    "phrase": "Both Dereks are deejays by their initials",
+    "approved": false,
+    "clue_id": 10109669
+  },
+  "DRILL|bore": {
+    "phrase": "Use the drill to bore through the wall",
+    "approved": false,
+    "clue_id": 10109524
+  },
+  "DRILL|square-bashing": {
+    "phrase": "New recruits did rifle drill on the parade ground",
+    "approved": false,
+    "clue_id": 10109524
+  },
+  "CONSTITUTIONAL|walk": {
+    "phrase": "He took his morning constitutional round the park",
+    "approved": false,
+    "clue_id": 10109526
+  },
+  "CONSTITUTIONAL|following the correct course in the country": {
+    "phrase": "The court ruled the new law constitutional",
+    "approved": false,
+    "clue_id": 10109526
+  },
+  "CHICKENFEED|small change": {
+    "phrase": "Fifty quid? That's chickenfeed to a banker",
+    "approved": false,
+    "clue_id": 10109527
+  },
+  "CHICKENFEED|farm diet": {
+    "phrase": "She scattered chickenfeed across the muddy yard",
+    "approved": false,
+    "clue_id": 10109527
+  },
+  "OUTSHINE|produce more light than": {
+    "phrase": "The new bulbs outshine the old ones easily",
+    "approved": false,
+    "clue_id": 10109530
+  },
+  "OUTSHINE|eclipse": {
+    "phrase": "She outshone every other dancer on stage",
+    "approved": false,
+    "clue_id": 10109530
+  },
+  "TELLER|bank employee": {
+    "phrase": "The teller counted out my fifty pounds",
+    "approved": false,
+    "clue_id": 10109531
+  },
+  "TELLER|one spilling the beans": {
+    "phrase": "The teller went straight to the papers",
+    "approved": false,
+    "clue_id": 10109531
+  },
+  "TARRY|linger": {
+    "phrase": "Don't tarry or we'll miss the bus",
+    "approved": false,
+    "clue_id": 10109537
+  },
+  "TARRY|like sticky black stuff": {
+    "phrase": "The hot road felt all tarry underfoot",
+    "approved": false,
+    "clue_id": 10109537
+  },
+  "SLIGHT|discourtesy": {
+    "phrase": "She took his silence as a slight",
+    "approved": false,
+    "clue_id": 10109625
+  },
+  "SLIGHT|minor": {
+    "phrase": "There's been a slight change of plan",
+    "approved": false,
+    "clue_id": 10109625
+  },
+  "ANGLES|they may be right": {
+    "phrase": "A square has four right angles",
+    "approved": false,
+    "clue_id": 10109638
+  },
+  "ANGLES|old people": {
+    "phrase": "The Angles settled in eastern England centuries ago",
+    "approved": false,
+    "clue_id": 10109638
+  },
+  "DAWNCHORUS|rousing performance": {
+    "phrase": "The dawn chorus roused me at five",
+    "approved": false,
+    "clue_id": 10109647
+  },
+  "DAWNCHORUS|early music": {
+    "phrase": "We heard the dawn chorus before sunrise",
+    "approved": false,
+    "clue_id": 10109647
+  },
+  "GETALONG|hit it off": {
+    "phrase": "We really get along with the neighbours",
+    "approved": false,
+    "clue_id": 10109688
+  },
+  "GETALONG|make out": {
+    "phrase": "How did you get along at the interview?",
+    "approved": false,
+    "clue_id": 10109688
+  },
+  "SHOULDERS|takes responsibility for": {
+    "phrase": "She shoulders the blame for everything",
+    "approved": false,
+    "clue_id": 10109976
+  },
+  "SHOULDERS|joints": {
+    "phrase": "My shoulders ache after lifting heavy boxes",
+    "approved": false,
+    "clue_id": 10109976
+  },
+  "ITEM|couple": {
+    "phrase": "Those two have been an item for ages",
+    "approved": false,
+    "clue_id": 10109980
+  },
+  "ITEM|object": {
+    "phrase": "Put each item back on the shelf",
+    "approved": false,
+    "clue_id": 10109980
+  },
+  "RESTORING|repairing": {
+    "phrase": "They're restoring the old cottage this summer",
+    "approved": false,
+    "clue_id": 10109841
+  },
+  "RESTORING|putting away again": {
+    "phrase": "Restoring the books to their proper shelves",
+    "approved": false,
+    "clue_id": 10109841
+  },
+  "PRIOR|former": {
+    "phrase": "She had no prior experience of sailing",
+    "approved": false,
+    "clue_id": 10109846
+  },
+  "PRIOR|member of a religious order": {
+    "phrase": "The prior led the monks in prayer",
+    "approved": false,
+    "clue_id": 10109846
+  },
+  "BRIDGING|going from bank to bank": {
+    "phrase": "A new footpath bridging the river near town",
+    "approved": false,
+    "clue_id": 10110230
+  },
+  "BRIDGING|short term finance": {
+    "phrase": "We needed bridging until our house sale completed",
+    "approved": false,
+    "clue_id": 10110230
+  },
+  "MAKEITUP|reconcile": {
+    "phrase": "Why don't you two just make it up?",
+    "approved": false,
+    "clue_id": 10110238
+  },
+  "MAKEITUP|lie": {
+    "phrase": "Don't believe her, she'll just make it up",
+    "approved": false,
+    "clue_id": 10110238
+  },
+  "MADEMAN|what god apparently did": {
+    "phrase": "On the sixth day, God made man",
+    "approved": false,
+    "clue_id": 10110251
+  },
+  "MADEMAN|senior mafioso": {
+    "phrase": "Don't cross him, he's a made man",
+    "approved": false,
+    "clue_id": 10110251
+  },
+  "STUNT|restrict growth": {
+    "phrase": "Poor soil can stunt a plant's growth",
+    "approved": false,
+    "clue_id": 10110254
+  },
+  "STUNT|dangerous activity": {
+    "phrase": "He broke his leg performing a daring stunt",
+    "approved": false,
+    "clue_id": 10110254
+  },
+  "GREEN|naive": {
+    "phrase": "He's still a bit green, only started Monday",
+    "approved": false,
+    "clue_id": 10110059
+  },
+  "GREEN|politician": {
+    "phrase": "Their local MP is a Green now",
+    "approved": false,
+    "clue_id": 10110059
+  },
+  "DRAWING|moving": {
+    "phrase": "The train was slowly drawing into the station",
+    "approved": false,
+    "clue_id": 10110066
+  },
+  "DRAWING|picture": {
+    "phrase": "She pinned her drawing to the fridge door",
+    "approved": false,
+    "clue_id": 10110066
+  },
+  "HAGGARD|rider possibly": {
+    "phrase": "I've been reading Haggard's King Solomon's Mines",
+    "approved": false,
+    "clue_id": 10110075
+  },
+  "LOTUS|blooming": {
+    "phrase": "The lotus blooms on the pond at dawn",
+    "approved": false,
+    "clue_id": 10110530
+  },
+  "LOTUS|fast car": {
+    "phrase": "He roared past us in his Lotus",
+    "approved": false,
+    "clue_id": 10110530
+  },
+  "LUGER|arm": {
+    "phrase": "He kept an old Luger in the drawer",
+    "approved": false,
+    "clue_id": 10110535
+  },
+  "NEEDLE|indicator": {
+    "phrase": "The speedometer needle crept past seventy miles",
+    "approved": false,
+    "clue_id": 10110538
+  },
+  "NEEDLE|provocation": {
+    "phrase": "There's real needle between those two sides",
+    "approved": false,
+    "clue_id": 10110538
+  },
+  "PAINTSTRIPPER|what toulouse lautrec would do": {
+    "phrase": "An artist might paint strippers at the Moulin Rouge",
+    "approved": false,
+    "clue_id": 10110543
+  },
+  "PAINTSTRIPPER|thinner say": {
+    "phrase": "Use paint stripper to get that old door bare",
+    "approved": false,
+    "clue_id": 10110543
+  },
+  "DIAMONDS|quarter of the pack": {
+    "phrase": "She trumped my king with three of diamonds",
+    "approved": false,
+    "clue_id": 10110545
+  },
+  "DIAMONDS|ice": {
+    "phrase": "The thieves made off with stolen diamonds",
+    "approved": false,
+    "clue_id": 10110545
+  },
+  "SHEPHERD&#039;S PIE|dish": {
+    "phrase": "Mum served shepherd's pie for Sunday dinner",
+    "approved": false,
+    "clue_id": 10110381
+  },
+  "SHEPHERD&#039;S PIE|crooked farm labourer": {
+    "phrase": "That crooked old herdsman's a shepherd's pie",
+    "approved": false,
+    "clue_id": 10110381
+  },
+  "EXCLAIM|cry out suddenly": {
+    "phrase": "She exclaimed in delight at the surprise",
+    "approved": false,
+    "clue_id": 10110387
+  },
+  "STROLL|a walk in the park": {
+    "phrase": "We took a leisurely stroll after lunch",
+    "approved": false,
+    "clue_id": 10110401
+  },
+  "STROLL|f1 driver": {
+    "phrase": "Stroll qualified fifth for Aston Martin today",
+    "approved": false,
+    "clue_id": 10110401
+  },
+  "GETSTUFFED|as would a pillow": {
+    "phrase": "The cushion gets stuffed with fresh feathers",
+    "approved": false,
+    "clue_id": 10110675
+  },
+  "GETSTUFFED|in your dreams": {
+    "phrase": "Lend you fifty quid? Get stuffed, mate!",
+    "approved": false,
+    "clue_id": 10110675
+  },
+  "WESTBOUND|like ed in mondeo": {
+    "phrase": "Ed West, bound for home in his car",
+    "approved": false,
+    "clue_id": 10110884
+  },
+  "WESTBOUND|travelling from london to bristol": {
+    "phrase": "We joined the westbound M4 towards Bristol",
+    "approved": false,
+    "clue_id": 10110884
+  },
+  "FENDERBENDER|guitarist losing his temper": {
+    "phrase": "He went full fender-bender on stage tonight",
+    "approved": false,
+    "clue_id": 10110900
+  },
+  "FENDERBENDER|a minor car accident": {
+    "phrase": "Just a little fender-bender outside the shops",
+    "approved": false,
+    "clue_id": 10110900
+  },
+  "BARRACKED|like soldiers en masse": {
+    "phrase": "The troops were barracked near the border",
+    "approved": false,
+    "clue_id": 10110901
+  },
+  "BARRACKED|subjected to ridicule": {
+    "phrase": "The minister was barracked throughout his speech",
+    "approved": false,
+    "clue_id": 10110901
+  },
+  "FATS|pizza's unhealthy ingredients": {
+    "phrase": "Try to cut down on saturated fats",
+    "approved": false,
+    "clue_id": 10110706
+  },
+  "FATS|domino's": {
+    "phrase": "My dad loved listening to Fats Domino",
+    "approved": false,
+    "clue_id": 10110706
+  },
+  "TURNED OUT|dressed": {
+    "phrase": "She was beautifully turned out for the wedding",
+    "approved": false,
+    "clue_id": 10110727
+  },
+  "TURNED OUT|put in an appearance": {
+    "phrase": "Half the village turned out for the fete",
+    "approved": false,
+    "clue_id": 10110727
   }
 }

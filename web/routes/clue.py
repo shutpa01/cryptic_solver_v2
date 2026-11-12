@@ -319,7 +319,7 @@ def _has_current_audio(clue_id):
 # Bing drops it; this set is then emptied and the page resubmitted, so it goes
 # through first-time indexing again with nothing changed but the day.
 # REMOVE the entry once Bing reports the page dropped.
-_BING_DEINDEX_TEST = {10104180}   # times 29680 25a CHINAWARE
+_BING_DEINDEX_TEST = set()   # emptied 2026-11-09 (user): Bing recovered; CHINAWARE 10104180 indexable again
 
 
 @bp.route("/audio/clue/<int:clue_id>.mp3")
