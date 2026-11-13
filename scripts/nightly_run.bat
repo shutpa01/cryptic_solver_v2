@@ -1,5 +1,5 @@
 @echo off
-REM Nightly crossword scrape + solve — runs at 2am UTC via Task Scheduler
+REM Nightly crossword scrape + solve — 00:30 UK time, catch-up at 02:30 (Task Scheduler)
 REM Logs to logs\nightly_YYYY-MM-DD.log
 
 cd /d C:\Users\shute\PycharmProjects\cryptic_solver_V2

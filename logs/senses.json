@@ -2580,5 +2580,45 @@
     "phrase": "Half the village turned out for the fete",
     "approved": false,
     "clue_id": 10110727
+  },
+  "VAULT|spring": {
+    "phrase": "He vaulted the gate in one bound",
+    "approved": false,
+    "clue_id": 10111026
+  },
+  "VAULT|located under a bank": {
+    "phrase": "The gold is locked in the vault",
+    "approved": false,
+    "clue_id": 10111026
+  },
+  "CLASSSTRUGGLE|dialectical battle": {
+    "phrase": "Marx saw history as one long class struggle",
+    "approved": false,
+    "clue_id": 10111202
+  },
+  "CLASSSTRUGGLE|to rule the school": {
+    "phrase": "The new teacher faced a daily class struggle",
+    "approved": false,
+    "clue_id": 10111202
+  },
+  "CRAMP|constrain": {
+    "phrase": "Don't let the rules cramp your style",
+    "approved": false,
+    "clue_id": 10111220
+  },
+  "CRAMP|109": {
+    "phrase": "He went down with cramp in extra time",
+    "approved": false,
+    "clue_id": 10111220
+  },
+  "ANON|unknown": {
+    "phrase": "That lovely old poem was by Anon",
+    "approved": false,
+    "clue_id": 10111218
+  },
+  "ANON|with q when conspiring": {
+    "phrase": "Some anon posting wild QAnon theories online",
+    "approved": false,
+    "clue_id": 10111218
   }
 }

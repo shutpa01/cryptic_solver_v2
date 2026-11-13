@@ -1,19 +1,21 @@
 """Nightly automated run — the PUBLISH-FIRST chain (rewired 2026-07-10, phase 6).
 
-Runs at 2am UTC via Windows Task Scheduler (CrypticSolver_NightlyRun).
+Runs at 00:30 UK time via Windows Task Scheduler (CrypticSolver_NightlyRun),
+again at 02:30 (CrypticSolver_NightlyRun_Catchup) to pick up late puzzles.
 
 Flow:
   1. Scrape ALL five papers (corpus). Danword answer-scraping is OFF
      (puzzle_scraper --danword is opt-in; prize answers are never scraped).
-  1c. Fill today's answerless PRIZE grids with headless Claude, each grid
-     checked against its published solution hash (scripts/fill_prize_grids.py),
-     so steps 2-3 run on them like any other puzzle (user, 2026-10-11).
   2. WFW cascade on today's SERVING papers (telegraph/times/guardian):
      every new clue WITH an answer through the engines, zero AI calls.
-  3. Headless Claude — PREFILL today's FAIL/PENDING clues into the
-     hand-solver grid (prompt: scripts/prompts/nightly_prefill.md).
-  3b. Headless Claude — REVIEW today's engine passes, pass->pending only
-     (prompt: scripts/prompts/nightly_pass_review.md).
+  3-6. ONE PUZZLE AT A TIME (user, 2026-11-12), via scripts/run_prefill.py:
+     PREFILL its FAIL/PENDING clues into the hand-solver grid
+     (scripts/prompts/nightly_prefill.md), REVIEW its engine passes
+     (scripts/prompts/nightly_pass_review.md), draft double-definition usage
+     phrases, draft clue-page prose. Each puzzle is finished before the next.
+  1c. Then fill answerless PRIZE grids with headless Claude, each grid checked
+     against its published solution hash (scripts/fill_prize_grids.py), and
+     run steps 2-6 on them like any other puzzle (user, 2026-10-11).
 
 The post-publish DIAGNOSIS is deliberately NOT here — it is on demand from
 the dashboard (scripts/run_diagnosis.py). It improves future puzzles, so
@@ -265,57 +267,65 @@ def run_cascade(target_date):
     return True
 
 
-def run_claude(prompt_name, label, target_date, timeout=5400):
-    """Run a headless Claude Code session on a prompt file, logging its output.
-
-    Unattended, so permissions are skipped — the prompt files carry the hard
-    write-scope rules (pending-only signatures / hs assignments / logs ONLY),
-    and CLAUDE.md + the memory index load automatically in this directory."""
-    prompt_file = PROMPT_DIR / prompt_name
-    log(f"{label}: claude -p {prompt_name} ...")
-    if not prompt_file.exists():
-        log(f"  Prompt file missing: {prompt_file}")
-        return False
-    # The prompts say "today"; left alone, Claude takes the laptop's date, which is
-    # wrong whenever the laptop is outside UK time (2026-11-01, on a ship in UTC-4,
-    # prefill worked on 11-01 and reported 11-02 as "tomorrow's puzzles").
-    prompt = (f"TODAY'S DATE FOR THIS RUN: {target_date} (the UK date). Wherever this "
-              f"prompt says \"today\" or \"today's\", it means publication_date = "
-              f"'{target_date}'. Do not use the system clock's date.\n\n"
-              + prompt_file.read_text(encoding="utf-8"))
-    # Strip any inherited ANTHROPIC_API_KEY so claude bills the subscription,
-    # never prepaid API credits (see run_prefill.py, 2026-07-13). The task
-    # scheduler env is clean today; this guards against future launch contexts.
-    claude_env = os.environ.copy()
-    claude_env.pop("ANTHROPIC_API_KEY", None)
+def todays_puzzles(target_date):
+    """[(source, pnum, blank_answers, n_clues)] for the day's serving papers."""
+    sys.path.insert(0, str(ROOT))
+    from web.serving import SERVED_SOURCES
     try:
-        result = subprocess.run(
-            [CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
-             "--dangerously-skip-permissions"],
-            cwd=str(ROOT),
-            stdin=subprocess.DEVNULL,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            timeout=timeout,
-            env=claude_env,
-        )
-    except subprocess.TimeoutExpired:
-        log(f"  {label} TIMEOUT ({timeout}s)")
-        return False
+        conn = sqlite3.connect(str(CLUES_DB))
+        ph = ",".join("?" for _ in SERVED_SOURCES)
+        rows = conn.execute(
+            "SELECT source, puzzle_number, SUM(answer IS NULL OR answer = ''), COUNT(*) "
+            "FROM clues WHERE source IN (%s) AND publication_date = ? "
+            "GROUP BY source, puzzle_number ORDER BY source, puzzle_number" % ph,
+            (*SERVED_SOURCES, target_date)).fetchall()
+        conn.close()
+        return rows
     except Exception as e:
-        log(f"  {label} ERROR: {e}")
-        return False
-    tail = (result.stdout or "").strip().splitlines()[-25:]
-    for line in tail:
+        log(f"  could not list {target_date}'s puzzles: {e}")
+        return []
+
+
+def run_puzzle_chain(source, pnum, steps, dry_run, cascade):
+    """The whole Claude chain for ONE puzzle via scripts/run_prefill.py: prefill,
+    pass review, double-definition usage phrases, clue-page prose. Each Claude
+    session strips ANTHROPIC_API_KEY (subscription billing) inside run_prefill.py.
+    A failure is recorded for the summary email and never stops the next puzzle."""
+    name = f"Steps 3-6 {source} {pnum}"
+    log("")
+    log(f"--- {source} {pnum}: prefill -> pass review -> usage phrases -> prose")
+    cmd = [PYTHON_V2, str(ROOT / "scripts" / "run_prefill.py"),
+           "--source", source, "--pnum", str(pnum)]
+    if not cascade:
+        cmd.append("--skip-cascade")         # Step 2 already cascaded it
+    if dry_run:
+        log(f"  [DRY RUN] Would run {' '.join(cmd[1:])}")
+        return
+    try:
+        r = subprocess.run(cmd, cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=4 * 3600)
+    except subprocess.TimeoutExpired:
+        log(f"  {name} TIMEOUT (4h)")
+        steps.append((name, False, "timeout"))
+        return
+    except Exception as e:
+        log(f"  {name} ERROR: {e}")
+        steps.append((name, False, str(e)[:120]))
+        return
+    out = (r.stdout or "").strip().splitlines()
+    for line in out:
         log(f"  {line}")
-    if result.returncode != 0:
-        log(f"  {label} failed (exit {result.returncode})")
-        if result.stderr:
-            log(f"  stderr: {result.stderr[-500:]}")
-        return False
-    return True
+    # run_prefill.py exits 0 when only a later step (review/phrases/prose) failed,
+    # so read its own failure lines too — the email must not say OK over them.
+    failed = [l for l in out if " failed (exit " in l or " ERROR: " in l]
+    if r.returncode != 0:
+        for line in (r.stderr or "").strip().splitlines()[-15:]:
+            log(f"  stderr: {line}")
+    ok = r.returncode == 0 and not failed
+    detail = "" if ok else (f"exit {r.returncode}" if r.returncode else failed[0].split("] ", 1)[-1][:120])
+    steps.append((name, ok, detail))
+    log(f"--- {source} {pnum}: {'done' if ok else 'FINISHED WITH A FAILURE'}")
 
 
 # ---------------------------------------------------------------------------
@@ -470,144 +480,67 @@ def main():
     else:
         run_prize_toughie_ingest()
 
-    # Step 1c: fill today's answerless PRIZE grids with Claude, checked against the
-    # puzzle's published solution hash (scripts/fill_prize_grids.py), so the cascade and
-    # prefill below treat them like any other puzzle and they are ready to check at 05:00
-    # (user, 2026-10-11). An answer that cannot be checked stays blank and is skipped.
-    if args.skip_claude:
-        log("Step 1c: fill prize grids: SKIPPED (--skip-claude)")
-    elif args.dry_run:
-        log(f"[DRY RUN] Would fill answerless prize grids for {target_date} (scripts.fill_prize_grids)")
-    else:
-        run_prize_fill(target_date)
-
     # Step 2: WFW cascade — today's serving-paper clues through the engines.
+    # Fast (1-4 min) and mechanical, so it stays one pass over the whole day.
     if not args.skip_cascade:
         if args.dry_run:
             log(f"[DRY RUN] Would cascade {target_date} (serving papers)")
         else:
             steps.append(("Step 2 cascade", run_cascade(target_date), ""))
 
-    # Steps 3+3b: headless Claude. Prefill (today's FAIL/PENDING clues ->
-    # hand-solver readings for the morning walk), then a READ of today's engine
-    # passes.
+    # Steps 3-6, ONE PUZZLE AT A TIME (user, 2026-11-12: "change it to run one at a
+    # time"). Until then each step ran across every puzzle before the next began,
+    # and one prefill session worked out all three puzzles before filing anything
+    # (11-12: 69 readings, all filed at 00:32:56), so no puzzle was finished until
+    # the whole run ended. Now each puzzle gets the full chain — prefill, pass
+    # review, usage phrases, prose — and is finished before the next one starts.
     #
-    # PASS REVIEW RUNS LAST, AFTER PREFILL, deliberately. A demoted clue keeps the
-    # parse the engine claimed, so the morning walk shows what was said and why it
-    # was held. Run before prefill, a demotion would put the clue in prefill's
-    # fail/pending work list and its reading would replace the evidence.
+    # The chain is scripts/run_prefill.py, the same one the puzzle page's
+    # "Prefill now" button runs, so the button and the nightly are one code path.
+    # Its order keeps the rule that PASS REVIEW RUNS AFTER PREFILL: a demoted clue
+    # keeps the parse the engine claimed, so the morning walk shows what was said
+    # and why it was held. Run before prefill, a demotion would put the clue in
+    # prefill's work list and its reading would replace the evidence.
     #
-    # POST-PUBLISH DIAGNOSIS IS NO LONGER RUN HERE (user, 2026-09-11). Measured on
-    # the 09-11 run it was 8.24M of the night's 22.0M cache-read tokens — 37% — and
-    # nothing before lunchtime depends on it: it improves FUTURE puzzles, while
-    # prefill and pass review are what the morning actually needs. Spending the
-    # overnight budget on it left too little for the early-morning work. It is now
-    # on demand from the dashboard (Diagnosis page -> scripts/run_diagnosis.py),
-    # which is where the publish-first process always said it belonged: "step 4,
-    # post-publish, in non-critical time".
+    # Puzzles that still have blank answers (prize grids) go LAST, after Step 1c
+    # fills them: that fill took 50 minutes on 2026-11-08 and must not hold back
+    # the puzzles that already have answers.
+    #
+    # POST-PUBLISH DIAGNOSIS IS NOT RUN HERE (user, 2026-09-11): it was 37% of the
+    # night's tokens and only improves future puzzles. It is on demand from the
+    # dashboard (Diagnosis page -> scripts/run_diagnosis.py).
     if args.skip_claude:
-        log("Steps 3+3b: Claude prefill + pass review: SKIPPED (--skip-claude)")
-    elif args.dry_run:
-        log("[DRY RUN] Would run claude -p nightly_prefill.md, nightly_pass_review.md")
+        log("Step 1c + Steps 3-6 (Claude): SKIPPED (--skip-claude)")
     else:
-        steps.append(("Step 3 prefill",
-                      run_claude("nightly_prefill.md", "Step 3: prefill", target_date), ""))
-        steps.append(("Step 3b pass review",
-                      run_claude("nightly_pass_review.md",
-                                 "Step 3b: review today's engine passes", target_date), ""))
+        puzzles = todays_puzzles(target_date)
+        answered = [(s, p) for s, p, blank, n in puzzles if blank == 0]
+        prize = [(s, p) for s, p, blank, n in puzzles if blank > 0]
+        log("")
+        log(f"Steps 3-6, one puzzle at a time: "
+            f"{', '.join(f'{s} {p}' for s, p in answered) or 'none'}"
+            + (f"; after the prize fill: {', '.join(f'{s} {p}' for s, p in prize)}"
+               if prize else ""))
+        for source, pnum in answered:
+            run_puzzle_chain(source, pnum, steps, args.dry_run, cascade=False)
 
-    # Step 5: draft the usage phrases a double-definition SHORT needs, hours before
-    # anyone is publishing. They are filed UNAPPROVED and the narrator speaks only
-    # approved ones, so this cannot put words in Cordelia's mouth — it just means the
-    # review is a glance at publish time instead of writing copy under pressure
-    # (user, 2026-09-07). Never fatal: a missed draft costs a plainer sentence.
-    log("")
-    log("Step 5: draft double-definition usage phrases (for your approval)...")
-    try:
-        # --pending: prefilled DDs are pending at this hour; without it they were
-        # invisible (2026-11-03 ROAST, FIDDLESTICKS got no phrases).
-        r = subprocess.run([sys.executable, str(ROOT / "scripts" / "draft_senses.py"),
-                            "--pending"],
-                           capture_output=True, text=True, encoding="utf-8",
-                           errors="replace", timeout=900, cwd=str(ROOT))
-        for line in (r.stdout or "").strip().splitlines()[-12:]:
-            log(f"  {line}")
-        steps.append(("Step 5 usage phrases", r.returncode == 0,
-                      "" if r.returncode == 0 else f"exit {r.returncode}"))
-        if r.returncode != 0:
-            log(f"  draft_senses failed (exit {r.returncode}) — not fatal")
-            # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
-            for line in (r.stderr or "").strip().splitlines()[-15:]:
-                log(f"  stderr: {line}")
-    except Exception as e:
-        log(f"  draft_senses ERROR: {e} — not fatal")
-        steps.append(("Step 5 usage phrases", False, str(e)[:120]))
-
-    # Step 6: draft the clue pages' prose blocks. LAST, and with --pending, because
-    # by now prefill has filed its readings and the user accepts the vast majority of
-    # them unchanged (user, 2026-09-24) — so drafting from the PENDING reading means
-    # the prose is already sitting beside it at 05:00, in the same glance as the tick,
-    # instead of a day late. Measured on telegraph 31353: prefill filed 15 readings
-    # and all 15 are exactly the clues the user went on to commit.
-    #
-    # Only a reading the user CHANGES needs drafting again, and that happens by
-    # itself: each draft stores a fingerprint of the record it was written from, and
-    # the /hs Commit button re-drafts only when that fingerprint no longer matches.
-    #
-    # Filed UNAPPROVED, like the senses above, so this cannot put a word on a page or
-    # in Cordelia's mouth. Never fatal: a missed draft just means no prose block.
-    log("")
-    log("Step 6: draft clue-page prose, incl. pending prefills (for your approval)...")
-    # Deliberately NOT like Step 5, which runs for real under --dry-run. A dry run
-    # that spends model calls is not a dry run, and this step calls the CLI once per
-    # puzzle.
-    #
-    # ONE PUZZLE AT A TIME, named explicitly for target_date. Two failures on
-    # 2026-09-28 made the bare `--pending` call useless:
-    #   - its default day is SQLite date('now'), which is UTC, so at 00:05 BST it
-    #     drafted YESTERDAY's puzzles (all already drafted: "0 to draft");
-    #   - a whole day in one call (84 clues) passes the prompt as a command-line
-    #     argument longer than Windows allows, and nothing at all was filed.
-    # One puzzle is ~14k characters, well inside the limit.
-    try:
-        sys.path.insert(0, str(ROOT))
-        from web.serving import SERVED_SOURCES
-        conn = sqlite3.connect(str(CLUES_DB))
-        ph = ",".join("?" for _ in SERVED_SOURCES)
-        puzzles = conn.execute(
-            "SELECT DISTINCT source, puzzle_number FROM clues WHERE source IN (%s) "
-            "AND publication_date = ? ORDER BY source" % ph,
-            (*SERVED_SOURCES, target_date)).fetchall()
-        conn.close()
-    except Exception as e:
-        puzzles = []
-        log(f"  could not list {target_date}'s puzzles: {e} — not fatal")
-    for source, pnum in puzzles:
-        log(f"  --- {source} {pnum}")
-        if args.dry_run:
-            log(f"  [DRY RUN] Would run draft_prose.py --pending --source {source} --puzzle {pnum}")
-            continue
-        try:
-            r = subprocess.run(
-                [sys.executable, str(ROOT / "scripts" / "draft_prose.py"), "--pending",
-                 "--source", source, "--puzzle", str(pnum)],
-                capture_output=True, text=True, encoding="utf-8",
-                errors="replace", timeout=1800, cwd=str(ROOT))
-            # Generous tail: draft_prose prints one line per clue and ENDS with the
-            # refusal summary, which is the only part worth reading in the morning.
-            # A 14-line tail lost 11 of 12 refusals on the first real run.
-            for line in (r.stdout or "").strip().splitlines()[-120:]:
-                log(f"  {line}")
-            steps.append((f"Step 6 prose {source} {pnum}", r.returncode == 0,
-                          "" if r.returncode == 0 else f"exit {r.returncode}"))
-            if r.returncode != 0:
-                log(f"  draft_prose failed (exit {r.returncode}) — not fatal")
-                # Log WHY. Without this, 2026-11-03's crash read only "exit 1".
-                for line in (r.stderr or "").strip().splitlines()[-15:]:
-                    log(f"  stderr: {line}")
-        except Exception as e:
-            log(f"  draft_prose ERROR: {e} — not fatal")
-            steps.append((f"Step 6 prose {source} {pnum}", False, str(e)[:120]))
+        # Step 1c: fill today's answerless PRIZE grids with Claude, checked against
+        # the puzzle's published solution hash (scripts/fill_prize_grids.py), so they
+        # get the same chain as any other puzzle and are ready to check at 05:00
+        # (user, 2026-10-11). An answer that cannot be checked stays blank.
+        if prize:
+            if args.dry_run:
+                log(f"[DRY RUN] Would fill answerless prize grids for {target_date} "
+                    f"(scripts.fill_prize_grids)")
+            else:
+                run_prize_fill(target_date)
+            now = {(s, p): (blank, n) for s, p, blank, n in todays_puzzles(target_date)}
+            for source, pnum in prize:
+                blank, n = now.get((source, pnum), (0, 0))
+                if n and blank == n and not args.dry_run:
+                    log(f"  --- {source} {pnum}: still has no answers — skipped")
+                    continue
+                # cascade=True: its newly filled clues have never been cascaded.
+                run_puzzle_chain(source, pnum, steps, args.dry_run, cascade=True)
 
     send_summary(target_date, steps, args.dry_run)
 
