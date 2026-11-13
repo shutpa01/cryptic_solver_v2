@@ -8,14 +8,15 @@ Flow:
      (puzzle_scraper --danword is opt-in; prize answers are never scraped).
   2. WFW cascade on today's SERVING papers (telegraph/times/guardian):
      every new clue WITH an answer through the engines, zero AI calls.
-  3-6. ONE PUZZLE AT A TIME (user, 2026-11-12), via scripts/run_prefill.py:
+  3-6. EVERY PUZZLE IN PARALLEL (user, 2026-11-13), via scripts/run_prefill.py:
      PREFILL its FAIL/PENDING clues into the hand-solver grid
      (scripts/prompts/nightly_prefill.md), REVIEW its engine passes
      (scripts/prompts/nightly_pass_review.md), draft double-definition usage
-     phrases, draft clue-page prose. Each puzzle is finished before the next.
-  1c. Then fill answerless PRIZE grids with headless Claude, each grid checked
-     against its published solution hash (scripts/fill_prize_grids.py), and
-     run steps 2-6 on them like any other puzzle (user, 2026-10-11).
+     phrases, draft clue-page prose. One thread per puzzle.
+  1c. Meanwhile fill answerless PRIZE grids with headless Claude, each grid
+     checked against its published solution hash (scripts/fill_prize_grids.py);
+     each filled grid is cascaded, then its chain starts alongside the others
+     (user, 2026-10-11). Child processes die with this one (Windows job).
 
 The post-publish DIAGNOSIS is deliberately NOT here — it is on demand from
 the dashboard (scripts/run_diagnosis.py). It improves future puzzles, so
@@ -39,6 +40,7 @@ import os
 import sqlite3
 import subprocess
 import sys
+import threading
 import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -64,11 +66,78 @@ LOG_DIR = ROOT / "logs"
 SCRAPE_SOURCES = ["telegraph", "dailymail", "times", "guardian", "independent"]
 
 
+# The per-puzzle chains run in parallel threads; each writes its output as one
+# block under this lock so two puzzles' lines never interleave in the log.
+_LOG_LOCK = threading.RLock()
+
+
 def log(msg):
     ts = time.strftime("%H:%M:%S")
     # Replace chars that Windows cp1252 can't encode
     safe_msg = str(msg).encode('cp1252', errors='replace').decode('cp1252')
-    print(f"[{ts}] {safe_msg}", flush=True)
+    with _LOG_LOCK:
+        print(f"[{ts}] {safe_msg}", flush=True)
+
+
+_JOB = None   # kept open for the life of the process; see _children_die_with_me
+
+
+def _children_die_with_me():
+    """Put this process in a Windows job that kills every process in it when the
+    job's last handle closes — i.e. when nightly_run.py exits or is killed.
+    Children (run_prefill.py, claude.exe, cascades) inherit the job, so killing
+    the nightly kills its chains. 2026-11-13: killing nightly_run.py by PID left
+    an orphan run_prefill.py running a duplicate Guardian chain. Never fatal."""
+    global _JOB
+    if os.name != "nt":
+        return
+    try:
+        from ctypes import wintypes
+
+        class _BASIC(ctypes.Structure):
+            _fields_ = [("PerProcessUserTimeLimit", ctypes.c_int64),
+                        ("PerJobUserTimeLimit", ctypes.c_int64),
+                        ("LimitFlags", wintypes.DWORD),
+                        ("MinimumWorkingSetSize", ctypes.c_size_t),
+                        ("MaximumWorkingSetSize", ctypes.c_size_t),
+                        ("ActiveProcessLimit", wintypes.DWORD),
+                        ("Affinity", ctypes.c_size_t),
+                        ("PriorityClass", wintypes.DWORD),
+                        ("SchedulingClass", wintypes.DWORD)]
+
+        class _IO(ctypes.Structure):
+            _fields_ = [(n, ctypes.c_uint64) for n in (
+                "ReadOperationCount", "WriteOperationCount", "OtherOperationCount",
+                "ReadTransferCount", "WriteTransferCount", "OtherTransferCount")]
+
+        class _EXT(ctypes.Structure):
+            _fields_ = [("BasicLimitInformation", _BASIC), ("IoInfo", _IO),
+                        ("ProcessMemoryLimit", ctypes.c_size_t),
+                        ("JobMemoryLimit", ctypes.c_size_t),
+                        ("PeakProcessMemoryUsed", ctypes.c_size_t),
+                        ("PeakJobMemoryUsed", ctypes.c_size_t)]
+
+        k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        k32.CreateJobObjectW.restype = wintypes.HANDLE
+        k32.CreateJobObjectW.argtypes = [ctypes.c_void_p, wintypes.LPCWSTR]
+        k32.SetInformationJobObject.argtypes = [wintypes.HANDLE, ctypes.c_int,
+                                                ctypes.c_void_p, wintypes.DWORD]
+        k32.GetCurrentProcess.restype = wintypes.HANDLE
+        k32.AssignProcessToJobObject.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
+
+        job = k32.CreateJobObjectW(None, None)
+        if not job:
+            raise OSError(ctypes.get_last_error())
+        info = _EXT()
+        info.BasicLimitInformation.LimitFlags = 0x2000   # KILL_ON_JOB_CLOSE
+        if not k32.SetInformationJobObject(job, 9, ctypes.byref(info),
+                                           ctypes.sizeof(info)):
+            raise OSError(ctypes.get_last_error())
+        if not k32.AssignProcessToJobObject(job, k32.GetCurrentProcess()):
+            raise OSError(ctypes.get_last_error())
+        _JOB = job
+    except Exception as e:
+        log(f"  (could not tie child processes to this run: {e} — continuing)")
 
 
 def uk_now():
@@ -292,8 +361,7 @@ def run_puzzle_chain(source, pnum, steps, dry_run, cascade):
     session strips ANTHROPIC_API_KEY (subscription billing) inside run_prefill.py.
     A failure is recorded for the summary email and never stops the next puzzle."""
     name = f"Steps 3-6 {source} {pnum}"
-    log("")
-    log(f"--- {source} {pnum}: prefill -> pass review -> usage phrases -> prose")
+    log(f"--- {source} {pnum}: STARTED prefill -> pass review -> usage phrases -> prose")
     cmd = [PYTHON_V2, str(ROOT / "scripts" / "run_prefill.py"),
            "--source", source, "--pnum", str(pnum)]
     if not cascade:
@@ -314,18 +382,56 @@ def run_puzzle_chain(source, pnum, steps, dry_run, cascade):
         steps.append((name, False, str(e)[:120]))
         return
     out = (r.stdout or "").strip().splitlines()
-    for line in out:
-        log(f"  {line}")
     # run_prefill.py exits 0 when only a later step (review/phrases/prose) failed,
     # so read its own failure lines too — the email must not say OK over them.
     failed = [l for l in out if " failed (exit " in l or " ERROR: " in l]
-    if r.returncode != 0:
-        for line in (r.stderr or "").strip().splitlines()[-15:]:
-            log(f"  stderr: {line}")
     ok = r.returncode == 0 and not failed
     detail = "" if ok else (f"exit {r.returncode}" if r.returncode else failed[0].split("] ", 1)[-1][:120])
     steps.append((name, ok, detail))
-    log(f"--- {source} {pnum}: {'done' if ok else 'FINISHED WITH A FAILURE'}")
+    with _LOG_LOCK:      # one block per puzzle; the chains finish in any order
+        log("")
+        log(f"--- {source} {pnum}: output")
+        for line in out:
+            log(f"  {line}")
+        if r.returncode != 0:
+            for line in (r.stderr or "").strip().splitlines()[-15:]:
+                log(f"  stderr: {line}")
+        log(f"--- {source} {pnum}: {'done - READY TO REVIEW' if ok else 'FINISHED WITH A FAILURE'}")
+
+
+def _chain_thread(source, pnum, steps, dry_run):
+    """Thread body: one puzzle's chain. Any unexpected error is recorded so the
+    email cannot report OK for a puzzle whose thread died."""
+    try:
+        run_puzzle_chain(source, pnum, steps, dry_run, cascade=False)
+    except Exception as e:
+        log(f"--- {source} {pnum}: thread ERROR: {e}")
+        steps.append((f"Steps 3-6 {source} {pnum}", False, str(e)[:120]))
+
+
+def run_cascade_puzzle(source, pnum):
+    """Cascade ONE puzzle (a prize grid just filled by Step 1c). Run here, one
+    puzzle at a time, rather than inside each parallel chain, so two cascades
+    never write the databases at once."""
+    log(f"  cascade {source} {pnum} (newly filled prize grid)...")
+    try:
+        r = subprocess.run([PYTHON_V2, CASCADE_SCRIPT, "--source", source,
+                            "--pnum", str(pnum)], cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=3600)
+    except subprocess.TimeoutExpired:
+        log(f"  cascade {source} {pnum} TIMEOUT (60 min)")
+        return False
+    except Exception as e:
+        log(f"  cascade {source} {pnum} ERROR: {e}")
+        return False
+    with _LOG_LOCK:
+        for line in (r.stdout or "").splitlines():
+            log(f"    {line.strip()}")
+        if r.returncode != 0:
+            log(f"  cascade {source} {pnum} failed (exit {r.returncode}): "
+                f"{(r.stderr or '')[-300:]}")
+    return r.returncode == 0
 
 
 # ---------------------------------------------------------------------------
@@ -463,6 +569,7 @@ def main():
     log(f"NIGHTLY RUN — {target_date} ({target_day})")
     log("=" * 60)
     preflight(target_date)
+    _children_die_with_me()
 
     # Step 1: Scrape all five papers (corpus). Danword is opt-in inside
     # puzzle_scraper and NOT passed here — answerless prizes wait for the user.
@@ -488,12 +595,11 @@ def main():
         else:
             steps.append(("Step 2 cascade", run_cascade(target_date), ""))
 
-    # Steps 3-6, ONE PUZZLE AT A TIME (user, 2026-11-12: "change it to run one at a
-    # time"). Until then each step ran across every puzzle before the next began,
-    # and one prefill session worked out all three puzzles before filing anything
-    # (11-12: 69 readings, all filed at 00:32:56), so no puzzle was finished until
-    # the whole run ended. Now each puzzle gets the full chain — prefill, pass
-    # review, usage phrases, prose — and is finished before the next one starts.
+    # Steps 3-6, EVERY PUZZLE IN PARALLEL (user, 2026-11-13: "the objective is to
+    # have the puzzles ready for review as quickly as possible"). Each puzzle gets
+    # its own full chain — prefill, pass review, usage phrases, prose — in its own
+    # thread, so each is ready as soon as its own chain ends (11-12 sequential:
+    # each puzzle took 15-27 min, so the third waited for the other two).
     #
     # The chain is scripts/run_prefill.py, the same one the puzzle page's
     # "Prefill now" button runs, so the button and the nightly are one code path.
@@ -516,12 +622,20 @@ def main():
         answered = [(s, p) for s, p, blank, n in puzzles if blank == 0]
         prize = [(s, p) for s, p, blank, n in puzzles if blank > 0]
         log("")
-        log(f"Steps 3-6, one puzzle at a time: "
+        log(f"Steps 3-6, every puzzle IN PARALLEL: "
             f"{', '.join(f'{s} {p}' for s, p in answered) or 'none'}"
-            + (f"; after the prize fill: {', '.join(f'{s} {p}' for s, p in prize)}"
-               if prize else ""))
+            + (f"; each prize grid starts once filled + cascaded: "
+               f"{', '.join(f'{s} {p}' for s, p in prize)}" if prize else ""))
+        threads = []
+
+        def start_chain(source, pnum):
+            t = threading.Thread(target=_chain_thread, name=f"{source}_{pnum}",
+                                 args=(source, pnum, steps, args.dry_run))
+            t.start()
+            threads.append(t)
+
         for source, pnum in answered:
-            run_puzzle_chain(source, pnum, steps, args.dry_run, cascade=False)
+            start_chain(source, pnum)
 
         # Step 1c: fill today's answerless PRIZE grids with Claude, checked against
         # the puzzle's published solution hash (scripts/fill_prize_grids.py), so they
@@ -539,8 +653,19 @@ def main():
                 if n and blank == n and not args.dry_run:
                     log(f"  --- {source} {pnum}: still has no answers — skipped")
                     continue
-                # cascade=True: its newly filled clues have never been cascaded.
-                run_puzzle_chain(source, pnum, steps, args.dry_run, cascade=True)
+                # Its newly filled clues have never been cascaded: cascade it here
+                # (one at a time), then start its chain alongside the others.
+                if args.dry_run:
+                    log(f"[DRY RUN] Would cascade {source} {pnum}")
+                else:
+                    steps.append((f"Cascade {source} {pnum}",
+                                  run_cascade_puzzle(source, pnum), ""))
+                start_chain(source, pnum)
+
+        for t in threads:
+            t.join()
+        log("")
+        log("All puzzle chains finished.")
 
     send_summary(target_date, steps, args.dry_run)
 
