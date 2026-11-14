@@ -7302,12 +7302,16 @@ def prefillconfirm_route():
     return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
 
 
-def _confirm_prefill(cid):
+def _confirm_prefill(cid, draft_prose=True):
     """Re-validate a clue's PENDING prefill reading through _build_manual_parse (the SAME
     gate as a hand commit), promote it to a FROZEN manual pass, and harvest the reusable
     pieces to the reference DB. Returns a human message. Shared by /prefillconfirm and
     /approveall so the two paths cannot diverge. Refuses anything that is not a pending
-    prefill, or whose reading still leans on an AI piece the reference DB does not back."""
+    prefill, or whose reading still leans on an AI piece the reference DB does not back.
+
+    draft_prose=False skips the prose re-draft: the overnight auto-approve
+    (scripts/auto_approve.py) confirms only clues whose prose is already drafted and
+    approves that prose itself, so a re-draft would be a wasted model call."""
     import json
     conn = store.connect()
     try:
@@ -7368,7 +7372,8 @@ def _confirm_prefill(cid):
         conn.commit()
     finally:
         conn.close()
-    _queue_prose_draft(cid)      # Confirm settles the reading too — same as Commit
+    if draft_prose:
+        _queue_prose_draft(cid)  # Confirm settles the reading too — same as Commit
     added, present, rejected = _apply_db_adds(built["db_adds"])
     msg = "Confirmed — now your frozen manual solve."
     if _conf_ok:
@@ -7411,7 +7416,19 @@ def approveall_route():
     if not only.isdigit():
         return _page('<div class="wfw-notice">No clue.</div>'
                      + _body(raw, resolve_only=set()))
-    cid = int(only)
+    msg = approve_all(int(only))
+    if msg is None:
+        return _page('<div class="wfw-notice">No clue.</div>'
+                     + _body(raw, resolve_only=set()))
+    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
+    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
+
+
+def approve_all(cid, draft_prose=True):
+    """The whole of an Approve-all click for one clue, with no web request: approve every
+    queued enrichment, then Confirm the prefill. Returns the human message, or None when
+    the clue does not exist. The /approveall route and the overnight auto-approve
+    (scripts/auto_approve.py, user 2026-11-14) both call THIS, so they cannot diverge."""
     # clue_text + letters-only answer identify this clue's queued rows (same keys the
     # enrichment block renders from).
     conn = admin_db._mconn()
@@ -7421,8 +7438,7 @@ def approveall_route():
     finally:
         conn.close()
     if not row:
-        return _page('<div class="wfw-notice">No clue.</div>'
-                     + _body(raw, resolve_only=set()))
+        return None
     clue_text = row[0] or ""
     ans_letters = _raw_letters(row[1])
     pend = admin_db.pending_for_clue(clue_text, ans_letters)
@@ -7487,15 +7503,14 @@ def approveall_route():
         else:
             failed.append("%s (%s)" % (word, add_msg))
     _refresh_provisional_flags(cid)         # clear what the DB now backs (a stored pass too)
-    confirm_msg = _confirm_prefill(cid)     # re-validate, freeze, harvest
+    confirm_msg = _confirm_prefill(cid, draft_prose=draft_prose)   # re-validate, freeze, harvest
     msg = "Approved %d enrichment%s." % (approved, "" if approved == 1 else "s")
     if failed:
         msg += (" %d need%s a sub-type — Approve %s individually and choose it: %s."
                 % (len(failed), "s" if len(failed) == 1 else "",
                    "it" if len(failed) == 1 else "them", "; ".join(failed)))
     msg += " " + confirm_msg
-    notice = '<div class="wfw-notice">%s</div>' % escape(msg)
-    return _page(notice + _body(raw, resolve_only=set()), scroll_to=only)
+    return msg
 
 
 @app.route("/hsmanualuncommit", methods=["POST"])

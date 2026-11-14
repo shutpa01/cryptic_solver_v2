@@ -94,8 +94,24 @@ REMOTE_DATA = CORDELIA_REMOTE + "/data"
 ROLLBACK_DBS = ("clues_master.db", "cryptic_new.db")
 
 
+ROLLBACK_KEEP = 3   # nights of rollback snapshots kept on the droplet
+
+
+def _prune_cmd(keep=ROLLBACK_KEEP):
+    """Delete all but the newest `keep` DATED rollback files of each DB. Added 2026-11-14
+    (user: "delete the rollbacks"): nothing ever removed them, and by then 58 files
+    (30 GB) filled the droplet to 13 GB free — each night adds ~1.1 GB. Matches only
+    `<db>.rollback-2*` (YYYYMMDD tags sort by date); hand-made tags are left alone."""
+    parts = []
+    for name in ROLLBACK_DBS:
+        parts.append('ls -1 "{l}".rollback-2* 2>/dev/null | sort | head -n -{k} '
+                     '| xargs -r rm -f --'.format(l="%s/%s" % (REMOTE_DATA, name), k=keep))
+    return "; ".join(parts)
+
+
 def _snapshot_cmd(tag):
-    """Copy each live DB to a dated rollback file, ONLY if that file does not exist."""
+    """Copy each live DB to a dated rollback file, ONLY if that file does not exist,
+    then prune old rollbacks (_prune_cmd)."""
     parts = []
     for name in ROLLBACK_DBS:
         live = "%s/%s" % (REMOTE_DATA, name)
@@ -103,7 +119,7 @@ def _snapshot_cmd(tag):
         parts.append(
             '[ -f "{s}" ] && echo "keep {n}" || {{ [ -f "{l}" ] && cp -p "{l}" "{s}" '
             '&& echo "snap {n}" || echo "missing {n}"; }}'.format(s=snap, l=live, n=name))
-    return "; ".join(parts)
+    return "; ".join(parts) + "; " + _prune_cmd()
 
 
 def _rollback_cmd(tag):
@@ -272,22 +288,55 @@ def main():
     else:
         log("  [dry-run] would WAL-checkpoint clues_master.db and cryptic_new.db")
 
-    # Step 2 (b): the databases. rsync writes to a temp file and renames, so an
-    # interrupted transfer leaves the PREVIOUS database serving rather than a
-    # truncated one. A failure here must stop everything: no restart, no warm.
-    mb = CLUES_DB.stat().st_size / 1024 / 1024
-    log("  uploading clues_master.db (%.0f MB)..." % mb)
-    ok, out = rsync(CLUES_DB, "data/clues_master.db", 900, args.dry_run, "rsync clues_master.db")
-    if not ok:
-        log("  UPLOAD FAILED: %s — stopping. The site still serves the previous "
-            "database, so nothing is broken; it is just not fresh." % out)
-        return 1
-    log("  clues_master.db uploaded.")
+    # Step 2 (a2): upload a SNAPSHOT, never the live file. Since 2026-11-14 the nightly
+    # deploys while other work may still be writing — a parallel puzzle chain, or the
+    # user fixing fails in /hs at night — and rsync reading a database mid-write can
+    # copy a torn file. sqlite's backup API takes one consistent copy under a read
+    # lock; that copy is what travels. Removed again at the end of this function.
+    snap_dir = ROOT / "data" / "_deploy_snapshot"
+    snaps = {}
+    if not args.dry_run:
+        try:
+            snap_dir.mkdir(exist_ok=True)
+            for db in (CLUES_DB, CRYPTIC_NEW_DB):
+                if db.exists():
+                    dst = snap_dir / db.name
+                    src_c, dst_c = sqlite3.connect(str(db), timeout=60), sqlite3.connect(str(dst))
+                    try:
+                        src_c.backup(dst_c)
+                    finally:
+                        dst_c.close()
+                        src_c.close()
+                    snaps[db] = dst
+        except Exception as e:
+            log("  SNAPSHOT of the local databases FAILED: %s — stopping; the site "
+                "still serves the previous database." % e)
+            return 1
+        log("  consistent local snapshots taken.")
+    try:
+        # Step 2 (b): the databases. rsync writes to a temp file and renames, so an
+        # interrupted transfer leaves the PREVIOUS database serving rather than a
+        # truncated one. A failure here must stop everything: no restart, no warm.
+        mb = CLUES_DB.stat().st_size / 1024 / 1024
+        log("  uploading clues_master.db (%.0f MB)..." % mb)
+        ok, out = rsync(snaps.get(CLUES_DB, CLUES_DB), "data/clues_master.db", 900,
+                        args.dry_run, "rsync clues_master.db")
+        if not ok:
+            log("  UPLOAD FAILED: %s — stopping. The site still serves the previous "
+                "database, so nothing is broken; it is just not fresh." % out)
+            return 1
+        log("  clues_master.db uploaded.")
 
-    if CRYPTIC_NEW_DB.exists():
-        ok, out = rsync(CRYPTIC_NEW_DB, "data/cryptic_new.db", 900, args.dry_run,
-                        "rsync cryptic_new.db")
-        log("  cryptic_new.db %s" % ("uploaded." if ok else "FAILED: %s (not fatal)" % out))
+        if CRYPTIC_NEW_DB.exists():
+            ok, out = rsync(snaps.get(CRYPTIC_NEW_DB, CRYPTIC_NEW_DB), "data/cryptic_new.db",
+                            900, args.dry_run, "rsync cryptic_new.db")
+            log("  cryptic_new.db %s" % ("uploaded." if ok else "FAILED: %s (not fatal)" % out))
+    finally:
+        for p in snaps.values():
+            try:
+                p.unlink()
+            except Exception:
+                pass
 
     # Step 2b: grid-structure JSONs. The DB alone does not carry them, so a newly
     # served puzzle has no solve-mode grid without this. Never fatal.

@@ -17,6 +17,11 @@ Flow:
      checked against its published solution hash (scripts/fill_prize_grids.py);
      each filled grid is cascaded, then its chain starts alongside the others
      (user, 2026-10-11). Child processes die with this one (Windows job).
+  7. AUTO-APPROVE (user, 2026-11-14): every pending prefill with drafted prose
+     gets the user's Approve-all + prose tick (scripts/auto_approve.py); engine
+     passes get their prose ticked. Fails etc. stay for the user.
+  8. DEPLOY the databases (scripts/auto_deploy.py) + IndexNow, as the dashboard
+     deploy does. --no-publish skips 7 and 8.
 
 The post-publish DIAGNOSIS is deliberately NOT here — it is on demand from
 the dashboard (scripts/run_diagnosis.py). It improves future puzzles, so
@@ -409,6 +414,61 @@ def _chain_thread(source, pnum, steps, dry_run):
         steps.append((f"Steps 3-6 {source} {pnum}", False, str(e)[:120]))
 
 
+def _run_logged(label, cmd, timeout):
+    """Run one publish sub-step, log its output, return (ok, last line)."""
+    try:
+        r = subprocess.run(cmd, cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=timeout)
+    except subprocess.TimeoutExpired:
+        log(f"  {label} TIMEOUT ({timeout // 60} min)")
+        return False, "timeout"
+    except Exception as e:
+        log(f"  {label} ERROR: {e}")
+        return False, str(e)[:120]
+    out = (r.stdout or "").strip().splitlines()
+    for line in out:
+        log(f"  {line}")
+    if r.returncode != 0:
+        for line in (r.stderr or "").strip().splitlines()[-10:]:
+            log(f"  stderr: {line}")
+    return r.returncode == 0, (out[-1] if out else (r.stderr or "").strip()[:120])
+
+
+def run_publish(target_date, steps, dry_run):
+    """Step 7: auto-approve the day's prefilled readings + prose (scripts/auto_approve.py,
+    the user's own Approve-all and prose tick). Step 8: deploy the databases
+    (scripts/auto_deploy.py, the dashboard's DB deploy, headless, with a once-a-night
+    rollback snapshot), then IndexNow exactly as the dashboard deploy does — the puzzle
+    walk announces only puzzles whose EVERY clue is served, so a puzzle still holding a
+    fail waits for the user's own morning deploy."""
+    log("")
+    log("Step 7: auto-approve prefilled readings + prose (user, 2026-11-14)...")
+    cmd = [PYTHON_V2, str(ROOT / "scripts" / "auto_approve.py"), "--date", target_date]
+    if dry_run:
+        cmd.append("--dry-run")
+    ok, last = _run_logged("auto-approve", cmd, 1800)
+    steps.append(("Step 7 auto-approve", ok, "" if ok else last))
+
+    log("")
+    log("Step 8: deploy databases + IndexNow...")
+    if dry_run:
+        log("  [DRY RUN] Would run scripts/auto_deploy.py, then indexnow_notify.py "
+            "(--max-seconds 420, then --evergreen)")
+        return
+    ok, last = _run_logged("deploy", [PYTHON_V2, str(ROOT / "scripts" / "auto_deploy.py"),
+                                      "--label", f"nightly {target_date}"], 2400)
+    steps.append(("Step 8 deploy", ok, "" if ok else last))
+    if not ok:
+        log("  deploy failed — IndexNow skipped (nothing new is live).")
+        return
+    notify = str(ROOT / "scripts" / "indexnow_notify.py")
+    ok, last = _run_logged("IndexNow", [PYTHON_V2, notify, "--max-seconds", "420"], 600)
+    steps.append(("Step 8 IndexNow", ok, "" if ok else last))
+    ok, last = _run_logged("IndexNow evergreen", [PYTHON_V2, notify, "--evergreen"], 180)
+    steps.append(("Step 8 IndexNow evergreen", ok, "" if ok else last))
+
+
 def run_cascade_puzzle(source, pnum):
     """Cascade ONE puzzle (a prize grid just filled by Step 1c). Run here, one
     puzzle at a time, rather than inside each parallel chain, so two cascades
@@ -553,6 +613,8 @@ def main():
     parser.add_argument("--skip-scraper", action="store_true", help="Skip scraper step")
     parser.add_argument("--skip-cascade", action="store_true", help="Skip cascade step")
     parser.add_argument("--skip-claude", action="store_true", help="Skip the Claude steps")
+    parser.add_argument("--no-publish", action="store_true",
+                        help="Skip Step 7 (auto-approve) and Step 8 (deploy + IndexNow)")
     args = parser.parse_args()
 
     # The UK date, never the laptop's: see uk_now().
@@ -666,6 +728,18 @@ def main():
             t.join()
         log("")
         log("All puzzle chains finished.")
+
+    # Steps 7-8: PUBLISH (user, 2026-11-14). The user's morning check of pendings was
+    # "has prose -> approve reading and prose", so the nightly now does it and serves
+    # those clues straight away; the user fixes only the genuine fails. The user chose
+    # to let the AI's new reference entries in unseen (option A) and approved the
+    # overnight deploy — reversing 2026-09-28 "serving waits for review" and the
+    # 2026-10-15 stop of the auto-deploy.
+    if args.no_publish:
+        log("")
+        log("Steps 7-8 (auto-approve, deploy): SKIPPED (--no-publish)")
+    else:
+        run_publish(target_date, steps, args.dry_run)
 
     send_summary(target_date, steps, args.dry_run)
 
