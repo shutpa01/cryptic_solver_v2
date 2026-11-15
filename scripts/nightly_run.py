@@ -360,12 +360,40 @@ def todays_puzzles(target_date):
         return []
 
 
+# SUNDAY ONLY (user, 2026-11-15). On 11-15 four parallel Claude chains used up the
+# 5-hour subscription window by 01:13; Toughie 251 lost its review + prose and the
+# 02:30 catch-up hit the same limit. So on Sundays: the Prize Toughie runs after the
+# other chains finish, a chain that already reached READY tonight is not re-run by a
+# catch-up (marker below), and a 05:45 Sunday catch-up (CrypticSolver_NightlyRun_
+# SundayLate) picks up whatever the limit stopped, after the window resets.
+CHAIN_DONE_DIR = ROOT / "logs" / "chain_done"
+
+
+def is_sunday(target_date):
+    return date.fromisoformat(target_date).weekday() == 6
+
+
+def is_prize_toughie(source, pnum):
+    # Sunday Telegraph puzzles: Prize Cryptic numbered in the thousands (3395),
+    # Prize Toughie in the hundreds (251).
+    return source == "telegraph" and str(pnum).isdigit() and int(pnum) < 1000
+
+
+def _chain_marker(target_date, source, pnum):
+    return CHAIN_DONE_DIR / f"{target_date}_{source}_{pnum}"
+
+
 def run_puzzle_chain(source, pnum, steps, dry_run, cascade):
     """The whole Claude chain for ONE puzzle via scripts/run_prefill.py: prefill,
     pass review, double-definition usage phrases, clue-page prose. Each Claude
     session strips ANTHROPIC_API_KEY (subscription billing) inside run_prefill.py.
     A failure is recorded for the summary email and never stops the next puzzle."""
     name = f"Steps 3-6 {source} {pnum}"
+    target_date = _RUN.get("target_date")
+    sunday = bool(target_date) and is_sunday(target_date)
+    if sunday and not dry_run and _chain_marker(target_date, source, pnum).exists():
+        log(f"--- {source} {pnum}: already READY earlier tonight - not re-run (Sunday)")
+        return
     log(f"--- {source} {pnum}: STARTED prefill -> pass review -> usage phrases -> prose")
     cmd = [PYTHON_V2, str(ROOT / "scripts" / "run_prefill.py"),
            "--source", source, "--pnum", str(pnum)]
@@ -393,6 +421,12 @@ def run_puzzle_chain(source, pnum, steps, dry_run, cascade):
     ok = r.returncode == 0 and not failed
     detail = "" if ok else (f"exit {r.returncode}" if r.returncode else failed[0].split("] ", 1)[-1][:120])
     steps.append((name, ok, detail))
+    if ok and sunday:
+        try:
+            CHAIN_DONE_DIR.mkdir(parents=True, exist_ok=True)
+            _chain_marker(target_date, source, pnum).touch()
+        except Exception as e:
+            log(f"  could not write chain marker: {e}")
     with _LOG_LOCK:      # one block per puzzle; the chains finish in any order
         log("")
         log(f"--- {source} {pnum}: output")
@@ -687,8 +721,11 @@ def main():
         log(f"Steps 3-6, every puzzle IN PARALLEL: "
             f"{', '.join(f'{s} {p}' for s, p in answered) or 'none'}"
             + (f"; each prize grid starts once filled + cascaded: "
-               f"{', '.join(f'{s} {p}' for s, p in prize)}" if prize else ""))
+               f"{', '.join(f'{s} {p}' for s, p in prize)}" if prize else "")
+            + ("; SUNDAY: Prize Toughie runs last, finished chains are not re-run"
+               if is_sunday(target_date) else ""))
         threads = []
+        held = []
 
         def start_chain(source, pnum):
             t = threading.Thread(target=_chain_thread, name=f"{source}_{pnum}",
@@ -697,6 +734,10 @@ def main():
             threads.append(t)
 
         for source, pnum in answered:
+            # (a catch-up finds the Toughie already filled, so it is held here too)
+            if is_sunday(target_date) and is_prize_toughie(source, pnum):
+                held.append((source, pnum))
+                continue
             start_chain(source, pnum)
 
         # Step 1c: fill today's answerless PRIZE grids with Claude, checked against
@@ -722,10 +763,17 @@ def main():
                 else:
                     steps.append((f"Cascade {source} {pnum}",
                                   run_cascade_puzzle(source, pnum), ""))
+                if is_sunday(target_date) and is_prize_toughie(source, pnum):
+                    held.append((source, pnum))
+                    log(f"  --- {source} {pnum}: Sunday - held until the other chains finish")
+                    continue
                 start_chain(source, pnum)
 
         for t in threads:
             t.join()
+        for source, pnum in held:            # Sunday Prize Toughie, last
+            start_chain(source, pnum)
+            threads[-1].join()
         log("")
         log("All puzzle chains finished.")
 
