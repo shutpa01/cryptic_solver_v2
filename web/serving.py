@@ -238,6 +238,37 @@ def puzzle_is_served(source, puzzle_number):
     return bool(row and row["total"] and row["served"] == row["total"])
 
 
+# IN-PROGRESS PUZZLES ANSWER 503, NOT 410 (user, 2026-11-16). Since 11-14 the nightly
+# auto-approves most clues and serves them from ~01:00, while the puzzle page waits for
+# the user's last few. Announcing those clue pages early is the point of the early work,
+# but on 09-20/21 bingbot followed a clue page's breadcrumb to the half-served puzzle
+# page, got 410 Gone (a delete directive) and lost the puzzle page for the day. A recent
+# puzzle that is not yet complete is therefore "come back later" (503 + Retry-After),
+# which search engines treat as temporary. Older incomplete puzzles keep 410.
+IN_PROGRESS_DAYS = 7
+IN_PROGRESS_RETRY_AFTER = 3600      # seconds
+
+
+def puzzle_in_progress(source, puzzle_number):
+    """True for a puzzle published in the last IN_PROGRESS_DAYS days that is NOT yet
+    fully served — its page answers 503 instead of 410. Call only after
+    puzzle_is_served() has said False."""
+    if source not in SERVED_SOURCES:
+        return False
+    from datetime import date, timedelta
+    from web.db import get_db
+    row = get_db().execute(
+        "SELECT MAX(publication_date) AS pub FROM clues "
+        "WHERE source = ? AND puzzle_number = ?",
+        (source, str(puzzle_number)),
+    ).fetchone()
+    pub = row["pub"] if row else None
+    if not pub:
+        return False
+    cutoff = (date.today() - timedelta(days=IN_PROGRESS_DAYS)).isoformat()
+    return pub >= cutoff
+
+
 def served_puzzle_numbers(sources=None):
     """The set of (source, puzzle_number) pairs whose EVERY clue is served — the
     puzzle-level display rule in bulk, for the sitemap. SAME per-clue test as

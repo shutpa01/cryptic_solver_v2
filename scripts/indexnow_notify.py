@@ -70,8 +70,22 @@ def _ledger_conn():
     conn.execute("CREATE TABLE IF NOT EXISTS sent_puzzle ("
                  "source TEXT NOT NULL, puzzle_number TEXT NOT NULL, "
                  "sent_at TEXT, PRIMARY KEY (source, puzzle_number))")
+    # Clue pages announced EARLY, before their puzzle was complete (user, 2026-11-16).
+    # The completion send skips these so no URL is announced twice.
+    conn.execute("CREATE TABLE IF NOT EXISTS sent_clue ("
+                 "clue_id INTEGER PRIMARY KEY, sent_at TEXT)")
     conn.commit()
     return conn
+
+
+def _ledger_sent_clues(conn):
+    return {r[0] for r in conn.execute("SELECT clue_id FROM sent_clue").fetchall()}
+
+
+def _ledger_record_clues(conn, clue_ids, when):
+    conn.executemany("INSERT OR IGNORE INTO sent_clue (clue_id, sent_at) VALUES (?, ?)",
+                     [(int(i), when) for i in clue_ids])
+    conn.commit()
 
 
 def _ledger_sent(conn):
@@ -90,7 +104,7 @@ def _ledger_record(conn, source, number, when):
 
 # --- gather every served puzzle's URLs, grouped by puzzle ----------------------------
 
-def collect_puzzle_urls(db, include_clue_pages=True, skip=frozenset()):
+def collect_puzzle_urls(db, include_clue_pages=True, skip=frozenset(), skip_clues=frozenset()):
     """Every fully-served puzzle -> its production URLs (the puzzle page + each served clue
     page), grouped by (source, puzzle_number). Same serving truth as the sitemap/410 gate,
     so a URL that would 410 is never included. Returns:
@@ -141,6 +155,8 @@ def collect_puzzle_urls(db, include_clue_pages=True, skip=frozenset()):
         key = (r["source"], str(r["puzzle_number"]))
         if key not in out:                     # puzzle not fully served -> skip its clues
             continue
+        if r["id"] in skip_clues:              # already announced early
+            continue
         if not is_served(r["source"], r["id"]):
             continue
         slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
@@ -148,6 +164,70 @@ def collect_puzzle_urls(db, include_clue_pages=True, skip=frozenset()):
             out[key]["urls"].append(f"{BASE}/clue/{slug}")
 
     return out
+
+
+# --- EARLY clue pages: served clues of a puzzle that is not complete yet ---------------
+# User, 2026-11-16: "what is the point in doing all this early work and refusing to inform
+# bing?" The nightly auto-approves most clues by ~01:00; their pages are live, but the
+# puzzle walk above only announces COMPLETE puzzles, so they waited for the user's last
+# few clues. This sends each served clue page of a recent incomplete puzzle once (ledger
+# sent_clue). It is safe only because such a puzzle page now answers 503 "come back
+# later" instead of 410 Gone (web/serving.py puzzle_in_progress) — on 09-20/21 the early
+# announce sent bingbot to a 410 puzzle page and the puzzle lost the day. So before
+# sending, the LIVE site is probed: if it still says 410 (site code not yet deployed),
+# nothing is sent early.
+
+def collect_early_clue_urls(db, skip=frozenset(), skip_clues=frozenset()):
+    """{(source, number): {"urls": [...], "ids": [...], "probe": puzzle_url}} for recent,
+    NOT fully served, not-yet-announced puzzles — their served clue pages not yet sent."""
+    from web.serving import (SERVED_SOURCES, is_served, served_puzzle_numbers,
+                             IN_PROGRESS_DAYS)
+    from web.routes.clue import generate_clue_slug
+    from web.models import classify_puzzle
+    from datetime import timedelta
+
+    cutoff = (date.today() - timedelta(days=IN_PROGRESS_DAYS)).isoformat()
+    ph = ",".join("?" for _ in SERVED_SOURCES)
+    served = served_puzzle_numbers()
+    out = {}
+    rows = db.execute(
+        f"SELECT c.id, c.source, c.puzzle_number, c.clue_text, c.publication_date FROM clues c "
+        f"JOIN wfw_solve w ON w.clue_id = c.id AND w.status IN ('pass','invalid') "
+        f"WHERE c.source IN ({ph}) AND c.publication_date >= ? AND c.clue_text IS NOT NULL "
+        f"  AND c.answer IS NOT NULL AND c.answer != ''",
+        (*SERVED_SOURCES, cutoff)).fetchall()
+    for r in rows:
+        key = (r["source"], str(r["puzzle_number"]))
+        if key in served or key in skip or r["id"] in skip_clues:
+            continue
+        if not is_served(r["source"], r["id"]):
+            continue
+        slug = generate_clue_slug(r["clue_text"], clue_id=r["id"])
+        if not slug:
+            continue
+        entry = out.get(key)
+        if entry is None:
+            pslug, _ = classify_puzzle(r["source"], r["puzzle_number"], r["publication_date"])
+            entry = out[key] = {"urls": [], "ids": [], "probe":
+                                f"{BASE}/{r['source']}/{pslug}/{r['puzzle_number']}" if pslug else None}
+        entry["urls"].append(f"{BASE}/clue/{slug}")
+        entry["ids"].append(r["id"])
+    return out
+
+
+def live_status(url):
+    """HTTP status the LIVE site gives a visitor for url (None if unreachable)."""
+    import urllib.request, urllib.error
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                      "(KHTML, like Gecko) Chrome/130.0 Safari/537.36"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            return resp.status
+    except urllib.error.HTTPError as e:
+        return e.code
+    except Exception:
+        return None
 
 
 # --- the evergreen pages: always live, never announced by the puzzle walk --------------
@@ -239,6 +319,8 @@ def main():
     # Seeding is the exception: it exists to record what is served, so it must see
     # every puzzle, not only the unrecorded ones.
     skip = frozenset() if (args.seed_all or args.seed_before) else frozenset(sent)
+    sent_clues = frozenset(_ledger_sent_clues(conn))
+    seeding = bool(args.seed_all or args.seed_before)
 
     app = create_app("development")
     with app.app_context():
@@ -246,7 +328,9 @@ def main():
         db = get_db()
         now = _db_now(db)
         puzzles = collect_puzzle_urls(db, include_clue_pages=not args.puzzle_pages_only,
-                                      skip=skip)
+                                      skip=skip, skip_clues=sent_clues)
+        early = ({} if (seeding or args.puzzle_pages_only)
+                 else collect_early_clue_urls(db, skip=frozenset(sent), skip_clues=sent_clues))
     if args.puzzle_pages_only:
         print("IndexNow: PUZZLE PAGES ONLY — clue pages will not be announced "
               "(they remain in the sitemap and crawlable).")
@@ -276,19 +360,29 @@ def main():
               % len(new))
         return 1
 
+    early_urls = sum(len(v["urls"]) for v in early.values())
+    print("IndexNow early clue pages (incomplete recent puzzles): %d puzzle(s), %d URL(s)."
+          % (len(early), early_urls))
+
     if args.dry_run:
         for (source, number), v in sorted(new.items()):
             print("  NEW  %-11s %-8s  %2d URL(s)  (pub %s)"
                   % (source, number, len(v["urls"]), v["pub"]))
+        for (source, number), v in sorted(early.items()):
+            print("  EARLY %-10s %-8s  %2d clue URL(s)  probe %s -> %s"
+                  % (source, number, len(v["urls"]), v["probe"],
+                     live_status(v["probe"]) if v["probe"] else "-"))
         print("[dry-run] nothing submitted; ledger unchanged.")
         return 0
 
+    deadline = (time.monotonic() + args.max_seconds) if args.max_seconds else None
+    early_fail = _send_early(conn, early, now, deadline)
+
     if not new:
-        print("Nothing new to announce.")
-        return 0
+        print("Nothing new to announce." if not early else "No complete puzzle to announce.")
+        return 1 if early_fail else 0
 
     items = sorted(new.items())
-    deadline = (time.monotonic() + args.max_seconds) if args.max_seconds else None
     sent_ok = fail = processed = 0
     for (source, number), v in items:
         # Check the time budget BETWEEN puzzles only, so every puzzle is sent atomically and
@@ -315,7 +409,31 @@ def main():
         print("  TIME BUDGET (%gs) reached: %d puzzle(s) deferred to the next run."
               % (args.max_seconds, deferred))
     print("Done: %d puzzle(s) sent, %d failed, %d deferred." % (sent_ok, fail, deferred))
-    return 1 if fail else 0                              # deferral is NOT a failure
+    return 1 if (fail or early_fail) else 0              # deferral is NOT a failure
+
+
+def _send_early(conn, early, now, deadline):
+    """Send each incomplete puzzle's served clue pages, ONLY if the live puzzle page says
+    503 (temporary). Returns the number of failed submissions."""
+    fail = 0
+    for (source, number), v in sorted(early.items()):
+        if deadline is not None and time.monotonic() > deadline:
+            print("  EARLY time budget reached — rest next run.")
+            break
+        st = live_status(v["probe"]) if v["probe"] else None
+        if st != 503:
+            print("  EARLY  %-11s %-8s  HELD: live puzzle page answers %s, not 503 — "
+                  "clue pages not announced early (the 410 trap)" % (source, number, st))
+            continue
+        status, body = indexnow.submit(v["urls"], timeout=10)
+        if status in (200, 202):
+            _ledger_record_clues(conn, v["ids"], now)
+            print("  EARLY  %-11s %-8s  %2d clue URL(s)  OK" % (source, number, len(v["urls"])))
+        else:
+            fail += 1
+            print("  EARLY  %-11s %-8s  FAILED HTTP %s %s (not recorded, retry next run)"
+                  % (source, number, status, body))
+    return fail
 
 
 if __name__ == "__main__":

@@ -50,8 +50,20 @@ def puzzle(source, puzzle_type, puzzle_number):
     # unserved clue hides the whole puzzle at its stable URL; it returns
     # (resurrection) when the last clue is solved. Admin always sees the page —
     # it is the walk-the-puzzle workspace (Cascade/Prefill, /hs links).
-    from web.serving import puzzle_is_served
+    from web.serving import (puzzle_is_served, puzzle_in_progress,
+                             IN_PROGRESS_RETRY_AFTER)
     if not g.get("is_admin") and not puzzle_is_served(source, puzzle_number):
+        # A recent puzzle still being finished is temporary, not gone (user,
+        # 2026-11-16) — see web/serving.py IN-PROGRESS PUZZLES ANSWER 503.
+        if puzzle_in_progress(source, puzzle_number):
+            resp = make_response(
+                "<!doctype html><title>Coming shortly</title>"
+                "<meta name=\"robots\" content=\"noindex\">"
+                "<p>This puzzle's explanations are being finished. "
+                "Please try again shortly.</p>", 503)
+            resp.headers["Retry-After"] = str(IN_PROGRESS_RETRY_AFTER)
+            resp.headers["Cache-Control"] = "no-store"
+            return resp
         abort(410)
 
     pub_date = get_puzzle_date(source, puzzle_number)
