@@ -2885,5 +2885,15 @@
     "phrase": "A ripe Williams is lovely with cheese",
     "approved": false,
     "clue_id": 10112317
+  },
+  "SPONGE|wipe": {
+    "phrase": "Just sponge the stain off your shirt",
+    "approved": false,
+    "clue_id": 10078645
+  },
+  "SPONGE|bum": {
+    "phrase": "He'll sponge off his mates all week",
+    "approved": false,
+    "clue_id": 10078645
   }
 }
