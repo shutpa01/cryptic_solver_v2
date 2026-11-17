@@ -2620,5 +2620,270 @@
     "phrase": "Some anon posting wild QAnon theories online",
     "approved": false,
     "clue_id": 10111218
+  },
+  "EGGHEAD|extremely brainy sort": {
+    "phrase": "Some egghead at the university worked it out",
+    "approved": false,
+    "clue_id": 10111369
+  },
+  "EGGHEAD|prone to cracking": {
+    "phrase": "Give the boiled egghead a gentle tap first",
+    "approved": false,
+    "clue_id": 10111369
+  },
+  "SUPER|senior police officer": {
+    "phrase": "The super wants to see you immediately",
+    "approved": false,
+    "clue_id": 10111371
+  },
+  "SUPER|exceptionally good": {
+    "phrase": "We had a super time at the seaside",
+    "approved": false,
+    "clue_id": 10111371
+  },
+  "GETSHOTOF|throw away": {
+    "phrase": "Time to get shot of that sofa",
+    "approved": false,
+    "clue_id": 10111446
+  },
+  "GETSHOTOF|photograph": {
+    "phrase": "Did you get shot of the sunset?",
+    "approved": false,
+    "clue_id": 10111446
+  },
+  "FORTHERECORD|purpose of sleeve": {
+    "phrase": "That cardboard sleeve is for the record",
+    "approved": false,
+    "clue_id": 10111546
+  },
+  "FORTHERECORD|officially": {
+    "phrase": "For the record, I never agreed to that",
+    "approved": false,
+    "clue_id": 10111546
+  },
+  "POINTLESS|lacking in sense": {
+    "phrase": "It's pointless arguing with him about politics",
+    "approved": false,
+    "clue_id": 10111569
+  },
+  "POINTLESS|don't use indicator as much": {
+    "phrase": "No signalling again — typical pointless driving, that",
+    "approved": false,
+    "clue_id": 10111569
+  },
+  "RIGHT|tory": {
+    "phrase": "She's always voted right, like her parents",
+    "approved": false,
+    "clue_id": 10111561
+  },
+  "RIGHT|telling the truth": {
+    "phrase": "You're right, the station is closed today",
+    "approved": false,
+    "clue_id": 10111561
+  },
+  "WELLDONE|words of praise": {
+    "phrase": "\"Well done, you passed your driving test!\"",
+    "approved": false,
+    "clue_id": 10111555
+  },
+  "WELLDONE|far from rare": {
+    "phrase": "I'd like my steak well done, please",
+    "approved": false,
+    "clue_id": 10111555
+  },
+  "SPACEDOUT|oblivious": {
+    "phrase": "He felt completely spaced out after the jab",
+    "approved": false,
+    "clue_id": 10111558
+  },
+  "SPACEDOUT|where some distance apart": {
+    "phrase": "The fence posts were spaced out evenly",
+    "approved": false,
+    "clue_id": 10111558
+  },
+  "CATCHING|fielder's skill": {
+    "phrase": "His catching in the slips was superb",
+    "approved": false,
+    "clue_id": 10111564
+  },
+  "CATCHING|easy to pick up": {
+    "phrase": "Her laugh is catching, I find",
+    "approved": false,
+    "clue_id": 10111564
+  },
+  "DOESTHETRICK|works": {
+    "phrase": "A drop of oil soon does the trick",
+    "approved": false,
+    "clue_id": 10111694
+  },
+  "DOESTHETRICK|like a magician": {
+    "phrase": "He does the trick using hidden mirrors",
+    "approved": false,
+    "clue_id": 10111694
+  },
+  "TAKEYOURPICK|choose": {
+    "phrase": "Red or white wine — take your pick",
+    "approved": false,
+    "clue_id": 10111699
+  },
+  "TAKEYOURPICK|like a navvy": {
+    "phrase": "Take your pick and start digging that trench",
+    "approved": false,
+    "clue_id": 10111699
+  },
+  "GUTS|removes content": {
+    "phrase": "He guts fish down at the harbour",
+    "approved": false,
+    "clue_id": 10111702
+  },
+  "GUTS|of bottle": {
+    "phrase": "It took real guts to speak up",
+    "approved": false,
+    "clue_id": 10111702
+  },
+  "PIECE|gun": {
+    "phrase": "He pulled a piece from his jacket",
+    "approved": false,
+    "clue_id": 10111688
+  },
+  "PIECE|part": {
+    "phrase": "A piece of the jigsaw was missing",
+    "approved": false,
+    "clue_id": 10111688
+  },
+  "CAMBRIDGEBLUES|top university athletes": {
+    "phrase": "Three Cambridge Blues rowed in the Boat Race",
+    "approved": false,
+    "clue_id": 10111739
+  },
+  "CAMBRIDGEBLUES|shades": {
+    "phrase": "We painted the nursery in soft Cambridge blues",
+    "approved": false,
+    "clue_id": 10111739
+  },
+  "FELT|touched": {
+    "phrase": "She felt the fabric before buying it",
+    "approved": false,
+    "clue_id": 10111891
+  },
+  "FELT|smooth material": {
+    "phrase": "A hat made of soft grey felt",
+    "approved": false,
+    "clue_id": 10111891
+  },
+  "KNOTTY|difficult": {
+    "phrase": "We've hit a knotty problem with the paperwork",
+    "approved": false,
+    "clue_id": 10112006
+  },
+  "KNOTTY|like a granny": {
+    "phrase": "That rope's gone all knotty at one end",
+    "approved": false,
+    "clue_id": 10112006
+  },
+  "RAMBLER|one on a trail": {
+    "phrase": "We passed a rambler on the footpath",
+    "approved": false,
+    "clue_id": 10112012
+  },
+  "NERVE|pluck": {
+    "phrase": "It took real nerve to complain|cheek|What a nerve, pushing in like that",
+    "approved": false,
+    "clue_id": 10112036
+  },
+  "ENDLESS|lacking purpose": {
+    "phrase": "We sat through another endless pointless meeting",
+    "approved": false,
+    "clue_id": 10112020
+  },
+  "ENDLESS|never stopping": {
+    "phrase": "The motorway roadworks seem endless this year",
+    "approved": false,
+    "clue_id": 10112020
+  },
+  "NERVE|cheek": {
+    "phrase": "You've got a nerve turning up here",
+    "approved": false,
+    "clue_id": 10112036
+  },
+  "GUIDES|group of girls": {
+    "phrase": "She joined the Guides when she was ten",
+    "approved": false,
+    "clue_id": 10112268
+  },
+  "GUIDES|shows the way": {
+    "phrase": "A friendly local guides us through the old town",
+    "approved": false,
+    "clue_id": 10112268
+  },
+  "INHOTWATER|having trouble": {
+    "phrase": "He's in hot water with his boss",
+    "approved": false,
+    "clue_id": 10112271
+  },
+  "INHOTWATER|bathing": {
+    "phrase": "She soaked in hot water for ages",
+    "approved": false,
+    "clue_id": 10112271
+  },
+  "OUTING|publicly exposing": {
+    "phrase": "The outing of the spy caused uproar",
+    "approved": false,
+    "clue_id": 10112143
+  },
+  "OUTING|sally": {
+    "phrase": "We enjoyed a family outing to Brighton",
+    "approved": false,
+    "clue_id": 10112143
+  },
+  "RANK|downright": {
+    "phrase": "It's rank hypocrisy, coming from him",
+    "approved": false,
+    "clue_id": 10112135
+  },
+  "RANK|offensive": {
+    "phrase": "Those old trainers smell absolutely rank, mate",
+    "approved": false,
+    "clue_id": 10112135
+  },
+  "RANK|sort": {
+    "phrase": "People of every rank and station attended",
+    "approved": false,
+    "clue_id": 10112135
+  },
+  "LORDS|where you might see cricketers play": {
+    "phrase": "England are playing at Lords this summer",
+    "approved": false,
+    "clue_id": 10112144
+  },
+  "LORDS|big shots": {
+    "phrase": "The press lords controlled every national newspaper",
+    "approved": false,
+    "clue_id": 10112144
+  },
+  "BEARS|supports": {
+    "phrase": "The old bridge bears the traffic's weight",
+    "approved": false,
+    "clue_id": 10112297
+  },
+  "BEARS|team in chicago": {
+    "phrase": "The Bears lost again at Soldier Field",
+    "approved": false,
+    "clue_id": 10112297
+  },
+  "FURTHER|more": {
+    "phrase": "Do you have anything further to say?",
+    "approved": false,
+    "clue_id": 10112300
+  },
+  "FURTHER|forward": {
+    "phrase": "We walked further along the river bank",
+    "approved": false,
+    "clue_id": 10112300
+  },
+  "WILLIAMS|pear": {
+    "phrase": "A ripe Williams is lovely with cheese",
+    "approved": false,
+    "clue_id": 10112317
   }
 }
