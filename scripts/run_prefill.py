@@ -22,6 +22,8 @@ this DETACHED so the site never blocks on it) or by hand:
 
     python scripts/run_prefill.py --source telegraph --pnum 3377
     python scripts/run_prefill.py --date 2026-07-11        # catch-up a day
+    python scripts/run_prefill.py --puzzles telegraph:31399,times:29702
+                                     # several puzzles, ONE session per step
     python scripts/run_prefill.py --source telegraph --pnum 3377 --plan
                                                            # print prompt only
 """
@@ -44,6 +46,35 @@ PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_prefill.md"
 REVIEW_PROMPT_FILE = ROOT / "scripts" / "prompts" / "nightly_pass_review.md"
 LOG_DIR = ROOT / "logs"
 
+# Every headless session gets this (user, 2026-11-17). On 11-17 the nightly's six
+# sessions made 47 edits to memory files - one compacted MEMORY.md as
+# "housekeeping" - re-reading the 20 KB index each time. The report in logs/ is
+# the night's record; memory is the interactive sessions' business.
+NO_MEMORY_RULE = (
+    "- MEMORY FILES ARE READ-ONLY in this run. Read a file under "
+    "C:\\Users\\shute\\.claude\\ only when the prompt below names it or a rule "
+    "needs it. NEVER Write or Edit anything there - not MEMORY.md, not "
+    "prefill_nightly_notes.md, not pass_reviews_open.md, no new memory file, no "
+    "compaction or housekeeping. Everything worth keeping goes in the report.")
+
+
+def parse_puzzles(spec):
+    """'telegraph:31399,times:29702' -> [('telegraph', '31399'), ('times', '29702')]"""
+    out = []
+    for item in (spec or "").split(","):
+        item = item.strip()
+        if not item:
+            continue
+        src, _, pnum = item.partition(":")
+        if not (src.strip() and pnum.strip()):
+            raise ValueError("bad --puzzles item %r (want source:pnum)" % item)
+        out.append((src.strip(), pnum.strip()))
+    return out
+
+
+def _puzzle_list_text(puzzles):
+    return ", ".join("%s %s" % (s, p) for s, p in puzzles)
+
 # This script's own stdout is a LOG FILE, never a console, so Python picks the
 # locale encoding (cp1252) for it. Claude's summary routinely contains an arrow
 # or an em dash, and echoing one killed the run AFTER the readings were already
@@ -62,11 +93,23 @@ def log(msg):
     print("[%s] %s" % (time.strftime("%H:%M:%S"), msg), flush=True)
 
 
-def build_prompt(source=None, pnum=None, date=None, report_name=None):
+def build_prompt(source=None, pnum=None, date=None, report_name=None, puzzles=None):
     """The production prefill prompt with an explicit SCOPE OVERRIDE prepended —
     the prompt file itself scopes to "today", which is wrong for an on-demand
     or catch-up run."""
-    if source and pnum:
+    if puzzles:
+        # Several puzzles in ONE session (the nightly, user 2026-11-17): one
+        # session per puzzle loaded the standing context six times a night and
+        # used ~4x the old usage.
+        scope = ("- Scope: these puzzles ONLY, all in this one session: %s. NOT "
+                 "\"today\", and no other puzzle. Work them one puzzle at a time, "
+                 "in that order; run the self-check for each puzzle, and give each "
+                 "puzzle its own section in the one report."
+                 % _puzzle_list_text(puzzles))
+        if any(s not in ("telegraph", "times", "guardian") for s, _ in puzzles):
+            scope += ("\n- A source above that is not a serving paper is still in "
+                      "scope: ignore the \"serving papers\" wording below for it.")
+    elif source and pnum:
         scope = ("- Scope: %s puzzle %s ONLY (on-demand run from the puzzle "
                  "page), NOT \"today\"." % (source, pnum))
         # The prompt below opens "today's SERVING-PAPER puzzles". A source
@@ -89,13 +132,21 @@ def build_prompt(source=None, pnum=None, date=None, report_name=None):
         "This is an ON-DEMAND invocation of the standard nightly prefill "
         "prompt below.\nOverride ONLY the scope; every other rule applies "
         "unchanged:\n\n%s\n- Write the summary report to logs/%s — do NOT "
-        "overwrite any nightly report.\n\n----\n\n" % (scope, report_name))
+        "overwrite any nightly report.\n%s\n\n----\n\n"
+        % (scope, report_name, NO_MEMORY_RULE))
     return override + PROMPT_FILE.read_text(encoding="utf-8")
 
 
-def build_review_prompt(source=None, pnum=None, date=None, report_name=None):
+def build_review_prompt(source=None, pnum=None, date=None, report_name=None,
+                        puzzles=None):
     """The nightly pass-review prompt, scoped the same way as the prefill."""
-    if source and pnum:
+    if puzzles:
+        scope = ("- Scope: the engine passes of these puzzles ONLY, all in this one "
+                 "session: %s. Run the audit command as written once per puzzle "
+                 "and read only those puzzles' blocks; leave every other puzzle's "
+                 "passes alone. One report, a section per puzzle."
+                 % _puzzle_list_text(puzzles))
+    elif source and pnum:
         scope = ("- Scope: the engine passes of %s puzzle %s ONLY. Run the audit "
                  "command as written and read only that puzzle's blocks; leave "
                  "every other puzzle's passes alone." % (source, pnum))
@@ -107,8 +158,8 @@ def build_review_prompt(source=None, pnum=None, date=None, report_name=None):
         "This is an ON-DEMAND invocation of the standard nightly pass review "
         "below, run straight after this puzzle's prefill.\nOverride ONLY the "
         "scope; every other rule applies unchanged:\n\n%s\n- Write the summary "
-        "report to logs/%s — do NOT overwrite any nightly report.\n\n----\n\n"
-        % (scope, report_name))
+        "report to logs/%s — do NOT overwrite any nightly report.\n%s\n\n----\n\n"
+        % (scope, report_name, NO_MEMORY_RULE))
     return override + REVIEW_PROMPT_FILE.read_text(encoding="utf-8")
 
 
@@ -148,18 +199,30 @@ def main():
     ap.add_argument("--source", default=None)
     ap.add_argument("--pnum", default=None)
     ap.add_argument("--date", default=None, help="YYYY-MM-DD (catch-up mode)")
+    ap.add_argument("--puzzles", default=None,
+                    help="source:pnum,source:pnum - several puzzles, ONE Claude "
+                         "session per step (the nightly)")
     ap.add_argument("--skip-cascade", action="store_true")
     ap.add_argument("--skip-prefill", action="store_true",
                     help="run only the follow-on steps (pass review, senses, prose)")
     ap.add_argument("--plan", action="store_true", help="print the prompt, run nothing")
     args = ap.parse_args()
-    if not ((args.source and args.pnum) or args.date):
-        ap.error("need --source + --pnum, or --date")
+    try:
+        puzzles = parse_puzzles(args.puzzles)
+    except ValueError as e:
+        ap.error(str(e))
+    if len(puzzles) == 1:                     # one puzzle = the ordinary scope
+        (args.source, args.pnum), puzzles = puzzles[0], []
+    if not ((args.source and args.pnum) or args.date or puzzles):
+        ap.error("need --source + --pnum, --puzzles, or --date")
 
     stamp = time.strftime("%Y%m%d_%H%M")
-    tag = ("%s_%s" % (args.source, args.pnum)) if args.pnum else args.date
+    if puzzles:
+        tag = "_".join("%s%s" % (s, p) for s, p in puzzles)
+    else:
+        tag = ("%s_%s" % (args.source, args.pnum)) if args.pnum else args.date
     report_name = "prefill_ondemand_%s_%s.md" % (tag, stamp)
-    prompt = build_prompt(args.source, args.pnum, args.date, report_name)
+    prompt = build_prompt(args.source, args.pnum, args.date, report_name, puzzles)
     if args.plan:
         print(prompt)
         return 0
@@ -167,19 +230,23 @@ def main():
     LOG_DIR.mkdir(exist_ok=True)
     # 1. cascade the remainder (idempotent; skips clues that already have a parse)
     if not args.skip_cascade:
-        cargs = [PYTHON_V2, CASCADE_SCRIPT]
-        cargs += (["--source", args.source, "--pnum", str(args.pnum)]
-                  if args.pnum else ["--date", args.date])
-        log("cascade: %s" % " ".join(cargs[2:]))
-        c = subprocess.run(cargs, capture_output=True, text=True,
-                           encoding="utf-8", errors="replace", cwd=str(ROOT),
-                           timeout=3600)
-        for line in (c.stdout or "").splitlines():
-            log("  " + line.strip())
-        if c.returncode != 0:
-            log("cascade failed (exit %d): %s" % (c.returncode,
-                                                  (c.stderr or "")[-300:]))
-            return 1
+        if puzzles:
+            cascades = [["--source", s, "--pnum", str(p)] for s, p in puzzles]
+        else:
+            cascades = [["--source", args.source, "--pnum", str(args.pnum)]
+                        if args.pnum else ["--date", args.date]]
+        for cscope in cascades:
+            cargs = [PYTHON_V2, CASCADE_SCRIPT] + cscope
+            log("cascade: %s" % " ".join(cargs[2:]))
+            c = subprocess.run(cargs, capture_output=True, text=True,
+                               encoding="utf-8", errors="replace", cwd=str(ROOT),
+                               timeout=3600)
+            for line in (c.stdout or "").splitlines():
+                log("  " + line.strip())
+            if c.returncode != 0:
+                log("cascade failed (exit %d): %s" % (c.returncode,
+                                                      (c.stderr or "")[-300:]))
+                return 1
 
     # 2. headless Claude prefill (same invocation as the nightly)
     # The web server's environment carries ANTHROPIC_API_KEY (loaded from .env
@@ -201,26 +268,32 @@ def main():
     # manual version is pointless"). Same order as the nightly: pass review AFTER
     # prefill, so a demotion keeps the engine's claim instead of being re-prefilled.
     # None of them is fatal.
-    scope_args = (["--source", args.source, "--puzzle", str(args.pnum)]
-                  if args.pnum else ["--day", args.date])
+    if puzzles:      # senses + prose are per-clue calls: scope them per puzzle
+        scope_list = [["--source", s, "--puzzle", str(p)] for s, p in puzzles]
+    else:
+        scope_list = [["--source", args.source, "--puzzle", str(args.pnum)]
+                      if args.pnum else ["--day", args.date]]
 
     # 3. read this puzzle's engine passes and hold back the indefensible.
     review_name = "pass_review_ondemand_%s_%s.md" % (tag, stamp)
-    if run_claude(build_review_prompt(args.source, args.pnum, args.date, review_name),
+    if run_claude(build_review_prompt(args.source, args.pnum, args.date, review_name,
+                                      puzzles),
                   "pass review (scope %s)" % tag, claude_env) == 0:
         log("pass review complete — report: logs/%s" % review_name)
 
     # 4. double-definition usage phrases, filed UNAPPROVED (nightly Step 5).
     # --pending: the DDs prefill just filed are pending (2026-11-03 fix).
-    run_step("senses", [PYTHON_V2, str(ROOT / "scripts" / "draft_senses.py"), "--pending"]
-             + scope_args)
+    for scope_args in scope_list:
+        run_step("senses", [PYTHON_V2, str(ROOT / "scripts" / "draft_senses.py"),
+                            "--pending"] + scope_args)
 
     # 5. draft the clue-page prose from the PENDING readings just filed — the
     # nightly's Step 6, scoped to this run. Missing here, the button's puzzles got
     # no prose at all (telegraph 31355, 2026-09-26). Filed UNAPPROVED; never fatal
     # — a missed draft just means no prose block.
-    run_step("prose", [PYTHON_V2, str(ROOT / "scripts" / "draft_prose.py"), "--pending"]
-             + scope_args)
+    for scope_args in scope_list:
+        run_step("prose", [PYTHON_V2, str(ROOT / "scripts" / "draft_prose.py"),
+                           "--pending"] + scope_args)
     log("ALL STEPS COMPLETE (scope %s)" % tag)
     return 0
 
