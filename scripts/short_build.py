@@ -211,6 +211,11 @@ def build(clue_id, voice_off=False):
     ya.run([ff, "-y", "-loglevel", "error", "-i", str(cap / "short.mp4"), "-i", str(held),
             "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac",
             "-b:a", "160k", "-movflags", "+faststart", str(out)])
+    # Working files: the voice is now inside `out`, and the next build synthesises
+    # afresh, so nothing reads them again (user 2026-11-17: don't keep them).
+    for p in (voice, held):
+        if p.is_file() and out.is_file():
+            p.unlink()
     print(out)
     return out
 

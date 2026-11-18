@@ -662,6 +662,15 @@ def run_one(args):
     record(conn, args.source, puzzle["number"], vid, title, args.privacy)
     print("\nuploaded: https://www.youtube.com/watch?v=%s  (%s)" % (vid, args.privacy))
     print("recorded in ledger — this puzzle will not be uploaded again.")
+    # The local copy has no further use once YouTube has it and the ledger says so
+    # (nothing else reads video.mp4; a ledgered puzzle returns above before looking
+    # for it). ~75 MB a puzzle — user 2026-11-17: "useless after a day anyway".
+    try:
+        mb = video.stat().st_size / 1e6
+        video.unlink()
+        print("local video.mp4 removed (%.0f MB)." % mb)
+    except OSError as e:
+        print("could not remove local video.mp4 (%s) — upload unaffected." % e)
     args._outcome = "uploaded"
     return 0
 

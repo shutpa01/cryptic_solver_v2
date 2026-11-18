@@ -558,15 +558,35 @@ def main():
     # The clue pages' Listen button: each clue's stretch of the take she just
     # recorded, exported NOW so the words it is stamped with are the words she read
     # (scripts/export_clue_audio.py). Never allowed to cost the video.
+    exported = True
     if track:
         try:
             from scripts.export_clue_audio import export      # lazy: it imports us
             for line in export(cap):
                 print(line)
         except Exception as e:
+            exported = False
             print("clue audio export failed (%s: %s) — the video is unaffected."
                   % (type(e).__name__, e))
+    # The wavs are working files: the video holds the mix and data/clue_audio holds
+    # the per-clue mp3s, and nothing reads them again (no step reuses a take — every
+    # build synthesises afresh). Left behind they cost ~0.25 GB a puzzle (95 GB by
+    # 2026-11-17; user: don't keep them once no longer required). Kept ONLY when the
+    # export failed, so `export_clue_audio.py --dir` can still catch it up by hand.
+    if exported:
+        drop_working_audio(cap)
     return 0
+
+
+def drop_working_audio(cap):
+    """Delete a finished build's wav working files from its capture dir."""
+    freed = 0
+    for p in list(cap.glob("narration*.wav")) + [cap / "intro_voice.wav"]:
+        if p.is_file():
+            freed += p.stat().st_size
+            p.unlink()
+    if freed:
+        print("working audio removed: %.0f MB" % (freed / 1e6))
 
 
 if __name__ == "__main__":

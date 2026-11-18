@@ -163,19 +163,48 @@ def build_review_prompt(source=None, pnum=None, date=None, report_name=None,
     return override + REVIEW_PROMPT_FILE.read_text(encoding="utf-8")
 
 
-def run_claude(prompt, label, env):
-    """Headless Claude, the same invocation as the nightly. Returns the exit code."""
-    log("%s: claude -p ..." % label)
-    r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
-                        "--dangerously-skip-permissions"],
-                       cwd=str(ROOT), stdin=subprocess.DEVNULL,
-                       capture_output=True, text=True, encoding="utf-8",
-                       errors="replace", timeout=5400, env=env)
-    for line in (r.stdout or "").strip().splitlines()[-25:]:
-        log("  " + line)
-    if r.returncode != 0:
-        log("%s failed (exit %d): %s" % (label, r.returncode, (r.stderr or "")[-500:]))
-    return r.returncode
+CLAUDE_RETRY_PAUSE = 300   # seconds before the one rerun of a failed session
+# A failure whose output says any of these is NOT a dropped connection: rerunning
+# would only spend more (memory: billing error = STOP). Lower-case substrings.
+NO_RETRY_MARKERS = ("usage limit", "limit reached", "rate limit", "credit balance",
+                    "billing", "invalid api key", "please run /login", "not logged in")
+
+
+def run_claude(prompt, label, env, pause=CLAUDE_RETRY_PAUSE):
+    """Headless Claude, the same invocation as the nightly. Returns the exit code.
+
+    ONE RERUN on failure (user, 2026-11-18: travel is normal, connections are
+    sketchy). Safe because the prefill scope skips every clue that already has a
+    wfw_hs_assignments row and file_pending_prefill never overwrites — a rerun only
+    picks up what the dropped session had not filed. Not rerun on a limit/billing/
+    login failure, nor on the 90-minute timeout (that is not a dropout).
+    """
+    rc = 1
+    for n in (1, 2):
+        log("%s: claude -p ...%s" % (label, "" if n == 1 else " (RERUN after failure)"))
+        r = subprocess.run([CLAUDE_EXE, "-p", prompt, "--model", CLAUDE_MODEL,
+                            "--dangerously-skip-permissions"],
+                           cwd=str(ROOT), stdin=subprocess.DEVNULL,
+                           capture_output=True, text=True, encoding="utf-8",
+                           errors="replace", timeout=5400, env=env)
+        for line in (r.stdout or "").strip().splitlines()[-25:]:
+            log("  " + line)
+        rc = r.returncode
+        if rc == 0:
+            return 0
+        err = (r.stderr or "")[-500:]
+        log("%s failed (exit %d): %s" % (label, rc, err))
+        text = ((r.stdout or "")[-2000:] + err).lower()
+        hit = [m for m in NO_RETRY_MARKERS if m in text]
+        if hit:
+            log("%s: not rerun — failure mentions %r (a limit/billing/login stop, "
+                "not a dropped connection)." % (label, hit[0]))
+            return rc
+        if n == 1:
+            log("%s: rerunning once in %ds (a dropped connection is the usual cause)."
+                % (label, pause))
+            time.sleep(pause)
+    return rc
 
 
 def run_step(label, pargs):

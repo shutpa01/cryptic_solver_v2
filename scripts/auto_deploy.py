@@ -148,19 +148,39 @@ def _win_to_msys(p):
     return s
 
 
-def _run(cmd, timeout, dry_run, label):
-    """Run a command, or print it under --dry-run. Returns (ok, output)."""
+RUN_ATTEMPTS = 3        # tries per ssh/rsync command
+RUN_RETRY_PAUSE = 60    # seconds between tries
+
+
+def _run(cmd, timeout, dry_run, label, attempts=RUN_ATTEMPTS, pause=RUN_RETRY_PAUSE):
+    """Run a command, or print it under --dry-run. Returns (ok, output).
+
+    RETRIES (user, 2026-11-18: "travel is normal for us and we are often at the
+    mercy of sketchy connections"). A dropped connection used to fail the whole
+    deploy on the first try. Every command sent through here is safe to repeat:
+    rsync -c copies only what differs and renames into place, the snapshot command
+    only creates a missing file, restart/curl/warm are idempotent.
+    """
     if dry_run:
         log("  [dry-run] %s: %s" % (label, cmd if isinstance(cmd, str) else " ".join(cmd)))
         return True, "(dry run)"
-    try:
-        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
-                           encoding="utf-8", errors="replace")
-        if r.returncode == 0:
-            return True, (r.stdout or "").strip()
-        return False, (r.stderr or r.stdout or "failed").strip()
-    except Exception as e:
-        return False, str(e)
+    out = "failed"
+    for n in range(1, attempts + 1):
+        try:
+            r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
+                               encoding="utf-8", errors="replace")
+            if r.returncode == 0:
+                if n > 1:
+                    log("  %s succeeded on try %d." % (label, n))
+                return True, (r.stdout or "").strip()
+            out = (r.stderr or r.stdout or "failed").strip()
+        except Exception as e:
+            out = str(e)
+        if n < attempts:
+            log("  %s failed (try %d of %d): %s — retrying in %ds."
+                % (label, n, attempts, out[-200:], pause))
+            time.sleep(pause)
+    return False, out
 
 
 def rsync(local_path, remote_rel, timeout, dry_run, label):
