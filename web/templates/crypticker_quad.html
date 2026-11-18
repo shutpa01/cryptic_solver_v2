@@ -174,11 +174,13 @@ const lastCells = new Set(E[LASTI].cells.map(key));
 const crossN = E.map((e, i) => i === LASTI ? 0 : e.cells.filter(rc => lastCells.has(key(rc))).length);
 const lettersWord = n => n === 1 ? "letter" : "letters";
 const crossHTML = (n, text) => '<span class="cn">' + n + "</span><span>" + text + "</span>";
-// grid numbers = question numbers, on each entry's first square inside the window
+// grid numbers = question numbers, ONLY on an entry's real start square; an entry
+// starting outside the window gets no number (never a number mid-answer)
 const qnumAt = {};
 E.forEach((e, i) => {
-  const rc = e.cells.find(([r, c]) => r >= 0 && c >= 0 && r < G.window.length && c < G.window[0].length);
-  if (rc) (qnumAt[key(rc)] = qnumAt[key(rc)] || []).push(i + 1);
+  const [r, c] = e.cells[0];
+  if (r >= 0 && c >= 0 && r < G.window.length && c < G.window[0].length)
+    (qnumAt[key(e.cells[0])] = qnumAt[key(e.cells[0])] || []).push(i + 1);
 });
 (function countCard(){
   el("ccount").textContent = N + " clues";
