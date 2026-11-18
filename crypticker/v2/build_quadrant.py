@@ -16,8 +16,9 @@ crossing letters the player earned. Score = 1 per clue + 3 for the last.
     grid. 6-7: served whole. 8+: trimmed to 7, fewest crossings dropped first,
     never splitting it. 5 or fewer: never served. Every served clue must be
     playable (reviewed, no reference to another clue, answer fills its squares).
-  - the grid shown is always the 8x8 corner (a clue starting outside it shows its
-    number on its first square inside); long answers run off the edge.
+  - the grid shown is always the 8x8 corner, and every served answer fits wholly
+    inside it (user 2026-11-18): an entry that runs off the edge is not in the
+    corner at all.
   - publication rotates day by day: Times, Telegraph, Guardian, Toughie.
 
     python crypticker/v2/build_quadrant.py [YYYY-MM-DD]
@@ -105,6 +106,10 @@ def quadrants(source, number, reviewed):
         for k, cells in sorted(ents.items(), key=lambda kv: (kv[0][1] != "across", kv[0][0])):
             if sum(rows_ok(r) and cols_ok(c) for r, c in cells) * 2 <= len(cells):
                 continue
+            # user 2026-11-18: an answer that does not fit the 8x8 window is never
+            # served (LEADING MAN ran 2 squares off the top, unseen by the player)
+            if not all(r0 <= r < r0 + WINDOW and c0 <= c < c0 + WINDOW for r, c in cells):
+                continue
             cid, ans = clue_of.get(k, (None, None))
             playable = cid in reviewed and len(_letters(ans)) == len(cells)
             corner.append((k, cells, cid, playable))
@@ -167,9 +172,7 @@ def build_game(source, number, qname, corner, grid, origin, rng):
     if not last_pool:
         return None, "no clue crosses %d others" % MIN_CROSSINGS
     last = rng.choice(last_pool)
-    # the window: always the 8x8 corner. A clue that starts outside it shows its
-    # number on its first square inside (stretching to the real start made
-    # SUSPENDER BELT's corner 13 wide)
+    # the window: always the 8x8 corner; quadrants() admits only entries wholly inside it
     r0, c0 = origin
     r1, c1 = r0 + WINDOW - 1, c0 + WINDOW - 1
     inside = lambda rc: r0 <= rc[0] <= r1 and c0 <= rc[1] <= c1

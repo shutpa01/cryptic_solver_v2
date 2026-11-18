@@ -54,13 +54,33 @@
              padding:5px 8px;border-radius:6px;background:#f1f5f9;color:#475569;min-width:7.5rem;text-align:center}
   .box .got{display:flex;flex-direction:column;gap:4px;font-size:14px;padding-top:3px}
   .placed{font-weight:600}
+  /* right / wrong — instant and unmistakable (user 2026-11-18) */
+  .box{position:relative}
+  .box.filled{border:2px solid #16a34a;background:#f0fdf4}
+  .box.filled,.box.bad,.box.right{padding-right:46px}
+  .box.okflash{animation:okflash .6s}
+  @keyframes okflash{0%{background:#86efac}100%{background:#f0fdf4}}
+  .box.bad,.chip.bad{border:2px solid #dc2626!important;background:#fee2e2!important;color:#991b1b!important}
+  .box.right{border:2px solid #16a34a!important;background:#dcfce7!important}
+  .mark{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:30px;font-weight:900;line-height:1;
+        pointer-events:none}
+  .mark.ok{color:#16a34a}.mark.bad{color:#dc2626}
+  .mark.fade{animation:markfade .6s forwards}
+  @keyframes markfade{0%{opacity:1;transform:translateY(-50%) scale(1.4)}60%{opacity:1;transform:translateY(-50%) scale(1)}
+                      100%{opacity:.85;transform:translateY(-50%) scale(1)}}
+  .answ{position:relative}
+  .answ .mark{right:14px;top:calc(50% - 5px)}
+  .answer.bad{border-color:#dc2626;background:#fee2e2;color:#991b1b}
+  .answer.good{border-color:#16a34a;background:#dcfce7;color:#14532d}
+  .sq.okfill{background:#bbf7d0;color:#14532d}
   .answer{width:100%;font-size:22px;font-family:ui-monospace,monospace;font-weight:800;letter-spacing:.15em;
           text-transform:uppercase;padding:12px;border:2px solid #1e293b;border-radius:12px;margin-bottom:10px}
   .btn{border:none;border-radius:12px;padding:14px 18px;font-size:16px;font-weight:800;cursor:pointer;width:100%}
   .btn.primary{background:#1e293b;color:#fff}
   .intro p{line-height:1.5;margin:0 0 10px}
-  .verdict{font-weight:900;font-size:15px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 10px}
-  .verdict.ok{color:#15803d}.verdict.miss{color:#b45309}
+  .verdict{font-weight:900;font-size:26px;line-height:1.2;color:#fff;border-radius:12px;padding:14px 16px;margin:0 0 12px}
+  .verdict.ok{background:#16a34a}.verdict.miss{background:#dc2626}
+  .verdict .why{display:block;font-size:15px;font-weight:700;opacity:.95;margin-top:4px}
   /* completed WFW — mirrors web/templates/partials/wfw_full.html */
   .wfw .badge{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
               padding:4px 10px;border-radius:999px;background:#e0e7ff;color:#4338ca;margin-bottom:10px}
@@ -141,7 +161,7 @@
       <div class="boxes" id="boxes"></div>
     </div>
     <div id="typein" class="hidden">
-      <input class="answer" id="answer" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+      <div class="answ"><input class="answer" id="answer" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go"><span class="mark" id="amark"></span></div>
       <button class="btn primary" onclick="submitLast()">Enter</button>
     </div>
   </div>
@@ -163,6 +183,8 @@ if (ADMIN){
 function el_(id){ return document.getElementById(id); }
 const E = G.entries, N = E.length;
 let idx = 0, left = 0, total = 0, timer = null, sel = null, placed = [], slots = [], results = [];
+let busy = false, flashK = null;               // busy: clue decided, showing ✓/✗ before the reveal
+const MARK_OK = '<span class="mark ok">✓</span>', MARK_BAD = '<span class="mark bad">✗</span>';
 const won = new Set();                          // entry indexes whose answers are in the grid
 const el = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -208,7 +230,7 @@ function drawGrid(){
     if (sq.t === "o") return '<div class="sq o"></div>';
     const k = r + "," + c;
     let cls = "sq";
-    if (playing && cur.has(k)) cls += isLast() ? " last" : " cur";
+    if (playing && cur.has(k)) cls += isLast() ? (won.has(idx) ? " okfill" : " last") : " cur";
     return '<div class="' + cls + '">' + (qnumAt[k] ? '<span class="n">' + qnumAt[k].join("/") + "</span>" : "")
          + (L[k] || "") + "</div>";
   }).join("")).join("");
@@ -219,7 +241,7 @@ function start(){ el("intro").classList.add("hidden"); el("countcard").classList
 
 function load(){
   const e = E[idx];
-  sel = null; placed = e.chips.map(() => false);
+  sel = null; placed = e.chips.map(() => false); busy = false; flashK = null;
   // one box per piece: each box name repeated once for every chip that belongs in it
   slots = (e.boxes || []).flatMap(name => e.chips.filter(ch => ch.box === name).map(() => ({name, chip: null})));
   total = left = e.is_last ? G.last_seconds : G.clue_seconds;
@@ -244,7 +266,7 @@ function load(){
   if (e.is_last){
     drawGrid();
     // focus inside the Next tap so a phone opens its keyboard
-    const a = el("answer"); a.value = ""; a.focus();
+    const a = el("answer"); a.value = ""; a.className = "answer"; el("amark").innerHTML = ""; a.focus();
   } else render();
   tick(); clearInterval(timer); timer = setInterval(tick, 1000);
 }
@@ -281,7 +303,7 @@ function render(){
   const typeQ = !!c.choices;          // CD / DD / &lit: pick the clue type
   el("poollabel").classList.toggle("hidden", typeQ);
   el("pool").classList.toggle("hidden", typeQ);
-  el("boxlabel").textContent = typeQ ? "What type of clue is this?" : "Boxes";
+  el("boxlabel").textContent = typeQ ? "What type of clue is this? One guess only" : "Boxes";
   if (typeQ){ renderChoices(c); return; }
   const pool = el("pool"); pool.innerHTML = "";
   c.chips.forEach((ch, i) => {
@@ -295,54 +317,87 @@ function render(){
   const boxes = el("boxes"); boxes.innerHTML = "";
   slots.forEach((sl, k) => {
     const d = document.createElement("div");
-    d.className = "box" + (sel !== null && sl.chip === null ? " armed" : "");
+    d.id = "box" + k;
+    d.className = "box" + (sel !== null && sl.chip === null ? " armed" : "")
+                + (sl.chip !== null ? " filled" : "") + (k === flashK ? " okflash" : "");
     const ch = sl.chip === null ? null : c.chips[sl.chip];
     const got = ch ? '<div class="placed">' + (ch.detail_html || esc(ch.detail || ch.text)) + "</div>" : "";
-    d.innerHTML = '<span class="pill">' + esc(sl.name) + '</span><div class="got">' + got + "</div>";
+    d.innerHTML = '<span class="pill">' + esc(sl.name) + '</span><div class="got">' + got + "</div>"
+                + (ch ? (k === flashK ? '<span class="mark ok fade">✓</span>' : MARK_OK) : "");
     d.onclick = () => assign(k);
     boxes.appendChild(d);
   });
+  flashK = null;                       // the flash plays once; later renders keep the plain ✓
 }
 
 function renderChoices(c){
   const boxes = el("boxes"); boxes.innerHTML = "";
-  c.choices.forEach(name => {
+  c.choices.forEach((name, k) => {
     const d = document.createElement("div");
-    d.className = "box armed";
+    d.className = "box armed"; d.id = "choice" + k;
     d.innerHTML = '<span class="pill">' + esc(name) + "</span>";
-    d.onclick = () => {
-      if (name === c.operation_label){ finish(true); return; }
-      d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
-    };
+    // one shot (user 2026-11-18): a wrong pick loses the clue
+    d.onclick = () => pickType(k);
     boxes.appendChild(d);
   });
 }
 
+function pickType(k){
+  if (busy) return;
+  const c = E[idx], ok = c.choices[k] === c.operation_label;
+  busy = true; clearInterval(timer);
+  const d = el("choice" + k);
+  if (ok) d.classList.add("right", "okflash"); else d.classList.add("bad", "shake");   // a shake only ever means wrong d.insertAdjacentHTML("beforeend", ok ? MARK_OK : MARK_BAD);
+  if (!ok){                             // show which one it was
+    const r = el("choice" + c.choices.indexOf(c.operation_label));
+    if (r){ r.classList.add("right"); r.insertAdjacentHTML("beforeend", MARK_OK); }
+  }
+  setTimeout(() => ok ? finish(true) : finish(false, "Wrong type"), 1100);
+}
+
 function assign(k){
-  if (sel === null || slots[k].chip !== null) return;     // a filled box takes nothing more
+  if (busy || sel === null || slots[k].chip !== null) return;     // a filled box takes nothing more
   const c = E[idx], i = sel;
   if (c.chips[i].box === slots[k].name){
-    placed[i] = true; slots[k].chip = i; sel = null; render();
-    if (placed.every(Boolean)) finish(true);
+    placed[i] = true; slots[k].chip = i; sel = null; flashK = k; render();
+    if (placed.every(Boolean)){         // let the last ✓ register before the reveal
+      busy = true; clearInterval(timer);
+      setTimeout(() => finish(true), 700);
+    }
   } else {
-    const chip = el("chip" + i); sel = null;
-    chip.classList.remove("sel"); chip.classList.add("shake");
-    setTimeout(render, 350);
+    const chip = el("chip" + i), box = el("box" + k); sel = null;
+    chip.classList.remove("sel"); chip.classList.add("shake", "bad");
+    box.classList.remove("armed"); box.classList.add("shake", "bad");
+    box.insertAdjacentHTML("beforeend", MARK_BAD);
+    setTimeout(render, 650);
   }
 }
 
 /* ---------- last clue: type it in ---------- */
 function submitLast(){
+  if (busy) return;
   const a = el("answer"), guess = a.value.toUpperCase().replace(/[^A-Z]/g, "");
-  if (guess === E[idx].letters){ finish(true); return; }
-  a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake");   // wrong: costs time only
+  if (!guess) return;
+  if (guess === E[idx].letters){
+    busy = true; clearInterval(timer); won.add(idx);
+    a.className = "answer good"; el("amark").innerHTML = MARK_OK;
+    drawGrid();                                         // answer squares turn green
+    setTimeout(() => finish(true), 1000);
+    return;
+  }
+  a.className = "answer bad"; el("amark").innerHTML = MARK_BAD;                  // wrong: costs time only
+  void a.offsetWidth; a.classList.add("shake");
 }
+el("answer").addEventListener("input", () => {        // typing again clears the red
+  if (busy) return;
+  el("answer").className = "answer"; el("amark").innerHTML = "";
+});
 document.addEventListener("keydown", ev => {
   if (ev.key === "Enter" && idx < N && isLast() && !el("play").classList.contains("hidden")) submitLast();
 });
 
 /* ---------- reveal + end ---------- */
-function finish(ok){
+function finish(ok, why){
   clearInterval(timer);
   results[idx] = ok;
   if (ok) won.add(idx);
@@ -352,7 +407,8 @@ function finish(ok){
       + esc(r.pill) + '</span><span class="det">' + (r.detail_html || esc(r.detail)) + "</span></div>").join("");
   const s = c.source || {};
   el("reveal").innerHTML =
-      '<p class="verdict ' + (ok ? "ok" : "miss") + '">' + (ok ? "Completed" : "Time's up — " + esc(c.answer)) + "</p>"
+      '<p class="verdict ' + (ok ? "ok" : "miss") + '">'
+      + (ok ? "✓ Solved" : "✗ Missed — " + esc(c.answer) + '<span class="why">' + esc(why || "Time's up") + "</span>") + "</p>"
     + (c.is_last ? "" : '<div class="cross' + (ok && crossN[idx] ? "" : " none") + '">'
         + crossHTML(ok ? crossN[idx] : 0, crossN[idx] === 0 ? "letters for the last clue — this one doesn't cross it"
            : ok ? lettersWord(crossN[idx]) + " won for the last clue"

@@ -1,0 +1,1226 @@
+{
+ "id": "telegraph-31379-top-left",
+ "status": "approved",
+ "built_at": "2026-11-18T17:10:26+00:00",
+ "approved_at": "2026-11-18T20:16:49+00:00",
+ "release_date": "2026-11-18",
+ "game": {
+  "puzzle": {
+   "source": "telegraph",
+   "number": "31379",
+   "quadrant": "top left"
+  },
+  "window": [
+   [
+    {
+     "t": "w",
+     "n": 1
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 2
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": 3
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 9
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "w",
+     "n": 13
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "b"
+    }
+   ]
+  ],
+  "entries": [
+   {
+    "clue_id": 10104942,
+    "clue": "A wader’s swimming away from the shore",
+    "enum": "7",
+    "answer": "SEAWARD",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "1A",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Charade + anagram",
+    "summary": "anagram of \"A\" \"wader’s\" → SEAWARD",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "W",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "R",
+      "source_index": 1
+     },
+     {
+      "char": "D",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Anagram of",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "A"
+     },
+     {
+      "pill": "Anagram of",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "wader’s→WADERS anagram"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"swimming\" — anagram indicator"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"away from the shore\" → SEAWARD"
+     }
+    ],
+    "chips": [
+     {
+      "text": "A",
+      "box": "Anagram of",
+      "pos": 0,
+      "si": 0,
+      "detail": "A",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "wader’s",
+      "box": "Anagram of",
+      "pos": 2,
+      "si": 1,
+      "detail": "wader’s→WADERS anagram",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "swimming",
+      "box": "Indicator: rearrange",
+      "pos": 10,
+      "si": null,
+      "detail": "\"swimming\" — anagram indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "away from the shore",
+      "box": "Definition",
+      "pos": 19,
+      "si": null,
+      "detail": "\"away from the shore\" → SEAWARD",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Anagram of",
+     "Indicator: rearrange",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "1 Across",
+    "cells": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      3
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      0,
+      5
+     ],
+     [
+      0,
+      6
+     ]
+    ],
+    "letters": "SEAWARD",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10104944,
+    "clue": "Piano covered by antique object, a copy",
+    "enum": "7",
+    "answer": "REPLICA",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "9A",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Container + charade",
+    "summary": "antique object→RELIC around Piano→P + A → REPLICA",
+    "answer_tiles": [
+     {
+      "char": "R",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     },
+     {
+      "char": "P",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 1
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "C",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 2
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Substitution",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Piano→P"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"covered by\" — container indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "antique object→RELIC"
+     },
+     {
+      "pill": "Literal",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "A"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"copy\" → REPLICA"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Piano",
+      "box": "Substitution",
+      "pos": 0,
+      "si": 0,
+      "detail": "Piano→P",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "covered by",
+      "box": "Indicator: insert",
+      "pos": 6,
+      "si": null,
+      "detail": "\"covered by\" — container indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "antique object",
+      "box": "Synonym",
+      "pos": 17,
+      "si": 1,
+      "detail": "antique object→RELIC",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "a",
+      "box": "Literal",
+      "pos": 33,
+      "si": 2,
+      "detail": "A",
+      "detail_html": null,
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     },
+     {
+      "text": "copy",
+      "box": "Definition",
+      "pos": 35,
+      "si": null,
+      "detail": "\"copy\" → REPLICA",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Substitution",
+     "Indicator: insert",
+     "Synonym",
+     "Literal",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "9 Across",
+    "cells": [
+     [
+      2,
+      0
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      4
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      2,
+      6
+     ]
+    ],
+    "letters": "REPLICA",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10104948,
+    "clue": "On the way back, strips drop off",
+    "enum": "5",
+    "answer": "SLEEP",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "13A",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Reversal",
+    "summary": "strips→PEELS reversed → SLEEP",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "P",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8"
+    },
+    "src_fill": {
+     "0": "#e3f0fb"
+    },
+    "rows": [
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"On the way back\" — reversal indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "strips→PEELS reversed"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"drop off\" → SLEEP"
+     }
+    ],
+    "chips": [
+     {
+      "text": "On the way back",
+      "box": "Indicator: reverse",
+      "pos": 0,
+      "si": null,
+      "detail": "\"On the way back\" — reversal indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "strips",
+      "box": "Synonym",
+      "pos": 17,
+      "si": 0,
+      "detail": "strips→PEELS reversed",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "drop off",
+      "box": "Definition",
+      "pos": 24,
+      "si": null,
+      "detail": "\"drop off\" → SLEEP",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Indicator: reverse",
+     "Synonym",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "13 Across",
+    "cells": [
+     [
+      6,
+      0
+     ],
+     [
+      6,
+      1
+     ],
+     [
+      6,
+      2
+     ],
+     [
+      6,
+      3
+     ],
+     [
+      6,
+      4
+     ]
+    ],
+    "letters": "SLEEP",
+    "is_last": false,
+    "crosses": 2
+   },
+   {
+    "clue_id": 10104958,
+    "clue": "Son sheds tears about book’s writers",
+    "enum": "7",
+    "answer": "SCRIBES",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "1D",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Container + charade",
+    "summary": "Son→S + sheds tears→CRIES around book’s→B → SCRIBES",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "C",
+      "source_index": 1
+     },
+     {
+      "char": "R",
+      "source_index": 1
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "B",
+      "source_index": 2
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Substitution",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Son→S"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "sheds tears→CRIES"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"about\" — container indicator"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "book’s→B"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"writers\" → SCRIBES"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Son",
+      "box": "Substitution",
+      "pos": 0,
+      "si": 0,
+      "detail": "Son→S",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "sheds tears",
+      "box": "Synonym",
+      "pos": 4,
+      "si": 1,
+      "detail": "sheds tears→CRIES",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "about",
+      "box": "Indicator: insert",
+      "pos": 16,
+      "si": null,
+      "detail": "\"about\" — container indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "book’s",
+      "box": "Substitution",
+      "pos": 22,
+      "si": 2,
+      "detail": "book’s→B",
+      "detail_html": null,
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     },
+     {
+      "text": "writers",
+      "box": "Definition",
+      "pos": 29,
+      "si": null,
+      "detail": "\"writers\" → SCRIBES",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Substitution",
+     "Synonym",
+     "Indicator: insert",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "1 Down",
+    "cells": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      2,
+      0
+     ],
+     [
+      3,
+      0
+     ],
+     [
+      4,
+      0
+     ],
+     [
+      5,
+      0
+     ],
+     [
+      6,
+      0
+     ]
+    ],
+    "letters": "SCRIBES",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10104959,
+    "clue": "Pacify primate that’s fed edible seeds",
+    "enum": "7",
+    "answer": "APPEASE",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "2D",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Container",
+    "summary": "primate→APE around edible seeds→PEAS → APPEASE",
+    "answer_tiles": [
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "P",
+      "source_index": 0
+     },
+     {
+      "char": "P",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Pacify\" → APPEASE"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "primate→APE"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"that’s\""
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"fed\" — container indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "edible seeds→PEAS"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Pacify",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Pacify\" → APPEASE",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "primate",
+      "box": "Synonym",
+      "pos": 7,
+      "si": 0,
+      "detail": "primate→APE",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "that’s",
+      "box": "Link word",
+      "pos": 15,
+      "si": null,
+      "detail": "\"that’s\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "fed",
+      "box": "Indicator: insert",
+      "pos": 22,
+      "si": null,
+      "detail": "\"fed\" — container indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "edible seeds",
+      "box": "Synonym",
+      "pos": 26,
+      "si": 1,
+      "detail": "edible seeds→PEAS",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym",
+     "Link word",
+     "Indicator: insert"
+    ],
+    "choices": null,
+    "label": "2 Down",
+    "cells": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      2
+     ],
+     [
+      3,
+      2
+     ],
+     [
+      4,
+      2
+     ],
+     [
+      5,
+      2
+     ],
+     [
+      6,
+      2
+     ]
+    ],
+    "letters": "APPEASE",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10104960,
+    "clue": "Cheers commercial with Apple software",
+    "enum": "5",
+    "answer": "ADIOS",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "31379",
+     "position": "3D",
+     "pub_date": "2026-10-24"
+    },
+    "operation_label": "Charade",
+    "summary": "commercial→AD + Apple software→IOS → ADIOS",
+    "answer_tiles": [
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "D",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "O",
+      "source_index": 1
+     },
+     {
+      "char": "S",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Cheers\" → ADIOS"
+     },
+     {
+      "pill": "Substitution",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "commercial→AD"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"with\""
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "Apple software→IOS"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Cheers",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Cheers\" → ADIOS",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "commercial",
+      "box": "Substitution",
+      "pos": 7,
+      "si": 0,
+      "detail": "commercial→AD",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "with",
+      "box": "Link word",
+      "pos": 18,
+      "si": null,
+      "detail": "\"with\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "Apple software",
+      "box": "Synonym",
+      "pos": 23,
+      "si": 1,
+      "detail": "Apple software→IOS",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Substitution",
+     "Link word",
+     "Synonym"
+    ],
+    "choices": null,
+    "label": "3 Down",
+    "cells": [
+     [
+      0,
+      4
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      2,
+      4
+     ],
+     [
+      3,
+      4
+     ],
+     [
+      4,
+      4
+     ]
+    ],
+    "letters": "ADIOS",
+    "is_last": true,
+    "crosses": 2
+   }
+  ],
+  "clue_seconds": 30,
+  "last_seconds": 30,
+  "last_points": 3
+ }
+}

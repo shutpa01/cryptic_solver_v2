@@ -1,0 +1,1387 @@
+{
+ "id": "telegraph-3381-top-right",
+ "status": "to_test",
+ "built_at": "2026-11-18T20:03:54+00:00",
+ "approved_at": null,
+ "release_date": null,
+ "game": {
+  "puzzle": {
+   "source": "telegraph",
+   "number": "3381",
+   "quadrant": "top right"
+  },
+  "window": [
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 3
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 4
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 5
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 6
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 10
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 12
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": 15
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "w",
+     "n": null
+    }
+   ],
+   [
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "b"
+    },
+    {
+     "t": "b"
+    }
+   ],
+   [
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "w",
+     "n": null
+    },
+    {
+     "t": "o"
+    },
+    {
+     "t": "o"
+    }
+   ]
+  ],
+  "entries": [
+   {
+    "clue_id": 10083944,
+    "clue": "Holidaymaker in suit or pants, cap in turquoise",
+    "enum": "7",
+    "answer": "TOURIST",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "10A",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Charade + anagram + selection",
+    "summary": "anagram of \"suit or\" + turquoise→T → TOURIST",
+    "answer_tiles": [
+     {
+      "char": "T",
+      "source_index": 1
+     },
+     {
+      "char": "O",
+      "source_index": 0
+     },
+     {
+      "char": "U",
+      "source_index": 0
+     },
+     {
+      "char": "R",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "T",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Holidaymaker\" → TOURIST"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"in\""
+     },
+     {
+      "pill": "Anagram of",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "suit or→SUITOR anagram"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"pants\" — anagram indicator"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"cap\" — selection/first indicator"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"in\""
+     },
+     {
+      "pill": "Letters from",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "turquoise→T",
+      "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">t</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">q</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">e</span>→T"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Holidaymaker",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Holidaymaker\" → TOURIST",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "in",
+      "box": "Link word",
+      "pos": 13,
+      "si": null,
+      "detail": "\"in\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "suit or",
+      "box": "Anagram of",
+      "pos": 16,
+      "si": 0,
+      "detail": "suit or→SUITOR anagram",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "pants",
+      "box": "Indicator: rearrange",
+      "pos": 24,
+      "si": null,
+      "detail": "\"pants\" — anagram indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "cap",
+      "box": "Indicator: select letters",
+      "pos": 31,
+      "si": null,
+      "detail": "\"cap\" — selection/first indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "in",
+      "box": "Link word",
+      "pos": 35,
+      "si": null,
+      "detail": "\"in\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "turquoise",
+      "box": "Letters from",
+      "pos": 38,
+      "si": 1,
+      "detail": "turquoise→T",
+      "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">t</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">q</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">o</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">e</span>→T",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Link word",
+     "Anagram of",
+     "Indicator: rearrange",
+     "Indicator: select letters",
+     "Letters from"
+    ],
+    "choices": null,
+    "label": "10 Across",
+    "cells": [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      1,
+      4
+     ],
+     [
+      1,
+      5
+     ],
+     [
+      1,
+      6
+     ],
+     [
+      1,
+      7
+     ]
+    ],
+    "letters": "TOURIST",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10083946,
+    "clue": "Punishment, writer given cane, unfortunately",
+    "enum": "7",
+    "answer": "PENANCE",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "12A",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Charade + anagram",
+    "summary": "writer→PEN + anagram of \"cane\" → PENANCE",
+    "answer_tiles": [
+     {
+      "char": "P",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "N",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "N",
+      "source_index": 1
+     },
+     {
+      "char": "C",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Punishment\" → PENANCE"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "writer→PEN"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"given\""
+     },
+     {
+      "pill": "Anagram of",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "CANE anagram"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"unfortunately\" — anagram indicator"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Punishment",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Punishment\" → PENANCE",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "writer",
+      "box": "Synonym",
+      "pos": 12,
+      "si": 0,
+      "detail": "writer→PEN",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "given",
+      "box": "Link word",
+      "pos": 19,
+      "si": null,
+      "detail": "\"given\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "cane",
+      "box": "Anagram of",
+      "pos": 25,
+      "si": 1,
+      "detail": "CANE anagram",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "unfortunately",
+      "box": "Indicator: rearrange",
+      "pos": 31,
+      "si": null,
+      "detail": "\"unfortunately\" — anagram indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym",
+     "Link word",
+     "Anagram of",
+     "Indicator: rearrange"
+    ],
+    "choices": null,
+    "label": "12 Across",
+    "cells": [
+     [
+      3,
+      1
+     ],
+     [
+      3,
+      2
+     ],
+     [
+      3,
+      3
+     ],
+     [
+      3,
+      4
+     ],
+     [
+      3,
+      5
+     ],
+     [
+      3,
+      6
+     ],
+     [
+      3,
+      7
+     ]
+    ],
+    "letters": "PENANCE",
+    "is_last": false,
+    "crosses": 4
+   },
+   {
+    "clue_id": 10083958,
+    "clue": "Putridness originally in no longer fresh bread and butter",
+    "enum": "6",
+    "answer": "STAPLE",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "3D",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Container + selection",
+    "summary": "no longer fresh→STALE around Putridness→P → STAPLE",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 1
+     },
+     {
+      "char": "T",
+      "source_index": 1
+     },
+     {
+      "char": "A",
+      "source_index": 1
+     },
+     {
+      "char": "P",
+      "source_index": 0
+     },
+     {
+      "char": "L",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 1
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Letters from",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "Putridness→P",
+      "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">P</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">d</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">s</span>→P"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"originally\" — selection/first indicator"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"in\" — insertion indicator"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "no longer fresh→STALE"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"bread and butter\" → STAPLE"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Putridness",
+      "box": "Letters from",
+      "pos": 0,
+      "si": 0,
+      "detail": "Putridness→P",
+      "detail_html": "<span style=\"background:#fde68a;box-shadow:inset 0 -2px 0 #f59e0b;border-radius:3px;padding:0 .05em;font-weight:800;color:#7a4f00\">P</span><span style=\"color:#cbd5e1\">u</span><span style=\"color:#cbd5e1\">t</span><span style=\"color:#cbd5e1\">r</span><span style=\"color:#cbd5e1\">i</span><span style=\"color:#cbd5e1\">d</span><span style=\"color:#cbd5e1\">n</span><span style=\"color:#cbd5e1\">e</span><span style=\"color:#cbd5e1\">s</span><span style=\"color:#cbd5e1\">s</span>→P",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "originally",
+      "box": "Indicator: select letters",
+      "pos": 11,
+      "si": null,
+      "detail": "\"originally\" — selection/first indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "in",
+      "box": "Indicator: insert",
+      "pos": 22,
+      "si": null,
+      "detail": "\"in\" — insertion indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "no longer fresh",
+      "box": "Synonym",
+      "pos": 25,
+      "si": 1,
+      "detail": "no longer fresh→STALE",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "bread and butter",
+      "box": "Definition",
+      "pos": 41,
+      "si": null,
+      "detail": "\"bread and butter\" → STAPLE",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Letters from",
+     "Indicator: select letters",
+     "Indicator: insert",
+     "Synonym",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "3 Down",
+    "cells": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      1
+     ],
+     [
+      3,
+      1
+     ],
+     [
+      4,
+      1
+     ],
+     [
+      5,
+      1
+     ]
+    ],
+    "letters": "STAPLE",
+    "is_last": false,
+    "crosses": 2
+   },
+   {
+    "clue_id": 10083959,
+    "clue": "Container, trap for wordplayers?",
+    "enum": "6",
+    "answer": "PUNNET",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "4D",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Double definition",
+    "summary": "Double definition — \"Container\" and \"trap for wordplayers\" each define PUNNET.",
+    "answer_tiles": [
+     {
+      "char": "P",
+      "source_index": null
+     },
+     {
+      "char": "U",
+      "source_index": null
+     },
+     {
+      "char": "N",
+      "source_index": null
+     },
+     {
+      "char": "N",
+      "source_index": null
+     },
+     {
+      "char": "E",
+      "source_index": null
+     },
+     {
+      "char": "T",
+      "source_index": null
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Container\" → PUNNET"
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"trap for wordplayers\" → PUNNET"
+     }
+    ],
+    "chips": [],
+    "boxes": [],
+    "choices": [
+     "Cryptic definition",
+     "Double definition",
+     "All-in-one (&lit)"
+    ],
+    "label": "4 Down",
+    "cells": [
+     [
+      0,
+      3
+     ],
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ],
+     [
+      3,
+      3
+     ],
+     [
+      4,
+      3
+     ],
+     [
+      5,
+      3
+     ]
+    ],
+    "letters": "PUNNET",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10083960,
+    "clue": "Very difficult angle cornering I conclude",
+    "enum": "8",
+    "answer": "FIENDISH",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "5D",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Container + charade",
+    "summary": "angle→FISH + ISH + I + conclude→END → FIENDISH",
+    "answer_tiles": [
+     {
+      "char": "F",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 1
+     },
+     {
+      "char": "E",
+      "source_index": 2
+     },
+     {
+      "char": "N",
+      "source_index": 2
+     },
+     {
+      "char": "D",
+      "source_index": 2
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "H",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8",
+     "1": "#2e8b57",
+     "2": "#d2691e"
+    },
+    "src_fill": {
+     "0": "#e3f0fb",
+     "1": "#e4f4ea",
+     "2": "#fbeadf"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Very difficult\" → FIENDISH"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "angle→FISH"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"cornering\" — container indicator"
+     },
+     {
+      "pill": "Literal",
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea",
+      "detail": "I"
+     },
+     {
+      "pill": "Synonym",
+      "fg": "#d2691e",
+      "fill": "#fbeadf",
+      "detail": "conclude→END"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Very difficult",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Very difficult\" → FIENDISH",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "angle",
+      "box": "Synonym",
+      "pos": 15,
+      "si": 0,
+      "detail": "angle→FISH",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "cornering",
+      "box": "Indicator: insert",
+      "pos": 21,
+      "si": null,
+      "detail": "\"cornering\" — container indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "I",
+      "box": "Literal",
+      "pos": 31,
+      "si": 1,
+      "detail": "I",
+      "detail_html": null,
+      "fg": "#2e8b57",
+      "fill": "#e4f4ea"
+     },
+     {
+      "text": "conclude",
+      "box": "Synonym",
+      "pos": 33,
+      "si": 2,
+      "detail": "conclude→END",
+      "detail_html": null,
+      "fg": "#d2691e",
+      "fill": "#fbeadf"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Synonym",
+     "Indicator: insert",
+     "Literal"
+    ],
+    "choices": null,
+    "label": "5 Down",
+    "cells": [
+     [
+      0,
+      5
+     ],
+     [
+      1,
+      5
+     ],
+     [
+      2,
+      5
+     ],
+     [
+      3,
+      5
+     ],
+     [
+      4,
+      5
+     ],
+     [
+      5,
+      5
+     ],
+     [
+      6,
+      5
+     ],
+     [
+      7,
+      5
+     ]
+    ],
+    "letters": "FIENDISH",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10083961,
+    "clue": "Various takers for succession",
+    "enum": "6",
+    "answer": "STREAK",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "6D",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Anagram",
+    "summary": "anagram of \"takers\" → STREAK",
+    "answer_tiles": [
+     {
+      "char": "S",
+      "source_index": 0
+     },
+     {
+      "char": "T",
+      "source_index": 0
+     },
+     {
+      "char": "R",
+      "source_index": 0
+     },
+     {
+      "char": "E",
+      "source_index": 0
+     },
+     {
+      "char": "A",
+      "source_index": 0
+     },
+     {
+      "char": "K",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8"
+    },
+    "src_fill": {
+     "0": "#e3f0fb"
+    },
+    "rows": [
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Various\" — anagram indicator"
+     },
+     {
+      "pill": "Anagram of",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "TAKERS anagram"
+     },
+     {
+      "pill": "Link",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"for\""
+     },
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"succession\" → STREAK"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Various",
+      "box": "Indicator: rearrange",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Various\" — anagram indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "takers",
+      "box": "Anagram of",
+      "pos": 8,
+      "si": 0,
+      "detail": "TAKERS anagram",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     },
+     {
+      "text": "for",
+      "box": "Link word",
+      "pos": 15,
+      "si": null,
+      "detail": "\"for\"",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "succession",
+      "box": "Definition",
+      "pos": 19,
+      "si": null,
+      "detail": "\"succession\" → STREAK",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     }
+    ],
+    "boxes": [
+     "Indicator: rearrange",
+     "Anagram of",
+     "Link word",
+     "Definition"
+    ],
+    "choices": null,
+    "label": "6 Down",
+    "cells": [
+     [
+      0,
+      7
+     ],
+     [
+      1,
+      7
+     ],
+     [
+      2,
+      7
+     ],
+     [
+      3,
+      7
+     ],
+     [
+      4,
+      7
+     ],
+     [
+      5,
+      7
+     ]
+    ],
+    "letters": "STREAK",
+    "is_last": false,
+    "crosses": 3
+   },
+   {
+    "clue_id": 10083948,
+    "clue": "Figure revealed by growth in kilos",
+    "enum": "5",
+    "answer": "THINK",
+    "source": {
+     "publication": "telegraph",
+     "puzzle": "3381",
+     "position": "15A",
+     "pub_date": "2026-08-09"
+    },
+    "operation_label": "Hidden",
+    "summary": "growth in kilos→THINK → THINK",
+    "answer_tiles": [
+     {
+      "char": "T",
+      "source_index": 0
+     },
+     {
+      "char": "H",
+      "source_index": 0
+     },
+     {
+      "char": "I",
+      "source_index": 0
+     },
+     {
+      "char": "N",
+      "source_index": 0
+     },
+     {
+      "char": "K",
+      "source_index": 0
+     }
+    ],
+    "src_fg": {
+     "0": "#1d6fb8"
+    },
+    "src_fill": {
+     "0": "#e3f0fb"
+    },
+    "rows": [
+     {
+      "pill": "Definition",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"Figure\" → THINK"
+     },
+     {
+      "pill": "Indicator",
+      "fg": "#475569",
+      "fill": "#f1f5f9",
+      "detail": "\"revealed by\" — hidden indicator"
+     },
+     {
+      "pill": "Literal",
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb",
+      "detail": "growth in kilos→THINK"
+     }
+    ],
+    "chips": [
+     {
+      "text": "Figure",
+      "box": "Definition",
+      "pos": 0,
+      "si": null,
+      "detail": "\"Figure\" → THINK",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "revealed by",
+      "box": "Indicator: hidden word",
+      "pos": 7,
+      "si": null,
+      "detail": "\"revealed by\" — hidden indicator",
+      "detail_html": null,
+      "fg": "#475569",
+      "fill": "#f1f5f9"
+     },
+     {
+      "text": "growth in kilos",
+      "box": "Literal",
+      "pos": 19,
+      "si": 0,
+      "detail": "growth in kilos→THINK",
+      "detail_html": null,
+      "fg": "#1d6fb8",
+      "fill": "#e3f0fb"
+     }
+    ],
+    "boxes": [
+     "Definition",
+     "Indicator: hidden word",
+     "Literal"
+    ],
+    "choices": null,
+    "label": "15 Across",
+    "cells": [
+     [
+      5,
+      3
+     ],
+     [
+      5,
+      4
+     ],
+     [
+      5,
+      5
+     ],
+     [
+      5,
+      6
+     ],
+     [
+      5,
+      7
+     ]
+    ],
+    "letters": "THINK",
+    "is_last": true,
+    "crosses": 3
+   }
+  ],
+  "clue_seconds": 30,
+  "last_seconds": 30,
+  "last_points": 3
+ }
+}
