@@ -113,66 +113,101 @@ def _yt_progress(lines):
     (uploaded, now on the next paper) scroll past inside it. The last line of a log
     is rarely the most interesting thing in it.
 
-    So the log keeps everything, and this reports the state per paper instead. Read
-    off marker lines the scripts already print; unknown lines are ignored rather
-    than guessed at.
+    So the log keeps everything, and this reports the state per PUZZLE instead.
+    Read off marker lines the scripts already print; unknown lines are ignored
+    rather than guessed at.
     """
-    state, order = {}, []
-    src = None
+    rows = []
+    for it in _yt_state(lines):
+        if it["url"]:
+            rows.append("%s — uploaded  %s" % (it["name"], it["url"]))
+        else:
+            rows.append("%s — %s" % (it["name"], it["what"]))
+    return rows
+
+
+_YT_SRC = r"(telegraph|times|guardian)"
+
+
+def _yt_state(lines):
+    """One entry per PUZZLE (plus one per paper that had nothing to film):
+    {"name", "what", "url", "failed"}, in the order the job reached them.
+
+    PER PUZZLE, NOT PER PAPER (user, 2026-11-22). A paper can film two puzzles in
+    one job — Sunday 11-22 Telegraph did Prize Toughie 252 then Prize Cryptic 3396 —
+    and the old per-paper line ended up reading "Telegraph 3396 — uploaded" with
+    252's link, while 3396's own upload never appeared at all.
+    """
+    items, by_key, srcs = [], {}, []
+    cur = None
+
+    def item(src, num):
+        key = (src, num)
+        if key not in by_key:
+            by_key[key] = {"src": src, "num": num, "kind": None, "what": "starting",
+                           "url": None, "failed": False}
+            items.append(by_key[key])
+        return by_key[key]
+
     for ln in lines:
         s = ln.strip()
-        m = re.match(r"^=== (telegraph|times|guardian) \((\d+) of (\d+)\) ===$", s)
+        m = re.match(r"^=== %s \((\d+) of (\d+)\) ===$" % _YT_SRC, s)
         if m:
-            src = m.group(1)
-            if src not in state:
-                order.append(src)
-            state[src] = {"what": "starting", "url": None, "puzzle": None}
+            if m.group(1) not in srcs:
+                srcs.append(m.group(1))
             continue
-        # THE FILM LINE NAMES ITS OWN SOURCE, and that is what we key off — not the
-        # header. The headers are printed by youtube_upload itself while the capture and
-        # encode output comes from its CHILDREN writing to the same pipe, so the two
-        # interleave: in the 2026-09-21 07:03 job the "=== times ===" header never
-        # appeared before the Times capture, and keying off the header alone labelled
-        # the Times film "Telegraph 29653". A line that says which paper it is beats a
-        # line that said so earlier.
-        m = re.match(r"^(telegraph|times|guardian) #(\S+).*?(\d+) clue pages$", s)
+        # THE FILM LINE NAMES ITS OWN SOURCE AND PUZZLE, and that is what we key off —
+        # not the "=== paper ===" header. The headers are printed by youtube_upload
+        # itself while the capture and encode output comes from its CHILDREN writing to
+        # the same pipe, so the two interleave: in the 2026-09-21 07:03 job the
+        # "=== times ===" header never appeared before the Times capture, and keying
+        # off the header alone labelled the Times film "Telegraph 29653".
+        m = re.match(r"^%s #(\S+).*?(\d+) clue pages$" % _YT_SRC, s)
         if m:
-            src = m.group(1)
-            if src not in state:
-                order.append(src)
-                state[src] = {"what": "starting", "url": None, "puzzle": None}
-            st = state[src]
-            st["puzzle"] = m.group(2)
-            st["what"] = "filming %s clue pages" % m.group(3)
+            cur = item(m.group(1), m.group(2))
+            cur["what"] = "filming %s clue pages" % m.group(3)
             continue
-        if src is None:
+        # The upload block's own header: "telegraph #252 (Prize Toughie, 2026-11-22)".
+        # It carries the puzzle's type, which makes the name a person would say.
+        m = re.match(r"^%s #(\S+) \(([^,()]+), \d{4}-\d{2}-\d{2}\)$" % _YT_SRC, s)
+        if m:
+            cur = item(m.group(1), m.group(2))
+            cur["kind"] = m.group(3)
             continue
-        st = state[src]
+        if "FAILED" in s:
+            m = re.match(r"^%s FAILED: (.*)$" % _YT_SRC, s)
+            src = m.group(1) if m else (cur["src"] if cur else None)
+            target = cur if (cur and cur["src"] == src and not cur["url"]) else None
+            if target is None and src:
+                target = item(src, None)
+            if target is not None:
+                target["what"] = "FAILED — " + (m.group(2) if m else
+                                                s.split("FAILED:", 1)[-1].strip())
+                target["failed"] = True
+            continue
+        m = re.match(r"^Nothing to upload for %s\.$" % _YT_SRC, s)
+        if m:
+            if not any(it["src"] == m.group(1) for it in items):
+                item(m.group(1), None)["what"] = "nothing new to film"
+            continue
+        if cur is None or cur["failed"]:
+            continue
         if s.startswith("Narration:"):
-            st["what"] = "recording Cordelia's narration"
+            cur["what"] = "recording Cordelia's narration"
         elif s.startswith("Building ") and " frames at " in s:
-            st["what"] = "building the frames"
+            cur["what"] = "building the frames"
         elif s.startswith("Encoding "):
-            st["what"] = "encoding the video (%s)" % s.split("(")[-1].rstrip(").")
+            cur["what"] = "encoding the video (%s)" % s.split("(")[-1].rstrip(").")
         elif s == "Uploading...":
-            st["what"] = "uploading to YouTube"
+            cur["what"] = "uploading to YouTube"
         elif re.match(r"^\d+%$", s):
-            st["what"] = "uploading to YouTube — %s" % s
+            cur["what"] = "uploading to YouTube — %s" % s
         elif s.startswith("uploaded: "):
-            st["url"] = s.split()[1]
-            st["what"] = "uploaded"
-        elif s.startswith("Nothing to upload"):
-            if st["what"] in ("starting", "uploaded"):
-                st["what"] = st["what"] if st["url"] else "nothing new to film"
-    out = []
-    for s in order:
-        st = state[s]
-        name = s.title() + (" %s" % st["puzzle"] if st["puzzle"] else "")
-        if st["url"]:
-            out.append("%s — uploaded  %s" % (name, st["url"]))
-        else:
-            out.append("%s — %s" % (name, st["what"]))
-    return out
+            cur["url"] = s.split()[1]
+            cur["what"] = "uploaded"
+    for it in items:
+        it["name"] = " ".join(p for p in (it["src"].title(), it["kind"], it["num"]) if p)
+    return items
 
 
 def _yt_tail(log_path, placeholder, follow_for=2400):
@@ -226,14 +261,20 @@ def _render_yt_job_status():
     lines, finished = _yt_read(log_path)
     if not lines:
         return
-    uploads = [ln for ln in lines if "youtube.com/watch" in ln]
+    items = _yt_state(lines)
+    n_up = sum(1 for it in items if it["url"])
     when = log_path.stem.replace("youtube_job_", "")
+    # The puzzle rows, not "Last line: …" — the last line of the log is nearly always
+    # a web-server GET from the capture (user, 2026-11-22).
+    rows = "\n".join("- " + r for r in _yt_progress(lines)) or "- starting…"
     if finished:
-        st.info("Last YouTube job (%s): finished, %d video(s) uploaded."
-                % (when, len(uploads)))
+        st.info("**Last YouTube job (%s): finished, %d video(s) uploaded.**\n\n%s"
+                % (when, n_up, rows))
     else:
-        st.warning("YouTube job (%s) is STILL RUNNING — %d video(s) so far. "
-                   "Last line: %s" % (when, len(uploads), lines[-1][:120]))
+        st.warning("**YouTube job (%s) is STILL RUNNING — %d video(s) so far.**\n\n%s"
+                   % (when, n_up, rows))
+    if any(it["failed"] for it in items):
+        st.error("Something FAILED in this job — see the row marked FAILED above.")
     with st.expander("YouTube job log (%s)" % log_path.name):
         st.code("\n".join(lines[-40:]))
         if not finished and st.button("Watch it live", key="yt_watch"):
@@ -336,9 +377,13 @@ def _render_youtube_job():
         live = st.empty()
         lines, _finished = _yt_tail(log_path, live)
         live.empty()
-        for ln in lines:
-            if "youtube.com/watch" in ln:
-                st.success("YouTube upload: %s" % ln.strip())
+        for it in _yt_state(lines):
+            if it["url"]:
+                st.success("Uploaded: **%s** — %s" % (it["name"], it["url"]))
+            elif it["failed"]:
+                st.error("%s — %s" % (it["name"], it["what"]))
+            else:
+                st.info("%s — %s" % (it["name"], it["what"]))
         with st.expander("YouTube job — full log (%s)" % log_path.name):
             st.code("\n".join(lines) or "(no output yet)")
 
