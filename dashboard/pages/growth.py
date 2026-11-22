@@ -187,9 +187,16 @@ def _min_sec(minutes: float) -> str:
 
 def _chart(data: pd.DataFrame, window: int, multi: bool):
     """Line chart: 2px lines, recessive axes, crosshair tooltip, no legend
-    for a single series (the title names it)."""
+    for a single series (the title names it).
+
+    THE CHART ENDS YESTERDAY (user, 2026-11-22): today is a partial day, so its
+    window average always dips — steeply in the early morning — and the line
+    reads as a decline that isn't happening. The CHART only: the table and the
+    numbers above still show today ("I still want to see what is happening today").
+    """
     import altair as alt
 
+    data = data[data["date"].astype(str).str[:10] < date.today().isoformat()]
     base = alt.Chart(data)
     hover = alt.selection_point(
         fields=["date"], nearest=True, on="mouseover", empty=False,
@@ -327,7 +334,9 @@ def render():
     st.caption(
         f"Each point is the mean of the {window} days ending that day. "
         "The line begins one window after the first day with data — "
-        "empty days before that are excluded."
+        "empty days before that are excluded. The chart ends yesterday "
+        "(today is a partial day and would show a false dip); the numbers "
+        "above and the table still include today."
         + (" Engaged sessions = sessions of 10s+, 2+ pages, or a key event; "
            "bots that land and leave score zero. The grey dashed line is GA4 "
            "active users including them. Sessions and users are different "
